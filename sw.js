@@ -1,6 +1,6 @@
 // Service Worker: Offline-Nutzung. Bei jeder Änderung VERSION erhöhen,
 // dann zeigt die App "Neue Version, tippen zum Laden".
-const VERSION = '1.0.0';
+const VERSION = '1.0.1';
 const CACHE = 'lernwerk-' + VERSION;
 const FILES = [
   './', 'index.html', 'manifest.webmanifest', 'css/app.css', 'lehrplan.json', 'lernwerk-bridge.js',

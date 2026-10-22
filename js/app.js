@@ -7,7 +7,7 @@ import { topicPage, runSession, sortForPractice, fachProgress, topicProgress, op
 import { mehrPage, termineDetail, termEditor, datensicherung, applyTheme } from './extra.js';
 import { prefs } from './db.js';
 
-export const VERSION = '1.0.0';
+export const VERSION = '1.0.1';
 
 /* ===== Heute ===== */
 const heute = {
