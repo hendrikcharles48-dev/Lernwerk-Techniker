@@ -72,6 +72,7 @@ export function fiveMinutes() {
 }
 
 /* ===== Fächer ===== */
+const modLabel = ms => (ms || []).map(m => (m === 'Ü' ? 'übergreifend' : m)).join(', ');
 let faecherView = 'faecher';
 const faecherRoot = {
   title: 'Fächer',
@@ -79,7 +80,7 @@ const faecherRoot = {
     let h = seg('view', [['faecher', 'Fächer'], ['module', 'Nach Modulen']], faecherView);
     const fachRow = f => {
       const n = f.themen.length, v = f.themen.filter(t => st.status(t.id) !== 'geplant').length;
-      return row({ a: 'fach', d: f.id, icon: 'book', color: f.farbe, title: f.name, sub: [(f.module || []).join(', '), n ? v + ' von ' + n + ' Themen vorhanden' : 'Noch leer, kommt über Einfügen'].filter(Boolean).join(' · '), html: progress(fachProgress(f), f.farbe) });
+      return row({ a: 'fach', d: f.id, icon: 'book', color: f.farbe, title: f.name, sub: [modLabel(f.module), n ? v + ' von ' + n + ' Themen vorhanden' : 'Noch leer, kommt über Einfügen'].filter(Boolean).join(' · '), html: progress(fachProgress(f), f.farbe) });
     };
     if (faecherView === 'faecher') h += list(st.faecher().map(fachRow), 'fach-list');
     else {
@@ -117,7 +118,7 @@ export function fachPage(fid) {
         const p = topicProgress(t.id);
         return row({ a: 'topic', d: t.id, title: t.name, sub: bits.join(' · ') || 'noch leer', html: p != null ? progress(p, f.farbe) : '' });
       };
-      let h = `<div class="chips"><span class="chip" style="background:${f.farbe}">${esc(f.kurz || f.name)}</span>${(f.module || []).map(m => `<span class="chip ghost">${esc(m)}</span>`).join('')}${f.hinweis ? `<span class="chip ghost">${esc(f.hinweis)}</span>` : ''}</div>`;
+      let h = `<div class="chips"><span class="chip" style="background:${f.farbe}">${esc(f.kurz || f.name)}</span>${(f.module || []).map(m => `<span class="chip ghost">${esc(m === 'Ü' ? 'übergreifend' : m)}</span>`).join('')}${f.hinweis ? `<span class="chip ghost">${esc(f.hinweis)}</span>` : ''}</div>`;
       if (g.aktuell.length) h += `<div class="sec-h">Aktuell im Unterricht</div>` + list(g.aktuell.map(tRow));
       if (g.vorhanden.length) h += `<div class="sec-h">Vorhanden</div>` + list(g.vorhanden.map(tRow));
       if (g.geplant.length) h += `<div class="sec-h">Kommt noch</div>` + list(g.geplant.map(tRow));
@@ -132,6 +133,7 @@ export function fachPage(fid) {
 /* ===== Einfügen ===== */
 let insMode = 'block';
 let insText = '';
+let insResult = null;
 let insNote = { text: '', titel: '', fid: '', tid: '', neu: '' };
 const einfuegen = {
   title: 'Einfügen',
@@ -199,15 +201,19 @@ function drawBlock(el) {
     clear: () => { ta.value = ''; update(); },
     save: async () => {
       if (!parsed) return;
-      const res = await st.saveBlocks(zu, parsed.termine);
+      const p = parsed;
+      ta.value = ''; insText = ''; parsed = null;
+      const res = await st.saveBlocks(zu, p.termine);
       const n = res.reduce((s, x) => s + x.added, 0);
       toast(res.length ? 'Gespeichert: ' + res.map(x => x.thema.name).join(', ') + (n ? ' (' + plural(n, 'neuer Eintrag', 'neue Einträge') + ')' : ' (nichts Neues)') : 'Termine gespeichert.');
-      ta.value = ''; insText = '';
-      pv.innerHTML = res.length ? list(res.map(x => row({ a: 'open', d: x.thema.id, dot: x.fach.farbe, title: x.thema.name, sub: x.fach.name + ' · öffnen' }))) : '';
+      insResult = res.map(x => ({ tid: x.thema.id, name: x.thema.name, fach: x.fach.name, farbe: x.fach.farbe }));
+      refreshTop();
     },
     open: tid => { showTab('faecher'); push(topicPage(tid)); }
   });
   if (insText) update();
+  else if (insResult && insResult.length) pv.innerHTML = `<div class="sec-h">Gerade gespeichert</div>` + list(insResult.map(x => row({ a: 'open', d: x.tid, dot: x.farbe, title: x.name, sub: x.fach + ' · öffnen' })));
+  ta.addEventListener('input', () => { insResult = null; }, { once: true });
 }
 function pickerHTML(fid, tid, neu) {
   const f = st.fach(fid);

@@ -49,7 +49,7 @@
     if (/Kehrwert/.test(m)) return 'Kehrwert';
     return 'Rechenweg';
   }
-  var txt = function (el) { return el ? (el.textContent || '').replace(/\s+/g, ' ').trim() : ''; };
+  var txt = function (el) { return el ? (el.innerText || el.textContent || '').replace(/\s+/g, ' ').trim() : ''; };
   var seen = {};
   function once(k) { if (seen[k]) return false; seen[k] = 1; return true; }
   function modeLabel() { return txt(document.querySelector('#pick button.on, .pick button.on, [data-k].on')); }
@@ -93,6 +93,9 @@
     };
     wrap('addFb', function (c, a) { fbWrap(a[0], a[1]); });
     wrap('rfb', function (c, a) { var o = a[0] || {}; fbWrap(o.c, o.t); });
+    // Der erste Schritt wurde schon vor der Bridge mit dem alten check verbunden
+    var chk = document.getElementById('chk');
+    if (ok && chk) chk.onclick = window.check;
     wrap('finish', function () {
       setTimeout(function () {
         var m = /(\d+) von (\d+) Schritten beim ersten Versuch/.exec(txt(document.getElementById('stepbox')));

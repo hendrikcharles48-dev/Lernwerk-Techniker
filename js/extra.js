@@ -5,7 +5,7 @@ import { fml, speakFml, varsOf, parseEq, keyOf } from './formula.js';
 import { lernplan } from './srs.js';
 import * as st from './store.js';
 import { $, $$, icon, row, list, seg, sw, empty, on, push, pop, openSheet, toast, copyText, progress, confirmBox, saveFile, refreshTop, hinweisTabellenbuch } from './ui.js';
-import { topicPage, runSession, runItem, sortForPractice, topicProgress, formelCard, askClaude, noteReader, openTrainer, itemTitle } from './engine.js';
+import { topicPage, runSession, runItem, sortForPractice, topicProgress, formelCard, askClaude, noteReader, openTrainer, itemTitle, rich } from './engine.js';
 import { speak, stopSpeaking, canSpeak, keepAwake, pause } from './speech.js';
 import { prefs } from './db.js';
 
@@ -291,7 +291,7 @@ function runExam(items, zeigeZeit) {
     let h = `<div class="sum"><div class="sum-big">${ok} von ${res.length}</div><div class="muted">richtig${zeigeZeit ? ' in ' + fmtT(Date.now() - t0) + ' Minuten' : ''}</div></div>`;
     h += `<div class="sec-h">Pro Thema</div>` + list([...by].map(([tid, rs]) => { const th = st.thema(tid); const n = rs.filter(r => r.erg === 'richtig').length; return row({ title: th ? th.thema.name : tid, detail: n + ' von ' + rs.length, html: progress(n / rs.length, th ? th.fach.farbe : null) }); }));
     const wrong = res.filter(r => r.erg !== 'richtig');
-    if (wrong.length) h += `<div class="sec-h">Das schaust du dir nochmal an</div>` + list(wrong.map(r => row({ title: r.inf.aufgabe || itemTitle(r.it), sub: 'Deine Eingabe: ' + (r.inf.eingabe || 'keine') + (r.inf.richtig ? ' · richtig: ' + r.inf.richtig : '') }))) + `<div class="sec-f">Diese Fehler stehen jetzt auch im Fehlerbuch.</div>`;
+    if (wrong.length) h += `<div class="sec-h">Das schaust du dir nochmal an</div>` + list(wrong.map(r => row({ titleHTML: rich(r.inf.aufgabe || itemTitle(r.it)), sub: 'Deine Eingabe: ' + (r.inf.eingabe || 'keine') + (r.inf.richtig ? ' · richtig: ' + r.inf.richtig : '') }))) + `<div class="sec-f">Diese Fehler stehen jetzt auch im Fehlerbuch.</div>`;
     h += `<div class="btn-col"><button class="btn filled" data-a="close">Fertig</button></div>`;
     box.innerHTML = h;
     on(box, { close: () => sheet.close() });
@@ -461,7 +461,7 @@ export function lehrplanPage() {
     render(b) {
       const P = st.S.plan;
       let h = `<div class="card how"><p>Hier passt du Fächer, Module und Themen an. Dein Schulblatt nummeriert die Module anders? Dann änderst du einfach Nummer und Namen.</p></div>`;
-      h += `<div class="sec-h">Fächer</div>` + list(P.faecher.map(f => row({ a: 'fach', d: f.id, icon: 'book', color: f.farbe, title: f.name, sub: (f.module || []).join(', ') + ' · ' + plural(f.themen.length, 'Thema', 'Themen') })));
+      h += `<div class="sec-h">Fächer</div>` + list(P.faecher.map(f => row({ a: 'fach', d: f.id, icon: 'book', color: f.farbe, title: f.name, sub: (f.module || []).map(m => (m === 'Ü' ? 'übergreifend' : m)).join(', ') + ' · ' + plural(f.themen.length, 'Thema', 'Themen') })));
       h += `<div class="btn-row"><button class="btn" data-a="newfach">Fach hinzufügen</button></div>`;
       h += `<div class="sec-h">Module</div>` + list(P.module.map(m => row({ a: 'mod', d: m.id, title: m.id + ' ' + m.name, sub: [m.klasse ? 'Klasse ' + m.klasse : '', m.stunden ? m.stunden + ' Stunden' : ''].filter(Boolean).join(', ') })));
       h += `<div class="btn-row"><button class="btn" data-a="newmod">Modul hinzufügen</button></div>`;

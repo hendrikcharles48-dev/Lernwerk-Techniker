@@ -1,1 +1,128 @@
-# Lernwerk-Techniker
+# Lernwerk Techniker
+
+Lern-App für die Fachschule Technik (Maschinentechnik, Schwerpunkt Automatisierungstechnik).
+Statische Web-App für GitHub Pages: kein Server, keine Anmeldung, keine laufenden Kosten.
+Auf dem iPhone in Safari öffnen und zum Home-Bildschirm hinzufügen, dann läuft sie wie eine App, auch offline.
+
+Alle Lerndaten, Fotos und eingefügten Inhalte bleiben auf dem Gerät (IndexedDB). Im Repository liegt nichts Persönliches.
+
+## Was die App kann
+
+**Heute:** Countdown zur nächsten Klassenarbeit mit deren Themen und deinem Stand. „Heute dran“ mit fälligen Wiederholungen aus allen Fächern, gedeckelt auf etwa 15 Minuten, Themen der nächsten Arbeit zuerst. Großer Knopf „5 Minuten“. „Weiter, wo du warst“. Kleine Wochenstatistik. Hinweis, wenn die letzte Sicherung älter als 14 Tage ist.
+
+**Fächer:** Fächer aus dem Lehrplan mit Modul, Akzentfarbe und Fortschritt. Themen in drei Gruppen: aktuell im Unterricht (Schalter im Thema), vorhanden, kommt noch. Zweite Ansicht „Nach Modulen“. Ein Thema hat die Reiter Prinzip, Bausteine, Üben, Karten, Schnellweg, Lernzettel, Fotos. Bei alten Trainern gibt es einen großen Knopf, der den Trainer öffnet. Oben rechts: „Als Block kopieren“.
+
+**Einfügen** (Plus in der Mitte):
+- Lernwerk-Block aus dem Claude-Chat einfügen, mit Vorschau („Elektrotechnik, Kondensator: 1 Merksatz, 6 Karten …“), Zuordnung zu Fach und Thema und Speichern ohne Duplikate. Neue Fächer werden angelegt. Lesefehler werden mit Zeilennummer gezeigt.
+- Knopf „Vorlage für Claude kopieren“.
+- Freier Text als Lernzettel (Markdown wird sauber dargestellt).
+- Foto einem Thema zuordnen (nur auf dem Gerät).
+
+**Fehlerbuch:** Fehler aus den Übungen und aus den alten Trainern landen automatisch hier. Eigene Einträge, zum Beispiel aus einer zurückgegebenen Klassenarbeit. Gruppiert nach Fehlerart, häufigste oben. Jeder Eintrag wird zur Fehlerkarte. „Frag Claude“ kopiert eine fertige Frage und öffnet claude.ai.
+
+**Mehr:** Termine mit Lernplan rückwärts (Dienstag und Donnerstag leichter, letzter Tag nur Wiederholung), Probeklausur, Hörmodus, Erklär-Training, Lexikon, Formelsammlung, Suche, Lehrplan bearbeiten, Datensicherung, Darstellung (automatisch, hell, dunkel), Anleitung für eine Erinnerung per Kurzbefehle.
+
+**Wiederholsystem:** Abstände 1, 2, 4, 7, 14, 30 Tage. Richtig beim ersten Versuch: eine Stufe hoch. Mit Hilfe: gleiche Stufe. Falsch: zurück auf Stufe 1. Vor einer Klassenarbeit werden deren Themen vorgezogen.
+
+**Prüfen:** Du rechnest, die App prüft jeden Schritt. Toleranz 1 Prozent, gezielte Hinweise bei Faktor 1000 (Einheit), Vorzeichen, RAD statt DEG, Quadrant beim Arcustangens, Kehrwert, Wurzel vergessen, zu früh gerundet. Umstellungen werden mit Zahlenproben geprüft, nicht mit eval. Tipp und Lösung bleiben zu, bis du sie öffnest.
+
+## Themen und Status
+
+| Fach | Vorhanden | Geplant |
+|---|---|---|
+| Mathematik | Mengenlehre, Terme, binomische Formeln, Faktorisieren, Bruchterme (alter Trainer); **Gleichungen und Formeln umstellen (neuer Trainer)** | lineare Gleichungssysteme, Potenzen, Wurzeln und Einheiten, quadratische Gleichungen, Trigonometrie, Funktionen, Logarithmen, Differentialrechnung |
+| Elektrotechnik (M2) | Ohm, Reihe und Parallel, gemischte Schaltungen, Kirchhoff, Rückrechnen (alte Trainer) | Leistung, Arbeit, Wirkungsgrad, Sensoren, belasteter Spannungsteiler, Kondensator, Spule und Induktion, Wechselstrom, Drehstrom |
+| Technische Mechanik (M2) | zentrales Kräftesystem, Momente, Lagerkräfte, Formelsammlung, Wandschwenkkran (alte Trainer) | Festigkeitslehre, allgemeines Kräftesystem und Streckenlast, Reibung, Biegung, Torsion |
+| Toleranzen und technische Zeichnung (M1) | Toleranzen-App, IT ablesen, Lernblatt Passungen (alte Trainer) | Form- und Lagetoleranzen lesen, Oberflächenangaben |
+| CAD und E-CAD (M1) | SolidWorks-Kürzel (alter Trainer) | Skizzenbeziehungen, EPLAN Stromlaufplan |
+| Werkstofftechnik (M2) | Eisen-Kohlenstoff-Diagramm (alter Trainer) | Stahlbezeichnungen, Wärmebehandlung, Werkstoffprüfung |
+| Steuerungstechnik, Pneumatik und SPS (M2) | – | Wegeventile, Ansteuerung, Elektropneumatik, Logik, SPS, GRAFCET |
+| Automatisierung vertieft (M3, M4) | – | Regelungstechnik, Messtechnik, Robotik, Maschinensicherheit, Netzwerktechnik |
+| Projektmanagement und Datenverarbeitung (M1) | – | Lasten- und Pflichtenheft, Projektstrukturplan, Gantt, Risikoanalyse, Zahlensysteme, Tabellenkalkulation |
+| M5 bis M8, Deutsch, Englisch, Politik | – | siehe `lehrplan.json` |
+
+Reihenfolge der nächsten neuen Trainer: Elektrische Leistung, Wegeventile und Schaltzeichen, Logik und Wahrheitstabelle, Pneumatik Ansteuerung, Festigkeitslehre, SPS-Grundlagen, Sensoren, Gleichungssysteme, Potenzen und Einheiten, Lasten- und Pflichtenheft, Stahlbezeichnungen.
+
+## Das Lernwerk-Block-Format
+
+Jede Zeile beginnt mit einem Schlüssel. Schlüssel dürfen mehrfach vorkommen. Groß- und Kleinschreibung ist egal, Markdown-Reste werden ignoriert, Zeilen ohne Schlüssel gehören zum vorherigen Feld. Mehrere Blöcke in einem Text sind erlaubt.
+
+```
+=== LERNWERK ===
+Fach: Elektrotechnik
+Thema: Kondensator
+Modul: M2
+Anker: Bild aus meiner Welt
+Begriff: Fachbegriff | Erklärung in einem Satz
+Merksatz: …
+Prinzip: Erklärung in ganzen Sätzen, darf mehrere Zeilen haben
+Baustein: ein Lösungsbaustein pro Zeile
+Schnellweg: …
+Fehler: typischer Fehler | worauf ich achten muss
+Formel: Name | Formel | Umstellung; weitere Umstellung
+Karte: kurze Frage | kurze Antwort
+Aufgabe: Aufgabentext, Platzhalter wie {C} werden mit Zufallswerten gefüllt
+Gegeben: C = {C} µF
+Gesucht: Q
+Tipp: optionaler Tipp
+Schritt: was berechnet wird | Ergebnis | Einheit
+Ergebnis: Zahl | Einheit
+Variable: Name | von | bis | Schrittweite
+Rechnung: Formel mit den Variablennamen
+Termin: Fach | JJJJ-MM-TT | Themen
+=== ENDE ===
+```
+
+- **Schritt-Ergebnis** kann eine Zahl sein, eine Rechnung mit den Variablen (`C * U`) oder eine Gleichung (`Q = C · U`). Gleichungen werden als Umstellschritt geprüft.
+- **Variable und Rechnung** sind optional. Mit ihnen erzeugt die App bei jedem Üben neue Zahlen und rechnet die Lösung selbst aus.
+- Der Formel-Parser kann `+ − · / ^ ² ³`, Klammern, `√` und `sqrt`, `sin cos tan` in Grad, `asin acos atan`, `ln`, `lg`, `π` und implizites Mal (`2πd`).
+- Unbekannte Schlüssel werden als Notiz behalten.
+
+Erweiterungen für eingebaute Trainer (gehen auch im Chat-Block):
+
+```
+Umstellen: Formel | nach welcher Größe | Lösung
+Umformung: Operation | Gleichung danach | falsche Operation; falsche Operation
+Auswahl: Frage | richtige Antwort | falsch; falsch; falsch
+Reihenfolge: Titel | Schritt 1; Schritt 2; Schritt 3
+Quelle: …
+```
+
+## Ein Thema als Inhaltsdatei anlegen
+
+1. Datei unter `inhalte/` anlegen, zum Beispiel `inhalte/elektrische-leistung.txt`, im Lernwerk-Block-Format.
+2. Dateinamen in `inhalte/index.json` eintragen.
+3. Fach und Thema müssen zu einem Eintrag in `lehrplan.json` passen, oder dort beim Thema `"inhalt": "inhalte/elektrische-leistung.txt"` setzen.
+4. Datei in `sw.js` in die Liste `FILES` aufnehmen und `VERSION` erhöhen.
+5. Tests laufen lassen: `node tests/parser.test.mjs`.
+
+Eingebaute Inhalte und eingefügte Blöcke nutzen dieselbe Engine. Ein neues Thema kostet nur Inhalt, keinen Code.
+
+## Alte Trainer
+
+Die zwölf alten Trainer liegen unverändert unter `trainer/`. Sie binden `lernwerk-bridge.js` ein:
+- schmaler Zurück-Knopf „Lernwerk“ und „Sitzung abschließen“ (sitzt, wackelt, sitzt nicht)
+- Ergebnisse gehen in den gemeinsamen Speicher. Statik-Trainer, Rückrechen-Trainer, IT ablesen, SolidWorks-Kürzel und Mathe trainieren melden Richtig und Falsch automatisch, Fehler landen im Fehlerbuch.
+- alte Klausurdaten von Ende September und Anfang Oktober 2026 sind ausgeblendet
+- in Mathe ist die Handschrift-Prüfung außerhalb von Claude ausgeblendet; Speicher fällt auf das Gerät zurück
+
+Die Bridge schreibt in einen Eingang im Browser-Speicher derselben Adresse. Lernwerk übernimmt ihn beim Zurückkehren in die eigene Datenbank.
+
+## GitHub Pages einschalten
+
+Auf dem iPhone in Safari auf github.com im Repository: **Settings**, **Pages**, bei Source **Deploy from a branch**, Branch **main** und Ordner **/ (root)**, **Save**. Nach ein bis zwei Minuten ist die App erreichbar unter
+
+`https://hendrikcharles48-dev.github.io/Lernwerk-Techniker/`
+
+Dann in Safari: Teilen-Knopf, **Zum Home-Bildschirm**.
+
+Updates: Bei jeder Änderung `VERSION` in `sw.js` erhöhen. Die App zeigt dann „Neue Version, tippen zum Laden“.
+
+## Technik
+
+- `index.html`, `css/app.css`, `js/` (ES-Module, keine externen Bibliotheken), `lehrplan.json`, `inhalte/`, `trainer/`
+- `manifest.webmanifest` und `sw.js` für Home-Bildschirm und Offline
+- IndexedDB für Inhalte, Lernzettel, Fotos und Fortschritt, localStorage nur für kleine Einstellungen; `navigator.storage.persist()` wird angefragt
+- Tests: `node tests/parser.test.mjs` (Parser mit den Beispielblöcken in `tests/beispiel-bloecke.txt`, Formel-Parser, Zahlenprüfung, Wiederholsystem)
+
+Im Zweifel gilt dein Tabellenbuch und der Unterricht.
