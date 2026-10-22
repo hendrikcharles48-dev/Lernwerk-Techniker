@@ -1,0 +1,781 @@
+{
+ "version": 1,
+ "schule": "Technikakademie Northeim (BBS III des Landkreises Northeim), zweijährige Fachschule Technik, Maschinentechnik, Schwerpunkt Automatisierungstechnik",
+ "module": [
+  {
+   "id": "M1",
+   "name": "Projekte planen, realisieren und auswerten",
+   "klasse": "1",
+   "stunden": 200
+  },
+  {
+   "id": "M2",
+   "name": "Technische Lösungen erweitern",
+   "klasse": "1",
+   "stunden": 400
+  },
+  {
+   "id": "M3",
+   "name": "Technische Lösungen entwickeln",
+   "klasse": "2",
+   "stunden": 320
+  },
+  {
+   "id": "M4",
+   "name": "Technische Lösungen oder Prozesse optimieren",
+   "klasse": "2",
+   "stunden": 280
+  },
+  {
+   "id": "M5",
+   "name": "Produktionsprozesse planen und steuern",
+   "klasse": "1 oder 2",
+   "stunden": 160
+  },
+  {
+   "id": "M6",
+   "name": "Führungsaufgaben und Personalverantwortung übernehmen",
+   "klasse": "1 oder 2",
+   "stunden": 160
+  },
+  {
+   "id": "M7",
+   "name": "Qualität prüfen und verbessern",
+   "klasse": "1 oder 2",
+   "stunden": 160
+  },
+  {
+   "id": "M8",
+   "name": "Ökonomisch und nachhaltig handeln",
+   "klasse": "1 oder 2",
+   "stunden": 160
+  },
+  {
+   "id": "Ü",
+   "name": "Fachrichtungsübergreifender Lernbereich",
+   "klasse": "1 und 2"
+  }
+ ],
+ "pruefung": "Abschlussprüfung: Mathematik schriftlich, zwei schriftliche Modulprüfungen, Projektarbeit.",
+ "faecher": [
+  {
+   "id": "mathe",
+   "name": "Mathematik",
+   "kurz": "Mathe",
+   "module": [
+    "Ü"
+   ],
+   "farbe": "#0A84FF",
+   "hinweis": "Prüfungsfach, schriftlich",
+   "themen": [
+    {
+     "id": "ma-mengenlehre",
+     "name": "Mengenlehre",
+     "trainer": [
+      {
+       "datei": "trainer/mathe-trainieren.html",
+       "titel": "Mathe trainieren"
+      }
+     ],
+     "trainerThemen": [
+      "mengen"
+     ]
+    },
+    {
+     "id": "ma-terme",
+     "name": "Terme",
+     "trainer": [
+      {
+       "datei": "trainer/mathe-trainieren.html",
+       "titel": "Mathe trainieren"
+      }
+     ],
+     "trainerThemen": [
+      "addsub",
+      "mult",
+      "summen"
+     ]
+    },
+    {
+     "id": "ma-binomische-formeln",
+     "name": "Binomische Formeln",
+     "trainer": [
+      {
+       "datei": "trainer/mathe-trainieren.html",
+       "titel": "Mathe trainieren"
+      }
+     ],
+     "trainerThemen": [
+      "binom"
+     ]
+    },
+    {
+     "id": "ma-faktorisieren",
+     "name": "Faktorisieren",
+     "trainer": [
+      {
+       "datei": "trainer/mathe-trainieren.html",
+       "titel": "Mathe trainieren"
+      }
+     ],
+     "trainerThemen": [
+      "faktor"
+     ]
+    },
+    {
+     "id": "ma-bruchterme",
+     "name": "Bruchterme",
+     "trainer": [
+      {
+       "datei": "trainer/mathe-trainieren.html",
+       "titel": "Mathe trainieren"
+      }
+     ],
+     "trainerThemen": [
+      "bruchplus",
+      "bruchmal"
+     ]
+    },
+    {
+     "id": "ma-umstellen",
+     "name": "Gleichungen und Formeln umstellen",
+     "inhalt": "inhalte/formeln-umstellen.txt"
+    },
+    {
+     "id": "ma-lineare-gleichungssysteme",
+     "name": "Lineare Gleichungssysteme"
+    },
+    {
+     "id": "ma-potenzen-wurzeln-und-einheiten",
+     "name": "Potenzen, Wurzeln und Einheiten"
+    },
+    {
+     "id": "ma-quadratische-gleichungen",
+     "name": "Quadratische Gleichungen"
+    },
+    {
+     "id": "ma-trigonometrie",
+     "name": "Trigonometrie"
+    },
+    {
+     "id": "ma-funktionen",
+     "name": "Funktionen"
+    },
+    {
+     "id": "ma-logarithmen",
+     "name": "Logarithmen"
+    },
+    {
+     "id": "ma-differentialrechnung",
+     "name": "Differentialrechnung"
+    }
+   ]
+  },
+  {
+   "id": "et",
+   "name": "Elektrotechnik",
+   "kurz": "ET",
+   "module": [
+    "M2"
+   ],
+   "farbe": "#FF9F0A",
+   "themen": [
+    {
+     "id": "et-ohmsches-gesetz",
+     "name": "Ohmsches Gesetz",
+     "trainer": [
+      {
+       "datei": "trainer/et-rueckrechen-trainer.html",
+       "titel": "Rückrechen-Trainer"
+      }
+     ],
+     "trainerThemen": [
+      "Ohm"
+     ]
+    },
+    {
+     "id": "et-reihen-und-parallelschaltung",
+     "name": "Reihen- und Parallelschaltung",
+     "trainer": [
+      {
+       "datei": "trainer/et-rueckrechen-trainer.html",
+       "titel": "Rückrechen-Trainer"
+      }
+     ],
+     "trainerThemen": [
+      "Reihe",
+      "Parallel"
+     ]
+    },
+    {
+     "id": "et-gemischte-schaltungen",
+     "name": "Gemischte Schaltungen",
+     "trainer": [
+      {
+       "datei": "trainer/et-rueckrechen-trainer.html",
+       "titel": "Rückrechen-Trainer"
+      },
+      {
+       "datei": "trainer/et-rueckrechnen-lernblatt.html",
+       "titel": "Lernblatt Rückrechnen"
+      }
+     ],
+     "trainerThemen": [
+      "gemischt",
+      "Zufall"
+     ]
+    },
+    {
+     "id": "et-kirchhoffsche-regeln",
+     "name": "Kirchhoffsche Regeln",
+     "trainer": [
+      {
+       "datei": "trainer/et-rueckrechen-trainer.html",
+       "titel": "Rückrechen-Trainer"
+      }
+     ],
+     "trainerThemen": [
+      "Knoten",
+      "Masche",
+      "Kirchhoff"
+     ]
+    },
+    {
+     "id": "et-rueckrechnen",
+     "name": "Rückrechnen",
+     "trainer": [
+      {
+       "datei": "trainer/et-rueckrechen-trainer.html",
+       "titel": "Rückrechen-Trainer"
+      },
+      {
+       "datei": "trainer/et-rueckrechnen-lernblatt.html",
+       "titel": "Lernblatt Rückrechnen"
+      }
+     ],
+     "trainerThemen": [
+      "Rückrechnen",
+      "S1",
+      "S2",
+      "S3",
+      "S4",
+      "S5",
+      "S6"
+     ]
+    },
+    {
+     "id": "et-leistung-arbeit-wirkungsgrad",
+     "name": "Leistung, Arbeit, Wirkungsgrad"
+    },
+    {
+     "id": "et-sensoren",
+     "name": "Sensoren"
+    },
+    {
+     "id": "et-belasteter-spannungsteiler",
+     "name": "Belasteter Spannungsteiler"
+    },
+    {
+     "id": "et-kondensator",
+     "name": "Kondensator"
+    },
+    {
+     "id": "et-spule-und-induktion",
+     "name": "Spule und Induktion"
+    },
+    {
+     "id": "et-wechselstrom",
+     "name": "Wechselstrom"
+    },
+    {
+     "id": "et-drehstrom",
+     "name": "Drehstrom"
+    }
+   ]
+  },
+  {
+   "id": "tm",
+   "name": "Technische Mechanik",
+   "kurz": "TM",
+   "module": [
+    "M2"
+   ],
+   "farbe": "#FF453A",
+   "themen": [
+    {
+     "id": "tm-zentrales-kraeftesystem",
+     "name": "Zentrales Kräftesystem",
+     "trainer": [
+      {
+       "datei": "trainer/statik-trainer.html",
+       "titel": "Statik-Trainer"
+      },
+      {
+       "datei": "trainer/statik-kraefte-momente.html",
+       "titel": "Lernblatt Kräfte und Momente"
+      }
+     ],
+     "trainerThemen": [
+      "Kräfte",
+      "zentral"
+     ]
+    },
+    {
+     "id": "tm-momente",
+     "name": "Momente",
+     "trainer": [
+      {
+       "datei": "trainer/statik-trainer.html",
+       "titel": "Statik-Trainer"
+      },
+      {
+       "datei": "trainer/statik-kraefte-momente.html",
+       "titel": "Lernblatt Kräfte und Momente"
+      }
+     ],
+     "trainerThemen": [
+      "Momente",
+      "Momentengleichung"
+     ]
+    },
+    {
+     "id": "tm-lagerkraefte",
+     "name": "Lagerkräfte",
+     "trainer": [
+      {
+       "datei": "trainer/statik-trainer.html",
+       "titel": "Statik-Trainer"
+      },
+      {
+       "datei": "trainer/statik-kraefte-momente.html",
+       "titel": "Lernblatt Kräfte und Momente"
+      }
+     ],
+     "trainerThemen": [
+      "Zufall",
+      "Freier",
+      "Kann-Liste",
+      "Lager"
+     ]
+    },
+    {
+     "id": "tm-formelsammlung-statik",
+     "name": "Formelsammlung Statik",
+     "trainer": [
+      {
+       "datei": "trainer/statik-formelsammlung.html",
+       "titel": "Formelsammlung Statik"
+      }
+     ]
+    },
+    {
+     "id": "tm-wandschwenkkran",
+     "name": "Wandschwenkkran",
+     "trainer": [
+      {
+       "datei": "trainer/statik-wandschwenkkran.html",
+       "titel": "Übungsaufgabe Wandschwenkkran"
+      }
+     ]
+    },
+    {
+     "id": "tm-festigkeitslehre-zug-druck-flaechenpress",
+     "name": "Festigkeitslehre: Zug, Druck, Flächenpressung, Abscherung"
+    },
+    {
+     "id": "tm-allgemeines-kraeftesystem-und-streckenla",
+     "name": "Allgemeines Kräftesystem und Streckenlast"
+    },
+    {
+     "id": "tm-reibung",
+     "name": "Reibung"
+    },
+    {
+     "id": "tm-biegung",
+     "name": "Biegung"
+    },
+    {
+     "id": "tm-torsion",
+     "name": "Torsion"
+    }
+   ]
+  },
+  {
+   "id": "tol",
+   "name": "Toleranzen und technische Zeichnung",
+   "kurz": "Toleranzen",
+   "module": [
+    "M1"
+   ],
+   "farbe": "#32ADE6",
+   "themen": [
+    {
+     "id": "tol-toleranzen-app",
+     "name": "Toleranzen-App",
+     "trainer": [
+      {
+       "datei": "trainer/toleranzen.html",
+       "titel": "Toleranzen lernen und rechnen"
+      }
+     ]
+    },
+    {
+     "id": "tol-it-grundtoleranzen-ablesen",
+     "name": "IT-Grundtoleranzen ablesen",
+     "trainer": [
+      {
+       "datei": "trainer/toleranzen-it-ablesen.html",
+       "titel": "IT ablesen"
+      }
+     ]
+    },
+    {
+     "id": "tol-passungen-grenzmasse-spiel-uebermass",
+     "name": "Passungen: Grenzmaße, Spiel, Übermaß",
+     "trainer": [
+      {
+       "datei": "trainer/toleranzen-passungen-lernblatt.html",
+       "titel": "Lernblatt Passungen"
+      }
+     ]
+    },
+    {
+     "id": "tol-form-und-lagetoleranzen-lesen",
+     "name": "Form- und Lagetoleranzen lesen"
+    },
+    {
+     "id": "tol-oberflaechenangaben",
+     "name": "Oberflächenangaben"
+    }
+   ]
+  },
+  {
+   "id": "cad",
+   "name": "CAD und E-CAD",
+   "kurz": "CAD",
+   "module": [
+    "M1"
+   ],
+   "farbe": "#5E5CE6",
+   "themen": [
+    {
+     "id": "cad-solidworks-kuerzel",
+     "name": "SolidWorks-Kürzel",
+     "trainer": [
+      {
+       "datei": "trainer/solidworks-kuerzel.html",
+       "titel": "SolidWorks Kürzel"
+      }
+     ]
+    },
+    {
+     "id": "cad-skizzenbeziehungen-und-ueberbestimmung",
+     "name": "Skizzenbeziehungen und Überbestimmung"
+    },
+    {
+     "id": "cad-eplan-stromlaufplan-lesen-und-betriebsmi",
+     "name": "EPLAN: Stromlaufplan lesen und Betriebsmittelkennzeichnung"
+    }
+   ]
+  },
+  {
+   "id": "ws",
+   "name": "Werkstofftechnik",
+   "kurz": "Werkstoffe",
+   "module": [
+    "M2"
+   ],
+   "farbe": "#AC8E68",
+   "themen": [
+    {
+     "id": "ws-eisen-kohlenstoff-diagramm",
+     "name": "Eisen-Kohlenstoff-Diagramm",
+     "trainer": [
+      {
+       "datei": "trainer/werkstoffe-eisen-kohlenstoff.html",
+       "titel": "Merkkarte Eisen-Kohlenstoff"
+      }
+     ]
+    },
+    {
+     "id": "ws-stahlbezeichnungen-nach-din-en-10027",
+     "name": "Stahlbezeichnungen nach DIN EN 10027"
+    },
+    {
+     "id": "ws-waermebehandlung",
+     "name": "Wärmebehandlung"
+    },
+    {
+     "id": "ws-werkstoffpruefung",
+     "name": "Werkstoffprüfung"
+    }
+   ]
+  },
+  {
+   "id": "st",
+   "name": "Steuerungstechnik, Pneumatik und SPS",
+   "kurz": "Steuerung",
+   "module": [
+    "M2"
+   ],
+   "farbe": "#30D158",
+   "themen": [
+    {
+     "id": "st-wegeventile-und-schaltzeichen",
+     "name": "Wegeventile und Schaltzeichen"
+    },
+    {
+     "id": "st-pneumatik-direkte-und-indirekte-ansteuer",
+     "name": "Pneumatik: direkte und indirekte Ansteuerung"
+    },
+    {
+     "id": "st-elektropneumatik-mit-relais-und-selbstha",
+     "name": "Elektropneumatik mit Relais und Selbsthaltung"
+    },
+    {
+     "id": "st-logik-und-wahrheitstabelle",
+     "name": "Logik und Wahrheitstabelle"
+    },
+    {
+     "id": "st-sps-grundlagen-eva-adressen-fup-und-kop-",
+     "name": "SPS-Grundlagen: EVA, Adressen, FUP und KOP, SR-Speicher, Timer, Zähler"
+    },
+    {
+     "id": "st-grafcet-nach-din-en-60848-und-schrittket",
+     "name": "GRAFCET nach DIN EN 60848 und Schrittketten"
+    }
+   ]
+  },
+  {
+   "id": "auto",
+   "name": "Automatisierung vertieft",
+   "kurz": "Automatisierung",
+   "module": [
+    "M3",
+    "M4"
+   ],
+   "farbe": "#00C7BE",
+   "themen": [
+    {
+     "id": "auto-regelungstechnik",
+     "name": "Regelungstechnik"
+    },
+    {
+     "id": "auto-messtechnik",
+     "name": "Messtechnik"
+    },
+    {
+     "id": "auto-robotik",
+     "name": "Robotik"
+    },
+    {
+     "id": "auto-maschinensicherheit",
+     "name": "Maschinensicherheit"
+    },
+    {
+     "id": "auto-netzwerktechnik",
+     "name": "Netzwerktechnik"
+    }
+   ]
+  },
+  {
+   "id": "pm",
+   "name": "Projektmanagement und Datenverarbeitung",
+   "kurz": "Projekte",
+   "module": [
+    "M1"
+   ],
+   "farbe": "#BF5AF2",
+   "themen": [
+    {
+     "id": "pm-lasten-und-pflichtenheft",
+     "name": "Lasten- und Pflichtenheft"
+    },
+    {
+     "id": "pm-projektstrukturplan",
+     "name": "Projektstrukturplan"
+    },
+    {
+     "id": "pm-gantt-meilensteine-kritischer-pfad",
+     "name": "Gantt, Meilensteine, kritischer Pfad"
+    },
+    {
+     "id": "pm-risiko-und-stakeholderanalyse",
+     "name": "Risiko- und Stakeholderanalyse"
+    },
+    {
+     "id": "pm-zahlensysteme",
+     "name": "Zahlensysteme"
+    },
+    {
+     "id": "pm-tabellenkalkulation",
+     "name": "Tabellenkalkulation"
+    }
+   ]
+  },
+  {
+   "id": "m5",
+   "name": "Instandhaltung und Arbeitssicherheit",
+   "kurz": "Instandhaltung",
+   "module": [
+    "M5"
+   ],
+   "farbe": "#8E8E93",
+   "themen": [
+    {
+     "id": "m5-instandhaltung-nach-din-31051",
+     "name": "Instandhaltung nach DIN 31051"
+    },
+    {
+     "id": "m5-arbeitssicherheit",
+     "name": "Arbeitssicherheit"
+    }
+   ]
+  },
+  {
+   "id": "m6",
+   "name": "Führung und Personal",
+   "kurz": "Führung",
+   "module": [
+    "M6"
+   ],
+   "farbe": "#FF375F",
+   "themen": [
+    {
+     "id": "m6-fuehrungsstile",
+     "name": "Führungsstile"
+    },
+    {
+     "id": "m6-motivation",
+     "name": "Motivation"
+    },
+    {
+     "id": "m6-konflikte-und-feedback",
+     "name": "Konflikte und Feedback"
+    }
+   ]
+  },
+  {
+   "id": "m7",
+   "name": "Qualitätsmanagement",
+   "kurz": "Qualität",
+   "module": [
+    "M7"
+   ],
+   "farbe": "#64D2FF",
+   "themen": [
+    {
+     "id": "m7-iso-9001-und-pdca",
+     "name": "ISO 9001 und PDCA"
+    },
+    {
+     "id": "m7-q-werkzeuge",
+     "name": "Q-Werkzeuge"
+    },
+    {
+     "id": "m7-fmea",
+     "name": "FMEA"
+    },
+    {
+     "id": "m7-maschinen-und-prozessfaehigkeit",
+     "name": "Maschinen- und Prozessfähigkeit"
+    },
+    {
+     "id": "m7-audits",
+     "name": "Audits"
+    }
+   ]
+  },
+  {
+   "id": "m8",
+   "name": "Ökonomie und Nachhaltigkeit",
+   "kurz": "Ökonomie",
+   "module": [
+    "M8"
+   ],
+   "farbe": "#34A853",
+   "themen": [
+    {
+     "id": "m8-nachhaltigkeit-drei-saeulen-modell-effiz",
+     "name": "Nachhaltigkeit: Drei-Säulen-Modell, Effizienz, Konsistenz, Suffizienz"
+    },
+    {
+     "id": "m8-energie-und-umweltmanagement-iso-50001-i",
+     "name": "Energie- und Umweltmanagement: ISO 50001, ISO 14001, CO2-Bilanz"
+    },
+    {
+     "id": "m8-kreislaufwirtschaft",
+     "name": "Kreislaufwirtschaft"
+    },
+    {
+     "id": "m8-kostenrechnung-und-kalkulation",
+     "name": "Kostenrechnung und Kalkulation"
+    },
+    {
+     "id": "m8-bilanz-und-kennzahlen",
+     "name": "Bilanz und Kennzahlen"
+    },
+    {
+     "id": "m8-gruendung-und-rechtsformen",
+     "name": "Gründung und Rechtsformen"
+    }
+   ]
+  },
+  {
+   "id": "de",
+   "name": "Deutsch und Kommunikation",
+   "kurz": "Deutsch",
+   "module": [
+    "Ü"
+   ],
+   "farbe": "#FF6961",
+   "themen": [
+    {
+     "id": "de-argumentieren-beobachten-belegen-begruen",
+     "name": "Argumentieren: Beobachten, Belegen, Begründen, Beraten"
+    },
+    {
+     "id": "de-sachtextanalyse",
+     "name": "Sachtextanalyse"
+    },
+    {
+     "id": "de-geschaeftsbrief-nach-din-5008-und-protok",
+     "name": "Geschäftsbrief nach DIN 5008 und Protokoll"
+    }
+   ]
+  },
+  {
+   "id": "en",
+   "name": "Englisch und Kommunikation",
+   "kurz": "Englisch",
+   "module": [
+    "Ü"
+   ],
+   "farbe": "#409CFF",
+   "themen": [
+    {
+     "id": "en-technische-vokabeln",
+     "name": "Technische Vokabeln"
+    },
+    {
+     "id": "en-prozesse-beschreiben",
+     "name": "Prozesse beschreiben"
+    },
+    {
+     "id": "en-meine-typischen-fehler",
+     "name": "Meine typischen Fehler"
+    }
+   ]
+  },
+  {
+   "id": "po",
+   "name": "Politik",
+   "kurz": "Politik",
+   "module": [
+    "Ü"
+   ],
+   "farbe": "#DA8FFF",
+   "themen": []
+  }
+ ]
+}

@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="de"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>IT-Toleranzen ablesen</title>
+<style>
+
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+--bg:#F2F2F7;--sheet:#FFFFFF;--ink:#000000;--muted:rgba(60,60,67,.6);--line:rgba(60,60,67,.2);--soft:#F2F2F7;--fill:rgba(118,118,128,.12);
+--ok:#248A3D;--okbg:rgba(52,199,89,.15);--bad:#D70015;--badbg:rgba(255,59,48,.12);--grid:transparent}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 60px)}
+*,*::before,*::after{box-sizing:inherit}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#000000;--sheet:#1C1C1E;--ink:#FFFFFF;--muted:rgba(235,235,245,.6);--line:rgba(84,84,88,.65);--soft:#2C2C2E;--fill:rgba(118,118,128,.24);--ok:#30D158;--okbg:rgba(48,209,88,.18);--bad:#FF453A;--badbg:rgba(255,69,58,.2)}}
+:root[data-theme="dark"]{--bg:#000000;--sheet:#1C1C1E;--ink:#FFFFFF;--muted:rgba(235,235,245,.6);--line:rgba(84,84,88,.65);--soft:#2C2C2E;--fill:rgba(118,118,128,.24);--ok:#30D158;--okbg:rgba(48,209,88,.18);--bad:#FF453A;--badbg:rgba(255,69,58,.2)}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.47 -apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica Neue",system-ui,"Segoe UI",Roboto,sans-serif;-webkit-font-smoothing:antialiased;-webkit-text-size-adjust:100%;letter-spacing:-.01em}
+.sheet{max-width:720px;margin:0 auto;padding:4px 16px 40px}
+.hero{padding:22px 4px 4px}
+h1{font-size:34px;line-height:1.12;font-weight:700;letter-spacing:-.025em;margin:0 0 8px}
+.hero p{margin:0;color:var(--muted);max-width:60ch}
+.stripe{display:none}
+.tb{background:var(--sheet);border-radius:12px;overflow:hidden;margin:16px 0 8px;order:2}
+.tb div{display:flex;justify-content:space-between;align-items:baseline;gap:16px;padding:11px 16px;position:relative}
+.tb div+div::before{content:"";position:absolute;top:0;left:16px;right:0;border-top:.5px solid var(--line)}
+.tb small{font-size:17px;color:var(--ink);flex:none}
+.tb b{font-weight:400;color:var(--muted);text-align:right}
+nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;display:flex;gap:8px;overflow-x:auto;padding:10px 16px;margin:8px -16px 0;background:color-mix(in srgb,var(--bg) 75%,transparent);-webkit-backdrop-filter:saturate(180%) blur(20px);backdrop-filter:saturate(180%) blur(20px);scrollbar-width:none}
+nav::-webkit-scrollbar{display:none}
+nav a{flex:none;color:var(--accent-ink);background:var(--accent-soft);text-decoration:none;padding:7px 15px;border-radius:999px;font-size:15px;font-weight:600}
+a:focus-visible,summary:focus-visible,input:focus-visible,button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.prog{background:var(--sheet);border-radius:12px;padding:12px 16px;margin:10px 0;font-size:15px;color:var(--muted)}
+.bar{height:6px;background:var(--fill);border-radius:3px;margin-top:8px;overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:var(--accent);border-radius:3px;transition:width .35s cubic-bezier(.2,.8,.2,1)}
+section{padding:0}
+h2{font-size:22px;font-weight:700;letter-spacing:-.02em;margin:32px 4px 10px}
+h3{font-size:17px;font-weight:600;margin:22px 4px 8px}
+section>p{margin:10px 4px}
+p,li{max-width:68ch}
+section>ul,section>ol{background:var(--sheet);border-radius:12px;margin:10px 0;padding:12px 16px 12px 38px}
+section>ul li,section>ol li{margin:5px 0}
+.trio{background:var(--sheet);border-radius:12px;overflow:hidden;margin:10px 0}
+.trio>div{padding:12px 16px;position:relative}
+.trio>div+div::before{content:"";position:absolute;top:0;left:16px;right:0;border-top:.5px solid var(--line)}
+.trio .k{font-size:13px;font-weight:600;color:var(--accent-ink);display:block;margin-bottom:2px}
+.merk{background:var(--accent-soft);border-radius:12px;padding:12px 16px;margin:10px 0;font-weight:600;font-size:17px}
+.f{font-weight:600}
+.tw{background:var(--sheet);border-radius:12px;overflow-x:auto;margin:10px 0}
+table{border-collapse:collapse;font-size:15px;min-width:100%}
+th,td{border-bottom:.5px solid var(--line);padding:9px 12px;text-align:left;vertical-align:top}
+th{color:var(--muted);font-weight:600;font-size:13px}
+tr:last-child td{border-bottom:0}
+.task{background:var(--sheet);border-radius:14px;margin:14px 0;overflow:hidden}
+.task header{display:flex;align-items:center;gap:10px;padding:14px 16px 8px}
+.task .id{background:var(--accent);color:var(--on-accent);border-radius:8px;padding:2px 8px;font-size:14px;font-weight:700}
+.task .tt{font-weight:600;flex:1;line-height:1.3}
+.task label{font-size:13px;color:var(--muted);display:flex;align-items:center;gap:8px;cursor:pointer}
+.task.done .tt{color:var(--muted)}
+input[type=checkbox]{-webkit-appearance:none;appearance:none;width:51px;height:31px;border-radius:16px;background:var(--fill);position:relative;flex:none;cursor:pointer;margin:0;transition:background .2s}
+input[type=checkbox]::before{content:"";position:absolute;top:2px;left:2px;width:27px;height:27px;border-radius:50%;background:#fff;box-shadow:0 3px 8px rgba(0,0,0,.15),0 1px 1px rgba(0,0,0,.16);transition:transform .2s cubic-bezier(.2,.8,.2,1)}
+input[type=checkbox]:checked{background:#34C759}
+input[type=checkbox]:checked::before{transform:translateX(20px)}
+.task .body{padding:4px 16px 12px}
+.task .body>p:first-child{margin-top:0}
+details{border-top:.5px solid var(--line);margin-left:16px}
+summary{cursor:pointer;padding:13px 16px 13px 0;list-style:none;display:flex;justify-content:space-between;align-items:center;color:var(--accent-ink);font-weight:500}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"›";font-size:24px;line-height:1;color:var(--muted);transition:transform .2s}
+details[open] summary::after{transform:rotate(90deg)}
+details .in{padding:0 16px 14px 0}
+.fast{background:var(--accent-soft);border-radius:10px;padding:10px 12px;margin:10px 0 0}
+.fast b{color:var(--accent-ink)}
+.fig{overflow-x:auto;margin:8px 0}
+.fig svg{display:block;max-width:100%;height:auto;margin:0 auto}
+.mut{color:var(--muted)}
+svg text{fill:var(--ink);font-family:-apple-system,BlinkMacSystemFont,system-ui,sans-serif}
+svg .mut{fill:var(--muted)}
+svg .acc{fill:var(--accent-ink);font-weight:600}
+svg .w{stroke:var(--ink);stroke-width:2;fill:none}
+svg .thin{stroke:var(--muted);stroke-width:1;fill:none}
+svg .dash{stroke:var(--muted);stroke-width:1;stroke-dasharray:4 4;fill:none}
+svg .box{stroke:var(--ink);stroke-width:2;fill:var(--sheet)}
+svg .dot{fill:var(--ink)}
+svg .fa{stroke:var(--accent-ink);stroke-width:2.5;fill:none}
+svg .fk{stroke:var(--ink);stroke-width:2.5;fill:none}
+svg .zoneA{fill:var(--accent-soft);stroke:var(--accent-ink);stroke-width:2}
+svg .zoneB{fill:var(--fill);stroke:var(--ink);stroke-width:2}
+svg rect.hl{stroke:var(--accent-ink);stroke-width:3.5;fill:var(--accent-soft)}
+.bad{color:var(--bad);font-weight:600}.ok{color:var(--ok);font-weight:600}
+footer{padding:20px 4px 0;font-size:13px;color:var(--muted)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+
+:root{--accent:#34C759;--accent-ink:#248A3D;--accent-soft:rgba(52,199,89,.15);--on-accent:#FFFFFF}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--accent:#30D158;--accent-ink:#30DB5B;--accent-soft:rgba(48,209,88,.2);--on-accent:#000000}}
+:root[data-theme="dark"]{--accent:#30D158;--accent-ink:#30DB5B;--accent-soft:rgba(48,209,88,.2);--on-accent:#000000}
+
+.pick{display:flex;gap:8px;overflow-x:auto;padding:2px 0 10px;scrollbar-width:none}
+.pick::-webkit-scrollbar{display:none}
+.pick button{flex:none;font:inherit;font-size:15px;font-weight:600;border:0;background:var(--sheet);color:var(--ink);padding:8px 16px;border-radius:999px;min-height:38px;cursor:pointer}
+.pick button.on{background:var(--accent);color:var(--on-accent)}
+.tog{display:flex;flex-direction:row-reverse;justify-content:space-between;align-items:center;gap:12px;background:var(--sheet);border-radius:12px;padding:10px 16px;font-size:15px;color:var(--ink);margin:4px 0 10px;cursor:pointer}
+.given{background:var(--sheet);border-radius:12px;padding:12px 16px;margin:10px 0}
+#fig:not(:empty),#circ:not(:empty){background:var(--sheet);border-radius:12px;padding:10px}
+.step{background:var(--sheet);border-radius:14px;padding:16px;margin:12px 0}
+.step .n{font-size:13px;color:var(--muted);font-weight:600}
+.step .q{font-size:20px;font-weight:700;letter-spacing:-.015em;line-height:1.3;margin:4px 0 12px}
+.rules{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:8px 0}
+.mc{display:flex;flex-direction:column;gap:8px;margin:8px 0}
+.rules button,.mc button{font:inherit;font-size:16px;font-weight:500;border:0;background:var(--fill);color:var(--ink);padding:12px 14px;border-radius:12px;min-height:48px;cursor:pointer;text-align:left;transition:background .15s,transform .1s}
+.rules button:active,.mc button:active,.act button:active,.pick button:active{transform:scale(.97)}
+.rules button.ok,.mc button.ok{background:var(--okbg);color:var(--ok);font-weight:600}
+.rules button.ok::after,.mc button.ok::after{content:" ✓"}
+.rules button.no,.mc button.no{background:var(--badbg);color:var(--bad);text-decoration:line-through}
+.inrow{display:flex;gap:10px;align-items:center;margin:12px 0}
+.inrow input{font:inherit;font-size:22px;font-weight:600;flex:1;min-width:0;max-width:14em;padding:12px 14px;border:0;border-radius:12px;background:var(--fill);color:var(--ink)}
+.inrow input:disabled{opacity:.45}
+.inrow span{font-size:18px;font-weight:600;color:var(--muted)}
+.act{display:flex;flex-wrap:wrap;gap:8px;margin-top:4px}
+.act button{font:inherit;font-size:17px;font-weight:600;border:0;border-radius:12px;padding:12px 18px;min-height:50px;background:var(--accent-soft);color:var(--accent-ink);cursor:pointer;transition:transform .1s}
+.act button.main{background:var(--accent);color:var(--on-accent);flex:1}
+.fb{margin:10px 0 0;padding:10px 14px;border-radius:12px;font-size:16px;line-height:1.4}
+.fb.good{background:var(--okbg)}.fb.badf{background:var(--badbg)}.fb.info{background:var(--accent-soft)}
+
+#it td,#it th{text-align:center;padding:4px 6px}
+#it td:first-child,#it th:first-child{text-align:left;white-space:nowrap}
+#it tr.hr td{background:var(--accent-soft)}
+#it td.hc,#it th.hc{background:var(--accent-soft)}
+#it td.hx{background:var(--accent);color:var(--on-accent);font-weight:700}
+</style></head>
+<body data-page="toltrainer"><main class="sheet">
+<div class="hero"><h1>IT-Toleranzen ablesen</h1><p>Zeile finden, Spalte finden, Wert ablesen, in mm umrechnen. Die Tabelle markiert mit, was du schon richtig hast.</p></div><div class="tb"><div><small>Fach</small><b>Toleranzen</b></div><div><small>Klassenarbeit</small><b>Donnerstag, 01.10.</b></div>
+<div class="wide"><small>Werkzeug</small><b>IT-Trainer: Grundtoleranzen richtig aus der Tabelle ablesen</b></div></div>
+
+<div class="stripe"></div>
+<section><h3>Aufgabe wählen</h3><div class="pick" id="pick"></div>
+<div id="task" class="given"></div><h3>Tabelle: Grundtoleranzen in µm (ISO 286-1)</h3><div class="tw"><table id="it"></table></div><p class="mut" style="font-size:14px">Lies „über 18 bis 30“ so: 18 gehört nicht dazu, 30 schon.</p><div class="fig" id="fig"></div>
+<div id="stepbox"></div><h3>Deine Werte</h3><div class="tw"><table id="vals"></table></div></section><footer>Werte nach ISO 286-1, mit mehreren Quellen abgeglichen. In der Arbeit gilt dein Tabellenbuch.</footer>
+</main>
+<script>
+const PAGE=document.body.dataset.page;
+function loadDone(){try{return JSON.parse(localStorage.getItem(PAGE+':done')||'[]')}catch(e){return[]}}
+function saveDone(a){try{localStorage.setItem(PAGE+':done',JSON.stringify(a))}catch(e){}}
+function upd(){const t=[...document.querySelectorAll('.task')];const d=t.filter(x=>x.classList.contains('done')).length;
+const p=document.getElementById('progress');if(p)p.textContent=d+' von '+t.length+' Aufgaben erledigt';
+const b=document.querySelector('.bar i');if(b)b.style.width=(t.length?100*d/t.length:0)+'%';}
+document.querySelectorAll('.task').forEach(t=>{const id=t.dataset.id;const h=t.querySelector('header');
+const l=document.createElement('label');l.innerHTML='<input type="checkbox"> erledigt';h.appendChild(l);
+const c=l.querySelector('input');if(loadDone().includes(id)){c.checked=true;t.classList.add('done')}
+c.addEventListener('change',()=>{let a=loadDone().filter(x=>x!==id);if(c.checked)a.push(id);saveDone(a);t.classList.toggle('done',c.checked);upd()});});
+upd();
+let MK=0;function arrowDefs(cls){MK++;const id='ah'+MK;return {id,defs:'<defs><marker id="'+id+'" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" style="fill:'+(cls==='fa'?'var(--accent-ink)':'var(--ink)')+'"/></marker></defs>'}}
+function svg(w,h,inner,max){return '<svg viewBox="0 0 '+w+' '+h+'" width="'+(max||w)+'" role="img">'+inner+'</svg>'}
+function ln(x1,y1,x2,y2,c){return '<line x1="'+x1+'" y1="'+y1+'" x2="'+x2+'" y2="'+y2+'" class="'+(c||'w')+'"/>'}
+function tx(x,y,s,o){o=o||{};return '<text x="'+x+'" y="'+y+'" font-size="'+(o.fs||13)+'" text-anchor="'+(o.a||'middle')+'"'+(o.c?' class="'+o.c+'"':'')+'>'+s+'</text>'}
+
+
+const fmt=v=>{const r=Math.round(v*1000)/1000;return (Object.is(r,-0)?0:r).toLocaleString('de-DE',{maximumFractionDigits:3})};
+const sub=s=>String(s).replace(/_([a-zA-Z0-9]+)/g,'<sub>$1</sub>');
+const rnd=a=>a[Math.floor(Math.random()*a.length)];
+const ri=(a,b)=>a+Math.floor(Math.random()*(b-a+1));
+const shuf=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+const LS={get:(k,d)=>{try{return JSON.parse(localStorage.getItem(PAGE+':'+k))??d}catch(e){return d}},set:(k,v)=>{try{localStorage.setItem(PAGE+':'+k,JSON.stringify(v))}catch(e){}}};
+let MEM={bags:LS.get('bags',{}),hist:LS.get('hist',[]),n:LS.get('n',0)};
+function nextType(pool){const key=pool.join(',');let b=MEM.bags[key];if(!b||!b.length||b.some(k=>!GEN[k]))b=shuf(pool);const t=b.pop();MEM.bags[key]=b;LS.set('bags',MEM.bags);return t}
+function newTask(mode){const pool=MODES[mode].pool;for(let i=0;i<60;i++){const type=nextType(pool);const t=GEN[type](MODES[mode]);const sig=type+'|'+t.sig;if(MEM.hist.includes(sig))continue;
+ MEM.hist=[...MEM.hist.slice(-120),sig];MEM.n++;LS.set('hist',MEM.hist);LS.set('n',MEM.n);t.nr=MEM.n;return t}return GEN[rnd(pool)](MODES[mode])}
+let T,cur,st,MODE;
+function mcOpts(ok,wrong){return shuf([{h:ok[0],ok:true,why:ok[1]},...wrong.map(w=>({h:w[0],ok:false,why:w[1]}))])}
+function start(mode){MODE=mode;T=newTask(mode);cur=0;st={first:0,wrongRule:0,n:0};
+ document.querySelectorAll('#pick button').forEach(b=>b.classList.toggle('on',b.dataset.k===mode));
+ document.getElementById('task').innerHTML='<b>Aufgabe Nr. '+T.nr+'</b> <span class="mut">'+(T.kind||'')+'</span><br>'+sub(T.given);
+ document.getElementById('vals').innerHTML='<tr><th>Größe</th><th>Wert</th></tr>';if(window.onStart)onStart(T);show()}
+function drawFig(s){const f=document.getElementById('fig');f.innerHTML=T.draw?T.draw(s?s.hl||[]:[]):''}
+function fb(c,m){const f=document.getElementById('fb');f.className='fb '+c;f.innerHTML=sub(m)}
+function addFb(c,m){document.getElementById('rfb').insertAdjacentHTML('beforeend','<div class="fb '+c+'">'+sub(m)+'</div>')}
+function show(){const box=document.getElementById('stepbox');if(cur>=T.S.length)return finish();const s=T.S[cur];drawFig(s);st.tries=0;
+ const head='<div class="step"><div class="n">Schritt '+(cur+1)+' von '+T.S.length+'</div><div class="q">'+sub(s.q)+'</div>';
+ if(s.t==='mc'){box.innerHTML=head+'<div class="mc">'+s.opts.map((o,i)=>'<button data-i="'+i+'">'+sub(o.h)+'</button>').join('')+'</div><div id="rfb"></div><div class="act"></div></div>';
+  box.querySelectorAll('.mc button').forEach(b=>b.onclick=()=>{if(st.done)return;const o=s.opts[+b.dataset.i];
+   if(o.ok){b.classList.add('ok');if(st.tries==0)st.first++;addFb('good','<b>Richtig.</b> '+o.why);st.done=true;accept(s,o.h)}
+   else{b.classList.add('no');st.tries++;addFb('badf','<b>Nicht das.</b> '+o.why)}});st.done=false;return}
+ const ruleOn=RULES&&s.r&&document.getElementById('ruleOn')&&document.getElementById('ruleOn').checked;st.ruleOk=!ruleOn;st.done=false;
+ box.innerHTML=head+(ruleOn?'<div>Was brauchst du dafür?</div><div class="rules">'+RULES.map(r=>'<button data-r="'+r+'">'+r+'</button>').join('')+'</div>':'')+
+ '<div id="rfb"></div><div class="inrow"><input id="inp" inputmode="decimal" autocomplete="off" '+(ruleOn?'disabled':'')+' aria-label="Wert"><span>'+(s.u||'')+'</span></div>'+
+ '<div class="act"><button class="main" id="chk">Prüfen</button><button id="tip">Tipp</button><button id="sol" hidden>Lösung zeigen</button></div><div id="fb"></div></div>';
+ box.querySelectorAll('.rules button').forEach(b=>b.onclick=()=>{if(st.ruleOk)return;const r=b.dataset.r;
+  if(s.r.includes(r)){b.classList.add('ok');st.ruleOk=true;const i=document.getElementById('inp');i.disabled=false;i.focus();
+   addFb('good','<b>Richtig, '+r+'.</b> '+((s.W&&s.W[r])||''));s.r.filter(x=>x!==r).forEach(x=>addFb('info','<b>Geht auch mit '+x+':</b> '+((s.W&&s.W[x])||'')))}
+  else{b.classList.add('no');st.wrongRule++;addFb('badf','<b>Nicht '+r+'.</b> '+((s.N&&s.N[r])||(RULEDEF[r]+' Gesucht ist hier aber '+(s.what||'etwas anderes')+'.')))}});
+ document.getElementById('chk').onclick=check;document.getElementById('inp').onkeydown=e=>{if(e.key==='Enter')check()};
+ document.getElementById('tip').onclick=()=>fb('info',s.tip);document.getElementById('sol').onclick=()=>{fb('info',s.sol);accept(s,null,true)};
+ if(!ruleOn)document.getElementById('inp').focus()}
+function check(){const s=T.S[cur];if(st.done)return;if(!st.ruleOk){fb('badf','Wähl zuerst aus, was du brauchst.');return}
+ const v=parseFloat(document.getElementById('inp').value.replace(/\s/g,'').replace('−','-').replace(',','.'));if(isNaN(v)){fb('badf','Gib eine Zahl ein.');return}
+ const tol=x=>s.tol!=null?s.tol:Math.max(.01*Math.abs(x),.011);const ok=x=>Math.abs(v-x)<=tol(x);
+ if(ok(s.a)){if(st.tries==0)st.first++;fb('good','Stimmt: '+(s.key||'')+' = '+fmt(s.a)+' '+(s.u||'')+'.'+(s.okMsg?' '+s.okMsg:''));
+  if(RULES&&s.r&&!document.getElementById('ruleOn').checked&&s.W)addFb('info','<b>'+s.r[0]+':</b> '+(s.W[s.r[0]]||''));accept(s,null,false);return}
+ st.tries++;let m=null;for(const e of (s.e||[]))if(Math.abs(e[0]-s.a)>tol(s.a)&&ok(e[0])){m=e[1];break}
+ if(!m&&s.a!==0&&ok(-s.a))m=s.signMsg||'Der Betrag stimmt, aber das Vorzeichen nicht. Schau, in welche Richtung die Kraft zeigt.';
+ if(!m&&s.rad!=null&&ok(s.rad))m='Dein Taschenrechner steht auf RAD. Stell ihn auf DEG, dann passt es.';
+ if(!m&&s.a!==0&&(ok(s.a*1000)||ok(s.a/1000)))m=s.unitMsg||'Die Zahl passt, aber die Einheit nicht. Gefragt ist '+(s.u||'')+'.';
+ fb('badf',m||(s.wrongMsg||'Stimmt noch nicht. Prüf Schritt für Schritt: welche Werte gehören wirklich hierher?'));
+ if(st.tries>=2)document.getElementById('sol').hidden=false}
+function accept(s,mcText,shown){st.done=true;if(s.key){document.getElementById('vals').insertAdjacentHTML('beforeend','<tr><td>'+sub(s.key)+'</td><td>'+(mcText?sub(mcText):fmt(s.a)+' '+(s.u||''))+(shown?' <span class="mut">(Lösung angesehen)</span>':'')+'</td></tr>')}
+ if(s.after)s.after();const a=document.querySelector('#stepbox .act');a.innerHTML='<button class="main" id="nx">Weiter</button>';const i=document.getElementById('inp');if(i)i.disabled=true;
+ document.querySelectorAll('#stepbox .rules button').forEach(b=>b.disabled=true);const n=document.getElementById('nx');n.onclick=()=>{cur++;show()};n.focus()}
+function finish(){drawFig(null);document.getElementById('stepbox').innerHTML='<div class="step"><div class="q">Geschafft.</div>'+(T.probe?'<p>'+sub(T.probe)+'</p>':'')+
+ '<p>'+st.first+' von '+T.S.length+' Schritten beim ersten Versuch richtig'+(RULES&&document.getElementById('ruleOn').checked?', '+st.wrongRule+' mal falsch gewählt':'')+'.</p>'+
+ '<div class="act"><button class="main" id="again">Nächste Aufgabe</button></div></div>';document.getElementById('again').onclick=()=>start(MODE)}
+function setup(){const pk=document.getElementById('pick');Object.keys(MODES).forEach(k=>pk.insertAdjacentHTML('beforeend','<button data-k="'+k+'">'+MODES[k].label+'</button>'));
+ pk.querySelectorAll('button').forEach(b=>b.onclick=()=>start(b.dataset.k));const ro=document.getElementById('ruleOn');if(ro)ro.onchange=()=>{if(T&&cur<T.S.length)show()};start(Object.keys(MODES)[0])}
+
+const RULES=null,RULEDEF={};
+const COLS=[5,6,7,8,9,10,11];
+const ROWS=[[0,3,[4,6,10,14,25,40,60]],[3,6,[5,8,12,18,30,48,75]],[6,10,[6,9,15,22,36,58,90]],[10,18,[8,11,18,27,43,70,110]],[18,30,[9,13,21,33,52,84,130]],[30,50,[11,16,25,39,62,100,160]],
+[50,80,[13,19,30,46,74,120,190]],[80,120,[15,22,35,54,87,140,220]],[120,180,[18,25,40,63,100,160,250]],[180,250,[20,29,46,72,115,185,290]],[250,315,[23,32,52,81,130,210,320]],[315,400,[25,36,57,89,140,230,360]],[400,500,[27,40,63,97,155,250,400]]];
+const lab=i=>ROWS[i][0]===0?'bis 3':'über '+ROWS[i][0]+' bis '+ROWS[i][1];
+const rowOf=d=>ROWS.findIndex(r=>d>r[0]&&d<=r[1]);
+let HL={r:-1,c:-1,x:false};
+function renderIT(){let h='<tr><th>Nennmaß in mm</th>'+COLS.map((c,j)=>'<th class="'+(HL.c===j?'hc':'')+'">IT'+c+'</th>').join('')+'</tr>';
+ ROWS.forEach((r,i)=>{h+='<tr class="'+(HL.r===i?'hr':'')+'"><td>'+lab(i)+'</td>'+r[2].map((v,j)=>'<td class="'+(HL.x&&HL.r===i&&HL.c===j?'hx':HL.c===j?'hc':'')+'">'+v+'</td>').join('')+'</tr>'});
+ document.getElementById('it').innerHTML=h}
+window.onStart=()=>{HL={r:-1,c:-1,x:false};renderIT()};
+const BOUND=[3,6,10,18,30,50,80,120,180,250,315,400,500],OTHER=[2,4,5,8,12,15,16,20,22,25,28,32,35,36,40,45,55,60,63,65,70,75,90,100,110,125,140,150,160,200,220,240,260,280,300,350,360,450];
+const LET=['H','h','g','f','k','G','F','js','p','n','m','e'];
+function pickD(m){return (m&&m.bound)||Math.random()<.4?rnd(BOUND.slice(1)):rnd(OTHER)}
+function pickN(){return rnd([5,6,6,7,7,7,8,8,9,10,11])}
+function rowMC(d){const r=rowOf(d);const cand=[r-1,r+1,r+2,r-2].filter(i=>i>=0&&i<ROWS.length).slice(0,3);const isB=ROWS[r][1]===d;
+ const okWhy=isB?d+' mm ist genau die obere Grenze. „bis '+d+'“ schließt '+d+' mit ein, also diese Zeile. „über '+d+'“ beginnt erst danach.':d+' mm ist größer als '+ROWS[r][0]+' und höchstens '+ROWS[r][1]+'.';
+ return{t:'mc',q:'Schritt Zeile: In welchen Nennmaßbereich gehört Ø'+d+'?',opts:mcOpts([lab(r),okWhy],cand.map(i=>[lab(i),ROWS[i][0]===d?'„über '+d+'“ heißt: '+d+' gehört nicht mehr dazu. '+d+' steht in der Zeile davor als „bis '+d+'“.':d+' mm liegt nicht zwischen '+ROWS[i][0]+' und '+ROWS[i][1]+'.'])),key:'Zeile',after:()=>{HL.r=r;renderIT()}}}
+function colMC(code,n){const cand=[n-1,n+1,n+2].filter(x=>x>=5&&x<=11&&x!==n).slice(0,2);if(cand.length<2)cand.push(n>=10?n-2:n+2);
+ const letter=code.replace(/[0-9]/g,'');
+ return{t:'mc',q:'Schritt Spalte: Welche Spalte brauchst du für '+code+'?',opts:mcOpts(['IT'+n,'Die Zahl'+(letter?' hinter dem Buchstaben':'')+' ist der IT-Grad. '+(letter?'Der Buchstabe '+letter+' sagt nur, wo das Feld liegt, nicht wie breit es ist.':'')],cand.map(x=>['IT'+x,'Die Zahl im Kurzzeichen ist '+n+', also IT'+n+'.'])),key:'Spalte',after:()=>{HL.c=COLS.indexOf(n);renderIT()}}}
+function valStep(d,n){const r=rowOf(d),c=COLS.indexOf(n),v=ROWS[r][2][c];const e=[];
+ if(r>0)e.push([ROWS[r-1][2][c],'Das ist der Wert aus der Zeile darüber. Bleib in der markierten Zeile.']);if(r<ROWS.length-1)e.push([ROWS[r+1][2][c],'Das ist der Wert aus der Zeile darunter. Bleib in der markierten Zeile.']);
+ if(c>0)e.push([ROWS[r][2][c-1],'Das ist die Spalte links daneben, IT'+(n-1)+'.']);if(c<6)e.push([ROWS[r][2][c+1],'Das ist die Spalte rechts daneben, IT'+(n+1)+'.']);
+ return{t:'num',q:'Schritt Wert: Grundtoleranz ablesen. IT'+n+' für Ø'+d+' = ?',u:'µm',a:v,tol:.01,key:'IT'+n,e,tip:'Wo sich die markierte Zeile und die markierte Spalte kreuzen.',sol:'Zeile '+lab(r)+', Spalte IT'+n+': '+v+' µm',after:()=>{HL.x=true;renderIT()}}}
+function mmStep(v){return{t:'num',q:'In mm umrechnen: '+v+' µm = ? mm',u:'mm',a:v/1000,tol:.00001,key:'Toleranz',e:[[v/100,'Eine Stelle zu wenig. 1 µm = 0,001 mm, also Komma drei Stellen nach links.'],[v/10,'Zwei Stellen zu wenig. Komma drei Stellen nach links.'],[v,'Das ist noch µm. Durch 1000 teilen.']],unitMsg:'Durch 1000 teilen: 1000 µm = 1 mm.',tip:'Durch 1000 teilen. Zum Beispiel 21 µm = 0,021 mm.',sol:v+' µm = '+fmt(v/1000)+' mm'}}
+const GEN={
+ablesen(m){const d=pickD(m),n=pickN(),useL=Math.random()<.65,L=rnd(LET),code=useL?L+n:'IT'+n;const v=ROWS[rowOf(d)][2][COLS.indexOf(n)];
+ return{kind:'Ablesen',sig:d+'|'+n,given:'Auf der Zeichnung steht <b>Ø'+d+' '+(useL?code:'')+'</b>'+(useL?'':' mit Toleranzgrad IT'+n)+'. Wie groß ist die Grundtoleranz?',S:[rowMC(d),colMC(useL?code:'IT'+n,n),valStep(d,n),mmStep(v)],probe:'Ø'+d+' '+code+': Grundtoleranz '+v+' µm = '+fmt(v/1000)+' mm'}},
+grenz(m){const d=pickD(m),n=pickN(),L=Math.random()<.5?'H':'h',code=L+n,v=ROWS[rowOf(d)][2][COLS.indexOf(n)],t=v/1000;const bore=L==='H';
+ const up=bore?t:0,lo=bore?0:-t;
+ return{kind:bore?'Bohrung H: Grenzmaße':'Welle h: Grenzmaße',sig:d+'|'+code,given:'<b>Ø'+d+' '+code+'</b>. Lies die Grundtoleranz ab und bestimme dann die Grenzmaße.',
+ S:[rowMC(d),colMC(code,n),valStep(d,n),mmStep(v),
+ {t:'mc',q:'Wo liegt das Toleranzfeld bei '+L+'?',opts:mcOpts([bore?'Unten auf der Nulllinie, nach oben: 0 bis +IT':'Oben auf der Nulllinie, nach unten: −IT bis 0',bore?'Großes H ist eine Bohrung. Sie darf nur größer werden, nie kleiner als das Nennmaß.':'Kleines h ist eine Welle. Sie darf nur kleiner werden, nie größer als das Nennmaß.'],
+  [[bore?'Oben auf der Nulllinie, nach unten: −IT bis 0':'Unten auf der Nulllinie, nach oben: 0 bis +IT',bore?'Das wäre h, die Welle. Groß H heißt Bohrung.':'Das wäre H, die Bohrung. Klein h heißt Welle.'],['Symmetrisch: ± halbe IT','Symmetrisch wäre JS oder js.']]),key:'Lage'},
+ {t:'num',q:'Oberes Abmaß in mm = ?',u:'mm',a:up,tol:.00001,key:bore?'ES':'es',signMsg:'Vorzeichen prüfen: '+(bore?'bei H geht das Feld nach oben.':'bei h liegt das Feld unter der Nulllinie.'),e:bore?[]:[[t,'Bei h ist das obere Abmaß 0. Die Welle darf nur kleiner werden.']],tip:bore?'Bei H: oben = +IT.':'Bei h: oben = 0.',sol:(bore?'ES = +':'es = ')+fmt(up)+' mm'},
+ {t:'num',q:'Unteres Abmaß in mm = ?',u:'mm',a:lo,tol:.00001,key:bore?'EI':'ei',signMsg:'Vorzeichen prüfen: bei h geht es nach unten, also Minus.',e:bore?[[t,'Bei H ist das untere Abmaß 0. Die Bohrung darf nicht kleiner werden.']]:[],tip:bore?'Bei H: unten = 0.':'Bei h: unten = −IT.',sol:(bore?'EI = ':'ei = ')+fmt(lo)+' mm'},
+ {t:'num',q:'Höchstmaß in mm = ?',u:'mm',a:d+up,tol:.00001,key:'Höchstmaß',e:[[d+t,'Bei h ist das Höchstmaß das Nennmaß selbst.'],[d-t,'Das ist das Mindestmaß.']],tip:'Nennmaß + oberes Abmaß',sol:d+' + '+fmt(up)+' = '+fmt(d+up)+' mm'},
+ {t:'num',q:'Mindestmaß in mm = ?',u:'mm',a:d+lo,tol:.00001,key:'Mindestmaß',e:[[d+t,'Das ist das Höchstmaß.'],[d-v/100,'Komma verrutscht: '+v+' µm sind '+fmt(t)+' mm.']],tip:'Nennmaß + unteres Abmaß',sol:d+' + ('+fmt(lo)+') = '+fmt(d+lo)+' mm'}],
+ probe:'Ø'+d+' '+code+': '+fmt(d+lo)+' mm bis '+fmt(d+up)+' mm'}},
+rueck(m){const d=pickD(m),n=pickN(),r=rowOf(d),v=ROWS[r][2][COLS.indexOf(n)],inMM=Math.random()<.5;const S=[];
+ if(inMM)S.push({t:'num',q:'Erst in µm umrechnen: '+fmt(v/1000)+' mm = ? µm',u:'µm',a:v,tol:.01,key:'Toleranz',e:[[v/10,'Eine Stelle zu wenig. Mal 1000.'],[v*10,'Eine Stelle zu viel. Mal 1000.']],tip:'Mal 1000.',sol:fmt(v/1000)+' mm = '+v+' µm'});
+ S.push(rowMC(d));const c=COLS.indexOf(n);const cand=shuf([0,1,2,3,4,5,6].filter(j=>j!==c)).slice(0,3);
+ S.push({t:'mc',q:'In der Zeile '+lab(r)+' steht '+v+' µm in welcher Spalte?',opts:mcOpts(['IT'+n,'In der markierten Zeile steht '+v+' genau unter IT'+n+'.'],cand.map(j=>['IT'+COLS[j],'Unter IT'+COLS[j]+' steht in dieser Zeile '+ROWS[r][2][j]+' µm.'])),key:'IT-Grad',after:()=>{HL.c=c;HL.x=true;renderIT()}});
+ return{kind:'Rückwärts: IT-Grad finden',sig:d+'|'+n+'|r',given:'Ein Maß Ø'+d+' hat eine Toleranz von <b>'+(inMM?fmt(v/1000)+' mm':v+' µm')+'</b>. Welcher IT-Grad ist das?',S,probe:'Ø'+d+', '+v+' µm: IT'+n}}
+};
+const MODES={alle:{label:'Zufall: alles gemischt',pool:['ablesen','ablesen','ablesen','grenz','grenz','rueck','rueck']},ab:{label:'Nur Ablesen',pool:['ablesen']},grenzf:{label:'Grenzfälle (3, 6, 10, 18, 30 …)',pool:['ablesen','grenz','rueck'],bound:true}};
+setup();
+</script>
+<script src="../lernwerk-bridge.js"></script>
+</body></html>

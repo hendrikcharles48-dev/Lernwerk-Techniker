@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>SolidWorks Kürzel</title>
+<style>
+:root{
+  --bg:#F2F2F7; --card:#FFFFFF; --text:#000000; --sub:#6C6C70; --sep:rgba(60,60,67,.18);
+  --accent:#007AFF; --good:#34C759; --bad:#FF3B30; --warn:#FF9500;
+  --key-top:#FFFFFF; --key-side:#C7C7CC; --key-text:#1C1C1E; --seg:#E3E3E8; --seg-on:#FFFFFF;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#000000; --card:#1C1C1E; --text:#FFFFFF; --sub:#98989F; --sep:rgba(84,84,88,.6);
+    --accent:#0A84FF; --good:#30D158; --bad:#FF453A; --warn:#FF9F0A;
+    --key-top:#3A3A3C; --key-side:#18181A; --key-text:#F2F2F7; --seg:#2C2C2E; --seg-on:#636366;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#000000; --card:#1C1C1E; --text:#FFFFFF; --sub:#98989F; --sep:rgba(84,84,88,.6);
+  --accent:#0A84FF; --good:#30D158; --bad:#FF453A; --warn:#FF9F0A;
+  --key-top:#3A3A3C; --key-side:#18181A; --key-text:#F2F2F7; --seg:#2C2C2E; --seg-on:#636366;
+}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica Neue",Helvetica,Arial,sans-serif;
+  -webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:transparent}
+.wrap{max-width:640px;margin:0 auto;padding:12px 16px 40px}
+h1{font-size:34px;font-weight:700;letter-spacing:.2px;margin:14px 4px 4px}
+.lead{color:var(--sub);font-size:15px;margin:0 4px 16px;line-height:1.4}
+.seg{display:flex;background:var(--seg);border-radius:9px;padding:2px;margin:0 0 20px;position:sticky;top:env(safe-area-inset-top,0px);z-index:5}
+.seg button{flex:1;border:0;background:transparent;color:var(--text);font:600 13px/1 inherit;font-family:inherit;padding:9px 4px;border-radius:7px;cursor:pointer}
+.seg button.on{background:var(--seg-on);box-shadow:0 3px 8px rgba(0,0,0,.12),0 0 1px rgba(0,0,0,.2)}
+.seg.small{position:static;margin:0 0 14px}
+h2{font-size:13px;font-weight:400;color:var(--sub);margin:22px 16px 7px;text-transform:none}
+.group{background:var(--card);border-radius:12px;overflow:hidden}
+.row{display:flex;align-items:center;gap:12px;padding:11px 16px;min-height:48px;position:relative}
+.row+.row::before{content:"";position:absolute;top:0;left:16px;right:0;height:.5px;background:var(--sep)}
+.row .what{flex:1;font-size:16px;line-height:1.3}
+.row .what small{display:block;color:var(--sub);font-size:13px;margin-top:2px}
+.keys{display:flex;gap:4px;align-items:center;flex-shrink:0;flex-wrap:wrap;justify-content:flex-end}
+.plus{color:var(--sub);font-size:12px}
+kbd{font-family:inherit;font-size:14px;font-weight:600;color:var(--key-text);background:var(--key-top);
+  border-radius:7px;padding:5px 9px;min-width:30px;text-align:center;display:inline-block;
+  box-shadow:0 2px 0 var(--key-side),0 0 0 .5px var(--key-side);white-space:nowrap}
+.note{font-size:13px;color:var(--sub);margin:8px 16px 0;line-height:1.4}
+/* Trainer */
+.card{background:var(--card);border-radius:20px;padding:26px 20px 22px;text-align:center}
+.ask{font-size:13px;color:var(--sub);margin-bottom:10px}
+.prompt{font-size:24px;font-weight:700;line-height:1.25;min-height:60px;display:flex;align-items:center;justify-content:center;gap:6px;flex-wrap:wrap}
+.prompt kbd{font-size:22px;padding:9px 14px;border-radius:10px;box-shadow:0 4px 0 var(--key-side),0 0 0 .5px var(--key-side)}
+.hint{font-size:14px;color:var(--sub);margin-top:6px;min-height:18px}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:18px}
+.opt{border:0;background:var(--bg);color:var(--text);border-radius:14px;padding:14px 8px;min-height:64px;font:500 15px/1.3 inherit;font-family:inherit;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:4px;flex-wrap:wrap;transition:transform .12s}
+.opt:active{transform:scale(.97)}
+.opt.right{background:var(--good);color:#fff}
+.opt.wrong{background:var(--bad);color:#fff}
+.opt:disabled{cursor:default}
+.stats{display:flex;justify-content:space-around;margin-top:16px}
+.stat b{display:block;font-size:22px}
+.stat span{font-size:12px;color:var(--sub)}
+.next{margin-top:16px;width:100%;border:0;border-radius:14px;background:var(--accent);color:#fff;font:600 17px/1 inherit;font-family:inherit;padding:15px;cursor:pointer;visibility:hidden}
+.next.show{visibility:visible}
+ol.steps{margin:0;padding:12px 16px 12px 36px;font-size:15px;line-height:1.5}
+ol.steps li{padding:3px 0}
+.tag{display:inline-block;font-size:12px;font-weight:600;color:var(--warn);margin-top:3px}
+button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media (prefers-reduced-motion:reduce){.opt{transition:none}}
+.hidden{display:none}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>SolidWorks Kürzel</h1>
+  <p class="lead">Linke Hand auf der Tastatur, rechte Hand bleibt an der Maus.</p>
+
+  <div class="seg" role="tablist">
+    <button class="on" data-tab="learn">Lernen</button>
+    <button data-tab="quiz">Trainer</button>
+    <button data-tab="mine">Meine Belegung</button>
+  </div>
+
+  <section id="learn"></section>
+
+  <section id="quiz" class="hidden">
+    <div class="seg small" id="poolSeg">
+      <button class="on" data-pool="std">Standard</button>
+      <button data-pool="mine">Meine Belegung</button>
+      <button data-pool="all">Alles</button>
+    </div>
+    <div class="seg small" id="dirSeg">
+      <button class="on" data-dir="a2k">Befehl gesucht: Taste?</button>
+      <button data-dir="k2a">Taste gezeigt: Befehl?</button>
+    </div>
+    <div class="card">
+      <div class="ask" id="ask">Welche Taste ist das?</div>
+      <div class="prompt" id="prompt"></div>
+      <div class="hint" id="hint"></div>
+      <div class="opts" id="opts"></div>
+      <button class="next" id="next">Weiter</button>
+      <div class="stats">
+        <div class="stat"><b id="sRight">0</b><span>Richtig</span></div>
+        <div class="stat"><b id="sStreak">0</b><span>Serie</span></div>
+        <div class="stat"><b id="sBest">0</b><span>Beste Serie</span></div>
+      </div>
+    </div>
+    <p class="note">Falsch beantwortete Kürzel kommen öfter dran, bis sie sitzen.</p>
+  </section>
+
+  <section id="mine" class="hidden"></section>
+</div>
+
+<script>
+const STD = [
+  {cat:"Ansicht", k:"Leertaste", a:"Ansichtsauswahl öffnen", d:"Würfel mit allen Ansichten"},
+  {cat:"Ansicht", k:"Strg+8", a:"Normal auf", d:"Gerade auf Skizze oder Fläche schauen"},
+  {cat:"Ansicht", k:"Strg+7", a:"Isometrisch"},
+  {cat:"Ansicht", k:"Strg+1", a:"Ansicht vorne"},
+  {cat:"Ansicht", k:"Strg+2", a:"Ansicht hinten"},
+  {cat:"Ansicht", k:"Strg+3", a:"Ansicht links"},
+  {cat:"Ansicht", k:"Strg+4", a:"Ansicht rechts"},
+  {cat:"Ansicht", k:"Strg+5", a:"Ansicht oben"},
+  {cat:"Ansicht", k:"Strg+6", a:"Ansicht unten"},
+  {cat:"Ansicht", k:"F", a:"Alles zoomen", d:"Ganzes Modell ins Bild"},
+  {cat:"Ansicht", k:"Z", a:"Schrittweise rauszoomen"},
+  {cat:"Ansicht", k:"Shift+Z", a:"Schrittweise reinzoomen"},
+  {cat:"Ansicht", k:"G", a:"Lupe", d:"Darin kannst du auch auswählen und bemaßen"},
+  {cat:"Ansicht", k:"Shift+Pfeiltaste", a:"Um 90 Grad drehen"},
+  {cat:"Ansicht", k:"Strg+Pfeiltaste", a:"Ansicht verschieben"},
+  {cat:"Ansicht", k:"Strg+Shift+Z", a:"Vorherige Ansicht"},
+  {cat:"Ansicht", k:"Q", a:"Ebenen ein- und ausblenden", d:"Ab SolidWorks 2022"},
+  {cat:"Arbeiten", k:"S", a:"Kontextsymbolleiste an der Maus", d:"Selbst bestückbar per Rechtsklick, Anpassen"},
+  {cat:"Arbeiten", k:"Enter", a:"Letzten Befehl wiederholen"},
+  {cat:"Arbeiten", k:"Strg+B", a:"Neu aufbauen"},
+  {cat:"Arbeiten", k:"Strg+Q", a:"Vollständig neu aufbauen"},
+  {cat:"Arbeiten", k:"Strg+Z", a:"Rückgängig"},
+  {cat:"Arbeiten", k:"Strg+Y", a:"Wiederholen"},
+  {cat:"Arbeiten", k:"Strg+S", a:"Speichern"},
+  {cat:"Arbeiten", k:"D", a:"Bestätigung und Breadcrumbs zur Maus holen"},
+  {cat:"Arbeiten", k:"Esc", a:"Befehl abbrechen"},
+  {cat:"Arbeiten", k:"C", a:"Featurebaum auf- und zuklappen"},
+  {cat:"Arbeiten", k:"Shift+C", a:"Featurebaum komplett zuklappen"},
+  {cat:"Skizze", k:"Strg", a:"Beim Zeichnen gedrückt halten", d:"Setzt keine automatischen Beziehungen, also weniger Überbestimmung", noQuiz:true},
+  {cat:"Skizze", k:"A", a:"Linie und Tangentenbogen wechseln", d:"Während das Linienwerkzeug aktiv ist"},
+  {cat:"Skizze", k:"Strg+Klick", a:"Mehrere Elemente auswählen", d:"Danach Beziehung direkt in der Kontextleiste setzen"},
+  {cat:"Skizze", k:"Shift+Klick", a:"Kreis oder Bogen auf Außenkante bemaßen", d:"Beim Bemaßen, für Maximal- oder Minimalabstand"},
+  {cat:"Auswahl und Baugruppe", k:"F5", a:"Auswahlfilter-Leiste zeigen"},
+  {cat:"Auswahl und Baugruppe", k:"F6", a:"Auswahlfilter an oder aus"},
+  {cat:"Auswahl und Baugruppe", k:"E", a:"Filter nur Kanten"},
+  {cat:"Auswahl und Baugruppe", k:"X", a:"Filter nur Flächen"},
+  {cat:"Auswahl und Baugruppe", k:"V", a:"Filter nur Punkte"},
+  {cat:"Auswahl und Baugruppe", k:"Tab", a:"Komponente unter der Maus ausblenden"},
+  {cat:"Auswahl und Baugruppe", k:"Shift+Tab", a:"Ausgeblendete Komponente einblenden"},
+  {cat:"Maus", k:"Mausrad halten", a:"Drehen", noQuiz:true},
+  {cat:"Maus", k:"Strg+Mausrad halten", a:"Verschieben", noQuiz:true},
+  {cat:"Maus", k:"Shift+Mausrad halten", a:"Stufenlos zoomen", noQuiz:true},
+  {cat:"Maus", k:"Doppelklick Mausrad", a:"Alles zoomen", noQuiz:true},
+  {cat:"Maus", k:"Rechte Taste ziehen", a:"Mausgesten", d:"In der Skizze liegen dort Skizzenbefehle", noQuiz:true}
+];
+const MINE = [
+  {cat:"Skizze", k:"L", a:"Linie"},
+  {cat:"Skizze", k:"Shift+L", a:"Mittellinie"},
+  {cat:"Skizze", k:"K", a:"Kreis"},
+  {cat:"Skizze", k:"R", a:"Rechteck", d:"Ersetzt Zuletzt verwendete Dokumente", warn:true},
+  {cat:"Skizze", k:"M", a:"Intelligente Bemaßung", d:"M wie Maß"},
+  {cat:"Skizze", k:"T", a:"Elemente trimmen"},
+  {cat:"Skizze", k:"O", a:"Elemente versetzen", d:"O wie Offset"},
+  {cat:"Skizze", k:"B", a:"Beziehungen hinzufügen"},
+  {cat:"Features", k:"Shift+E", a:"Linear austragen", d:"E wie Extrudieren"},
+  {cat:"Features", k:"Shift+X", a:"Linear ausgetragener Schnitt", d:"X wie Ausschneiden"},
+  {cat:"Features", k:"Shift+R", a:"Rotieren (Aufsatz)"},
+  {cat:"Features", k:"Shift+F", a:"Verrundung"},
+  {cat:"Features", k:"Shift+M", a:"Messen"}
+];
+
+const keyHTML = k => k.split("+").map(p=>`<kbd>${p}</kbd>`).join('<span class="plus">+</span>');
+function rowHTML(e){
+  return `<div class="row"><div class="what">${e.a}${e.d?`<small>${e.d}</small>`:""}${e.warn?`<span class="tag">Überschreibt ein Standard-Kürzel</span>`:""}</div><div class="keys">${keyHTML(e.k)}</div></div>`;
+}
+function groups(list){
+  const cats=[...new Set(list.map(e=>e.cat))];
+  return cats.map(c=>`<h2>${c}</h2><div class="group">${list.filter(e=>e.cat===c).map(rowHTML).join("")}</div>`).join("");
+}
+document.getElementById("learn").innerHTML =
+  `<div class="group"><div class="row"><div class="what">Die drei, die am meisten Zeit sparen<small>Strg+8 zum Skizzieren, S für Befehle an der Maus, Enter zum Wiederholen</small></div><div class="keys"><kbd>Strg</kbd><span class="plus">+</span><kbd>8</kbd></div></div></div>` + groups(STD);
+
+document.getElementById("mine").innerHTML =
+  `<p class="lead">Ein Vorschlag für die Befehle, die ab Werk kein Kürzel haben. Einbuchstabig für Skizzen, mit Shift für Features.</p>`
+  + groups(MINE)
+  + `<h2>So richtest du es ein</h2><div class="group"><ol class="steps">
+      <li>Teil öffnen, damit alle Befehle verfügbar sind.</li>
+      <li>Extras, Anpassen, Reiter Tastatur.</li>
+      <li>Befehl über das Suchfeld oben finden.</li>
+      <li>In die Spalte Tastenkombination klicken und die Taste drücken.</li>
+      <li>Meldet SolidWorks, dass die Taste schon belegt ist, entscheidest du dort, ob du sie überschreibst.</li>
+      <li>Mit OK bestätigen. Das gilt dann für alle Dateien.</li>
+    </ol></div>
+    <p class="note">Die Belegung ist ein Vorschlag, kein Standard. Auf Schulrechnern kann sie beim Abmelden verloren gehen. Unter Extras, Einstellungen speichern und wiederherstellen lässt sie sich sichern.</p>
+    <h2>Falls du eine Maus mit Zusatztasten nimmst</h2>
+    <div class="group">
+      <div class="row"><div class="what">Daumentaste vorne</div><div class="keys">${keyHTML("Strg+8")}</div></div>
+      <div class="row"><div class="what">Daumentaste hinten</div><div class="keys">${keyHTML("Enter")}</div></div>
+    </div>`;
+
+// Tabs
+document.querySelectorAll(".seg[role=tablist] button").forEach(b=>b.onclick=()=>{
+  document.querySelectorAll(".seg[role=tablist] button").forEach(x=>x.classList.toggle("on",x===b));
+  ["learn","quiz","mine"].forEach(id=>document.getElementById(id).classList.toggle("hidden",id!==b.dataset.tab));
+  if(b.dataset.tab==="quiz" && !cur) ask();
+  window.scrollTo({top:0});
+});
+
+// Trainer
+let pool="std", dir="a2k", cur=null, right=0, streak=0, best=0;
+const weight={};
+try{best=parseInt(localStorage.getItem("sw_best")||"0",10)||0}catch(e){}
+document.getElementById("sBest").textContent=best;
+function bindSeg(id,fn){document.querySelectorAll(`#${id} button`).forEach(b=>b.onclick=()=>{
+  document.querySelectorAll(`#${id} button`).forEach(x=>x.classList.toggle("on",x===b)); fn(b); ask();});}
+bindSeg("poolSeg",b=>pool=b.dataset.pool);
+bindSeg("dirSeg",b=>dir=b.dataset.dir);
+
+function items(){
+  const s=STD.filter(e=>!e.noQuiz), m=MINE;
+  return pool==="std"?s:pool==="mine"?m:s.concat(m);
+}
+function pick(list){
+  const w=list.map(e=>weight[e.k+e.a]||1), sum=w.reduce((a,b)=>a+b,0);
+  let r=Math.random()*sum;
+  for(let i=0;i<list.length;i++){r-=w[i]; if(r<=0) return list[i];}
+  return list[list.length-1];
+}
+function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+function ask(){
+  const list=items(); let q;
+  do{q=pick(list)}while(cur && list.length>1 && q===cur);
+  cur=q;
+  const others=shuffle(list.filter(e=>e!==q && e.k!==q.k && e.a!==q.a)).slice(0,3);
+  const opts=shuffle([q,...others]);
+  document.getElementById("ask").textContent = dir==="a2k"?"Welche Taste ist das?":"Was macht diese Taste?";
+  document.getElementById("prompt").innerHTML = dir==="a2k"?q.a:keyHTML(q.k);
+  document.getElementById("hint").textContent = dir==="a2k"?(q.d||""):"";
+  const box=document.getElementById("opts"); box.innerHTML="";
+  opts.forEach(o=>{
+    const b=document.createElement("button"); b.className="opt";
+    b.innerHTML = dir==="a2k"?keyHTML(o.k):o.a;
+    b.onclick=()=>answer(b,o,q);
+    box.appendChild(b);
+  });
+  document.getElementById("next").classList.remove("show");
+}
+function answer(btn,o,q){
+  const id=q.k+q.a;
+  document.querySelectorAll("#opts .opt").forEach(b=>b.disabled=true);
+  if(o===q){
+    btn.classList.add("right"); right++; streak++;
+    weight[id]=Math.max(1,(weight[id]||1)-1);
+    if(streak>best){best=streak; try{localStorage.setItem("sw_best",String(best))}catch(e){}}
+  }else{
+    btn.classList.add("wrong"); streak=0; weight[id]=(weight[id]||1)+3;
+    [...document.querySelectorAll("#opts .opt")].forEach(b=>{
+      if(b.innerHTML===(dir==="a2k"?keyHTML(q.k):q.a)) b.classList.add("right");
+    });
+    if(dir==="k2a") document.getElementById("hint").textContent=q.d||"";
+  }
+  document.getElementById("sRight").textContent=right;
+  document.getElementById("sStreak").textContent=streak;
+  document.getElementById("sBest").textContent=best;
+  document.getElementById("next").classList.add("show");
+}
+document.getElementById("next").onclick=ask;
+</script>
+<script src="../lernwerk-bridge.js"></script>
+</body>
+</html>

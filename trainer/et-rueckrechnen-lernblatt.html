@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="de"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Elektrotechnik: Rückrechnen</title>
+<style>
+
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+--bg:#F2F2F7;--sheet:#FFFFFF;--ink:#000000;--muted:rgba(60,60,67,.6);--line:rgba(60,60,67,.2);--soft:#F2F2F7;--fill:rgba(118,118,128,.12);
+--ok:#248A3D;--okbg:rgba(52,199,89,.15);--bad:#D70015;--badbg:rgba(255,59,48,.12);--grid:transparent}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 60px)}
+*,*::before,*::after{box-sizing:inherit}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#000000;--sheet:#1C1C1E;--ink:#FFFFFF;--muted:rgba(235,235,245,.6);--line:rgba(84,84,88,.65);--soft:#2C2C2E;--fill:rgba(118,118,128,.24);--ok:#30D158;--okbg:rgba(48,209,88,.18);--bad:#FF453A;--badbg:rgba(255,69,58,.2)}}
+:root[data-theme="dark"]{--bg:#000000;--sheet:#1C1C1E;--ink:#FFFFFF;--muted:rgba(235,235,245,.6);--line:rgba(84,84,88,.65);--soft:#2C2C2E;--fill:rgba(118,118,128,.24);--ok:#30D158;--okbg:rgba(48,209,88,.18);--bad:#FF453A;--badbg:rgba(255,69,58,.2)}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.47 -apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica Neue",system-ui,"Segoe UI",Roboto,sans-serif;-webkit-font-smoothing:antialiased;-webkit-text-size-adjust:100%;letter-spacing:-.01em}
+.sheet{max-width:720px;margin:0 auto;padding:4px 16px 40px}
+.hero{padding:22px 4px 4px}
+h1{font-size:34px;line-height:1.12;font-weight:700;letter-spacing:-.025em;margin:0 0 8px}
+.hero p{margin:0;color:var(--muted);max-width:60ch}
+.stripe{display:none}
+.tb{background:var(--sheet);border-radius:12px;overflow:hidden;margin:16px 0 8px;order:2}
+.tb div{display:flex;justify-content:space-between;align-items:baseline;gap:16px;padding:11px 16px;position:relative}
+.tb div+div::before{content:"";position:absolute;top:0;left:16px;right:0;border-top:.5px solid var(--line)}
+.tb small{font-size:17px;color:var(--ink);flex:none}
+.tb b{font-weight:400;color:var(--muted);text-align:right}
+nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;display:flex;gap:8px;overflow-x:auto;padding:10px 16px;margin:8px -16px 0;background:color-mix(in srgb,var(--bg) 75%,transparent);-webkit-backdrop-filter:saturate(180%) blur(20px);backdrop-filter:saturate(180%) blur(20px);scrollbar-width:none}
+nav::-webkit-scrollbar{display:none}
+nav a{flex:none;color:var(--accent-ink);background:var(--accent-soft);text-decoration:none;padding:7px 15px;border-radius:999px;font-size:15px;font-weight:600}
+a:focus-visible,summary:focus-visible,input:focus-visible,button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.prog{background:var(--sheet);border-radius:12px;padding:12px 16px;margin:10px 0;font-size:15px;color:var(--muted)}
+.bar{height:6px;background:var(--fill);border-radius:3px;margin-top:8px;overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:var(--accent);border-radius:3px;transition:width .35s cubic-bezier(.2,.8,.2,1)}
+section{padding:0}
+h2{font-size:22px;font-weight:700;letter-spacing:-.02em;margin:32px 4px 10px}
+h3{font-size:17px;font-weight:600;margin:22px 4px 8px}
+section>p{margin:10px 4px}
+p,li{max-width:68ch}
+section>ul,section>ol{background:var(--sheet);border-radius:12px;margin:10px 0;padding:12px 16px 12px 38px}
+section>ul li,section>ol li{margin:5px 0}
+.trio{background:var(--sheet);border-radius:12px;overflow:hidden;margin:10px 0}
+.trio>div{padding:12px 16px;position:relative}
+.trio>div+div::before{content:"";position:absolute;top:0;left:16px;right:0;border-top:.5px solid var(--line)}
+.trio .k{font-size:13px;font-weight:600;color:var(--accent-ink);display:block;margin-bottom:2px}
+.merk{background:var(--accent-soft);border-radius:12px;padding:12px 16px;margin:10px 0;font-weight:600;font-size:17px}
+.f{font-weight:600}
+.tw{background:var(--sheet);border-radius:12px;overflow-x:auto;margin:10px 0}
+table{border-collapse:collapse;font-size:15px;min-width:100%}
+th,td{border-bottom:.5px solid var(--line);padding:9px 12px;text-align:left;vertical-align:top}
+th{color:var(--muted);font-weight:600;font-size:13px}
+tr:last-child td{border-bottom:0}
+.task{background:var(--sheet);border-radius:14px;margin:14px 0;overflow:hidden}
+.task header{display:flex;align-items:center;gap:10px;padding:14px 16px 8px}
+.task .id{background:var(--accent);color:var(--on-accent);border-radius:8px;padding:2px 8px;font-size:14px;font-weight:700}
+.task .tt{font-weight:600;flex:1;line-height:1.3}
+.task label{font-size:13px;color:var(--muted);display:flex;align-items:center;gap:8px;cursor:pointer}
+.task.done .tt{color:var(--muted)}
+input[type=checkbox]{-webkit-appearance:none;appearance:none;width:51px;height:31px;border-radius:16px;background:var(--fill);position:relative;flex:none;cursor:pointer;margin:0;transition:background .2s}
+input[type=checkbox]::before{content:"";position:absolute;top:2px;left:2px;width:27px;height:27px;border-radius:50%;background:#fff;box-shadow:0 3px 8px rgba(0,0,0,.15),0 1px 1px rgba(0,0,0,.16);transition:transform .2s cubic-bezier(.2,.8,.2,1)}
+input[type=checkbox]:checked{background:#34C759}
+input[type=checkbox]:checked::before{transform:translateX(20px)}
+.task .body{padding:4px 16px 12px}
+.task .body>p:first-child{margin-top:0}
+details{border-top:.5px solid var(--line);margin-left:16px}
+summary{cursor:pointer;padding:13px 16px 13px 0;list-style:none;display:flex;justify-content:space-between;align-items:center;color:var(--accent-ink);font-weight:500}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"›";font-size:24px;line-height:1;color:var(--muted);transition:transform .2s}
+details[open] summary::after{transform:rotate(90deg)}
+details .in{padding:0 16px 14px 0}
+.fast{background:var(--accent-soft);border-radius:10px;padding:10px 12px;margin:10px 0 0}
+.fast b{color:var(--accent-ink)}
+.fig{overflow-x:auto;margin:8px 0}
+.fig svg{display:block;max-width:100%;height:auto;margin:0 auto}
+.mut{color:var(--muted)}
+svg text{fill:var(--ink);font-family:-apple-system,BlinkMacSystemFont,system-ui,sans-serif}
+svg .mut{fill:var(--muted)}
+svg .acc{fill:var(--accent-ink);font-weight:600}
+svg .w{stroke:var(--ink);stroke-width:2;fill:none}
+svg .thin{stroke:var(--muted);stroke-width:1;fill:none}
+svg .dash{stroke:var(--muted);stroke-width:1;stroke-dasharray:4 4;fill:none}
+svg .box{stroke:var(--ink);stroke-width:2;fill:var(--sheet)}
+svg .dot{fill:var(--ink)}
+svg .fa{stroke:var(--accent-ink);stroke-width:2.5;fill:none}
+svg .fk{stroke:var(--ink);stroke-width:2.5;fill:none}
+svg .zoneA{fill:var(--accent-soft);stroke:var(--accent-ink);stroke-width:2}
+svg .zoneB{fill:var(--fill);stroke:var(--ink);stroke-width:2}
+svg rect.hl{stroke:var(--accent-ink);stroke-width:3.5;fill:var(--accent-soft)}
+.bad{color:var(--bad);font-weight:600}.ok{color:var(--ok);font-weight:600}
+footer{padding:20px 4px 0;font-size:13px;color:var(--muted)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+
+:root{--accent:#FF9500;--accent-ink:#C93400;--accent-soft:rgba(255,149,0,.15);--on-accent:#FFFFFF}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--accent:#FF9F0A;--accent-ink:#FFB340;--accent-soft:rgba(255,159,10,.2);--on-accent:#000000}}
+:root[data-theme="dark"]{--accent:#FF9F0A;--accent-ink:#FFB340;--accent-soft:rgba(255,159,10,.2);--on-accent:#000000}
+</style></head>
+<body data-page="et"><main class="sheet">
+<div class="hero"><h1>Gemischte Schaltungen rückwärts rechnen</h1>
+<p>Erst das Prinzip, dann 12 Aufgaben von leicht nach schwer. Tipp und Lösung bleiben zu, bis du selbst gerechnet hast.</p></div><div class="tb"><div><small>Fach</small><b>Elektrotechnik</b></div><div><small>Klassenarbeit</small><b>Dienstag, 29.09.</b></div>
+<div class="wide"><small>Thema</small><b>Gemischte Schaltungen, Rückrechnen, Kirchhoffsche Regeln</b></div>
+<div><small>Name</small><b>Hendrik</b></div><div><small>Blatt</small><b>1 von 3</b></div></div>
+
+<div class="stripe"></div>
+<nav><a href="#prinzip">Prinzip</a><a href="#wann">Ohm oder Kirchhoff?</a><a href="#rueck">Rückrechnen</a><a href="#schnell">Schnellwege</a><a href="#fehler">Fehler</a><a href="#a">Aufgaben A</a><a href="#b">Aufgaben B</a></nav>
+<div class="prog"><span id="progress"></span><div class="bar"><i></i></div></div>
+<section id="prinzip"><h2>Das Prinzip</h2>
+<div class="trio">
+<div><span class="k">Bild aus deiner Werkstatt</span>Denk an den Kühlmittelkreislauf an deiner Fräse. Die Pumpe baut Druck auf, das ist die <b>Spannung</b>. Das Kühlmittel, das fließt, ist der <b>Strom</b>. Jede enge Düse bremst, das ist ein <b>Widerstand</b>. Am Verteilerblock teilt sich der Fluss auf, aber es geht nichts verloren. Und wenn du einmal im Kreis gehst, hat die Pumpe genau so viel Druck aufgebaut, wie alle Düsen zusammen wieder abbauen.</div>
+<div><span class="k">Ohmsches Gesetz</span><span class="f">U = R · I</span> gilt immer nur für <b>ein</b> Bauteil oder einen zusammengefassten Block. Alle drei Werte müssen vom selben Bauteil sein.</div>
+<div><span class="k">Knotenregel (1. Kirchhoff)</span>An einer Verzweigung: Summe rein = Summe raus. <span class="f">I<sub>ges</sub> = I<sub>1</sub> + I<sub>2</sub> + I<sub>3</sub></span>. Das ist dein Verteilerblock.</div>
+<div><span class="k">Maschenregel (2. Kirchhoff)</span>Einmal im geschlossenen Kreis herum: die Quellenspannung verteilt sich komplett auf die Widerstände. <span class="f">U = U<sub>1</sub> + U<sub>2</sub> + U<sub>3</sub></span>.</div>
+</div>
+<div class="merk">Ohm rechnet am Bauteil, Kirchhoff rechnet im Netz.</div>
+<div class="merk">In Reihe gleicher Strom, parallel gleiche Spannung.</div>
+</section>
+
+<section id="wann"><h2>Wann greift was?</h2>
+<p>Die Frage, die du dir bei jedem Schritt stellst: <b>Welches Bauteil schaue ich gerade an, und was weiß ich darüber?</b></p>
+<div class="tw"><table><tr><th>Du hast …</th><th>Nimm</th></tr>
+<tr><td>an einem Widerstand 2 von 3 Werten (U, I, R)</td><td>Ohm</td></tr>
+<tr><td>Gesamtstrom und einzelne Zweigströme, einer fehlt</td><td>Knotenregel</td></tr>
+<tr><td>Gesamtspannung und Teilspannungen, eine fehlt</td><td>Maschenregel</td></tr>
+<tr><td>an jedem Bauteil nur 1 Wert, du steckst fest</td><td>Kirchhoff holt dir den zweiten Wert, dann weiter mit Ohm</td></tr>
+<tr><td>Spannung an einer Parallelgruppe gesucht</td><td>Maschenregel: U minus alle Spannungen in der Hauptleitung</td></tr></table></div>
+<div class="merk">Wenn Ohm hängt, frag Kirchhoff nach dem zweiten Wert.</div>
+</section>
+
+<section id="rueck"><h2>Rückrechnen in 6 Schritten</h2>
+<ol class="steps">
+<li><b>Zusammenfassen</b> bis R<sub>ges</sub>. Von innen nach außen: steckt in einem Zweig eine Reihe, erst den Zweig addieren, dann parallel rechnen.</li>
+<li><b>Gesamtstrom</b>: <span class="f">I<sub>ges</sub> = U / R<sub>ges</sub></span>.</li>
+<li>I<sub>ges</sub> fließt durch jeden Widerstand, der direkt in der Hauptleitung sitzt. Deren Spannung mit Ohm.</li>
+<li><b>Masche</b>: Spannung an der Parallelgruppe = U minus die Spannungen aus Schritt 3.</li>
+<li>Jeder Zweig bekommt diese Spannung. <b>Zweigstrom</b> = U<sub>parallel</sub> / R<sub>Zweig</sub>. Im Zweig mit Reihe dann die Teilspannungen mit Ohm.</li>
+<li><b>Probe</b>: Zweigströme addiert muss I<sub>ges</sub> ergeben (Knoten).</li></ol>
+<div class="merk">Runter zusammenfassen, rauf zurückrechnen. Der Strom ist deine Leiter.</div>
+</section>
+
+<section id="schnell"><h2>Schnellwege für die Arbeit</h2>
+<div class="trio">
+<div><span class="k">Zwei parallel</span><span class="f">R = R<sub>1</sub> · R<sub>2</sub> / (R<sub>1</sub> + R<sub>2</sub>)</span>, Produkt durch Summe. Kein Kehrwert nötig.</div>
+<div><span class="k">n gleiche parallel</span><span class="f">R = R<sub>einzeln</sub> / n</span>, und jeder Zweig bekommt <span class="f">I<sub>ges</sub> / n</span>.</div>
+<div><span class="k">Plausibilität</span>Parallel ist immer kleiner als der kleinste Einzelwiderstand. Wenn nicht, hast du den Kehrwert vergessen.</div>
+<div><span class="k">Spannungsteiler (Reihe)</span><span class="f">U<sub>1</sub> = U · R<sub>1</sub> / R<sub>ges</sub></span>. Spart den Umweg über den Strom.</div>
+<div><span class="k">Stromteiler (2 Zweige)</span><span class="f">I<sub>1</sub> = I<sub>ges</sub> · R<sub>2</sub> / (R<sub>1</sub> + R<sub>2</sub>)</span>. Achtung: oben steht der andere Widerstand.</div>
+<div><span class="k">Verhältnis</span>Parallel teilt sich der Strom umgekehrt zum Widerstand: halber Widerstand, doppelter Strom.</div>
+</div></section>
+
+<section id="fehler"><h2>Typische Fehler</h2>
+<ul>
+<li>Werte gemischt: Gesamtspannung durch einen Teilwiderstand. Jede Ohm-Rechnung nur mit Werten vom selben Bauteil.</li>
+<li>Parallelgruppe mit der Gesamtspannung gerechnet statt mit der Restspannung aus der Masche.</li>
+<li>A und mA gemischt. 1 A = 1000 mA, 0,5 A = 500 mA.</li>
+<li>Bei 1/R am Ende den Kehrwert nicht gebildet.</li>
+<li>Zahlendreher beim Abschreiben aus der Skizze. Einmal kurz gegenlesen spart die ganze Folgerechnung.</li>
+</ul></section>
+<section id="a"><h2>Teil A: Kirchhoff erkennen</h2><p>Kurze Aufgaben. Frag dich vor jedem Schritt: Ohm, Knoten oder Masche?</p>
+<article class="task" data-id="A1"><header><span class="id">A1</span><span class="tt">Knoten</span></header>
+<div class="body"><p>In einen Knoten fließen 5 A hinein. Drei Leitungen gehen heraus: 1,5 A, 2 A und I<sub>3</sub>. Wie groß ist I<sub>3</sub>?</p><div class="fig" id="nodeA1"></div></div>
+<details><summary>Tipp</summary><div class="in"><p>Was reinfließt, muss rausfließen.</p></div></details>
+<details class="sol"><summary>Lösung</summary><div class="in"><p>Knotenregel: <span class="f">5 A = 1,5 A + 2 A + I<sub>3</sub></span></p><p><span class="f">I<sub>3</sub> = 5 − 1,5 − 2 = 1,5 A</span></p></div></details></article><article class="task" data-id="A2"><header><span class="id">A2</span><span class="tt">Masche</span></header>
+<div class="body"><p>Drei Lampen hängen in Reihe an 230 V. An L1 misst du 80 V, an L2 90 V. Welche Spannung liegt an L3?</p><div class="fig" id="cA2"></div></div>
+<details><summary>Tipp</summary><div class="in"><p>Die 230 V verteilen sich komplett auf die drei Lampen.</p></div></details>
+<details class="sol"><summary>Lösung</summary><div class="in"><p>Maschenregel: <span class="f">230 V = 80 V + 90 V + U<sub>3</sub></span></p><p><span class="f">U<sub>3</sub> = 230 − 80 − 90 = 60 V</span></p></div></details></article><article class="task" data-id="A3"><header><span class="id">A3</span><span class="tt">Wenn Ohm hängt</span></header>
+<div class="body"><p>Zwei Widerstände parallel an 24 V. R<sub>1</sub> = 20 Ω, R<sub>2</sub> ist unbekannt. Der Gesamtstrom ist 3 A. Wie groß ist R<sub>2</sub>?</p><div class="fig" id="cA3"></div></div>
+<details><summary>Tipp</summary><div class="in"><p>An R<sub>2</sub> kennst du nur die Spannung. Den Strom durch R<sub>2</sub> holst du dir über den Knoten, nachdem du I<sub>1</sub> hast.</p></div></details>
+<details class="sol"><summary>Lösung</summary><div class="in"><p>Parallel, also liegen an beiden 24 V.</p><p>Ohm an R<sub>1</sub>: <span class="f">I<sub>1</sub> = 24 / 20 = 1,2 A</span></p><p>Knoten: <span class="f">I<sub>2</sub> = 3 − 1,2 = 1,8 A</span></p><p>Ohm an R<sub>2</sub>: <span class="f">R<sub>2</sub> = 24 / 1,8 = 13,33 Ω</span></p></div></details></article><article class="task" data-id="A4"><header><span class="id">A4</span><span class="tt">Reihe, ein Widerstand fehlt</span></header>
+<div class="body"><p>R<sub>1</sub> = 10 Ω und R<sub>2</sub> liegen in Reihe an 48 V. Es fließen 2 A. Wie groß ist R<sub>2</sub>?</p><div class="fig" id="cA4"></div></div>
+<details><summary>Tipp</summary><div class="in"><p>Erst U<sub>1</sub> mit Ohm, dann die Masche für U<sub>2</sub>.</p></div></details>
+<details class="sol"><summary>Lösung</summary><div class="in"><p>Ohm an R<sub>1</sub>: <span class="f">U<sub>1</sub> = 10 · 2 = 20 V</span></p><p>Masche: <span class="f">U<sub>2</sub> = 48 − 20 = 28 V</span></p><p>Ohm an R<sub>2</sub>: <span class="f">R<sub>2</sub> = 28 / 2 = 14 Ω</span></p><div class="fast"><b>Schnellweg:</b> <span class="f">R<sub>ges</sub> = 48 / 2 = 24 Ω</span>, dann <span class="f">R<sub>2</sub> = 24 − 10 = 14 Ω</span>. Zwei Zeilen statt drei.</div></div></details></article><article class="task" data-id="A5"><header><span class="id">A5</span><span class="tt">Gemessene Spannung als Einstieg</span></header>
+<div class="body"><p>U = 36 V. R<sub>1</sub> (unbekannt) liegt in Reihe mit der Parallelgruppe aus R<sub>2</sub> = 8 Ω und R<sub>3</sub> = 12 Ω. An R<sub>1</sub> misst du 12 V. Berechne I<sub>2</sub>, I<sub>3</sub>, I<sub>ges</sub> und R<sub>1</sub>.</p><div class="fig" id="cA5"></div></div>
+<details><summary>Tipp</summary><div class="in"><p>Die Masche gibt dir die Spannung an der Parallelgruppe. Ab da ist alles Ohm plus Knoten.</p></div></details>
+<details class="sol"><summary>Lösung</summary><div class="in"><p>Masche: <span class="f">U<sub>23</sub> = 36 − 12 = 24 V</span></p><p><span class="f">I<sub>2</sub> = 24 / 8 = 3 A</span>, <span class="f">I<sub>3</sub> = 24 / 12 = 2 A</span></p><p>Knoten: <span class="f">I<sub>ges</sub> = 3 + 2 = 5 A</span></p><p>Ohm an R<sub>1</sub>: <span class="f">R<sub>1</sub> = 12 / 5 = 2,4 Ω</span></p></div></details></article></section><section id="b"><h2>Teil B: Rückrechnen</h2><p>Immer die 6 Schritte. Schreib dir die Zwischenergebnisse sauber untereinander, dann findest du Fehler schneller.</p><article class="task" data-id="B1"><header><span class="id">B1</span><span class="tt">Einstieg</span></header>
+<div class="body"><p>U = 24 V, R<sub>1</sub> = 4 Ω in Reihe mit R<sub>2</sub> = 12 Ω parallel zu R<sub>3</sub> = 6 Ω. Berechne alle Ströme und Spannungen.</p><div class="fig" id="cB1"></div></div>
+<details><summary>Tipp</summary><div class="in"><p>Zwei parallel: Produkt durch Summe.</p></div></details>
+<details class="sol"><summary>Lösung</summary><div class="in"><ol class="steps"><li><span class="f">R<sub>23</sub> = 12 · 6 / 18 = 4 Ω</span>, <span class="f">R<sub>ges</sub> = 4 + 4 = 8 Ω</span></li><li><span class="f">I<sub>ges</sub> = 24 / 8 = 3 A</span></li><li><span class="f">U<sub>1</sub> = 4 · 3 = 12 V</span></li><li><span class="f">U<sub>23</sub> = 24 − 12 = 12 V</span></li><li><span class="f">I<sub>2</sub> = 12 / 12 = 1 A</span>, <span class="f">I<sub>3</sub> = 12 / 6 = 2 A</span></li><li>Probe: 1 + 2 = 3 A ✓</li></ol><div class="fast"><b>Schnellweg:</b> R<sub>1</sub> und R<sub>23</sub> sind beide 4 Ω, also teilen sie sich die 24 V genau halb: je 12 V. Ohne Strom gerechnet.</div></div></details></article><article class="task" data-id="B2"><header><span class="id">B2</span><span class="tt">Drei parallel</span></header>
+<div class="body"><p>U = 60 V. R<sub>1</sub> = 5 Ω, dann R<sub>2</sub> = 20 Ω, R<sub>3</sub> = 30 Ω und R<sub>4</sub> = 60 Ω parallel, dann R<sub>5</sub> = 5 Ω. Berechne alle Ströme und Spannungen.</p><div class="fig" id="cB2"></div></div>
+<details><summary>Tipp</summary><div class="in"><p>Drei parallel: Kehrwerte auf den gemeinsamen Nenner 60 bringen.</p></div></details>
+<details class="sol"><summary>Lösung</summary><div class="in"><ol class="steps"><li><span class="f">1/R<sub>p</sub> = 3/60 + 2/60 + 1/60 = 6/60</span>, also <span class="f">R<sub>p</sub> = 10 Ω</span>. <span class="f">R<sub>ges</sub> = 5 + 10 + 5 = 20 Ω</span></li><li><span class="f">I<sub>ges</sub> = 60 / 20 = 3 A</span></li><li><span class="f">U<sub>1</sub> = U<sub>5</sub> = 5 · 3 = 15 V</span></li><li><span class="f">U<sub>p</sub> = 60 − 15 − 15 = 30 V</span></li><li><span class="f">I<sub>2</sub> = 30/20 = 1,5 A</span>, <span class="f">I<sub>3</sub> = 30/30 = 1 A</span>, <span class="f">I<sub>4</sub> = 30/60 = 0,5 A</span></li><li>Probe: 1,5 + 1 + 0,5 = 3 A ✓</li></ol><div class="fast"><b>Schnellweg:</b> Spannungsteiler: <span class="f">U<sub>p</sub> = 60 · 10 / 20 = 30 V</span>. Die Parallelgruppe hat die Hälfte des Gesamtwiderstands, also die Hälfte der Spannung.</div></div></details></article><article class="task" data-id="B3"><header><span class="id">B3</span><span class="tt">Reihe im Zweig</span></header>
+<div class="body"><p>U = 40 V. R<sub>1</sub> = 6 Ω und R<sub>2</sub> = 14 Ω in Reihe, parallel dazu R<sub>3</sub> = 20 Ω. Danach R<sub>4</sub> = 10 Ω in der Hauptleitung. Berechne alle Ströme und Spannungen.</p><div class="fig" id="cB3"></div></div>
+<details><summary>Tipp</summary><div class="in"><p>Erst den Zweig R<sub>1</sub> + R<sub>2</sub> addieren. Dann fällt dir was auf.</p></div></details>
+<details class="sol"><summary>Lösung</summary><div class="in"><ol class="steps"><li><span class="f">R<sub>12</sub> = 6 + 14 = 20 Ω</span>, zwei gleiche parallel: <span class="f">R<sub>p</sub> = 20 / 2 = 10 Ω</span>. <span class="f">R<sub>ges</sub> = 10 + 10 = 20 Ω</span></li><li><span class="f">I<sub>ges</sub> = 40 / 20 = 2 A</span></li><li><span class="f">U<sub>4</sub> = 10 · 2 = 20 V</span></li><li><span class="f">U<sub>p</sub> = 40 − 20 = 20 V</span></li><li><span class="f">I<sub>12</sub> = 20/20 = 1 A</span>, <span class="f">I<sub>3</sub> = 1 A</span>. Im Zweig: <span class="f">U<sub>1</sub> = 6 · 1 = 6 V</span>, <span class="f">U<sub>2</sub> = 14 · 1 = 14 V</span></li><li>Probe: 1 + 1 = 2 A ✓ und 6 + 14 = 20 V ✓</li></ol><div class="fast"><b>Schnellweg:</b> Gleiche Zweige: Strom einfach halbieren.</div></div></details></article><article class="task" data-id="B4"><header><span class="id">B4</span><span class="tt">Wie deine Übungsaufgabe</span></header>
+<div class="body"><p>U = 90 V. R<sub>1</sub> = 6 Ω in der Hauptleitung. Dann drei Zweige parallel: R<sub>2</sub> = 60 Ω; R<sub>3</sub> = 25 Ω + R<sub>4</sub> = 35 Ω; R<sub>5</sub> = 20 Ω + R<sub>6</sub> = 40 Ω. Danach R<sub>7</sub> = 4 Ω. Berechne alle Ströme und Spannungen.</p><div class="fig" id="cB4"></div></div>
+<details><summary>Tipp</summary><div class="in"><p>Addier erst jeden Zweig für sich. Vergleich dann die drei Zweige.</p></div></details>
+<details class="sol"><summary>Lösung</summary><div class="in"><ol class="steps"><li>Zweige: 60 Ω, 25 + 35 = 60 Ω, 20 + 40 = 60 Ω. Drei gleiche: <span class="f">R<sub>p</sub> = 60 / 3 = 20 Ω</span>. <span class="f">R<sub>ges</sub> = 6 + 20 + 4 = 30 Ω</span></li><li><span class="f">I<sub>ges</sub> = 90 / 30 = 3 A</span></li><li><span class="f">U<sub>1</sub> = 6 · 3 = 18 V</span>, <span class="f">U<sub>7</sub> = 4 · 3 = 12 V</span></li><li><span class="f">U<sub>p</sub> = 90 − 18 − 12 = 60 V</span></li><li>Jeder Zweig: <span class="f">60 / 60 = 1 A</span>. <span class="f">U<sub>3</sub> = 25 V</span>, <span class="f">U<sub>4</sub> = 35 V</span>, <span class="f">U<sub>5</sub> = 20 V</span>, <span class="f">U<sub>6</sub> = 40 V</span></li><li>Probe: 1 + 1 + 1 = 3 A ✓</li></ol><div class="fast"><b>Schnellweg:</b> Gleiche Zweige: <span class="f">R / 3</span> und <span class="f">I<sub>ges</sub> / 3</span>. Im Zweig mit 1 A ist die Spannung gleich dem Widerstandswert in Ohm.</div></div></details></article><article class="task" data-id="B5"><header><span class="id">B5</span><span class="tt">Ungleiche Zweige</span></header>
+<div class="body"><p>U = 120 V. R<sub>1</sub> = 8 Ω. Dann parallel: R<sub>2</sub> = 20 Ω; R<sub>3</sub> = 15 Ω + R<sub>4</sub> = 25 Ω; R<sub>5</sub> = 40 Ω. Danach R<sub>6</sub> = 12 Ω. Berechne alle Ströme und Spannungen.</p><div class="fig" id="cB5"></div></div>
+<details><summary>Tipp</summary><div class="in"><p>Gemeinsamer Nenner der Kehrwerte ist 40.</p></div></details>
+<details class="sol"><summary>Lösung</summary><div class="in"><ol class="steps"><li>Zweige: 20 Ω, 40 Ω, 40 Ω. <span class="f">1/R<sub>p</sub> = 2/40 + 1/40 + 1/40 = 4/40</span>, also <span class="f">R<sub>p</sub> = 10 Ω</span>. <span class="f">R<sub>ges</sub> = 8 + 10 + 12 = 30 Ω</span></li><li><span class="f">I<sub>ges</sub> = 120 / 30 = 4 A</span></li><li><span class="f">U<sub>1</sub> = 8 · 4 = 32 V</span>, <span class="f">U<sub>6</sub> = 12 · 4 = 48 V</span></li><li><span class="f">U<sub>p</sub> = 120 − 32 − 48 = 40 V</span></li><li><span class="f">I<sub>2</sub> = 40/20 = 2 A</span>, <span class="f">I<sub>34</sub> = 40/40 = 1 A</span>, <span class="f">I<sub>5</sub> = 1 A</span>. Im Zweig: <span class="f">U<sub>3</sub> = 15 V</span>, <span class="f">U<sub>4</sub> = 25 V</span></li><li>Probe: 2 + 1 + 1 = 4 A ✓</li></ol><div class="fast"><b>Schnellweg:</b> Die zwei 40-Ω-Zweige zusammen sind 20 Ω, parallel zu R<sub>2</sub> = 20 Ω gibt das 10 Ω. Zweimal Produkt durch Summe im Kopf.</div></div></details></article><article class="task" data-id="B6"><header><span class="id">B6</span><span class="tt">Umgekehrt: nur ein Strom gegeben</span></header>
+<div class="body"><p>R<sub>1</sub> = 10 Ω in Reihe mit R<sub>2</sub> = 30 Ω parallel zu R<sub>3</sub> = 15 Ω. Du misst I<sub>3</sub> = 2 A. Wie groß ist die Quellenspannung U?</p><div class="fig" id="cB6"></div></div>
+<details><summary>Tipp</summary><div class="in"><p>Hier startest du nicht bei R<sub>ges</sub>, sondern an R<sub>3</sub>. Von dort nach außen.</p></div></details>
+<details class="sol"><summary>Lösung</summary><div class="in"><p>Ohm an R<sub>3</sub>: <span class="f">U<sub>3</sub> = 15 · 2 = 30 V</span>, das ist auch die Spannung an R<sub>2</sub>.</p><p><span class="f">I<sub>2</sub> = 30 / 30 = 1 A</span></p><p>Knoten: <span class="f">I<sub>ges</sub> = 1 + 2 = 3 A</span></p><p><span class="f">U<sub>1</sub> = 10 · 3 = 30 V</span></p><p>Masche: <span class="f">U = 30 + 30 = 60 V</span></p><p>Probe: <span class="f">R<sub>ges</sub> = 10 + 10 = 20 Ω</span>, <span class="f">60 / 20 = 3 A</span> ✓</p><div class="fast"><b>Schnellweg:</b> Stromteiler rückwärts: R<sub>2</sub> ist doppelt so groß wie R<sub>3</sub>, bekommt also halb so viel Strom, 1 A.</div></div></details></article><article class="task" data-id="B7"><header><span class="id">B7</span><span class="tt">Verschachtelt (Endgegner)</span></header>
+<div class="body"><p>U = 45 V. R<sub>1</sub> = 5 Ω in der Hauptleitung. Dann zwei Zweige parallel: im oberen Zweig R<sub>2</sub> = 12 Ω parallel zu R<sub>3</sub> = 6 Ω, und danach in Reihe R<sub>4</sub> = 16 Ω; im unteren Zweig R<sub>5</sub> = 20 Ω. Berechne alle Ströme und Spannungen.</p><div class="fig" id="cB7"></div></div>
+<details><summary>Tipp</summary><div class="in"><p>Ganz innen anfangen: R<sub>2</sub> parallel R<sub>3</sub>. Beim Rückrechnen dieselben Schritte, nur eine Ebene tiefer.</p></div></details>
+<details class="sol"><summary>Lösung</summary><div class="in"><ol class="steps"><li><span class="f">R<sub>23</sub> = 12 · 6 / 18 = 4 Ω</span>, oberer Zweig <span class="f">4 + 16 = 20 Ω</span>, parallel zu 20 Ω: <span class="f">R<sub>p</sub> = 10 Ω</span>. <span class="f">R<sub>ges</sub> = 5 + 10 = 15 Ω</span></li><li><span class="f">I<sub>ges</sub> = 45 / 15 = 3 A</span></li><li><span class="f">U<sub>1</sub> = 5 · 3 = 15 V</span></li><li><span class="f">U<sub>p</sub> = 45 − 15 = 30 V</span></li><li><span class="f">I<sub>5</sub> = 30/20 = 1,5 A</span>, oberer Zweig auch 1,5 A. Darin: <span class="f">U<sub>4</sub> = 16 · 1,5 = 24 V</span>, <span class="f">U<sub>23</sub> = 30 − 24 = 6 V</span> (Masche im Zweig). <span class="f">I<sub>2</sub> = 6/12 = 0,5 A</span>, <span class="f">I<sub>3</sub> = 6/6 = 1 A</span></li><li>Probe: 0,5 + 1 = 1,5 A ✓ und 1,5 + 1,5 = 3 A ✓</li></ol><div class="fast"><b>Schnellweg:</b> Zweimal zwei gleiche Hälften: 20 Ω parallel 20 Ω gibt 10 Ω und halbiert den Strom.</div></div></details></article></section><footer>Werte zum Üben erfunden, alle Lösungen nachgerechnet. Haken bei "erledigt" bleiben in diesem Browser gespeichert.</footer>
+</main>
+<script>
+const PAGE=document.body.dataset.page;
+function loadDone(){try{return JSON.parse(localStorage.getItem(PAGE+':done')||'[]')}catch(e){return[]}}
+function saveDone(a){try{localStorage.setItem(PAGE+':done',JSON.stringify(a))}catch(e){}}
+function upd(){const t=[...document.querySelectorAll('.task')];const d=t.filter(x=>x.classList.contains('done')).length;
+const p=document.getElementById('progress');if(p)p.textContent=d+' von '+t.length+' Aufgaben erledigt';
+const b=document.querySelector('.bar i');if(b)b.style.width=(t.length?100*d/t.length:0)+'%';}
+document.querySelectorAll('.task').forEach(t=>{const id=t.dataset.id;const h=t.querySelector('header');
+const l=document.createElement('label');l.innerHTML='<input type="checkbox"> erledigt';h.appendChild(l);
+const c=l.querySelector('input');if(loadDone().includes(id)){c.checked=true;t.classList.add('done')}
+c.addEventListener('change',()=>{let a=loadDone().filter(x=>x!==id);if(c.checked)a.push(id);saveDone(a);t.classList.toggle('done',c.checked);upd()});});
+upd();
+let MK=0;function arrowDefs(cls){MK++;const id='ah'+MK;return {id,defs:'<defs><marker id="'+id+'" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" style="fill:'+(cls==='fa'?'var(--accent-ink)':'var(--ink)')+'"/></marker></defs>'}}
+function svg(w,h,inner,max){return '<svg viewBox="0 0 '+w+' '+h+'" width="'+(max||w)+'" role="img">'+inner+'</svg>'}
+function ln(x1,y1,x2,y2,c){return '<line x1="'+x1+'" y1="'+y1+'" x2="'+x2+'" y2="'+y2+'" class="'+(c||'w')+'"/>'}
+function tx(x,y,s,o){o=o||{};return '<text x="'+x+'" y="'+y+'" font-size="'+(o.fs||13)+'" text-anchor="'+(o.a||'middle')+'"'+(o.c?' class="'+o.c+'"':'')+'>'+s+'</text>'}
+
+
+const RW=78,RH=48,RTY=18;
+const R=(n,v,u)=>({t:'r',n,v,u}),S=(...c)=>({t:'s',c}),P=(...c)=>({t:'p',c});
+function res(x,y,n){return ln(x,y+RTY,x+11,y+RTY)+'<rect x="'+(x+11)+'" y="'+(y+RTY-9)+'" width="56" height="18" class="box"/>'+ln(x+67,y+RTY,x+RW,y+RTY)+tx(x+39,y+RTY+4.5,n.n,{fs:12})+tx(x+39,y+RTY+25,n.v,{fs:12,c:n.u?'acc':'mut'})}
+function lay(n){
+ if(n.t==='r')return{w:RW,h:RH,ty:RTY,draw:(x,y)=>res(x,y,n)};
+ if(n.t==='s'){const ls=n.c.map(lay),ty=Math.max(...ls.map(l=>l.ty)),h=Math.max(...ls.map(l=>ty-l.ty+l.h)),w=ls.reduce((a,l)=>a+l.w,0);
+  return{w,h,ty,draw:(x,y)=>{let s='',cx=x;ls.forEach(l=>{s+=l.draw(cx,y+ty-l.ty);cx+=l.w});return s}}}
+ const PAD=16,GAP=8,ls=n.c.map(lay),mw=Math.max(...ls.map(l=>l.w));let off=[],cy=0;ls.forEach(l=>{off.push(cy);cy+=l.h+GAP});
+ const h=cy-GAP,w=mw+2*PAD,ty=ls[0].ty;
+ return{w,h,ty,draw:(x,y)=>{let s='';const ys=ls.map((l,i)=>y+off[i]+l.ty);
+  ls.forEach((l,i)=>{s+=ln(x,ys[i],x+PAD,ys[i])+l.draw(x+PAD,y+off[i])+ln(x+PAD+l.w,ys[i],x+w,ys[i])});
+  s+=ln(x,ys[0],x,ys[ys.length-1])+ln(x+w,ys[0],x+w,ys[ys.length-1]);
+  ys.slice(0,-1).forEach(yy=>{s+='<circle cx="'+x+'" cy="'+yy+'" r="3.5" class="dot"/><circle cx="'+(x+w)+'" cy="'+yy+'" r="3.5" class="dot"/>'});return s}}}
+function circuit(id,net,U){const L=lay(net),X0=92,Y0=12,top=Y0+L.ty,bot=Y0+L.h+14,W=X0+L.w+22,H=bot+8,sx=58,my=(top+bot)/2,xr=X0+L.w+12;
+ let s=ln(sx,top,X0,top)+L.draw(X0,Y0)+ln(X0+L.w,top,xr,top)+ln(xr,top,xr,bot)+ln(xr,bot,sx,bot)+ln(sx,top,sx,my-14)+ln(sx,my+14,sx,bot);
+ s+='<circle cx="'+sx+'" cy="'+my+'" r="14" class="box"/>'+ln(sx,my-14,sx,my+14)+tx(sx-20,my-2,'U',{a:'end',fs:13})+tx(sx-20,my+14,U,{a:'end',fs:13,c:U==='?'?'acc':''})+tx(sx+9,my-18,'+',{fs:14});
+ document.getElementById(id).innerHTML=svg(W,H,s,W).replace('<svg ','<svg style="max-width:none" ');}
+circuit('cA2',S(R('L1','80 V'),R('L2','90 V'),R('L3','U3 = ?',1)),'230 V');
+circuit('cA3',P(R('R1','20 Ω'),R('R2','?',1)),'24 V');
+circuit('cA4',S(R('R1','10 Ω'),R('R2','?',1)),'48 V');
+circuit('cA5',S(R('R1','? (12 V)',1),P(R('R2','8 Ω'),R('R3','12 Ω'))),'36 V');
+circuit('cB1',S(R('R1','4 Ω'),P(R('R2','12 Ω'),R('R3','6 Ω'))),'24 V');
+circuit('cB2',S(R('R1','5 Ω'),P(R('R2','20 Ω'),R('R3','30 Ω'),R('R4','60 Ω')),R('R5','5 Ω')),'60 V');
+circuit('cB3',S(P(S(R('R1','6 Ω'),R('R2','14 Ω')),R('R3','20 Ω')),R('R4','10 Ω')),'40 V');
+circuit('cB4',S(R('R1','6 Ω'),P(R('R2','60 Ω'),S(R('R3','25 Ω'),R('R4','35 Ω')),S(R('R5','20 Ω'),R('R6','40 Ω'))),R('R7','4 Ω')),'90 V');
+circuit('cB5',S(R('R1','8 Ω'),P(R('R2','20 Ω'),S(R('R3','15 Ω'),R('R4','25 Ω')),R('R5','40 Ω')),R('R6','12 Ω')),'120 V');
+circuit('cB6',S(R('R1','10 Ω'),P(R('R2','30 Ω'),R('R3','15 Ω (2 A)',1))),'?');
+circuit('cB7',S(R('R1','5 Ω'),P(S(P(R('R2','12 Ω'),R('R3','6 Ω')),R('R4','16 Ω')),R('R5','20 Ω'))),'45 V');
+(function(){const a=arrowDefs('fk');let s=a.defs;const c=[150,70];
+ s+=ln(20,70,142,70,'fk').replace('/>',' marker-end="url(#'+a.id+')"/>')+tx(70,60,'5 A');
+ [[-40,'1,5 A'],[0,'2 A'],[40,'I3 = ?']].forEach(([d,t],i)=>{const x2=280,y2=70+d*1.1;s+=ln(158,70,x2,y2,'fk').replace('/>',' marker-end="url(#'+a.id+')"/>')+tx(x2+4,y2+5,t,{a:'start',c:i==2?'acc':''})});
+ s+='<circle cx="150" cy="70" r="6" class="dot"/>';document.getElementById('nodeA1').innerHTML=svg(340,130,s)})();
+</script>
+<script src="../lernwerk-bridge.js"></script>
+</body></html>

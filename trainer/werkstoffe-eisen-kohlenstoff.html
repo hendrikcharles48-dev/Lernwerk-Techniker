@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Eisen-Kohlenstoff-Diagramm — Merkkarte</title>
+<style>
+:root{
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+  --bg:#faf9f5; --card:#ffffff; --line:#dedbd0;
+  --text:#25241f; --muted:#6b695f;
+  --hot-bg:#fcebeb; --hot-br:#a32d2d; --hot-tx:#791f1f;
+  --warm-bg:#faeeda; --warm-br:#854f0b; --warm-tx:#633806;
+  --cold-bg:#e6f1fb; --cold-br:#185fa5; --cold-tx:#0c447c;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#1a1915; --card:#232219; --line:#3e3c34;
+    --text:#ece9df; --muted:#a3a094;
+    --hot-bg:#501313; --hot-br:#f09595; --hot-tx:#f7c1c1;
+    --warm-bg:#412402; --warm-br:#efa327; --warm-tx:#fac775;
+    --cold-bg:#042c53; --cold-br:#85b7eb; --cold-tx:#b5d4f4;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#1a1915; --card:#232219; --line:#3e3c34;
+  --text:#ece9df; --muted:#a3a094;
+  --hot-bg:#501313; --hot-br:#f09595; --hot-tx:#f7c1c1;
+  --warm-bg:#412402; --warm-br:#efa327; --warm-tx:#fac775;
+  --cold-bg:#042c53; --cold-br:#85b7eb; --cold-tx:#b5d4f4;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
+  font-size:16px;line-height:1.55;padding:20px 16px 40px;max-width:640px;margin:0 auto}
+h1{font-size:20px;font-weight:600;margin:0 0 4px}
+h2{font-size:15px;font-weight:600;margin:22px 0 6px}
+p{margin:0 0 10px}
+.sub{color:var(--muted);font-size:14px;margin-bottom:18px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px;overflow-x:auto}
+svg{display:block;width:100%;height:auto;max-width:100%}
+ul{margin:0;padding-left:18px}
+li{margin-bottom:6px}
+.key{font-weight:600}
+.merk{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin-top:8px}
+.merk p{margin:0 0 8px}
+.merk p:last-child{margin:0}
+</style>
+</head>
+<body>
+
+<h1>Eisen-Kohlenstoff-Diagramm</h1>
+<p class="sub">Die Karte auf einen Blick: nach rechts Kohlenstoff, nach oben Temperatur.</p>
+
+<div class="card">
+<svg viewBox="0 0 380 336" role="img" xmlns="http://www.w3.org/2000/svg">
+<title>Vereinfachtes Eisen-Kohlenstoff-Diagramm</title>
+<desc>Oben Schmelze, ab 1147 Grad Austenit links und Ledeburit eins rechts, unter 723 Grad Perlit mit Ferrit links und Ledeburit zwei rechts. Senkrechte Grenze bei 2,06 Prozent trennt Stahl von Gusseisen.</desc>
+
+<text x="24" y="46" font-size="12" fill="var(--muted)">Temperatur in Grad C</text>
+
+<rect x="60" y="56" width="280" height="40" rx="8" fill="var(--hot-bg)" stroke="var(--hot-br)" stroke-width="0.5"/>
+<text x="200" y="76" font-size="14" font-weight="500" text-anchor="middle" dominant-baseline="central" fill="var(--hot-tx)">Schmelze</text>
+
+<line x1="60" y1="108" x2="345" y2="108" stroke="var(--muted)" stroke-width="1" stroke-dasharray="4 3"/>
+<text x="54" y="108" font-size="12" text-anchor="end" dominant-baseline="central" fill="var(--muted)">1147</text>
+
+<rect x="60" y="118" width="84" height="70" rx="8" fill="var(--warm-bg)" stroke="var(--warm-br)" stroke-width="0.5"/>
+<text x="102" y="146" font-size="14" font-weight="500" text-anchor="middle" dominant-baseline="central" fill="var(--warm-tx)">Austenit</text>
+<text x="102" y="166" font-size="12" text-anchor="middle" dominant-baseline="central" fill="var(--warm-tx)">Gamma-Eisen</text>
+
+<rect x="150" y="118" width="190" height="70" rx="8" fill="var(--warm-bg)" stroke="var(--warm-br)" stroke-width="0.5"/>
+<text x="245" y="146" font-size="14" font-weight="500" text-anchor="middle" dominant-baseline="central" fill="var(--warm-tx)">Ledeburit I</text>
+<text x="245" y="166" font-size="12" text-anchor="middle" dominant-baseline="central" fill="var(--warm-tx)">Austenit und Zementit</text>
+
+<line x1="60" y1="196" x2="345" y2="196" stroke="var(--muted)" stroke-width="1" stroke-dasharray="4 3"/>
+<text x="54" y="196" font-size="12" text-anchor="end" dominant-baseline="central" fill="var(--muted)">723</text>
+
+<rect x="60" y="206" width="84" height="70" rx="8" fill="var(--cold-bg)" stroke="var(--cold-br)" stroke-width="0.5"/>
+<text x="102" y="234" font-size="14" font-weight="500" text-anchor="middle" dominant-baseline="central" fill="var(--cold-tx)">Perlit</text>
+<text x="102" y="254" font-size="12" text-anchor="middle" dominant-baseline="central" fill="var(--cold-tx)">und Ferrit</text>
+
+<rect x="150" y="206" width="190" height="70" rx="8" fill="var(--cold-bg)" stroke="var(--cold-br)" stroke-width="0.5"/>
+<text x="245" y="234" font-size="14" font-weight="500" text-anchor="middle" dominant-baseline="central" fill="var(--cold-tx)">Ledeburit II</text>
+<text x="245" y="254" font-size="12" text-anchor="middle" dominant-baseline="central" fill="var(--cold-tx)">Perlit und Zementit</text>
+
+<line x1="147" y1="112" x2="147" y2="282" stroke="var(--muted)" stroke-width="0.5" stroke-dasharray="3 3"/>
+<text x="100" y="296" font-size="12" text-anchor="middle" fill="var(--text)">Stahl</text>
+<text x="147" y="296" font-size="12" text-anchor="middle" fill="var(--muted)">2,06</text>
+<text x="250" y="296" font-size="12" text-anchor="middle" fill="var(--text)">Gusseisen</text>
+<text x="200" y="320" font-size="12" text-anchor="middle" fill="var(--muted)">Kohlenstoff in Prozent, steigt nach rechts</text>
+</svg>
+</div>
+
+<h2>So liest du die Karte</h2>
+<ul>
+<li><span class="key">Nach rechts:</span> mehr Kohlenstoff. Härte steigt, Zähigkeit fällt.</li>
+<li><span class="key">Nach oben:</span> mehr Temperatur. Ganz oben ist alles flüssig.</li>
+<li><span class="key">Senkrechte bei 2,06 Prozent:</span> links Stahl, rechts Gusseisen.</li>
+<li><span class="key">Waagerechte bei 723 Grad:</span> darüber Austenit, darunter Ferrit und Perlit.</li>
+<li><span class="key">Waagerechte bei 1147 Grad:</span> tiefster Schmelzpunkt, bei 4,3 Prozent Kohlenstoff.</li>
+</ul>
+
+<h2>Die Gefüge in einem Satz</h2>
+<ul>
+<li><span class="key">Ferrit:</span> Alpha-Eisen, reines Eisen bei Raumtemperatur, weich.</li>
+<li><span class="key">Austenit:</span> Gamma-Eisen über 723 Grad, kann Kohlenstoff aufnehmen.</li>
+<li><span class="key">Zementit:</span> Verbindung aus Eisen und Kohlenstoff, hart und spröde.</li>
+<li><span class="key">Perlit:</span> Ferrit mit eingelagerten Zementit-Plättchen.</li>
+<li><span class="key">Ledeburit I:</span> Austenit mit Zementit, über 723 Grad.</li>
+<li><span class="key">Ledeburit II:</span> Perlit mit Zementit, unter 723 Grad.</li>
+</ul>
+
+<h2>Merksätze</h2>
+<div class="merk">
+<p><span class="key">2,06 ist der Türsteher.</span> Drunter darfst du schmieden, drüber nur noch gießen.</p>
+<p><span class="key">723 ist der Lichtschalter.</span> Oben Austenit, unten Ferrit und Perlit.</p>
+<p><span class="key">Römisch eins ist heiß, römisch zwei ist kalt.</span> Steht Austenit in der Beschreibung, ist es Ledeburit I. Steht Perlit drin, ist es Ledeburit II.</p>
+<p><span class="key">Kohlenstoff ist Sand im Getriebe.</span> Wenig macht zäh, viel macht hart und spröde.</p>
+</div>
+
+<script src="../lernwerk-bridge.js"></script>
+</body>
+</html>

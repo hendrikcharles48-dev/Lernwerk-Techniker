@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="de"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Statik: Kräfte und Momente</title>
+<style>
+
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+--bg:#F2F2F7;--sheet:#FFFFFF;--ink:#000000;--muted:rgba(60,60,67,.6);--line:rgba(60,60,67,.2);--soft:#F2F2F7;--fill:rgba(118,118,128,.12);
+--ok:#248A3D;--okbg:rgba(52,199,89,.15);--bad:#D70015;--badbg:rgba(255,59,48,.12);--grid:transparent}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 60px)}
+*,*::before,*::after{box-sizing:inherit}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#000000;--sheet:#1C1C1E;--ink:#FFFFFF;--muted:rgba(235,235,245,.6);--line:rgba(84,84,88,.65);--soft:#2C2C2E;--fill:rgba(118,118,128,.24);--ok:#30D158;--okbg:rgba(48,209,88,.18);--bad:#FF453A;--badbg:rgba(255,69,58,.2)}}
+:root[data-theme="dark"]{--bg:#000000;--sheet:#1C1C1E;--ink:#FFFFFF;--muted:rgba(235,235,245,.6);--line:rgba(84,84,88,.65);--soft:#2C2C2E;--fill:rgba(118,118,128,.24);--ok:#30D158;--okbg:rgba(48,209,88,.18);--bad:#FF453A;--badbg:rgba(255,69,58,.2)}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.47 -apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica Neue",system-ui,"Segoe UI",Roboto,sans-serif;-webkit-font-smoothing:antialiased;-webkit-text-size-adjust:100%;letter-spacing:-.01em}
+.sheet{max-width:720px;margin:0 auto;padding:4px 16px 40px}
+.hero{padding:22px 4px 4px}
+h1{font-size:34px;line-height:1.12;font-weight:700;letter-spacing:-.025em;margin:0 0 8px}
+.hero p{margin:0;color:var(--muted);max-width:60ch}
+.stripe{display:none}
+.tb{background:var(--sheet);border-radius:12px;overflow:hidden;margin:16px 0 8px;order:2}
+.tb div{display:flex;justify-content:space-between;align-items:baseline;gap:16px;padding:11px 16px;position:relative}
+.tb div+div::before{content:"";position:absolute;top:0;left:16px;right:0;border-top:.5px solid var(--line)}
+.tb small{font-size:17px;color:var(--ink);flex:none}
+.tb b{font-weight:400;color:var(--muted);text-align:right}
+nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;display:flex;gap:8px;overflow-x:auto;padding:10px 16px;margin:8px -16px 0;background:color-mix(in srgb,var(--bg) 75%,transparent);-webkit-backdrop-filter:saturate(180%) blur(20px);backdrop-filter:saturate(180%) blur(20px);scrollbar-width:none}
+nav::-webkit-scrollbar{display:none}
+nav a{flex:none;color:var(--accent-ink);background:var(--accent-soft);text-decoration:none;padding:7px 15px;border-radius:999px;font-size:15px;font-weight:600}
+a:focus-visible,summary:focus-visible,input:focus-visible,button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.prog{background:var(--sheet);border-radius:12px;padding:12px 16px;margin:10px 0;font-size:15px;color:var(--muted)}
+.bar{height:6px;background:var(--fill);border-radius:3px;margin-top:8px;overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:var(--accent);border-radius:3px;transition:width .35s cubic-bezier(.2,.8,.2,1)}
+section{padding:0}
+h2{font-size:22px;font-weight:700;letter-spacing:-.02em;margin:32px 4px 10px}
+h3{font-size:17px;font-weight:600;margin:22px 4px 8px}
+section>p{margin:10px 4px}
+p,li{max-width:68ch}
+section>ul,section>ol{background:var(--sheet);border-radius:12px;margin:10px 0;padding:12px 16px 12px 38px}
+section>ul li,section>ol li{margin:5px 0}
+.trio{background:var(--sheet);border-radius:12px;overflow:hidden;margin:10px 0}
+.trio>div{padding:12px 16px;position:relative}
+.trio>div+div::before{content:"";position:absolute;top:0;left:16px;right:0;border-top:.5px solid var(--line)}
+.trio .k{font-size:13px;font-weight:600;color:var(--accent-ink);display:block;margin-bottom:2px}
+.merk{background:var(--accent-soft);border-radius:12px;padding:12px 16px;margin:10px 0;font-weight:600;font-size:17px}
+.f{font-weight:600}
+.tw{background:var(--sheet);border-radius:12px;overflow-x:auto;margin:10px 0}
+table{border-collapse:collapse;font-size:15px;min-width:100%}
+th,td{border-bottom:.5px solid var(--line);padding:9px 12px;text-align:left;vertical-align:top}
+th{color:var(--muted);font-weight:600;font-size:13px}
+tr:last-child td{border-bottom:0}
+.task{background:var(--sheet);border-radius:14px;margin:14px 0;overflow:hidden}
+.task header{display:flex;align-items:center;gap:10px;padding:14px 16px 8px}
+.task .id{background:var(--accent);color:var(--on-accent);border-radius:8px;padding:2px 8px;font-size:14px;font-weight:700}
+.task .tt{font-weight:600;flex:1;line-height:1.3}
+.task label{font-size:13px;color:var(--muted);display:flex;align-items:center;gap:8px;cursor:pointer}
+.task.done .tt{color:var(--muted)}
+input[type=checkbox]{-webkit-appearance:none;appearance:none;width:51px;height:31px;border-radius:16px;background:var(--fill);position:relative;flex:none;cursor:pointer;margin:0;transition:background .2s}
+input[type=checkbox]::before{content:"";position:absolute;top:2px;left:2px;width:27px;height:27px;border-radius:50%;background:#fff;box-shadow:0 3px 8px rgba(0,0,0,.15),0 1px 1px rgba(0,0,0,.16);transition:transform .2s cubic-bezier(.2,.8,.2,1)}
+input[type=checkbox]:checked{background:#34C759}
+input[type=checkbox]:checked::before{transform:translateX(20px)}
+.task .body{padding:4px 16px 12px}
+.task .body>p:first-child{margin-top:0}
+details{border-top:.5px solid var(--line);margin-left:16px}
+summary{cursor:pointer;padding:13px 16px 13px 0;list-style:none;display:flex;justify-content:space-between;align-items:center;color:var(--accent-ink);font-weight:500}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"›";font-size:24px;line-height:1;color:var(--muted);transition:transform .2s}
+details[open] summary::after{transform:rotate(90deg)}
+details .in{padding:0 16px 14px 0}
+.fast{background:var(--accent-soft);border-radius:10px;padding:10px 12px;margin:10px 0 0}
+.fast b{color:var(--accent-ink)}
+.fig{overflow-x:auto;margin:8px 0}
+.fig svg{display:block;max-width:100%;height:auto;margin:0 auto}
+.mut{color:var(--muted)}
+svg text{fill:var(--ink);font-family:-apple-system,BlinkMacSystemFont,system-ui,sans-serif}
+svg .mut{fill:var(--muted)}
+svg .acc{fill:var(--accent-ink);font-weight:600}
+svg .w{stroke:var(--ink);stroke-width:2;fill:none}
+svg .thin{stroke:var(--muted);stroke-width:1;fill:none}
+svg .dash{stroke:var(--muted);stroke-width:1;stroke-dasharray:4 4;fill:none}
+svg .box{stroke:var(--ink);stroke-width:2;fill:var(--sheet)}
+svg .dot{fill:var(--ink)}
+svg .fa{stroke:var(--accent-ink);stroke-width:2.5;fill:none}
+svg .fk{stroke:var(--ink);stroke-width:2.5;fill:none}
+svg .zoneA{fill:var(--accent-soft);stroke:var(--accent-ink);stroke-width:2}
+svg .zoneB{fill:var(--fill);stroke:var(--ink);stroke-width:2}
+svg rect.hl{stroke:var(--accent-ink);stroke-width:3.5;fill:var(--accent-soft)}
+.bad{color:var(--bad);font-weight:600}.ok{color:var(--ok);font-weight:600}
+footer{padding:20px 4px 0;font-size:13px;color:var(--muted)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+
+:root{--accent:#007AFF;--accent-ink:#0066D6;--accent-soft:rgba(0,122,255,.12);--on-accent:#FFFFFF}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--accent:#0A84FF;--accent-ink:#5AA9FF;--accent-soft:rgba(10,132,255,.22);--on-accent:#FFFFFF}}
+:root[data-theme="dark"]{--accent:#0A84FF;--accent-ink:#5AA9FF;--accent-soft:rgba(10,132,255,.22);--on-accent:#FFFFFF}
+</style></head>
+<body data-page="st"><main class="sheet">
+<div class="hero"><h1>Statik: Kräfte zerlegen, Momente ausgleichen</h1>
+<p>Zwei Werkzeuge für die Arbeit: Kräfte in x und y zerlegen, und Momente um einen klug gewählten Punkt. Dann 10 Aufgaben.</p></div><div class="tb"><div><small>Fach</small><b>Technische Mechanik</b></div><div><small>Klassenarbeit</small><b>Freitag, 02.10.</b></div>
+<div class="wide"><small>Thema</small><b>Zentrales Kräftesystem, Momente und Lagerkräfte</b></div>
+<div><small>Name</small><b>Hendrik</b></div><div><small>Blatt</small><b>2 von 3</b></div></div>
+
+<div class="stripe"></div>
+<nav><a href="#zks">Zentrales Kräftesystem</a><a href="#mom">Momente</a><a href="#schnell">Schnellwege</a><a href="#fehler">Fehler</a><a href="#a">Aufgaben A</a><a href="#b">Aufgaben B</a></nav>
+<div class="prog"><span id="progress"></span><div class="bar"><i></i></div></div>
+<section id="zks"><h2>Zentrales Kräftesystem</h2>
+<div class="trio">
+<div><span class="k">Bild aus deiner Werkstatt</span>Ein Kranhaken, an dem mehrere Anschlagseile in verschiedene Richtungen ziehen. Alle Seile ziehen am selben Punkt. Du könntest alle Seile durch ein einziges ersetzen, das genau so zieht: das ist die Resultierende.</div>
+<div><span class="k">Fachbegriff</span>Zentrales Kräftesystem: alle Wirkungslinien schneiden sich in einem Punkt. Es gibt kein Drehen, nur Schieben. Gleichgewicht heißt <span class="f">ΣF<sub>x</sub> = 0</span> und <span class="f">ΣF<sub>y</sub> = 0</span>.</div>
+</div>
+<div class="merk">Erst zerlegen, dann addieren, dann zusammensetzen.</div>
+<h3>Rechnerisches Verfahren</h3>
+<ol class="steps">
+<li>Winkel α jeder Kraft von der positiven x-Achse aus messen, gegen den Uhrzeigersinn. Dann stimmen die Vorzeichen von selbst.</li>
+<li>Zerlegen: <span class="f">F<sub>x</sub> = F · cos α</span>, <span class="f">F<sub>y</sub> = F · sin α</span></li>
+<li>Addieren: <span class="f">R<sub>x</sub> = ΣF<sub>x</sub></span>, <span class="f">R<sub>y</sub> = ΣF<sub>y</sub></span></li>
+<li>Betrag: <span class="f">R = √(R<sub>x</sub>² + R<sub>y</sub>²)</span></li>
+<li>Hilfswinkel: <span class="f">β = arctan(|R<sub>y</sub>| / |R<sub>x</sub>|)</span>, dann Quadrant nach den Vorzeichen.</li></ol>
+<div class="tw"><table><tr><th>R<sub>x</sub></th><th>R<sub>y</sub></th><th>Quadrant</th><th>α</th></tr>
+<tr><td>+</td><td>+</td><td>I</td><td>β</td></tr><tr><td>−</td><td>+</td><td>II</td><td>180° − β</td></tr>
+<tr><td>−</td><td>−</td><td>III</td><td>180° + β</td></tr><tr><td>+</td><td>−</td><td>IV</td><td>360° − β</td></tr></table></div>
+<div class="merk">Die Vorzeichen zeigen den Quadranten, der Taschenrechner nur den Hilfswinkel.</div>
+<p>Achtung: In der Aufgabe steht der Winkel oft zur Waagerechten oder Senkrechten. Erst auf den Winkel ab der positiven x-Achse umrechnen, oder direkt mit Skizze zerlegen und die Vorzeichen selbst setzen.</p>
+</section>
+
+<section id="mom"><h2>Momente und Lagerkräfte</h2>
+<div class="trio">
+<div><span class="k">Bild aus deiner Werkstatt</span>Der Schlüssel am Schraubstock: Je weiter außen du anfasst, desto weniger Kraft brauchst du. Drückst du aber schräg, bringt nur der Anteil quer zum Hebel etwas.</div>
+<div><span class="k">Fachbegriff</span>Moment <span class="f">M = F · l</span>, in Nm oder kNm. l ist der <b>senkrechte</b> Abstand vom Drehpunkt zur Wirkungslinie. Gleichgewicht: <span class="f">ΣM = 0</span>, dazu <span class="f">ΣF<sub>x</sub> = 0</span> und <span class="f">ΣF<sub>y</sub> = 0</span>.</div>
+<div><span class="k">Drehsinn</span>Einmal festlegen, zum Beispiel gegen den Uhrzeigersinn positiv, und dann durchziehen.</div>
+</div>
+<div class="merk">Kraft mal Hebel, aber nur der senkrechte Hebel zählt.</div>
+<h3>Vorgehen bei Lagern</h3>
+<ol class="steps">
+<li><b>Freimachen</b>: Lager durch Kräfte ersetzen. Festlager: zwei Kräfte F<sub>Ax</sub> und F<sub>Ay</sub>. Loslager: eine Kraft senkrecht zur Auflage.</li>
+<li><b>Drehpunkt</b> dort wählen, wo die meisten Unbekannten angreifen. Deren Hebel ist null, sie fallen raus.</li>
+<li><span class="f">ΣM = 0</span> gibt die erste Unbekannte.</li>
+<li><span class="f">ΣF<sub>y</sub> = 0</span> und <span class="f">ΣF<sub>x</sub> = 0</span> geben den Rest.</li>
+<li><b>Probe</b>: Momente um den anderen Lagerpunkt.</li></ol>
+<div class="merk">Drehpunkt ins Lager mit den meisten Unbekannten, dann fallen die raus.</div>
+<p>Kommt eine Kraft negativ raus, hast du nur die Richtung falsch angenommen. Betrag stimmt, Pfeil umdrehen.</p>
+</section>
+
+<section id="schnell"><h2>Schnellwege für die Arbeit</h2>
+<div class="trio">
+<div><span class="k">Rechter Winkel</span>Zwei Kräfte stehen senkrecht aufeinander: direkt Pythagoras, <span class="f">tan β = F<sub>2</sub> / F<sub>1</sub></span>.</div>
+<div><span class="k">Gleichgewichtskraft</span>Die gesuchte Kraft ist so groß wie die Resultierende der anderen, nur Winkel plus 180°.</div>
+<div><span class="k">Symmetrisch aufgehängt</span>Beide Seile gleicher Winkel α zur Waagerechten: <span class="f">F = G / (2 · sin α)</span>.</div>
+<div><span class="k">Zwei Seile, verschiedene Winkel</span>α und β zur Waagerechten: <span class="f">F<sub>1</sub> = G · cos β / sin(α + β)</span> und <span class="f">F<sub>2</sub> = G · cos α / sin(α + β)</span>. Frag vorher, ob das so erlaubt ist, sonst über ΣF<sub>x</sub> und ΣF<sub>y</sub>.</div>
+<div><span class="k">Schräge Kraft am waagerechten Balken</span>Nur <span class="f">F · sin α</span> dreht. Der waagerechte Anteil läuft durch die Balkenachse, Hebel null.</div>
+<div><span class="k">Probe ohne Rechnen</span><span class="f">F<sub>A</sub> + F<sub>B</sub></span> muss die Summe der senkrechten Lasten sein. Und das Lager näher an der großen Last trägt mehr.</div>
+</div></section>
+
+<section id="fehler"><h2>Typische Fehler</h2>
+<ul><li>Taschenrechner auf RAD statt DEG. Test: sin 30 muss 0,5 geben.</li>
+<li>Den Hilfswinkel aus dem arctan als Endwinkel hinschreiben, ohne Quadrant.</li>
+<li>Hebel schräg gemessen statt senkrecht zur Wirkungslinie.</li>
+<li>Vorzeichen beim Moment gewechselt mitten in der Gleichung.</li>
+<li>N und kN oder mm und m gemischt.</li></ul></section>
+<section id="a"><h2>Teil A: Zentrales Kräftesystem</h2><p>Winkel immer ab der positiven x-Achse, gegen den Uhrzeigersinn, außer es steht anders da.</p>
+<article class="task" data-id="S1"><header><span class="id">S1</span><span class="tt">Rechter Winkel</span></header>
+<div class="body"><p>F<sub>1</sub> = 600 N bei 0° und F<sub>2</sub> = 800 N bei 90° greifen am selben Punkt an. Bestimme Betrag und Winkel der Resultierenden.</p><div class="fig" id="fS1"></div></div>
+<details><summary>Tipp</summary><div class="in"><p>Die Kräfte stehen senkrecht. Kein Zerlegen nötig.</p></div></details>
+<details class="sol"><summary>Lösung</summary><div class="in"><p><span class="f">R = √(600² + 800²) = √1.000.000 = 1000 N</span></p><p><span class="f">α = arctan(800 / 600) = 53,13°</span>, beide positiv, also Quadrant I.</p><div class="fast"><b>Schnellweg:</b> 600, 800, 1000 ist das Dreieck 3, 4, 5 mal 200. Solche Zahlenpaare sieht man sofort.</div></div></details></article><article class="task" data-id="S2"><header><span class="id">S2</span><span class="tt">Drei Kräfte, Quadrant beachten</span></header>
+<div class="body"><p>F<sub>1</sub> = 400 N bei 30°, F<sub>2</sub> = 250 N bei 120°, F<sub>3</sub> = 500 N bei 225°. Bestimme Betrag und Winkel der Resultierenden.</p><div class="fig" id="fS2"></div></div>
+<details><summary>Tipp</summary><div class="in"><p>Tabelle machen: Kraft, α, F<sub>x</sub>, F<sub>y</sub>. Dann die Spalten addieren.</p></div></details>
+<details class="sol"><summary>Lösung</summary><div class="in"><div class="tw"><table><tr><th>Kraft</th><th>α</th><th>F<sub>x</sub> in N</th><th>F<sub>y</sub> in N</th></tr><tr><td>400 N</td><td>30°</td><td>346,4</td><td>200,0</td></tr><tr><td>250 N</td><td>120°</td><td>−125,0</td><td>216,5</td></tr><tr><td>500 N</td><td>225°</td><td>−353,6</td><td>−353,6</td></tr><tr><th>Summe</th><td></td><th>−132,2</th><th>62,9</th></tr></table></div><p><span class="f">R = √(132,2² + 62,9²) = 146,4 N</span></p><p><span class="f">β = arctan(62,9 / 132,2) = 25,5°</span>. R<sub>x</sub> negativ, R<sub>y</sub> positiv: Quadrant II, <span class="f">α = 180° − 25,5° = 154,5°</span>.</p><div class="fast"><b>Schnellweg:</b> Bei 225° sind F<sub>x</sub> und F<sub>y</sub> gleich groß, beide negativ: <span class="f">500 · 0,707 = 353,6</span>. Einmal rechnen, zweimal eintragen.</div></div></details></article><article class="task" data-id="S3"><header><span class="id">S3</span><span class="tt">Gleichgewichtskraft gesucht</span></header>
+<div class="body"><p>F<sub>1</sub> = 500 N bei 0° und F<sub>2</sub> = 700 N bei 150°. Welche Kraft F<sub>3</sub> (Betrag und Winkel) hält das System im Gleichgewicht?</p><div class="fig" id="fS3"></div></div>
+<details><summary>Tipp</summary><div class="in"><p>Erst die Resultierende aus F<sub>1</sub> und F<sub>2</sub>. F<sub>3</sub> ist ihr Gegenstück.</p></div></details>
+<details class="sol"><summary>Lösung</summary><div class="in"><p><span class="f">R<sub>x</sub> = 500 + 700 · cos 150° = 500 − 606,2 = −106,2 N</span></p><p><span class="f">R<sub>y</sub> = 700 · sin 150° = 350 N</span></p><p><span class="f">R = √(106,2² + 350²) = 365,8 N</span>, <span class="f">β = arctan(350 / 106,2) = 73,1°</span>, Quadrant II, <span class="f">α<sub>R</sub> = 106,9°</span></p><p>Gleichgewicht: <span class="f">F<sub>3</sub> = 365,8 N</span> bei <span class="f">106,9° + 180° = 286,9°</span></p><div class="fast"><b>Schnellweg:</b> Gegenkraft direkt ansetzen: <span class="f">F<sub>3x</sub> = +106,2 N</span>, <span class="f">F<sub>3y</sub> = −350 N</span>. Quadrant IV, <span class="f">360° − 73,1° = 286,9°</span>.</div></div></details></article><article class="task" data-id="S4"><header><span class="id">S4</span><span class="tt">Lampe an zwei Seilen</span></header>
+<div class="body"><p>Eine Lampe mit G = 200 N hängt an zwei Seilen. Seil 1 geht nach links oben unter 30° zur Waagerechten, Seil 2 nach rechts oben unter 45°. Berechne die Seilkräfte.</p><div class="fig" id="fS4"></div></div>
+<details><summary>Tipp</summary><div class="in"><p>Zwei Gleichungen: ΣF<sub>x</sub> = 0 und ΣF<sub>y</sub> = 0. Aus der x-Gleichung F<sub>1</sub> durch F<sub>2</sub> ausdrücken, dann einsetzen.</p></div></details>
+<details class="sol"><summary>Lösung</summary><div class="in"><p>x: <span class="f">−F<sub>1</sub> · cos 30° + F<sub>2</sub> · cos 45° = 0</span>, also <span class="f">F<sub>1</sub> = F<sub>2</sub> · 0,8165</span></p><p>y: <span class="f">F<sub>1</sub> · sin 30° + F<sub>2</sub> · sin 45° − 200 = 0</span></p><p>Einsetzen: <span class="f">F<sub>2</sub> · (0,8165 · 0,5 + 0,7071) = 200</span>, <span class="f">F<sub>2</sub> · 1,1154 = 200</span></p><p><span class="f">F<sub>2</sub> = 179,3 N</span>, <span class="f">F<sub>1</sub> = 179,3 · 0,8165 = 146,4 N</span></p><div class="fast"><b>Schnellweg:</b> <span class="f">F<sub>1</sub> = 200 · cos 45° / sin 75° = 146,4 N</span>, <span class="f">F<sub>2</sub> = 200 · cos 30° / sin 75° = 179,3 N</span>. Das steilere Seil trägt mehr.</div></div></details></article><article class="task" data-id="S5"><header><span class="id">S5</span><span class="tt">Symmetrisch aufgehängt</span></header>
+<div class="body"><p>Ein Schild mit G = 500 N hängt an zwei Seilen, beide unter 20° zur Waagerechten. Wie groß ist die Kraft in jedem Seil?</p><div class="fig" id="fS5"></div></div>
+<details><summary>Tipp</summary><div class="in"><p>Symmetrisch: beide Seile gleich. Nur die senkrechten Anteile tragen G.</p></div></details>
+<details class="sol"><summary>Lösung</summary><div class="in"><p><span class="f">2 · F · sin 20° = 500</span></p><p><span class="f">F = 500 / (2 · 0,342) = 731 N</span></p><p>Jedes Seil zieht mit mehr als dem Gewicht. Je flacher das Seil, desto größer die Kraft.</p><div class="fast"><b>Schnellweg:</b> Formel <span class="f">F = G / (2 · sin α)</span>, eine Zeile.</div></div></details></article></section><section id="b"><h2>Teil B: Momente und Lagerkräfte</h2><p>Immer zuerst freimachen und den Drehpunkt bewusst wählen.</p><article class="task" data-id="M1"><header><span class="id">M1</span><span class="tt">Hebel</span></header>
+<div class="body"><p>Ein Hebel ist im Drehpunkt D gelagert. Links wirkt F<sub>1</sub> = 300 N im Abstand 0,4 m, rechts F<sub>2</sub> im Abstand 0,6 m, beide senkrecht nach unten. Wie groß ist F<sub>2</sub> für Gleichgewicht, und welche Kraft nimmt das Lager auf?</p><div class="fig" id="fM1"></div></div>
+<details><summary>Tipp</summary><div class="in"><p>Momente um D. Linksdrehend gleich rechtsdrehend.</p></div></details>
+<details class="sol"><summary>Lösung</summary><div class="in"><p><span class="f">300 · 0,4 = F<sub>2</sub> · 0,6</span>, <span class="f">120 = F<sub>2</sub> · 0,6</span>, <span class="f">F<sub>2</sub> = 200 N</span></p><p>ΣF<sub>y</sub>: <span class="f">F<sub>D</sub> = 300 + 200 = 500 N</span> nach oben.</p><div class="fast"><b>Schnellweg:</b> Hebelverhältnis 0,4 zu 0,6 ist 2 zu 3, also Kräfte 3 zu 2: <span class="f">300 · 2/3 = 200 N</span>.</div></div></details></article><article class="task" data-id="M2"><header><span class="id">M2</span><span class="tt">Balken auf zwei Stützen</span></header>
+<div class="body"><p>Balken, 5 m lang. Links Festlager A, rechts Loslager B. F<sub>1</sub> = 10 kN bei 1 m, F<sub>2</sub> = 6 kN bei 3,5 m, beide senkrecht. Berechne F<sub>A</sub> und F<sub>B</sub>.</p><div class="fig" id="fM2"></div></div>
+<details><summary>Tipp</summary><div class="in"><p>Drehpunkt A. Dann fällt F<sub>A</sub> raus und nur F<sub>B</sub> bleibt als Unbekannte.</p></div></details>
+<details class="sol"><summary>Lösung</summary><div class="in"><p>ΣM<sub>A</sub>: <span class="f">F<sub>B</sub> · 5 = 10 · 1 + 6 · 3,5 = 31</span>, <span class="f">F<sub>B</sub> = 6,2 kN</span></p><p>ΣF<sub>y</sub>: <span class="f">F<sub>A</sub> = 10 + 6 − 6,2 = 9,8 kN</span></p><p>Probe ΣM<sub>B</sub>: <span class="f">F<sub>A</sub> · 5 = 10 · 4 + 6 · 1,5 = 49</span>, <span class="f">49 / 5 = 9,8</span> ✓</p></div></details></article><article class="task" data-id="M3"><header><span class="id">M3</span><span class="tt">Mit Überstand</span></header>
+<div class="body"><p>Festlager A bei 0 m, Loslager B bei 4 m. F<sub>1</sub> = 8 kN bei 2 m, F<sub>2</sub> = 3 kN am Ende des Überstands bei 5,5 m. Berechne F<sub>A</sub> und F<sub>B</sub>.</p><div class="fig" id="fM3"></div></div>
+<details><summary>Tipp</summary><div class="in"><p>F<sub>2</sub> liegt rechts von B. Bei der Probe um B dreht F<sub>2</sub> andersrum als F<sub>1</sub>.</p></div></details>
+<details class="sol"><summary>Lösung</summary><div class="in"><p>ΣM<sub>A</sub>: <span class="f">F<sub>B</sub> · 4 = 8 · 2 + 3 · 5,5 = 32,5</span>, <span class="f">F<sub>B</sub> = 8,125 kN</span></p><p>ΣF<sub>y</sub>: <span class="f">F<sub>A</sub> = 8 + 3 − 8,125 = 2,875 kN</span></p><p>Probe ΣM<sub>B</sub>: <span class="f">F<sub>A</sub> · 4 = 8 · 2 − 3 · 1,5 = 11,5</span>, <span class="f">11,5 / 4 = 2,875</span> ✓</p><div class="fast"><b>Schnellweg:</b> Der Überstand hebelt A nach oben weg. Deshalb ist F<sub>A</sub> hier deutlich kleiner als die Hälfte.</div></div></details></article><article class="task" data-id="M4"><header><span class="id">M4</span><span class="tt">Schräge Kraft am Balken</span></header>
+<div class="body"><p>Balken 6 m, Festlager A links, Loslager B rechts. Bei 2 m greift F = 12 kN unter 60° zur Waagerechten schräg nach rechts unten an. Berechne F<sub>B</sub>, F<sub>Ax</sub>, F<sub>Ay</sub> und F<sub>A</sub>.</p><div class="fig" id="fM4"></div></div>
+<details><summary>Tipp</summary><div class="in"><p>F zuerst zerlegen. Nur der senkrechte Anteil erzeugt ein Moment um A.</p></div></details>
+<details class="sol"><summary>Lösung</summary><div class="in"><p><span class="f">F<sub>x</sub> = 12 · cos 60° = 6 kN</span>, <span class="f">F<sub>y</sub> = 12 · sin 60° = 10,39 kN</span></p><p>ΣM<sub>A</sub>: <span class="f">F<sub>B</sub> · 6 = 10,39 · 2</span>, <span class="f">F<sub>B</sub> = 3,46 kN</span></p><p>ΣF<sub>y</sub>: <span class="f">F<sub>Ay</sub> = 10,39 − 3,46 = 6,93 kN</span></p><p>ΣF<sub>x</sub>: <span class="f">F<sub>Ax</sub> = 6 kN</span> nach links, nur das Festlager kann waagerecht halten.</p><p><span class="f">F<sub>A</sub> = √(6² + 6,93²) = 9,17 kN</span> unter <span class="f">arctan(6,93 / 6) = 49,1°</span> zur Waagerechten.</p><div class="fast"><b>Schnellweg:</b> Last bei einem Drittel der Länge: B trägt ein Drittel von F<sub>y</sub>, A zwei Drittel.</div></div></details></article><article class="task" data-id="M5"><header><span class="id">M5</span><span class="tt">Ausleger mit Kette</span></header>
+<div class="body"><p>Ein waagerechter Ausleger ist bei A gelenkig an der Wand befestigt und 2 m lang. Eine Kette hält ihn: sie greift 1,5 m von der Wand an und läuft unter 35° zum Ausleger schräg nach oben zur Wand. Am Ende hängt F = 5 kN, das Eigengewicht G = 0,8 kN wirkt in der Mitte. Berechne F<sub>K</sub>, F<sub>Ax</sub> und F<sub>Ay</sub>.</p><div class="fig" id="fM5"></div></div>
+<details><summary>Tipp</summary><div class="in"><p>Drehpunkt A, dann fallen beide Lagerkräfte raus. Von der Kette dreht nur <span class="f">F<sub>K</sub> · sin 35°</span>.</p></div></details>
+<details class="sol"><summary>Lösung</summary><div class="in"><p>ΣM<sub>A</sub>: <span class="f">F<sub>K</sub> · sin 35° · 1,5 = 5 · 2 + 0,8 · 1 = 10,8</span></p><p><span class="f">F<sub>K</sub> = 10,8 / (0,5736 · 1,5) = 12,55 kN</span></p><p>ΣF<sub>x</sub>: <span class="f">F<sub>Ax</sub> = F<sub>K</sub> · cos 35° = 10,28 kN</span>, von der Wand weg.</p><p>ΣF<sub>y</sub>: <span class="f">F<sub>Ay</sub> = 5 + 0,8 − 12,55 · sin 35° = 5,8 − 7,2 = −1,4 kN</span></p><p>Minus heißt: F<sub>Ay</sub> zeigt nicht nach oben, sondern 1,4 kN nach unten. Die Kette zieht stärker hoch, als die Lasten nach unten drücken.</p><div class="fast"><b>Schnellweg:</b> Bei gleichem Aufbau mit Kette am Ende und Last am Ende wäre <span class="f">F<sub>Ay</sub> = 0</span>. Je weiter innen die Kette sitzt, desto stärker muss sie ziehen.</div></div></details></article></section><footer>Werte zum Üben erfunden, alle Lösungen nachgerechnet. Haken bei "erledigt" bleiben in diesem Browser gespeichert.</footer>
+</main>
+<script>
+const PAGE=document.body.dataset.page;
+function loadDone(){try{return JSON.parse(localStorage.getItem(PAGE+':done')||'[]')}catch(e){return[]}}
+function saveDone(a){try{localStorage.setItem(PAGE+':done',JSON.stringify(a))}catch(e){}}
+function upd(){const t=[...document.querySelectorAll('.task')];const d=t.filter(x=>x.classList.contains('done')).length;
+const p=document.getElementById('progress');if(p)p.textContent=d+' von '+t.length+' Aufgaben erledigt';
+const b=document.querySelector('.bar i');if(b)b.style.width=(t.length?100*d/t.length:0)+'%';}
+document.querySelectorAll('.task').forEach(t=>{const id=t.dataset.id;const h=t.querySelector('header');
+const l=document.createElement('label');l.innerHTML='<input type="checkbox"> erledigt';h.appendChild(l);
+const c=l.querySelector('input');if(loadDone().includes(id)){c.checked=true;t.classList.add('done')}
+c.addEventListener('change',()=>{let a=loadDone().filter(x=>x!==id);if(c.checked)a.push(id);saveDone(a);t.classList.toggle('done',c.checked);upd()});});
+upd();
+let MK=0;function arrowDefs(cls){MK++;const id='ah'+MK;return {id,defs:'<defs><marker id="'+id+'" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" style="fill:'+(cls==='fa'?'var(--accent-ink)':'var(--ink)')+'"/></marker></defs>'}}
+function svg(w,h,inner,max){return '<svg viewBox="0 0 '+w+' '+h+'" width="'+(max||w)+'" role="img">'+inner+'</svg>'}
+function ln(x1,y1,x2,y2,c){return '<line x1="'+x1+'" y1="'+y1+'" x2="'+x2+'" y2="'+y2+'" class="'+(c||'w')+'"/>'}
+function tx(x,y,s,o){o=o||{};return '<text x="'+x+'" y="'+y+'" font-size="'+(o.fs||13)+'" text-anchor="'+(o.a||'middle')+'"'+(o.c?' class="'+o.c+'"':'')+'>'+s+'</text>'}
+
+
+function put(id,s){document.getElementById(id).innerHTML=s}
+function arr(x1,y1,x2,y2,c,a){return '<line x1="'+x1+'" y1="'+y1+'" x2="'+x2+'" y2="'+y2+'" class="'+c+'" marker-end="url(#'+a.id+')"/>'}
+function forces(id,list){const a=arrowDefs('fk'),b=arrowDefs('fa');let s=a.defs+b.defs;const cx=190,cy=170,m=Math.max(...list.map(f=>f.F)),k=105/m;
+ s+=ln(40,cy,340,cy,'dash')+ln(cx,35,cx,305,'dash')+tx(338,cy-6,'x',{a:'end',c:'mut'})+tx(cx+8,24,'y',{a:'start',c:'mut'});
+ list.forEach(f=>{const r=f.a*Math.PI/180,x=cx+f.F*k*Math.cos(r),y=cy-f.F*k*Math.sin(r),u=f.u;
+  s+=arr(cx,cy,x,y,u?'fa':'fk',u?b:a);const lx=cx+(f.F*k+30)*Math.cos(r),ly=cy-(f.F*k+24)*Math.sin(r)+(Math.sin(r)<-0.3?8:0);
+  s+=tx(lx,ly-2,f.n,{fs:14,c:u?'acc':''})+tx(lx,ly+13,f.t,{fs:12,c:u?'acc':'mut'});});
+ s+='<circle cx="'+cx+'" cy="'+cy+'" r="4" class="dot"/>';put(id,svg(380,340,s))}
+forces('fS1',[{n:'F1',F:600,a:0,t:'600 N'},{n:'F2',F:800,a:90,t:'800 N'}]);
+forces('fS2',[{n:'F1',F:400,a:30,t:'400 N, 30°'},{n:'F2',F:250,a:120,t:'250 N, 120°'},{n:'F3',F:500,a:225,t:'500 N, 225°'}]);
+forces('fS3',[{n:'F1',F:500,a:0,t:'500 N'},{n:'F2',F:700,a:150,t:'700 N, 150°'}]);
+function hang(id,a1,a2,G){const a=arrowDefs('fk');let s=a.defs;const kx=180,ky=110,rise=70,xl=kx-rise/Math.tan(a1*Math.PI/180),xr=kx+rise/Math.tan(a2*Math.PI/180),ty=ky-rise;
+ s+=ln(Math.min(xl,20)-5,ty,Math.max(xr,340)+5,ty);for(let x=Math.min(xl,20);x<Math.max(xr,340);x+=14)s+=ln(x,ty,x+8,ty-8,'thin');
+ s+=ln(xl,ty,kx,ky)+ln(xr,ty,kx,ky)+ln(kx,ky,kx,ky+30)+'<rect x="'+(kx-30)+'" y="'+(ky+30)+'" width="60" height="30" class="box"/>'+tx(kx,ky+50,G,{fs:12});
+ s+=ln(kx-70,ky,kx+70,ky,'dash')+tx(kx-58,ky-6,a1+'°',{c:'acc'})+tx(kx+58,ky-6,a2+'°',{c:'acc'})+tx((xl+kx)/2-14,(ty+ky)/2+4,'F1',{a:'end'})+tx((xr+kx)/2+14,(ty+ky)/2+4,'F2',{a:'start'});
+ s+='<circle cx="'+kx+'" cy="'+ky+'" r="4" class="dot"/>';put(id,svg(360,180,s))}
+hang('fS4',30,45,'200 N');hang('fS5',20,20,'500 N');
+function beam(id,o){const a=arrowDefs('fk'),b=arrowDefs('fa');let s=a.defs+b.defs;const x0=50,W=250,L=o.L,X=v=>x0+v/L*W,by=110;
+ s+='<rect x="'+x0+'" y="'+by+'" width="'+W+'" height="10" class="box"/>';
+ (o.sup||[]).forEach(p=>{const x=X(p.x);s+='<path d="M'+x+','+(by+10)+' l-12,20 h24 z" class="box"/>';
+  if(p.t==='los'){s+=ln(x-16,by+36,x+16,by+36)}else{s+=ln(x-16,by+30,x+16,by+30)}
+  for(let i=-16;i<16;i+=7)s+=ln(x+i,by+(p.t==='los'?36:30)+7,x+i+6,by+(p.t==='los'?36:30),'thin');
+  s+=tx(x,by+62,p.n,{fs:14,c:'acc'})});
+ (o.loads||[]).forEach(f=>{const x=X(f.x),ang=(f.ang||90)*Math.PI/180,len=60,sx=x-len*Math.cos(ang),sy=by-len*Math.sin(ang);
+  s+=arr(sx,sy,x,by-1,'fk',a)+tx(sx,sy-8,f.t,{fs:13})});
+ const dy=by+84;const pts=o.dims;s+=ln(X(pts[0]),dy,X(pts[pts.length-1]),dy,'thin');
+ pts.forEach((p,i)=>{s+=ln(X(p),dy-6,X(p),dy+6,'thin');if(i>0)s+=tx((X(pts[i-1])+X(p))/2,dy+18,String(p-pts[i-1]).replace('.',',')+' m',{fs:12,c:'mut'})});
+ put(id,svg(350,dy+26,s))}
+beam('fM1',{L:1.0,sup:[{x:0.4,t:'fest',n:'D'}],loads:[{x:0,t:'F1 = 300 N'},{x:1.0,t:'F2 = ?'}],dims:[0,0.4,1.0]});
+beam('fM2',{L:5,sup:[{x:0,t:'fest',n:'A'},{x:5,t:'los',n:'B'}],loads:[{x:1,t:'10 kN'},{x:3.5,t:'6 kN'}],dims:[0,1,3.5,5]});
+beam('fM3',{L:5.5,sup:[{x:0,t:'fest',n:'A'},{x:4,t:'los',n:'B'}],loads:[{x:2,t:'8 kN'},{x:5.5,t:'3 kN'}],dims:[0,2,4,5.5]});
+beam('fM4',{L:6,sup:[{x:0,t:'fest',n:'A'},{x:6,t:'los',n:'B'}],loads:[{x:2,t:'12 kN, 60°',ang:60}],dims:[0,2,6]});
+(function(){const a=arrowDefs('fk'),b=arrowDefs('fa');let s=a.defs+b.defs;const wx=40,by=150,k=130,X=v=>wx+v*k;
+ s+='<rect x="'+(wx-14)+'" y="20" width="14" height="190" class="box"/>';for(let y=24;y<206;y+=12)s+=ln(wx-14,y+8,wx-2,y,'thin');
+ s+='<rect x="'+wx+'" y="'+(by-5)+'" width="'+(2*k)+'" height="10" class="box"/><circle cx="'+wx+'" cy="'+by+'" r="5" class="box"/>'+tx(wx+8,by+26,'A',{fs:14,c:'acc',a:'start'});
+ const cx=X(1.5),h=1.5*k*Math.tan(35*Math.PI/180);s+=ln(cx,by-5,wx,by-5-h,'fa')+'<circle cx="'+wx+'" cy="'+(by-5-h)+'" r="4" class="dot"/>';
+ s+=tx(cx-58,by-22,'35°',{c:'acc'})+tx((cx+wx)/2+18,by-5-h/2-6,'Kette F<tspan dy="3" font-size="10">K</tspan>',{a:'start',c:'acc'});
+ s+=arr(X(2),by+10,X(2),by+60,'fk',a)+tx(X(2),by+76,'F = 5 kN')+arr(X(1),by+10,X(1),by+45,'fk',a)+tx(X(1),by+60,'G = 0,8 kN',{fs:12});
+ const dy=by+96;s+=ln(X(0),dy,X(2),dy,'thin');[[0,1],[1,1.5],[1.5,2]].forEach(([p,q])=>{s+=ln(X(p),dy-5,X(p),dy+5,'thin')+tx((X(p)+X(q))/2,dy+16,String(q-p).replace('.',',')+' m',{fs:12,c:'mut'})});s+=ln(X(2),dy-5,X(2),dy+5,'thin');
+ put('fM5',svg(340,dy+24,s))})();
+</script>
+<script src="../lernwerk-bridge.js"></script>
+</body></html>

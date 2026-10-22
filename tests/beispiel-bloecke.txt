@@ -1,0 +1,71 @@
+##### FALL 1: sauberer Block mit allem
+=== LERNWERK ===
+Fach: Elektrotechnik
+Thema: Kondensator
+Modul: M2
+Anker: Ein Druckluftspeicher an der Fräse: Er füllt sich langsam und gibt die Luft schnell wieder ab.
+Begriff: Kapazität | Wie viel Ladung ein Kondensator pro Volt Spannung speichern kann.
+Begriff: Farad | Die Einheit der Kapazität.
+Merksatz: Q gleich C mal U: Die Ladung ist die Kapazität mal die Spannung.
+Prinzip: Ein Kondensator besteht aus zwei leitenden Platten mit einem Isolator dazwischen.
+Legt man eine Spannung an, sammeln sich auf den Platten Ladungen.
+
+Je größer die Platten und je kleiner der Abstand, desto mehr Ladung passt drauf.
+Baustein: Gegeben und gesucht notieren.
+Baustein: Formel Q = C · U auswählen.
+Schnellweg: Bei µF und V kommt die Ladung direkt in µC heraus.
+Fehler: µF als F eingesetzt | Immer zuerst in Farad umrechnen oder µ mitführen.
+Formel: Ladung | Q = C · U | C = Q / U; U = Q / C
+Formel: Energie | W = 0,5 · C · U² | C = 2 · W / U²; U = √(2 · W / C)
+Karte: Einheit der Kapazität? | Farad (F)
+Karte: Was speichert ein Kondensator? | Elektrische Ladung
+Aufgabe: Ein Kondensator mit C = {C} µF liegt an U = {U} V. Berechne die Ladung.
+Gegeben: C = 47 µF, U = 12 V
+Gesucht: Q
+Schritt: Formel nach Q | Q = C · U
+Schritt: Ladung | C * U | µC
+Ergebnis: 564 | µC
+Variable: C | 10 | 100 | 1
+Variable: U | 5 | 24 | 1
+Rechnung: C * U
+Termin: Elektrotechnik | 2026-11-24 | Kondensator, Ohm
+=== ENDE ===
+
+##### FALL 2: Markdown-Reste, Kleinschreibung, zwei Themen in einem Block, unbekannter Schlüssel
+Hier ist dein Block:
+```
+=== LERNWERK ===
+**Fach:** Mathematik
+- thema: Potenzen
+* **Merksatz:** Gleiche Basis, Exponenten addieren.
+1. Karte: a² · a³ = ? | a⁵
+Beispiel: 2³ · 2² = 2⁵ = 32
+Hinweis: Das ist eine Notiz
+  die über zwei Zeilen geht.
+Thema: Wurzeln
+Karte: √16 = ? | 4
+`Formel`: Quadratwurzel | a = √b | b = a²
+=== ENDE ===
+```
+
+##### FALL 3: ohne Markierungen, mit Fehlern
+Fach: Technische Mechanik
+Thema: Hebel
+Karte: Was ist ein Moment?
+Variable: l | kurz | lang
+Schritt: Moment berechnen | 300 * 0,4 | Nm
+Ergebnis: 120 Nm
+Rechnung: F * l +
+Termin: Technische Mechanik | irgendwann | Hebel
+Fach: Werkstofftechnik
+Thema: Stahl
+Karte: Was ist S235? | Baustahl mit 235 N/mm² Mindeststreckgrenze
+
+##### FALL 4: Block ohne Thema
+=== LERNWERK ===
+Fach: Englisch
+Karte: in the gym | im Fitnessstudio
+=== ENDE ===
+=== LERNWERK ===
+Termin: Mathematik | 24.11.2026 | Bruchterme
+=== ENDE ===

@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="de"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Toleranzen und Passungen</title>
+<style>
+
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+--bg:#F2F2F7;--sheet:#FFFFFF;--ink:#000000;--muted:rgba(60,60,67,.6);--line:rgba(60,60,67,.2);--soft:#F2F2F7;--fill:rgba(118,118,128,.12);
+--ok:#248A3D;--okbg:rgba(52,199,89,.15);--bad:#D70015;--badbg:rgba(255,59,48,.12);--grid:transparent}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 60px)}
+*,*::before,*::after{box-sizing:inherit}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#000000;--sheet:#1C1C1E;--ink:#FFFFFF;--muted:rgba(235,235,245,.6);--line:rgba(84,84,88,.65);--soft:#2C2C2E;--fill:rgba(118,118,128,.24);--ok:#30D158;--okbg:rgba(48,209,88,.18);--bad:#FF453A;--badbg:rgba(255,69,58,.2)}}
+:root[data-theme="dark"]{--bg:#000000;--sheet:#1C1C1E;--ink:#FFFFFF;--muted:rgba(235,235,245,.6);--line:rgba(84,84,88,.65);--soft:#2C2C2E;--fill:rgba(118,118,128,.24);--ok:#30D158;--okbg:rgba(48,209,88,.18);--bad:#FF453A;--badbg:rgba(255,69,58,.2)}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.47 -apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica Neue",system-ui,"Segoe UI",Roboto,sans-serif;-webkit-font-smoothing:antialiased;-webkit-text-size-adjust:100%;letter-spacing:-.01em}
+.sheet{max-width:720px;margin:0 auto;padding:4px 16px 40px}
+.hero{padding:22px 4px 4px}
+h1{font-size:34px;line-height:1.12;font-weight:700;letter-spacing:-.025em;margin:0 0 8px}
+.hero p{margin:0;color:var(--muted);max-width:60ch}
+.stripe{display:none}
+.tb{background:var(--sheet);border-radius:12px;overflow:hidden;margin:16px 0 8px;order:2}
+.tb div{display:flex;justify-content:space-between;align-items:baseline;gap:16px;padding:11px 16px;position:relative}
+.tb div+div::before{content:"";position:absolute;top:0;left:16px;right:0;border-top:.5px solid var(--line)}
+.tb small{font-size:17px;color:var(--ink);flex:none}
+.tb b{font-weight:400;color:var(--muted);text-align:right}
+nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;display:flex;gap:8px;overflow-x:auto;padding:10px 16px;margin:8px -16px 0;background:color-mix(in srgb,var(--bg) 75%,transparent);-webkit-backdrop-filter:saturate(180%) blur(20px);backdrop-filter:saturate(180%) blur(20px);scrollbar-width:none}
+nav::-webkit-scrollbar{display:none}
+nav a{flex:none;color:var(--accent-ink);background:var(--accent-soft);text-decoration:none;padding:7px 15px;border-radius:999px;font-size:15px;font-weight:600}
+a:focus-visible,summary:focus-visible,input:focus-visible,button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.prog{background:var(--sheet);border-radius:12px;padding:12px 16px;margin:10px 0;font-size:15px;color:var(--muted)}
+.bar{height:6px;background:var(--fill);border-radius:3px;margin-top:8px;overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:var(--accent);border-radius:3px;transition:width .35s cubic-bezier(.2,.8,.2,1)}
+section{padding:0}
+h2{font-size:22px;font-weight:700;letter-spacing:-.02em;margin:32px 4px 10px}
+h3{font-size:17px;font-weight:600;margin:22px 4px 8px}
+section>p{margin:10px 4px}
+p,li{max-width:68ch}
+section>ul,section>ol{background:var(--sheet);border-radius:12px;margin:10px 0;padding:12px 16px 12px 38px}
+section>ul li,section>ol li{margin:5px 0}
+.trio{background:var(--sheet);border-radius:12px;overflow:hidden;margin:10px 0}
+.trio>div{padding:12px 16px;position:relative}
+.trio>div+div::before{content:"";position:absolute;top:0;left:16px;right:0;border-top:.5px solid var(--line)}
+.trio .k{font-size:13px;font-weight:600;color:var(--accent-ink);display:block;margin-bottom:2px}
+.merk{background:var(--accent-soft);border-radius:12px;padding:12px 16px;margin:10px 0;font-weight:600;font-size:17px}
+.f{font-weight:600}
+.tw{background:var(--sheet);border-radius:12px;overflow-x:auto;margin:10px 0}
+table{border-collapse:collapse;font-size:15px;min-width:100%}
+th,td{border-bottom:.5px solid var(--line);padding:9px 12px;text-align:left;vertical-align:top}
+th{color:var(--muted);font-weight:600;font-size:13px}
+tr:last-child td{border-bottom:0}
+.task{background:var(--sheet);border-radius:14px;margin:14px 0;overflow:hidden}
+.task header{display:flex;align-items:center;gap:10px;padding:14px 16px 8px}
+.task .id{background:var(--accent);color:var(--on-accent);border-radius:8px;padding:2px 8px;font-size:14px;font-weight:700}
+.task .tt{font-weight:600;flex:1;line-height:1.3}
+.task label{font-size:13px;color:var(--muted);display:flex;align-items:center;gap:8px;cursor:pointer}
+.task.done .tt{color:var(--muted)}
+input[type=checkbox]{-webkit-appearance:none;appearance:none;width:51px;height:31px;border-radius:16px;background:var(--fill);position:relative;flex:none;cursor:pointer;margin:0;transition:background .2s}
+input[type=checkbox]::before{content:"";position:absolute;top:2px;left:2px;width:27px;height:27px;border-radius:50%;background:#fff;box-shadow:0 3px 8px rgba(0,0,0,.15),0 1px 1px rgba(0,0,0,.16);transition:transform .2s cubic-bezier(.2,.8,.2,1)}
+input[type=checkbox]:checked{background:#34C759}
+input[type=checkbox]:checked::before{transform:translateX(20px)}
+.task .body{padding:4px 16px 12px}
+.task .body>p:first-child{margin-top:0}
+details{border-top:.5px solid var(--line);margin-left:16px}
+summary{cursor:pointer;padding:13px 16px 13px 0;list-style:none;display:flex;justify-content:space-between;align-items:center;color:var(--accent-ink);font-weight:500}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"›";font-size:24px;line-height:1;color:var(--muted);transition:transform .2s}
+details[open] summary::after{transform:rotate(90deg)}
+details .in{padding:0 16px 14px 0}
+.fast{background:var(--accent-soft);border-radius:10px;padding:10px 12px;margin:10px 0 0}
+.fast b{color:var(--accent-ink)}
+.fig{overflow-x:auto;margin:8px 0}
+.fig svg{display:block;max-width:100%;height:auto;margin:0 auto}
+.mut{color:var(--muted)}
+svg text{fill:var(--ink);font-family:-apple-system,BlinkMacSystemFont,system-ui,sans-serif}
+svg .mut{fill:var(--muted)}
+svg .acc{fill:var(--accent-ink);font-weight:600}
+svg .w{stroke:var(--ink);stroke-width:2;fill:none}
+svg .thin{stroke:var(--muted);stroke-width:1;fill:none}
+svg .dash{stroke:var(--muted);stroke-width:1;stroke-dasharray:4 4;fill:none}
+svg .box{stroke:var(--ink);stroke-width:2;fill:var(--sheet)}
+svg .dot{fill:var(--ink)}
+svg .fa{stroke:var(--accent-ink);stroke-width:2.5;fill:none}
+svg .fk{stroke:var(--ink);stroke-width:2.5;fill:none}
+svg .zoneA{fill:var(--accent-soft);stroke:var(--accent-ink);stroke-width:2}
+svg .zoneB{fill:var(--fill);stroke:var(--ink);stroke-width:2}
+svg rect.hl{stroke:var(--accent-ink);stroke-width:3.5;fill:var(--accent-soft)}
+.bad{color:var(--bad);font-weight:600}.ok{color:var(--ok);font-weight:600}
+footer{padding:20px 4px 0;font-size:13px;color:var(--muted)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+
+:root{--accent:#34C759;--accent-ink:#248A3D;--accent-soft:rgba(52,199,89,.15);--on-accent:#FFFFFF}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--accent:#30D158;--accent-ink:#30DB5B;--accent-soft:rgba(48,209,88,.2);--on-accent:#000000}}
+:root[data-theme="dark"]{--accent:#30D158;--accent-ink:#30DB5B;--accent-soft:rgba(48,209,88,.2);--on-accent:#000000}
+</style></head>
+<body data-page="tol"><main class="sheet">
+<div class="hero"><h1>Ø30 H7: was die Zeichnung dir sagt</h1>
+<p>Das kennst du von der Fräse. Hier kommt die Rechnung dahinter: Abmaße, Grenzmaße, Spiel und Übermaß. Dann 9 Aufgaben.</p></div><div class="tb"><div><small>Fach</small><b>Toleranzen und Passungen</b></div><div><small>Klassenarbeit</small><b>Donnerstag, 01.10.</b></div>
+<div class="wide"><small>Thema</small><b>ISO-Toleranzen (IT-Grade), Grenzmaße, Passungsarten</b></div>
+<div><small>Name</small><b>Hendrik</b></div><div><small>Blatt</small><b>3 von 3</b></div></div>
+
+<div class="stripe"></div>
+<nav><a href="#prinzip">Prinzip</a><a href="#pass">Passungen</a><a href="#tab">Tabelle</a><a href="#schnell">Schnellwege</a><a href="#fehler">Fehler</a><a href="#a">Aufgaben</a></nav>
+<div class="prog"><span id="progress"></span><div class="bar"><i></i></div></div>
+<section id="prinzip"><h2>Das Prinzip</h2>
+<div class="trio">
+<div><span class="k">Bild aus deiner Werkstatt</span>Auf der Zeichnung steht Ø30 H7. Du reibst mit der H7-Reibahle und prüfst mit dem Grenzlehrdorn. Die Gutseite muss rein, die Ausschussseite darf nicht rein. Genau zwischen diesen beiden Maßen liegt die Toleranz.</div>
+<div><span class="k">Nennmaß</span>Das Maß, auf das sich alles bezieht, zum Beispiel 30 mm.</div>
+<div><span class="k">Abmaße</span>Wie weit du vom Nennmaß weg darfst. Bohrung: oberes Abmaß ES, unteres EI. Welle: es und ei. Großbuchstaben für die Bohrung, kleine für die Welle.</div>
+<div><span class="k">Grenzmaße</span><span class="f">Höchstmaß = Nennmaß + oberes Abmaß</span>, <span class="f">Mindestmaß = Nennmaß + unteres Abmaß</span></div>
+<div><span class="k">Toleranz</span><span class="f">T = Höchstmaß − Mindestmaß = oberes − unteres Abmaß</span></div>
+<div><span class="k">ISO-Kurzzeichen</span>Die <b>Zahl</b> ist der IT-Grad und sagt, wie breit das Feld ist. Kleine Zahl, enges Feld. Der <b>Buchstabe</b> sagt, wo das Feld zur Nulllinie liegt. H: unteres Abmaß 0, Bohrung wird nur größer. h: oberes Abmaß 0, Welle wird nur kleiner.</div>
+</div>
+<div class="merk">Die Zahl sagt wie breit, der Buchstabe sagt wo.</div>
+<div class="merk">Groß für die Bohrung, klein für die Welle.</div>
+<div class="fig" id="fInfo"></div>
+</section>
+
+<section id="pass"><h2>Passungen</h2>
+<p>Bohrung und Welle zusammen ergeben eine Passung, geschrieben zum Beispiel <b>Ø30 H7/g6</b>.</p>
+<div class="trio">
+<div><span class="k">Spielpassung</span>Welle immer kleiner als Bohrung. Geht leicht rein, zum Beispiel H7/g6.</div>
+<div><span class="k">Übergangspassung</span>Je nach Istmaß Spiel oder Übermaß, zum Beispiel H7/k6.</div>
+<div><span class="k">Übermaßpassung (Presspassung)</span>Welle immer größer. Nur mit Kraft oder Wärme, zum Beispiel H7/p6.</div>
+</div>
+<p><span class="f">Höchstspiel = Höchstmaß Bohrung − Mindestmaß Welle = ES − ei</span></p>
+<p><span class="f">Mindestspiel = Mindestmaß Bohrung − Höchstmaß Welle = EI − es</span></p>
+<p>Kommt ein Ergebnis negativ heraus, ist es Übermaß. Beide positiv: Spiel. Beide negativ: Übermaß. Eins plus, eins minus: Übergang.</p>
+<div class="merk">Größte Lücke: größte Bohrung, kleinste Welle.</div>
+<p><b>Einheitsbohrung</b>: Die Bohrung ist immer H, die Passung stellt man über die Welle ein. Standard im Maschinenbau, weil man dann nur H-Reibahlen und H-Lehrdorne braucht.</p>
+</section>
+
+<section id="tab"><h2>Tabellenauszug für die Aufgaben</h2>
+<p>Werte in µm, 1 µm = 0,001 mm. Nennmaßbereich heißt „über … bis“: 30 mm gehört zu „über 18 bis 30“. In der Arbeit gilt dein Tabellenbuch.</p>
+<h3>Grundtoleranzen IT</h3>
+<div class="tw"><table><tr><th>Nennmaß in mm</th><th>IT6</th><th>IT7</th><th>IT8</th></tr>
+<tr><td>über 10 bis 18</td><td>11</td><td>18</td><td>27</td></tr><tr><td>über 18 bis 30</td><td>13</td><td>21</td><td>33</td></tr>
+<tr><td>über 30 bis 50</td><td>16</td><td>25</td><td>39</td></tr><tr><td>über 50 bis 80</td><td>19</td><td>30</td><td>46</td></tr></table></div>
+<h3>Grundabmaße Wellen</h3>
+<p>f, g, h: angegeben ist das obere Abmaß es, das untere ist <span class="f">ei = es − IT</span>. k, n, p: angegeben ist das untere Abmaß ei, das obere ist <span class="f">es = ei + IT</span>.</p>
+<div class="tw"><table><tr><th>Nennmaß in mm</th><th>f (es)</th><th>g (es)</th><th>h (es)</th><th>k (ei)</th><th>n (ei)</th><th>p (ei)</th></tr>
+<tr><td>über 10 bis 18</td><td>−16</td><td>−6</td><td>0</td><td>+1</td><td>+12</td><td>+18</td></tr>
+<tr><td>über 18 bis 30</td><td>−20</td><td>−7</td><td>0</td><td>+2</td><td>+15</td><td>+22</td></tr>
+<tr><td>über 30 bis 50</td><td>−25</td><td>−9</td><td>0</td><td>+2</td><td>+17</td><td>+26</td></tr>
+<tr><td>über 50 bis 80</td><td>−30</td><td>−10</td><td>0</td><td>+2</td><td>+20</td><td>+32</td></tr></table></div>
+<p>Bohrung H: <span class="f">EI = 0</span>, <span class="f">ES = +IT</span>.</p>
+</section>
+
+<section id="schnell"><h2>Schnellwege für die Arbeit</h2>
+<div class="trio">
+<div><span class="k">Passungsart ohne Rechnen</span>Mit H-Bohrung: Welle a bis h gibt Spiel. j, k, m, n meist Übergang. p bis z Übermaß. Faustregel, im Zweifel rechnen.</div>
+<div><span class="k">Spiel kreuzweise</span>Höchstspiel: oben Bohrung minus unten Welle. Mindestspiel: unten Bohrung minus oben Welle. Immer über Kreuz.</div>
+<div><span class="k">In µm rechnen</span>Alles in µm lassen und erst am Ende in mm umrechnen: 21 µm = 0,021 mm. Weniger Kommafehler.</div>
+<div><span class="k">Nacharbeit oder Ausschuss</span>Ist noch Material dran, kannst du nacharbeiten. Ist zu viel weg, ist es Ausschuss. Welle zu groß: Nacharbeit. Welle zu klein: Ausschuss. Bohrung zu klein: Nacharbeit. Bohrung zu groß: Ausschuss.</div>
+</div>
+<div class="merk">Material noch dran: Nacharbeit. Material zu viel weg: Ausschuss.</div>
+</section>
+
+<section id="fehler"><h2>Typische Fehler</h2>
+<ul><li>µm und mm gemischt: 0,21 statt 0,021.</li>
+<li>Minuszeichen beim Abmaß verloren, besonders bei f und g.</li>
+<li>Bei der Welle es und ei vertauscht.</li>
+<li>Falscher Nennmaßbereich: 50 mm gehört zu „über 30 bis 50“, nicht zu „über 50 bis 80“.</li>
+<li>Beim Mindestspiel das negative Vorzeichen als Fehler gesehen. Negativ heißt einfach Übermaß.</li></ul></section>
+
+<section id="a"><h2>Aufgaben</h2><p>Nimm den Tabellenauszug oben. Rechne in µm, schreib das Ergebnis in mm.</p>
+<article class="task" data-id="T1"><header><span class="id">T1</span><span class="tt">Grenzmaße aus Abmaßen</span></header>
+<div class="body"><p>Auf der Zeichnung steht Ø40 +0,2 / −0,1. Bestimme Höchstmaß, Mindestmaß und Toleranz.</p></div>
+<details><summary>Tipp</summary><div class="in"><p>Nennmaß plus oberes Abmaß, Nennmaß plus unteres Abmaß.</p></div></details>
+<details class="sol"><summary>Lösung</summary><div class="in"><p><span class="f">Höchstmaß = 40 + 0,2 = 40,2 mm</span></p><p><span class="f">Mindestmaß = 40 − 0,1 = 39,9 mm</span></p><p><span class="f">T = 0,2 − (−0,1) = 0,3 mm</span></p><div class="fast"><b>Schnellweg:</b> Toleranz ist der Abstand der beiden Abmaße. Bei plus und minus einfach die Beträge addieren: 0,2 + 0,1.</div></div></details></article><article class="task" data-id="T2"><header><span class="id">T2</span><span class="tt">Bohrung H7</span></header>
+<div class="body"><p>Bestimme Abmaße, Grenzmaße und Toleranz für die Bohrung Ø30 H7.</p></div>
+<details><summary>Tipp</summary><div class="in"><p>30 mm liegt im Bereich über 18 bis 30. H heißt: unten 0.</p></div></details>
+<details class="sol"><summary>Lösung</summary><div class="in"><p>IT7 = 21 µm. <span class="f">EI = 0</span>, <span class="f">ES = +21 µm</span></p><p><span class="f">Mindestmaß = 30,000 mm</span>, <span class="f">Höchstmaß = 30,021 mm</span>, <span class="f">T = 0,021 mm</span></p><div class="fig" id="fT2"></div></div></details></article><article class="task" data-id="T3"><header><span class="id">T3</span><span class="tt">Welle g6</span></header>
+<div class="body"><p>Bestimme Abmaße und Grenzmaße für die Welle Ø30 g6.</p></div>
+<details><summary>Tipp</summary><div class="in"><p>g gibt das obere Abmaß. Das untere bekommst du mit ei = es − IT.</p></div></details>
+<details class="sol"><summary>Lösung</summary><div class="in"><p>IT6 = 13 µm. <span class="f">es = −7 µm</span>, <span class="f">ei = −7 − 13 = −20 µm</span></p><p><span class="f">Höchstmaß = 29,993 mm</span>, <span class="f">Mindestmaß = 29,980 mm</span></p><div class="fig" id="fT3"></div></div></details></article><article class="task" data-id="T4"><header><span class="id">T4</span><span class="tt">Passung H7/g6</span></header>
+<div class="body"><p>Berechne für Ø30 H7/g6 Höchstspiel und Mindestspiel. Welche Passungsart ist das?</p></div>
+<details><summary>Tipp</summary><div class="in"><p>Die Abmaße hast du aus T2 und T3. Kreuzweise rechnen.</p></div></details>
+<details class="sol"><summary>Lösung</summary><div class="in"><p><span class="f">Höchstspiel = ES − ei = 21 − (−20) = 41 µm = 0,041 mm</span></p><p><span class="f">Mindestspiel = EI − es = 0 − (−7) = 7 µm = 0,007 mm</span></p><p>Beide positiv: <b>Spielpassung</b>.</p><div class="fig" id="fT4"></div><div class="fast"><b>Schnellweg:</b> g ist ein Buchstabe vor h, also Spiel. Ohne Rechnen klar.</div></div></details></article><article class="task" data-id="T5"><header><span class="id">T5</span><span class="tt">Passung H7/k6</span></header>
+<div class="body"><p>Berechne für Ø50 H7/k6 die Grenzabmaße beider Teile, Höchstspiel und Höchstübermaß. Welche Passungsart ist das?</p></div>
+<details><summary>Tipp</summary><div class="in"><p>50 mm gehört zu über 30 bis 50. Bei k ist das untere Abmaß ei angegeben.</p></div></details>
+<details class="sol"><summary>Lösung</summary><div class="in"><p>H7: IT7 = 25 µm, <span class="f">EI = 0</span>, <span class="f">ES = +25</span></p><p>k6: IT6 = 16 µm, <span class="f">ei = +2</span>, <span class="f">es = 2 + 16 = +18</span></p><p><span class="f">Höchstspiel = 25 − 2 = 23 µm</span></p><p><span class="f">EI − es = 0 − 18 = −18 µm</span>, also <span class="f">Höchstübermaß = 18 µm</span></p><p>Einmal Spiel, einmal Übermaß: <b>Übergangspassung</b>.</p><div class="fig" id="fT5"></div></div></details></article><article class="task" data-id="T6"><header><span class="id">T6</span><span class="tt">Passung H7/p6</span></header>
+<div class="body"><p>Berechne für Ø20 H7/p6 Mindestübermaß und Höchstübermaß.</p></div>
+<details><summary>Tipp</summary><div class="in"><p>20 mm: über 18 bis 30. Beide Ergebnisse werden negativ.</p></div></details>
+<details class="sol"><summary>Lösung</summary><div class="in"><p>H7: <span class="f">EI = 0</span>, <span class="f">ES = +21</span>. p6: <span class="f">ei = +22</span>, <span class="f">es = 22 + 13 = +35</span></p><p><span class="f">ES − ei = 21 − 22 = −1 µm</span>: <span class="f">Mindestübermaß = 1 µm</span></p><p><span class="f">EI − es = 0 − 35 = −35 µm</span>: <span class="f">Höchstübermaß = 35 µm</span></p><p>Beide negativ: <b>Übermaßpassung</b>.</p><div class="fig" id="fT6"></div><div class="fast"><b>Schnellweg:</b> Liegt das untere Abmaß der Welle (+22) höher als das obere der Bohrung (+21), ist es sicher Übermaß. Ein Blick reicht.</div></div></details></article><article class="task" data-id="T7"><header><span class="id">T7</span><span class="tt">Gut, Nacharbeit oder Ausschuss</span></header>
+<div class="body"><p>Welle Ø50 f7. Bestimme die Grenzmaße. Du misst drei Wellen: 49,962 mm, 49,980 mm und 49,945 mm. Was ist mit jeder?</p></div>
+<details><summary>Tipp</summary><div class="in"><p>f gibt es. Dann ei = es − IT7. Danach jedes Istmaß einordnen.</p></div></details>
+<details class="sol"><summary>Lösung</summary><div class="in"><p>IT7 = 25 µm, <span class="f">es = −25 µm</span>, <span class="f">ei = −25 − 25 = −50 µm</span></p><p><span class="f">Höchstmaß = 49,975 mm</span>, <span class="f">Mindestmaß = 49,950 mm</span></p><p>49,962: liegt dazwischen, <span class="ok">gut</span>.</p><p>49,980: zu groß, Material noch dran, <b>Nacharbeit</b>.</p><p>49,945: zu klein, <span class="bad">Ausschuss</span>.</p></div></details></article><article class="task" data-id="T8"><header><span class="id">T8</span><span class="tt">Passung H8/h7</span></header>
+<div class="body"><p>Berechne für Ø60 H8/h7 Höchstspiel und Mindestspiel.</p></div>
+<details><summary>Tipp</summary><div class="in"><p>60 mm: über 50 bis 80. H und h liegen beide an der Nulllinie.</p></div></details>
+<details class="sol"><summary>Lösung</summary><div class="in"><p>H8: <span class="f">EI = 0</span>, <span class="f">ES = +46</span>. h7: <span class="f">es = 0</span>, <span class="f">ei = −30</span></p><p><span class="f">Höchstspiel = 46 − (−30) = 76 µm</span></p><p><span class="f">Mindestspiel = 0 − 0 = 0 µm</span></p><p>Spielpassung, im ungünstigsten Fall genau ohne Spiel.</p><div class="fig" id="fT8"></div><div class="fast"><b>Schnellweg:</b> Bei H/h ist das Mindestspiel immer 0 und das Höchstspiel die Summe der beiden IT-Werte: <span class="f">46 + 30 = 76 µm</span>.</div></div></details></article><article class="task" data-id="T9"><header><span class="id">T9</span><span class="tt">Rückwärts: welcher IT-Grad?</span></header>
+<div class="body"><p>Eine Bohrung Ø25 hat die Grenzmaße 25,000 mm und 25,033 mm. Welches ISO-Kurzzeichen hat sie?</p></div>
+<details><summary>Tipp</summary><div class="in"><p>Erst Lage bestimmen (unten 0?), dann die Toleranz in der IT-Tabelle suchen.</p></div></details>
+<details class="sol"><summary>Lösung</summary><div class="in"><p>Unteres Abmaß 0: Buchstabe <b>H</b>.</p><p><span class="f">T = 25,033 − 25,000 = 0,033 mm = 33 µm</span>. Über 18 bis 30: 33 µm ist IT8.</p><p>Ergebnis: <b>Ø25 H8</b>.</p></div></details></article></section><footer>Tabellenwerte nach ISO 286, mit mehreren Quellen abgeglichen. Haken bei "erledigt" bleiben in diesem Browser gespeichert.</footer>
+</main>
+<script>
+const PAGE=document.body.dataset.page;
+function loadDone(){try{return JSON.parse(localStorage.getItem(PAGE+':done')||'[]')}catch(e){return[]}}
+function saveDone(a){try{localStorage.setItem(PAGE+':done',JSON.stringify(a))}catch(e){}}
+function upd(){const t=[...document.querySelectorAll('.task')];const d=t.filter(x=>x.classList.contains('done')).length;
+const p=document.getElementById('progress');if(p)p.textContent=d+' von '+t.length+' Aufgaben erledigt';
+const b=document.querySelector('.bar i');if(b)b.style.width=(t.length?100*d/t.length:0)+'%';}
+document.querySelectorAll('.task').forEach(t=>{const id=t.dataset.id;const h=t.querySelector('header');
+const l=document.createElement('label');l.innerHTML='<input type="checkbox"> erledigt';h.appendChild(l);
+const c=l.querySelector('input');if(loadDone().includes(id)){c.checked=true;t.classList.add('done')}
+c.addEventListener('change',()=>{let a=loadDone().filter(x=>x!==id);if(c.checked)a.push(id);saveDone(a);t.classList.toggle('done',c.checked);upd()});});
+upd();
+let MK=0;function arrowDefs(cls){MK++;const id='ah'+MK;return {id,defs:'<defs><marker id="'+id+'" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" style="fill:'+(cls==='fa'?'var(--accent-ink)':'var(--ink)')+'"/></marker></defs>'}}
+function svg(w,h,inner,max){return '<svg viewBox="0 0 '+w+' '+h+'" width="'+(max||w)+'" role="img">'+inner+'</svg>'}
+function ln(x1,y1,x2,y2,c){return '<line x1="'+x1+'" y1="'+y1+'" x2="'+x2+'" y2="'+y2+'" class="'+(c||'w')+'"/>'}
+function tx(x,y,s,o){o=o||{};return '<text x="'+x+'" y="'+y+'" font-size="'+(o.fs||13)+'" text-anchor="'+(o.a||'middle')+'"'+(o.c?' class="'+o.c+'"':'')+'>'+s+'</text>'}
+
+
+function put(id,s){document.getElementById(id).innerHTML=s}
+function fit(id,parts,nenn){const vals=parts.flatMap(p=>[p.lo,p.hi]).concat([0]);const mx=Math.max(...vals),mn=Math.min(...vals),span=Math.max(mx-mn,10);
+ const top=24,H=170,k=H/span,Y=v=>top+(mx-v)*k,W=330;let s='';
+ s+=ln(20,Y(0),W-10,Y(0))+tx(W-12,Y(0)-6,'Nulllinie '+nenn,{a:'end',fs:12,c:'mut'});
+ parts.forEach((p,i)=>{const x=70+i*120,w=80,y1=Y(p.hi),y2=Y(p.lo);
+  s+='<rect x="'+x+'" y="'+y1+'" width="'+w+'" height="'+Math.max(y2-y1,2)+'" class="'+(p.bore?'zoneA':'zoneB')+'"/>';
+  s+=tx(x+w/2,Math.min(y1,Y(0))-10,p.n,{fs:14,c:p.bore?'acc':''});
+  s+=tx(x-5,y1+4,(p.hi>0?'+':'')+p.hi,{a:'end',fs:12})+tx(x+w+5,y2+4,(p.lo>0?'+':'')+p.lo,{a:'start',fs:12});});
+ put(id,svg(W,top+H+30,s))}
+fit('fInfo',[{n:'Bohrung H7',lo:0,hi:21,bore:1},{n:'Welle g6',lo:-20,hi:-7}],'Ø30, µm');
+fit('fT2',[{n:'H7',lo:0,hi:21,bore:1}],'Ø30');
+fit('fT3',[{n:'g6',lo:-20,hi:-7}],'Ø30');
+fit('fT4',[{n:'H7',lo:0,hi:21,bore:1},{n:'g6',lo:-20,hi:-7}],'Ø30');
+fit('fT5',[{n:'H7',lo:0,hi:25,bore:1},{n:'k6',lo:2,hi:18}],'Ø50');
+fit('fT6',[{n:'H7',lo:0,hi:21,bore:1},{n:'p6',lo:22,hi:35}],'Ø20');
+fit('fT8',[{n:'H8',lo:0,hi:46,bore:1},{n:'h7',lo:-30,hi:0}],'Ø60');
+</script>
+<script src="../lernwerk-bridge.js"></script>
+</body></html>
