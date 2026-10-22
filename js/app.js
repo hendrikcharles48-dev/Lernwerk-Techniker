@@ -8,7 +8,7 @@ import { mehrPage, termineDetail, termEditor, datensicherung, applyTheme } from 
 import { prefs } from './db.js';
 import { speak, canSpeak } from './speech.js';
 
-export const VERSION = '1.1.0';
+export const VERSION = '1.2.0';
 
 /* ===== Heute ===== */
 const heute = {
@@ -417,26 +417,38 @@ async function boot() {
   document.addEventListener('visibilitychange', recheck);
   window.addEventListener('pageshow', recheck);
   registerSW();
+  const neu = prefs.get('aktualisiert', null);
+  if (neu) { prefs.set('aktualisiert', null); setTimeout(() => toast('Lernwerk wurde aktualisiert.'), 600); }
 }
 
+// Automatische Updates: Beim Öffnen und beim Zurückkehren in die App wird nach einer neuen Version
+// gesucht. Sie wird im Hintergrund geladen und sofort aktiv. Neu geladen wird nur, wenn gerade
+// nichts offen ist (keine Übung, keine Eingabe). Sonst wartet die App auf den nächsten ruhigen Moment.
 function registerSW() {
   if (!('serviceWorker' in navigator)) return;
-  navigator.serviceWorker.register('sw.js').then(reg => {
-    const offer = w => {
-      const bar = document.getElementById('update');
-      bar.classList.add('on');
-      bar.onclick = () => { w.postMessage('skipWaiting'); bar.textContent = 'Lade neue Version …'; };
-    };
-    if (reg.waiting && navigator.serviceWorker.controller) offer(reg.waiting);
-    reg.addEventListener('updatefound', () => {
-      const w = reg.installing;
-      w && w.addEventListener('statechange', () => { if (w.state === 'installed' && navigator.serviceWorker.controller) offer(w); });
-    });
-    setInterval(() => reg.update().catch(() => {}), 30 * 60 * 1000);
-    document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') reg.update().catch(() => {}); });
+  const hadController = !!navigator.serviceWorker.controller;
+  let pending = false, reloaded = false;
+  const ruhig = () => !document.body.classList.contains('sheet-open') && !(document.activeElement && /INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName));
+  const reload = () => { if (reloaded) return; reloaded = true; prefs.set('aktualisiert', VERSION); location.reload(); };
+  const tryReload = () => { if (pending && ruhig()) reload(); };
+  navigator.serviceWorker.register('sw.js', { updateViaCache: 'none' }).then(reg => {
+    const check = () => reg.update().catch(() => {});
+    setInterval(check, 30 * 60 * 1000);
+    document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') { check(); tryReload(); } });
+    if (reg.waiting) reg.waiting.postMessage('skipWaiting');
   }).catch(e => console.warn('Service Worker', e));
-  let reloaded = false;
-  navigator.serviceWorker.addEventListener('controllerchange', () => { if (reloaded) return; reloaded = true; location.reload(); });
+  navigator.serviceWorker.addEventListener('controllerchange', () => {
+    if (!hadController) return; // allererster Start: nichts neu laden
+    pending = true;
+    if (ruhig()) return reload();
+    const bar = document.getElementById('update');
+    bar.textContent = 'Neue Version bereit. Sie lädt, wenn du fertig bist, oder tippe hier.';
+    bar.classList.add('on');
+    bar.onclick = reload;
+  });
+  // Nach einer Übung oder beim Verlassen eines Feldes nachholen
+  document.addEventListener('focusout', () => setTimeout(tryReload, 300));
+  new MutationObserver(tryReload).observe(document.body, { attributes: true, attributeFilter: ['class'] });
 }
 
 boot();

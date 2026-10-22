@@ -35,5 +35,14 @@ for (const file of files) {
   console.log(String(file).split('/').pop(), r.themen.length, 'Themen');
 }
 for (const f of L.faecher) for (const t of f.themen) if (!covered.has(t.id)) { console.log('THEMA OHNE EINFÜHRUNG', t.id); bad++; }
+// Versionsnummer muss in sw.js und js/app.js gleich sein, sonst kommt kein Update an
+const swV = /const VERSION = '([^']+)'/.exec(fs.readFileSync(new URL('../sw.js', import.meta.url), 'utf8'))[1];
+const appV = /export const VERSION = '([^']+)'/.exec(fs.readFileSync(new URL('../js/app.js', import.meta.url), 'utf8'))[1];
+if (swV !== appV) { console.log('VERSION ungleich: sw.js', swV, 'app.js', appV); bad++; }
+// Alle Dateien aus sw.js müssen existieren
+const swText = fs.readFileSync(new URL('../sw.js', import.meta.url), 'utf8');
+for (const f of [...swText.split('FILES = [')[1].split('];')[0].matchAll(/'([^']+)'/g)].map(m => m[1])) {
+  if (f !== './' && !fs.existsSync(new URL('../' + f, import.meta.url))) { console.log('FEHLT für Offline:', f); bad++; }
+}
 console.log('Probleme:', bad);
 process.exit(bad ? 1 : 0);

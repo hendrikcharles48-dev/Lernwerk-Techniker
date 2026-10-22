@@ -124,7 +124,7 @@ Auf dem iPhone in Safari auf github.com im Repository: **Settings**, **Pages**, 
 
 Dann in Safari: Teilen-Knopf, **Zum Home-Bildschirm**.
 
-Updates: Bei jeder Änderung `VERSION` in `sw.js` erhöhen. Die App zeigt dann „Neue Version, tippen zum Laden“.
+Updates laufen automatisch: Änderungen werden direkt auf `main` veröffentlicht. Beim nächsten Öffnen holt sich die App die neue Version selbst und zeigt kurz „Lernwerk wurde aktualisiert“. Ist gerade eine Übung offen, wartet sie damit, bis du fertig bist. Dafür bei jeder Änderung `VERSION` in `sw.js` und `js/app.js` gleich erhöhen.
 
 ## Technik
 
