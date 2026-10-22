@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="de"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Rückrechen-Trainer</title>
+<style>
+
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+--bg:#F2F2F7;--sheet:#FFFFFF;--ink:#000000;--muted:rgba(60,60,67,.6);--line:rgba(60,60,67,.2);--soft:#F2F2F7;--fill:rgba(118,118,128,.12);
+--ok:#248A3D;--okbg:rgba(52,199,89,.15);--bad:#D70015;--badbg:rgba(255,59,48,.12);--grid:transparent}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 60px)}
+*,*::before,*::after{box-sizing:inherit}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#000000;--sheet:#1C1C1E;--ink:#FFFFFF;--muted:rgba(235,235,245,.6);--line:rgba(84,84,88,.65);--soft:#2C2C2E;--fill:rgba(118,118,128,.24);--ok:#30D158;--okbg:rgba(48,209,88,.18);--bad:#FF453A;--badbg:rgba(255,69,58,.2)}}
+:root[data-theme="dark"]{--bg:#000000;--sheet:#1C1C1E;--ink:#FFFFFF;--muted:rgba(235,235,245,.6);--line:rgba(84,84,88,.65);--soft:#2C2C2E;--fill:rgba(118,118,128,.24);--ok:#30D158;--okbg:rgba(48,209,88,.18);--bad:#FF453A;--badbg:rgba(255,69,58,.2)}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.47 -apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica Neue",system-ui,"Segoe UI",Roboto,sans-serif;-webkit-font-smoothing:antialiased;-webkit-text-size-adjust:100%;letter-spacing:-.01em}
+.sheet{max-width:720px;margin:0 auto;padding:4px 16px 40px}
+.hero{padding:22px 4px 4px}
+h1{font-size:34px;line-height:1.12;font-weight:700;letter-spacing:-.025em;margin:0 0 8px}
+.hero p{margin:0;color:var(--muted);max-width:60ch}
+.stripe{display:none}
+.tb{background:var(--sheet);border-radius:12px;overflow:hidden;margin:16px 0 8px;order:2}
+.tb div{display:flex;justify-content:space-between;align-items:baseline;gap:16px;padding:11px 16px;position:relative}
+.tb div+div::before{content:"";position:absolute;top:0;left:16px;right:0;border-top:.5px solid var(--line)}
+.tb small{font-size:17px;color:var(--ink);flex:none}
+.tb b{font-weight:400;color:var(--muted);text-align:right}
+nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;display:flex;gap:8px;overflow-x:auto;padding:10px 16px;margin:8px -16px 0;background:color-mix(in srgb,var(--bg) 75%,transparent);-webkit-backdrop-filter:saturate(180%) blur(20px);backdrop-filter:saturate(180%) blur(20px);scrollbar-width:none}
+nav::-webkit-scrollbar{display:none}
+nav a{flex:none;color:var(--accent-ink);background:var(--accent-soft);text-decoration:none;padding:7px 15px;border-radius:999px;font-size:15px;font-weight:600}
+a:focus-visible,summary:focus-visible,input:focus-visible,button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.prog{background:var(--sheet);border-radius:12px;padding:12px 16px;margin:10px 0;font-size:15px;color:var(--muted)}
+.bar{height:6px;background:var(--fill);border-radius:3px;margin-top:8px;overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:var(--accent);border-radius:3px;transition:width .35s cubic-bezier(.2,.8,.2,1)}
+section{padding:0}
+h2{font-size:22px;font-weight:700;letter-spacing:-.02em;margin:32px 4px 10px}
+h3{font-size:17px;font-weight:600;margin:22px 4px 8px}
+section>p{margin:10px 4px}
+p,li{max-width:68ch}
+section>ul,section>ol{background:var(--sheet);border-radius:12px;margin:10px 0;padding:12px 16px 12px 38px}
+section>ul li,section>ol li{margin:5px 0}
+.trio{background:var(--sheet);border-radius:12px;overflow:hidden;margin:10px 0}
+.trio>div{padding:12px 16px;position:relative}
+.trio>div+div::before{content:"";position:absolute;top:0;left:16px;right:0;border-top:.5px solid var(--line)}
+.trio .k{font-size:13px;font-weight:600;color:var(--accent-ink);display:block;margin-bottom:2px}
+.merk{background:var(--accent-soft);border-radius:12px;padding:12px 16px;margin:10px 0;font-weight:600;font-size:17px}
+.f{font-weight:600}
+.tw{background:var(--sheet);border-radius:12px;overflow-x:auto;margin:10px 0}
+table{border-collapse:collapse;font-size:15px;min-width:100%}
+th,td{border-bottom:.5px solid var(--line);padding:9px 12px;text-align:left;vertical-align:top}
+th{color:var(--muted);font-weight:600;font-size:13px}
+tr:last-child td{border-bottom:0}
+.task{background:var(--sheet);border-radius:14px;margin:14px 0;overflow:hidden}
+.task header{display:flex;align-items:center;gap:10px;padding:14px 16px 8px}
+.task .id{background:var(--accent);color:var(--on-accent);border-radius:8px;padding:2px 8px;font-size:14px;font-weight:700}
+.task .tt{font-weight:600;flex:1;line-height:1.3}
+.task label{font-size:13px;color:var(--muted);display:flex;align-items:center;gap:8px;cursor:pointer}
+.task.done .tt{color:var(--muted)}
+input[type=checkbox]{-webkit-appearance:none;appearance:none;width:51px;height:31px;border-radius:16px;background:var(--fill);position:relative;flex:none;cursor:pointer;margin:0;transition:background .2s}
+input[type=checkbox]::before{content:"";position:absolute;top:2px;left:2px;width:27px;height:27px;border-radius:50%;background:#fff;box-shadow:0 3px 8px rgba(0,0,0,.15),0 1px 1px rgba(0,0,0,.16);transition:transform .2s cubic-bezier(.2,.8,.2,1)}
+input[type=checkbox]:checked{background:#34C759}
+input[type=checkbox]:checked::before{transform:translateX(20px)}
+.task .body{padding:4px 16px 12px}
+.task .body>p:first-child{margin-top:0}
+details{border-top:.5px solid var(--line);margin-left:16px}
+summary{cursor:pointer;padding:13px 16px 13px 0;list-style:none;display:flex;justify-content:space-between;align-items:center;color:var(--accent-ink);font-weight:500}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"›";font-size:24px;line-height:1;color:var(--muted);transition:transform .2s}
+details[open] summary::after{transform:rotate(90deg)}
+details .in{padding:0 16px 14px 0}
+.fast{background:var(--accent-soft);border-radius:10px;padding:10px 12px;margin:10px 0 0}
+.fast b{color:var(--accent-ink)}
+.fig{overflow-x:auto;margin:8px 0}
+.fig svg{display:block;max-width:100%;height:auto;margin:0 auto}
+.mut{color:var(--muted)}
+svg text{fill:var(--ink);font-family:-apple-system,BlinkMacSystemFont,system-ui,sans-serif}
+svg .mut{fill:var(--muted)}
+svg .acc{fill:var(--accent-ink);font-weight:600}
+svg .w{stroke:var(--ink);stroke-width:2;fill:none}
+svg .thin{stroke:var(--muted);stroke-width:1;fill:none}
+svg .dash{stroke:var(--muted);stroke-width:1;stroke-dasharray:4 4;fill:none}
+svg .box{stroke:var(--ink);stroke-width:2;fill:var(--sheet)}
+svg .dot{fill:var(--ink)}
+svg .fa{stroke:var(--accent-ink);stroke-width:2.5;fill:none}
+svg .fk{stroke:var(--ink);stroke-width:2.5;fill:none}
+svg .zoneA{fill:var(--accent-soft);stroke:var(--accent-ink);stroke-width:2}
+svg .zoneB{fill:var(--fill);stroke:var(--ink);stroke-width:2}
+svg .hl{stroke:var(--accent-ink);stroke-width:3.5;fill:var(--accent-soft)}
+.bad{color:var(--bad);font-weight:600}.ok{color:var(--ok);font-weight:600}
+footer{padding:20px 4px 0;font-size:13px;color:var(--muted)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+
+:root{--accent:#FF9500;--accent-ink:#C93400;--accent-soft:rgba(255,149,0,.15);--on-accent:#FFFFFF}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--accent:#FF9F0A;--accent-ink:#FFB340;--accent-soft:rgba(255,159,10,.2);--on-accent:#000000}}
+:root[data-theme="dark"]{--accent:#FF9F0A;--accent-ink:#FFB340;--accent-soft:rgba(255,159,10,.2);--on-accent:#000000}
+
+.pick{display:flex;gap:8px;overflow-x:auto;padding:2px 0 10px;scrollbar-width:none}
+.pick::-webkit-scrollbar{display:none}
+.pick button{flex:none;font:inherit;font-size:15px;font-weight:600;border:0;background:var(--sheet);color:var(--ink);padding:8px 16px;border-radius:999px;min-height:38px;cursor:pointer}
+.pick button.on{background:var(--accent);color:var(--on-accent)}
+.tog{display:flex;flex-direction:row-reverse;justify-content:space-between;align-items:center;gap:12px;background:var(--sheet);border-radius:12px;padding:10px 16px;font-size:15px;color:var(--ink);margin:4px 0 10px;cursor:pointer}
+.given{background:var(--sheet);border-radius:12px;padding:12px 16px;margin:10px 0}
+#fig:not(:empty),#circ:not(:empty){background:var(--sheet);border-radius:12px;padding:10px}
+.step{background:var(--sheet);border-radius:14px;padding:16px;margin:12px 0}
+.step .n{font-size:13px;color:var(--muted);font-weight:600}
+.step .q{font-size:20px;font-weight:700;letter-spacing:-.015em;line-height:1.3;margin:4px 0 12px}
+.rules{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:8px 0}
+.mc{display:flex;flex-direction:column;gap:8px;margin:8px 0}
+.rules button,.mc button{font:inherit;font-size:16px;font-weight:500;border:0;background:var(--fill);color:var(--ink);padding:12px 14px;border-radius:12px;min-height:48px;cursor:pointer;text-align:left;transition:background .15s,transform .1s}
+.rules button:active,.mc button:active,.act button:active,.pick button:active{transform:scale(.97)}
+.rules button.ok,.mc button.ok{background:var(--okbg);color:var(--ok);font-weight:600}
+.rules button.ok::after,.mc button.ok::after{content:" ✓"}
+.rules button.no,.mc button.no{background:var(--badbg);color:var(--bad);text-decoration:line-through}
+.inrow{display:flex;gap:10px;align-items:center;margin:12px 0}
+.inrow input{font:inherit;font-size:22px;font-weight:600;flex:1;min-width:0;max-width:14em;padding:12px 14px;border:0;border-radius:12px;background:var(--fill);color:var(--ink)}
+.inrow input:disabled{opacity:.45}
+.inrow span{font-size:18px;font-weight:600;color:var(--muted)}
+.act{display:flex;flex-wrap:wrap;gap:8px;margin-top:4px}
+.act button{font:inherit;font-size:17px;font-weight:600;border:0;border-radius:12px;padding:12px 18px;min-height:50px;background:var(--accent-soft);color:var(--accent-ink);cursor:pointer;transition:transform .1s}
+.act button.main{background:var(--accent);color:var(--on-accent);flex:1}
+.fb{margin:10px 0 0;padding:10px 14px;border-radius:12px;font-size:16px;line-height:1.4}
+.fb.good{background:var(--okbg)}.fb.badf{background:var(--badbg)}.fb.info{background:var(--accent-soft)}
+
+[data-el]{cursor:pointer}
+.hit{fill:transparent;stroke:none}
+.selbg{fill:var(--accent-soft);stroke:var(--accent);stroke-width:1.5}
+.qlist{background:var(--fill);border-radius:12px;overflow:hidden;margin:8px 0}
+.qlist button{display:flex;justify-content:space-between;align-items:center;width:100%;font:inherit;font-size:16px;border:0;background:transparent;color:var(--ink);padding:12px 14px;text-align:left;cursor:pointer;position:relative}
+.qlist button+button::before{content:"";position:absolute;top:0;left:14px;right:0;border-top:.5px solid var(--line)}
+.qlist button .v{color:var(--muted);font-weight:500}
+.qlist button.kn .v{color:var(--ok);font-weight:600}
+.qlist button.cur{background:var(--accent-soft)}
+.qlist button .go{color:var(--accent-ink);font-weight:600}
+.elchips{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 4px}
+.elchips button{font:inherit;font-size:15px;font-weight:600;border:0;background:var(--fill);color:var(--ink);padding:8px 14px;border-radius:999px;cursor:pointer}
+.elchips button.on{background:var(--accent);color:var(--on-accent)}
+.sub2{font-size:13px;color:var(--muted);font-weight:600;margin:12px 0 4px}
+.fab{position:fixed;right:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:30;display:flex;align-items:center;gap:8px;font:inherit;font-size:17px;font-weight:600;border:0;border-radius:999px;padding:14px 20px;background:var(--accent);color:var(--on-accent);box-shadow:0 8px 24px rgba(0,0,0,.18);cursor:pointer;transition:transform .15s}
+.fab:active{transform:scale(.95)}.fab svg{width:20px;height:20px}
+body.calc-open .fab{display:none}
+.csheet{position:fixed;left:0;right:0;bottom:0;z-index:40;background:var(--sheet);border-radius:16px 16px 0 0;box-shadow:0 -8px 30px rgba(0,0,0,.18);padding:6px 12px calc(12px + env(safe-area-inset-bottom,0px));max-width:560px;margin:0 auto;transform:translateY(105%);transition:transform .3s cubic-bezier(.2,.8,.2,1);visibility:hidden}
+body.calc-open .csheet{transform:none;visibility:visible}
+.cgrab{width:36px;height:5px;border-radius:3px;background:var(--line);margin:4px auto 6px}
+.chead{display:flex;justify-content:space-between;align-items:center;padding:0 4px 6px}
+.chead b{font-size:17px}
+.chead button{font:inherit;font-size:15px;font-weight:600;border:0;background:var(--fill);color:var(--ink);border-radius:999px;padding:6px 14px;cursor:pointer}
+.cdisp{background:var(--soft);border-radius:12px;padding:8px 12px;text-align:right;min-height:84px}
+.cexp{font-size:17px;color:var(--muted);white-space:nowrap;overflow-x:auto;scrollbar-width:none;min-height:24px}
+.cexp::-webkit-scrollbar{display:none}
+.cres{font-size:34px;font-weight:600;letter-spacing:-.02em;line-height:1.2;white-space:nowrap;overflow-x:auto;font-variant-numeric:tabular-nums}
+.cres.err{color:var(--bad);font-size:20px;padding-top:8px}
+.chint{font-size:13px;color:var(--accent-ink);font-weight:600;min-height:18px}
+.ckeys{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-top:8px}
+.ckeys button{font:inherit;font-size:22px;font-weight:500;border:0;border-radius:12px;min-height:46px;background:var(--fill);color:var(--ink);cursor:pointer;transition:transform .08s,background .15s;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+.ckeys button:active{transform:scale(.94)}
+.ckeys .sp{font-size:16px;font-weight:600;min-height:38px;background:var(--accent-soft);color:var(--accent-ink)}
+.ckeys .op{background:var(--accent);color:var(--on-accent)}
+.ckeys .eq{background:var(--accent);color:var(--on-accent);font-weight:700}
+.ckeys .fn{font-size:18px}
+.cact{display:flex;gap:8px;margin-top:8px}
+.cact button{flex:1;font:inherit;font-size:16px;font-weight:600;border:0;border-radius:12px;min-height:44px;background:var(--accent-soft);color:var(--accent-ink);cursor:pointer}
+.cmsg{font-size:14px;color:var(--muted);text-align:center;min-height:0;margin-top:6px}
+.chist{max-height:140px;overflow-y:auto;background:var(--soft);border-radius:12px;margin-top:8px}
+.chist button{display:flex;justify-content:space-between;gap:12px;width:100%;font:inherit;font-size:15px;border:0;background:transparent;color:var(--ink);padding:9px 12px;text-align:left;cursor:pointer;border-bottom:.5px solid var(--line)}
+.chist button span:first-child{color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.chist button span:last-child{font-weight:600;flex:none}
+.chist:empty{display:none}
+.seg{display:flex;background:var(--fill);border-radius:10px;padding:2px;margin:14px 0 6px}
+.seg button{flex:1;font:inherit;font-size:15px;font-weight:600;border:0;background:transparent;color:var(--ink);border-radius:8px;min-height:34px;cursor:pointer;transition:background .2s}
+.seg button.on{background:var(--sheet);box-shadow:0 1px 4px rgba(0,0,0,.14)}
+.wq{background:var(--sheet);border-radius:14px;margin:10px 0;padding:14px 16px;transition:opacity .2s}
+.wq .qq{font-weight:600;font-size:17px;line-height:1.35}
+.wq .wa{margin-top:10px;padding-top:10px;border-top:.5px solid var(--line);line-height:1.45}
+.wq .wb{display:flex;gap:8px;margin-top:12px}
+.wq .wb button{flex:1;font:inherit;font-size:15px;font-weight:600;border:0;border-radius:10px;min-height:40px;cursor:pointer;background:var(--accent-soft);color:var(--accent-ink)}
+.wq .wb button.ok{background:var(--okbg);color:var(--ok)}
+.wq .wb button.no{background:var(--badbg);color:var(--bad)}
+.wq.known{opacity:.55}
+.wq .st{float:right;font-size:13px;font-weight:600;color:var(--ok)}
+.wtop{background:var(--sheet);border-radius:12px;padding:12px 16px;margin:10px 0;font-size:15px}
+.wtop .bar2{height:6px;background:var(--fill);border-radius:3px;margin-top:8px;overflow:hidden}
+.wtop .bar2 i{display:block;height:100%;background:var(--ok);border-radius:3px;transition:width .35s}
+.wtop .wf{display:flex;gap:8px;margin-top:10px}
+.wtop .wf button{flex:1;font:inherit;font-size:14px;font-weight:600;border:0;border-radius:10px;min-height:36px;cursor:pointer;background:var(--fill);color:var(--ink)}
+.wtop .wf button.on{background:var(--accent);color:var(--on-accent)}
+</style></head>
+<body data-page="trainer"><main class="sheet">
+<div class="hero"><h1>Rückrechen-Trainer</h1>
+<p>Erst wählst du die Regel, dann tippst du den Wert ein. Unten findest du sechs schwere Aufgaben S1 bis S6, bei denen du selbst entscheidest, was du als Nächstes rechnest. Bei einem Fehler zeigt dir der Trainer, woran es liegt.</p></div><div class="tb"><div><small>Fach</small><b>Elektrotechnik</b></div><div><small>Klassenarbeit</small><b>Dienstag, 29.09.</b></div>
+<div class="wide"><small>Werkzeug</small><b>Rückrechen-Trainer: du rechnest, der Trainer prüft jeden Schritt</b></div></div>
+
+<div class="seg" id="seg"><button data-t="T" class="on">Trainer</button><button data-t="W">Wissensfragen</button></div>
+<div class="stripe"></div>
+<section id="secT">
+<h3>Aufgabe wählen</h3>
+<div class="pick" id="pick"></div>
+<h3>Schwere Aufgaben im freien Modus</h3>
+<div class="pick" id="pick2"></div>
+<label class="tog"><input type="checkbox" id="ruleOn" checked> Vor jedem Schritt fragen: Welche Regel?</label>
+<div class="fig" id="circ"></div>
+<div id="task" class="given"></div>
+<div id="stepbox"></div>
+<h3>Deine Werte</h3>
+<div class="tw"><table id="vals"><tr><th>Größe</th><th>Wert</th><th>Regel</th></tr></table></div>
+</section>
+<section id="secW" hidden><div class="wtop"><div id="wprog"></div><div class="bar2"><i id="wbar"></i></div><div class="wf"><button data-f="all" class="on">Alle</button><button data-f="open">Nur offene</button><button data-f="mix">Mischen</button><button data-f="reset">Zurücksetzen</button></div></div><div id="wlist"></div></section>
+<footer id="footT">Werte in Volt, Ampere und Ohm eingeben. Komma oder Punkt geht beides. Kleine Rundungen wie 13,33 statt 13,333 zählen als richtig. Unten rechts öffnest du den Rechner, mit Ins Antwortfeld landet dein Ergebnis direkt in der Aufgabe.</footer>
+</main>
+<button class="fab" id="fab" aria-label="Rechner öffnen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="5" y="3" width="14" height="18" rx="2.5"/><path d="M8.5 7.5h7M9 12h.01M12 12h.01M15 12h.01M9 15.5h.01M12 15.5h.01M15 15.5h.01"/></svg>Rechner</button>
+<div class="csheet" id="csheet" role="dialog" aria-label="Rechner">
+<div class="cgrab"></div>
+<div class="chead"><b>Rechner</b><button id="cclose">Fertig</button></div>
+<div class="cdisp"><div class="cexp" id="cexp"></div><div class="cres" id="cres">0</div><div class="chint" id="chint"></div></div>
+<div class="ckeys" id="ckeys">
+<button class="sp" data-k="∥" aria-label="parallel">R ∥ R</button><button class="sp" data-k="(">(</button><button class="sp" data-k=")">)</button><button class="sp" data-k="⁻¹" aria-label="Kehrwert">1/x</button>
+<button class="sp" data-k="²" aria-label="hoch zwei">x²</button><button class="sp" data-k="√" aria-label="Wurzel">√</button><button class="sp" data-k="m" aria-label="milli">m</button><button class="sp" data-k="k" aria-label="kilo">k</button>
+<button class="fn" data-k="C">C</button><button class="fn" data-k="BS" aria-label="Löschen">⌫</button><button class="fn" data-k="%">%</button><button class="op" data-k="÷">÷</button>
+<button data-k="7">7</button><button data-k="8">8</button><button data-k="9">9</button><button class="op" data-k="×">×</button>
+<button data-k="4">4</button><button data-k="5">5</button><button data-k="6">6</button><button class="op" data-k="−">−</button>
+<button data-k="1">1</button><button data-k="2">2</button><button data-k="3">3</button><button class="op" data-k="+">+</button>
+<button class="fn" data-k="Ans">Ans</button><button data-k="0">0</button><button data-k=",">,</button><button class="eq" data-k="=">=</button>
+</div>
+<div class="cact"><button id="cput">Ins Antwortfeld</button><button id="chbtn">Verlauf</button></div>
+<div class="cmsg" id="cmsg"></div>
+<div class="chist" id="chist" hidden></div>
+</div>
+
+<script>
+const PAGE=document.body.dataset.page;
+function loadDone(){try{return JSON.parse(localStorage.getItem(PAGE+':done')||'[]')}catch(e){return[]}}
+function saveDone(a){try{localStorage.setItem(PAGE+':done',JSON.stringify(a))}catch(e){}}
+function upd(){const t=[...document.querySelectorAll('.task')];const d=t.filter(x=>x.classList.contains('done')).length;
+const p=document.getElementById('progress');if(p)p.textContent=d+' von '+t.length+' Aufgaben erledigt';
+const b=document.querySelector('.bar i');if(b)b.style.width=(t.length?100*d/t.length:0)+'%';}
+document.querySelectorAll('.task').forEach(t=>{const id=t.dataset.id;const h=t.querySelector('header');
+const l=document.createElement('label');l.innerHTML='<input type="checkbox"> erledigt';h.appendChild(l);
+const c=l.querySelector('input');if(loadDone().includes(id)){c.checked=true;t.classList.add('done')}
+c.addEventListener('change',()=>{let a=loadDone().filter(x=>x!==id);if(c.checked)a.push(id);saveDone(a);t.classList.toggle('done',c.checked);upd()});});
+upd();
+let MK=0;function arrowDefs(cls){MK++;const id='ah'+MK;return {id,defs:'<defs><marker id="'+id+'" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" style="fill:'+(cls==='fa'?'var(--accent-ink)':'var(--ink)')+'"/></marker></defs>'}}
+function svg(w,h,inner,max){return '<svg viewBox="0 0 '+w+' '+h+'" width="'+(max||w)+'" role="img">'+inner+'</svg>'}
+function ln(x1,y1,x2,y2,c){return '<line x1="'+x1+'" y1="'+y1+'" x2="'+x2+'" y2="'+y2+'" class="'+(c||'w')+'"/>'}
+function tx(x,y,s,o){o=o||{};return '<text x="'+x+'" y="'+y+'" font-size="'+(o.fs||13)+'" text-anchor="'+(o.a||'middle')+'"'+(o.c?' class="'+o.c+'"':'')+'>'+s+'</text>'}
+
+
+let FR=null;
+function frStart(t,figId,again){FR={t,figId,again,known:new Set(t.given),sel:null,q:null,tries:{},first:0,done:0,msg:null};
+ document.getElementById('task').innerHTML='<b>Freier Modus'+(t.nr?', Aufgabe Nr. '+t.nr:'')+'</b> <span class="mut">'+(t.kind||'')+'</span><br>'+sub(t.text);
+ const v=document.getElementById('vals');v.innerHTML='<tr><th>Größe</th><th>Wert</th></tr>';t.given.forEach(id=>frRow(id,'gegeben'));frDraw();frPanel()}
+function frRow(id,note){const q=FR.t.Q[id];document.getElementById('vals').insertAdjacentHTML('beforeend','<tr><td>'+sub(q.l)+'</td><td>'+fmt(q.a)+' '+(q.u||'')+(note?' <span class="mut">('+note+')</span>':'')+'</td></tr>')}
+function frDraw(){const f=document.getElementById(FR.figId);FR.t.render(FR.sel);f.querySelectorAll('[data-el]').forEach(e=>e.addEventListener('click',()=>frSel(e.dataset.el)))}
+function frSel(el){FR.sel=el;FR.q=null;FR.msg=null;frDraw();frPanel()}
+function frRec(id){return FR.t.Q[id].rec.find(r=>r.d.every(x=>FR.known.has(x)))}
+function frMiss(id){let b=null;FR.t.Q[id].rec.forEach(r=>{const m=r.d.filter(x=>!FR.known.has(x));if(!b||m.length<b.length)b=m});return b||[]}
+function frPanel(){const t=FR.t,goal=t.goal,got=goal.filter(g=>FR.known.has(g)).length;let h='<div class="step"><div class="n">'+got+' von '+goal.length+' Größen berechnet</div>';
+ if(got===goal.length){h+='<div class="q">Geschafft.</div><p>'+FR.first+' von '+(goal.length-t.given.filter(g=>goal.includes(g)).length)+' Größen beim ersten Versuch richtig.</p><div class="act"><button class="main" id="frNext">Nächste Aufgabe</button></div></div>';document.getElementById('stepbox').innerHTML=h;document.getElementById('frNext').onclick=FR.again;return}
+ h+='<div class="q">'+(FR.sel?'Ausgewählt: '+t.els[FR.sel]:'Tipp ein Bauteil an')+'</div><div class="elchips">'+Object.keys(t.els).map(e=>'<button data-e="'+e+'" class="'+(FR.sel===e?'on':'')+'">'+t.els[e]+'</button>').join('')+'</div>';
+ if(FR.sel){h+='<div class="sub2">Was willst du hier ausrechnen?</div><div class="qlist">'+t.byEl[FR.sel].map(id=>{const q=t.Q[id],k=FR.known.has(id);return '<button data-q="'+id+'" class="'+(k?'kn':'')+(FR.q===id?' cur':'')+'"><span>'+sub(q.l)+'</span>'+(k?'<span class="v">'+fmt(q.a)+' '+(q.u||'')+' ✓</span>':'<span class="go">ausrechnen ›</span>')+'</button>'}).join('')+'</div>'}
+ if(FR.q){const q=t.Q[FR.q];h+='<div class="sub2">'+sub(q.l)+' = ?</div><div class="inrow"><input id="frInp" inputmode="decimal" autocomplete="off" aria-label="Wert"><span>'+(q.u||'')+'</span></div><div class="act"><button class="main" id="frChk">Prüfen</button><button id="frSol" '+((FR.tries[FR.q]||0)>=2?'':'hidden')+'>Lösung zeigen</button></div>'}
+ h+=(FR.msg?'<div class="fb '+FR.msg[0]+'">'+sub(FR.msg[1])+'</div>':'')+'<div class="act" style="margin-top:12px"><button id="frStuck">Ich hänge: Was geht jetzt?</button></div></div>';
+ document.getElementById('stepbox').innerHTML=h;
+ document.querySelectorAll('.elchips button').forEach(b=>b.onclick=()=>frSel(b.dataset.e));
+ document.querySelectorAll('.qlist button').forEach(b=>b.onclick=()=>{if(FR.known.has(b.dataset.q))return;FR.q=b.dataset.q;FR.msg=null;frPanel();const i=document.getElementById('frInp');if(i)i.focus()});
+ const c=document.getElementById('frChk');if(c){c.onclick=frCheck;document.getElementById('frInp').onkeydown=e=>{if(e.key==='Enter')frCheck()}}
+ const s=document.getElementById('frSol');if(s)s.onclick=()=>{const q=t.Q[FR.q],rr=frRec(FR.q);FR.known.add(FR.q);frRow(FR.q,'Lösung angesehen');setTimeout(frDraw,0);FR.msg=['info',(rr&&rr.f?rr.f+' '+(q.u||''):null)||q.sol||'Lösung: '+fmt(q.a)+' '+(q.u||'')];FR.q=null;frPanel()};
+ document.getElementById('frStuck').onclick=()=>{const av=Object.keys(t.Q).filter(id=>!FR.known.has(id)&&t.goal.concat(t.extra||[]).includes(id)&&frRec(id));
+  FR.msg=['info',av.length?'Mit dem, was du schon hast, kannst du direkt ausrechnen: '+av.map(id=>t.Q[id].l+' (bei '+t.els[t.Q[id].el]+')').join(', ')+'.':'Gerade geht nichts direkt. Schau, ob ein Zwischenwert wie ein zusammengefasster Widerstand fehlt.'];frPanel()}}
+function frCheck(){const id=FR.q,q=FR.t.Q[id];const v=parseFloat(document.getElementById('frInp').value.replace(/\s/g,'').replace('−','-').replace(',','.'));if(isNaN(v)){FR.msg=['badf','Gib eine Zahl ein.'];frPanel();return}
+ const tol=x=>q.tol!=null?q.tol:Math.max(.01*Math.abs(x),.011),ok=x=>Math.abs(v-x)<=tol(x),rec=frRec(id);
+ if(ok(q.a)){if(!FR.tries[id])FR.first++;FR.known.add(id);frRow(id);
+  FR.msg=['good','<b>Stimmt: '+q.l+' = '+fmt(q.a)+' '+(q.u||'')+'.</b> '+(rec?(rec.w||''):'Richtig, aber da steckte ein Zwischenschritt drin. Sauber wäre erst: '+frMiss(id).map(x=>FR.t.Q[x].l).join(', ')+'.')];FR.q=null;frDraw();frPanel();return}
+ FR.tries[id]=(FR.tries[id]||0)+1;let m=null;for(const e of (q.e||[]))if(Math.abs(e[0]-q.a)>tol(q.a)&&ok(e[0])){m=e[1];break}
+ if(!m&&q.a!==0&&ok(-q.a))m=q.signMsg||'Der Betrag stimmt, aber das Vorzeichen nicht.';
+ if(!m&&q.rad!=null&&ok(q.rad))m='Dein Taschenrechner steht auf RAD. Stell ihn auf DEG.';
+ if(!m&&q.a!==0&&(ok(q.a*1000)||ok(q.a/1000)))m='Die Zahl passt, aber die Einheit nicht. Gefragt ist '+q.u+'.';
+ if(!rec)m=(m?m+' ':'Stimmt noch nicht. ')+'Außerdem: Das kannst du so noch nicht direkt ausrechnen. Dir fehlt noch '+frMiss(id).map(x=>FR.t.Q[x].l).join(' und ')+'.';
+ FR.msg=['badf',m||'Stimmt noch nicht. Prüf, ob alle Werte in deiner Rechnung zum selben Bauteil gehören.'];frPanel()}
+function frBuild(Q){const byEl={};Object.entries(Q).forEach(([id,q])=>{(Array.isArray(q.el)?q.el:[q.el]).forEach(e=>{(byEl[e]=byEl[e]||[]).push(id)});if(Array.isArray(q.el))q.el=q.el[0]});return byEl}
+
+const fmt=v=>{const r=Math.round(v*1000)/1000;return r.toLocaleString('de-DE',{maximumFractionDigits:3})};
+const PRE={
+B1:{U:24,pre:[['R1',4]],br:[[['R2',12]],[['R3',6]]],post:[]},
+B2:{U:60,pre:[['R1',5]],br:[[['R2',20]],[['R3',30]],[['R4',60]]],post:[['R5',5]]},
+B3:{U:40,pre:[],br:[[['R1',6],['R2',14]],[['R3',20]]],post:[['R4',10]]},
+B4:{U:90,pre:[['R1',6]],br:[[['R2',60]],[['R3',25],['R4',35]],[['R5',20],['R6',40]]],post:[['R7',4]]},
+B5:{U:120,pre:[['R1',8]],br:[[['R2',20]],[['R3',15],['R4',25]],[['R5',40]]],post:[['R6',12]]}};
+const V=[2,3,4,5,6,8,9,10,12,14,15,16,18,20,21,24,25,28,30,35,36,40,42,45,48,50,56,60,70,72,80,90,100,120];
+const isInt=x=>Math.abs(x-Math.round(x))<1e-9;
+const PAIRS=[],TRIS=[];
+V.forEach((a,i)=>V.slice(i).forEach(b=>{const r=a*b/(a+b);if(isInt(r)&&r>=2)PAIRS.push([a,b])}));
+V.forEach((a,i)=>V.slice(i).forEach((b,j)=>V.slice(i+j).forEach(c=>{const r=1/(1/a+1/b+1/c);if(isInt(r)&&r>=2)TRIS.push([a,b,c])})));
+const MAINS=[2,3,4,5,6,8,10,12,15,16,18,20,24,25,30],CUR=[0.5,1,1.5,2,2.5,3,4,5,6];
+const rnd=a=>a[Math.floor(Math.random()*a.length)];
+const shuf=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+function split(v,n){for(let t=0;t<50;t++){const p=[];let rest=v;for(let k=0;k<n-1;k++){const lo=2,hi=rest-2*(n-1-k);if(hi<lo)break;let x=lo+Math.floor(Math.random()*(hi-lo+1));if(v>=30&&t<40)x=Math.round(x/5)*5||5;if(x<2||x>hi)continue;p.push(x);rest-=x}
+ if(p.length===n-1&&rest>=2)return shuf([...p,rest])}return n==2?[Math.floor(v/2),v-Math.floor(v/2)]:[v]}
+const P2=()=>rnd(PAIRS),P3=()=>rnd(TRIS),M=()=>rnd(MAINS);
+const TYPES={
+ 'A':()=>({pre:[M()],br:P2().map(v=>[v]),post:[]}),
+ 'B':()=>({pre:[],br:P2().map(v=>[v]),post:[M()]}),
+ 'C':()=>({pre:[M()],br:P3().map(v=>[v]),post:[M()]}),
+ 'D':()=>{const p=P2();return{pre:[],br:[split(p[0],2),[p[1]]],post:[M()]}},
+ 'E':()=>{const p=P3();return{pre:[M()],br:[[p[0]],split(p[1],2),split(p[2],2)],post:[M()]}},
+ 'F':()=>{const p=P2();return{pre:[M()],br:[[p[0]],split(p[1],2)],post:[M()]}},
+ 'G':()=>({pre:[M(),M()],br:P2().map(v=>[v]),post:[]}),
+ 'H':()=>{const p=P2();return{pre:[M()],br:[split(p[0],2),split(p[1],2)],post:[]}},
+ 'I':()=>{const p=P3();return{pre:[],br:[split(p[0],2),split(p[1],2),[p[2]]],post:[M()]}},
+ 'J':()=>{const p=P2();return{pre:[M()],br:[split(p[0],3),[p[1]]],post:[]}},
+ 'K':()=>({pre:[M(),M()],br:P3().map(v=>[v]),post:[]}),
+ 'L':()=>{const p=P3();return{pre:[M()],br:[[p[0]],[p[1]],split(p[2],2)],post:[M()]}},
+ 'M':()=>({pre:[M()],br:P2().map(v=>[v]),post:[M()]}),
+ 'N':()=>{const p=P2();return{pre:[],br:[split(p[0],2),split(p[1],3)],post:[M(),M()]}}};
+const LS={get:(k,d)=>{try{return JSON.parse(localStorage.getItem('trainer:'+k))??d}catch(e){return d}},set:(k,v)=>{try{localStorage.setItem('trainer:'+k,JSON.stringify(v))}catch(e){}}};
+let MEM={bag:LS.get('bag',[]),hist:LS.get('hist',[]),n:LS.get('n',0)};
+function nextType(){if(!MEM.bag.length||MEM.bag.some(k=>!TYPES[k]&&!BASIC[k]))MEM.bag=shuf([...Object.keys(TYPES),...Object.keys(BASIC)]);return MEM.bag.pop()}
+function randomCirc(){const type=nextType();if(BASIC[type]){LS.set('bag',MEM.bag);return basicCirc(type)}
+ for(let t=0;t<3000;t++){const g=TYPES[type]();if(g.br.some(b=>b.length>1&&b.length<2))continue;
+  const I=rnd(CUR),Rb=g.br.map(b=>b.reduce((a,x)=>a+x,0)),Rp=1/Rb.reduce((a,x)=>a+1/x,0);
+  const Rg=g.pre.reduce((a,x)=>a+x,0)+Rp+g.post.reduce((a,x)=>a+x,0),U=I*Rg;
+  if(!isInt(U)||U>240||U<6||!isInt(Rp*100))continue;const Up=I*Rp;
+  if(Rb.some(r=>!isInt(Up/r*100)))continue;
+  if(g.br.some(b=>b.some(x=>!isInt(x*(Up/b.reduce((a,y)=>a+y,0))*100))))continue;
+  const sig=type+'|'+Math.round(U)+'|'+JSON.stringify([g.pre,g.br,g.post]);if(MEM.hist.includes(sig))continue;
+  MEM.hist=[...MEM.hist.slice(-80),sig];MEM.n++;LS.set('bag',MEM.bag);LS.set('hist',MEM.hist);LS.set('n',MEM.n);
+  let k=1;const nm=v=>['R'+(k++),v];return{U:Math.round(U),pre:g.pre.map(nm),br:g.br.map(b=>b.map(nm)),post:g.post.map(nm),nr:MEM.n}}
+ return randomCirc()}
+
+const nice=x=>isInt(x*100)&&x>0;
+function mk(o){return Object.assign({e:[],hl:[]},o)}
+const HALF=[0.5,1,1.5,2,2.5,3,4,5];
+const WO=(a,b)=>'An '+a+' kennst du '+b+'. Zwei von drei Werten am selben Bauteil, also Ohm.';
+const BASIC={
+'g:knoten':()=>{const o=[0,0,0].map(()=>rnd(HALF)),Ig=o.reduce((a,x)=>a+x,0),inn=Math.random()<.3,h=Math.floor(Math.random()*3);
+ const lab=(i)=>'I_'+(i+1);const br=o.map((v,i)=>[['R'+(i+1),0,'I'+(i+1)+' = '+(!inn&&i==h?'?':fmt(v)+' A')]]);
+ const S=[mk({q:(inn?'Zufließender Strom: I_ges = ?':'Gesuchter Zweigstrom: '+lab(h)+' = ?'),u:'A',a:inn?Ig:o[h],r:['Knoten'],key:inn?'I_ges':lab(h),hl:inn?[]:['R'+(h+1)],
+  W:{Knoten:inn?'Alles, was in die Zweige abfließt, muss vorher zugeflossen sein. Also addieren.':'Was reinfließt, fließt raus. Gesucht ist ein Strom an der Verzweigung, und alle anderen Ströme dort kennst du. Also Knoten.'},
+  N:{Ohm:'Für Ohm bräuchtest du Spannung und Widerstand vom selben Zweig. Die sind hier gar nicht gegeben, nur Ströme.'},
+  tip:inn?'Summe der abfließenden Ströme.':'I_ges minus die bekannten Zweigströme.',sol:inn?'I_ges = '+o.map(fmt).join(' + ')+' = '+fmt(Ig)+' A':lab(h)+' = '+fmt(Ig)+' − '+o.filter((x,i)=>i!=h).map(fmt).join(' − ')+' = '+fmt(o[h])+' A',
+  e:inn?[]:[[Ig+o.filter((x,i)=>i!=h).reduce((a,x)=>a+x,0),'Du hast addiert. Die bekannten Zweigströme musst du vom zufließenden Strom abziehen.']]})];
+ return{U:0,pre:[],br,post:[],Ul:['I_ges',inn?'?':fmt(Ig)+' A'],given:'Ein Strom teilt sich auf drei Zweige auf. '+(inn?'Gegeben sind die drei Zweigströme.':'Gegeben sind I_ges = '+fmt(Ig)+' A und zwei Zweigströme.'),S,probe:'Probe: '+o.map(fmt).join(' + ')+' = '+fmt(Ig)+' A ✓'}},
+'g:masche':()=>{for(;;){const u=[0,0,0].map(()=>rnd([6,8,10,12,15,18,20,24,30,36,40,45,60,80,90])),U=u.reduce((a,x)=>a+x,0),h=Math.floor(Math.random()*3),I=rnd(HALF),withR=Math.random()<.6;const R=u[h]/I;if(withR&&!nice(R))continue;
+ const S=[mk({q:'Spannung an R'+(h+1)+': U_'+(h+1)+' = ?',u:'V',a:u[h],r:['Masche'],key:'U_'+(h+1),hl:['R'+(h+1)],W:{Masche:'Die Quellenspannung verteilt sich komplett auf die Widerstände im Umlauf. Die anderen Teilspannungen kennst du, also bleibt der Rest für R'+(h+1)+'.'},
+  N:{Ohm:withR?'Für Ohm bräuchtest du an R'+(h+1)+' zwei Werte. Du kennst nur den Strom, der Widerstand ist ja noch unbekannt.':'Für Ohm bräuchtest du Strom und Widerstand an R'+(h+1)+'. Beides ist nicht gegeben.'},
+  tip:'U minus die bekannten Teilspannungen.',sol:'U_'+(h+1)+' = '+fmt(U)+' − '+u.filter((x,i)=>i!=h).map(fmt).join(' − ')+' = '+fmt(u[h])+' V',e:[[U+u.filter((x,i)=>i!=h).reduce((a,x)=>a+x,0),'Du hast addiert. Die bekannten Teilspannungen musst du von U abziehen.']]})];
+ if(withR)S.push(mk({q:'Widerstand R'+(h+1)+' = ?',u:'Ω',a:R,r:['Ohm'],key:'R_'+(h+1),hl:['R'+(h+1)],W:{Ohm:WO('R'+(h+1),'jetzt U_'+(h+1)+' und den Strom I, denn in Reihe fließt überall derselbe Strom')},tip:'R = U / I, mit den Werten von R'+(h+1)+'.',sol:'R_'+(h+1)+' = '+fmt(u[h])+' / '+fmt(I)+' = '+fmt(R)+' Ω',e:[[U/I,'Das ist R_ges. Du brauchst nur die Spannung an R'+(h+1)+'.']]}));
+ return{U,pre:u.map((v,i)=>['R'+(i+1),0,'U'+(i+1)+' = '+(i==h?'?':fmt(v)+' V')]),br:[],post:[],given:'Drei Widerstände in Reihe an U = '+fmt(U)+' V. Zwei Teilspannungen sind gemessen.'+(withR?' Es fließen I = '+fmt(I)+' A.':''),S,probe:'Probe: '+u.map(fmt).join(' + ')+' = '+fmt(U)+' V ✓'}}},
+'g:ohmhaengt':()=>{for(;;){const R1=rnd(V),R2=rnd(V),U=rnd([12,24,30,36,48,60,72,90,120]);const I1=U/R1,I2=U/R2;if(!nice(I1)||!nice(I2)||R1===R2||I1+I2>10)continue;const Ig=I1+I2;
+ const S=[mk({q:'Strom durch R1: I_1 = ?',u:'A',a:I1,r:['Ohm'],key:'I_1',hl:['R1'],W:{Ohm:'Parallel gleiche Spannung: an R1 liegen die vollen '+fmt(U)+' V. '+WO('R1','U und R1')},N:{Knoten:'Für den Knoten bräuchtest du I_2. Den kennst du noch nicht.'},tip:'Parallel liegt an jedem Widerstand die volle Spannung.',sol:'I_1 = '+fmt(U)+' / '+fmt(R1)+' = '+fmt(I1)+' A',e:[[Ig,'Das ist der Gesamtstrom. Durch R1 fließt nur ein Teil davon.']]}),
+ mk({q:'Strom durch R2: I_2 = ?',u:'A',a:I2,r:['Knoten'],key:'I_2',hl:['R2'],W:{Knoten:'An R2 kennst du nur die Spannung, R2 ist ja gesucht. Ohm hängt also. Aber I_ges und I_1 kennst du: Knoten gibt dir den zweiten Wert.'},N:{Ohm:'Für Ohm an R2 bräuchtest du zwei Werte. Du kennst nur U, der Widerstand ist gesucht. Genau hier hängt Ohm.'},tip:'I_ges minus I_1.',sol:'I_2 = '+fmt(Ig)+' − '+fmt(I1)+' = '+fmt(I2)+' A',e:[[Ig,'Das ist der Gesamtstrom. Zieh I_1 noch ab.'],[Ig+I1,'Du hast addiert. Beim Knoten ziehst du den bekannten Zweigstrom ab.']]}),
+ mk({q:'Widerstand R2 = ?',u:'Ω',a:R2,r:['Ohm'],key:'R_2',hl:['R2'],W:{Ohm:WO('R2','jetzt U und I_2')},tip:'R2 = U / I_2.',sol:'R_2 = '+fmt(U)+' / '+fmt(I2)+' = '+fmt(R2)+' Ω',e:[[U/Ig,'Das ist R_ges. Für R2 brauchst du I_2, nicht I_ges.']]})];
+ return{U,pre:[],br:[[['R1',R1]],[['R2',R2,'?']]],post:[],Ul:['U',fmt(U)+' V'],given:'Zwei Widerstände parallel an U = '+fmt(U)+' V. R1 = '+fmt(R1)+' Ω, R2 unbekannt. Gesamtstrom I_ges = '+fmt(Ig)+' A.',S,probe:'Probe: '+fmt(I1)+' + '+fmt(I2)+' = '+fmt(Ig)+' A ✓'}}},
+'g:reihefehlt':()=>{for(;;){const R1=rnd(MAINS),R2=rnd(V),I=rnd(HALF);const U=I*(R1+R2);if(!isInt(U)||U>240)continue;const U1=R1*I,U2=R2*I;
+ const S=[mk({q:'Spannung an R1: U_1 = ?',u:'V',a:U1,r:['Ohm'],key:'U_1',hl:['R1'],W:{Ohm:WO('R1','R1 und I, denn in Reihe gleicher Strom')},N:{Masche:'Die Maschenregel bräuchte U_2. Den kennst du noch nicht.'},tip:'In Reihe fließt I durch beide Widerstände.',sol:'U_1 = '+fmt(R1)+' · '+fmt(I)+' = '+fmt(U1)+' V',e:[[U,'Das ist die Gesamtspannung. An R1 liegt nur ein Teil.']]}),
+ mk({q:'Spannung an R2: U_2 = ?',u:'V',a:U2,r:['Masche'],key:'U_2',hl:['R2'],W:{Masche:'An R2 kennst du nur den Strom, R2 ist gesucht. Ohm hängt. Aber U und U_1 kennst du: die Masche gibt dir den Rest.'},N:{Ohm:'Für Ohm an R2 bräuchtest du zwei Werte. Du kennst nur I, der Widerstand ist gesucht.'},tip:'U minus U_1.',sol:'U_2 = '+fmt(U)+' − '+fmt(U1)+' = '+fmt(U2)+' V',e:[[U+U1,'Du hast addiert. Zieh U_1 von U ab.']]}),
+ mk({q:'Widerstand R2 = ?',u:'Ω',a:R2,r:['Ohm'],key:'R_2',hl:['R2'],W:{Ohm:WO('R2','jetzt U_2 und I')},tip:'R2 = U_2 / I.',sol:'R_2 = '+fmt(U2)+' / '+fmt(I)+' = '+fmt(R2)+' Ω',e:[[U/I,'Das ist R_ges. Zieh R1 ab oder rechne mit U_2.']]})];
+ return{U,pre:[['R1',R1],['R2',R2,'?']],br:[],post:[],given:'R1 = '+fmt(R1)+' Ω und R2 (unbekannt) in Reihe an U = '+fmt(U)+' V. Es fließen I = '+fmt(I)+' A.',S,probe:'Probe: '+fmt(U1)+' + '+fmt(U2)+' = '+fmt(U)+' V ✓'}}},
+'g:gemessen':()=>{for(;;){const [R2,R3]=rnd(PAIRS),R1=rnd(MAINS),I=rnd(HALF);const Rp=R2*R3/(R2+R3),Up=I*Rp,U1=I*R1,U=Up+U1,I2=Up/R2,I3=Up/R3;
+ if(!isInt(U)||!nice(I2)||!nice(I3)||U>240||R2===R3)continue;
+ const S=[mk({q:'Spannung an der Parallelgruppe: U_p = ?',u:'V',a:Up,r:['Masche'],key:'U_p',hl:['R2','R3'],W:{Masche:'U verteilt sich auf R1 und die Parallelgruppe. U und U_1 kennst du, der Rest liegt an der Gruppe.'},N:{Ohm:'Für Ohm bräuchtest du den Strom durch die Gruppe. Den kennst du noch nicht.'},tip:'U minus U_1.',sol:'U_p = '+fmt(U)+' − '+fmt(U1)+' = '+fmt(Up)+' V',e:[[U,'Das ist die Gesamtspannung. Zieh U_1 ab.']]}),
+ mk({q:'Strom durch R2: I_2 = ?',u:'A',a:I2,r:['Ohm'],key:'I_2',hl:['R2'],W:{Ohm:'Parallel gleiche Spannung: an R2 liegt U_p. '+WO('R2','U_p und R2')},N:{Knoten:'Für den Knoten bräuchtest du I_ges und I_3. Die kennst du noch nicht.'},tip:'I_2 = U_p / R2.',sol:'I_2 = '+fmt(Up)+' / '+fmt(R2)+' = '+fmt(I2)+' A',e:[[U/R2,'Du hast die Gesamtspannung genommen. An R2 liegt nur U_p.']]}),
+ mk({q:'Strom durch R3: I_3 = ?',u:'A',a:I3,r:['Ohm'],key:'I_3',hl:['R3'],W:{Ohm:'Auch an R3 liegt U_p. '+WO('R3','U_p und R3')},N:{Knoten:'Für den Knoten bräuchtest du I_ges. Den kennst du noch nicht.'},tip:'I_3 = U_p / R3.',sol:'I_3 = '+fmt(Up)+' / '+fmt(R3)+' = '+fmt(I3)+' A',e:[[U/R3,'Du hast die Gesamtspannung genommen. An R3 liegt nur U_p.']]}),
+ mk({q:'Gesamtstrom: I_ges = ?',u:'A',a:I,r:['Knoten'],key:'I_ges',hl:[],W:{Knoten:'I_2 und I_3 fließen am Knoten wieder zusammen. Ihre Summe ist der Strom in der Hauptleitung.'},N:{Ohm:'Für Ohm bräuchtest du R_ges oder R1. R1 ist aber gesucht, und R_ges kennst du nicht.'},tip:'I_2 plus I_3.',sol:'I_ges = '+fmt(I2)+' + '+fmt(I3)+' = '+fmt(I)+' A'}),
+ mk({q:'Widerstand R1 = ?',u:'Ω',a:R1,r:['Ohm'],key:'R_1',hl:['R1'],W:{Ohm:WO('R1','U_1 und I_ges, denn durch R1 fließt der ganze Strom')},tip:'R1 = U_1 / I_ges.',sol:'R_1 = '+fmt(U1)+' / '+fmt(I)+' = '+fmt(R1)+' Ω',e:[[U/I,'Das ist R_ges. Nimm U_1 statt U.']]})];
+ return{U,pre:[['R1',R1,'? ('+fmt(U1)+' V)']],br:[[['R2',R2]],[['R3',R3]]],post:[],given:'U = '+fmt(U)+' V. R1 ist unbekannt, an R1 misst du U_1 = '+fmt(U1)+' V. Dahinter R2 = '+fmt(R2)+' Ω parallel zu R3 = '+fmt(R3)+' Ω.',S,probe:'Probe: '+fmt(U1)+' + '+fmt(Up)+' = '+fmt(U)+' V ✓'}}},
+'g:zweigstrom':()=>{for(;;){const [R2,R3]=rnd(PAIRS),R1=rnd(MAINS),I3=rnd(HALF);const Up=I3*R3,I2=Up/R2,I=I2+I3,U1=R1*I,U=U1+Up;
+ if(!nice(I2)||!isInt(U)||U>240||R2===R3)continue;
+ const S=[mk({q:'Spannung an R3: U_3 = ?',u:'V',a:Up,r:['Ohm'],key:'U_3',hl:['R3'],W:{Ohm:WO('R3','R3 und I_3')},N:{Masche:'Für die Masche bräuchtest du U und U_1. Die kennst du noch nicht.'},tip:'Ohm an R3.',sol:'U_3 = '+fmt(R3)+' · '+fmt(I3)+' = '+fmt(Up)+' V'}),
+ mk({q:'Strom durch R2: I_2 = ?',u:'A',a:I2,r:['Ohm'],key:'I_2',hl:['R2'],W:{Ohm:'Parallel gleiche Spannung: U_3 liegt auch an R2. '+WO('R2','U_3 und R2')},N:{Knoten:'Für den Knoten bräuchtest du I_ges. Den kennst du noch nicht, der kommt erst aus I_2.'},tip:'An R2 liegt dieselbe Spannung wie an R3.',sol:'I_2 = '+fmt(Up)+' / '+fmt(R2)+' = '+fmt(I2)+' A',e:[[I3,'Parallel gilt gleiche Spannung, nicht gleicher Strom.']]}),
+ mk({q:'Gesamtstrom: I_ges = ?',u:'A',a:I,r:['Knoten'],key:'I_ges',hl:[],W:{Knoten:'I_2 und I_3 fließen zusammen in die Hauptleitung.'},N:{Ohm:'Für Ohm bräuchtest du U und R_ges. U ist ja gesucht.'},tip:'I_2 plus I_3.',sol:'I_ges = '+fmt(I2)+' + '+fmt(I3)+' = '+fmt(I)+' A'}),
+ mk({q:'Spannung an R1: U_1 = ?',u:'V',a:U1,r:['Ohm'],key:'U_1',hl:['R1'],W:{Ohm:WO('R1','R1 und I_ges')},N:{Masche:'Für die Masche bräuchtest du U. Das ist ja gesucht.'},tip:'Durch R1 fließt der ganze Strom.',sol:'U_1 = '+fmt(R1)+' · '+fmt(I)+' = '+fmt(U1)+' V',e:[[R1*I3,'Durch R1 fließt I_ges, nicht I_3.']]}),
+ mk({q:'Quellenspannung: U = ?',u:'V',a:U,r:['Masche'],key:'U',hl:[],W:{Masche:'Einmal im Umlauf: U teilt sich auf R1 und die Parallelgruppe auf. Beide Teilspannungen kennst du.'},N:{Ohm:'Mit Ohm ginge es über R_ges mal I_ges. Das ist aber ein Umweg, hier ist die Masche gemeint.'},tip:'U_1 plus U_3.',sol:'U = '+fmt(U1)+' + '+fmt(Up)+' = '+fmt(U)+' V',e:[[U1+2*Up,'Die Spannung an der Parallelgruppe zählt nur einmal, nicht pro Zweig.']]})];
+ return{U,Ul:['U','?'],pre:[['R1',R1]],br:[[['R2',R2]],[['R3',R3,fmt(R3)+' Ω ('+fmt(I3)+' A)']]],post:[],given:'R1 = '+fmt(R1)+' Ω in Reihe mit R2 = '+fmt(R2)+' Ω parallel zu R3 = '+fmt(R3)+' Ω. Du misst I_3 = '+fmt(I3)+' A. Gesucht ist U, rückwärts.',S,probe:'Probe: R_ges = '+fmt(R1+R2*R3/(R2+R3))+' Ω, '+fmt(U)+' / '+fmt(R1+R2*R3/(R2+R3))+' = '+fmt(I)+' A ✓'}}},
+'g:reiherueck':()=>{for(;;){const R=[rnd(MAINS),rnd(V),rnd(MAINS)],I=rnd(HALF);const u=R.map(r=>r*I),U=u.reduce((a,x)=>a+x,0);if(!isInt(U)||U>240)continue;
+ const S=[mk({q:'Strom in der Schaltung: I = ?',u:'A',a:I,r:['Ohm'],key:'I',hl:['R2'],W:{Ohm:WO('R2','U_2 und R2')},N:{Knoten:'Es gibt keine Verzweigung, also keinen Knoten. In Reihe ist der Strom überall gleich.'},tip:'Ohm an R2. Dieser Strom fließt durch alle drei.',sol:'I = '+fmt(u[1])+' / '+fmt(R[1])+' = '+fmt(I)+' A'}),
+ mk({q:'Spannung an R1: U_1 = ?',u:'V',a:u[0],r:['Ohm'],key:'U_1',hl:['R1'],W:{Ohm:WO('R1','R1 und I')},N:{Masche:'Für die Masche bräuchtest du U und U_3. Die kennst du noch nicht.'},tip:'In Reihe gleicher Strom.',sol:'U_1 = '+fmt(R[0])+' · '+fmt(I)+' = '+fmt(u[0])+' V'}),
+ mk({q:'Spannung an R3: U_3 = ?',u:'V',a:u[2],r:['Ohm'],key:'U_3',hl:['R3'],W:{Ohm:WO('R3','R3 und I')},N:{Masche:'Für die Masche bräuchtest du U. Das ist noch gesucht.'},tip:'In Reihe gleicher Strom.',sol:'U_3 = '+fmt(R[2])+' · '+fmt(I)+' = '+fmt(u[2])+' V'}),
+ mk({q:'Quellenspannung: U = ?',u:'V',a:U,r:['Masche','Ohm'],key:'U',hl:[],W:{Masche:'Alle Teilspannungen kennst du. Zusammen ergeben sie U.',Ohm:'Auch möglich: R_ges mal I.'},tip:'Alle Teilspannungen addieren.',sol:'U = '+u.map(fmt).join(' + ')+' = '+fmt(U)+' V'})];
+ return{U,Ul:['U','?'],pre:[['R1',R[0]],['R2',R[1],fmt(R[1])+' Ω ('+fmt(u[1])+' V)'],['R3',R[2]]],br:[],post:[],given:'Drei Widerstände in Reihe: R1 = '+fmt(R[0])+' Ω, R2 = '+fmt(R[1])+' Ω, R3 = '+fmt(R[2])+' Ω. An R2 misst du U_2 = '+fmt(u[1])+' V. Gesucht: I, alle Teilspannungen und U.',S,probe:'Probe: R_ges · I = '+fmt(R[0]+R[1]+R[2])+' · '+fmt(I)+' = '+fmt(U)+' V ✓'}}},
+'g:parallelrueck':()=>{for(;;){const R=rnd(TRIS).slice(),I1=rnd(HALF);if(R[0]===R[1]&&R[1]===R[2])continue;const U=R[0]*I1,Is=R.map(r=>U/r),Ig=Is.reduce((a,x)=>a+x,0);if(!isInt(U)||U>240||Ig>12||Is.some(x=>!nice(x)))continue;
+ const S=[mk({q:'Spannung: U = ?',u:'V',a:U,r:['Ohm'],key:'U',hl:['R1'],W:{Ohm:WO('R1','R1 und I_1')+' Und weil parallel, ist das auch die Spannung an allen anderen.'},N:{Masche:'Für die Masche bräuchtest du eine andere Spannung im Umlauf. Du kennst keine.'},tip:'Ohm an R1.',sol:'U = '+fmt(R[0])+' · '+fmt(I1)+' = '+fmt(U)+' V'}),
+ mk({q:'Strom durch R2: I_2 = ?',u:'A',a:Is[1],r:['Ohm'],key:'I_2',hl:['R2'],W:{Ohm:'Parallel gleiche Spannung: an R2 liegt U. '+WO('R2','U und R2')},N:{Knoten:'Für den Knoten bräuchtest du I_ges und I_3. Die kennst du noch nicht.'},tip:'I_2 = U / R2.',sol:'I_2 = '+fmt(U)+' / '+fmt(R[1])+' = '+fmt(Is[1])+' A',e:[[I1,'Parallel gilt gleiche Spannung, nicht gleicher Strom.']]}),
+ mk({q:'Strom durch R3: I_3 = ?',u:'A',a:Is[2],r:['Ohm'],key:'I_3',hl:['R3'],W:{Ohm:'Auch an R3 liegt U. '+WO('R3','U und R3')},N:{Knoten:'Für den Knoten bräuchtest du I_ges. Den kennst du noch nicht.'},tip:'I_3 = U / R3.',sol:'I_3 = '+fmt(U)+' / '+fmt(R[2])+' = '+fmt(Is[2])+' A'}),
+ mk({q:'Gesamtstrom: I_ges = ?',u:'A',a:Ig,r:['Knoten'],key:'I_ges',hl:[],W:{Knoten:'Alle drei Zweigströme kennst du. Am Knoten fließen sie zu I_ges zusammen.'},N:{Ohm:'Mit Ohm bräuchtest du erst R_ges. Das ist ein Umweg, der Knoten geht direkt.'},tip:'Alle Zweigströme addieren.',sol:'I_ges = '+Is.map(fmt).join(' + ')+' = '+fmt(Ig)+' A'})];
+ return{U,Ul:['U','?'],pre:[],br:R.map((r,i)=>[['R'+(i+1),r,i==0?fmt(r)+' Ω ('+fmt(I1)+' A)':undefined]]),post:[],given:'Drei Widerstände parallel: R1 = '+fmt(R[0])+' Ω, R2 = '+fmt(R[1])+' Ω, R3 = '+fmt(R[2])+' Ω. Durch R1 fließen I_1 = '+fmt(I1)+' A. Gesucht: U, alle Ströme.',S,probe:'Probe: '+fmt(U)+' / R_ges = '+fmt(U)+' / '+fmt(1/(1/R[0]+1/R[1]+1/R[2]))+' = '+fmt(Ig)+' A ✓'}}}
+};
+function basicCirc(type){type=type||rnd(Object.keys(BASIC));for(let t=0;t<30;t++){const c=BASIC[type]();const sig=type+'|'+c.given;if(MEM.hist.includes(sig))continue;
+ MEM.hist=[...MEM.hist.slice(-80),sig];MEM.n++;LS.set('hist',MEM.hist);LS.set('n',MEM.n);c.nr=MEM.n;return c}return BASIC[type]()}
+const HARD={
+S1:{U:108,pre:[['R1',5]],br:[[['R2',8],['R3',12]],[['R4',30]],[['R5',60]]],post:[['R6',3]],unk:['R4'],giv:['U:R3','U:R6'],ask:'R4 und U'},
+S2:{U:120,pre:[['R1',20]],br:[[['R2',30]],[['R3',15]]],post:[['R4',10]],unk:['R1','R3'],giv:['U','Rges','I:0','U:R4'],ask:'R1 und R3'},
+S3:{U:100,pre:[['R1',8]],br:[[['R2',15],['R3',15]],[['R4',20]]],post:[],unk:['R1','R2','R4'],giv:['U','U:R1','U:R2','Iges'],ask:'R1, R2 und R4'},
+S4:{U:48,pre:[['R1',4]],br:[[['R2',6]],[['R3',12]],[['R4',12]]],post:[['R5',5]],unk:['R2','R5'],giv:['U','U:R1','U:R5'],ask:'R2 und R5'},
+S5:{U:64,pre:[],br:[[['R1',6],['R2',18]],[['R3',4],['R4',20]]],post:[['R5',4]],unk:['R2','R3'],giv:['U','U:R1','U:R4'],ask:'R2 und R3'},
+S6:{U:100,pre:[['R1',3]],br:[[['R2',5],['R3',15]],[['R4',20]],[['R5',10],['R6',20]]],post:[['R7',2]],unk:['R3','R4','R7'],giv:['U','U:R2','U:R6','Iges'],ask:'R3, R4 und R7'}
+};
+function hardFree(def,nr){const sum=a=>a.reduce((x,y)=>x+y,0),main=[...def.pre,...def.post],ser=def.br.map(b=>b.length>1);
+ const Rb=def.br.map(b=>sum(b.map(r=>r[1]))),Rp=1/sum(Rb.map(r=>1/r)),Rg=sum(main.map(r=>r[1]))+Rp,I=def.U/Rg,Up=I*Rp,Ib=Rb.map(r=>Up/r);
+ const num=n=>n.slice(1),Q={},cur={},bi={};
+ def.br.forEach((b,j)=>b.forEach(r=>{cur[r[0]]='I:'+j;bi[r[0]]=j}));main.forEach(r=>cur[r[0]]='Iges');
+ const add=(id,l,u,a,el,e)=>Q[id]={l,u,a,el,rec:[],e:e||[]};
+ const brEl=def.br.flat().map(r=>r[0]);
+ add('U','U (Quelle)','V',def.U,'Q');add('Iges','I_ges','A',I,['Q',...main.map(r=>r[0])]);
+ add('Up','U_p (an jedem Zweig)','V',Up,brEl,[[def.U,'Das ist die Gesamtspannung. An der Parallelgruppe liegt nur ein Teil.']]);
+ add('Rp','R_p (Parallelgruppe)','Ω',Rp,brEl,[[sum(Rb),'Das ist die Summe. Parallel wird es kleiner als der kleinste Zweig.'],[1/Rp,'Das ist 1/R_p. Der Kehrwert fehlt.']]);
+ add('Rges','R_ges','Ω',Rg,'Q');
+ def.br.forEach((b,j)=>{const nm=ser[j]?'I_'+b.map(r=>num(r[0])).join(''):'I_'+num(b[0][0]);
+  add('I:'+j,nm+(ser[j]?' (Zweigstrom)':''),'A',Ib[j],b.map(r=>r[0]),[[def.U/Rb[j],'Du hast die Gesamtspannung genommen. Am Zweig liegt nur U_p.'],[I,'I_ges fließt nur in der Hauptleitung. Im Zweig teilt er sich auf.']]);
+  if(ser[j])add('Rb:'+j,'R_'+b.map(r=>num(r[0])).join(''),'Ω',Rb[j],b.map(r=>r[0]))});
+ [...main,...def.br.flat()].forEach(r=>{const n=r[0],i=cur[n]==='Iges'?I:Ib[bi[n]];add('R:'+n,'R_'+num(n),'Ω',r[1],n);if(cur[n]!=='Iges'&&!ser[bi[n]])return;
+  add('U:'+n,'U_'+num(n),'V',r[1]*i,n,cur[n]==='Iges'?[[def.U,'Das ist die Gesamtspannung. An '+n+' liegt nur ein Teil.']]:[[r[1]*I,'Im Zweig fließt nicht I_ges, sondern der Zweigstrom.'],[Up,'Das ist die Spannung am ganzen Zweig.']])});
+ const bR=j=>ser[j]?'Rb:'+j:'R:'+def.br[j][0][0],L=id=>Q[id].l.replace(/ \(.*\)/,''),F=id=>fmt(Q[id].a);
+ const rel=(vars,mk)=>vars.forEach((x,k)=>Q[x].rec.push(Object.assign({d:vars.filter(v=>v!==x)},mk(x,k))));
+ const prod=(a,b,c,w)=>rel([a,b,c],(x,k)=>({w,f:k==0?L(a)+' = '+F(b)+' · '+F(c)+' = '+F(a):L(x)+' = '+F(a)+' / '+F(k==1?c:b)+' = '+F(x)}));
+ const add2=(t,ps,w)=>rel([t,...ps],(x,k)=>({w,f:k==0?L(t)+' = '+ps.map(F).join(' + ')+' = '+F(t):L(x)+' = '+[F(t),...ps.filter(p=>p!==x).map(F)].join(' − ')+' = '+F(x)}));
+ [...main,...def.br.flat()].forEach(r=>{const n=r[0];if(cur[n]!=='Iges'&&!ser[bi[n]]){prod('Up','R:'+n,cur[n],'Ohm an '+n+'. Parallel liegt an jedem Zweig dieselbe Spannung U_p.');return}prod('U:'+n,'R:'+n,cur[n],'Ohm an '+n+'. '+(cur[n]==='Iges'?n+' liegt in der Hauptleitung, da fließt der ganze I_ges.':'Durch '+n+' fließt der Zweigstrom.'))});
+ def.br.forEach((b,j)=>{if(!ser[j])return;prod('Up','Rb:'+j,'I:'+j,'Ohm am ganzen Zweig: an jedem Zweig liegt U_p.');
+  add2('Rb:'+j,b.map(r=>'R:'+r[0]),'Zusammenfassen: im Zweig liegen die Widerstände in Reihe, also addieren.');add2('Up',b.map(r=>'U:'+r[0]),'Masche im Zweig: die Teilspannungen ergeben zusammen U_p.')});
+ const br=def.br.map((b,j)=>bR(j));rel(['Rp',...br],(x,k)=>({w:'Zusammenfassen parallel: über die Kehrwerte.',f:k==0?'1/R_p = '+br.map(v=>'1/'+F(v)).join(' + ')+', also R_p = '+F('Rp'):'1/'+L(x)+' = 1/'+F('Rp')+' − '+br.filter(v=>v!==x).map(v=>'1/'+F(v)).join(' − ')+', also '+L(x)+' = '+F(x)}));
+ add2('Rges',[...main.map(r=>'R:'+r[0]),'Rp'],'Zusammenfassen: Hauptleitung und R_p liegen in Reihe.');
+ prod('U','Rges','Iges','Ohm für die ganze Schaltung.');prod('Up','Rp','Iges','Ohm an der Parallelgruppe als Block.');
+ add2('U',[...main.map(r=>'U:'+r[0]),'Up'],'Masche: im Umlauf ergeben die Teilspannungen zusammen U.');
+ add2('Iges',def.br.map((b,j)=>'I:'+j),'Knoten: die Zweigströme fließen zusammen in die Hauptleitung.');
+ const knownR=[...main,...def.br.flat()].filter(r=>!def.unk.includes(r[0])).map(r=>'R:'+r[0]),given=[...knownR,...def.giv];
+ const lab=r=>{const n=r[0];let s=def.unk.includes(n)?'?':fmt(r[1])+' Ω';if(def.giv.includes('U:'+n))s+=', '+F('U:'+n)+' V';const j=bi[n];if(j!=null&&!ser[j]&&def.giv.includes('I:'+j))s+=', '+F('I:'+j)+' A';return s};
+ const cc={U:def.U,Ul:['U',def.giv.includes('U')?fmt(def.U)+' V':'?'],pre:def.pre.map(r=>[r[0],r[1],lab(r)]),br:def.br.map(b=>b.map(r=>[r[0],r[1],lab(r)])),post:def.post.map(r=>[r[0],r[1],lab(r)])};
+ const goal=Object.keys(Q).filter(id=>!given.includes(id)&&!/^Rp$|^Rges$|^Rb:/.test(id));
+ const text='<b>Schwer.</b> Gegeben: '+given.map(id=>L(id)+' = '+F(id)+' '+Q[id].u).join(', ')+'. Gesucht: '+def.ask+', dazu alle Ströme und Spannungen.<br><span class="mut">Die Reihenfolge bestimmst du. Tipp auf ein Bauteil und such dir aus, was du dort ausrechnen kannst.</span>';
+ const byEl=frBuild(Q),els={Q:'Quelle'};[...def.pre,...def.br.flat(),...def.post].forEach(r=>els[r[0]]=r[0]);
+ return{kind:'schwer',nr,Q,byEl,els,goal,extra:Object.keys(Q).filter(id=>!given.includes(id)&&/^Rp$|^Rges$|^Rb:/.test(id)),given,text,render:sel=>draw(liveCC(def,Q,given,{R:n=>'R:'+n,U:n=>(cur[n]==='Iges'||ser[bi[n]])?'U:'+n:'Up',I:n=>cur[n]}),sel?[sel]:[])}}
+function hardGo(k){MODE=k;document.querySelector('.tog').style.display='none';document.querySelectorAll('.pick button').forEach(b=>b.classList.toggle('on',b.dataset.k===k));
+ const ks=Object.keys(HARD);frStart(hardFree(HARD[k],k),'circ',()=>{hardGo(ks[(ks.indexOf(k)+1)%ks.length]);window.scrollTo({top:0,behavior:'smooth'})})}
+let MODE='B1';
+
+const sub=s=>s.replace(/_([a-z0-9]+)/gi,'<sub>$1</sub>');
+function buildSteps(c){const S=[],sum=a=>a.reduce((x,y)=>x+y,0);
+ const Rb=c.br.map(b=>sum(b.map(r=>r[1]))),bn=c.br.map(b=>b.length>1?'R_'+b.map(r=>r[0].slice(1)).join(''):b[0][0].replace('R','R_'));
+ const Rp=1/sum(Rb.map(r=>1/r)),mains=[...c.pre,...c.post],Rg=sum(mains.map(r=>r[1]))+Rp,I=c.U/Rg,Up=I*Rp,Ib=Rb.map(r=>Up/r);
+ c.br.forEach((b,i)=>{if(b.length>1)S.push({q:'Fasse den Zweig '+b.map(r=>r[0]).join(' + ')+' zusammen. '+bn[i]+' = ?',u:'Ω',a:Rb[i],r:['Zusammenfassen'],k:'sum',hl:b.map(r=>r[0]),key:bn[i],
+  tip:'Widerstände in Reihe werden einfach addiert.',sol:bn[i]+' = '+b.map(r=>fmt(r[1])).join(' + ')+' = '+fmt(Rb[i])+' Ω',e:[]})});
+ const allEq=Rb.every(r=>r===Rb[0]);
+ S.push({q:'Ersatzwiderstand der Parallelgruppe: R_p = ?',u:'Ω',a:Rp,r:['Zusammenfassen'],k:'rp',hl:c.br.flat().map(r=>r[0]),key:'R_p',
+  tip:allEq?'Alle Zweige sind gleich groß: R durch Anzahl der Zweige.':(Rb.length==2?'Zwei Zweige: Produkt durch Summe.':'Kehrwerte addieren, gemeinsamer Nenner, am Ende umdrehen.'),
+  sol:Rb.length==2?'R_p = '+fmt(Rb[0])+' · '+fmt(Rb[1])+' / ('+fmt(Rb[0])+' + '+fmt(Rb[1])+') = '+fmt(Rp)+' Ω':'1/R_p = '+Rb.map(r=>'1/'+fmt(r)).join(' + ')+', also R_p = '+fmt(Rp)+' Ω',
+  e:[[sum(Rb),'Das ist die Summe der Zweige. Parallel wird der Widerstand kleiner als der kleinste Zweig.'],[1/Rp,'Das ist 1/R_p. Du musst noch den Kehrwert bilden.']]});
+ S.push({q:'Gesamtwiderstand: R_ges = ?',u:'Ω',a:Rg,r:['Zusammenfassen'],k:'rg',hl:[...mains.map(r=>r[0]),...c.br.flat().map(r=>r[0])],key:'R_ges',
+  tip:'Die Widerstände der Hauptleitung und R_p liegen in Reihe.',sol:'R_ges = '+[...mains.map(r=>fmt(r[1])),fmt(Rp)].join(' + ')+' = '+fmt(Rg)+' Ω',
+  e:[[Rp,'Die Widerstände in der Hauptleitung fehlen noch.']]});
+ S.push({q:'Gesamtstrom: I_ges = ?',u:'A',a:I,r:['Ohm'],k:'ig',hl:[],key:'I_ges',tip:'Ohm mit Werten, die alle zur ganzen Schaltung gehören: U und R_ges.',sol:'I_ges = '+fmt(c.U)+' / '+fmt(Rg)+' = '+fmt(I)+' A',
+  e:[[c.U/Rp,'Du hast durch R_p geteilt. Für I_ges brauchst du R_ges.'],...mains.map(r=>[c.U/r[1],'Du hast durch '+r[0]+' geteilt. Für I_ges brauchst du R_ges.'])]});
+ mains.forEach(r=>S.push({q:'Spannung an '+r[0]+': U_'+r[0].slice(1)+' = ?',u:'V',a:r[1]*I,r:['Ohm'],k:'um',nm:r[0],hl:[r[0]],key:'U_'+r[0].slice(1),
+  tip:r[0]+' liegt in der Hauptleitung. Durch ihn fließt der ganze I_ges.',sol:'U_'+r[0].slice(1)+' = '+fmt(r[1])+' · '+fmt(I)+' = '+fmt(r[1]*I)+' V',e:[[c.U,'Das ist die Gesamtspannung. An '+r[0]+' liegt nur ein Teil davon.']]}));
+ const Ue=[[c.U,'Das ist die Gesamtspannung. Zieh die Spannungen der Hauptleitung ab (Masche).']];if(mains.length>1)mains.forEach(r=>Ue.push([c.U-r[1]*I,'Da fehlt noch eine Spannung aus der Hauptleitung.']));
+ S.push({q:'Spannung an der Parallelgruppe: U_p = ?',u:'V',a:Up,r:['Masche','Ohm'],k:'up',hl:c.br.flat().map(r=>r[0]),key:'U_p',
+  tip:'Masche: U minus alle Spannungen der Hauptleitung. Oder Ohm mit R_p und I_ges.',sol:'U_p = '+[fmt(c.U),...mains.map(r=>fmt(r[1]*I))].join(' − ')+' = '+fmt(Up)+' V',e:Ue});
+ c.br.forEach((b,i)=>{const last=i==c.br.length-1,nm='I_'+bn[i].slice(2);
+  S.push({q:(b.length>1?'Strom im Zweig '+b.map(r=>r[0]).join(' + '):'Strom durch '+b[0][0])+': '+nm+' = ?',u:'A',a:Ib[i],r:last?['Ohm','Knoten']:['Ohm'],k:'ib',hl:b.map(r=>r[0]),key:nm,
+   tip:'Am Zweig liegt U_p. Parallel gleiche Spannung.'+(last?' Oder Knoten: I_ges minus die anderen Zweigströme.':''),sol:nm+' = '+fmt(Up)+' / '+fmt(Rb[i])+' = '+fmt(Ib[i])+' A',
+   e:[[c.U/Rb[i],'Du hast die Gesamtspannung genommen. Am Zweig liegt nur U_p.'],[I,'I_ges fließt nur in der Hauptleitung. Im Zweig teilt er sich auf.']]});
+  if(b.length>1)b.forEach((r,j)=>S.push({q:'Spannung an '+r[0]+': U_'+r[0].slice(1)+' = ?',u:'V',a:r[1]*Ib[i],r:j==b.length-1?['Ohm','Masche']:['Ohm'],k:'ub',nm:r[0],bi:nm,hl:[r[0]],key:'U_'+r[0].slice(1),
+   tip:'Durch '+r[0]+' fließt der Zweigstrom '+nm+'.'+(j==b.length-1?' Oder Masche im Zweig: U_p minus die andere Teilspannung.':''),sol:'U_'+r[0].slice(1)+' = '+fmt(r[1])+' · '+fmt(Ib[i])+' = '+fmt(r[1]*Ib[i])+' V',
+   e:[[Up,'Das ist die Spannung am ganzen Zweig. Sie teilt sich auf die Widerstände im Zweig auf.'],[r[1]*I,'Im Zweig fließt nicht I_ges, sondern der Zweigstrom '+nm+'.']]}))});
+ S.forEach(s=>{s.e=s.e.filter(x=>Math.abs(x[0]-s.a)>Math.max(.01*Math.abs(s.a),.006))});
+ return{S,I,Ib,Up,mains}}
+
+const NOW={Zusammenfassen:'Zusammenfassen liefert nur Widerstände. Gesucht ist hier aber ',Knoten:'Die Knotenregel rechnet nur mit Strömen an einer Verzweigung. Gesucht ist hier aber ',Masche:'Die Maschenregel rechnet nur mit Spannungen in einem Umlauf. Gesucht ist hier aber '};
+function EX(s){const X=EX0(s);if(s.W){Object.assign(X.W,s.W);Object.assign(X.N,s.N||{});}return X}
+function EX0(s){const W={},N={};const gs=s.u==='Ω'?'ein Widerstand.':(s.u==='A'?'ein Strom.':'eine Spannung.');
+ ['Zusammenfassen','Knoten','Masche'].forEach(r=>N[r]=NOW[r]+gs);
+ N.Ohm='Für Ohm bräuchtest du zwei Werte vom selben Bauteil, zum Beispiel Spannung und Strom. ';
+ if(s.k==='sum'){W.Zusammenfassen='Gesucht ist ein Widerstand, der mehrere andere ersetzt. In Reihe fasst du zusammen, indem du addierst.';N.Ohm+='Spannung und Strom am Zweig kennst du aber noch nicht. Einen Ersatzwiderstand bekommst du nur aus den Widerständen selbst.'}
+ if(s.k==='rp'){W.Zusammenfassen='Gesucht ist ein Widerstand, der die ganze Parallelgruppe ersetzt. Das ist Zusammenfassen, nur eben parallel.';N.Ohm+='Die Spannung an der Gruppe und ihren Strom kennst du noch nicht.'}
+ if(s.k==='rg'){W.Zusammenfassen='Die Hauptleitung und der Block R_p liegen in Reihe. Du fasst sie zu einem einzigen Widerstand zusammen, indem du addierst.';N.Ohm+='Den Gesamtstrom kennst du noch nicht, den brauchst du erst mit R_ges.'}
+ if(s.k==='ig'){W.Ohm='Für die ganze Schaltung kennst du zwei von drei Werten: U und R_ges. Zwei von drei heißt Ohm.';N.Knoten='Die Knotenregel bräuchte die Zweigströme. Die kennst du noch nicht, sie kommen erst später aus I_ges.';N.Zusammenfassen='Zusammenfassen liefert nur Widerstände, und R_ges hast du schon. Gesucht ist jetzt ein Strom.'}
+ if(s.k==='um'){W.Ohm=s.nm+' liegt in der Hauptleitung. Da fließt der ganze I_ges durch, denn in Reihe gleicher Strom. '+s.nm+' und I_ges kennst du: zwei von drei, also Ohm.';N.Masche='Die Maschenregel ginge nur, wenn du alle anderen Spannungen im Umlauf schon kennst. Die Spannung an der Parallelgruppe kennst du aber noch nicht.'}
+ if(s.k==='up'){W.Masche='U verteilt sich komplett auf die Hauptleitung und die Parallelgruppe. Die Spannungen der Hauptleitung kennst du schon, also ist der Rest U_p.';W.Ohm='Die Parallelgruppe ist ein Block mit R_p, durch den der ganze I_ges fließt. Zwei von drei, also Ohm.'}
+ if(s.k==='ib'){W.Ohm='Parallel gleiche Spannung: an jedem Zweig liegt U_p. Den Zweigwiderstand kennst du. Zwei von drei, also Ohm.';
+  if(s.r.includes('Knoten'))W.Knoten='Am Knoten teilt sich I_ges auf alle Zweige auf. Die anderen Zweigströme hast du schon, also bleibt der Rest für diesen Zweig.';
+  else N.Knoten='Die Knotenregel bräuchte alle anderen Zweigströme. Die hast du noch nicht alle. Sobald nur noch ein Zweig fehlt, geht sie.'}
+ if(s.k==='ub'){W.Ohm='Durch '+s.nm+' fließt der Zweigstrom '+s.bi+', denn in Reihe gleicher Strom. '+s.nm+' kennst du auch. Zwei von drei, also Ohm.';
+  if(s.r.includes('Masche'))W.Masche='U_p verteilt sich auf die Widerstände im Zweig. Die andere Teilspannung kennst du schon, der Rest liegt hier.';
+  else N.Masche='Die Maschenregel ginge, wenn du die andere Teilspannung im Zweig schon hättest. Die fehlt dir noch.'}
+ return{W,N}}
+function rfb(h){document.getElementById('rfb').insertAdjacentHTML('beforeend','<div class="fb '+(h.c)+'">'+sub(h.t)+'</div>')}
+
+const RULEWHY={Zusammenfassen:'Zusammenfassen ist nur für Widerstände.',Ohm:'Für Ohm brauchst du zwei Werte vom selben Bauteil.',Knoten:'Knoten ist für Ströme an einer Verzweigung.',Masche:'Masche ist für Spannungen in einem Umlauf.'};
+const RW=76,RTY=18,RH=48;
+const ssub=t=>String(t).replace(/_([a-z0-9]+)/gi,'<tspan baseline-shift="sub" font-size="9">$1</tspan>');
+function stx(x,y,t,o){const acc=String(t).startsWith('!');return tx(x,y,ssub(acc?String(t).slice(1):t),Object.assign({},o,{c:acc?'acc':(o&&o.c)}))}
+function res(x,y,n,hl,h){const L=String(n.v).split('\n');return ln(x,y+RTY,x+11,y+RTY)+'<rect x="'+(x+11)+'" y="'+(y+RTY-9)+'" width="54" height="18" class="box'+(hl.includes(n.n)?' hl':'')+'"/>'+ln(x+65,y+RTY,x+RW,y+RTY)+tx(x+38,y+RTY+4.5,n.n,{fs:12})+L.map((t,i)=>stx(x+38,y+RTY+25+14*i,t,{fs:12,c:'mut'})).join('')+'<rect class="hit" data-el="'+n.n+'" x="'+x+'" y="'+y+'" width="'+RW+'" height="'+h+'"/>'}
+function lay(n,hl){if(n.t==='r'){const h=RH+14*(String(n.v).split('\n').length-1);return{w:RW,h,ty:RTY,draw:(x,y)=>res(x,y,n,hl,h)}}
+ if(n.t==='s'){const ls=n.c.map(c=>lay(c,hl)),ty=Math.max(...ls.map(l=>l.ty)),h=Math.max(...ls.map(l=>ty-l.ty+l.h)),w=ls.reduce((a,l)=>a+l.w,0);return{w,h,ty,draw:(x,y)=>{let s='',cx=x;ls.forEach(l=>{s+=l.draw(cx,y+ty-l.ty);cx+=l.w});return s}}}
+ const PAD=16,GAP=8,T=n.lbl?18:0,ls=n.c.map(c=>lay(c,hl)),mw=Math.max(...ls.map(l=>l.w));let off=[],cy=T;ls.forEach(l=>{off.push(cy);cy+=l.h+GAP});const h=cy-GAP,w=mw+2*PAD,ty=ls[0].ty+T;
+ return{w,h,ty,draw:(x,y)=>{let s=n.lbl?stx(x+w/2,y+11,'!'+n.lbl,{fs:12}):'';const ys=ls.map((l,i)=>y+off[i]+l.ty);ls.forEach((l,i)=>{s+=ln(x,ys[i],x+PAD,ys[i])+l.draw(x+PAD,y+off[i])+ln(x+PAD+l.w,ys[i],x+w,ys[i])});
+ s+=ln(x,ys[0],x,ys[ys.length-1])+ln(x+w,ys[0],x+w,ys[ys.length-1]);ys.slice(0,-1).forEach(yy=>{s+='<circle cx="'+x+'" cy="'+yy+'" r="3.5" class="dot"/><circle cx="'+(x+w)+'" cy="'+yy+'" r="3.5" class="dot"/>'});return s}}}
+function draw(c,hl){const R=r=>({t:'r',n:r[0],v:r[2]??(fmt(r[1])+' Ω')});const UL=c.Ul||['U',fmt(c.U)+' V'];const parts=[...c.pre.map(R),{t:'p',lbl:c.plbl||'',c:c.br.map(b=>b.length>1?{t:'s',c:b.map(R)}:R(b[0]))},...c.post.map(R)];
+ const SH=c.src?50:0,L=lay({t:'s',c:parts},hl),X0=100+SH,Y0=12,top=Y0+L.ty,bot=Y0+L.h+14,W=X0+L.w+22,H=bot+8,sx=58+SH,my=(top+bot)/2,xr=X0+L.w+12;
+ let s=ln(sx,top,X0,top)+L.draw(X0,Y0)+ln(X0+L.w,top,xr,top)+ln(xr,top,xr,bot)+ln(xr,bot,sx,bot)+ln(sx,top,sx,my-14)+ln(sx,my+14,sx,bot);
+ s+='<circle cx="'+sx+'" cy="'+my+'" r="14" class="box'+(hl.includes('Q')?' hl':'')+'"/>'+ln(sx,my-14,sx,my+14)+tx(sx+9,my-18,'+',{fs:14});
+ if(c.src)s+=c.src.map((t,i)=>stx(sx-20,my-8+16*i-(c.src.length-1)*4,t,{a:'end',fs:12})).join('');else s+=tx(sx-20,my-2,sub(UL[0]),{a:'end'})+tx(sx-20,my+14,UL[1],{a:'end',c:UL[1]==='?'?'acc':''});
+ s+='<rect class="hit" data-el="Q" x="'+(sx-54-SH)+'" y="'+(my-30)+'" width="'+(76+SH)+'" height="60"/>';document.getElementById('circ').innerHTML=svg(W,H,s,W).replace('<svg ','<svg style="max-width:none" ')}
+function liveCC(c,Q,G,m){const K=(FR&&FR.t&&FR.t.Q===Q)?FR.known:new Set(G),has=id=>!!(id&&Q[id]&&K.has(id)),mark=id=>G.includes(id)?'':'!',val=id=>mark(id)+fmt(Q[id].a)+' '+Q[id].u;
+ const lab=r=>{const n=r[0],L=[],rid=m.R(n);L.push(rid?(has(rid)?val(rid):'?'):fmt(r[1])+' Ω');[m.U(n),m.I(n)].forEach(id=>{if(has(id))L.push(val(id))});return L.join('\n')};
+ const pl=[['Up','U_p'],['Rp','R_p']].filter(x=>has(x[0])).map(x=>x[1]+' '+fmt(Q[x[0]].a)+' '+Q[x[0]].u).join(', ');
+ const src=[has('U')?mark('U')+'U '+fmt(Q.U.a)+' V':'!U ?',...[['Iges','I_ges'],['Rges','R_ges']].filter(x=>has(x[0])).map(x=>mark(x[0])+x[1]+' '+fmt(Q[x[0]].a)+' '+Q[x[0]].u)];
+ return{U:c.U,pre:c.pre.map(r=>[r[0],r[1],lab(r)]),br:c.br.map(b=>b.map(r=>[r[0],r[1],lab(r)])),post:c.post.map(r=>[r[0],r[1],lab(r)]),plbl:pl,src}}
+let C,D,cur,st;
+function start(c,label){C=c;MODE=label;document.querySelector('.tog').style.display='';D=c.S?{S:c.S,probe:c.probe}:buildSteps(c);cur=0;st={first:0,rulesWrong:0,tries:0};
+ document.querySelectorAll('.pick button').forEach(b=>b.classList.toggle('on',b.dataset.k===label));
+ const all=[...c.pre,...c.br.flat(),...c.post];
+ if(c.given){document.getElementById('task').innerHTML=(c.nr?'<b>Aufgabe Nr. '+c.nr+' (Grundlagen)</b><br>':'')+sub(c.given)}else document.getElementById('task').innerHTML=(c.nr?'<b>Zufallsaufgabe Nr. '+c.nr+'</b><br>':'')+'<b>Gegeben:</b> U = '+fmt(c.U)+' V, '+all.map(r=>r[0]+' = '+fmt(r[1])+' Ω').join(', ')+'. <b>Gesucht:</b> alle Ströme und Spannungen.';
+ document.getElementById('vals').innerHTML='<tr><th>Größe</th><th>Wert</th><th>Regel</th></tr>';show()}
+function show(){const box=document.getElementById('stepbox');if(cur>=D.S.length)return finish();
+ const s=D.S[cur];draw(C,s.hl);const ruleOn=document.getElementById('ruleOn').checked;st.tries=0;st.ruleOk=!ruleOn;
+ box.innerHTML='<div class="step"><div class="n">Schritt '+(cur+1)+' von '+D.S.length+'</div><div class="q">'+sub(s.q)+'</div>'+
+ (ruleOn?'<div>Welche Regel brauchst du?</div><div class="rules">'+['Zusammenfassen','Ohm','Knoten','Masche'].map(r=>'<button data-r="'+r+'">'+r+'</button>').join('')+'</div>':'')+
+ '<div id="rfb"></div><div class="inrow"><input id="inp" inputmode="decimal" autocomplete="off" '+(ruleOn?'disabled':'')+' aria-label="Wert"><span>'+s.u+'</span></div>'+
+ '<div class="act"><button class="main" id="chk">Prüfen</button><button id="tip">Tipp</button><button id="sol" hidden>Lösung zeigen</button></div><div id="fb"></div></div>';
+ box.querySelectorAll('.rules button').forEach(b=>b.onclick=()=>{if(st.ruleOk)return;const r=b.dataset.r;
+  const X=EX(s);if(s.r.includes(r)){b.classList.add('ok');st.ruleOk=true;st.rule=r;const i=document.getElementById('inp');i.disabled=false;i.focus();
+   rfb({c:'good',t:'<b>Richtig, '+r+'.</b> '+X.W[r]});s.r.filter(x=>x!==r).forEach(x=>rfb({c:'info',t:'<b>Geht auch mit '+x+':</b> '+X.W[x]}))}
+  else{b.classList.add('no');st.rulesWrong++;rfb({c:'badf',t:'<b>Nicht '+r+'.</b> '+X.N[r]})}});
+ document.getElementById('chk').onclick=check;document.getElementById('inp').onkeydown=e=>{if(e.key==='Enter')check()};
+ document.getElementById('tip').onclick=()=>fb('info',sub(s.tip));document.getElementById('sol').onclick=()=>{fb('info',sub(s.sol));accept(s,true)};
+ if(!ruleOn)document.getElementById('inp').focus()}
+function fb(c,m){const f=document.getElementById('fb');f.className='fb '+c;f.innerHTML=m}
+function check(){const s=D.S[cur];if(!st.ruleOk){fb('badf','Wähl zuerst die Regel.');return}
+ const v=parseFloat(document.getElementById('inp').value.replace(/\s/g,'').replace(',','.'));if(isNaN(v)){fb('badf','Gib eine Zahl ein.');return}
+ const ok=x=>Math.abs(v-x)<=Math.max(.01*Math.abs(x),.006);
+ if(ok(s.a)){if(st.tries==0)st.first++;fb('good','Stimmt: '+sub(s.key)+' = '+fmt(s.a)+' '+s.u+'.');if(!document.getElementById('ruleOn').checked){const X=EX(s);rfb({c:'info',t:'<b>Regel: '+s.r[0]+'.</b> '+X.W[s.r[0]]})}accept(s,false);return}
+ st.tries++;let m=null;
+ if(ok(s.a*1000))m='Die Zahl passt, aber die Einheit nicht: gefragt ist '+s.u+', nicht m'+s.u+'.';
+ else if(ok(s.a/1000))m='Die Zahl passt, aber du bist in der falschen Einheit: gefragt ist '+s.u+'.';
+ else for(const e of s.e)if(ok(e[0])){m=e[1];break}
+ fb('badf',sub(m||'Stimmt noch nicht. Prüf, ob alle Werte in deiner Rechnung zum selben Bauteil gehören.'));
+ if(st.tries>=2)document.getElementById('sol').hidden=false}
+function accept(s,shown){const t=document.getElementById('vals');t.insertAdjacentHTML('beforeend','<tr><td>'+sub(s.key)+'</td><td>'+fmt(s.a)+' '+s.u+(shown?' <span class="mut">(Lösung angesehen)</span>':'')+'</td><td>'+(st.rule||s.r[0])+'</td></tr>');
+ st.rule=null;const a=document.querySelector('#stepbox .act');a.innerHTML='<button class="main" id="nx">Weiter</button>';document.getElementById('inp').disabled=true;
+ document.querySelectorAll('#stepbox .rules button').forEach(b=>b.disabled=true);const n=document.getElementById('nx');n.onclick=()=>{cur++;show()};n.focus()}
+function finish(){draw(C,[]);const pr=D.probe?'<p>'+sub(D.probe)+'</p>':'<p><b>Probe Knoten:</b> '+D.Ib.map(fmt).join(' + ')+' = '+fmt(D.Ib.reduce((a,x)=>a+x,0))+' A = I<sub>ges</sub> ✓</p><p><b>Probe Masche:</b> '+[...D.mains.map(r=>fmt(r[1]*D.I)),fmt(D.Up)].join(' + ')+' = '+fmt(C.U)+' V ✓</p>';
+ document.getElementById('stepbox').innerHTML='<div class="step"><div class="q">Geschafft.</div>'+pr+
+ '<p>'+st.first+' von '+D.S.length+' Schritten beim ersten Versuch richtig'+(document.getElementById('ruleOn').checked?', '+st.rulesWrong+' mal falsche Regel gewählt':'')+'.</p>'+
+ '<div class="act"><button class="main" id="again">'+(MODE==='G'?'Neue Grundlagen-Aufgabe':'Neue Zufallsaufgabe')+'</button></div></div>';document.getElementById('again').onclick=()=>{start(MODE==='G'?basicCirc():randomCirc(),MODE)}}
+
+function etFree(){let c;do{c=randomCirc()}while(c.given||c.S);
+ const sum=a=>a.reduce((x,y)=>x+y,0),mains=[...c.pre,...c.post],Rb=c.br.map(b=>sum(b.map(r=>r[1]))),Rp=1/sum(Rb.map(r=>1/r)),Rg=sum(mains.map(r=>r[1]))+Rp,I=c.U/Rg,Up=I*Rp,Ib=Rb.map(r=>Up/r);
+ const nm=b=>b.map(r=>r[0].slice(1)).join(''),ser=c.br.map(b=>b.length>1),ib=j=>'Ib'+j,rb=j=>'Rb'+j,uk=r=>'U'+r[0].slice(1),Q={};
+ c.br.forEach((b,j)=>{if(ser[j])Q[rb(j)]={l:'R_'+nm(b),u:'Ω',a:Rb[j],el:b.map(r=>r[0]),rec:[{d:[],w:'In Reihe: einfach addieren.'}]}});
+ Q.Rp={l:'R_p (Parallelgruppe)',u:'Ω',a:Rp,el:c.br.flat().map(r=>r[0]),rec:[{d:c.br.map((b,j)=>ser[j]?rb(j):null).filter(Boolean),w:'Parallelgruppe zusammengefasst.'}],e:[[sum(Rb),'Das ist die Summe. Parallel wird es kleiner als der kleinste Zweig.'],[1/Rp,'Das ist 1/R_p. Der Kehrwert fehlt.']]};
+ Q.Rges={l:'R_ges',u:'Ω',a:Rg,el:'Q',rec:[{d:['Rp'],w:'Hauptleitung plus R_p, alles in Reihe.'}],e:[[Rp,'Die Widerstände der Hauptleitung fehlen noch.']]};
+ Q.U={l:'U (Quelle)',u:'V',a:c.U,el:'Q',rec:[{d:['Rges','Iges'],w:'Ohm für die ganze Schaltung.'},{d:['Up',...mains.map(uk)],w:'Masche: alle Teilspannungen im Umlauf addiert.'}]};
+ Q.Iges={l:'I_ges',u:'A',a:I,el:['Q',...mains.map(r=>r[0])],rec:[{d:['U','Rges'],w:'Ohm mit U und R_ges.'},{d:c.br.map((b,j)=>ib(j)),w:'Knoten: alle Zweigströme addiert.'},...mains.map(r=>({d:[uk(r)],w:'Ohm an '+r[0]+': durch '+r[0]+' fließt der ganze Strom.'})),{d:['Up','Rp'],w:'Ohm an der Parallelgruppe.'}],e:[[c.U/Rp,'Du hast durch R_p geteilt. Für I_ges brauchst du R_ges.']]};
+ mains.forEach(r=>{Q[uk(r)]={l:'U_'+r[0].slice(1),u:'V',a:r[1]*I,el:r[0],rec:[{d:['Iges'],w:'Ohm an '+r[0]+' mit I_ges, denn in Reihe gleicher Strom.'},{d:['U','Up',...mains.filter(x=>x!==r).map(uk)],w:'Masche: U minus die anderen Teilspannungen.'}],e:[[c.U,'Das ist die Gesamtspannung. An '+r[0]+' liegt nur ein Teil.']]}});
+ Q.Up={l:'U_p (an jedem Zweig)',u:'V',a:Up,el:c.br.flat().map(r=>r[0]),rec:[{d:['Iges','Rp'],w:'Ohm an der Parallelgruppe.'},{d:['U',...mains.map(uk)],w:'Masche: U minus die Spannungen der Hauptleitung.'},...c.br.map((b,j)=>({d:ser[j]?[ib(j),rb(j)]:[ib(j)],w:'Ohm an einem Zweig. Parallel gleiche Spannung.'})),...c.br.map((b,j)=>ser[j]?{d:b.map(uk),w:'Masche im Zweig: Teilspannungen addiert.'}:null).filter(Boolean)],e:[[c.U,'Das ist die Gesamtspannung. Zieh die Spannungen der Hauptleitung ab.']]};
+ c.br.forEach((b,j)=>{Q[ib(j)]={l:ser[j]?'I_'+nm(b)+' (Zweigstrom)':'I_'+b[0][0].slice(1),u:'A',a:Ib[j],el:b.map(r=>r[0]),rec:[{d:ser[j]?['Up',rb(j)]:['Up'],w:'Ohm am Zweig: an jedem Zweig liegt U_p.'},{d:['Iges',...c.br.map((x,i)=>i!==j?ib(i):null).filter(Boolean)],w:'Knoten: I_ges minus die anderen Zweigströme.'},...(ser[j]?b.map(r=>({d:[uk(r)],w:'Ohm an '+r[0]+'.'})):[])],e:[[c.U/Rb[j],'Du hast die Gesamtspannung genommen. Am Zweig liegt nur U_p.'],[I,'I_ges fließt nur in der Hauptleitung. Im Zweig teilt er sich auf.']]};
+  if(ser[j])b.forEach(r=>{Q[uk(r)]={l:'U_'+r[0].slice(1),u:'V',a:r[1]*Ib[j],el:r[0],rec:[{d:[ib(j)],w:'Ohm an '+r[0]+' mit dem Zweigstrom.'},{d:['Up',...b.filter(x=>x!==r).map(uk)],w:'Masche im Zweig: U_p minus die andere Teilspannung.'}],e:[[Up,'Das ist die Spannung am ganzen Zweig.'],[r[1]*I,'Im Zweig fließt nicht I_ges, sondern der Zweigstrom.']]}})});
+ const rev=Math.random()<.4,j0=Math.floor(Math.random()*c.br.length);const cc=JSON.parse(JSON.stringify(c));
+ if(rev){cc.Ul=['U','?'];const r0=cc.br[j0][0];r0[2]=fmt(r0[1])+' Ω ('+fmt(Ib[j0])+' A)'}
+ const all=[...c.pre,...c.br.flat(),...c.post],els={Q:'Quelle'};all.forEach(r=>els[r[0]]=r[0]);
+ const goal=[...(rev?['U']:[]),'Iges',...mains.map(uk),'Up',...c.br.map((b,j)=>ib(j)),...c.br.flatMap((b,j)=>ser[j]?b.map(uk):[])];
+ const text=(rev?'<b>Rückwärts.</b> Gegeben: '+all.map(r=>r[0]+' = '+fmt(r[1])+' Ω').join(', ')+' und '+Q[ib(j0)].l.replace(/ \(.*\)/,'')+' = '+fmt(Ib[j0])+' A. Gesucht: U und alle Ströme und Spannungen.':'Gegeben: U = '+fmt(c.U)+' V, '+all.map(r=>r[0]+' = '+fmt(r[1])+' Ω').join(', ')+'. Gesucht: alle Ströme und Spannungen.')+'<br><span class="mut">Die Reihenfolge bestimmst du. Tipp in der Schaltung auf die Quelle oder einen Widerstand.</span>';
+ const byEl=frBuild(Q);return{kind:rev?'rückwärts':'',nr:c.nr,Q,byEl,els,goal,extra:['Rp','Rges',...c.br.map((b,j)=>ser[j]?rb(j):null).filter(Boolean)],given:rev?[ib(j0)]:['U'],text,render:sel=>{const G=rev?[ib(j0)]:['U'],mi={},bj={};mains.forEach(r=>mi[r[0]]=1);c.br.forEach((b,j)=>b.forEach(r=>bj[r[0]]=j));draw(liveCC(c,Q,G,{R:()=>null,U:n=>mi[n]||ser[bj[n]]?'U'+n.slice(1):'Up',I:n=>mi[n]?'Iges':'Ib'+bj[n]}),sel?[sel]:[])}}}
+function etFreeGo(){MODE='F';document.querySelector('.tog').style.display='none';document.querySelectorAll('.pick button').forEach(b=>b.classList.toggle('on',b.dataset.k==='F'));frStart(etFree(),'circ',etFreeGo)}
+
+const pk=document.getElementById('pick');Object.keys(PRE).forEach(k=>pk.insertAdjacentHTML('beforeend','<button data-k="'+k+'">'+k+'</button>'));pk.insertAdjacentHTML('beforeend','<button data-k="Z">Zufallsaufgabe</button><button data-k="G">Nur Grundlagen</button><button data-k="F">Freier Modus</button>');
+pk.querySelectorAll('button').forEach(b=>b.onclick=()=>b.dataset.k==='F'?etFreeGo():start(b.dataset.k==='Z'?randomCirc():b.dataset.k==='G'?basicCirc():JSON.parse(JSON.stringify(PRE[b.dataset.k])),b.dataset.k));
+const pk2=document.getElementById('pick2');Object.keys(HARD).forEach(k=>{pk2.insertAdjacentHTML('beforeend','<button data-k="'+k+'">'+k+'</button>')});pk2.querySelectorAll('button').forEach(b=>b.onclick=()=>hardGo(b.dataset.k));
+document.getElementById('ruleOn').onchange=()=>{if(C&&MODE!=='F'&&!HARD[MODE])show()};
+start(JSON.parse(JSON.stringify(PRE.B1)),'B1');
+</script>
+<script>
+(function(){
+const $=id=>document.getElementById(id);
+let T=[],done=false,ans=0,hist=[];
+try{hist=JSON.parse(localStorage.getItem('calc:hist')||'[]');ans=+localStorage.getItem('calc:ans')||0}catch(e){}
+const BIN=['+','−','×','÷','∥'];
+const isNumTok=t=>/^[0-9,]+$/.test(t);
+function fmt(v){if(!isFinite(v))return 'Fehler';let a=Math.abs(v);let s;if(a!==0&&(a<1e-6||a>=1e12))s=v.toExponential(4).replace('.',',');else{s=(+v.toPrecision(10)).toString();if(s.includes('e'))s=v.toExponential(4);s=s.replace('.',',')}return s}
+function show(){return T.map(t=>BIN.includes(t)?' '+t+' ':t==='Ans'?'Ans':t).join('').replace(/\s+/g,' ').trim()}
+function evalT(toks){let i=0;const P=()=>toks[i],N=()=>toks[i++];
+ function par(){let a=sum();while(P()==='∥'){N();const b=sum();if(a+b===0)throw 0;a=a*b/(a+b)}return a}
+ function sum(){let a=prod();while(P()==='+'||P()==='−'){const o=N(),b=prod();a=o==='+'?a+b:a-b}return a}
+ function prod(){let a=un();while(P()==='×'||P()==='÷'){const o=N(),b=un();if(o==='÷'&&b===0)throw 0;a=o==='×'?a*b:a/b}return a}
+ function un(){if(P()==='−'){N();return -un()}if(P()==='√'){N();const v=un();if(v<0)throw 0;return Math.sqrt(v)}return post()}
+ function post(){let v=prim();while(P()==='²'||P()==='⁻¹'||P()==='%'){const o=N();if(o==='²')v=v*v;else if(o==='%')v=v/100;else{if(v===0)throw 0;v=1/v}}return v}
+ function prim(){const t=N();if(t===undefined)throw 0;if(t==='('){const v=par();if(P()===')')N();return v}if(t==='Ans')return ans;if(isNumTok(t)){if((t.match(/,/g)||[]).length>1)throw 0;let v=parseFloat(t.replace(',','.'));if(isNaN(v))throw 0;if(P()==='m'){N();v/=1000}else if(P()==='k'){N();v*=1000}return v}throw 0}
+ const v=par();if(i<toks.length)throw 0;return v}
+function tryEval(){if(!T.length)return null;let t=T.slice();while(t.length&&(BIN.includes(t[t.length-1])||t[t.length-1]==='('||t[t.length-1]==='√'))t.pop();if(!t.length)return null;try{const v=evalT(t);return isFinite(v)?v:NaN}catch(e){return NaN}}
+function render(){const e=$('cexp'),r=$('cres'),h=$('chint');e.textContent=show()||'';const v=tryEval();
+ if(!T.length){r.textContent='0';r.className='cres';h.textContent='Parallel: 12 ∥ 6 = 4. Klammern setzen: 6 + (12 ∥ 6)';return}
+ if(v===null){r.textContent='…';r.className='cres';h.textContent='';return}
+ if(isNaN(v)){r.textContent=done?'Fehler':'…';r.className='cres'+(done?' err':'');h.textContent='';return}
+ r.textContent=fmt(v);r.className='cres';const a=Math.abs(v);
+ h.textContent=(a>0&&a<1)?'= '+fmt(v*1000)+' milli (zum Beispiel mA oder mV)':(a>=1000&&a<1e9)?'= '+fmt(v/1000)+' kilo (zum Beispiel kΩ)':'';
+ e.scrollLeft=e.scrollWidth}
+function msg(s){$('cmsg').textContent=s;clearTimeout(msg.t);if(s)msg.t=setTimeout(()=>$('cmsg').textContent='',3500)}
+function saveH(){try{localStorage.setItem('calc:hist',JSON.stringify(hist.slice(0,30)));localStorage.setItem('calc:ans',String(ans))}catch(e){}}
+function drawH(){$('chist').innerHTML=hist.map((x,j)=>'<button data-j="'+j+'"><span>'+x.e+'</span><span>= '+fmt(x.v)+'</span></button>').join('')}
+function key(k){msg('');const last=T[T.length-1];
+ if(k==='C'){T=[];done=false;return render()}
+ if(k==='BS'){if(done){T=[];done=false;return render()}if(last&&isNumTok(last)&&last.length>1)T[T.length-1]=last.slice(0,-1);else T.pop();return render()}
+ if(k==='='){const v=tryEval();if(v===null)return;if(isNaN(v)){done=true;return render()}const e=show();ans=v;hist.unshift({e,v});hist=hist.slice(0,30);saveH();drawH();T=['Ans'];done=true;$('cexp').textContent=e+' =';$('cres').textContent=fmt(v);const r=$('cres');r.className='cres';const a=Math.abs(v);$('chint').textContent=(a>0&&a<1)?'= '+fmt(v*1000)+' milli (zum Beispiel mA oder mV)':(a>=1000&&a<1e9)?'= '+fmt(v/1000)+' kilo (zum Beispiel kΩ)':'';return}
+ if(/^[0-9]$/.test(k)||k===','){if(done){T=[];done=false}if(last&&isNumTok(last)){if(k===','&&last.includes(','))return;T[T.length-1]=last+k}else{if(last&&(last===')'||last==='Ans'||last==='²'||last==='⁻¹'||last==='%'||last==='m'||last==='k'))T.push('×');T.push(k===','?'0,':k)}return render()}
+ done=false;
+ if(BIN.includes(k)){if(!T.length){if(k==='−'){T.push('−');return render()}T=['Ans']}if(BIN.includes(last)){T[T.length-1]=k;return render()}if(last==='('||last==='√'){if(k==='−')T.push('−');return render()}T.push(k);return render()}
+ if(k==='('||k==='√'||k==='Ans'){if(last&&(isNumTok(last)||last===')'||last==='Ans'||last==='²'||last==='⁻¹'||last==='%'||last==='m'||last==='k'))T.push('×');T.push(k);return render()}
+ if(k===')'){const o=T.filter(x=>x==='(').length,c=T.filter(x=>x===')').length;if(o>c&&last&&!BIN.includes(last)&&last!=='(')T.push(')');return render()}
+ if(k==='²'||k==='⁻¹'||k==='%'){if(!T.length)T=['Ans'];const l=T[T.length-1];if(BIN.includes(l)||l==='('||l==='√')return;T.push(k);return render()}
+ if(k==='m'||k==='k'){if(last&&isNumTok(last)){T.push(k);return render()}msg('m und k direkt hinter eine Zahl tippen, zum Beispiel 10 m = 0,01');return}
+}
+$('ckeys').addEventListener('click',e=>{const b=e.target.closest('button');if(b)key(b.dataset.k)});
+function open(){document.body.classList.add('calc-open');requestAnimationFrame(()=>{document.querySelector('main').style.paddingBottom=($('csheet').offsetHeight+16)+'px'})}
+function close(){document.body.classList.remove('calc-open');document.querySelector('main').style.paddingBottom=''}
+$('fab').onclick=open;$('cclose').onclick=close;
+$('chbtn').onclick=()=>{const h=$('chist');h.hidden=!h.hidden;if(!h.hidden&&!hist.length)msg('Noch nichts gerechnet');drawH();open()};
+$('chist').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;const x=hist[+b.dataset.j];ans=x.v;T=['Ans'];done=true;$('cexp').textContent=x.e+' =';$('cres').textContent=fmt(x.v);msg('Als Ans übernommen')});
+$('cput').onclick=()=>{let v=done?ans:tryEval();if(v===null||isNaN(v)){msg('Erst etwas ausrechnen');return}
+ const inp=[...document.querySelectorAll('#stepbox input[inputmode="decimal"]')].find(x=>x.offsetParent!==null);
+ if(!inp){msg('Gerade ist kein Antwortfeld offen');return}
+ if(inp.disabled){msg('Erst die Regel wählen, dann übernehmen');return}
+ inp.value=(+v.toPrecision(6)).toString().replace('.',',');inp.dispatchEvent(new Event('input',{bubbles:true}));msg('Eingetragen: '+inp.value+'. Jetzt auf Prüfen tippen');
+ inp.scrollIntoView({block:'center',behavior:'smooth'})};
+document.addEventListener('keydown',e=>{if(!document.body.classList.contains('calc-open'))return;if(e.target.tagName==='INPUT')return;const m={'*':'×','/':'÷','-':'−','+':'+','Enter':'=','Backspace':'BS','Escape':'C','.':',',',':',','(':'(',')':')','p':'∥','%':'%'};let k=/^[0-9]$/.test(e.key)?e.key:m[e.key];if(k){e.preventDefault();key(k)}});
+drawH();render();
+})();
+</script>
+
+<script>
+(function(){
+const QS=[
+['Grundlagen',[
+['Welche Formelzeichen und Einheiten haben Spannung, Strom und Widerstand?','Spannung U in Volt (V), Strom I in Ampere (A), Widerstand R in Ohm (Ω).'],
+['Wie viel sind 250 mA in Ampere und 4,7 kΩ in Ohm?','250 mA = 0,25 A (durch 1000). 4,7 kΩ = 4700 Ω (mal 1000). Immer erst in Grundeinheiten umrechnen, dann rechnen.'],
+['Was ist Ursache, was ist Wirkung: Spannung oder Strom?','Spannung ist die Ursache, wie die Kühlmittelpumpe an der Fräse. Strom ist die Wirkung, der Fluss. Ohne Spannung kein Strom. Der Widerstand bremst den Strom, wie eine enge Düse.'],
+['In welche Richtung fließt der Strom nach der technischen Stromrichtung?','Von Plus nach Minus (außerhalb der Quelle). Die Elektronen bewegen sich tatsächlich andersherum, von Minus nach Plus.'],
+['Wie schließt du ein Amperemeter an, wie ein Voltmeter?','Amperemeter in Reihe, der Strom muss durchfließen. Voltmeter parallel zum Bauteil, es misst den Spannungsunterschied zwischen zwei Punkten.'],
+['Wann fließt überhaupt Strom?','Nur in einem geschlossenen Stromkreis: Quelle, Leitung und Verbraucher bilden einen durchgehenden Weg. Ist er irgendwo offen, fließt nirgends Strom.']]],
+['Ohmsches Gesetz',[
+['Wie lautet das ohmsche Gesetz in seinen drei Formen?','U = R · I, I = U / R, R = U / I.'],
+['Wann darfst du das ohmsche Gesetz anwenden?','Wenn du zwei der drei Werte vom selben Bauteil kennst, oder von derselben zusammengefassten Gruppe. Nie Werte von verschiedenen Bauteilen mischen. Merksatz: Ohm rechnet am Bauteil.'],
+['Die Spannung wird verdoppelt, R bleibt gleich. Was passiert mit dem Strom?','Er verdoppelt sich. Bei gleichem R sind U und I proportional, die Kennlinie ist eine Gerade durch den Nullpunkt.'],
+['Der Widerstand wird verdoppelt, U bleibt gleich. Was passiert mit dem Strom?','Er halbiert sich.']]],
+['Reihenschaltung',[
+['Welche drei Regeln gelten in der Reihenschaltung?','Der Strom ist überall gleich. Die Teilspannungen addieren sich zur Gesamtspannung. Die Widerstände addieren sich: R_ges = R1 + R2 + …'],
+['Ist R_ges in Reihe größer oder kleiner als der größte Einzelwiderstand?','Immer größer, weil addiert wird.'],
+['An welchem Widerstand fällt in Reihe die größte Spannung ab?','Am größten Widerstand. Die Spannungen verhalten sich wie die Widerstände: U1 / U2 = R1 / R2.'],
+['Was ist ein Spannungsteiler, und wie rechnest du schnell?','Widerstände in Reihe teilen die Spannung auf. Schnellweg: U1 = U · R1 / R_ges. Ohne erst den Strom auszurechnen.'],
+['In einer Reihenschaltung geht ein Verbraucher kaputt (Unterbrechung). Was passiert?','Der Stromkreis ist offen, es fließt nirgends mehr Strom. Alles geht aus, wie bei einer alten Lichterkette.'],
+['Du schaltest in Reihe einen weiteren Widerstand dazu. Was passiert mit dem Strom?','R_ges steigt, also sinkt der Strom bei gleicher Spannung.']]],
+['Parallelschaltung',[
+['Welche drei Regeln gelten in der Parallelschaltung?','An allen Zweigen liegt dieselbe Spannung. Die Zweigströme addieren sich zu I_ges. Die Kehrwerte addieren sich: 1/R_ges = 1/R1 + 1/R2 + …'],
+['Ist R_ges parallel größer oder kleiner als der kleinste Einzelwiderstand?','Immer kleiner. Jeder Zweig ist ein zusätzlicher Weg für den Strom.'],
+['Durch welchen Zweig fließt parallel der größte Strom?','Durch den mit dem kleinsten Widerstand. Die Ströme verhalten sich umgekehrt wie die Widerstände.'],
+['Schnellweg für zwei Widerstände parallel?','Produkt durch Summe: R_ges = R1 · R2 / (R1 + R2). Beispiel: 12 Ω und 6 Ω parallel = 72 / 18 = 4 Ω.'],
+['Schnellweg für mehrere gleiche Widerstände parallel?','R durch Anzahl: R_ges = R / n. Beispiel: drei mal 30 Ω parallel = 10 Ω. Der Strom teilt sich genauso gleichmäßig auf.'],
+['Stromteiler bei zwei Zweigen?','I1 = I_ges · R2 / (R1 + R2). Oben steht der andere Widerstand, weil durch den kleineren Widerstand mehr Strom fließt.'],
+['Du schaltest parallel einen weiteren Widerstand dazu. Was passiert mit R_ges und I_ges?','R_ges sinkt, I_ges steigt. Die Ströme in den anderen Zweigen bleiben gleich, weil an ihnen dieselbe Spannung liegt.'],
+['Häufigster Fehler beim Parallel-Zusammenfassen?','Den Kehrwert am Ende vergessen. Wenn du 1/R_ges ausgerechnet hast, musst du noch umdrehen. Probe: das Ergebnis muss kleiner sein als der kleinste Zweig.'],
+['Warum sind die Steckdosen im Haus parallel geschaltet?','Damit jedes Gerät die volle Netzspannung bekommt und jedes für sich an- und ausgeschaltet werden kann.']]],
+['Kirchhoff',[
+['Was sagt die Knotenregel (1. Kirchhoffsches Gesetz)?','An einem Knoten ist die Summe der zufließenden Ströme gleich der Summe der abfließenden. Es geht kein Strom verloren. Bild: der Verteilerblock am Kühlmittelkreislauf.'],
+['Was sagt die Maschenregel (2. Kirchhoffsches Gesetz)?','In einem geschlossenen Umlauf ist die Quellenspannung gleich der Summe der Spannungsabfälle. Anders gesagt: alle Spannungen im Umlauf mit Vorzeichen ergeben null.'],
+['Was ist ein Knoten, ein Zweig und eine Masche?','Knoten: Verzweigungspunkt. Zweig: Verbindung zwischen zwei Knoten. Masche: ein geschlossener Umlauf durch die Schaltung.'],
+['Wann brauchst du Kirchhoff statt Ohm?','Wenn dir am gesuchten Bauteil der zweite Wert fehlt. Dann holst du den Strom über den Knoten oder die Spannung über die Masche. Merksatz: Wenn Ohm hängt, frag Kirchhoff nach dem zweiten Wert.'],
+['In einen Knoten fließen 5 A hinein, heraus fließen 500 mA und ein unbekannter Strom. Wie groß ist er?','5 A − 0,5 A = 4,5 A. Vorher mA in A umrechnen.'],
+['Welche Spannungen gehören in eine Masche?','Nur die der Bauteile, die auf dem Umlauf liegen. Ein Zweig, der parallel direkt an der Quelle hängt, hat die volle Spannung U und gehört nicht in den Umlauf mit der Hauptleitung.']]],
+['Gemischte Schaltungen',[
+['Wie fasst du eine gemischte Schaltung zusammen?','Von innen nach außen: erst die Reihen im Zweig addieren, dann die Parallelgruppe zu R_p, dann mit der Hauptleitung zu R_ges.'],
+['Wie rechnest du danach zurück?','I_ges = U / R_ges. Spannungen der Hauptleitung mit I_ges. U_p über die Masche. Zweigströme mit U_p. Teilspannungen im Zweig mit dem Zweigstrom. Merksatz: Runter zusammenfassen, rauf zurückrechnen.'],
+['Welcher Strom fließt durch einen Widerstand in der Hauptleitung, welcher durch einen im Zweig?','Hauptleitung: der ganze I_ges. Zweig: nur der Zweigstrom.'],
+['Wie machst du die Probe?','Knoten: Zweigströme addiert ergeben I_ges. Masche: Spannungen der Hauptleitung plus U_p ergeben U.'],
+['Was ist ein Ersatzwiderstand?','Ein einzelner Widerstand, der eine Gruppe so ersetzt, dass bei gleicher Spannung derselbe Strom fließt.']]],
+['Vorwiderstand und Leistung',[
+['Wozu dient ein Vorwiderstand, und wie wird er geschaltet?','Er nimmt die überschüssige Spannung auf, damit der Verbraucher nur seine Nennspannung bekommt. Er liegt in Reihe zum Verbraucher.'],
+['Wie berechnest du einen Vorwiderstand?','R_V = (U − U_Nenn) / I_Nenn. Beispiel: Quelle 120 V, Lampe 45 V und 0,5 A: R_V = 75 V / 0,5 A = 150 Ω.'],
+['Auf der Lampe stehen Volt und Watt. Wie kommst du an den Nennstrom?','I = P / U. Beispiel: 12 V und 24 W ergeben 2 A.'],
+['Formel für die elektrische Leistung?','P = U · I, Einheit Watt (W). Umgestellt mit Ohm auch P = I² · R oder P = U² / R.']]]
+];
+const K='wissen:ok';let OK={};try{OK=JSON.parse(localStorage.getItem(K)||'{}')}catch(e){}
+let F='all',order=null;
+const save=()=>{try{localStorage.setItem(K,JSON.stringify(OK))}catch(e){}};
+const sb=t=>t.replace(/_([a-zA-Z0-9]+)/g,'<sub>$1</sub>');
+const all=[];QS.forEach((g,gi)=>g[1].forEach((q,qi)=>all.push({id:gi+'-'+qi,g:g[0],q:q[0],a:q[1]})));
+function prog(){const n=all.filter(x=>OK[x.id]).length;document.getElementById('wprog').textContent=n+' von '+all.length+' gewusst';document.getElementById('wbar').style.width=(100*n/all.length)+'%'}
+function card(x){return '<div class="wq'+(OK[x.id]?' known':'')+'" data-id="'+x.id+'">'+(OK[x.id]?'<span class="st">gewusst</span>':'')+'<div class="qq">'+sb(x.q)+'</div><div class="wa" hidden>'+sb(x.a)+'</div><div class="wb"><button class="sh">Antwort zeigen</button></div></div>'}
+function render(){let L=all.filter(x=>F!=='open'||!OK[x.id]);let h='';
+ if(order){L=order.map(id=>all.find(x=>x.id===id)).filter(x=>x&&(F!=='open'||!OK[x.id]));h=L.map(card).join('')}
+ else{let g=null;L.forEach(x=>{if(x.g!==g){g=x.g;h+='<h3>'+g+'</h3>'}h+=card(x)})}
+ document.getElementById('wlist').innerHTML=h||'<div class="wq"><div class="qq">Alles gewusst.</div><div class="wa">Tipp auf Zurücksetzen, um nochmal von vorn zu üben.</div></div>';prog();
+ document.querySelectorAll('#wlist .wq[data-id]').forEach(el=>{const id=el.dataset.id,b=el.querySelector('.wb');
+  b.querySelector('.sh').onclick=()=>{el.querySelector('.wa').hidden=false;b.innerHTML='<button class="ok">Gewusst</button><button class="no">Nochmal</button>';
+   b.querySelector('.ok').onclick=()=>{OK[id]=1;save();if(F==='open'){el.remove();prog()}else{el.classList.add('known');if(!el.querySelector('.st'))el.insertAdjacentHTML('afterbegin','<span class="st">gewusst</span>');b.innerHTML='';prog()}};
+   b.querySelector('.no').onclick=()=>{delete OK[id];save();el.classList.remove('known');const st=el.querySelector('.st');if(st)st.remove();b.innerHTML='';prog()}}})}
+document.querySelectorAll('.wf button').forEach(b=>b.onclick=()=>{const f=b.dataset.f;
+ if(f==='reset'){if(!confirm('Alle Markierungen zurücksetzen?'))return;OK={};save();render();return}
+ if(f==='mix'){order=all.map(x=>x.id).sort(()=>Math.random()-.5);document.querySelector('.wf [data-f="mix"]').classList.add('on');render();return}
+ F=f;if(f==='all')order=null;document.querySelectorAll('.wf button').forEach(x=>x.classList.toggle('on',x.dataset.f===F||(x.dataset.f==='mix'&&order)));render()});
+document.querySelectorAll('#seg button').forEach(b=>b.onclick=()=>{const w=b.dataset.t==='W';document.querySelectorAll('#seg button').forEach(x=>x.classList.toggle('on',x===b));
+ document.getElementById('secT').hidden=w;document.getElementById('footT').hidden=w;document.getElementById('secW').hidden=!w;document.getElementById('fab').style.display=w?'none':'';window.scrollTo({top:0})});
+render();
+})();
+</script>
+<script src="../lernwerk-bridge.js"></script>
+</body></html>
