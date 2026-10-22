@@ -42,8 +42,28 @@ const P = {
   cards: '<rect x="3.5" y="7" width="13" height="13" rx="2"/><path d="M8 7V5.5a2 2 0 0 1 2-2h8.5a2 2 0 0 1 2 2V14a2 2 0 0 1-2 2H16.5"/>',
   open: '<path d="M14 4.5h5.5V10M19.5 4.5L11 13M17 14v4.5a1.5 1.5 0 0 1-1.5 1.5h-10A1.5 1.5 0 0 1 4 18.5v-10A1.5 1.5 0 0 1 5.5 7H10"/>',
   list: '<path d="M9 6.5h11M9 12h11M9 17.5h11M4.5 6.5h.1M4.5 12h.1M4.5 17.5h.1" stroke-width="2.2"/>',
-  tools: '<path d="M14.5 4.5a4 4 0 0 0-4.8 5.2L4 15.4V20h4.6l5.7-5.7a4 4 0 0 0 5.2-4.8l-2.6 2.6-2.8-.7-.7-2.8z"/>'
+  tools: '<path d="M14.5 4.5a4 4 0 0 0-4.8 5.2L4 15.4V20h4.6l5.7-5.7a4 4 0 0 0 5.2-4.8l-2.6 2.6-2.8-.7-.7-2.8z"/>',
+  sparkle: '<path d="M12 3.5l1.8 5.2 5.2 1.8-5.2 1.8-1.8 5.2-1.8-5.2-5.2-1.8 5.2-1.8zM18.5 15.5l.8 2.2 2.2.8-2.2.8-.8 2.2-.8-2.2-2.2-.8 2.2-.8z"/>',
+  // Fach-Symbole
+  'f-mathe': '<path d="M3.5 13.5h3l3 6.5 4.5-15.5h6.5"/>',
+  'f-et': '<path d="M13 2.5L5 13.5h6l-1 8 8-11h-6z"/>',
+  'f-tm': '<circle cx="12" cy="12" r="2.2"/><path d="M12 9.8V3.5M10 5.5l2-2 2 2M14.2 12h6.3M18.5 10l2 2-2 2M10.4 13.6l-5 5M5.4 15.6v3h3"/>',
+  'f-tol': '<rect x="3" y="8" width="18" height="8" rx="1.5"/><path d="M7 8v3M11 8v4.5M15 8v3M19 8v4.5"/>',
+  'f-cad': '<path d="M12 3l8 4.5v9L12 21l-8-4.5v-9z"/><path d="M12 12l8-4.5M12 12L4 7.5M12 12v9"/>',
+  'f-ws': '<path d="M12 21c-4 0-6.5-2.6-6.5-6 0-3.6 3-5.5 3.5-9 2 1.5 3 3.2 3 5 1-1 1.6-2.2 1.7-3.6 2.3 1.9 4.8 4.4 4.8 7.6 0 3.4-2.5 6-6.5 6z"/>',
+  'f-st': '<rect x="3" y="7" width="9" height="9" rx="1"/><rect x="12" y="7" width="9" height="9" rx="1"/><path d="M5.5 13.5l4.5-4M17 9.5v4.5M15 11.5h4"/>',
+  'f-auto': '<path d="M5 20.5h8M9 20.5v-4l5-6 4 2"/><circle cx="9" cy="16.5" r="1.6"/><circle cx="14" cy="10.5" r="1.6"/><path d="M18 12.5l2 3M18 12.5l3-1"/>',
+  'f-pm': '<path d="M4.5 3.5v17"/><path d="M7.5 7h6M10 12h8M13 17h6" stroke-width="2.6"/>',
+  'f-m5': '<path d="M14.5 4.5a4 4 0 0 0-4.8 5.2L4 15.4V20h4.6l5.7-5.7a4 4 0 0 0 5.2-4.8l-2.6 2.6-2.8-.7-.7-2.8z"/>',
+  'f-m6': '<circle cx="9" cy="8" r="3"/><path d="M3.5 19c.6-3.3 2.8-5 5.5-5s4.9 1.7 5.5 5"/><circle cx="17" cy="9" r="2.4"/><path d="M15.8 14.2c2.4-.2 4.2 1.3 4.8 4.3"/>',
+  'f-m7': '<path d="M12 3l7.5 3v5.5c0 4.5-3.2 8-7.5 9.5-4.3-1.5-7.5-5-7.5-9.5V6z"/><path d="M8.5 12l2.5 2.5 4.5-5"/>',
+  'f-m8': '<path d="M5 19c0-8 5-13 14-14 0 9-5 14-12 14"/><path d="M5 19c3-4 6-7 10-9"/>',
+  'f-de': '<path d="M3.5 18L8 6l4.5 12M5.2 14h5.6"/><path d="M15 11.5c.9-1 3.6-1.3 4.6.2.4.6.4 1.4.4 2.2V18M20 14.6c-1.6-.6-5.5-.5-5.5 1.8 0 2.1 3.8 2.2 5.5-.2"/>',
+  'f-en': '<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.7 2.6 3.9 5.6 3.9 9s-1.2 6.4-3.9 9c-2.7-2.6-3.9-5.6-3.9-9S9.3 5.6 12 3z"/>',
+  'f-po': '<path d="M3 9.5L12 4l9 5.5z"/><path d="M5.5 10v7M9.5 10v7M14.5 10v7M18.5 10v7M3.5 20h17"/>'
 };
+// Symbol für ein Fach, eigene Fächer bekommen ein Buch
+export const fachIcon = f => (P['f-' + (f && f.id)] ? 'f-' + f.id : 'book');
 export const icon = (n, cls = '') => `<svg class="ic ${cls}" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${P[n] || ''}</svg>`;
 
 /* ===== Bausteine ===== */
@@ -57,7 +77,7 @@ export const foot = t => `<div class="sec-f">${t}</div>`;
 export function row(o) {
   const tag = o.a ? 'button' : 'div';
   return `<${tag} class="row ${o.cls || ''}" ${o.a ? `data-a="${o.a}"` : ''} ${o.d != null ? `data-d="${esc(o.d)}"` : ''} ${o.a ? 'type="button"' : ''}>
-    ${o.icon ? `<span class="row-ic" style="background:${o.color || 'var(--accent)'}">${icon(o.icon)}</span>` : ''}
+    ${o.icon ? `<span class="row-ic" style="--ic:${o.color || 'var(--accent)'}">${icon(o.icon)}</span>` : ''}
     ${o.dot ? `<span class="row-dot" style="background:${o.dot}"></span>` : ''}
     <span class="row-main"><span class="row-t">${o.titleHTML || esc(o.title)}</span>${o.sub || o.subHTML ? `<span class="row-s">${o.subHTML || esc(o.sub)}</span>` : ''}${o.html || ''}</span>
     ${o.detail != null ? `<span class="row-d">${o.detailHTML ? o.detail : esc(o.detail)}</span>` : ''}
@@ -69,6 +89,11 @@ export const list = (rows, cls = '') => `<div class="list ${cls}">${rows.join(''
 export const seg = (name, opts, val) => `<div class="seg" role="tablist" data-seg="${name}">${opts.map(([v, l]) => `<button type="button" role="tab" data-v="${esc(v)}" class="${v === val ? 'on' : ''}" aria-selected="${v === val}">${esc(l)}</button>`).join('')}</div>`;
 export const sw = (name, on) => `<label class="switch"><input type="checkbox" data-sw="${name}" ${on ? 'checked' : ''}><span></span></label>`;
 export const progress = (v, color) => `<div class="bar"><i style="width:${Math.round(Math.max(0, Math.min(1, v)) * 100)}%;${color ? 'background:' + color : ''}"></i></div>`;
+// Fortschrittsring als SVG, v zwischen 0 und 1
+export function ring(v, size = 64, color = 'var(--accent)', inner = '') {
+  const r = size / 2 - 5, c = 2 * Math.PI * r, f = Math.max(0, Math.min(1, v));
+  return `<span class="ring" style="width:${size}px;height:${size}px"><svg viewBox="0 0 ${size} ${size}" aria-hidden="true"><circle cx="${size / 2}" cy="${size / 2}" r="${r}" class="ring-bg"/><circle cx="${size / 2}" cy="${size / 2}" r="${r}" class="ring-fg" style="stroke:${color};stroke-dasharray:${c};stroke-dashoffset:${c * (1 - f)}"/></svg><span class="ring-in">${inner}</span></span>`;
+}
 export const empty = (t, sub = '') => `<div class="empty"><div class="empty-t">${esc(t)}</div>${sub ? `<div class="empty-s">${sub}</div>` : ''}</div>`;
 export const hinweisTabellenbuch = () => `<p class="tb-hint">Im Zweifel gilt dein Tabellenbuch und der Unterricht.</p>`;
 

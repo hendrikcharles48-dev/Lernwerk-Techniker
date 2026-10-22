@@ -2,53 +2,76 @@
 import { esc, dayStr, dayLong, daysBetween, plural, fmtNum, markdown, plainText, uid } from './util.js';
 import { parseBlocks, summary, TEMPLATE } from './parser.js';
 import * as st from './store.js';
-import { $, $$, icon, row, list, seg, sw, empty, on, push, initTabs, showTab, tab, openSheet, toast, copyText, readClipboard, progress, confirmBox, refreshAll, refreshTop, initEdgeSwipe, hinweisTabellenbuch } from './ui.js';
+import { $, $$, icon, row, list, seg, sw, empty, on, push, initTabs, showTab, tab, openSheet, toast, copyText, readClipboard, progress, ring, fachIcon, confirmBox, refreshAll, refreshTop, initEdgeSwipe, hinweisTabellenbuch } from './ui.js';
 import { topicPage, runSession, sortForPractice, fachProgress, topicProgress, openTrainer, askClaude, shrinkImage, noteReader, firstLine, itemTitle } from './engine.js';
 import { mehrPage, termineDetail, termEditor, datensicherung, applyTheme } from './extra.js';
 import { prefs } from './db.js';
 import { speak, canSpeak } from './speech.js';
 
-export const VERSION = '1.2.0';
+export const VERSION = '1.3.0';
 
 /* ===== Heute ===== */
+// Freundliche, wechselnde Sätze für den Start. Ohne Druck.
+const MUT = [
+  'Erst der Arbeitsplan, dann das Programm. Schritt für Schritt wird es was.',
+  'Wiederholen ist wie Schlichten: Danach sitzt es glatt.',
+  'Fehler sind Messwerte. Sie zeigen dir, wo du nachstellen musst.',
+  'Heute ein bisschen besser als gestern reicht völlig.',
+  'Kurz und regelmäßig schlägt lang und selten. Wie beim Training.',
+  'Auch Profis üben. Leg einfach los.',
+  'Fünf Minuten sind ein guter Anfang. Der Rest kommt von allein.',
+  'Jeder Satz Karten ist ein Satz Wiederholungen für den Kopf.',
+  'Sauber gespannt ist halb gefräst. Sauber verstanden ist halb gelernt.'
+];
+function gruss() {
+  const h = new Date().getHours();
+  return h < 5 ? 'Noch wach?' : h < 11 ? 'Guten Morgen!' : h < 18 ? 'Moin!' : 'Guten Abend!';
+}
 const heute = {
   title: 'Heute',
   render(b) {
     const today = dayStr();
-    let h = `<div class="today-date">${esc(dayLong(today))}</div>`;
+    const d0 = new Date(); d0.setHours(0, 0, 0, 0);
+    const doy = Math.floor((d0 - new Date(d0.getFullYear(), 0, 0)) / 86400000);
+    let h = `<div class="hello"><div class="hello-t">${esc(gruss())}</div><div class="hello-d">${esc(dayLong(today))}</div><p class="hello-m">${icon('sparkle')}<span>${esc(MUT[doy % MUT.length])}</span></p></div>`;
     if (st.backupDue()) h += `<button class="banner warn" data-a="backup">${icon('save')}<span><b>Zeit für eine Sicherung.</b> Deine letzte Sicherung ist älter als 14 Tage. Tippe hier.</span></button>`;
+    // Heute: Ring mit erledigt und offen
+    const q = st.buildQueue(900);
+    const erledigt = st.S.events.filter(e => e.zeit >= d0.getTime() && e.ok != null).length;
+    const offen = q.items.length;
+    const anteil = erledigt + offen ? erledigt / (erledigt + offen) : 1;
+    const by = new Map();
+    for (const it of q.items) { const k = it.art === 'fehler' ? 'Fehlerbuch' : (st.thema(it.tid) || { thema: { name: 'Sonstiges' } }).thema.name; by.set(k, (by.get(k) || 0) + 1); }
+    const ringIn = offen ? `<b>${offen}</b><small>offen</small>` : icon('check', 'ring-check');
+    h += `<div class="card today-card"><div class="tc-top">${ring(anteil, 76, offen ? 'var(--accent)' : 'var(--green)', ringIn)}<div class="tc-txt">
+      <div class="tc-t">${offen ? (erledigt ? 'Schon ' + plural(erledigt, 'Übung', 'Übungen') + ' geschafft' : 'Heute dran') : erledigt ? 'Alles geschafft für heute!' : 'Gerade nichts fällig'}</div>
+      <div class="tc-s">${offen ? 'Noch ' + plural(offen, 'Übung', 'Übungen') + ', etwa ' + Math.max(1, Math.round(q.sekunden / 60)) + ' Minuten.' : erledigt ? 'Stark. Was du heute geübt hast, kommt in ein paar Tagen wieder.' : 'Markiere ein Thema als „aktuell im Unterricht“, dann kommen neue Karten dazu.'}</div></div></div>
+      ${offen ? `<div class="tc-tags">${[...by].slice(0, 5).map(([k, n]) => `<span class="tag">${esc(k)} <b>${n}</b></span>`).join('')}</div><button class="btn filled wide" data-a="today">${icon('play')} Los geht’s</button>` : ''}</div>`;
+    h += `<button class="five" data-a="five">${icon('bolt')}<span><b>5 Minuten</b><small>Sofort loslegen, ganz ohne Planen</small></span></button>`;
     const ex = st.nextExam(today);
     if (ex) {
       const d = daysBetween(today, ex.datum);
       const f = st.fach(ex.fachId);
       const tops = (ex.themaIds || []).map(id => st.thema(id)).filter(Boolean);
-      h += `<button class="card count" data-a="exam" data-d="${ex.id}" style="--fc:${f ? f.farbe : 'var(--accent)'}">
-        <div class="count-n">${d === 0 ? 'Heute' : d === 1 ? 'Morgen' : 'In ' + d + ' Tagen'}</div>
-        <div class="count-t">${esc(ex.fach)}</div><div class="muted">${esc(dayLong(ex.datum))}</div>
+      h += `<div class="sec-h">Nächste Klassenarbeit</div><button class="card count" data-a="exam" data-d="${ex.id}" style="--fc:${f ? f.farbe : 'var(--accent)'}">
+        <div class="count-head"><span class="count-badge"><b>${d === 0 ? '!' : d}</b><small>${d === 0 ? 'heute' : d === 1 ? 'Tag' : 'Tage'}</small></span><span><div class="count-t">${esc(ex.fach)}</div><div class="muted">${esc(dayLong(ex.datum))}</div></span></div>
         ${tops.length ? `<div class="count-tops">${tops.map(t => { const p = topicProgress(t.thema.id); return `<div class="ct"><span>${esc(t.thema.name)}</span>${progress(p || 0, f ? f.farbe : null)}</div>`; }).join('')}</div>` : ex.themen ? `<div class="muted">${esc(ex.themen)}</div>` : ''}
         <div class="count-more">Lernplan ansehen ${icon('chev', 'chev')}</div></button>`;
     } else {
-      h += `<button class="card count empty-count" data-a="newexam"><div class="count-t">Keine Klassenarbeit eingetragen</div><div class="muted">Tippe hier, um eine Arbeit einzutragen. Dann zieht Lernwerk deren Themen vor.</div></button>`;
+      h += `<button class="card count empty-count" data-a="newexam">${icon('calendar')}<span><span class="count-t">Klassenarbeit eintragen</span><span class="muted">Dann zieht Lernwerk deren Themen vor und plant rückwärts bis zum Termin.</span></span></button>`;
     }
-    const q = st.buildQueue(900);
-    h += `<button class="five" data-a="five">${icon('bolt')}<span><b>5 Minuten</b><small>Sofort loslegen mit fälligen Karten</small></span></button>`;
-    h += `<div class="sec-h">Heute dran</div>`;
-    if (q.items.length) {
-      const by = new Map();
-      for (const it of q.items) { const k = it.art === 'fehler' ? 'Fehlerbuch' : (st.thema(it.tid) || { thema: { name: 'Sonstiges' } }).thema.name; by.set(k, (by.get(k) || 0) + 1); }
-      h += list([...by].map(([k, n]) => row({ title: k, detail: String(n) })).concat(row({ a: 'today', title: 'Starten', titleHTML: '<b>Starten</b>', sub: plural(q.items.length, 'Übung', 'Übungen') + ', etwa ' + Math.max(1, Math.round(q.sekunden / 60)) + ' Minuten', cls: 'accent-row' })));
-    } else h += list([row({ title: 'Alles erledigt für heute.', sub: 'Markiere Themen als „aktuell im Unterricht“, dann kommen neue Karten dazu.' })]);
     const tr = st.dueTrainers(today);
-    if (tr.length) h += `<div class="sec-h">Alte Trainer zum Wiederholen</div>` + list(tr.map(x => row({ a: 'topic', d: x.thema.id, dot: x.fach.farbe, title: x.thema.name, sub: x.fach.name + ' · fällig' })));
+    if (tr.length) h += `<div class="sec-h">Alte Trainer zum Wiederholen</div>` + list(tr.map(x => row({ a: 'topic', d: x.thema.id, icon: fachIcon(x.fach), color: x.fach.farbe, title: x.thema.name, sub: x.fach.name + ' · fällig' })));
     const p = st.place();
     if (p && p.tid && st.thema(p.tid)) {
       const t = st.thema(p.tid);
-      h += `<div class="sec-h">Weiter, wo du warst</div>` + list([row({ a: 'weiter', dot: t.fach.farbe, title: t.thema.name, sub: t.fach.name + (p.art === 'trainer' ? ' · alter Trainer' : '') })]);
+      h += `<div class="sec-h">Weiter, wo du warst</div>` + list([row({ a: 'weiter', icon: fachIcon(t.fach), color: t.fach.farbe, title: t.thema.name, sub: t.fach.name + (p.art === 'trainer' ? ' · alter Trainer' : '') })]);
     }
     const w = st.weekStats();
     const tage = ['Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa', 'So'];
-    h += `<div class="sec-h">Diese Woche</div><div class="card week"><div class="week-days">${w.tage.map((n, i) => `<div class="wd ${n ? 'on' : ''}"><span></span><small>${tage[i]}</small></div>`).join('')}</div>
-      <div class="muted">${w.n ? plural(w.n, 'Übung', 'Übungen') + ', davon ' + w.ok + ' beim ersten Mal gewusst.' : 'Noch nichts geübt diese Woche. Fünf Minuten reichen für den Anfang.'}</div></div>`;
+    const heuteIdx = (new Date().getDay() + 6) % 7;
+    h += `<div class="sec-h">Diese Woche</div><div class="card week"><div class="week-days">${w.tage.map((n, i) => `<div class="wd ${n ? 'on' : ''} ${i === heuteIdx ? 'now' : ''}"><span>${n ? icon('check') : ''}</span><small>${tage[i]}</small></div>`).join('')}</div>
+      <div class="muted">${w.n ? 'An ' + plural(w.aktiv, 'Tag', 'Tagen') + ' gelernt, ' + plural(w.n, 'Übung', 'Übungen') + ', davon ' + w.ok + ' beim ersten Mal gewusst.' : 'Noch nichts geübt diese Woche. Fünf Minuten reichen für den Anfang.'}</div></div>`;
     b.innerHTML = h;
     on(b, {
       backup: () => push(datensicherung()),
@@ -81,9 +104,14 @@ const faecherRoot = {
     let h = seg('view', [['faecher', 'Fächer'], ['module', 'Nach Modulen']], faecherView);
     const fachRow = f => {
       const n = f.themen.length, v = f.themen.filter(t => st.status(t.id) !== 'geplant').length;
-      return row({ a: 'fach', d: f.id, icon: 'book', color: f.farbe, title: f.name, sub: [modLabel(f.module), n ? v + ' von ' + n + ' Themen vorhanden' : 'Noch leer, kommt über Einfügen'].filter(Boolean).join(' · '), html: progress(fachProgress(f), f.farbe) });
+      return row({ a: 'fach', d: f.id, icon: fachIcon(f), color: f.farbe, title: f.name, sub: [modLabel(f.module), n ? v + ' von ' + n + ' Themen vorhanden' : 'Noch leer, kommt über Einfügen'].filter(Boolean).join(' · '), html: progress(fachProgress(f), f.farbe) });
     };
-    if (faecherView === 'faecher') h += list(st.faecher().map(fachRow), 'fach-list');
+    const tile = f => {
+      const n = f.themen.length, v = f.themen.filter(t => st.status(t.id) !== 'geplant').length, a = f.themen.filter(t => st.status(t.id) === 'aktuell').length;
+      return `<button class="ftile" data-a="fach" data-d="${esc(f.id)}" style="--fc:${f.farbe}"><span class="ftile-ic">${icon(fachIcon(f))}</span><span class="ftile-t">${esc(f.name)}</span>
+        <span class="ftile-s">${a ? a + ' aktuell · ' : ''}${n ? v + ' von ' + n + ' Themen' : 'Kommt über Einfügen'}</span>${progress(fachProgress(f), f.farbe)}</button>`;
+    };
+    if (faecherView === 'faecher') h += `<div class="fach-grid">${st.faecher().map(tile).join('')}</div>`;
     else {
       for (const m of st.S.plan.module) {
         const fs = st.faecher().filter(f => (f.module || []).includes(m.id));
@@ -121,7 +149,7 @@ export function fachPage(fid) {
         if (nurIntro) bits.unshift('Einführung lesen');
         return row({ a: 'topic', d: t.id, title: t.name, sub: bits.join(' · ') || 'noch leer', html: p != null && !nurIntro ? progress(p, f.farbe) : '' });
       };
-      let h = `<div class="chips"><span class="chip" style="background:${f.farbe}">${esc(f.kurz || f.name)}</span>${(f.module || []).map(m => `<span class="chip ghost">${esc(m === 'Ü' ? 'übergreifend' : m)}</span>`).join('')}${f.hinweis ? `<span class="chip ghost">${esc(f.hinweis)}</span>` : ''}</div>`;
+      let h = `<div class="chips"><span class="chip chip-ic" style="background:${f.farbe}">${icon(fachIcon(f))}${esc(f.kurz || f.name)}</span>${(f.module || []).map(m => `<span class="chip ghost">${esc(m === 'Ü' ? 'übergreifend' : m)}</span>`).join('')}${f.hinweis ? `<span class="chip ghost">${esc(f.hinweis)}</span>` : ''}</div>`;
       const intro = st.fachIntro(f.id);
       if (intro) {
         const parts = intro.split(/\n\s*\n/);
@@ -432,6 +460,7 @@ function registerSW() {
   const reload = () => { if (reloaded) return; reloaded = true; prefs.set('aktualisiert', VERSION); location.reload(); };
   const tryReload = () => { if (pending && ruhig()) reload(); };
   navigator.serviceWorker.register('sw.js', { updateViaCache: 'none' }).then(reg => {
+    if (!reg) return;
     const check = () => reg.update().catch(() => {});
     setInterval(check, 30 * 60 * 1000);
     document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') { check(); tryReload(); } });

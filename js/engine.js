@@ -3,7 +3,7 @@ import { esc, fmtNum, markdown, plainText, shuffle, dayStr, dayShort } from './u
 import { fml, fmlWith, nameHTML, parseEq, keyOf, calc, checkSolved, checkStep, varNames, speakFml } from './formula.js';
 import { checkNumber, showValue } from './check.js';
 import * as st from './store.js';
-import { $, $$, icon, row, list, seg, sw, empty, on, push, openSheet, toast, copyText, confirmBox, progress, hinweisTabellenbuch } from './ui.js';
+import { $, $$, icon, row, list, seg, sw, empty, on, push, openSheet, toast, copyText, confirmBox, progress, fachIcon, hinweisTabellenbuch } from './ui.js';
 import { speak, stopSpeaking, canSpeak } from './speech.js';
 import { INTERVALS } from './srs.js';
 import { prefs } from './db.js';
@@ -62,7 +62,7 @@ export function topicPage(tid, startTab) {
       const akt = st.status(tid) === 'aktuell';
       const tc = st.card('t:' + tid);
       let h = `<div class="topic-head" style="--fc:${f.farbe}">
-        <div class="chips"><span class="chip" style="background:${f.farbe}">${esc(f.kurz || f.name)}</span>${(f.module || []).map(m => `<span class="chip ghost">${esc(m === 'Ü' ? 'übergreifend' : m)}</span>`).join('')}${T.modul && !(f.module || []).includes(T.modul) ? `<span class="chip ghost">${esc(T.modul)}</span>` : ''}</div>
+        <div class="chips"><span class="chip chip-ic" style="background:${f.farbe}">${icon(fachIcon(f))}${esc(f.kurz || f.name)}</span>${(f.module || []).map(m => `<span class="chip ghost">${esc(m === 'Ü' ? 'übergreifend' : m)}</span>`).join('')}${T.modul && !(f.module || []).includes(T.modul) ? `<span class="chip ghost">${esc(T.modul)}</span>` : ''}</div>
         ${list([row({ title: 'Aktuell im Unterricht', right: sw('akt', akt) })])}`;
       if (t.trainer && t.trainer.length) {
         h += `<div class="trainer-btns">${t.trainer.map(x => `<button class="btn-big" data-a="trainer" data-d="${esc(x.datei)}" style="--fc:${f.farbe}">${icon('open')}<span><b>${esc(x.titel)}</b><small>Alter Trainer${tc ? ' · ' + stufeText(tc) : ''}</small></span></button>`).join('')}</div>`;
@@ -696,7 +696,7 @@ export function runSession(items, title, opt = {}) {
     const box = $('.sess-item', sheet.body);
     const bar = $('.bar i', sheet.body);
     if (bar) bar.style.width = Math.round(i / items.length * 100) + '%';
-    const n = info(); if (n) n.textContent = items.length > 1 ? (i + 1) + ' von ' + items.length : '';
+    const n = info(); if (n) n.textContent = items.length > 1 && i < items.length ? (i + 1) + ' von ' + items.length : '';
     if (i >= items.length || (limit && Date.now() - start > limit && i > 0)) return summary(box);
     const it = items[i];
     const fresh = box.cloneNode(false);
@@ -715,9 +715,12 @@ export function runSession(items, title, opt = {}) {
     clearInterval(timer);
     if (opt.single && res.length) { sheet.close(); toast(res[0].erg === 'richtig' ? 'Sitzt. Kommt in ' + INTERVALS[Math.min(5, (st.card(res[0].it.id) || { stufe: 1 }).stufe - 1)] + ' Tagen wieder.' : 'Gespeichert. Kommt bald wieder dran.'); return; }
     const c = k => res.filter(r => r.erg === k).length;
-    box.innerHTML = `<div class="sum"><div class="sum-big">${c('richtig')} von ${res.length}</div><div class="muted">beim ersten Versuch gewusst</div>
+    const q = res.length ? c('richtig') / res.length : 0;
+    const lob = q >= 0.8 ? ['Stark gemacht!', 'Sitzt richtig gut!', 'Sauber, wie frisch geschlichtet!'] : q >= 0.5 ? ['Gut dabei!', 'Läuft!', 'Weiter so!'] : ['Dranbleiben lohnt sich!', 'Jeder Versuch zählt!', 'Gut, dass du geübt hast!'];
+    box.innerHTML = `<div class="sum"><div class="celebrate ${q >= 0.5 ? 'ok' : 'mid'}">${icon(q >= 0.5 ? 'check' : 'sparkle')}</div><div class="sum-lob">${lob[Math.floor(Math.random() * lob.length)]}</div>
+      <div class="sum-big">${c('richtig')} von ${res.length}</div><div class="muted">beim ersten Versuch gewusst</div>
       <div class="sum-row"><span class="pill ok">${c('richtig')} gewusst</span><span class="pill mid">${c('hilfe')} mit Hilfe</span><span class="pill no">${c('falsch')} noch nicht</span></div>
-      <p>${res.length && c('richtig') / res.length >= 0.8 ? 'Sitzt gut. Die Karten kommen in größeren Abständen wieder.' : 'Gut, dass du drangeblieben bist. Was noch wackelt, kommt morgen wieder.'}</p>
+      <p>${q >= 0.8 ? 'Die Karten kommen jetzt in größeren Abständen wieder.' : 'Was noch wackelt, kommt morgen wieder. So setzt es sich fest.'}</p>
       <button class="btn filled" data-a="close">Fertig</button></div>`;
     on(box, { close: () => sheet.close() });
     const bar = $('.bar i', sheet.body); if (bar) bar.style.width = '100%';
