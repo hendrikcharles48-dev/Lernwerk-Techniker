@@ -8,7 +8,7 @@ import { mehrPage, termineDetail, termEditor, datensicherung, applyTheme } from 
 import { prefs } from './db.js';
 import { canSpeak, readAloud } from './speech.js';
 
-export const VERSION = '1.4.2';
+export const VERSION = '1.4.3';
 
 /* ===== Heute ===== */
 // Freundliche, wechselnde Sätze für den Start. Ohne Druck.
