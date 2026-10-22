@@ -1,0 +1,297 @@
+=== LERNWERK ===
+Fach: Mathematik
+Thema: Mengenlehre
+Anker: Im Werkzeugschrank liegt eine Schublade mit allen Fräsern und eine mit allen Werkzeugen aus Hartmetall. Was in beiden Schubladen vorkommt, also Fräser aus Hartmetall, ist die Schnittmenge.
+Begriff: Menge | Eine Zusammenfassung von unterscheidbaren Objekten, den Elementen, geschrieben in geschweiften Klammern.
+Begriff: Schnittmenge | Alle Elemente, die in A und gleichzeitig in B liegen, Zeichen ∩.
+Begriff: Vereinigungsmenge | Alle Elemente, die in A oder in B oder in beiden liegen, Zeichen ∪.
+Begriff: Differenzmenge | Alle Elemente von A, die nicht in B liegen, Zeichen \ und gesprochen „A ohne B“.
+Begriff: Teilmenge | A ist Teilmenge von B, wenn jedes Element von A auch in B liegt.
+Merksatz: Schnitt heißt und, Vereinigung heißt oder, Differenz heißt ohne.
+Prinzip: Mengenlehre ordnet Dinge in Gruppen. Bei jeder Aufgabe fragst du dich: Welche Elemente gehören in A, welche in B, und was verlangt das Zeichen dazwischen?
+Die wichtigsten Zahlenmengen bauen aufeinander auf: Die natürlichen Zahlen ℕ sind 0, 1, 2, 3 und so weiter. Die ganzen Zahlen ℤ nehmen die negativen Zahlen dazu. Die rationalen Zahlen ℚ sind alle Brüche. Die reellen Zahlen ℝ nehmen auch Zahlen wie die Wurzel aus 2 und Pi dazu.
+
+Ob die Null zu ℕ gehört, wird unterschiedlich festgelegt. In der Norm DIN 5473 gehört sie dazu. Nimm die Schreibweise aus deinem Unterricht.
+Baustein: Schreib beide Mengen vollständig auf.
+Baustein: Lies das Zeichen und übersetze es in ein Wort: und, oder, ohne.
+Baustein: Geh die Elemente einzeln durch und prüfe für jedes die Bedingung.
+Baustein: Zeichne bei Unsicherheit ein Mengendiagramm mit zwei sich überlappenden Kreisen.
+Fehler: Elemente doppelt aufgeschrieben | In einer Menge kommt jedes Element nur einmal vor, auch in der Vereinigungsmenge.
+Karte: Was bedeutet A ∩ B? | Die Schnittmenge: alles, was in A und in B liegt.
+Karte: Was bedeutet A ∪ B? | Die Vereinigungsmenge: alles, was in A oder B liegt.
+Karte: Was bedeutet A \ B? | A ohne B: alles aus A, das nicht in B liegt.
+Karte: Welche Zahlenmenge enthält auch Brüche? | Die rationalen Zahlen ℚ.
+=== ENDE ===
+
+=== LERNWERK ===
+Fach: Mathematik
+Thema: Terme
+Prinzip: Ein Term ist ein Rechenausdruck ohne Gleichheitszeichen. Terme vereinfachst du, indem du gleichartige Glieder zusammenfasst: 3x und 5x ergeben 8x, aber 3x und 5y bleiben getrennt, so wie du Schrauben M8 und M10 nicht in dieselbe Kiste wirfst.
+Vor dem Rechnen gilt die Reihenfolge: Klammern zuerst, dann Potenzen, dann Punktrechnung, zum Schluss Strichrechnung. Steht ein Minus vor einer Klammer, drehen sich beim Auflösen alle Vorzeichen in der Klammer um.
+Baustein: Klammern auflösen, bei Minus vor der Klammer alle Vorzeichen umdrehen.
+Baustein: Gleichartige Glieder markieren, also gleiche Buchstaben mit gleicher Hochzahl.
+Baustein: Zahlen vor den gleichartigen Gliedern zusammenrechnen.
+Baustein: Ergebnis ordnen: erst nach Buchstaben, dann nach Hochzahlen.
+Fehler: Ungleiche Glieder zusammengefasst | x und x² sind verschieden und dürfen nicht addiert werden.
+Fehler: Minus vor der Klammer vergessen | Jedes Glied in der Klammer ändert sein Vorzeichen.
+Karte: 3x + 5y − x = ? | 2x + 5y
+Karte: −(a − b) aufgelöst? | −a + b
+=== ENDE ===
+
+=== LERNWERK ===
+Fach: Mathematik
+Thema: Binomische Formeln
+Anker: Eine quadratische Platte mit der Kantenlänge a + b kannst du in vier Teile zerlegen: ein großes Quadrat a mal a, ein kleines Quadrat b mal b und zwei gleiche Rechtecke a mal b. Genau das sagt die erste binomische Formel.
+Begriff: Binom | Eine Summe oder Differenz aus zwei Gliedern, zum Beispiel a + b.
+Begriff: Ausmultiplizieren | Jedes Glied der einen Klammer mit jedem Glied der anderen malnehmen.
+Merksatz: Erstes Quadrat, doppeltes Produkt, zweites Quadrat.
+Prinzip: Die drei binomischen Formeln sind Abkürzungen für das Ausmultiplizieren von zwei Klammern. Sie lauten:
+(a + b)² = a² + 2ab + b²
+(a − b)² = a² − 2ab + b²
+(a + b) · (a − b) = a² − b²
+Wichtig ist das Mittelglied 2ab. Wer es vergisst, rechnet falsch. Die dritte Formel hat kein Mittelglied, weil sich plus ab und minus ab gegenseitig aufheben.
+Baustein: Erkenne, welche Formel passt: plus, minus oder plus mal minus.
+Baustein: Bestimme, was a und was b ist. Zahlen und Buchstaben gehören zusammen, zum Beispiel ist bei (3x + 2)² a gleich 3x.
+Baustein: Setz in die Formel ein und rechne jedes Glied einzeln aus.
+Schnellweg: Zur Probe eine einfache Zahl einsetzen, zum Beispiel x = 1. Beide Seiten müssen dasselbe ergeben.
+Fehler: Mittelglied vergessen | (a + b)² ist nicht a² + b². Das doppelte Produkt 2ab fehlt sonst.
+Fehler: Faktor nicht mitquadriert | (3x)² ist 9x², nicht 3x².
+Karte: (a + b)² = ? | a² + 2ab + b²
+Karte: (a − b)² = ? | a² − 2ab + b²
+Karte: (a + b) · (a − b) = ? | a² − b²
+Karte: (2x + 3)² = ? | 4x² + 12x + 9
+=== ENDE ===
+
+=== LERNWERK ===
+Fach: Mathematik
+Thema: Faktorisieren
+Anker: Faktorisieren ist wie ein Werkstück wieder in seine Einzelteile zerlegen: Aus der fertigen Summe machst du wieder ein Produkt aus Klammern.
+Begriff: Faktorisieren | Eine Summe in ein Produkt umwandeln.
+Begriff: Ausklammern | Einen gemeinsamen Faktor aller Glieder vor die Klammer ziehen.
+Begriff: Faktor | Ein Teil eines Produkts.
+Merksatz: Erst ausklammern, dann binomisch rückwärts.
+Prinzip: Faktorisieren ist das Gegenteil von Ausmultiplizieren. Zuerst suchst du einen Faktor, der in allen Gliedern steckt, und ziehst ihn vor die Klammer. Danach prüfst du, ob in der Klammer eine binomische Formel rückwärts steckt, zum Beispiel ist x² − 9 gleich (x + 3) · (x − 3).
+Faktorisierte Terme braucht man beim Kürzen von Bruchtermen und beim Lösen von Gleichungen, denn ein Produkt ist nur dann null, wenn einer der Faktoren null ist.
+Baustein: Gemeinsamen Zahlenfaktor suchen, also den größten gemeinsamen Teiler.
+Baustein: Gemeinsame Buchstaben suchen, jeweils mit der kleinsten Hochzahl.
+Baustein: Ausklammern und in der Klammer jedes Glied durch den Faktor teilen.
+Baustein: Prüfen, ob die Klammer eine binomische Formel rückwärts ist.
+Baustein: Probe: wieder ausmultiplizieren.
+Fehler: Eins vergessen | Beim Ausklammern von 3x aus 3x + 6 bleibt in der Klammer x + 2. Bei 3x + 3 bleibt x + 1, die Eins darf nicht fehlen.
+Karte: 6a + 9b faktorisiert? | 3 · (2a + 3b)
+Karte: x² − 16 faktorisiert? | (x + 4) · (x − 4)
+Karte: x² + 6x + 9 faktorisiert? | (x + 3)²
+=== ENDE ===
+
+=== LERNWERK ===
+Fach: Mathematik
+Thema: Bruchterme
+Anker: Ein Bruch ist wie eine Übersetzung im Getriebe: oben und unten gehören zusammen. Kürzen heißt, oben und unten durch dasselbe zu teilen, das Verhältnis bleibt gleich.
+Begriff: Bruchterm | Ein Bruch, in dessen Nenner eine Variable steht.
+Begriff: Definitionsmenge | Alle Zahlen, die man einsetzen darf. Werte, bei denen der Nenner null wird, sind verboten.
+Begriff: Hauptnenner | Der kleinste gemeinsame Nenner mehrerer Brüche.
+Merksatz: Aus Summen kürzen nur die Dummen. Gekürzt werden nur Faktoren.
+Prinzip: Bevor du rechnest, legst du die Definitionsmenge fest: Der Nenner darf nie null sein. Kürzen darfst du nur, wenn Zähler und Nenner als Produkt dastehen. Darum faktorisierst du zuerst.
+Plus und minus geht nur mit gleichem Nenner. Dafür erweiterst du alle Brüche auf den Hauptnenner. Malnehmen geht direkt: Zähler mal Zähler, Nenner mal Nenner. Geteilt durch einen Bruch heißt mal den Kehrwert.
+Baustein: Definitionsmenge bestimmen: Wann wird ein Nenner null?
+Baustein: Zähler und Nenner faktorisieren.
+Baustein: Bei plus und minus den Hauptnenner bilden und erweitern.
+Baustein: Gemeinsame Faktoren kürzen.
+Fehler: Aus einer Summe gekürzt | Bei (x + 2) / 2 darf die 2 nicht gekürzt werden, weil oben eine Summe steht.
+Karte: Was darf ein Nenner nie sein? | Null.
+Karte: Wie teilt man durch einen Bruch? | Man nimmt mit dem Kehrwert mal.
+Karte: (x² − 4) / (x + 2) gekürzt? | x − 2, für x ungleich −2
+=== ENDE ===
+
+=== LERNWERK ===
+Fach: Mathematik
+Thema: Lineare Gleichungssysteme
+Anker: Zwei Kollegen kaufen Schrauben und Muttern. Einer zahlt für 3 Schrauben und 2 Muttern, der andere für 1 Schraube und 4 Muttern. Aus beiden Kassenzetteln zusammen kannst du den Preis für ein Teil ausrechnen. Ein Zettel allein reicht nicht.
+Begriff: Lineares Gleichungssystem | Mehrere Gleichungen mit mehreren Unbekannten, in denen die Unbekannten nur in der ersten Potenz vorkommen.
+Begriff: Einsetzungsverfahren | Eine Gleichung nach einer Unbekannten umstellen und in die andere einsetzen.
+Begriff: Gleichsetzungsverfahren | Beide Gleichungen nach derselben Unbekannten umstellen und gleichsetzen.
+Begriff: Additionsverfahren | Gleichungen so malnehmen, dass beim Addieren eine Unbekannte wegfällt.
+Merksatz: So viele Gleichungen wie Unbekannte, sonst gibt es keine eindeutige Lösung.
+Prinzip: Bei zwei Unbekannten brauchst du zwei unabhängige Gleichungen. Ziel jedes Verfahrens ist es, eine Unbekannte verschwinden zu lassen. Dann hast du eine normale Gleichung mit einer Unbekannten, die du lösen kannst. Das Ergebnis setzt du danach in eine der Ausgangsgleichungen ein und bekommst die zweite Unbekannte.
+Ein Gleichungssystem kann genau eine Lösung haben, keine Lösung, wenn sich ein Widerspruch wie 0 = 5 ergibt, oder unendlich viele Lösungen, wenn sich 0 = 0 ergibt.
+In der Statik begegnen dir solche Systeme ständig, zum Beispiel bei zwei Seilkräften mit Summe der Kräfte in x gleich null und in y gleich null.
+Baustein: Gleichungen nummerieren, damit du den Überblick behältst.
+Baustein: Verfahren wählen: Steht eine Unbekannte schon fast allein, nimm Einsetzen. Haben beide Gleichungen gleiche oder gegensätzliche Zahlen vor einer Unbekannten, nimm Addition.
+Baustein: Eine Unbekannte eliminieren und die andere ausrechnen.
+Baustein: Ergebnis einsetzen und die zweite Unbekannte ausrechnen.
+Baustein: Probe in beiden Ausgangsgleichungen.
+Fehler: Nur eine Seite malgenommen | Beim Additionsverfahren wird die ganze Gleichung malgenommen, also jedes Glied auf beiden Seiten.
+Karte: Wie viele Gleichungen brauchst du für drei Unbekannte? | Drei unabhängige Gleichungen.
+Karte: Was bedeutet 0 = 5 am Ende der Rechnung? | Das System hat keine Lösung.
+Karte: Was bedeutet 0 = 0 am Ende der Rechnung? | Es gibt unendlich viele Lösungen.
+Auswahl: x + y = 10 und x − y = 2. Welches Verfahren geht am schnellsten? | Additionsverfahren, weil y dann wegfällt | Gleichsetzungsverfahren mit Wurzelziehen; Einsetzen in beide Gleichungen gleichzeitig; Beide Gleichungen quadrieren
+=== ENDE ===
+
+=== LERNWERK ===
+Fach: Mathematik
+Thema: Potenzen, Wurzeln und Einheiten
+Anker: Ein Kilonewton sind tausend Newton, ein Mikrometer ist ein Millionstel Meter. Diese Vorsätze sind nichts anderes als Zehnerpotenzen, und mit ihnen rechnest du an der Maschine ständig.
+Begriff: Potenz | Kurzschreibweise für mehrfaches Malnehmen derselben Zahl, a hoch n heißt a n-mal mit sich selbst malgenommen.
+Begriff: Basis | Die Zahl, die malgenommen wird.
+Begriff: Exponent | Die Hochzahl, sie sagt, wie oft malgenommen wird.
+Begriff: Wurzel | Die Umkehrung des Potenzierens. Die n-te Wurzel aus a ist a hoch eins durch n.
+Begriff: Zehnerpotenz | Eine Potenz mit der Basis 10, zum Beispiel 10³ = 1000.
+Merksatz: Gleiche Basis beim Malnehmen: Hochzahlen addieren. Beim Teilen: Hochzahlen abziehen.
+Prinzip: Die Potenzgesetze gelten nur bei gleicher Basis oder gleichem Exponenten:
+a^m · a^n = a^(m + n)
+a^m / a^n = a^(m − n)
+(a^m)^n = a^(m · n)
+a^0 = 1 und a^(−n) = 1 / a^n
+Die Vorsätze für Einheiten sind Zehnerpotenzen: Giga 10^9, Mega 10^6, Kilo 10^3, Milli 10^−3, Mikro 10^−6, Nano 10^−9.
+Vorsicht bei Flächen und Volumen: 1 m sind 1000 mm, aber 1 m² sind 1000 mal 1000, also 1 000 000 mm². Die Umrechnungszahl wird mitquadriert.
+Baustein: Alle Größen in Grundeinheiten oder in passende Zehnerpotenzen umschreiben.
+Baustein: Zahlen und Zehnerpotenzen getrennt rechnen.
+Baustein: Bei Flächen den Umrechnungsfaktor quadrieren, bei Volumen hoch drei nehmen.
+Baustein: Ergebnis wieder mit einem passenden Vorsatz schreiben.
+Schnellweg: Bei der Umrechnung von mm² in m² rechnest du mal 10 hoch minus 6. Merk dir: Die Hochzahl wird bei Flächen verdoppelt, bei Volumen verdreifacht.
+Fehler: Flächeneinheit wie Längeneinheit umgerechnet | 1 cm² sind 100 mm², nicht 10 mm².
+Fehler: Potenzen von Summen falsch | (a + b)² ist nicht a² + b².
+Karte: 10³ · 10⁻⁵ = ? | 10⁻²
+Karte: Wie viele mm² hat 1 m²? | 1 000 000 mm², also 10⁶ mm²
+Karte: Was ist a hoch null? | 1, für a ungleich null.
+Karte: Welche Zehnerpotenz steckt in Mikro? | 10⁻⁶
+Karte: Wie schreibt man die dritte Wurzel aus a als Potenz? | a hoch ein Drittel.
+=== ENDE ===
+
+=== LERNWERK ===
+Fach: Mathematik
+Thema: Quadratische Gleichungen
+Anker: Der Flug eines Baseballs ist eine Parabel. Die Frage, wann der Ball wieder auf dem Boden ist, führt auf eine quadratische Gleichung.
+Begriff: Quadratische Gleichung | Eine Gleichung, in der die Unbekannte höchstens hoch zwei vorkommt.
+Begriff: Normalform | x² + p · x + q = 0, also mit der Zahl 1 vor dem x².
+Begriff: Diskriminante | Der Term unter der Wurzel in der Lösungsformel. Er entscheidet, wie viele Lösungen es gibt.
+Merksatz: Erst Normalform, dann pq-Formel. Unter der Wurzel negativ heißt keine Lösung.
+Prinzip: Eine quadratische Gleichung hat null, eine oder zwei Lösungen. Um sie zu lösen, bringst du alles auf eine Seite, sodass rechts null steht. Steht vor x² eine andere Zahl als 1, teilst du die ganze Gleichung durch diese Zahl. Dann hast du die Normalform.
+Die pq-Formel lautet: x = −p/2 plus oder minus die Wurzel aus (p/2)² − q.
+Sonderfälle gehen schneller: Fehlt das Glied mit x, stellst du nach x² um und ziehst die Wurzel. Fehlt die Zahl q, klammerst du x aus, dann ist eine Lösung x = 0.
+Baustein: Alles auf eine Seite bringen, sodass auf der anderen null steht.
+Baustein: Prüfen, ob ein Sonderfall vorliegt: fehlt q oder fehlt das x-Glied?
+Baustein: Durch die Zahl vor x² teilen, um die Normalform zu bekommen.
+Baustein: p und q mit Vorzeichen ablesen.
+Baustein: In die pq-Formel einsetzen, erst den Wert unter der Wurzel ausrechnen.
+Baustein: Probe mit beiden Lösungen.
+Fehler: Vorzeichen von p und q falsch abgelesen | Bei x² − 5x + 6 = 0 ist p = −5 und q = +6.
+Fehler: Nicht durch die Zahl vor x² geteilt | Die pq-Formel gilt nur für die Normalform.
+Karte: Wie lautet die Normalform? | x² + px + q = 0
+Karte: Was bedeutet ein negativer Wert unter der Wurzel? | Es gibt keine reelle Lösung.
+Karte: x² − 9 = 0, Lösungen? | x = 3 und x = −3
+Karte: x² − 4x = 0, Lösungen? | x = 0 und x = 4
+=== ENDE ===
+
+=== LERNWERK ===
+Fach: Mathematik
+Thema: Trigonometrie
+Anker: Bei einer Fase oder einer schrägen Bohrung kennst du oft einen Winkel und eine Länge. Die fehlende Länge holst du dir mit Sinus, Kosinus oder Tangens, genau wie beim Zerlegen einer Kraft in der Statik.
+Begriff: Hypotenuse | Die längste Seite im rechtwinkligen Dreieck, sie liegt gegenüber dem rechten Winkel.
+Begriff: Gegenkathete | Die Seite, die dem betrachteten Winkel gegenüberliegt.
+Begriff: Ankathete | Die Seite, die am betrachteten Winkel anliegt und nicht die Hypotenuse ist.
+Begriff: Bogenmaß | Winkelmaß in rad. Ein voller Kreis sind 2π rad, also 360 Grad.
+Merksatz: GAGA Hühnerhof AG: Sinus ist G durch H, Kosinus ist A durch H, Tangens ist G durch A.
+Prinzip: Im rechtwinkligen Dreieck gilt:
+sin α = Gegenkathete / Hypotenuse
+cos α = Ankathete / Hypotenuse
+tan α = Gegenkathete / Ankathete
+Dazu kommt der Satz des Pythagoras: a² + b² = c², wobei c die Hypotenuse ist.
+Für Dreiecke ohne rechten Winkel gibt es den Sinussatz und den Kosinussatz. Den Kosinussatz brauchst du, wenn zwei Seiten und der Winkel dazwischen bekannt sind.
+Achte immer darauf, dass der Taschenrechner auf DEG steht, wenn du in Grad rechnest.
+Baustein: Skizze zeichnen und den rechten Winkel markieren.
+Baustein: Den betrachteten Winkel markieren und die Seiten benennen: Gegenkathete, Ankathete, Hypotenuse.
+Baustein: Welche Seiten sind bekannt, welche gesucht? Danach Sinus, Kosinus oder Tangens wählen.
+Baustein: Formel umstellen, dann erst Zahlen einsetzen.
+Baustein: Plausibilität prüfen: Die Hypotenuse ist immer die längste Seite.
+Schnellweg: Für den Winkel aus zwei Seiten nimmst du die Umkehrfunktion, zum Beispiel α = arctan(Gegenkathete / Ankathete).
+Fehler: Taschenrechner auf RAD | Ergebnisse wie sin 30 = −0,988 zeigen, dass der Rechner im Bogenmaß rechnet.
+Fehler: Ankathete und Gegenkathete vertauscht | Die Namen hängen immer vom betrachteten Winkel ab.
+Formel: Satz des Pythagoras | c² = a² + b² | c = √(a² + b²); a = √(c² − b²)
+Formel: Kosinussatz | c² = a² + b² − 2 · a · b · cos(γ) | c = √(a² + b² − 2 · a · b · cos(γ))
+Karte: sin α = ? | Gegenkathete durch Hypotenuse
+Karte: cos α = ? | Ankathete durch Hypotenuse
+Karte: tan α = ? | Gegenkathete durch Ankathete
+Karte: Welche Seite ist die Hypotenuse? | Die Seite gegenüber dem rechten Winkel, die längste Seite.
+Karte: sin 30° = ? | 0,5
+=== ENDE ===
+
+=== LERNWERK ===
+Fach: Mathematik
+Thema: Funktionen
+Anker: Wie viel Strom fließt bei welcher Spannung, wie weit fährt der Tisch bei welchem Vorschub: Eine Funktion ordnet jedem Eingangswert genau einen Ausgangswert zu, wie eine Tabelle an der Maschine.
+Begriff: Funktion | Eine Zuordnung, die jedem x genau ein y zuordnet.
+Begriff: Steigung | Wie stark eine Gerade steigt: Änderung von y geteilt durch Änderung von x.
+Begriff: y-Achsenabschnitt | Der Wert, bei dem die Gerade die y-Achse schneidet.
+Begriff: Nullstelle | Die Stelle x, an der der Funktionswert null ist.
+Begriff: Parabel | Der Graph einer quadratischen Funktion.
+Merksatz: m ist die Steigung, b ist der Start auf der y-Achse.
+Prinzip: Die lineare Funktion lautet f(x) = m · x + b. Ihr Graph ist eine Gerade. Die Steigung m bekommst du aus zwei Punkten: m ist Delta y geteilt durch Delta x, also (y2 − y1) / (x2 − x1).
+Die quadratische Funktion lautet f(x) = a · x² + b · x + c. Ihr Graph ist eine Parabel. Ist a positiv, ist sie nach oben geöffnet, ist a negativ, nach unten. Der höchste oder tiefste Punkt heißt Scheitelpunkt.
+Nullstellen findest du, indem du f(x) = 0 setzt und die Gleichung löst.
+Baustein: Funktionstyp erkennen: linear, quadratisch oder anders.
+Baustein: Bekannte Werte in eine Tabelle schreiben.
+Baustein: Bei Geraden: Steigung aus zwei Punkten, dann b durch Einsetzen eines Punktes.
+Baustein: Für Nullstellen f(x) = 0 setzen und lösen.
+Fehler: Steigung verkehrt herum | m ist Änderung von y durch Änderung von x, nicht umgekehrt.
+Formel: Gerade | y = m · x + b | m = (y − b) / x; b = y − m · x; x = (y − b) / m
+Formel: Steigung aus zwei Punkten | m = (y2 − y1) / (x2 − x1)
+Karte: Was gibt m bei y = mx + b an? | Die Steigung.
+Karte: Was gibt b bei y = mx + b an? | Den y-Achsenabschnitt.
+Karte: Wie findet man Nullstellen? | f(x) = 0 setzen und nach x auflösen.
+Karte: Wann ist eine Parabel nach unten geöffnet? | Wenn die Zahl vor x² negativ ist.
+=== ENDE ===
+
+=== LERNWERK ===
+Fach: Mathematik
+Thema: Logarithmen
+Anker: Wie oft musst du einen Wert verdoppeln, bis du bei 1024 bist? Diese Frage nach der Hochzahl beantwortet der Logarithmus.
+Begriff: Logarithmus | Die Hochzahl, mit der man die Basis potenzieren muss, um eine bestimmte Zahl zu erhalten.
+Begriff: Dekadischer Logarithmus | Logarithmus zur Basis 10, geschrieben lg.
+Begriff: Natürlicher Logarithmus | Logarithmus zur Basis e, geschrieben ln. Die Zahl e ist ungefähr 2,718.
+Merksatz: Der Logarithmus fragt nach der Hochzahl.
+Prinzip: log_a(b) = c bedeutet dasselbe wie a^c = b. Zum Beispiel ist lg 1000 = 3, weil 10³ = 1000 ist.
+Die Rechengesetze machen aus schwierigen Rechenarten einfachere: Aus Malnehmen wird Addieren, aus Teilen wird Abziehen und aus einer Hochzahl wird ein Faktor vorne:
+log(x · y) = log x + log y
+log(x / y) = log x − log y
+log(x^n) = n · log x
+Damit löst du Gleichungen, bei denen die Unbekannte im Exponenten steht, zum Beispiel bei Lade- und Entladekurven von Kondensatoren.
+Baustein: Gleichung so umstellen, dass die Potenz allein steht.
+Baustein: Auf beiden Seiten den Logarithmus nehmen.
+Baustein: Mit der Regel log(x hoch n) gleich n mal log x den Exponenten nach vorne holen.
+Baustein: Nach der Unbekannten auflösen.
+Fehler: log einer Summe aufgeteilt | log(x + y) ist nicht log x + log y.
+Karte: lg 100 = ? | 2
+Karte: log(x · y) = ? | log x + log y
+Karte: log(x hoch n) = ? | n · log x
+Karte: Welche Basis hat ln? | Die Eulersche Zahl e, ungefähr 2,718.
+=== ENDE ===
+
+=== LERNWERK ===
+Fach: Mathematik
+Thema: Differentialrechnung
+Anker: Der Tacho im Auto zeigt, wie schnell sich der zurückgelegte Weg gerade ändert. Genau das ist die Ableitung: die Änderungsrate in einem Moment.
+Begriff: Ableitung | Die Steigung einer Funktion an einer bestimmten Stelle, geschrieben f'(x).
+Begriff: Tangente | Die Gerade, die den Graphen in einem Punkt berührt und dort dieselbe Steigung hat.
+Begriff: Extremstelle | Eine Stelle mit einem Hochpunkt oder Tiefpunkt.
+Begriff: Potenzregel | Die Ableitung von x hoch n ist n mal x hoch n minus 1.
+Merksatz: Hochzahl nach vorne, Hochzahl minus eins.
+Prinzip: Die Ableitung f'(x) gibt an, wie steil eine Funktion an der Stelle x ist. Die wichtigsten Regeln:
+Die Potenzregel: aus x^n wird n · x^(n − 1).
+Die Faktorregel: Zahlen vor dem x bleiben stehen.
+Die Summenregel: Jedes Glied wird einzeln abgeleitet.
+Konstanten fallen weg, ihre Ableitung ist null.
+An einem Hochpunkt oder Tiefpunkt ist die Steigung null. Darum setzt du f'(x) = 0 und löst nach x. Mit der zweiten Ableitung prüfst du: Ist f''(x) kleiner null, ist es ein Hochpunkt, ist f''(x) größer null, ein Tiefpunkt.
+In der Technik: Die Ableitung des Weges nach der Zeit ist die Geschwindigkeit, die Ableitung der Geschwindigkeit ist die Beschleunigung.
+Baustein: Funktion in Summanden mit Potenzen von x schreiben.
+Baustein: Jeden Summanden mit der Potenzregel ableiten.
+Baustein: Für Extremstellen f'(x) = 0 setzen und lösen.
+Baustein: Mit f''(x) prüfen, ob Hochpunkt oder Tiefpunkt.
+Baustein: y-Wert in der Ausgangsfunktion f(x) ausrechnen, nicht in der Ableitung.
+Fehler: Konstante nicht weggelassen | Die Ableitung von 5 ist null.
+Fehler: y-Wert in der Ableitung ausgerechnet | Den Punkt bekommst du nur mit der Ausgangsfunktion.
+Karte: Ableitung von x³? | 3x²
+Karte: Ableitung von 4x² + 7? | 8x
+Karte: Was gilt an einem Hochpunkt? | f'(x) = 0 und f''(x) < 0
+Karte: Was ist die Ableitung des Weges nach der Zeit? | Die Geschwindigkeit.
+=== ENDE ===

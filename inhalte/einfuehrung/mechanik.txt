@@ -1,0 +1,247 @@
+=== LERNWERK ===
+Fach: Technische Mechanik
+Thema: Zentrales Kräftesystem
+Anker: Ein Kranhaken, an dem mehrere Anschlagseile in verschiedene Richtungen ziehen. Alle ziehen am selben Punkt. Du könntest sie durch ein einziges Seil ersetzen, das genauso zieht: die Resultierende.
+Begriff: Kraft | Eine gerichtete Größe mit Betrag, Richtung und Angriffspunkt, Einheit Newton (N).
+Begriff: Zentrales Kräftesystem | Alle Wirkungslinien schneiden sich in einem Punkt.
+Begriff: Resultierende | Die eine Ersatzkraft, die dieselbe Wirkung hat wie alle Kräfte zusammen.
+Begriff: Komponente | Der Anteil einer Kraft in x-Richtung oder in y-Richtung.
+Begriff: Gleichgewicht | Die Resultierende ist null, nichts bewegt sich.
+Merksatz: Erst zerlegen, dann addieren, dann zusammensetzen.
+Prinzip: Kräfte kannst du nicht einfach als Zahlen addieren, weil sie Richtungen haben. Darum zerlegst du jede Kraft in einen x-Anteil und einen y-Anteil. Bei einem Winkel α zur x-Achse gilt: F_x = F · cos α und F_y = F · sin α. Die Vorzeichen zeigen, ob der Anteil nach rechts oder links, nach oben oder unten zeigt.
+Dann addierst du alle x-Anteile und alle y-Anteile getrennt. Aus den beiden Summen bekommst du mit Pythagoras den Betrag der Resultierenden und mit dem Arcustangens ihren Winkel. Dabei musst du prüfen, in welchem Quadranten sie liegt.
+Im Gleichgewicht gilt: Summe aller Kräfte in x gleich null und Summe aller Kräfte in y gleich null. Im zentralen Kräftesystem gibt es kein Drehen, darum reichen diese zwei Gleichungen.
+Baustein: Freimachen: Punkt herauszeichnen und alle Kräfte als Pfeile eintragen.
+Baustein: Koordinatensystem festlegen und für jede Kraft den Winkel zur x-Achse bestimmen.
+Baustein: Tabelle anlegen: Kraft, Winkel, F_x, F_y.
+Baustein: Spalten addieren.
+Baustein: Betrag mit Pythagoras, Winkel mit Arcustangens, Quadrant prüfen.
+Schnellweg: Kräfte, die genau waagerecht oder senkrecht liegen, musst du nicht zerlegen. Sie stehen nur in einer Spalte.
+Fehler: Quadrant vergessen | Der Taschenrechner liefert beim Arcustangens nur Winkel zwischen minus 90 und plus 90 Grad. Prüf die Vorzeichen von x und y.
+Formel: Kraftkomponente x | F_x = F · cos(α) | F = F_x / cos(α)
+Formel: Kraftkomponente y | F_y = F · sin(α) | F = F_y / sin(α)
+Formel: Resultierende aus Komponenten | F_R = √(F_x² + F_y²) | F_x = √(F_R² − F_y²); F_y = √(F_R² − F_x²)
+Karte: Wann ist ein zentrales Kräftesystem im Gleichgewicht? | Wenn die Summe der Kräfte in x und in y jeweils null ist.
+Karte: F_x bei Winkel α zur x-Achse? | F · cos α
+Karte: Was ist die Resultierende? | Die Ersatzkraft mit derselben Wirkung wie alle Kräfte zusammen.
+=== ENDE ===
+
+=== LERNWERK ===
+Fach: Technische Mechanik
+Thema: Momente
+Anker: Ein Drehmomentschlüssel: Je länger der Hebel und je fester du drückst, desto stärker dreht die Schraube. Drückst du schräg, wirkt nur der Anteil senkrecht zum Hebel.
+Begriff: Drehmoment | Die Drehwirkung einer Kraft, Kraft mal Hebelarm, Einheit Newtonmeter (Nm).
+Begriff: Hebelarm | Der senkrechte Abstand zwischen Drehpunkt und Wirkungslinie der Kraft.
+Begriff: Drehsinn | Die Richtung der Drehung, linksdrehend oder rechtsdrehend.
+Begriff: Kräftepaar | Zwei gleich große, entgegengesetzte Kräfte mit Abstand. Sie erzeugen nur ein Moment und keine Verschiebung.
+Merksatz: Moment ist Kraft mal senkrechter Abstand.
+Prinzip: Ein Moment entsteht, wenn eine Kraft nicht durch den Drehpunkt geht. Der Hebelarm ist immer der senkrechte Abstand zur Wirkungslinie, nicht die Länge eines Bauteils.
+Vor dem Rechnen legst du fest, welcher Drehsinn positiv ist. Oft nimmt man linksdrehend als positiv. Im Gleichgewicht ist die Summe aller Momente um jeden beliebigen Punkt null. Das heißt auch: Die linksdrehenden Momente sind so groß wie die rechtsdrehenden.
+Kluger Trick: Wählst du den Drehpunkt dort, wo eine unbekannte Kraft angreift, fällt sie aus der Momentengleichung heraus, weil ihr Hebelarm null ist.
+Baustein: Drehpunkt festlegen, möglichst dort, wo Unbekannte angreifen.
+Baustein: Positiven Drehsinn festlegen.
+Baustein: Für jede Kraft den senkrechten Hebelarm bestimmen, schräge Kräfte vorher zerlegen.
+Baustein: Momentengleichung aufschreiben und nach der Unbekannten umstellen.
+Schnellweg: Beim einfachen Hebel gilt: Kraft mal Arm links gleich Kraft mal Arm rechts.
+Fehler: Bauteillänge statt senkrechtem Abstand | Bei schräger Kraft zählt nur der senkrechte Abstand oder der senkrechte Kraftanteil.
+Formel: Drehmoment | M = F · l | F = M / l; l = M / F
+Formel: Hebelgesetz | F1 · l1 = F2 · l2 | F2 = F1 · l1 / l2; l2 = F1 · l1 / F2; F1 = F2 · l2 / l1; l1 = F2 · l2 / F1
+Karte: Einheit des Drehmoments? | Newtonmeter (Nm)
+Karte: Was ist der Hebelarm? | Der senkrechte Abstand vom Drehpunkt zur Wirkungslinie.
+Karte: Warum legt man den Drehpunkt auf eine unbekannte Kraft? | Weil ihr Hebelarm null ist und sie aus der Gleichung fällt.
+=== ENDE ===
+
+=== LERNWERK ===
+Fach: Technische Mechanik
+Thema: Lagerkräfte
+Anker: Ein Brückenkran liegt an einem Ende fest auf, am anderen Ende auf Rollen. So kann er sich bei Wärme ausdehnen, ohne zu klemmen. Genau das sind Festlager und Loslager.
+Begriff: Loslager | Nimmt nur eine Kraft senkrecht zur Auflagefläche auf.
+Begriff: Festlager | Nimmt eine Kraft in beliebiger Richtung auf, also zwei Komponenten.
+Begriff: Feste Einspannung | Nimmt zwei Kraftkomponenten und ein Moment auf.
+Begriff: Freimachen | Das Bauteil gedanklich herauslösen und alle Lager durch ihre Kräfte ersetzen.
+Begriff: Pendelstab | Ein Stab mit zwei Gelenken, der nur Kräfte in Stabrichtung überträgt.
+Merksatz: Loslager eine Kraft, Festlager zwei, Einspannung drei.
+Prinzip: Bei einem ebenen Bauteil hast du drei Gleichgewichtsbedingungen: Summe der Kräfte in x, Summe der Kräfte in y und Summe der Momente. Darum kannst du höchstens drei unbekannte Lagerkräfte berechnen. Ein Balken mit Festlager und Loslager hat genau drei Unbekannte und ist statisch bestimmt.
+Die Richtung der Lagerkräfte nimmst du zuerst an. Kommt ein negatives Ergebnis heraus, wirkt die Kraft andersherum.
+Baustein: Freimachen: Lager entfernen und durch Kräfte ersetzen.
+Baustein: Momentengleichung um ein Lager, so fällt dessen Kraft heraus.
+Baustein: Mit der zweiten Lagerkraft die Summe der Kräfte in y aufstellen.
+Baustein: Waagerechte Anteile über die Summe der Kräfte in x, nur das Festlager kann sie aufnehmen.
+Baustein: Probe mit einer Momentengleichung um das andere Lager.
+Fehler: Waagerechte Kraft am Loslager angesetzt | Das Loslager nimmt nur eine Kraft senkrecht zu seiner Auflagefläche auf.
+Karte: Wie viele Kräfte nimmt ein Festlager auf? | Zwei, eine in x und eine in y.
+Karte: Was nimmt eine feste Einspannung auf? | Zwei Kräfte und ein Moment.
+Karte: Was bedeutet eine negative Lagerkraft? | Sie wirkt entgegen der angenommenen Richtung.
+=== ENDE ===
+
+=== LERNWERK ===
+Fach: Technische Mechanik
+Thema: Formelsammlung Statik
+Anker: Wie die Werkzeugliste neben der Maschine: Du kennst die Werkzeuge, aber du schaust nach, statt zu raten.
+Begriff: Gleichgewichtsbedingungen | Summe der Kräfte in x, Summe der Kräfte in y und Summe der Momente sind jeweils null.
+Merksatz: Erst die Bedingung aufschreiben, dann die Formel suchen, dann umstellen.
+Prinzip: Die Formelsammlung Statik fasst die Formeln für Kräfte zerlegen, Resultierende, Momente und Gleichgewicht zusammen, schon fertig umgestellt. Nutze sie als Nachschlagewerk, aber gewöhne dir an, zuerst die Gleichgewichtsbedingung selbst aufzuschreiben. Dann weißt du, welche Formel du brauchst.
+In der Klassenarbeit gilt die Formelsammlung, die ihr in der Schule nutzt. Vergleiche die Schreibweisen, zum Beispiel für Winkel und Indizes.
+Baustein: Aufgabe lesen und markieren, was gesucht ist.
+Baustein: Passende Gleichgewichtsbedingung oder Formel suchen.
+Baustein: Umstellung aus der Sammlung prüfen, indem du sie einmal selbst nachvollziehst.
+Karte: Wie lauten die drei Gleichgewichtsbedingungen in der Ebene? | Summe F_x = 0, Summe F_y = 0, Summe M = 0.
+=== ENDE ===
+
+=== LERNWERK ===
+Fach: Technische Mechanik
+Thema: Wandschwenkkran
+Anker: Ein Schwenkkran an der Hallenwand, wie du ihn aus der Werkstatt kennst: Ausleger unten am Gelenk, schräge Zugstange nach oben zur Wand.
+Begriff: Zugstange | Ein Pendelstab, der nur Zug in seiner Längsrichtung überträgt.
+Begriff: Gelenk | Ein Lager, das Kräfte, aber kein Moment überträgt.
+Merksatz: Momente um A, dann fällt die unbekannte Lagerkraft in A heraus.
+Prinzip: Beim Wandschwenkkran gibt es drei Unbekannte: die Kraft in der Zugstange und die beiden Komponenten der Lagerkraft im unteren Gelenk A. Die Zugstange überträgt nur Kraft in ihrer Richtung, darum brauchst du ihren Winkel. Den bekommst du aus der Geometrie mit dem Tangens: Höhe durch waagerechten Abstand.
+Mit der Momentengleichung um A bekommst du direkt die Stangenkraft, weil die Lagerkraft in A keinen Hebelarm hat. Danach folgen aus den Kraftgleichungen in x und y die Komponenten in A.
+Baustein: Ausleger freimachen und alle Kräfte eintragen: Gewichtskräfte, Stangenkraft, Lagerkraft in A mit zwei Komponenten.
+Baustein: Gewichtskräfte aus den Massen berechnen: F = m · g.
+Baustein: Winkel der Zugstange aus der Geometrie bestimmen.
+Baustein: Momentengleichung um A, dabei nur den senkrechten Anteil der Stangenkraft mit seinem Hebelarm nehmen.
+Baustein: Summe der Kräfte in x und y für die Lagerkraft in A, dann Betrag und Winkel.
+Fehler: Masse statt Gewichtskraft eingesetzt | 120 kg sind keine Kraft. Erst mit g = 9,81 m/s² malnehmen.
+Karte: Welche Kraft überträgt eine Zugstange mit zwei Gelenken? | Nur eine Kraft in Stabrichtung.
+Karte: Warum Momente um A? | Weil die unbekannte Lagerkraft in A dann keinen Hebelarm hat.
+=== ENDE ===
+
+=== LERNWERK ===
+Fach: Technische Mechanik
+Thema: Festigkeitslehre: Zug, Druck, Flächenpressung, Abscherung
+Anker: Ein Bolzen in einer Gabel: Zieht man an der Lasche, will er an zwei Stellen abscheren. Wo er in der Bohrung anliegt, drückt er auf die Fläche, das ist die Flächenpressung.
+Begriff: Spannung | Kraft pro Fläche im Werkstoff, Formelzeichen σ für Zug und Druck, Einheit N/mm².
+Begriff: Zulässige Spannung | Die Spannung, die das Bauteil mit Sicherheit aushalten soll.
+Begriff: Sicherheitszahl | Der Faktor, um den die zulässige Spannung kleiner ist als der Werkstoffkennwert, Formelzeichen ν.
+Begriff: Flächenpressung | Druck zwischen zwei sich berührenden Flächen, Formelzeichen p.
+Begriff: Abscherspannung | Spannung quer zur Fläche, die ein Bauteil abschert, Formelzeichen τ.
+Begriff: Elastizitätsmodul | Steifigkeit eines Werkstoffs, Formelzeichen E. Für Stahl etwa 210 000 N/mm².
+Merksatz: Spannung ist Kraft durch Fläche. Die Frage ist immer: welche Fläche?
+Prinzip: Bei Zug und Druck ist die Fläche der Querschnitt senkrecht zur Kraft. Die Spannung muss kleiner oder gleich der zulässigen Spannung sein. Die zulässige Spannung ist der Werkstoffkennwert geteilt durch die Sicherheitszahl. Bei zähen Stählen nimmt man die Streckgrenze R_e.
+Bei der Flächenpressung zählt die gedrückte Fläche. Bei einem Bolzen in einer Bohrung nimmt man die projizierte Fläche: Durchmesser mal tragende Länge.
+Beim Abscheren ist die Fläche die Schnittfläche quer zum Bolzen. Hat ein Bolzen zwei Schnittflächen wie in einer Gabel, teilt sich die Kraft auf beide auf.
+Im elastischen Bereich gilt das Hookesche Gesetz: Spannung ist E-Modul mal Dehnung.
+Baustein: Beanspruchungsart erkennen: Zug, Druck, Flächenpressung oder Abscheren.
+Baustein: Die richtige Fläche bestimmen.
+Baustein: Kraft in N, Fläche in mm², dann kommt N/mm² heraus.
+Baustein: Mit der zulässigen Spannung vergleichen oder nach der gesuchten Größe umstellen.
+Schnellweg: N/mm² ist dasselbe wie MPa. Rechnest du mit N und mm², musst du nichts umrechnen.
+Fehler: Anzahl der Scherflächen vergessen | Bei einer Gabel sind es zwei Scherflächen, die Spannung halbiert sich.
+Fehler: Fläche in m² statt mm² | Dann kommt eine viel zu kleine Zahl heraus.
+Formel: Zug- oder Druckspannung | σ = F / A | F = σ · A; A = F / σ
+Formel: Zulässige Spannung | σ_zul = R_e / ν | R_e = σ_zul · ν; ν = R_e / σ_zul
+Formel: Flächenpressung | p = F / A | F = p · A; A = F / p
+Formel: Abscherspannung | τ_a = F / (n · S) | F = τ_a · n · S; S = F / (n · τ_a)
+Formel: Dehnung | ε = Δl / l0 | Δl = ε · l0; l0 = Δl / ε
+Formel: Hookesches Gesetz | σ = E · ε | E = σ / ε; ε = σ / E
+Karte: Einheit der Spannung? | N/mm², gleich MPa
+Karte: Welche Fläche nimmt man bei der Flächenpressung am Bolzen? | Die projizierte Fläche: Durchmesser mal Länge.
+Karte: E-Modul von Stahl? | Etwa 210 000 N/mm².
+Karte: Wie viele Scherflächen hat ein Bolzen in einer Gabel? | Zwei.
+=== ENDE ===
+
+=== LERNWERK ===
+Fach: Technische Mechanik
+Thema: Allgemeines Kräftesystem und Streckenlast
+Anker: Ein Regal voller Kartons: Das Gewicht liegt nicht an einem Punkt, sondern verteilt über die ganze Länge. Für die Rechnung ersetzt du es durch eine Kraft in der Mitte.
+Begriff: Allgemeines Kräftesystem | Die Wirkungslinien der Kräfte schneiden sich nicht in einem Punkt, es gibt auch Drehwirkung.
+Begriff: Streckenlast | Eine Last, die über eine Länge verteilt ist, Formelzeichen q, Einheit N/m oder kN/m.
+Begriff: Ersatzkraft | Die Einzelkraft, die dieselbe Wirkung hat wie die Streckenlast.
+Begriff: Schwerpunkt | Der Punkt, an dem die Ersatzkraft angreift.
+Merksatz: Streckenlast mal Länge, angreifend im Schwerpunkt.
+Prinzip: Im allgemeinen Kräftesystem reichen die Kraftgleichungen nicht. Du brauchst zusätzlich die Momentengleichung. Damit hast du drei Gleichungen und kannst drei Unbekannte berechnen.
+Eine gleichmäßige Streckenlast ersetzt du durch eine Kraft F = q · l. Sie greift in der Mitte der belasteten Länge an. Bei einer dreieckförmigen Last ist die Ersatzkraft halb so groß, also q mal l durch 2, und greift im Schwerpunkt des Dreiecks an, ein Drittel der Länge von der hohen Seite entfernt.
+Achtung, die Ersatzkraft der ganzen Last gilt für die Lagerkräfte. Für das Biegemoment an einer Schnittstelle nimmst du nur den Teil der Last, der auf einer Seite des Schnitts liegt.
+Baustein: Streckenlasten in Ersatzkräfte umwandeln und im Schwerpunkt einzeichnen.
+Baustein: Schräge Kräfte in x und y zerlegen.
+Baustein: Momentengleichung um ein Lager.
+Baustein: Kraftgleichungen in x und y.
+Baustein: Probe mit einer zweiten Momentengleichung.
+Fehler: Ersatzkraft am Rand angesetzt | Bei gleichmäßiger Last greift sie in der Mitte an.
+Formel: Ersatzkraft Streckenlast | F = q · l | q = F / l; l = F / q
+Formel: Ersatzkraft Dreieckslast | F = q · l / 2 | q = 2 · F / l; l = 2 · F / q
+Karte: Wo greift die Ersatzkraft einer gleichmäßigen Streckenlast an? | In der Mitte der belasteten Länge.
+Karte: Wie viele Gleichungen hat das allgemeine Kräftesystem in der Ebene? | Drei: zwei Kraftgleichungen und eine Momentengleichung.
+Karte: Einheit der Streckenlast? | N/m oder kN/m
+=== ENDE ===
+
+=== LERNWERK ===
+Fach: Technische Mechanik
+Thema: Reibung
+Anker: Ein schweres Werkstück auf dem Maschinentisch: Zum Anschieben brauchst du mehr Kraft als zum Weiterschieben. Das ist der Unterschied zwischen Haftreibung und Gleitreibung.
+Begriff: Normalkraft | Die Kraft, mit der ein Körper senkrecht auf die Fläche drückt, Formelzeichen F_N.
+Begriff: Reibungskraft | Die Kraft, die einer Bewegung entgegenwirkt, Formelzeichen F_R.
+Begriff: Reibungszahl | Ein Kennwert der Werkstoffpaarung, Formelzeichen μ, ohne Einheit.
+Begriff: Haftreibung | Reibung, solange sich nichts bewegt. Sie ist größer als die Gleitreibung.
+Begriff: Selbsthemmung | Ein Körper rutscht von selbst nicht ab, zum Beispiel bei einem Gewinde oder einem Keil.
+Merksatz: Reibkraft ist mü mal Normalkraft. Anfahren kostet mehr als Weiterfahren.
+Prinzip: Die Reibungskraft hängt von der Normalkraft und von der Werkstoffpaarung ab, nicht von der Größe der Fläche. Die Reibungszahl μ steht in Tabellen, getrennt für Haftreibung und Gleitreibung, trocken und geschmiert. Es gilt: Haftreibung ist größer als Gleitreibung, und die ist größer als Rollreibung.
+Auf einer schiefen Ebene zerlegst du die Gewichtskraft: Die Hangabtriebskraft zieht den Körper die Ebene hinunter, die Normalkraft drückt ihn auf die Ebene. Ist der Tangens des Neigungswinkels kleiner oder gleich der Haftreibungszahl, bleibt der Körper liegen. Das ist Selbsthemmung.
+Baustein: Normalkraft bestimmen, auf der schiefen Ebene mit dem Kosinus.
+Baustein: Haftreibung oder Gleitreibung? Bewegt sich etwas, oder soll es losgehen?
+Baustein: Reibungszahl aus der Tabelle für die passende Werkstoffpaarung wählen.
+Baustein: Reibungskraft ausrechnen und mit den anderen Kräften ins Gleichgewicht setzen.
+Fehler: Gewichtskraft statt Normalkraft | Auf der schiefen Ebene ist die Normalkraft kleiner als die Gewichtskraft.
+Formel: Reibungskraft | F_R = μ · F_N | F_N = F_R / μ; μ = F_R / F_N
+Formel: Hangabtriebskraft | F_H = F_G · sin(α) | F_G = F_H / sin(α)
+Formel: Normalkraft schiefe Ebene | F_N = F_G · cos(α) | F_G = F_N / cos(α)
+Karte: Hängt die Reibungskraft von der Größe der Fläche ab? | Nein, nur von Normalkraft und Werkstoffpaarung.
+Karte: Was ist größer: Haftreibung oder Gleitreibung? | Haftreibung.
+Karte: Wann tritt auf der schiefen Ebene Selbsthemmung ein? | Wenn tan α kleiner oder gleich der Haftreibungszahl ist.
+=== ENDE ===
+
+=== LERNWERK ===
+Fach: Technische Mechanik
+Thema: Biegung
+Anker: Ein Brett über einem Graben: Flach gelegt biegt es sich stark durch, hochkant gestellt kaum. Die Form des Querschnitts entscheidet, wie viel ein Balken aushält.
+Begriff: Biegemoment | Das Moment, das einen Balken an einer Stelle verbiegt, Formelzeichen M_b.
+Begriff: Widerstandsmoment | Ein Querschnittswert, der angibt, wie gut ein Profil gegen Biegung wirkt, Formelzeichen W, Einheit mm³.
+Begriff: Biegespannung | Die größte Spannung in der Randfaser durch Biegung, Formelzeichen σ_b.
+Begriff: Neutrale Faser | Die Mittellinie, die bei Biegung weder gezogen noch gedrückt wird.
+Merksatz: Biegespannung ist Biegemoment durch Widerstandsmoment. Hochkant hält mehr.
+Prinzip: Bei Biegung wird eine Seite des Balkens gezogen, die andere gedrückt. In der Mitte, der neutralen Faser, ist die Spannung null, am Rand ist sie am größten.
+Die Biegespannung berechnest du mit σ_b = M_b / W. Beim Rechteck ist W = b · h² / 6, wobei h die Höhe in Biegerichtung ist. Weil h im Quadrat steht, hält ein hochkant gestelltes Profil viel mehr. Darum sind Träger als I-Profil gebaut.
+Das größte Biegemoment liegt beim einseitig eingespannten Träger an der Einspannung. Beim Balken auf zwei Stützen mit einer Last in der Mitte liegt es unter der Last und ist F · l / 4.
+Baustein: Lagerkräfte bestimmen.
+Baustein: Stelle des größten Biegemoments finden und M_b ausrechnen.
+Baustein: Widerstandsmoment des Querschnitts aus Formel oder Tabelle.
+Baustein: Biegespannung berechnen und mit der zulässigen Spannung vergleichen.
+Schnellweg: Für den Vollkreis gilt näherungsweise W = 0,1 · d³.
+Fehler: Breite und Höhe vertauscht | In W = b · h² / 6 steht die Höhe in Belastungsrichtung im Quadrat.
+Formel: Biegespannung | σ_b = M_b / W | M_b = σ_b · W; W = M_b / σ_b
+Formel: Widerstandsmoment Rechteck | W = b · h² / 6 | b = 6 · W / h²; h = √(6 · W / b)
+Formel: Widerstandsmoment Vollkreis | W = π · d³ / 32
+Formel: Biegemoment Balken mit Mittellast | M_b = F · l / 4 | F = 4 · M_b / l
+Formel: Biegemoment Kragträger mit Endlast | M_b = F · l | F = M_b / l; l = M_b / F
+Karte: Warum hält ein Brett hochkant mehr? | Weil die Höhe im Widerstandsmoment im Quadrat steht.
+Karte: Wo ist die Biegespannung am größten? | In der Randfaser.
+Karte: Größtes Biegemoment beim Balken auf zwei Stützen mit Mittellast? | F · l / 4
+=== ENDE ===
+
+=== LERNWERK ===
+Fach: Technische Mechanik
+Thema: Torsion
+Anker: Die Antriebswelle an deiner Fräse wird verdreht, wenn der Motor das Werkzeug gegen den Widerstand des Werkstoffs treibt. Ist sie zu dünn, verdreht sie sich zu stark oder bricht.
+Begriff: Torsion | Verdrehen eines Bauteils durch ein Drehmoment um seine Längsachse.
+Begriff: Torsionsmoment | Das verdrehende Moment, Formelzeichen M_t.
+Begriff: Polares Widerstandsmoment | Querschnittswert gegen Verdrehen, Formelzeichen W_p.
+Begriff: Torsionsspannung | Schubspannung durch Verdrehen, Formelzeichen τ_t.
+Merksatz: Torsionsspannung ist Torsionsmoment durch polares Widerstandsmoment.
+Prinzip: Bei Torsion ist die Spannung in der Mitte der Welle null und am Rand am größten. Für eine Vollwelle ist W_p = π · d³ / 16, das ist doppelt so viel wie das axiale Widerstandsmoment bei Biegung.
+Das Drehmoment einer Welle hängt mit Leistung und Drehzahl zusammen: M = P / (2 · π · n), mit n in Umdrehungen pro Sekunde. Praktisch rechnet man oft mit der Zahlenwertgleichung M = 9550 · P / n, mit M in Nm, P in kW und n in 1/min.
+Bei gleicher Leistung braucht eine langsam drehende Welle ein größeres Moment und muss dicker sein.
+Baustein: Drehmoment aus Leistung und Drehzahl bestimmen.
+Baustein: Polares Widerstandsmoment aus dem Durchmesser.
+Baustein: Torsionsspannung berechnen oder den nötigen Durchmesser umstellen.
+Baustein: Mit der zulässigen Torsionsspannung vergleichen.
+Schnellweg: Für die Vollwelle gilt näherungsweise W_p = 0,2 · d³.
+Fehler: Drehzahl in 1/min in die Formel mit 2 π eingesetzt | Dort muss n in 1/s stehen. Oder nimm die Zahlenwertgleichung mit 9550.
+Formel: Torsionsspannung | τ_t = M_t / W_p | M_t = τ_t · W_p; W_p = M_t / τ_t
+Formel: Polares Widerstandsmoment Vollwelle | W_p = π · d³ / 16
+Formel: Drehmoment aus Leistung | M = P / (2 · π · n) | P = 2 · π · n · M; n = P / (2 · π · M)
+Formel: Zahlenwertgleichung Drehmoment | M = 9550 · P / n | P = M · n / 9550; n = 9550 · P / M
+Karte: Wo ist die Torsionsspannung am größten? | Am Rand der Welle.
+Karte: W_p einer Vollwelle? | π · d³ / 16, ungefähr 0,2 · d³
+Karte: Drehmoment bei 5,5 kW und 1450 1/min? | Etwa 36 Nm, aus 9550 · 5,5 / 1450.
+=== ENDE ===

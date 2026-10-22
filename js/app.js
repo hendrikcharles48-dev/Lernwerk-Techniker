@@ -6,8 +6,9 @@ import { $, $$, icon, row, list, seg, sw, empty, on, push, initTabs, showTab, ta
 import { topicPage, runSession, sortForPractice, fachProgress, topicProgress, openTrainer, askClaude, shrinkImage, noteReader, firstLine, itemTitle } from './engine.js';
 import { mehrPage, termineDetail, termEditor, datensicherung, applyTheme } from './extra.js';
 import { prefs } from './db.js';
+import { speak, canSpeak } from './speech.js';
 
-export const VERSION = '1.0.1';
+export const VERSION = '1.1.0';
 
 /* ===== Heute ===== */
 const heute = {
@@ -116,16 +117,23 @@ export function fachPage(fid) {
         if (a) bits.push(plural(a, 'Übung', 'Übungen'));
         if (due) bits.push(due + ' fällig');
         const p = topicProgress(t.id);
-        return row({ a: 'topic', d: t.id, title: t.name, sub: bits.join(' · ') || 'noch leer', html: p != null ? progress(p, f.farbe) : '' });
+        const nurIntro = st.status(t.id) === 'geplant' && st.isIntroOnly(t.id);
+        if (nurIntro) bits.unshift('Einführung lesen');
+        return row({ a: 'topic', d: t.id, title: t.name, sub: bits.join(' · ') || 'noch leer', html: p != null && !nurIntro ? progress(p, f.farbe) : '' });
       };
       let h = `<div class="chips"><span class="chip" style="background:${f.farbe}">${esc(f.kurz || f.name)}</span>${(f.module || []).map(m => `<span class="chip ghost">${esc(m === 'Ü' ? 'übergreifend' : m)}</span>`).join('')}${f.hinweis ? `<span class="chip ghost">${esc(f.hinweis)}</span>` : ''}</div>`;
+      const intro = st.fachIntro(f.id);
+      if (intro) {
+        const parts = intro.split(/\n\s*\n/);
+        h += `<div class="card intro" style="--fc:${f.farbe}"><div class="card-k">Worum es in diesem Fach geht</div><div class="prose">${markdown(parts[0])}</div>${parts.length > 1 ? `<details class="more"><summary>Weiterlesen</summary><div class="prose">${markdown(parts.slice(1).join('\n\n'))}</div></details>` : ''}${canSpeak() ? `<button class="btn small" data-a="introvor">${icon('ear')} Vorlesen</button>` : ''}</div>`;
+      }
       if (g.aktuell.length) h += `<div class="sec-h">Aktuell im Unterricht</div>` + list(g.aktuell.map(tRow));
       if (g.vorhanden.length) h += `<div class="sec-h">Vorhanden</div>` + list(g.vorhanden.map(tRow));
       if (g.geplant.length) h += `<div class="sec-h">Kommt noch</div>` + list(g.geplant.map(tRow));
       if (!f.themen.length) h += empty('Noch keine Themen.', 'Füge einen Lernwerk-Block oder einen Lernzettel über Einfügen hinzu.');
       h += `<div class="sec-f">Ein Thema öffnen und „Aktuell im Unterricht“ einschalten, dann steht es hier oben und kommt in Heute zuerst.</div>`;
       b.innerHTML = h;
-      on(b, { topic: tid => push(topicPage(tid)) });
+      on(b, { topic: tid => push(topicPage(tid)), introvor: () => { speak(plainText(st.fachIntro(f.id))); toast('Ich lese vor.'); } });
     }
   };
 }

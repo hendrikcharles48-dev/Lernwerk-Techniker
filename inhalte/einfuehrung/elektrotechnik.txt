@@ -1,0 +1,318 @@
+=== LERNWERK ===
+Fach: Elektrotechnik
+Thema: Ohmsches Gesetz
+Anker: Der Kühlmittelkreislauf an der Fräse: Die Pumpe erzeugt Druck, das ist die Spannung. Das Kühlmittel fließt, das ist der Strom. Ein enger Schlauch bremst den Fluss, das ist der Widerstand.
+Begriff: Spannung | Der elektrische Druck, der die Ladungen antreibt, Formelzeichen U, Einheit Volt (V).
+Begriff: Stromstärke | Wie viel Ladung pro Sekunde fließt, Formelzeichen I, Einheit Ampere (A).
+Begriff: Widerstand | Wie stark ein Bauteil den Strom bremst, Formelzeichen R, Einheit Ohm (Ω).
+Begriff: Leitwert | Der Kehrwert des Widerstands, Formelzeichen G, Einheit Siemens (S).
+Merksatz: U gleich R mal I. Mehr Druck heißt mehr Strom, mehr Widerstand heißt weniger Strom.
+Prinzip: Das ohmsche Gesetz verbindet die drei Grundgrößen. Bei gleichem Widerstand steigt der Strom im selben Verhältnis wie die Spannung: doppelte Spannung, doppelter Strom.
+Rechne immer in Grundeinheiten: Volt, Ampere, Ohm. Milliampere und Kiloohm rechnest du vorher um, sonst liegst du um den Faktor 1000 daneben.
+Baustein: Gegeben und gesucht mit Einheiten aufschreiben.
+Baustein: Alle Werte in V, A und Ω umrechnen.
+Baustein: Formel U = R · I nach der gesuchten Größe umstellen.
+Baustein: Einsetzen, ausrechnen, Einheit dazuschreiben.
+Schnellweg: Volt geteilt durch Kiloohm ergibt direkt Milliampere. 12 V durch 4 kΩ sind 3 mA.
+Fehler: mA als A eingesetzt | 20 mA sind 0,02 A.
+Formel: Ohmsches Gesetz | U = R · I | R = U / I; I = U / R
+Formel: Leitwert | G = 1 / R | R = 1 / G
+Karte: Einheit des Widerstands? | Ohm (Ω)
+Karte: U = 24 V, R = 1,2 kΩ. Wie groß ist I? | 20 mA
+Karte: Was passiert mit dem Strom, wenn die Spannung sich verdoppelt? | Er verdoppelt sich, wenn R gleich bleibt.
+=== ENDE ===
+
+=== LERNWERK ===
+Fach: Elektrotechnik
+Thema: Reihen- und Parallelschaltung
+Anker: Reihenschaltung ist wie ein Kühlmittelschlauch mit zwei Engstellen hintereinander: Überall fließt dieselbe Menge, aber an jeder Engstelle geht Druck verloren. Parallelschaltung ist wie zwei Düsen nebeneinander: Beide haben denselben Druck, die Menge teilt sich auf.
+Begriff: Reihenschaltung | Bauteile hintereinander, durch alle fließt derselbe Strom.
+Begriff: Parallelschaltung | Bauteile nebeneinander, an allen liegt dieselbe Spannung.
+Begriff: Ersatzwiderstand | Ein gedachter Widerstand, der die ganze Schaltung ersetzt, auch Gesamtwiderstand.
+Merksatz: Reihe: Strom gleich, Spannung teilt sich. Parallel: Spannung gleich, Strom teilt sich.
+Prinzip: In der Reihenschaltung addieren sich die Widerstände. Die Spannung teilt sich im Verhältnis der Widerstände auf: Am größten Widerstand fällt die größte Spannung ab.
+In der Parallelschaltung addieren sich die Leitwerte, also die Kehrwerte. Der Gesamtwiderstand ist immer kleiner als der kleinste Einzelwiderstand. Der größte Strom fließt durch den kleinsten Widerstand.
+Baustein: Erkennen: Fließt derselbe Strom durch, oder liegt dieselbe Spannung an?
+Baustein: Ersatzwiderstand berechnen.
+Baustein: Mit dem ohmschen Gesetz Gesamtstrom oder Gesamtspannung ausrechnen.
+Baustein: Teilspannungen oder Teilströme ausrechnen.
+Baustein: Probe: Teilspannungen ergeben zusammen die Gesamtspannung, Teilströme ergeben zusammen den Gesamtstrom.
+Schnellweg: Zwei gleiche Widerstände parallel ergeben den halben Wert. Bei zwei verschiedenen gilt: Produkt durch Summe.
+Fehler: Parallel einfach addiert | Bei Parallelschaltung werden die Kehrwerte addiert, der Gesamtwiderstand wird kleiner.
+Formel: Reihenschaltung | R_ges = R1 + R2 | R1 = R_ges − R2; R2 = R_ges − R1
+Formel: Parallelschaltung zweier Widerstände | R_ges = R1 · R2 / (R1 + R2) | R1 = R_ges · R2 / (R2 − R_ges); R2 = R_ges · R1 / (R1 − R_ges)
+Formel: Spannungsteiler | U1 / U2 = R1 / R2 | U1 = U2 · R1 / R2; R1 = R2 · U1 / U2
+Karte: Was ist in der Reihenschaltung überall gleich? | Der Strom.
+Karte: Was ist in der Parallelschaltung überall gleich? | Die Spannung.
+Karte: Zwei Widerstände mit je 100 Ω parallel? | 50 Ω
+Karte: Ist der Gesamtwiderstand parallel größer oder kleiner als der kleinste Einzelwiderstand? | Kleiner.
+=== ENDE ===
+
+=== LERNWERK ===
+Fach: Elektrotechnik
+Thema: Gemischte Schaltungen
+Anker: Wie beim Zerlegen einer Baugruppe: Du nimmst erst die kleinste Einheit heraus, fasst sie zusammen und arbeitest dich nach außen vor, bis nur noch ein Teil übrig ist.
+Begriff: Gemischte Schaltung | Eine Schaltung, die Reihen- und Parallelschaltungen kombiniert.
+Begriff: Ersatzschaltung | Eine vereinfachte Zeichnung, in der zusammengefasste Widerstände durch einen ersetzt sind.
+Merksatz: Von innen nach außen zusammenfassen, von außen nach innen zurückrechnen.
+Prinzip: Eine gemischte Schaltung löst du in zwei Richtungen. Zuerst fasst du schrittweise zusammen: Suche Widerstände, die eindeutig in Reihe oder eindeutig parallel liegen, ersetze sie durch einen Ersatzwiderstand und zeichne die Schaltung neu. Das wiederholst du, bis nur noch ein Gesamtwiderstand übrig ist.
+Danach rechnest du zurück: Mit dem Gesamtwiderstand bekommst du den Gesamtstrom. Mit ihm berechnest du die Spannungen an den Widerständen in Reihe, die Restspannung liegt an der Parallelgruppe, und daraus folgen die Teilströme.
+Baustein: Knotenpunkte markieren, um zu sehen, was parallel liegt.
+Baustein: Zusammenfassen und nach jedem Schritt eine neue Ersatzschaltung zeichnen.
+Baustein: Gesamtstrom mit U durch R_ges berechnen.
+Baustein: Zurückrechnen: Spannungen an Reihenteilen, dann Spannung an der Parallelgruppe, dann Teilströme.
+Baustein: Probe mit Knoten- und Maschenregel.
+Fehler: Widerstände zusammengefasst, die nicht eindeutig parallel sind | Parallel heißt: beide Enden an denselben zwei Knoten.
+Karte: In welcher Richtung fasst man zusammen? | Von innen nach außen.
+Karte: Womit beginnt das Zurückrechnen? | Mit dem Gesamtstrom aus Gesamtspannung und Gesamtwiderstand.
+=== ENDE ===
+
+=== LERNWERK ===
+Fach: Elektrotechnik
+Thema: Kirchhoffsche Regeln
+Anker: An einer Verteilerleiste für Kühlmittel: Was hineinfließt, muss auch wieder herausfließen. Nichts geht verloren. Das ist die Knotenregel.
+Begriff: Knoten | Ein Verzweigungspunkt, an dem mindestens drei Leitungen zusammenkommen.
+Begriff: Masche | Ein geschlossener Umlauf in einer Schaltung.
+Begriff: Knotenregel | Die Summe der zufließenden Ströme ist gleich der Summe der abfließenden Ströme.
+Begriff: Maschenregel | In jeder Masche ist die Summe aller Spannungen null, wenn man die Richtung beachtet.
+Merksatz: Was in den Knoten reingeht, kommt auch raus. Einmal rundherum ergibt null.
+Prinzip: Die Knotenregel ist der erste kirchhoffsche Satz: Ströme teilen sich am Knoten auf, aber in Summe bleibt der Strom gleich.
+Die Maschenregel ist der zweite kirchhoffsche Satz: Läufst du einmal im Kreis durch eine Masche, heben sich Quellenspannung und Spannungsfälle gegenseitig auf. Praktisch heißt das: Die Quellenspannung ist so groß wie die Summe der Spannungsfälle an den Widerständen.
+Für die Rechnung legst du vorher Zählpfeile fest. Ergibt sich ein negativer Wert, fließt der Strom einfach andersherum als angenommen.
+Baustein: Knoten und Maschen in der Skizze markieren.
+Baustein: Zählpfeile für Ströme und Spannungen einzeichnen.
+Baustein: Knotengleichung aufstellen: zufließend gleich abfließend.
+Baustein: Maschengleichung aufstellen: Quellenspannung gleich Summe der Spannungsfälle.
+Baustein: Gleichungen lösen, Vorzeichen deuten.
+Fehler: Vorzeichen in der Masche falsch | Spannungen in Umlaufrichtung positiv, gegen die Umlaufrichtung negativ.
+Formel: Knotenregel mit zwei Zweigen | I = I1 + I2 | I1 = I − I2; I2 = I − I1
+Formel: Maschenregel mit zwei Spannungsfällen | U = U1 + U2 | U1 = U − U2; U2 = U − U1
+Karte: Was sagt die Knotenregel? | Summe der zufließenden Ströme gleich Summe der abfließenden Ströme.
+Karte: Was sagt die Maschenregel? | In einer geschlossenen Masche ist die Summe der Spannungen null.
+Karte: Was bedeutet ein negativer Strom im Ergebnis? | Er fließt entgegen der angenommenen Pfeilrichtung.
+=== ENDE ===
+
+=== LERNWERK ===
+Fach: Elektrotechnik
+Thema: Rückrechnen
+Anker: Wie bei der Fehlersuche an der Maschine: Du kennst das Ergebnis am Ende und arbeitest dich Schritt für Schritt zurück bis zur Ursache.
+Begriff: Rückrechnen | Aus Gesamtgrößen die Spannungen und Ströme an den einzelnen Bauteilen bestimmen.
+Begriff: Spannungsfall | Die Spannung, die an einem Widerstand abfällt, berechnet mit R mal I.
+Merksatz: Für jeden Schritt fragst du: Zu welchem Bauteil gehören U, R und I? Alle drei müssen vom selben Bauteil sein.
+Prinzip: Beim Rückrechnen ist das ohmsche Gesetz das Werkzeug, aber nur, wenn alle drei Größen zum selben Bauteil oder zur selben Gruppe gehören. Mit dem Gesamtstrom und einem Widerstand in Reihe bekommst du dessen Spannungsfall. Die Restspannung liegt an der nächsten Gruppe. Mit dieser Spannung und den Einzelwiderständen bekommst du die Teilströme.
+Vor jedem Schritt entscheidest du, welche Regel passt: zusammenfassen, Ohm, Knotenregel oder Maschenregel. Genau so arbeitet auch dein Rückrechen-Trainer.
+Baustein: Gesamtwiderstand bestimmen.
+Baustein: Gesamtstrom mit dem ohmschen Gesetz.
+Baustein: Spannungsfälle an den Reihenwiderständen.
+Baustein: Restspannung mit der Maschenregel.
+Baustein: Teilströme mit dem ohmschen Gesetz, Probe mit der Knotenregel.
+Schnellweg: Für die Probe reicht oft eine Zeile: Teilströme addieren und mit dem Gesamtstrom vergleichen.
+Fehler: Größen verschiedener Bauteile gemischt | Die Spannung an R2 geteilt durch R3 ergibt keinen sinnvollen Strom.
+Karte: Welche drei Größen müssen beim ohmschen Gesetz zusammenpassen? | U, R und I desselben Bauteils oder derselben Gruppe.
+Karte: Wie bekommst du die Spannung an einer Parallelgruppe? | Gesamtspannung minus die Spannungsfälle der Reihenwiderstände.
+=== ENDE ===
+
+=== LERNWERK ===
+Fach: Elektrotechnik
+Thema: Leistung, Arbeit, Wirkungsgrad
+Anker: Beim Krafttraining ist die Arbeit das Gewicht mal die Strecke, die Leistung ist, wie schnell du das schaffst. Wer dieselbe Hantel schneller bewegt, bringt mehr Leistung.
+Begriff: Elektrische Leistung | Wie viel Energie pro Sekunde umgesetzt wird, Formelzeichen P, Einheit Watt (W).
+Begriff: Elektrische Arbeit | Die umgesetzte Energie, Formelzeichen W, Einheit Joule oder Wattsekunde, im Alltag Kilowattstunde (kWh).
+Begriff: Wirkungsgrad | Das Verhältnis von abgegebener zu aufgenommener Leistung, Formelzeichen η, immer kleiner als 1.
+Begriff: Verlustleistung | Der Teil der Leistung, der als Wärme verloren geht.
+Merksatz: Leistung ist Spannung mal Strom. Arbeit ist Leistung mal Zeit. Wirkungsgrad ist ab durch zu.
+Prinzip: Die Leistung P = U · I kannst du mit dem ohmschen Gesetz umformen: P = I² · R oder P = U² / R. Nimm die Form, für die du die Werte schon hast.
+Die Arbeit ist Leistung mal Zeit. Ein Motor mit 2 kW, der 3 Stunden läuft, braucht 6 kWh. Eine Kilowattstunde sind 3,6 Millionen Joule.
+Jede Maschine hat Verluste, meist als Wärme. Der Wirkungsgrad ist darum immer kleiner als 1, also kleiner als 100 Prozent. Hängen mehrere Stufen hintereinander, zum Beispiel Motor und Getriebe, nimmst du die Wirkungsgrade miteinander mal.
+Baustein: Gegeben und gesucht notieren, auf Einheiten achten: W, kW, h, s.
+Baustein: Passende Leistungsformel wählen.
+Baustein: Für Arbeit Leistung mal Zeit, Zeit in Stunden für kWh oder in Sekunden für Joule.
+Baustein: Beim Wirkungsgrad klären: Was wird abgegeben, was aufgenommen?
+Schnellweg: Gesamtwirkungsgrad mehrerer Stufen ist das Produkt der Einzelwirkungsgrade.
+Fehler: Wirkungsgrad verkehrt herum | η ist abgegeben durch zugeführt, das Ergebnis muss unter 1 liegen.
+Fehler: Zeit in Minuten eingesetzt | Für kWh die Zeit in Stunden, für Joule in Sekunden.
+Formel: Elektrische Leistung | P = U · I | U = P / I; I = P / U
+Formel: Leistung mit Strom und Widerstand | P = I² · R | I = √(P / R); R = P / I²
+Formel: Leistung mit Spannung und Widerstand | P = U² / R | U = √(P · R); R = U² / P
+Formel: Elektrische Arbeit | W = P · t | P = W / t; t = W / P
+Formel: Wirkungsgrad | η = P_ab / P_zu | P_ab = η · P_zu; P_zu = P_ab / η
+Formel: Gesamtwirkungsgrad | η_ges = η1 · η2 | η1 = η_ges / η2; η2 = η_ges / η1
+Karte: Einheit der Leistung? | Watt (W)
+Karte: Wie viele Joule sind 1 kWh? | 3,6 Millionen Joule
+Karte: Motor 90 Prozent, Getriebe 95 Prozent. Gesamtwirkungsgrad? | 0,855, also 85,5 Prozent
+Karte: Warum ist der Wirkungsgrad immer kleiner als 1? | Weil immer Verluste entstehen, meist als Wärme.
+=== ENDE ===
+
+=== LERNWERK ===
+Fach: Elektrotechnik
+Thema: Sensoren
+Anker: Ein Sensor ist wie dein Messtaster an der Fräse: Er meldet der Steuerung, ob etwas da ist oder wie groß es ist.
+Begriff: Binärer Sensor | Ein Sensor, der nur zwei Zustände meldet: ein oder aus.
+Begriff: Analoger Sensor | Ein Sensor, der einen Wert stufenlos ausgibt, zum Beispiel 4 bis 20 mA oder 0 bis 10 V.
+Begriff: Induktiver Sensor | Erkennt nur Metall ohne Berührung über ein magnetisches Wechselfeld.
+Begriff: Kapazitiver Sensor | Erkennt fast alle Stoffe, auch Kunststoff, Holz und Flüssigkeiten.
+Begriff: Optischer Sensor | Erkennt Gegenstände mit Licht, als Lichtschranke oder als Lichttaster.
+Begriff: PNP-Ausgang | Positiv schaltend: Der Ausgang schaltet plus 24 Volt auf das Signal. In Europa üblich.
+Begriff: NPN-Ausgang | Negativ schaltend: Der Ausgang schaltet das Signal gegen 0 Volt.
+Merksatz: Induktiv sieht nur Metall, kapazitiv sieht fast alles, optisch sieht, was Licht unterbricht oder zurückwirft.
+Prinzip: Sensoren übersetzen eine physikalische Größe in ein elektrisches Signal für die Steuerung. Bei binären Sensoren unterscheidest du Schließer, die bei Erkennung einschalten, und Öffner, die bei Erkennung ausschalten.
+Dreileiter-Sensoren haben nach Norm die Aderfarben braun für plus 24 Volt, blau für 0 Volt und schwarz für den Schaltausgang. Weiß ist oft ein zweiter Ausgang. Ob PNP oder NPN, steht im Datenblatt. Er muss zum Eingang der SPS passen.
+Analoge Sensoren mit 4 bis 20 mA haben einen Vorteil: Fließen 0 mA, weiß die Steuerung, dass ein Draht gebrochen ist.
+Der Schaltabstand eines induktiven Sensors gilt für Stahl. Bei Aluminium oder Kupfer ist er kleiner, das steht als Korrekturfaktor im Datenblatt.
+Baustein: Was soll erkannt werden: Metall, beliebiger Stoff, Position, Füllstand oder ein Messwert?
+Baustein: Passenden Sensortyp wählen.
+Baustein: Ausgang festlegen: binär oder analog, Schließer oder Öffner, PNP oder NPN.
+Baustein: Anschluss nach Aderfarben prüfen.
+Baustein: Schaltabstand und Material im Datenblatt prüfen.
+Fehler: NPN-Sensor an PNP-Eingang | Der Eingang bekommt dann kein passendes Signal. Typ und Eingang müssen zusammenpassen.
+Karte: Welche Stoffe erkennt ein induktiver Sensor? | Nur Metalle.
+Karte: Aderfarben beim Dreileiter-Sensor? | Braun plus, blau 0 Volt, schwarz Signal.
+Karte: Was heißt PNP? | Positiv schaltend: Der Ausgang liefert plus 24 Volt.
+Karte: Warum 4 bis 20 mA statt 0 bis 20 mA? | Bei 0 mA erkennt die Steuerung einen Drahtbruch.
+Karte: Womit erkennt man die Endlage eines Pneumatikzylinders? | Mit einem Magnetsensor, auch Zylinderschalter, der den Magneten im Kolben erkennt.
+=== ENDE ===
+
+=== LERNWERK ===
+Fach: Elektrotechnik
+Thema: Belasteter Spannungsteiler
+Anker: Ein Wasserhahn hinter einem Druckminderer: Solange niemand Wasser zapft, ist der Druck stabil. Sobald jemand viel zapft, sinkt er. Genauso sinkt die Spannung am Spannungsteiler, wenn ein Verbraucher Strom zieht.
+Begriff: Spannungsteiler | Zwei Widerstände in Reihe, an denen eine Teilspannung abgegriffen wird.
+Begriff: Lastwiderstand | Der angeschlossene Verbraucher, Formelzeichen R_L.
+Begriff: Querstrom | Der Strom, der durch den unteren Teilerwiderstand R2 fließt.
+Begriff: Laststrom | Der Strom, der durch den Verbraucher fließt.
+Merksatz: Last parallel zu R2, dann neu teilen. Unter Last sinkt die Spannung immer.
+Prinzip: Ohne Last teilt sich die Spannung im Verhältnis der beiden Widerstände. Hängt ein Verbraucher an R2, liegt er parallel zu R2. Diese Parallelschaltung ist kleiner als R2 allein, darum bekommt sie einen kleineren Anteil der Spannung.
+Damit die Ausgangsspannung unter Last kaum sinkt, muss der Querstrom deutlich größer sein als der Laststrom. Viele Bücher nennen als Faustregel das Zwei- bis Zehnfache. Der Nachteil: Ein großer Querstrom kostet Leistung.
+Baustein: R2 und R_L parallel zusammenfassen zu R_2L.
+Baustein: Gesamtwiderstand R1 plus R_2L.
+Baustein: Ausgangsspannung mit der Spannungsteilerformel berechnen.
+Baustein: Mit der unbelasteten Spannung vergleichen.
+Fehler: Last in Reihe statt parallel gerechnet | Der Verbraucher hängt an denselben zwei Punkten wie R2, also parallel.
+Formel: Parallelersatz mit Last | R_2L = R2 · R_L / (R2 + R_L) | R_L = R_2L · R2 / (R2 − R_2L)
+Formel: Ausgangsspannung belastet | U2 = U · R_2L / (R1 + R_2L) | U = U2 · (R1 + R_2L) / R_2L; R1 = R_2L · (U − U2) / U2
+Formel: Ausgangsspannung unbelastet | U2 = U · R2 / (R1 + R2) | U = U2 · (R1 + R2) / R2
+Karte: Wie liegt der Lastwiderstand zu R2? | Parallel.
+Karte: Was passiert mit der Ausgangsspannung unter Last? | Sie sinkt.
+Karte: Was macht die Ausgangsspannung stabiler? | Ein Querstrom, der deutlich größer ist als der Laststrom.
+=== ENDE ===
+
+=== LERNWERK ===
+Fach: Elektrotechnik
+Thema: Kondensator
+Anker: Ein Druckluftspeicher an der Maschine: Er füllt sich über den Kompressor, hält den Druck und gibt die Luft schnell ab, wenn sie gebraucht wird. Ein Kondensator macht dasselbe mit elektrischer Ladung.
+Begriff: Kondensator | Bauteil aus zwei leitenden Flächen mit einem Isolierstoff dazwischen, das Ladung speichert.
+Begriff: Kapazität | Wie viel Ladung pro Volt gespeichert werden kann, Formelzeichen C, Einheit Farad (F).
+Begriff: Ladung | Die gespeicherte Elektrizitätsmenge, Formelzeichen Q, Einheit Coulomb (C), also Amperesekunde.
+Begriff: Zeitkonstante | τ = R · C, nach dieser Zeit ist der Kondensator zu etwa 63 Prozent geladen.
+Begriff: Dielektrikum | Der Isolierstoff zwischen den Platten.
+Merksatz: Q gleich C mal U. Nach fünf τ ist er praktisch voll.
+Prinzip: Legt man Spannung an, fließt zuerst ein großer Ladestrom, der immer kleiner wird. Die Spannung am Kondensator steigt dabei nicht gerade, sondern in einer Kurve. Nach einer Zeitkonstante τ sind etwa 63 Prozent erreicht, nach fünf τ gilt er als voll geladen.
+Bei Gleichspannung sperrt ein geladener Kondensator. Bei Wechselspannung lässt er Strom durch, umso besser, je höher die Frequenz ist.
+Kondensatoren in Parallelschaltung addieren sich, in Reihe gilt die Kehrwertformel. Das ist genau umgekehrt wie bei Widerständen.
+Je größer die Plattenfläche und je kleiner der Abstand, desto größer die Kapazität.
+Baustein: Werte mit Vorsätzen umrechnen: µF ist 10 hoch minus 6 F, nF ist 10 hoch minus 9 F.
+Baustein: Passende Formel wählen: Ladung, Energie oder Zeitkonstante.
+Baustein: Bei Schaltungen erkennen: parallel addieren, Reihe Kehrwerte.
+Baustein: Ergebnis mit Einheit und sinnvollem Vorsatz angeben.
+Fehler: Reihe und Parallel wie bei Widerständen gerechnet | Bei Kondensatoren ist es umgekehrt.
+Fehler: µF als F eingesetzt | 100 µF sind 0,0001 F.
+Formel: Ladung | Q = C · U | C = Q / U; U = Q / C
+Formel: Zeitkonstante | τ = R · C | R = τ / C; C = τ / R
+Formel: Energie im Kondensator | W = 0,5 · C · U² | C = 2 · W / U²; U = √(2 · W / C)
+Formel: Kondensatoren parallel | C_ges = C1 + C2 | C1 = C_ges − C2
+Formel: Zwei Kondensatoren in Reihe | C_ges = C1 · C2 / (C1 + C2) | C1 = C_ges · C2 / (C2 − C_ges)
+Formel: Plattenkondensator | C = ε0 · εr · A / d | A = C · d / (ε0 · εr); d = ε0 · εr · A / C
+Karte: Einheit der Kapazität? | Farad (F)
+Karte: Nach welcher Zeit ist ein Kondensator praktisch geladen? | Nach fünf Zeitkonstanten, also 5 · R · C.
+Karte: Wie addieren sich Kondensatoren parallel? | Einfach: C1 + C2.
+Karte: Wie viel Prozent nach einer Zeitkonstante? | Etwa 63 Prozent.
+=== ENDE ===
+
+=== LERNWERK ===
+Fach: Elektrotechnik
+Thema: Spule und Induktion
+Anker: Ein schweres Schwungrad lässt sich nur langsam anwerfen und will danach weiterlaufen. Eine Spule verhält sich beim Strom genauso: Sie wehrt sich gegen jede Änderung.
+Begriff: Spule | Ein aufgewickelter Draht, der bei Stromfluss ein Magnetfeld erzeugt.
+Begriff: Induktivität | Wie stark eine Spule sich gegen Stromänderungen wehrt, Formelzeichen L, Einheit Henry (H).
+Begriff: Induktion | Eine Spannung entsteht, wenn sich das Magnetfeld in einer Spule ändert.
+Begriff: Lenzsche Regel | Die induzierte Spannung wirkt ihrer Ursache immer entgegen.
+Begriff: Freilaufdiode | Eine Diode parallel zu einer Spule, die beim Abschalten die Spannungsspitze abbaut.
+Merksatz: Änderung erzeugt Spannung. Keine Änderung, keine Induktion.
+Prinzip: Fließt Strom durch eine Spule, entsteht ein Magnetfeld. Mit Eisenkern wird es viel stärker. So arbeiten Relais, Schütze und Magnetventile.
+Ändert sich das Magnetfeld, entsteht in der Spule eine Spannung. Je mehr Windungen und je schneller die Änderung, desto größer die Spannung. Dieses Prinzip nutzen Generator und Transformator.
+Beim Abschalten einer Spule bricht das Magnetfeld schnell zusammen. Dabei entsteht eine hohe Spannungsspitze, die Kontakte und Transistoren beschädigen kann. Darum baut man bei Gleichstrom eine Freilaufdiode parallel zur Spule ein, in Sperrrichtung zur Betriebsspannung.
+Beim Einschalten steigt der Strom nicht sofort, sondern mit der Zeitkonstante τ = L / R.
+Baustein: Klären: Geht es um das Magnetfeld, um Induktion oder um das Schaltverhalten?
+Baustein: Bei Induktion: Windungszahl und Geschwindigkeit der Änderung bestimmen.
+Baustein: Beim Schalten: Zeitkonstante berechnen, Schutz mit Freilaufdiode prüfen.
+Baustein: Einheiten prüfen: Henry, Weber, Sekunde.
+Fehler: Freilaufdiode in Durchlassrichtung eingebaut | Dann gibt es einen Kurzschluss, sobald eingeschaltet wird.
+Formel: Induktionsspannung, Betrag | U_ind = N · ΔΦ / Δt | ΔΦ = U_ind · Δt / N; N = U_ind · Δt / ΔΦ
+Formel: Zeitkonstante Spule | τ = L / R | L = τ · R; R = L / τ
+Formel: Energie in der Spule | W = 0,5 · L · I² | L = 2 · W / I²; I = √(2 · W / L)
+Karte: Einheit der Induktivität? | Henry (H)
+Karte: Wann entsteht eine Induktionsspannung? | Wenn sich das Magnetfeld in der Spule ändert.
+Karte: Wozu dient eine Freilaufdiode? | Sie baut die Abschaltspannung einer Spule ab und schützt den schaltenden Kontakt.
+Karte: Was sagt die Lenzsche Regel? | Die induzierte Spannung wirkt ihrer Ursache entgegen.
+=== ENDE ===
+
+=== LERNWERK ===
+Fach: Elektrotechnik
+Thema: Wechselstrom
+Anker: Eine Säge, die vor und zurück geht, statt sich immer in eine Richtung zu drehen: Beim Wechselstrom wechselt die Richtung ständig, in Europa 50 Mal pro Sekunde.
+Begriff: Frequenz | Wie viele volle Schwingungen pro Sekunde, Formelzeichen f, Einheit Hertz (Hz).
+Begriff: Periodendauer | Dauer einer vollen Schwingung, Formelzeichen T.
+Begriff: Scheitelwert | Der höchste Wert der Spannung, geschrieben û.
+Begriff: Effektivwert | Der Wert, der dieselbe Wärme erzeugt wie eine gleich große Gleichspannung. Die 230 Volt der Steckdose sind ein Effektivwert.
+Begriff: Phasenverschiebung | Der zeitliche Versatz zwischen Spannung und Strom, als Winkel φ.
+Begriff: Blindwiderstand | Der Widerstand von Spule oder Kondensator bei Wechselstrom, abhängig von der Frequenz.
+Merksatz: Beim Kondensator eilt der Strom vor, bei Induktivitäten tut er sich verspäten.
+Prinzip: Die Netzspannung ist sinusförmig. Der Effektivwert ist der Scheitelwert geteilt durch die Wurzel aus 2. Bei 230 Volt Effektivwert ist der Scheitelwert also etwa 325 Volt.
+Spule und Kondensator haben bei Wechselstrom einen Blindwiderstand. Der der Spule steigt mit der Frequenz, der des Kondensators sinkt mit der Frequenz.
+Bei Spulen und Kondensatoren sind Strom und Spannung zeitlich verschoben. Darum gibt es drei Leistungen: Die Wirkleistung P in Watt ist das, was wirklich Arbeit macht. Die Blindleistung Q in var pendelt hin und her. Die Scheinleistung S in VA ist das, was das Netz liefern muss. Der Leistungsfaktor cos φ sagt, wie viel davon Wirkleistung ist.
+Baustein: Werte zuordnen: Effektivwert oder Scheitelwert?
+Baustein: Frequenz und Periodendauer umrechnen.
+Baustein: Blindwiderstände mit der Frequenz berechnen.
+Baustein: Leistungen trennen: Wirkleistung, Blindleistung, Scheinleistung.
+Fehler: Scheitelwert mit Effektivwert verwechselt | Messgeräte zeigen normalerweise den Effektivwert.
+Formel: Frequenz | f = 1 / T | T = 1 / f
+Formel: Effektivwert | U = U_s / √2 | U_s = U · √2
+Formel: Blindwiderstand Spule | X_L = 2 · π · f · L | L = X_L / (2 · π · f); f = X_L / (2 · π · L)
+Formel: Blindwiderstand Kondensator | X_C = 1 / (2 · π · f · C) | C = 1 / (2 · π · f · X_C); f = 1 / (2 · π · C · X_C)
+Formel: Wirkleistung | P = U · I · cos(φ) | I = P / (U · cos(φ)); φ = acos(P / (U · I))
+Formel: Scheinleistung | S = U · I | I = S / U
+Karte: Netzfrequenz in Europa? | 50 Hz
+Karte: Scheitelwert bei 230 V Effektivwert? | Etwa 325 V
+Karte: Einheit der Blindleistung? | var
+Karte: Was passiert mit dem Blindwiderstand der Spule bei höherer Frequenz? | Er steigt.
+=== ENDE ===
+
+=== LERNWERK ===
+Fach: Elektrotechnik
+Thema: Drehstrom
+Anker: Drei Kolben in einem Motor, die nacheinander zünden, geben einen gleichmäßigen Lauf. Drehstrom sind drei Wechselspannungen, die nacheinander kommen, jeweils um 120 Grad versetzt. Das treibt den Drehstrommotor deiner Fräse an.
+Begriff: Außenleiter | Die drei Leiter L1, L2 und L3.
+Begriff: Neutralleiter | Der Leiter N, gemeinsamer Rückleiter in der Sternschaltung.
+Begriff: Schutzleiter | Der grün-gelbe Leiter PE für den Schutz gegen elektrischen Schlag.
+Begriff: Leiterspannung | Spannung zwischen zwei Außenleitern, im Netz 400 Volt.
+Begriff: Strangspannung | Spannung an einem Strang, in der Sternschaltung 230 Volt.
+Begriff: Sternschaltung | Die drei Stränge sind an einem gemeinsamen Punkt verbunden.
+Begriff: Dreieckschaltung | Die drei Stränge sind im Kreis hintereinander geschaltet, jeder Strang liegt an 400 Volt.
+Merksatz: Zwischen Leiterspannung und Strangspannung liegt der Faktor Wurzel 3: 230 mal 1,73 sind 400.
+Prinzip: Im Drehstromnetz liegen zwischen zwei Außenleitern 400 Volt und zwischen einem Außenleiter und N 230 Volt. Der Faktor ist die Wurzel aus 3, also etwa 1,73.
+In der Sternschaltung liegt an jedem Strang nur die Strangspannung von 230 Volt. In der Dreieckschaltung liegen an jedem Strang 400 Volt. Darum nimmt ein Motor im Dreieck mehr Leistung auf.
+Beim Stern-Dreieck-Anlauf startet ein Motor in Stern und wird dann auf Dreieck umgeschaltet. Im Stern sind Anlaufstrom und Anlaufmoment nur etwa ein Drittel so groß wie in Dreieck.
+Die Drehrichtung eines Drehstrommotors änderst du, indem du zwei Außenleiter tauschst.
+Baustein: Schaltung erkennen: Stern oder Dreieck?
+Baustein: Spannungen zuordnen: Was liegt am Strang, was zwischen den Leitern?
+Baustein: Ströme zuordnen: Im Stern ist Leiterstrom gleich Strangstrom, im Dreieck ist der Leiterstrom Wurzel 3 mal so groß.
+Baustein: Leistung mit Wurzel 3 mal U mal I mal cos φ berechnen.
+Fehler: Wurzel 3 doppelt verwendet | In der Leistungsformel mit Leiterspannung und Leiterstrom steht Wurzel 3 genau einmal.
+Formel: Leiterspannung | U = √3 · U_str | U_str = U / √3
+Formel: Leiterstrom im Dreieck | I = √3 · I_str | I_str = I / √3
+Formel: Wirkleistung Drehstrom | P = √3 · U · I · cos(φ) | I = P / (√3 · U · cos(φ)); U = P / (√3 · I · cos(φ))
+Karte: Spannung zwischen zwei Außenleitern? | 400 V
+Karte: Spannung zwischen Außenleiter und N? | 230 V
+Karte: Wie ändert man die Drehrichtung eines Drehstrommotors? | Zwei Außenleiter tauschen.
+Karte: Wozu Stern-Dreieck-Anlauf? | Um den Anlaufstrom zu verringern, im Stern etwa auf ein Drittel.
+=== ENDE ===

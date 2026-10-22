@@ -150,6 +150,10 @@ textarea { resize: vertical; line-height: 1.45; }
 .card.merk { border-left: 4px solid var(--fc, var(--accent)); font-weight: 600; font-size: 18px; }
 .card.fast { border-left: 4px solid var(--fc, var(--accent)); }
 .card.how { background: var(--info-bg); box-shadow: none; }
+.card.intro { border-top: 4px solid var(--fc, var(--accent)); }
+.card.intro .btn { margin-top: 10px; }
+details.more summary { color: var(--accent); font-weight: 600; cursor: pointer; min-height: 32px; display: flex; align-items: center; }
+.intro-hint { margin: 0 0 14px; }
 .card.how .btn { margin-top: 10px; }
 .card.pattern { background: var(--bad-bg); box-shadow: none; }
 .prose h2, .prose h3, .prose h4 { margin: 14px 0 6px; font-size: 18px; }

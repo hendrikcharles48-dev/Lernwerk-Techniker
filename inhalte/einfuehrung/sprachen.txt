@@ -1,0 +1,158 @@
+=== LERNWERK ===
+Fach: Deutsch und Kommunikation
+Thema: Argumentieren: Beobachten, Belegen, Begründen, Beraten
+Anker: Du willst deinen Meister überzeugen, dass ein neues Spannmittel angeschafft wird. „Ist halt besser“ reicht nicht. Du sagst, was dir aufgefallen ist, zeigst Zahlen, erklärst warum und machst einen Vorschlag.
+Begriff: These | Die Behauptung, die du vertrittst.
+Begriff: Argument | Die Begründung, warum die These stimmt.
+Begriff: Beleg | Ein Beispiel, eine Zahl, eine Erfahrung oder eine Quelle, die das Argument stützt.
+Begriff: Gegenargument | Ein Argument der Gegenseite, das du aufgreifst und entkräftest.
+Merksatz: Behaupten allein überzeugt nicht. Erst mit Grund und Beleg wird ein Argument daraus.
+Prinzip: Die vier B aus deinem Unterricht kannst du als Bauplan für ein Argument nutzen. Die genaue Bedeutung legt euer Unterricht fest, eine sinnvolle Lesart ist diese: Beobachten heißt, die Lage sachlich zu beschreiben. Belegen heißt, Fakten zu liefern, zum Beispiel Zahlen, Beispiele oder Zitate. Begründen heißt, zu erklären, warum das wichtig ist. Beraten heißt, eine Empfehlung oder Schlussfolgerung zu geben.
+Ein gutes Argument stellt einen klaren Zusammenhang her: Die Rüstzeit sinkt um zehn Minuten, weil das Werkstück nicht mehr ausgerichtet werden muss, darum lohnt sich die Anschaffung nach etwa drei Monaten.
+In einer Erörterung ordnest du die Argumente nach Stärke. Das stärkste kommt meist zum Schluss, damit es im Gedächtnis bleibt. Gegenargumente nennst du fair und zeigst, warum deine Seite überwiegt.
+Baustein: These klar formulieren.
+Baustein: Beobachtung: Was ist die Lage?
+Baustein: Beleg: Welche Zahl, welches Beispiel, welche Quelle?
+Baustein: Begründung: Warum folgt daraus deine These?
+Baustein: Beratung: Was empfiehlst du konkret?
+Fehler: Beispiel ohne Begründung | Ein Beispiel stützt nur, wenn du erklärst, warum es zur These passt.
+Karte: Was ist eine These? | Die Behauptung, die man vertritt.
+Karte: Was ist ein Beleg? | Ein Beispiel, eine Zahl oder Quelle, die ein Argument stützt.
+Karte: Wo steht in einer Erörterung meist das stärkste Argument? | Am Schluss.
+=== ENDE ===
+
+=== LERNWERK ===
+Fach: Deutsch und Kommunikation
+Thema: Sachtextanalyse
+Anker: Wie eine Fehleranalyse an einem Bauteil: Erst beschreibst du, was du vor dir hast, dann untersuchst du den Aufbau und die einzelnen Stellen, und am Ende ziehst du einen Schluss.
+Begriff: Sachtext | Ein Text, der informiert oder überzeugen will, zum Beispiel ein Zeitungsartikel, Kommentar oder Bericht.
+Begriff: Textsorte | Die Art des Textes, zum Beispiel Bericht, Kommentar, Reportage.
+Begriff: Kernaussage | Die wichtigste Botschaft des Textes in einem Satz.
+Begriff: Sprachliches Mittel | Eine Gestaltung der Sprache mit Wirkung, zum Beispiel rhetorische Frage, Vergleich oder Aufzählung.
+Begriff: Intention | Die Absicht des Autors: informieren, überzeugen, unterhalten oder appellieren.
+Merksatz: Einleitung mit den W-Fragen, Hauptteil mit Inhalt, Aufbau und Sprache, Schluss mit Fazit. Immer im Präsens.
+Prinzip: In der Einleitung nennst du Autor, Titel, Textsorte, Quelle und Datum und fasst das Thema oder die Kernaussage in einem Satz zusammen.
+Im Hauptteil gibst du den Inhalt in eigenen Worten wieder, gegliedert nach Sinnabschnitten. Dann untersuchst du den Aufbau und die Argumentation und nennst sprachliche Mittel immer zusammen mit ihrer Wirkung. Nur das Mittel zu benennen reicht nicht. Belege jede Aussage mit einem Zitat und der Zeilenangabe.
+Im Schluss fasst du zusammen, welche Absicht der Autor verfolgt und ob er sie erreicht. Wenn die Aufgabe es verlangt, nimmst du Stellung.
+Du schreibst im Präsens. Aussagen des Autors gibst du in indirekter Rede wieder, also im Konjunktiv: Der Autor meint, die Industrie müsse umdenken.
+Baustein: Text zweimal lesen, dabei markieren und Sinnabschnitte bilden.
+Baustein: Einleitung mit Autor, Titel, Textsorte, Quelle, Datum und Kernaussage.
+Baustein: Inhalt in eigenen Worten wiedergeben.
+Baustein: Aufbau, Argumente und sprachliche Mittel mit Wirkung untersuchen und belegen.
+Baustein: Schluss mit Absicht und Fazit.
+Fehler: Sprachliches Mittel ohne Wirkung | Nicht nur „rhetorische Frage in Zeile 5“, sondern auch, was sie beim Leser bewirkt.
+Karte: In welcher Zeit schreibt man eine Textanalyse? | Im Präsens.
+Karte: Was gehört in die Einleitung? | Autor, Titel, Textsorte, Quelle, Datum und Kernaussage.
+Karte: Wie gibt man Aussagen des Autors wieder? | In indirekter Rede, im Konjunktiv.
+=== ENDE ===
+
+=== LERNWERK ===
+Fach: Deutsch und Kommunikation
+Thema: Geschäftsbrief nach DIN 5008 und Protokoll
+Anker: Eine technische Zeichnung folgt Normen, damit jeder sie gleich liest. Ein Geschäftsbrief nach DIN 5008 ebenso: Jeder Empfänger findet Anschrift, Datum und Betreff an derselben Stelle.
+Begriff: DIN 5008 | Die Norm mit Schreib- und Gestaltungsregeln für Briefe und Texte im Büro.
+Begriff: Anschriftfeld | Der Bereich für die Empfängeranschrift, passend für Fensterumschläge.
+Begriff: Betreff | Eine kurze Angabe zum Inhalt, ohne das Wort Betreff davor.
+Begriff: Ergebnisprotokoll | Hält nur Ergebnisse, Beschlüsse und Aufgaben fest.
+Begriff: Verlaufsprotokoll | Hält zusätzlich den Ablauf der Diskussion fest.
+Merksatz: Brief: Kopf, Anschrift, Betreff, Anrede, Text, Gruß. Protokoll: Wer, wann, wo, was beschlossen, wer macht was bis wann.
+Prinzip: Ein Geschäftsbrief nach DIN 5008 hat eine feste Reihenfolge: Briefkopf mit Absender, Anschriftfeld, Informationsblock oder Bezugszeichenzeile mit Datum, Betreff, Anrede, Text, Grußformel, Unterschrift mit Namen in Maschinenschrift und Anlagen. Den Betreff schreibt man ohne das Wort Betreff und darf ihn fett setzen. Nach der Anrede steht ein Komma, der Text beginnt dann klein. Das Datum kann man zum Beispiel als 22.10.2026 oder 2026-10-22 schreiben.
+Ein Protokoll beginnt mit einem Kopf: Anlass, Datum, Ort, Beginn und Ende, Teilnehmende, Abwesende, Protokollführung und Tagesordnung. Danach folgen die Tagesordnungspunkte. Für Besprechungen im Betrieb reicht meist ein Ergebnisprotokoll mit klaren Aufgaben: Wer macht was bis wann. Am Ende unterschreiben Protokollführung und Leitung.
+Protokolle schreibt man im Präsens, Aussagen von Personen in indirekter Rede.
+Baustein: Zweck klären: Brief oder Protokoll, welche Form?
+Baustein: Feste Bestandteile in der richtigen Reihenfolge anlegen.
+Baustein: Kurz, sachlich und eindeutig formulieren.
+Baustein: Beim Protokoll jede Aufgabe mit Verantwortlichem und Termin festhalten.
+Baustein: Zum Schluss auf Form, Rechtschreibung und Vollständigkeit prüfen.
+Fehler: Das Wort Betreff vor den Betreff geschrieben | Nach DIN 5008 steht der Betreff ohne das Wort Betreff.
+Karte: Steht vor dem Betreff das Wort Betreff? | Nein.
+Karte: Was steht nach der Anrede? | Ein Komma, der Text beginnt klein.
+Karte: Unterschied Ergebnisprotokoll und Verlaufsprotokoll? | Das Ergebnisprotokoll hält nur Ergebnisse fest, das Verlaufsprotokoll auch den Ablauf.
+Karte: In welcher Zeit schreibt man ein Protokoll? | Im Präsens.
+=== ENDE ===
+
+=== LERNWERK ===
+Fach: Englisch und Kommunikation
+Thema: Technische Vokabeln
+Anker: Englische Bedienungsanleitungen und Fehlermeldungen an Maschinen begegnen dir ständig. Wer die zwanzig wichtigsten Wörter kennt, versteht schon den Großteil.
+Begriff: false friend | Ein Wort, das ähnlich klingt wie im Deutschen, aber etwas anderes bedeutet.
+Merksatz: Become heißt werden, nicht bekommen. Bekommen heißt get.
+Prinzip: Lerne Vokabeln in Gruppen, die zusammengehören: Maschine, Werkzeug, Steuerung, Sicherheit. Sprich sie laut aus und benutze sie in kurzen Sätzen.
+Achte auf falsche Freunde: become heißt werden, control heißt meist steuern oder kontrollieren im Sinne von beherrschen, und ein Handy heißt mobile phone oder cell phone. Handy heißt auf Englisch praktisch.
+Baustein: Jeden Tag fünf Wörter aus einer Gruppe.
+Baustein: Wort, Aussprache und einen Beispielsatz lernen.
+Baustein: Im Hörmodus wiederholen.
+Karte: milling machine | Fräsmaschine
+Karte: lathe | Drehmaschine
+Karte: workpiece | Werkstück
+Karte: milling cutter | Fräser
+Karte: drill | Bohrer
+Karte: spindle | Spindel
+Karte: feed rate | Vorschub
+Karte: cutting speed | Schnittgeschwindigkeit
+Karte: coolant | Kühlschmierstoff
+Karte: thread | Gewinde
+Karte: bearing | Lager
+Karte: shaft | Welle
+Karte: gear | Zahnrad
+Karte: valve | Ventil
+Karte: cylinder | Zylinder
+Karte: switch | Schalter
+Karte: PLC | SPS, programmable logic controller
+Karte: wiring diagram | Schaltplan
+Karte: emergency stop | Not-Halt
+Karte: safety guard | Schutzeinrichtung
+Karte: maintenance | Instandhaltung, Wartung
+Karte: tolerance | Toleranz
+Karte: screw | Schraube
+Karte: nut | Mutter
+Karte: washer | Unterlegscheibe
+Karte: become | werden, nicht bekommen
+=== ENDE ===
+
+=== LERNWERK ===
+Fach: Englisch und Kommunikation
+Thema: Prozesse beschreiben
+Anker: Ein Arbeitsplan an der Fräse ist eine Prozessbeschreibung: Erst spannen, dann ausrichten, dann Nullpunkt setzen, dann fräsen. Auf Englisch brauchst du dafür nur ein paar feste Bausteine.
+Begriff: Passive voice | Das Passiv, in Prozessbeschreibungen sehr häufig, weil die Handlung wichtiger ist als die Person.
+Begriff: Sequencing words | Wörter für die Reihenfolge: first, then, next, after that, finally.
+Begriff: Imperative | Die Befehlsform für Anleitungen, zum Beispiel Close the door.
+Merksatz: First, then, next, after that, finally. Und im Passiv: is plus dritte Form.
+Prinzip: Für eine Prozessbeschreibung nimmst du meist das Simple Present im Passiv: The workpiece is clamped. The tool is changed. Das Passiv bildest du mit is oder are und der dritten Verbform.
+Die Reihenfolge machst du mit Signalwörtern klar: First, the workpiece is cleaned. Then it is clamped in the vice. After that, the zero point is set. Finally, the part is measured.
+Für Bedienungsanleitungen nimmst du die Befehlsform ohne Subjekt: Press the start button. Wait until the spindle stops.
+Baustein: Schritte auf Deutsch in Stichpunkten sammeln.
+Baustein: Jeden Schritt in einen kurzen englischen Satz übersetzen.
+Baustein: Passiv oder Befehlsform wählen.
+Baustein: Signalwörter für die Reihenfolge ergänzen.
+Fehler: Passiv ohne dritte Verbform | Nicht The part is clamp, sondern The part is clamped.
+Karte: Werkstück wird gespannt, auf Englisch? | The workpiece is clamped.
+Karte: Signalwort für den letzten Schritt? | finally
+Karte: Drück den Startknopf, auf Englisch? | Press the start button.
+=== ENDE ===
+
+=== LERNWERK ===
+Fach: Englisch und Kommunikation
+Thema: Meine typischen Fehler
+Anker: Wie bei einem Maßfehler, der immer an derselben Stelle passiert: Wenn du ihn einmal verstanden hast, passiert er nicht mehr.
+Begriff: Preposition | Verhältniswort wie to, in, at.
+Begriff: Personal pronoun | Persönliches Fürwort wie he, she, it.
+Merksatz: Wohin geht es: to. Wo bist du: at oder in. Freunde treffen: meet. Freunde finden: make. Dinge sind it.
+Prinzip: Bei Bewegung zu einem Ziel steht to: I go to the gym. Wenn du schon dort bist, steht at, manchmal in: I train at the gym. „I go in the gym“ ist falsch, wenn du hingehen meinst.
+Meet friends heißt sich mit Freunden treffen, die du schon kennst. Make friends heißt neue Freunde finden. I meet my friends on Saturday. At school I made new friends.
+He ist er für einen Mann oder Jungen, she ist sie für eine Frau oder ein Mädchen. Dinge, Maschinen und Tiere ohne Namen sind it, auch wenn sie im Deutschen der oder die sind: The machine is new. It runs well. Der Tisch heißt auf Englisch it, nicht he.
+Baustein: Vor dem Satz fragen: Bewegung oder Ort?
+Baustein: Bei Freunden fragen: treffen oder neu kennenlernen?
+Baustein: Bei Fürwörtern fragen: Person, und wenn ja, Mann oder Frau? Sonst it.
+Fehler: I go in the gym | Richtig: I go to the gym.
+Fehler: I make friends on Saturday | Wenn du dich mit Freunden triffst: I meet friends on Saturday.
+Fehler: The machine, he is broken | Dinge sind it: The machine is broken. It needs repair.
+Karte: Ich gehe ins Fitnessstudio. | I go to the gym.
+Karte: Ich trainiere im Fitnessstudio. | I train at the gym.
+Karte: Ich treffe am Samstag Freunde. | I meet friends on Saturday.
+Karte: Ich habe neue Freunde gefunden. | I made new friends.
+Karte: Die Maschine läuft gut. Sie ist neu. | The machine runs well. It is new.
+Karte: Meine Lehrerin ist nett. Sie erklärt gut. | My teacher is nice. She explains well.
+Auswahl: Welcher Satz ist richtig? | I go to the gym three times a week. | I go in the gym three times a week.; I go at the gym three times a week.; I go into gym three times a week.
+Auswahl: Du lernst in einer neuen Klasse Leute kennen. Was sagst du? | I made new friends. | I did new friends.; I got new friends.; I took new friends.
+=== ENDE ===

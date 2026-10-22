@@ -1,6 +1,34 @@
 {
-  "dateien": [
-    "formeln-umstellen.txt",
-    "terme.txt"
-  ]
+ "dateien": [
+  "formeln-umstellen.txt",
+  "terme.txt",
+  {
+   "datei": "einfuehrung/mathematik.txt",
+   "art": "einfuehrung"
+  },
+  {
+   "datei": "einfuehrung/elektrotechnik.txt",
+   "art": "einfuehrung"
+  },
+  {
+   "datei": "einfuehrung/mechanik.txt",
+   "art": "einfuehrung"
+  },
+  {
+   "datei": "einfuehrung/toleranzen-cad-werkstoffe.txt",
+   "art": "einfuehrung"
+  },
+  {
+   "datei": "einfuehrung/steuerung-automatisierung.txt",
+   "art": "einfuehrung"
+  },
+  {
+   "datei": "einfuehrung/projekte-module.txt",
+   "art": "einfuehrung"
+  },
+  {
+   "datei": "einfuehrung/sprachen.txt",
+   "art": "einfuehrung"
+  }
+ ]
 }

@@ -1,12 +1,15 @@
 // Service Worker: Offline-Nutzung. Bei jeder Änderung VERSION erhöhen,
 // dann zeigt die App "Neue Version, tippen zum Laden".
-const VERSION = '1.0.1';
+const VERSION = '1.1.0';
 const CACHE = 'lernwerk-' + VERSION;
 const FILES = [
   './', 'index.html', 'manifest.webmanifest', 'css/app.css', 'lehrplan.json', 'lernwerk-bridge.js',
   'js/app.js', 'js/extra.js', 'js/engine.js', 'js/store.js', 'js/db.js', 'js/ui.js', 'js/parser.js',
   'js/formula.js', 'js/check.js', 'js/srs.js', 'js/speech.js', 'js/util.js',
-  'inhalte/index.json', 'inhalte/formeln-umstellen.txt', 'inhalte/terme.txt',
+  'inhalte/index.json', 'inhalte/faecher.json', 'inhalte/formeln-umstellen.txt', 'inhalte/terme.txt',
+  'inhalte/einfuehrung/mathematik.txt', 'inhalte/einfuehrung/elektrotechnik.txt', 'inhalte/einfuehrung/mechanik.txt',
+  'inhalte/einfuehrung/toleranzen-cad-werkstoffe.txt', 'inhalte/einfuehrung/steuerung-automatisierung.txt',
+  'inhalte/einfuehrung/projekte-module.txt', 'inhalte/einfuehrung/sprachen.txt',
   'icons/apple-touch-icon.png', 'icons/icon-192.png', 'icons/icon-512.png', 'icons/icon-maskable-512.png',
   'trainer/mathe-trainieren.html', 'trainer/statik-trainer.html', 'trainer/statik-kraefte-momente.html',
   'trainer/statik-formelsammlung.html', 'trainer/statik-wandschwenkkran.html', 'trainer/et-rueckrechen-trainer.html',

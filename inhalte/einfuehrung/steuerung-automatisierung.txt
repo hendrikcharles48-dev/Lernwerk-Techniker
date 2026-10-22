@@ -1,0 +1,311 @@
+=== LERNWERK ===
+Fach: Steuerungstechnik, Pneumatik und SPS
+Thema: Wegeventile und Schaltzeichen
+Anker: Die Druckluftpistole an deiner Maschine ist ein einfaches Wegeventil: Drückst du, strömt Luft, lässt du los, ist zu. Im Schaltzeichen zeichnest du genau diese zwei Stellungen als zwei Kästchen nebeneinander.
+Begriff: Wegeventil | Ein Ventil, das den Weg der Druckluft freigibt, sperrt oder umleitet.
+Begriff: Schaltstellung | Ein Zustand des Ventils, im Schaltzeichen ein Kästchen.
+Begriff: Grundstellung | Die Stellung ohne Betätigung, an ihr werden die Anschlüsse gezeichnet.
+Begriff: Monostabil | Das Ventil kehrt durch eine Feder von selbst in die Grundstellung zurück.
+Begriff: Bistabil | Das Ventil bleibt in der letzten Stellung, bis ein Gegensignal kommt, auch Impulsventil.
+Merksatz: Erste Zahl Anschlüsse, zweite Zahl Stellungen. Eins ist Druck, zwei und vier arbeiten, drei und fünf entlüften.
+Prinzip: Ein Wegeventil wird mit zwei Zahlen bezeichnet: Ein 5/2-Wegeventil hat fünf Anschlüsse und zwei Schaltstellungen. Im Schaltzeichen nach DIN ISO 1219 ist jede Stellung ein Kästchen. Pfeile zeigen den Durchfluss, ein Querstrich zeigt einen gesperrten Anschluss.
+Die Anschlüsse sind mit Zahlen gekennzeichnet: 1 ist die Druckluftversorgung, 2 und 4 sind Arbeitsanschlüsse, 3 und 5 sind Entlüftungen, 12 und 14 sind Steueranschlüsse. Die Zahl 14 bedeutet: Dieses Signal verbindet 1 mit 4. Früher schrieb man Buchstaben: P für Druck, A und B für Arbeit, R und S für Entlüftung.
+Links und rechts am Schaltzeichen sitzen die Betätigungen, zum Beispiel Taster, Rolle, Feder, Druckluft oder Elektromagnet.
+Einen einfachwirkenden Zylinder steuerst du mit einem 3/2-Wegeventil, einen doppeltwirkenden mit einem 5/2-Wegeventil.
+Baustein: Kästchen zählen, das ergibt die Schaltstellungen.
+Baustein: Anschlüsse an einem Kästchen zählen.
+Baustein: Grundstellung finden: Das ist das Kästchen, an dem die Leitungen angeschlossen sind.
+Baustein: Betätigung links und rechts lesen.
+Baustein: Gedanklich umschalten: Das andere Kästchen schiebt sich an die Anschlüsse.
+Fehler: Anschlüsse am falschen Kästchen abgelesen | Die Leitungen hängen immer an der Grundstellung.
+Karte: Was bedeutet 5/2-Wegeventil? | Fünf Anschlüsse, zwei Schaltstellungen.
+Karte: Was ist Anschluss 1? | Die Druckluftversorgung.
+Karte: Was bedeutet Steueranschluss 14? | Das Signal verbindet Anschluss 1 mit Anschluss 4.
+Karte: Welches Ventil für einen doppeltwirkenden Zylinder? | Ein 5/2-Wegeventil.
+Karte: Was heißt bistabil? | Das Ventil bleibt in der letzten Stellung, bis ein Gegensignal kommt.
+=== ENDE ===
+
+=== LERNWERK ===
+Fach: Steuerungstechnik, Pneumatik und SPS
+Thema: Pneumatik: direkte und indirekte Ansteuerung
+Anker: Ein kleiner Spannzylinder lässt sich direkt mit einem Taster schalten. Für einen großen Zylinder brauchst du einen Leistungsschalter dazwischen, so wie ein kleiner Taster einen großen Motor nicht selbst schaltet, sondern über ein Schütz.
+Begriff: Signalglied | Gibt das Signal, zum Beispiel ein Taster oder ein Rollenventil.
+Begriff: Stellglied | Schaltet die Energie zum Antrieb, meist ein 5/2-Wegeventil.
+Begriff: Antriebsglied | Setzt die Energie in Bewegung um, zum Beispiel ein Zylinder.
+Begriff: Direkte Ansteuerung | Das Signalglied steuert den Zylinder direkt.
+Begriff: Indirekte Ansteuerung | Das Signalglied schaltet ein Stellglied, und das steuert den Zylinder.
+Begriff: Drosselrückschlagventil | Drosselt die Luft in einer Richtung und lässt sie in der anderen frei durch.
+Merksatz: Klein und nah: direkt. Groß oder weit weg: indirekt.
+Prinzip: Bei der direkten Ansteuerung geht die Arbeitsluft durch das Signalglied, zum Beispiel durch das Tasterventil. Das reicht nur für kleine Zylinder mit wenig Luftbedarf.
+Bei der indirekten Ansteuerung gibt das Signalglied nur ein kleines Steuersignal an ein Stellglied. Das Stellglied hat einen großen Querschnitt und versorgt den Zylinder. So kannst du große Zylinder steuern und die Bedienung entfernt anordnen.
+Die Geschwindigkeit stellst du mit Drosselrückschlagventilen ein. Beim doppeltwirkenden Zylinder drosselt man meist die Abluft, weil die Bewegung dann gleichmäßiger ist.
+Logische Verknüpfungen gibt es auch pneumatisch: Das Zweidruckventil ist ein UND, das Wechselventil ein ODER.
+Baustein: Zylindergröße und Luftbedarf einschätzen.
+Baustein: Direkt oder indirekt entscheiden.
+Baustein: Signalglied, Stellglied und Antriebsglied im Plan von unten nach oben anordnen.
+Baustein: Drosseln für die Geschwindigkeit setzen, beim doppeltwirkenden Zylinder in der Abluft.
+Baustein: Bewegungsablauf im Kopf durchspielen.
+Fehler: Zuluft statt Abluft gedrosselt beim doppeltwirkenden Zylinder | Dann ruckelt der Kolben. Abluftdrosselung ist der Normalfall.
+Karte: Was ist das Zweidruckventil logisch? | Ein UND.
+Karte: Was ist das Wechselventil logisch? | Ein ODER.
+Karte: Warum indirekte Ansteuerung? | Für große Zylinder oder entfernte Bedienung, das Signalglied schaltet nur das Stellglied.
+Karte: Welche Luft drosselt man beim doppeltwirkenden Zylinder meist? | Die Abluft.
+Reihenfolge: Aufbau eines Pneumatikplans von unten nach oben | Energieversorgung; Signalglieder; Stellglied; Antriebsglied
+=== ENDE ===
+
+=== LERNWERK ===
+Fach: Steuerungstechnik, Pneumatik und SPS
+Thema: Elektropneumatik mit Relais und Selbsthaltung
+Anker: Der Start-Taster an deiner Maschine: Du drückst kurz, die Maschine läuft weiter, auch wenn du loslässt. Das ist eine Selbsthaltung.
+Begriff: Magnetventil | Ein Wegeventil, das elektrisch über eine Spule geschaltet wird.
+Begriff: Relais | Ein elektrischer Schalter, der von einer Spule betätigt wird und Kontakte öffnet oder schließt.
+Begriff: Schließer | Kontakt, der bei Betätigung schließt.
+Begriff: Öffner | Kontakt, der bei Betätigung öffnet.
+Begriff: Selbsthaltung | Ein Relais hält sich über einen eigenen Schließer selbst eingeschaltet, nachdem der Start-Taster losgelassen wurde.
+Begriff: Dominierend Aus | Werden Start und Stopp gleichzeitig gedrückt, gewinnt Stopp.
+Merksatz: Start als Schließer parallel zum Haltekontakt, Stopp als Öffner davor in Reihe. Dann gewinnt Aus.
+Prinzip: In der Elektropneumatik übernimmt der elektrische Teil die Logik und das Magnetventil die Druckluft. Steuerstromkreis und Hauptstromkreis werden getrennt gezeichnet.
+Für die Selbsthaltung liegt der Start-Taster parallel zu einem Schließer des Relais. Drückst du Start, zieht das Relais an, sein Schließer schließt und überbrückt den Taster. Lässt du los, bleibt das Relais an. Ein Stopp-Taster als Öffner in Reihe unterbricht den Kreis.
+Liegt der Stopp-Taster vor der Parallelschaltung, gewinnt beim gleichzeitigen Drücken immer Stopp. Das ist dominierend Aus und aus Sicherheitsgründen der Normalfall.
+Den Stopp-Taster nimmt man als Öffner, weil dann auch ein Drahtbruch die Anlage stoppt. Das nennt man drahtbruchsicher.
+Spulen von Relais und Magnetventilen erzeugen beim Abschalten Spannungsspitzen. Bei Gleichstrom schützt eine Freilaufdiode die Kontakte.
+Baustein: Steuerstromkreis und Hauptstromkreis trennen.
+Baustein: Start, Stopp und Selbsthaltekontakt anordnen.
+Baustein: Prüfen, was passiert, wenn Start und Stopp gleichzeitig gedrückt werden.
+Baustein: Magnetventil über einen Relaiskontakt schalten.
+Baustein: Ablauf Schritt für Schritt durchspielen: drücken, loslassen, stoppen.
+Fehler: Stopp als Schließer | Dann stoppt ein Drahtbruch die Anlage nicht. Stopp ist immer ein Öffner.
+Karte: Wie wird der Start-Taster bei der Selbsthaltung geschaltet? | Als Schließer parallel zum Selbsthaltekontakt.
+Karte: Warum ist der Stopp-Taster ein Öffner? | Damit auch ein Drahtbruch die Anlage stoppt.
+Karte: Was heißt dominierend Aus? | Bei gleichzeitigem Drücken von Start und Stopp gewinnt Stopp.
+Karte: In welchem Zustand werden Kontakte gezeichnet? | Im unbetätigten Ruhezustand.
+=== ENDE ===
+
+=== LERNWERK ===
+Fach: Steuerungstechnik, Pneumatik und SPS
+Thema: Logik und Wahrheitstabelle
+Anker: Eine Zweihandbedienung an der Presse: Erst wenn beide Hände auf den Tastern liegen, fährt sie. Das ist ein UND. Eine Tür mit zwei Lichtschaltern, von denen jeder das Licht einschalten kann, ist ein ODER.
+Begriff: UND | Der Ausgang ist 1, wenn alle Eingänge 1 sind.
+Begriff: ODER | Der Ausgang ist 1, wenn mindestens ein Eingang 1 ist.
+Begriff: NICHT | Der Ausgang ist das Gegenteil des Eingangs.
+Begriff: NAND | UND mit nachgeschaltetem NICHT.
+Begriff: NOR | ODER mit nachgeschaltetem NICHT.
+Begriff: XOR | Exklusives ODER: Der Ausgang ist 1, wenn genau ein Eingang 1 ist.
+Begriff: Wahrheitstabelle | Eine Tabelle mit allen Kombinationen der Eingänge und dem Ausgang dazu.
+Merksatz: UND braucht alle, ODER braucht einen, NICHT dreht um.
+Prinzip: In der Steuerungstechnik gibt es nur 0 und 1. Jede Verknüpfung lässt sich mit einer Wahrheitstabelle vollständig beschreiben. Bei n Eingängen hat sie 2 hoch n Zeilen: zwei Eingänge vier Zeilen, drei Eingänge acht Zeilen.
+Die Zeilen schreibst du wie beim Binärzählen: 00, 01, 10, 11. So vergisst du keine Kombination.
+In Schaltzeichen nach IEC 60617 steht im Kasten das Zeichen & für UND, ≥1 für ODER, =1 für XOR. Ein kleiner Kreis am Ausgang bedeutet eine Negation.
+Mit den Regeln von De Morgan kannst du umformen: NICHT von A UND B ist dasselbe wie NICHT A ODER NICHT B.
+Aus einer Wahrheitstabelle bekommst du die Schaltung, indem du alle Zeilen mit Ausgang 1 nimmst, jede als UND der Eingänge schreibst und alle diese UND-Glieder mit ODER verbindest.
+Baustein: Eingänge und Ausgang benennen.
+Baustein: Zeilenanzahl festlegen: 2 hoch Anzahl der Eingänge.
+Baustein: Eingänge wie beim Binärzählen eintragen.
+Baustein: Für jede Zeile den Ausgang bestimmen.
+Baustein: Aus den Zeilen mit 1 die Funktion aufstellen und wenn möglich vereinfachen.
+Fehler: Zeilen vergessen | Bei drei Eingängen sind es acht Zeilen. Zähl binär, dann fehlt keine.
+Karte: Wie viele Zeilen hat eine Wahrheitstabelle mit 3 Eingängen? | 8
+Karte: Wann ist XOR gleich 1? | Wenn genau ein Eingang 1 ist.
+Karte: Zeichen für ODER im Schaltzeichen? | ≥1
+Karte: NICHT (A UND B) nach De Morgan? | NICHT A ODER NICHT B
+Karte: Welche Verknüpfung ist eine Zweihandbedienung? | UND
+=== ENDE ===
+
+=== LERNWERK ===
+Fach: Steuerungstechnik, Pneumatik und SPS
+Thema: SPS-Grundlagen: EVA, Adressen, FUP und KOP, SR-Speicher, Timer, Zähler
+Anker: Wie deine Heidenhain-Steuerung ein NC-Programm Satz für Satz abarbeitet, arbeitet eine SPS ihr Programm ab, nur in einer Endlosschleife, viele Male pro Sekunde.
+Begriff: SPS | Speicherprogrammierbare Steuerung, ein Industrierechner, der Eingänge liest, ein Programm abarbeitet und Ausgänge schaltet.
+Begriff: EVA | Eingabe, Verarbeitung, Ausgabe: das Grundprinzip jeder Steuerung.
+Begriff: Zyklus | Ein Durchlauf: Eingänge einlesen, Programm abarbeiten, Ausgänge schreiben.
+Begriff: Adresse | Der Name eines Eingangs, Ausgangs oder Merkers, zum Beispiel %I0.0.
+Begriff: Merker | Ein interner Speicherplatz für Zwischenergebnisse, Adresse mit M.
+Begriff: KOP | Kontaktplan, sieht aus wie ein Stromlaufplan mit Kontakten und Spulen.
+Begriff: FUP | Funktionsplan, arbeitet mit Kästchen wie bei Logikgattern.
+Begriff: SR-Speicher | Ein Baustein, der ein Signal speichert: Setzen schaltet ein, Rücksetzen schaltet aus.
+Merksatz: Einlesen, rechnen, ausgeben, und das immer wieder. Bei SR und RS gewinnt der Eingang mit der 1.
+Prinzip: Eine SPS arbeitet zyklisch: Sie liest alle Eingänge in das Prozessabbild der Eingänge, arbeitet das Programm ab und schreibt dann das Prozessabbild der Ausgänge auf die Ausgänge.
+Adressen bestehen aus Bereich, Byte und Bit. %I0.3 ist Eingang Byte 0, Bit 3. Ein Byte hat die Bits 0 bis 7. In TIA Portal kannst du die englische Schreibweise mit I und Q oder die deutsche mit E und A einstellen: %I0.3 entspricht %E0.3, %Q4.0 entspricht %A4.0.
+Achtung bei Öffner-Tastern: Ein Stopp-Taster als Öffner liefert im Ruhezustand eine 1 an den Eingang. Im Programm fragst du ihn darum mit einem Schließerkontakt ab.
+Beim SR-Baustein in TIA Portal hat das Rücksetzen Vorrang, der Eingang heißt dort R1. Beim RS-Baustein hat das Setzen Vorrang, der Eingang heißt S1. Merk dir: Der Eingang mit der 1 gewinnt. In der Norm IEC 61131-3 sind die Namen teilweise anders, und Quellen widersprechen sich hier. Prüf es in der TIA-Hilfe mit der Taste F1 auf dem Baustein.
+Die wichtigsten Timer sind TON für Einschaltverzögerung, TOF für Ausschaltverzögerung und TP für einen Impuls fester Länge. Zähler zählen Flanken: CTU vorwärts, CTD rückwärts, CTUD in beide Richtungen.
+Baustein: Ein- und Ausgänge in einer Zuordnungsliste mit Adresse und Bedeutung festlegen.
+Baustein: Bei Tastern klären: Schließer oder Öffner?
+Baustein: Die Logik zuerst als Wahrheitstabelle oder in Worten beschreiben.
+Baustein: In KOP oder FUP umsetzen.
+Baustein: Mit der Simulation testen, Signalzustände beobachten.
+Fehler: Öffner im Programm als Öffner abgefragt | Der Stopp-Taster liefert im Ruhezustand 1. Die doppelte Negation schaltet die Anlage sonst nie ein.
+Fehler: Bit 8 adressiert | Ein Byte hat nur die Bits 0 bis 7. Nach %I0.7 kommt %I1.0.
+Karte: Was bedeutet EVA? | Eingabe, Verarbeitung, Ausgabe.
+Karte: Was ist %I0.3? | Eingang, Byte 0, Bit 3.
+Karte: Welcher Eingang hat beim SR-Baustein in TIA Portal Vorrang? | R1, das Rücksetzen.
+Karte: Was macht TON? | Einschaltverzögerung: Der Ausgang wird erst nach der eingestellten Zeit 1.
+Karte: Was macht TOF? | Ausschaltverzögerung: Der Ausgang bleibt nach dem Abschalten noch die eingestellte Zeit 1.
+Karte: Nach %I0.7 kommt? | %I1.0
+=== ENDE ===
+
+=== LERNWERK ===
+Fach: Steuerungstechnik, Pneumatik und SPS
+Thema: GRAFCET nach DIN EN 60848 und Schrittketten
+Anker: Ein Werkzeugwechsel läuft immer in derselben Reihenfolge: Spindel stoppt, Werkzeug lösen, Magazin dreht, neues Werkzeug spannen. Jeder Schritt wartet, bis der vorige fertig ist. Genau so ist eine Schrittkette aufgebaut.
+Begriff: GRAFCET | Eine genormte grafische Darstellung von Abläufen nach DIN EN 60848.
+Begriff: Schritt | Ein Zustand im Ablauf, ein Rechteck mit Nummer.
+Begriff: Anfangsschritt | Der Schritt, der beim Start aktiv ist, ein Rechteck mit doppeltem Rahmen.
+Begriff: Transition | Der Übergang zwischen zwei Schritten mit einer Bedingung, ein Querstrich auf der Verbindungslinie.
+Begriff: Aktion | Was in einem Schritt passiert, ein Rechteck rechts neben dem Schritt.
+Begriff: Alternativverzweigung | Es wird genau einer von mehreren Wegen gegangen, einfache Linie.
+Begriff: Parallelverzweigung | Mehrere Wege laufen gleichzeitig, doppelte Linie.
+Merksatz: Schritt, Bedingung, Schritt, Bedingung. Ein Übergang schaltet nur, wenn der Schritt davor aktiv ist und die Bedingung erfüllt ist.
+Prinzip: Ein GRAFCET liest du von oben nach unten. Der Ablauf beginnt beim Anfangsschritt. Eine Transition schaltet, wenn der Schritt davor aktiv ist und ihre Bedingung wahr ist. Dann wird der nächste Schritt aktiv und der vorige inaktiv.
+Aktionen können kontinuierlich wirken, also nur solange der Schritt aktiv ist, oder gespeichert, also bei Aktivierung gesetzt und erst später an anderer Stelle zurückgesetzt.
+Bei einer Alternativverzweigung müssen sich die Bedingungen gegenseitig ausschließen, damit nur ein Weg gewählt wird. Eine Parallelverzweigung startet alle Zweige gleichzeitig. Weiter geht es erst, wenn alle Zweige ihren letzten Schritt erreicht haben.
+In TIA Portal kannst du Schrittketten mit der Sprache GRAPH programmieren oder mit Setzen und Rücksetzen von Schrittmerkern selbst bauen.
+Baustein: Ablauf in Worten aufschreiben, Schritt für Schritt.
+Baustein: Für jeden Schritt die Aktionen festlegen.
+Baustein: Für jeden Übergang die Bedingung festlegen, meist ein Sensor oder eine Zeit.
+Baustein: Verzweigungen prüfen: entweder oder, oder gleichzeitig?
+Baustein: Rücksprung zum Anfang einzeichnen und den Ablauf einmal gedanklich durchspielen.
+Fehler: Zwei Schritte ohne Transition dazwischen | Zwischen zwei Schritten muss immer eine Transition stehen, und zwischen zwei Transitionen immer ein Schritt.
+Karte: Wie wird der Anfangsschritt gezeichnet? | Als Rechteck mit doppeltem Rahmen.
+Karte: Wann schaltet eine Transition? | Wenn der vorherige Schritt aktiv und die Bedingung erfüllt ist.
+Karte: Wie wird eine Parallelverzweigung gezeichnet? | Mit einer waagerechten Doppellinie.
+Karte: Nach welcher Norm ist GRAFCET festgelegt? | DIN EN 60848.
+=== ENDE ===
+
+=== LERNWERK ===
+Fach: Automatisierung vertieft
+Thema: Regelungstechnik
+Anker: Duschen: Du stellst die Wunschtemperatur ein, fühlst das Wasser, und drehst nach, wenn es zu kalt oder zu warm ist. Du bist der Regler, dein Arm misst, der Hahn ist das Stellglied.
+Begriff: Regelung | Ein geschlossener Wirkungskreis: Die Regelgröße wird gemessen, mit dem Sollwert verglichen und nachgestellt.
+Begriff: Steuerung | Ein offener Wirkungsablauf ohne Rückmeldung.
+Begriff: Führungsgröße | Der Sollwert, Formelzeichen w.
+Begriff: Regelgröße | Der Istwert, der geregelt wird, Formelzeichen x.
+Begriff: Regeldifferenz | Sollwert minus Istwert, e = w − x.
+Begriff: Stellgröße | Was der Regler ausgibt, um die Strecke zu beeinflussen, Formelzeichen y.
+Begriff: Störgröße | Ein äußerer Einfluss, der die Regelgröße verändert, Formelzeichen z.
+Begriff: Regelstrecke | Der Teil der Anlage, in dem geregelt wird.
+Merksatz: Messen, vergleichen, stellen. Der Unterschied zur Steuerung ist die Rückmeldung.
+Prinzip: Bei einer Steuerung gibt man einen Befehl und hofft, dass das Ergebnis stimmt. Bei einer Regelung wird das Ergebnis gemessen und korrigiert. Darum gleicht eine Regelung Störungen aus.
+Der Regler bildet die Regeldifferenz e = w − x und berechnet daraus die Stellgröße. Wichtige Reglerarten: Der Zweipunktregler kennt nur ein und aus, wie ein Thermostat, und schwankt deshalb um den Sollwert. Der P-Regler reagiert proportional zur Abweichung, schnell, aber es bleibt eine Regeldifferenz. Der I-Regler summiert die Abweichung über die Zeit und beseitigt sie ganz, ist aber langsamer. Der D-Anteil reagiert auf die Änderungsgeschwindigkeit. Kombinationen heißen PI- und PID-Regler.
+Die Formelzeichen sind in DIN IEC 60050-351 festgelegt.
+Baustein: Regelgröße und Sollwert bestimmen.
+Baustein: Wie wird gemessen, womit wird gestellt?
+Baustein: Störgrößen überlegen.
+Baustein: Regelkreis als Blockbild zeichnen: Regler, Stellglied, Strecke, Messglied.
+Baustein: Passenden Regler wählen: Reicht ein Zweipunktregler, oder muss die Abweichung ganz verschwinden?
+Fehler: Steuerung und Regelung verwechselt | Ohne Messung und Rückführung ist es keine Regelung.
+Formel: Regeldifferenz | e = w − x | w = e + x; x = w − e
+Karte: Was ist der Unterschied zwischen Steuerung und Regelung? | Die Regelung misst den Istwert und führt ihn zurück, die Steuerung nicht.
+Karte: Formelzeichen der Regelgröße? | x
+Karte: Welcher Regler beseitigt die bleibende Regeldifferenz? | Der I-Regler, oder ein PI- oder PID-Regler.
+Karte: Beispiel für einen Zweipunktregler? | Ein Thermostat im Bügeleisen oder in der Heizung.
+=== ENDE ===
+
+=== LERNWERK ===
+Fach: Automatisierung vertieft
+Thema: Messtechnik
+Anker: Ein Teil gemessen mit dem Messschieber, nochmal mit der Bügelmessschraube, und schon sind die Werte verschieden. Messtechnik heißt: wissen, wie genau dein Wert wirklich ist.
+Begriff: Messen | Eine Größe mit einer Maßverkörperung vergleichen und als Zahl mit Einheit angeben.
+Begriff: Prüfen | Feststellen, ob ein Merkmal die Anforderung erfüllt, zum Beispiel mit einer Lehre gut oder Ausschuss.
+Begriff: Systematische Messabweichung | Eine Abweichung, die immer in dieselbe Richtung geht und korrigiert werden kann.
+Begriff: Zufällige Messabweichung | Eine Abweichung, die streut und sich durch Mehrfachmessung abschätzen lässt.
+Begriff: Messunsicherheit | Der Bereich, in dem der wahre Wert mit hoher Wahrscheinlichkeit liegt.
+Begriff: Kalibrieren | Die Abweichung eines Messgeräts feststellen und dokumentieren, ohne etwas zu verstellen.
+Begriff: Justieren | Ein Messgerät so einstellen, dass die Abweichung möglichst klein wird.
+Merksatz: Kalibrieren stellt fest, Justieren stellt ein.
+Prinzip: Jede Messung hat Abweichungen. Systematische kommen zum Beispiel von einem verstellten Nullpunkt oder von Wärme, zufällige von Ablesung und Antastung. Die Bezugstemperatur für Längenmessungen ist 20 °C. Ein warmes Werkstück misst sich größer.
+Als Faustregel sollte das Messmittel etwa zehnmal genauer sein als die Toleranz, die du prüfst. Für eine Toleranz von 0,05 mm reicht der Messschieber also nicht sicher, die Bügelmessschraube schon.
+Das Abbesche Prinzip sagt: Die Messstrecke soll in der Verlängerung der Maßverkörperung liegen. Die Bügelmessschraube erfüllt das, der Messschieber nicht. Darum ist sie genauer.
+In der Automatisierung messen Sensoren die Prozessgrößen. Ihre Kennwerte wie Messbereich, Auflösung und Genauigkeit stehen im Datenblatt.
+Baustein: Toleranz ansehen und daraus die nötige Genauigkeit ableiten.
+Baustein: Passendes Messmittel wählen.
+Baustein: Bedingungen prüfen: Temperatur, Sauberkeit, Messkraft.
+Baustein: Mehrfach messen und den Mittelwert bilden.
+Baustein: Ergebnis mit Unsicherheit bewerten.
+Fehler: Warmes Werkstück direkt nach dem Fräsen gemessen | Das Maß ist dann größer als bei 20 °C.
+Karte: Was ist der Unterschied zwischen Kalibrieren und Justieren? | Kalibrieren stellt die Abweichung fest, Justieren stellt das Gerät ein.
+Karte: Bezugstemperatur für Längenmessungen? | 20 °C
+Karte: Wie genau sollte ein Messmittel sein? | Etwa zehnmal genauer als die zu prüfende Toleranz.
+Karte: Welches Messmittel erfüllt das Abbesche Prinzip? | Die Bügelmessschraube.
+=== ENDE ===
+
+=== LERNWERK ===
+Fach: Automatisierung vertieft
+Thema: Robotik
+Anker: Ein 6-Achs-Roboter ist wie dein Arm: Schulter, Ellenbogen und Handgelenk. Und wie bei deiner 5-Achs-Fräse bestimmt die Steuerung, wo die Werkzeugspitze im Raum ist.
+Begriff: Knickarmroboter | Ein Roboter mit meist sechs Drehachsen, der jeden Punkt im Arbeitsraum mit jeder Ausrichtung anfahren kann.
+Begriff: TCP | Tool Center Point, der Arbeitspunkt an der Werkzeugspitze.
+Begriff: Werkzeugkoordinatensystem | Ein Koordinatensystem am Werkzeug mit dem TCP als Ursprung.
+Begriff: Werkobjekt | Ein Koordinatensystem am Werkstück oder an der Vorrichtung.
+Begriff: Teachen | Positionen anfahren und speichern, meist mit dem Handbediengerät.
+Begriff: RAPID | Die Programmiersprache der ABB-Roboter.
+Merksatz: MoveJ für schnell und frei, MoveL für gerade Linien, MoveC für Kreisbögen.
+Prinzip: Ein Roboterprogramm besteht aus Bewegungsbefehlen zu gespeicherten Punkten. Bei ABB heißen sie MoveJ für eine Achsbewegung, bei der der Weg nicht gerade sein muss, MoveL für eine lineare Bewegung des TCP und MoveC für einen Kreisbogen. Zu jedem Befehl gehören Zielpunkt, Geschwindigkeit, Zone und Werkzeug, zum Beispiel MoveL p10, v200, z10, tool1. Die Zone fine heißt: Punkt genau anfahren. Eine Zone wie z10 heißt: Der Roboter darf den Punkt im Abstand von 10 mm überschleifen.
+Wichtig ist das richtige Koordinatensystem. Ist der TCP falsch vermessen, stimmen alle Bahnen nicht. Mit einem Werkobjekt kannst du eine ganze Vorrichtung verschieben, ohne alle Punkte neu zu teachen, ähnlich wie beim Nullpunkt an der Fräse.
+Sicherheit geht vor: Im Handbetrieb fährt der Roboter mit reduzierter Geschwindigkeit, höchstens 250 mm/s, und nur solange der Zustimmtaster gehalten wird.
+Baustein: Aufgabe in Bewegungen zerlegen: anfahren, greifen, abfahren.
+Baustein: Werkzeug und Werkobjekt festlegen.
+Baustein: Punkte teachen.
+Baustein: Bewegungsart, Geschwindigkeit und Zone je Punkt wählen.
+Baustein: Langsam im Handbetrieb testen.
+Fehler: MoveJ in der Nähe des Werkstücks | Die Bahn ist dann nicht vorhersehbar. Nahe am Teil fährt man MoveL.
+Karte: Was ist der TCP? | Der Tool Center Point, die Werkzeugspitze.
+Karte: Welcher Befehl fährt eine gerade Linie? | MoveL
+Karte: Was bedeutet die Zone fine? | Der Punkt wird genau angefahren.
+Karte: Höchstgeschwindigkeit im Handbetrieb? | 250 mm/s
+=== ENDE ===
+
+=== LERNWERK ===
+Fach: Automatisierung vertieft
+Thema: Maschinensicherheit
+Anker: Die Schutztür an deiner Fräse: Geht sie auf, steht die Spindel. Dahinter steckt eine durchdachte Sicherheitskette aus Türschalter, Sicherheitsrelais und Abschaltung.
+Begriff: Risikobeurteilung | Das systematische Finden und Bewerten aller Gefährdungen einer Maschine nach DIN EN ISO 12100.
+Begriff: Drei-Stufen-Methode | Erst inhärent sicher konstruieren, dann technische Schutzmaßnahmen, zuletzt Benutzerinformation.
+Begriff: Performance Level | Maß für die Zuverlässigkeit einer Sicherheitsfunktion nach DIN EN ISO 13849-1, Stufen a bis e.
+Begriff: Not-Halt | Eine Funktion, die im Notfall eine Gefahr abwendet. Sie ersetzt keine Schutzeinrichtung.
+Begriff: CE-Kennzeichnung | Das Zeichen, mit dem der Hersteller erklärt, dass die Maschine die EU-Vorschriften erfüllt.
+Merksatz: Gefahr beseitigen vor absichern vor warnen.
+Prinzip: Bevor eine Maschine in der EU verkauft wird, muss der Hersteller eine Risikobeurteilung machen, die Gefahren mindern, eine Betriebsanleitung schreiben, eine Konformitätserklärung ausstellen und das CE-Zeichen anbringen.
+Die Gefahren mindert man in drei Stufen: Erst konstruktiv vermeiden, zum Beispiel durch kleinere Kräfte. Dann technisch absichern, zum Beispiel mit Schutztüren, Lichtgittern und Zweihandbedienung. Was bleibt, wird in der Betriebsanleitung beschrieben.
+Wie zuverlässig eine Sicherheitsfunktion sein muss, ergibt sich aus dem Risikographen nach DIN EN ISO 13849-1 mit drei Fragen: Wie schwer ist die Verletzung, wie oft ist man der Gefahr ausgesetzt, und kann man ausweichen? Das Ergebnis ist der erforderliche Performance Level von a bis e.
+Rechtslage, geprüft im Oktober 2026: Bisher gilt die Maschinenrichtlinie 2006/42/EG. Sie wird durch die Maschinenverordnung (EU) 2023/1230 abgelöst. Die Verordnung gilt ab dem 20. Januar 2027 direkt in allen EU-Staaten, ohne Umsetzung in nationales Recht. Maschinen, die bis zum 19. Januar 2027 in Verkehr gebracht werden, dürfen noch nach der Richtlinie behandelt werden. Neu sind vor allem Anforderungen an Software, Schutz gegen Manipulation und Cyberangriffe sowie an selbstlernende Systeme. Die Betriebsanleitung darf digital geliefert werden, auf Wunsch muss es sie aber auf Papier geben.
+Baustein: Grenzen der Maschine festlegen: Verwendung, Raum, Zeit.
+Baustein: Gefährdungen finden: Quetschen, Schneiden, Einziehen, Strom, Lärm.
+Baustein: Risiko einschätzen und bewerten.
+Baustein: Maßnahmen nach der Drei-Stufen-Methode wählen.
+Baustein: Prüfen, ob die Maßnahme wirkt und keine neue Gefahr schafft.
+Fehler: Not-Halt als Schutzeinrichtung betrachtet | Not-Halt ist eine ergänzende Maßnahme und ersetzt keine Schutztür.
+Karte: Welche Norm regelt die Risikobeurteilung? | DIN EN ISO 12100.
+Karte: Stufen des Performance Level? | a bis e, e ist die höchste.
+Karte: Ab wann gilt die Maschinenverordnung (EU) 2023/1230? | Ab dem 20. Januar 2027.
+Karte: Welche Regel löst die Maschinenverordnung ab? | Die Maschinenrichtlinie 2006/42/EG.
+Karte: Reihenfolge der Drei-Stufen-Methode? | Konstruktiv vermeiden, technisch schützen, über Restrisiken informieren.
+Quelle: Datum der Maschinenverordnung geprüft mit IHK Nürnberg, ABB und WKO, Oktober 2026.
+=== ENDE ===
+
+=== LERNWERK ===
+Fach: Automatisierung vertieft
+Thema: Netzwerktechnik
+Anker: Wie eine Postanschrift: Die IP-Adresse sagt, in welcher Straße und in welchem Haus ein Gerät wohnt. Der Switch ist der Briefträger in der Straße, der Router bringt Post in andere Straßen.
+Begriff: OSI-Modell | Ein Modell mit sieben Schichten, das beschreibt, wie Daten von einer Anwendung bis zum Kabel und zurück kommen.
+Begriff: IP-Adresse | Die logische Adresse eines Geräts im Netz, bei IPv4 vier Zahlen von 0 bis 255.
+Begriff: Subnetzmaske | Legt fest, welcher Teil der IP-Adresse das Netz und welcher das Gerät kennzeichnet.
+Begriff: MAC-Adresse | Die feste Hardware-Adresse einer Netzwerkkarte.
+Begriff: Switch | Verbindet Geräte im selben Netz und arbeitet mit MAC-Adressen.
+Begriff: Router | Verbindet verschiedene Netze und arbeitet mit IP-Adressen.
+Begriff: PROFINET | Ein Industrial-Ethernet-Standard für die Kommunikation zwischen SPS und Feldgeräten.
+Merksatz: Gleiches Netz, gleicher Netzteil der Adresse. Sonst braucht es einen Router.
+Prinzip: Zwei Geräte können sich nur direkt erreichen, wenn sie im selben Netz liegen. Bei der Subnetzmaske 255.255.255.0 müssen die ersten drei Zahlen der IP-Adresse gleich sein, die letzte unterscheidet die Geräte. 192.168.0.10 und 192.168.0.20 sind im selben Netz, 192.168.1.20 nicht.
+In einem solchen Netz gibt es 254 nutzbare Adressen, weil die erste das Netz selbst und die letzte die Broadcast-Adresse ist.
+Bei PROFINET ist die SPS der IO-Controller, die Feldgeräte sind IO-Devices. Jedes Gerät bekommt neben der IP-Adresse einen Gerätenamen. Stimmt der Name im Gerät nicht mit dem Projekt in TIA Portal überein, findet die SPS das Gerät nicht.
+Baustein: IP-Adressen und Subnetzmaske aller Geräte auflisten.
+Baustein: Prüfen, ob alle im selben Netz liegen.
+Baustein: Keine Adresse doppelt vergeben.
+Baustein: Bei PROFINET Gerätenamen zuweisen und mit dem Projekt vergleichen.
+Baustein: Verbindung mit einem Ping oder mit „Erreichbare Teilnehmer“ in TIA Portal prüfen.
+Fehler: Adresse doppelt vergeben | Dann sind beide Geräte nicht zuverlässig erreichbar.
+Karte: Wie viele Schichten hat das OSI-Modell? | Sieben.
+Karte: Womit arbeitet ein Switch? | Mit MAC-Adressen, im selben Netz.
+Karte: Liegen 192.168.0.10 und 192.168.1.10 mit Maske 255.255.255.0 im selben Netz? | Nein, die dritte Zahl ist verschieden.
+Karte: Wie viele Geräte passen in ein Netz mit Maske 255.255.255.0? | 254
+=== ENDE ===

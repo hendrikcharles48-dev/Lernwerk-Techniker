@@ -88,6 +88,7 @@ function countFor(v, T, items, tid) {
 function renderTab(el, tab, tid, T, items, f) {
   const color = f.farbe;
   let h = '';
+  if (tab === 'prinzip' && st.isIntroOnly(tid) && st.status(tid) === 'geplant') h += `<div class="fb info intro-hint"><b>Einführung.</b> Das Thema ist noch nicht dran. Hier stehen schon die Grundlagen. Wenn es im Unterricht kommt, ergänzt du es über Einfügen.</div>`;
   if (tab === 'prinzip') {
     const nichts = !T.anker.length && !T.begriffe.length && !T.merksaetze.length && !T.prinzip.length && !T.notizen.length;
     if (nichts) h += emptyContent(tid);

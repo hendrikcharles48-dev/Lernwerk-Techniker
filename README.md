@@ -26,6 +26,14 @@ Alle Lerndaten, Fotos und eingefügten Inhalte bleiben auf dem Gerät (IndexedDB
 
 **Prüfen:** Du rechnest, die App prüft jeden Schritt. Toleranz 1 Prozent, gezielte Hinweise bei Faktor 1000 (Einheit), Vorzeichen, RAD statt DEG, Quadrant beim Arcustangens, Kehrwert, Wurzel vergessen, zu früh gerundet. Umstellungen werden mit Zahlenproben geprüft, nicht mit eval. Tipp und Lösung bleiben zu, bis du sie öffnest.
 
+## Einführungen für alle Fächer und Themen
+
+Jedes Fach hat eine kurze Einleitung (`inhalte/faecher.json`), die oben auf der Fachseite steht und vorgelesen werden kann. Jedes Thema hat eine Einführung (`inhalte/einfuehrung/`) mit Bild aus deiner Welt, Fachbegriffen, Merksatz, Grundlagen, Herangehensweise in Bausteinen, typischen Fehlern, Karten und, wo es passt, Formeln mit allen Umstellungen.
+
+Themen, die nur die Einführung haben, bleiben in der Gruppe „Kommt noch“ und zeigen „Einführung lesen“. Sobald du über Einfügen etwas ergänzt, ein Lernzettel oder Foto dazukommt oder du das Thema als aktuell markierst, rückt es nach oben. Karten aus Einführungen kommen erst in „Heute dran“, wenn das Thema aktuell ist oder zu einer eingetragenen Klassenarbeit gehört.
+
+Wo Bücher oder Normen sich widersprechen, nennt die Einführung beide Angaben und markiert das mit „Achtung“. Beispiele: Eisen-Kohlenstoff-Diagramm (723 oder 727 °C, 2,06 oder 2,11 Prozent), Allgemeintoleranzen (ISO 2768-2 ersetzt durch ISO 22081 und DIN 2769), Oberflächenangaben (ISO 1302 ersetzt durch ISO 21920-1), Kennbuchstaben (DIN 40719 alt, DIN EN IEC 81346-2 neu), SR- und RS-Speicher in TIA Portal, FMEA (Risikoprioritätszahl oder Aufgabenpriorität), ISO 9001 (Fassung 2015 und 2026), Maschinenverordnung (EU) 2023/1230 ab 20. Januar 2027.
+
 ## Themen und Status
 
 | Fach | Vorhanden | Geplant |
@@ -91,7 +99,7 @@ Quelle: …
 ## Ein Thema als Inhaltsdatei anlegen
 
 1. Datei unter `inhalte/` anlegen, zum Beispiel `inhalte/elektrische-leistung.txt`, im Lernwerk-Block-Format.
-2. Dateinamen in `inhalte/index.json` eintragen.
+2. Dateinamen in `inhalte/index.json` eintragen. Einführungen bekommen dort `"art": "einfuehrung"`, damit das Thema in „Kommt noch“ bleibt.
 3. Fach und Thema müssen zu einem Eintrag in `lehrplan.json` passen, oder dort beim Thema `"inhalt": "inhalte/elektrische-leistung.txt"` setzen.
 4. Datei in `sw.js` in die Liste `FILES` aufnehmen und `VERSION` erhöhen.
 5. Tests laufen lassen: `node tests/parser.test.mjs`.
@@ -123,6 +131,6 @@ Updates: Bei jeder Änderung `VERSION` in `sw.js` erhöhen. Die App zeigt dann �
 - `index.html`, `css/app.css`, `js/` (ES-Module, keine externen Bibliotheken), `lehrplan.json`, `inhalte/`, `trainer/`
 - `manifest.webmanifest` und `sw.js` für Home-Bildschirm und Offline
 - IndexedDB für Inhalte, Lernzettel, Fotos und Fortschritt, localStorage nur für kleine Einstellungen; `navigator.storage.persist()` wird angefragt
-- Tests: `node tests/parser.test.mjs` (Parser mit den Beispielblöcken in `tests/beispiel-bloecke.txt`, Formel-Parser, Zahlenprüfung, Wiederholsystem)
+- Tests: `node tests/parser.test.mjs` (Parser mit den Beispielblöcken in `tests/beispiel-bloecke.txt`, Formel-Parser, Zahlenprüfung, Wiederholsystem) und `node tests/inhalte.test.mjs` (alle Inhaltsdateien lesbar, jedes Lehrplan-Thema hat eine Einführung, alle Formel-Umstellungen mathematisch geprüft, keine Pfeile und Abkürzungen)
 
 Im Zweifel gilt dein Tabellenbuch und der Unterricht.

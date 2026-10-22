@@ -1,0 +1,535 @@
+=== LERNWERK ===
+Fach: Projektmanagement und Datenverarbeitung
+Thema: Lasten- und Pflichtenheft
+Anker: Ein Kunde bringt eine Zeichnung und sagt, was das Teil können muss. Du überlegst dir, wie du es fertigst: Maschine, Spannmittel, Werkzeuge. Das Erste ist das Lastenheft, das Zweite das Pflichtenheft.
+Begriff: Lastenheft | Beschreibt alle Anforderungen des Auftraggebers: was und wofür.
+Begriff: Pflichtenheft | Beschreibt, wie der Auftragnehmer die Anforderungen umsetzt: wie und womit.
+Begriff: Anforderung | Eine Eigenschaft oder Leistung, die das Ergebnis haben muss.
+Begriff: Abnahme | Die Prüfung durch den Auftraggeber, ob das Ergebnis die Anforderungen erfüllt.
+Merksatz: Lastenheft vom Kunden: Was. Pflichtenheft vom Lieferanten: Wie.
+Prinzip: Das Lastenheft schreibt der Auftraggeber. Es enthält die Ausgangslage, die Ziele und alle Anforderungen, möglichst messbar. Das Pflichtenheft schreibt der Auftragnehmer als Antwort darauf. Es beschreibt die technische Lösung und wird oft Teil des Vertrags. Bei der Abnahme vergleicht man das Ergebnis mit beiden.
+Gute Anforderungen sind eindeutig und prüfbar. „Die Anlage soll schnell sein“ ist schlecht, „Taktzeit höchstens 12 Sekunden“ ist gut. Oft unterscheidet man Muss-Kriterien und Kann-Kriterien.
+Ziele formulierst du am besten SMART: spezifisch, messbar, attraktiv, realistisch und terminiert.
+Baustein: Ausgangslage und Ziel beschreiben.
+Baustein: Anforderungen sammeln und in Muss und Kann einteilen.
+Baustein: Jede Anforderung messbar formulieren.
+Baustein: Rahmenbedingungen festhalten: Kosten, Termine, Normen.
+Baustein: Abnahmekriterien festlegen.
+Fehler: Lösung ins Lastenheft geschrieben | Das Lastenheft sagt, was gebraucht wird. Wie es gelöst wird, gehört ins Pflichtenheft.
+Karte: Wer schreibt das Lastenheft? | Der Auftraggeber.
+Karte: Wer schreibt das Pflichtenheft? | Der Auftragnehmer.
+Karte: Was bedeutet SMART? | Spezifisch, messbar, attraktiv, realistisch, terminiert.
+=== ENDE ===
+
+=== LERNWERK ===
+Fach: Projektmanagement und Datenverarbeitung
+Thema: Projektstrukturplan
+Anker: Wie eine Stückliste für eine Baugruppe: Ganz oben die Maschine, darunter die Baugruppen, ganz unten die Einzelteile. Im Projektstrukturplan sind die Einzelteile die Arbeitspakete.
+Begriff: Projektstrukturplan | Die hierarchische Gliederung aller Aufgaben eines Projekts, kurz PSP.
+Begriff: Teilprojekt | Ein größerer Teil des Projekts, der weiter unterteilt wird.
+Begriff: Arbeitspaket | Die kleinste Einheit im PSP, mit klarer Aufgabe, Verantwortlichem, Dauer und Kosten.
+Merksatz: Was nicht im Projektstrukturplan steht, wird nicht gemacht.
+Prinzip: Der Projektstrukturplan zerlegt das Projekt von oben nach unten, bis überschaubare Arbeitspakete entstehen. Er zeigt, was zu tun ist, noch nicht wann.
+Man kann nach Objekten gliedern, also nach Baugruppen, nach Funktionen wie Konstruktion, Fertigung und Montage, oder nach Phasen wie Planung, Umsetzung und Test. Oft wird gemischt.
+Jedes Arbeitspaket bekommt eine Nummer, einen Verantwortlichen und ein klares Ergebnis. Aus dem PSP entstehen danach Terminplan und Kostenplan.
+Baustein: Projektziel oben hinschreiben.
+Baustein: Gliederungsart wählen: nach Objekten, Funktionen oder Phasen.
+Baustein: Bis zu Arbeitspaketen herunterbrechen.
+Baustein: Arbeitspakete nummerieren und Verantwortliche zuordnen.
+Baustein: Auf Vollständigkeit prüfen.
+Karte: Was ist die kleinste Einheit im Projektstrukturplan? | Das Arbeitspaket.
+Karte: Zeigt der PSP schon Termine? | Nein, er zeigt nur, was zu tun ist.
+Karte: Drei Arten zu gliedern? | Nach Objekten, nach Funktionen, nach Phasen.
+=== ENDE ===
+
+=== LERNWERK ===
+Fach: Projektmanagement und Datenverarbeitung
+Thema: Gantt, Meilensteine, kritischer Pfad
+Anker: Beim Umbau einer Maschine kann die Steuerung erst angeschlossen werden, wenn die Mechanik steht. Manche Arbeiten haben Luft, andere dürfen sich keinen Tag verspäten. Die ohne Luft bilden den kritischen Pfad.
+Begriff: Gantt-Diagramm | Ein Balkendiagramm, das Vorgänge auf einer Zeitachse zeigt.
+Begriff: Meilenstein | Ein wichtiges Ereignis ohne Dauer, zum Beispiel Abnahme der Konstruktion.
+Begriff: Netzplan | Eine Darstellung der Vorgänge mit ihren Abhängigkeiten und Zeiten.
+Begriff: Puffer | Die Zeit, um die sich ein Vorgang verschieben darf, ohne das Projektende zu verschieben.
+Begriff: Kritischer Pfad | Die Kette von Vorgängen ohne Puffer. Jede Verzögerung dort verschiebt das Projektende.
+Merksatz: Vorwärts rechnen für früheste Zeiten, rückwärts für späteste. Kein Puffer heißt kritisch.
+Prinzip: Im Netzplan hat jeder Vorgang eine Dauer und Vorgänger. Bei der Vorwärtsrechnung bestimmst du für jeden Vorgang den frühesten Anfang und das früheste Ende. Hat ein Vorgang mehrere Vorgänger, beginnt er nach dem spätesten von ihnen.
+Bei der Rückwärtsrechnung vom Projektende aus bestimmst du spätestes Ende und spätesten Anfang. Die Differenz aus spätestem und frühestem Anfang ist der Gesamtpuffer. Alle Vorgänge mit Puffer null bilden den kritischen Pfad.
+Das Gantt-Diagramm zeigt dieselben Vorgänge als Balken und ist für die tägliche Steuerung übersichtlicher. Meilensteine zeichnet man als Raute.
+Baustein: Vorgänge mit Dauer und Vorgängern auflisten.
+Baustein: Vorwärtsrechnung: frühester Anfang und frühestes Ende.
+Baustein: Rückwärtsrechnung: spätestes Ende und spätester Anfang.
+Baustein: Puffer berechnen.
+Baustein: Kritischen Pfad markieren und Meilensteine setzen.
+Fehler: Beim Zusammenlauf den kleinsten Wert genommen | Vorwärts gilt das größte früheste Ende der Vorgänger, rückwärts der kleinste späteste Anfang der Nachfolger.
+Formel: Frühestes Ende | FEZ = FAZ + D | FAZ = FEZ − D; D = FEZ − FAZ
+Formel: Spätester Anfang | SAZ = SEZ − D | SEZ = SAZ + D
+Formel: Gesamtpuffer | GP = SAZ − FAZ | SAZ = GP + FAZ; FAZ = SAZ − GP
+Karte: Wie lang ist ein Meilenstein? | Er hat keine Dauer.
+Karte: Was ist der kritische Pfad? | Die Kette der Vorgänge ohne Puffer.
+Karte: Wie berechnet man den Gesamtpuffer? | Spätester Anfang minus frühester Anfang.
+=== ENDE ===
+
+=== LERNWERK ===
+Fach: Projektmanagement und Datenverarbeitung
+Thema: Risiko- und Stakeholderanalyse
+Anker: Vor einem schwierigen Teil überlegst du: Was kann schiefgehen? Werkzeugbruch, Spannmittel rutscht, Material fehlt. Und wer muss Bescheid wissen? Meister, Qualität, Kunde. Das sind Risikoanalyse und Stakeholderanalyse.
+Begriff: Risiko | Ein mögliches Ereignis mit negativer Wirkung auf das Projekt.
+Begriff: Eintrittswahrscheinlichkeit | Wie wahrscheinlich das Risiko eintritt.
+Begriff: Tragweite | Wie groß der Schaden wäre.
+Begriff: Stakeholder | Alle Personen und Gruppen, die vom Projekt betroffen sind oder es beeinflussen können.
+Merksatz: Risiko ist Wahrscheinlichkeit mal Schaden. Die großen zuerst angehen.
+Prinzip: Bei der Risikoanalyse sammelst du mögliche Risiken, schätzt für jedes Wahrscheinlichkeit und Tragweite ab, zum Beispiel auf einer Skala von 1 bis 5, und multiplizierst beides. In einer Risikomatrix siehst du, welche Risiken du sofort angehen musst.
+Für jedes wichtige Risiko legst du eine Maßnahme fest: vermeiden, vermindern, übertragen, zum Beispiel durch eine Versicherung, oder bewusst akzeptieren.
+Bei der Stakeholderanalyse listest du alle Beteiligten auf und bewertest ihren Einfluss und ihre Einstellung zum Projekt. Wer viel Einfluss hat und skeptisch ist, braucht besondere Aufmerksamkeit.
+Baustein: Risiken sammeln, am besten im Team.
+Baustein: Wahrscheinlichkeit und Tragweite bewerten.
+Baustein: Risikowert berechnen und sortieren.
+Baustein: Maßnahmen festlegen und Verantwortliche benennen.
+Baustein: Stakeholder auflisten und nach Einfluss und Einstellung einordnen.
+Formel: Risikowert | R = W · S | W = R / S; S = R / W
+Karte: Vier Strategien gegen Risiken? | Vermeiden, vermindern, übertragen, akzeptieren.
+Karte: Was ist ein Stakeholder? | Jemand, der vom Projekt betroffen ist oder es beeinflussen kann.
+Karte: Wie berechnet man den Risikowert? | Eintrittswahrscheinlichkeit mal Tragweite.
+=== ENDE ===
+
+=== LERNWERK ===
+Fach: Projektmanagement und Datenverarbeitung
+Thema: Zahlensysteme
+Anker: Der Kilometerzähler im Auto dreht nach der 9 auf die nächste Stelle. Im Dualsystem passiert das schon nach der 1, im Hexadezimalsystem erst nach F.
+Begriff: Dezimalsystem | Zahlensystem mit der Basis 10 und den Ziffern 0 bis 9.
+Begriff: Dualsystem | Zahlensystem mit der Basis 2 und den Ziffern 0 und 1, auch Binärsystem.
+Begriff: Hexadezimalsystem | Zahlensystem mit der Basis 16 und den Ziffern 0 bis 9 und A bis F.
+Begriff: Bit | Die kleinste Informationseinheit, 0 oder 1.
+Begriff: Byte | Acht Bit, Wertebereich 0 bis 255.
+Merksatz: Vier Bit sind eine Hexziffer. Ein Byte sind zwei Hexziffern.
+Prinzip: In jedem Stellenwertsystem ist eine Stelle das Vielfache der Basis. Im Dualsystem haben die Stellen von rechts die Werte 1, 2, 4, 8, 16, 32, 64, 128. 1101 dual ist also 8 plus 4 plus 1 gleich 13.
+Von dezimal nach dual teilst du immer wieder durch 2 und schreibst die Reste von unten nach oben.
+Von dual nach hexadezimal bildest du von rechts Vierergruppen. Jede Gruppe ist eine Hexziffer: 1111 ist F, 1010 ist A.
+In der SPS begegnen dir Byte, Wort mit 16 Bit und Doppelwort mit 32 Bit. Hexwerte schreibt man dort mit 16# davor, zum Beispiel 16#FF.
+Baustein: Stellenwerte der Basis aufschreiben.
+Baustein: Nach dual: durch 2 teilen, Reste von unten lesen.
+Baustein: Nach dezimal: Ziffern mal Stellenwert addieren.
+Baustein: Zwischen dual und hex: Vierergruppen von rechts bilden.
+Fehler: Reste in falscher Reihenfolge gelesen | Der erste Rest ist die letzte Stelle rechts.
+Karte: 13 dezimal in dual? | 1101
+Karte: 255 dezimal in hexadezimal? | FF
+Karte: Wie viele Bit hat ein Byte? | 8
+Karte: 1010 dual in hexadezimal? | A
+=== ENDE ===
+
+=== LERNWERK ===
+Fach: Projektmanagement und Datenverarbeitung
+Thema: Tabellenkalkulation
+Anker: Eine Werkzeugstandzeit-Liste in Excel: Einmal die Formel geschrieben, nach unten gezogen, und für jedes Werkzeug ist alles ausgerechnet.
+Begriff: Zellbezug | Die Adresse einer Zelle, zum Beispiel B3.
+Begriff: Relativer Bezug | Ändert sich beim Kopieren mit, zum Beispiel A1.
+Begriff: Absoluter Bezug | Bleibt beim Kopieren fest, mit Dollarzeichen, zum Beispiel $A$1.
+Begriff: Funktion | Ein fertiger Rechenbefehl, zum Beispiel SUMME oder WENN.
+Merksatz: Dollar macht fest. Formeln beginnen mit Gleichheitszeichen.
+Prinzip: Jede Formel beginnt mit einem Gleichheitszeichen. Kopierst du eine Formel nach unten, passen sich relative Bezüge an. Soll ein Bezug fest bleiben, zum Beispiel ein Stundensatz in einer Zelle, setzt du Dollarzeichen davor. In Excel schaltest du mit der Taste F4 zwischen den Bezugsarten um.
+Wichtige Funktionen: SUMME und MITTELWERT für Bereiche, WENN für Entscheidungen, zum Beispiel =WENN(B2>100;"zu hoch";"ok"), und SVERWEIS oder XVERWEIS zum Nachschlagen in Tabellen. In der deutschen Version trennt man die Teile mit Semikolon.
+Baustein: Tabelle mit Überschriften anlegen.
+Baustein: Formel einmal schreiben und testen.
+Baustein: Feste Werte absolut setzen.
+Baustein: Formel kopieren und Stichproben prüfen.
+Baustein: Diagramm erstellen, wenn es den Überblick verbessert.
+Fehler: Fester Wert relativ bezogen | Beim Kopieren rutscht der Bezug mit und zeigt auf eine leere Zelle.
+Karte: Wie schreibt man einen absoluten Bezug auf A1? | $A$1
+Karte: Womit beginnt jede Formel? | Mit einem Gleichheitszeichen.
+Karte: Trennzeichen in deutschen Excel-Funktionen? | Semikolon.
+=== ENDE ===
+
+=== LERNWERK ===
+Fach: Instandhaltung und Arbeitssicherheit
+Thema: Instandhaltung nach DIN 31051
+Anker: Kühlschmierstoff auffüllen, Führungen schmieren, Spindel auf Geräusche prüfen, defekten Sensor tauschen, Abstreifer verbessern: Das sind die vier Seiten der Instandhaltung an deiner Fräse.
+Begriff: Instandhaltung | Alle Maßnahmen, die eine Anlage funktionsfähig halten oder wieder funktionsfähig machen.
+Begriff: Wartung | Maßnahmen, die den Abbau des Abnutzungsvorrats verzögern, zum Beispiel Schmieren und Reinigen.
+Begriff: Inspektion | Maßnahmen, die den Istzustand feststellen und beurteilen, zum Beispiel Messen und Prüfen.
+Begriff: Instandsetzung | Maßnahmen, die eine fehlerhafte Einheit wieder funktionsfähig machen, zum Beispiel Teile tauschen.
+Begriff: Verbesserung | Maßnahmen, die Zuverlässigkeit, Instandhaltbarkeit oder Sicherheit erhöhen, ohne die Funktion zu ändern.
+Begriff: Abnutzungsvorrat | Der Vorrat an möglicher Funktionserfüllung, der sich mit der Zeit abbaut.
+Merksatz: Wartung, Inspektion, Instandsetzung, Verbesserung: die vier Grundmaßnahmen.
+Prinzip: DIN 31051 teilt die Instandhaltung in vier Grundmaßnahmen. Wartung verlangsamt die Abnutzung, Inspektion stellt fest, wie es um die Anlage steht, Instandsetzung repariert, Verbesserung macht die Anlage dauerhaft besser.
+Bei den Strategien unterscheidet man: Ausfallbedingt wird erst repariert, wenn etwas kaputt ist. Vorbeugend wird nach festen Zeiten oder Laufstunden getauscht. Zustandsorientiert wird gemessen, zum Beispiel Schwingungen oder Temperatur, und gehandelt, wenn Grenzwerte erreicht werden. Vorausschauend wertet man solche Daten aus, um Ausfälle vorherzusagen.
+Welche Strategie passt, hängt von den Kosten eines Ausfalls ab: Bei einem Engpass in der Fertigung lohnt sich mehr Aufwand.
+Baustein: Maßnahme der richtigen Grundmaßnahme zuordnen.
+Baustein: Ausfallfolgen der Anlage einschätzen.
+Baustein: Strategie wählen.
+Baustein: Plan mit Intervallen, Zuständigen und Dokumentation erstellen.
+Fehler: Inspektion und Wartung verwechselt | Inspektion stellt nur fest, Wartung tut etwas gegen die Abnutzung.
+Karte: Die vier Grundmaßnahmen nach DIN 31051? | Wartung, Inspektion, Instandsetzung, Verbesserung.
+Karte: Zu welcher Grundmaßnahme gehört Schmieren? | Wartung.
+Karte: Zu welcher Grundmaßnahme gehört das Messen der Spindelschwingung? | Inspektion.
+Karte: Was heißt zustandsorientierte Instandhaltung? | Man handelt, wenn gemessene Werte einen Grenzwert erreichen.
+=== ENDE ===
+
+=== LERNWERK ===
+Fach: Instandhaltung und Arbeitssicherheit
+Thema: Arbeitssicherheit
+Anker: An der Fräse trägst du eine Schutzbrille, aber vorher sorgt die geschlossene Kabine dafür, dass gar keine Späne fliegen. Erst die Technik, dann die Brille: Das ist das STOP-Prinzip.
+Begriff: Arbeitsschutzgesetz | Das Gesetz, das den Arbeitgeber verpflichtet, für sichere Arbeit zu sorgen.
+Begriff: Gefährdungsbeurteilung | Die Pflicht des Arbeitgebers, Gefährdungen am Arbeitsplatz zu ermitteln, zu bewerten und Maßnahmen festzulegen.
+Begriff: STOP-Prinzip | Die Rangfolge der Schutzmaßnahmen: Substitution, technisch, organisatorisch, persönlich.
+Begriff: Unterweisung | Die Schulung der Beschäftigten über Gefahren und Schutzmaßnahmen.
+Begriff: Berufsgenossenschaft | Die gesetzliche Unfallversicherung für Betriebe.
+Merksatz: Ersetzen vor Technik vor Organisation vor Schutzausrüstung.
+Prinzip: Der Arbeitgeber ist verantwortlich. Er muss nach dem Arbeitsschutzgesetz eine Gefährdungsbeurteilung machen, dokumentieren und die Beschäftigten unterweisen. Nach der Unfallverhütungsvorschrift DGUV Vorschrift 1 muss die Unterweisung mindestens einmal im Jahr stattfinden und dokumentiert werden.
+Schutzmaßnahmen wählst du nach dem STOP-Prinzip: Erst die Gefahr ersetzen, zum Beispiel durch einen weniger gefährlichen Kühlschmierstoff. Dann technische Maßnahmen wie Absaugung und Schutztüren. Dann organisatorische wie Arbeitsanweisungen und Pausen. Zuletzt persönliche Schutzausrüstung.
+Sicherheitszeichen haben feste Farben: Rot heißt Verbot oder Brandschutz, Gelb heißt Warnung, Blau heißt Gebot, Grün heißt Rettung und Erste Hilfe.
+Als Techniker wirst du oft Vorgesetzter. Dann trägst du Verantwortung dafür, dass Regeln eingehalten werden.
+Baustein: Gefährdungen am Arbeitsplatz ermitteln.
+Baustein: Risiko bewerten.
+Baustein: Maßnahmen nach dem STOP-Prinzip festlegen.
+Baustein: Umsetzen, unterweisen, dokumentieren.
+Baustein: Wirksamkeit prüfen.
+Fehler: Gleich zur Schutzausrüstung gegriffen | PSA ist die letzte Stufe. Erst prüfen, ob man die Gefahr beseitigen oder technisch abschirmen kann.
+Karte: Wofür steht STOP? | Substitution, technische, organisatorische, persönliche Maßnahmen.
+Karte: Wie oft muss mindestens unterwiesen werden? | Einmal im Jahr, nach DGUV Vorschrift 1.
+Karte: Was bedeutet ein blaues Sicherheitszeichen? | Ein Gebot, zum Beispiel Schutzbrille tragen.
+Karte: Wer muss die Gefährdungsbeurteilung machen? | Der Arbeitgeber.
+=== ENDE ===
+
+=== LERNWERK ===
+Fach: Führung und Personal
+Thema: Führungsstile
+Anker: Ein Trainer im Baseball, der jedem Spieler jeden Wurf vorschreibt, führt anders als einer, der mit dem Team die Taktik bespricht. Beides kann passen, je nach Spieler und Lage.
+Begriff: Autoritärer Führungsstil | Die Führungskraft entscheidet allein, die Mitarbeiter führen aus.
+Begriff: Kooperativer Führungsstil | Die Führungskraft bezieht die Mitarbeiter in Entscheidungen ein, auch demokratisch genannt.
+Begriff: Laissez-faire | Die Führungskraft lässt die Mitarbeiter weitgehend allein entscheiden.
+Begriff: Situatives Führen | Der Führungsstil wird an die Lage und an den Entwicklungsstand des Mitarbeiters angepasst.
+Merksatz: Es gibt keinen besten Stil, nur einen passenden.
+Prinzip: Die klassischen Stile nach Kurt Lewin sind autoritär, kooperativ und laissez-faire. Autoritär ist schnell und klar, aber demotiviert auf Dauer. Kooperativ dauert länger, bringt aber mehr Ideen und Motivation. Laissez-faire funktioniert nur mit sehr erfahrenen, selbstständigen Leuten.
+Das situative Führen nach Hersey und Blanchard sagt: Einem neuen Mitarbeiter gibst du klare Anweisungen, einem erfahrenen gibst du Verantwortung. Mit wachsender Erfahrung wechselt der Stil von anweisen über überzeugen und beteiligen bis zum Delegieren.
+In einer Gefahrensituation, zum Beispiel bei einem Unfall, ist eine klare Anweisung richtig. Bei der Planung einer Verbesserung ist Beteiligung besser.
+Baustein: Lage einschätzen: Zeitdruck, Gefahr, Tragweite.
+Baustein: Mitarbeiter einschätzen: Können und Wollen.
+Baustein: Passenden Stil wählen.
+Baustein: Entscheidung und Gründe klar kommunizieren.
+Karte: Drei Führungsstile nach Lewin? | Autoritär, kooperativ, laissez-faire.
+Karte: Was ist situatives Führen? | Den Stil an Lage und Reife des Mitarbeiters anpassen.
+Karte: Wann passt ein autoritärer Stil? | In Notfällen und bei großem Zeitdruck.
+=== ENDE ===
+
+=== LERNWERK ===
+Fach: Führung und Personal
+Thema: Motivation
+Anker: Du gehst zum Krafttraining, weil es dir Spaß macht und du stärker werden willst, nicht weil dich jemand bezahlt. Das ist intrinsische Motivation.
+Begriff: Intrinsische Motivation | Antrieb von innen, aus Freude an der Sache.
+Begriff: Extrinsische Motivation | Antrieb von außen, zum Beispiel durch Geld oder Lob.
+Begriff: Bedürfnispyramide | Das Modell von Maslow mit fünf Stufen von Bedürfnissen.
+Begriff: Hygienefaktoren | Nach Herzberg Faktoren, die Unzufriedenheit verhindern, aber nicht motivieren, zum Beispiel Gehalt und Arbeitsbedingungen.
+Begriff: Motivatoren | Nach Herzberg Faktoren, die wirklich motivieren, zum Beispiel Anerkennung, Verantwortung und interessante Aufgaben.
+Merksatz: Gehalt verhindert Frust, Verantwortung erzeugt Antrieb.
+Prinzip: Maslow ordnet Bedürfnisse in fünf Stufen: körperliche Grundbedürfnisse, Sicherheit, soziale Zugehörigkeit, Anerkennung und Selbstverwirklichung. Erst wenn die unteren Stufen erfüllt sind, werden die oberen wichtig.
+Herzberg unterscheidet zwei Gruppen: Hygienefaktoren wie Gehalt, Sicherheit des Arbeitsplatzes und ein sauberer Arbeitsplatz müssen stimmen, sonst entsteht Unzufriedenheit. Aber sie allein machen nicht motiviert. Motivation entsteht durch Anerkennung, Verantwortung, Erfolgserlebnisse und Entwicklungsmöglichkeiten.
+Als Führungskraft kannst du vor allem Motivatoren beeinflussen: Lob für gute Arbeit, Verantwortung übertragen, Ziele gemeinsam setzen.
+Baustein: Ursache beobachten: Fehlt es an Grundlagen oder an Anerkennung und Verantwortung?
+Baustein: Hygienefaktoren prüfen und Mängel beseitigen.
+Baustein: Motivatoren einsetzen: loben, beteiligen, Verantwortung geben.
+Baustein: Gespräch führen und nachfragen, was den Mitarbeiter antreibt.
+Karte: Fünf Stufen nach Maslow? | Grundbedürfnisse, Sicherheit, soziale Bedürfnisse, Anerkennung, Selbstverwirklichung.
+Karte: Ist Gehalt nach Herzberg ein Motivator? | Nein, ein Hygienefaktor.
+Karte: Was ist intrinsische Motivation? | Antrieb aus Freude an der Sache selbst.
+=== ENDE ===
+
+=== LERNWERK ===
+Fach: Führung und Personal
+Thema: Konflikte und Feedback
+Anker: Im Team gibt es Streit, weil einer den Arbeitsplatz immer unaufgeräumt hinterlässt. Wenn man es nicht anspricht, wird es mit der Zeit immer schlimmer. Ein gutes Feedback früh ist besser als ein großer Streit später.
+Begriff: Konflikt | Ein Spannungszustand, wenn Ziele, Interessen oder Ansichten aufeinanderprallen.
+Begriff: Sachebene | Worüber gesprochen wird, die Fakten.
+Begriff: Beziehungsebene | Wie man zueinander steht, Gefühle und Haltungen.
+Begriff: Ich-Botschaft | Eine Aussage über die eigene Wahrnehmung und Wirkung statt eines Vorwurfs.
+Begriff: Feedback | Eine Rückmeldung zu einem Verhalten, die beim Lernen hilft.
+Merksatz: Beschreiben statt bewerten, Ich statt Du, Verhalten statt Person.
+Prinzip: Viele Konflikte sehen aus wie Sachkonflikte, stecken aber auf der Beziehungsebene. Wie bei einem Eisberg liegt der größere Teil unter der Oberfläche. Ein Modell dazu ist das Vier-Ohren-Modell von Schulz von Thun: Jede Nachricht hat einen Sachinhalt, eine Selbstkundgabe, einen Beziehungshinweis und einen Appell.
+Konflikte eskalieren in Stufen. Nach Friedrich Glasl gibt es neun Stufen in drei Ebenen. Auf der ersten Ebene können beide noch gewinnen, später will einer gewinnen, ganz am Ende verlieren beide. Darum früh ansprechen.
+Gutes Feedback ist zeitnah, konkret und beschreibend. Ein Aufbau, der funktioniert: Was ich beobachtet habe, wie das auf mich wirkt, was ich mir wünsche. Wer Feedback bekommt, hört zu, fragt nach und rechtfertigt sich nicht sofort.
+Baustein: Ruhigen Zeitpunkt und Ort wählen.
+Baustein: Beobachtung konkret beschreiben.
+Baustein: Wirkung mit einer Ich-Botschaft schildern.
+Baustein: Wunsch oder Vorschlag äußern.
+Baustein: Gemeinsam eine Vereinbarung treffen und später nachfassen.
+Fehler: Du-Botschaft mit Verallgemeinerung | „Du räumst nie auf“ greift an. Besser: „Heute lag am Platz noch das Werkzeug, das hat mich aufgehalten.“
+Karte: Drei Teile eines guten Feedbacks? | Beobachtung, Wirkung, Wunsch.
+Karte: Vier Seiten einer Nachricht nach Schulz von Thun? | Sachinhalt, Selbstkundgabe, Beziehung, Appell.
+Karte: Wie viele Eskalationsstufen nach Glasl? | Neun, in drei Ebenen.
+=== ENDE ===
+
+=== LERNWERK ===
+Fach: Qualitätsmanagement
+Thema: ISO 9001 und PDCA
+Anker: Erst den Arbeitsplan machen, dann fertigen, dann messen, dann den Plan verbessern. Genau diesen Kreislauf beschreibt der PDCA-Zyklus.
+Begriff: Qualitätsmanagement | Alle Tätigkeiten, mit denen ein Unternehmen Qualität plant, steuert, prüft und verbessert.
+Begriff: ISO 9001 | Die internationale Norm mit Anforderungen an ein Qualitätsmanagementsystem.
+Begriff: PDCA-Zyklus | Plan, Do, Check, Act, der Kreislauf der ständigen Verbesserung nach Deming.
+Begriff: Prozessorientierung | Das Unternehmen wird als Kette von Prozessen betrachtet, die zusammenwirken.
+Begriff: Zertifizierung | Eine unabhängige Stelle bestätigt, dass das System die Norm erfüllt.
+Merksatz: Planen, tun, prüfen, verbessern, und dann wieder von vorn.
+Prinzip: ISO 9001 schreibt nicht vor, wie ein Produkt aussehen muss, sondern wie ein Unternehmen arbeiten muss, damit es zuverlässig gute Qualität liefert. Grundsätze sind unter anderem Kundenorientierung, Führung, Einbeziehung der Mitarbeiter, Prozessorientierung, Verbesserung und Entscheidungen auf Grundlage von Fakten.
+Der PDCA-Zyklus ist das Herz der Norm: Plan heißt Ziele und Maßnahmen festlegen. Do heißt umsetzen. Check heißt messen und prüfen, ob es wirkt. Act heißt das Gelernte zum neuen Standard machen oder nachsteuern.
+Ein Zertifikat gilt drei Jahre, dazwischen gibt es jährliche Überwachungsaudits.
+Stand der Norm: Nach Angaben von Zertifizierern wie TÜV SÜD und LRQA ist im September 2026 die neue Fassung ISO 9001:2026 erschienen. Die bisherige ISO 9001:2015 gilt in einer Übergangszeit von drei Jahren weiter. Der PDCA-Gedanke bleibt. Welche Fassung im Unterricht behandelt wird, sagt dein Lehrer.
+Baustein: Prozess beschreiben: Eingabe, Tätigkeiten, Ergebnis, Verantwortliche.
+Baustein: Ziel und Kennzahl festlegen.
+Baustein: Umsetzen.
+Baustein: Messen und auswerten.
+Baustein: Verbessern und als neuen Standard festschreiben.
+Karte: Wofür steht PDCA? | Plan, Do, Check, Act.
+Karte: Wie lange gilt ein ISO-9001-Zertifikat? | Drei Jahre, mit jährlichen Überwachungsaudits.
+Karte: Schreibt ISO 9001 vor, wie ein Produkt aussieht? | Nein, sie stellt Anforderungen an die Arbeitsweise des Unternehmens.
+Quelle: Stand ISO 9001 nach TÜV SÜD und LRQA, geprüft im Oktober 2026.
+=== ENDE ===
+
+=== LERNWERK ===
+Fach: Qualitätsmanagement
+Thema: Q-Werkzeuge
+Anker: Nach einer Woche Fertigung liegen zwanzig Ausschussteile auf dem Tisch. Mit einer Strichliste siehst du, welcher Fehler am häufigsten ist. Mit einem Ishikawa-Diagramm suchst du die Ursache.
+Begriff: Fehlersammelliste | Eine Strichliste, in der Fehler nach Art und Zeitpunkt gezählt werden.
+Begriff: Histogramm | Ein Säulendiagramm, das zeigt, wie Messwerte verteilt sind.
+Begriff: Paretodiagramm | Fehlerarten nach Häufigkeit sortiert, die größten zuerst.
+Begriff: Ursache-Wirkungs-Diagramm | Auch Ishikawa- oder Fischgrätendiagramm, sortiert mögliche Ursachen nach Einflussgruppen.
+Begriff: Korrelationsdiagramm | Zeigt, ob zwei Größen zusammenhängen, auch Streudiagramm.
+Begriff: Qualitätsregelkarte | Messwerte über der Zeit mit Eingriffsgrenzen, um einen Prozess zu überwachen.
+Begriff: Flussdiagramm | Stellt einen Ablauf mit Symbolen und Pfeilen dar.
+Merksatz: Zählen, sortieren, Ursachen suchen, Zusammenhang prüfen, überwachen.
+Prinzip: Die sieben klassischen Qualitätswerkzeuge helfen, Probleme mit Zahlen statt mit Bauchgefühl zu lösen. Mit der Fehlersammelliste sammelst du Daten. Das Paretodiagramm zeigt, dass oft wenige Fehlerarten den Großteil ausmachen, die Faustregel heißt 80 zu 20. Das Ishikawa-Diagramm ordnet Ursachen nach den Einflussgruppen Mensch, Maschine, Material, Methode, Mitwelt und Messung. Das Korrelationsdiagramm prüft einen vermuteten Zusammenhang. Histogramm und Regelkarte zeigen, wie ein Prozess streut und ob er stabil läuft.
+Achtung, unterschiedliche Listen: Meist zählt das Flussdiagramm zu den sieben Werkzeugen. Manche Bücher nennen stattdessen die Stratifikation oder führen Brainstorming mit auf. Brainstorming ist aber eine Kreativitätsmethode, die man zum Beispiel beim Ishikawa-Diagramm nutzt. Lern die Liste aus deinem Unterricht.
+Baustein: Daten sammeln mit einer Fehlersammelliste.
+Baustein: Mit dem Paretodiagramm den wichtigsten Fehler auswählen.
+Baustein: Mit dem Ishikawa-Diagramm Ursachen suchen.
+Baustein: Vermutete Ursache mit einem Korrelationsdiagramm prüfen.
+Baustein: Nach der Maßnahme mit einer Regelkarte überwachen.
+Karte: Welches Werkzeug sortiert Fehler nach Häufigkeit? | Das Paretodiagramm.
+Karte: Einflussgruppen im Ishikawa-Diagramm? | Mensch, Maschine, Material, Methode, Mitwelt, Messung.
+Karte: Was zeigt eine Qualitätsregelkarte? | Ob ein Prozess über die Zeit stabil innerhalb der Eingriffsgrenzen läuft.
+=== ENDE ===
+
+=== LERNWERK ===
+Fach: Qualitätsmanagement
+Thema: FMEA
+Anker: Bevor du eine neue Vorrichtung baust, gehst du im Kopf durch: Was kann versagen, was passiert dann, und würde ich es merken? Die FMEA macht genau das, nur systematisch und im Team.
+Begriff: FMEA | Fehlermöglichkeits- und Einflussanalyse, eine vorbeugende Methode, um Fehler zu finden, bevor sie entstehen.
+Begriff: Bedeutung | Wie schwer die Folge eines Fehlers ist, Bewertung 1 bis 10.
+Begriff: Auftreten | Wie wahrscheinlich die Ursache auftritt, Bewertung 1 bis 10.
+Begriff: Entdeckung | Wie gut der Fehler vor der Auslieferung entdeckt wird, Bewertung 1 bis 10, wobei 10 heißt schlecht entdeckbar.
+Begriff: Risikoprioritätszahl | Bedeutung mal Auftreten mal Entdeckung, höchstens 1000.
+Begriff: Aufgabenpriorität | Neuere Bewertung nach AIAG und VDA in hoch, mittel und niedrig.
+Merksatz: Fehler, Folge, Ursache, dann bewerten und Maßnahmen festlegen.
+Prinzip: Man unterscheidet die Konstruktions-FMEA für ein Produkt und die Prozess-FMEA für einen Fertigungsablauf. Für jede Funktion fragt das Team: Welcher Fehler ist möglich, welche Folge hat er, welche Ursache? Dann wird bewertet und für die größten Risiken eine Maßnahme festgelegt.
+Achtung, zwei Bewertungsarten: Klassisch rechnet man die Risikoprioritätszahl als Produkt der drei Bewertungen. Das Handbuch von AIAG und VDA von 2019 ersetzt sie durch die Aufgabenpriorität. Sie stuft in hoch, mittel und niedrig ein und gewichtet die Bedeutung am stärksten, weil eine Zahl wie 100 bei ganz verschiedenen Risiken herauskommen kann. In der Automobilindustrie gilt die neue Methode, viele Schulbücher zeigen noch die alte.
+Baustein: System oder Prozess abgrenzen und in Schritte gliedern.
+Baustein: Für jeden Schritt Funktion, möglichen Fehler, Folge und Ursache aufschreiben.
+Baustein: Bedeutung, Auftreten und Entdeckung bewerten.
+Baustein: Priorität bilden: Risikoprioritätszahl oder Aufgabenpriorität.
+Baustein: Maßnahmen festlegen und danach neu bewerten.
+Fehler: Hohe Entdeckungszahl als gut gelesen | Bei der Entdeckung heißt 10, dass der Fehler kaum entdeckt wird.
+Formel: Risikoprioritätszahl | RPZ = B · A · E | B = RPZ / (A · E); A = RPZ / (B · E); E = RPZ / (B · A)
+Karte: Wofür steht FMEA? | Fehlermöglichkeits- und Einflussanalyse.
+Karte: Wie berechnet sich die Risikoprioritätszahl? | Bedeutung mal Auftreten mal Entdeckung.
+Karte: Was ersetzt die RPZ im AIAG-VDA-Handbuch von 2019? | Die Aufgabenpriorität mit hoch, mittel, niedrig.
+Karte: Was bedeutet Entdeckung 10? | Der Fehler wird kaum entdeckt.
+=== ENDE ===
+
+=== LERNWERK ===
+Fach: Qualitätsmanagement
+Thema: Maschinen- und Prozessfähigkeit
+Anker: Du fräst 50 Teile und misst ein Maß. Liegen alle Werte eng beieinander und mittig in der Toleranz, ist deine Maschine fähig. Liegen sie zwar eng, aber am Rand, musst du nachstellen.
+Begriff: Streuung | Wie weit die Messwerte auseinanderliegen, gemessen mit der Standardabweichung s.
+Begriff: Lage | Wo der Mittelwert der Messwerte in der Toleranz liegt.
+Begriff: Maschinenfähigkeit | Bewertet die Maschine allein über eine kurze Zeit, Kennwerte Cm und Cmk.
+Begriff: Prozessfähigkeit | Bewertet den ganzen Prozess über längere Zeit mit allen Einflüssen, Kennwerte Cp und Cpk.
+Merksatz: Ohne k nur die Streuung, mit k auch die Lage.
+Prinzip: Bei Cm und Cp vergleichst du die Toleranzbreite mit der sechsfachen Standardabweichung: Passen die Werte gut in die Toleranz, ist der Wert groß. Cmk und Cpk berücksichtigen zusätzlich, ob der Mittelwert in der Mitte liegt. Man nimmt den kleineren Abstand vom Mittelwert zur nächsten Grenze und teilt durch die dreifache Standardabweichung.
+Ist Cmk deutlich kleiner als Cm, liegt die Maschine außermittig und du musst nachstellen. Sind beide klein, streut die Maschine zu stark.
+Achtung, Forderungen unterscheiden sich: Häufig werden Cmk von mindestens 1,67 für die Maschine und Cpk von mindestens 1,33 für den Prozess genannt. Manche Kunden fordern mehr. Die verbindlichen Werte legt der Kunde fest.
+Baustein: Genug Teile unter gleichen Bedingungen fertigen und messen.
+Baustein: Mittelwert und Standardabweichung berechnen.
+Baustein: Cm oder Cp aus Toleranz und Streuung berechnen.
+Baustein: Cmk oder Cpk mit dem kleineren Abstand zur Grenze berechnen.
+Baustein: Mit der Forderung vergleichen und entscheiden: nachstellen oder Streuung verringern.
+Fehler: Größeren Abstand zur Grenze genommen | Für Cmk und Cpk zählt immer die Seite mit dem kleineren Abstand.
+Formel: Maschinenfähigkeit Streuung | C_m = T / (6 · s) | T = 6 · s · C_m; s = T / (6 · C_m)
+Formel: Maschinenfähigkeit Lage oben | C_mk = (OGW − x_m) / (3 · s) | OGW = C_mk · 3 · s + x_m; s = (OGW − x_m) / (3 · C_mk)
+Formel: Maschinenfähigkeit Lage unten | C_mk = (x_m − UGW) / (3 · s) | UGW = x_m − C_mk · 3 · s
+Karte: Was berücksichtigt Cmk zusätzlich zu Cm? | Die Lage des Mittelwerts in der Toleranz.
+Karte: Übliche Mindestforderung für Cpk? | Oft 1,33, je nach Kunde auch mehr.
+Karte: Cmk viel kleiner als Cm, was tun? | Den Prozess zur Toleranzmitte nachstellen.
+=== ENDE ===
+
+=== LERNWERK ===
+Fach: Qualitätsmanagement
+Thema: Audits
+Anker: Wie eine Werkzeugkontrolle vor einer wichtigen Fertigung: Jemand schaut systematisch nach, ob alles so ist, wie es sein soll, und schreibt auf, was fehlt.
+Begriff: Audit | Eine systematische, unabhängige Untersuchung, ob Anforderungen erfüllt werden.
+Begriff: Systemaudit | Prüft das ganze Managementsystem.
+Begriff: Prozessaudit | Prüft einen bestimmten Ablauf, zum Beispiel die Fertigung.
+Begriff: Produktaudit | Prüft fertige Produkte aus Kundensicht.
+Begriff: Internes Audit | Das Unternehmen prüft sich selbst.
+Begriff: Externes Audit | Ein Kunde oder eine Zertifizierungsstelle prüft.
+Begriff: Abweichung | Eine Anforderung ist nicht erfüllt.
+Merksatz: Nachweise statt Meinungen. Ein Audit sucht Verbesserungen, keine Schuldigen.
+Prinzip: Ein Audit läuft in festen Schritten: Planung mit Auditplan und Fragenliste, Eröffnungsgespräch, Durchführung mit Befragungen und Nachweisen vor Ort, Abschlussgespräch, Bericht mit Abweichungen und Empfehlungen, danach Korrekturmaßnahmen und deren Überprüfung.
+Man unterscheidet Audits nach dem Gegenstand, also System, Prozess oder Produkt, und nach dem Auditor: intern als Selbstprüfung, beim Lieferanten durch den Kunden oder durch eine unabhängige Zertifizierungsstelle.
+Als Auditierter zeigst du am besten, wie du wirklich arbeitest, und belegst es mit Dokumenten und Aufzeichnungen.
+Baustein: Ziel und Umfang des Audits festlegen.
+Baustein: Fragenliste vorbereiten.
+Baustein: Vor Ort fragen, beobachten, Nachweise ansehen.
+Baustein: Abweichungen sachlich dokumentieren.
+Baustein: Korrekturmaßnahmen vereinbaren und ihre Wirkung prüfen.
+Karte: Drei Auditarten nach Gegenstand? | Systemaudit, Prozessaudit, Produktaudit.
+Karte: Was ist ein internes Audit? | Das Unternehmen prüft sich selbst.
+Karte: Was folgt auf eine Abweichung? | Eine Korrekturmaßnahme und deren Überprüfung.
+=== ENDE ===
+
+=== LERNWERK ===
+Fach: Ökonomie und Nachhaltigkeit
+Thema: Nachhaltigkeit: Drei-Säulen-Modell, Effizienz, Konsistenz, Suffizienz
+Anker: Ein Wald, aus dem nur so viel Holz geschlagen wird, wie nachwächst, bleibt für immer. Aus der Forstwirtschaft stammt der Begriff Nachhaltigkeit.
+Begriff: Nachhaltigkeit | So wirtschaften, dass die Bedürfnisse heute erfüllt werden, ohne künftigen Generationen die Möglichkeiten zu nehmen.
+Begriff: Drei-Säulen-Modell | Nachhaltigkeit braucht Ökologie, Ökonomie und Soziales gleichzeitig.
+Begriff: Effizienz | Dasselbe Ergebnis mit weniger Energie und Material.
+Begriff: Konsistenz | Stoffe und Energie so wählen, dass sie in natürliche oder technische Kreisläufe passen, zum Beispiel erneuerbare Energie.
+Begriff: Suffizienz | Weniger verbrauchen, also das richtige Maß finden.
+Begriff: Rebound-Effekt | Einsparungen werden durch mehr Nutzung wieder aufgezehrt.
+Merksatz: Besser, anders, weniger: Effizienz, Konsistenz, Suffizienz.
+Prinzip: Das Drei-Säulen-Modell sagt: Ein Unternehmen ist nur nachhaltig, wenn es Umwelt schont, wirtschaftlich erfolgreich bleibt und fair mit Menschen umgeht. Der Bericht der Brundtland-Kommission von 1987 hat diese Sicht bekannt gemacht.
+Es gibt drei Strategien. Effizienz macht Prozesse sparsamer, zum Beispiel mit Druckluftleckagen beseitigen oder Motoren mit besserem Wirkungsgrad. Konsistenz stellt auf verträgliche Stoffe und Energien um, zum Beispiel Ökostrom oder sortenreine, recycelbare Werkstoffe. Suffizienz fragt, ob man etwas überhaupt braucht, zum Beispiel Maschinen in Pausen abschalten statt im Leerlauf laufen lassen.
+Effizienz allein reicht oft nicht, weil der Rebound-Effekt Einsparungen auffrisst.
+Baustein: Verbrauch erfassen: Energie, Material, Abfall.
+Baustein: Effizienz prüfen: Wo geht etwas verloren?
+Baustein: Konsistenz prüfen: Gibt es verträglichere Stoffe oder Energie?
+Baustein: Suffizienz prüfen: Was kann ganz entfallen?
+Baustein: Wirkung auf alle drei Säulen abwägen.
+Karte: Drei Säulen der Nachhaltigkeit? | Ökologie, Ökonomie, Soziales.
+Karte: Was ist Suffizienz? | Weniger verbrauchen, das richtige Maß.
+Karte: Beispiel für Effizienz in der Werkstatt? | Druckluftleckagen beseitigen.
+Karte: Was ist der Rebound-Effekt? | Einsparungen werden durch mehr Nutzung wieder aufgezehrt.
+=== ENDE ===
+
+=== LERNWERK ===
+Fach: Ökonomie und Nachhaltigkeit
+Thema: Energie- und Umweltmanagement: ISO 50001, ISO 14001, CO2-Bilanz
+Anker: Druckluft ist in vielen Werkstätten die teuerste Energie. Wer misst, wo sie verbraucht wird und wo sie zischend verloren geht, spart schnell viel Geld. Das ist Energiemanagement im Kleinen.
+Begriff: ISO 50001 | Norm für Energiemanagementsysteme, Ziel ist die laufende Verbesserung der Energieeffizienz.
+Begriff: ISO 14001 | Norm für Umweltmanagementsysteme, Ziel ist die laufende Verbesserung der Umweltleistung.
+Begriff: CO2-Bilanz | Aufstellung aller Treibhausgasemissionen eines Unternehmens oder Produkts, in CO2-Äquivalenten.
+Begriff: Scope 1 | Direkte Emissionen aus eigenen Quellen, zum Beispiel Heizung und Firmenfahrzeuge.
+Begriff: Scope 2 | Indirekte Emissionen aus eingekaufter Energie, zum Beispiel Strom und Fernwärme.
+Begriff: Scope 3 | Alle übrigen indirekten Emissionen in der Lieferkette, zum Beispiel eingekauftes Material und Transporte.
+Merksatz: Messen, Ziele setzen, verbessern, prüfen: Auch hier läuft der PDCA-Kreis.
+Prinzip: ISO 50001 und ISO 14001 sind wie ISO 9001 aufgebaut und folgen dem PDCA-Zyklus. Beim Energiemanagement erfasst man die wesentlichen Verbraucher, legt Kennzahlen fest, zum Beispiel Kilowattstunden pro Teil, setzt Ziele und Maßnahmen und prüft den Erfolg. Beim Umweltmanagement geht es breiter um alle Umweltauswirkungen: Abfall, Abwasser, Emissionen, Gefahrstoffe.
+Die CO2-Bilanz wird meist nach dem Greenhouse Gas Protocol in drei Bereiche geteilt, die Scopes 1, 2 und 3. Scope 3 ist oft der größte Teil, aber am schwersten zu erfassen.
+Baustein: Verbraucher und Emissionsquellen erfassen.
+Baustein: Kennzahlen festlegen.
+Baustein: Ziele und Maßnahmen planen.
+Baustein: Umsetzen und messen.
+Baustein: Ergebnisse bewerten und das System verbessern.
+Karte: Wofür ist ISO 50001? | Energiemanagement.
+Karte: Wofür ist ISO 14001? | Umweltmanagement.
+Karte: Was ist Scope 2? | Emissionen aus eingekaufter Energie wie Strom.
+Karte: Nach welchem Kreislauf arbeiten beide Normen? | Nach dem PDCA-Zyklus.
+=== ENDE ===
+
+=== LERNWERK ===
+Fach: Ökonomie und Nachhaltigkeit
+Thema: Kreislaufwirtschaft
+Anker: Die Aluminiumspäne unter deiner Fräse sind kein Müll, sondern Rohstoff. Sortenrein gesammelt werden sie eingeschmolzen und wieder zu Material.
+Begriff: Lineare Wirtschaft | Rohstoff, Produkt, Abfall: ein Weg ohne Rückkehr.
+Begriff: Kreislaufwirtschaft | Produkte und Stoffe werden so lange wie möglich im Kreislauf gehalten.
+Begriff: Abfallhierarchie | Die gesetzliche Rangfolge im Umgang mit Abfällen nach dem Kreislaufwirtschaftsgesetz.
+Begriff: Recycling | Abfälle werden zu neuem Material aufbereitet.
+Merksatz: Vermeiden, wiederverwenden, recyceln, verwerten, beseitigen. In dieser Reihenfolge.
+Prinzip: Das Kreislaufwirtschaftsgesetz legt eine fünfstufige Abfallhierarchie fest: Ganz oben steht die Vermeidung, dann die Vorbereitung zur Wiederverwendung, dann das Recycling, dann die sonstige Verwertung, insbesondere die Verbrennung mit Energiegewinnung, und ganz unten die Beseitigung.
+Für die Konstruktion heißt das: Teile so gestalten, dass sie lange halten, repariert und zerlegt werden können und aus sortenreinen Werkstoffen bestehen. In der Fertigung heißt es: Späne nach Werkstoff trennen, Kühlschmierstoff pflegen und aufbereiten, Verschnitt verringern.
+Baustein: Abfälle und Reststoffe erfassen.
+Baustein: Prüfen, ob sie sich vermeiden lassen.
+Baustein: Wiederverwendung und sortenreines Sammeln organisieren.
+Baustein: Bei neuen Produkten Reparatur und Zerlegbarkeit einplanen.
+Karte: Oberste Stufe der Abfallhierarchie? | Vermeidung.
+Karte: Unterste Stufe der Abfallhierarchie? | Beseitigung.
+Karte: Warum Späne sortenrein sammeln? | Damit sie hochwertig recycelt werden können.
+=== ENDE ===
+
+=== LERNWERK ===
+Fach: Ökonomie und Nachhaltigkeit
+Thema: Kostenrechnung und Kalkulation
+Anker: Was kostet eine Stunde an deiner Fräse? Maschine, Strom, Werkzeuge, Raum, dein Lohn und ein Anteil an der Verwaltung. Erst wenn du das weißt, kannst du einen Preis für ein Teil nennen.
+Begriff: Fixe Kosten | Kosten, die unabhängig von der Stückzahl anfallen, zum Beispiel Miete.
+Begriff: Variable Kosten | Kosten, die mit der Stückzahl steigen, zum Beispiel Material.
+Begriff: Einzelkosten | Kosten, die einem Produkt direkt zugeordnet werden können.
+Begriff: Gemeinkosten | Kosten, die nur über Zuschläge verteilt werden können, zum Beispiel Verwaltung.
+Begriff: Deckungsbeitrag | Verkaufspreis minus variable Kosten pro Stück.
+Begriff: Gewinnschwelle | Die Stückzahl, ab der alle Kosten gedeckt sind, auch Break-even-Point.
+Merksatz: Welche Kosten, wo entstanden, wofür verwendet: Kostenarten, Kostenstellen, Kostenträger.
+Prinzip: Die Kostenrechnung hat drei Stufen. Die Kostenartenrechnung fragt, welche Kosten entstanden sind. Die Kostenstellenrechnung verteilt sie auf die Bereiche, in denen sie entstanden sind, mit dem Betriebsabrechnungsbogen. Die Kostenträgerrechnung ordnet sie den Produkten zu.
+Bei der Zuschlagskalkulation addierst du schrittweise: Materialeinzelkosten plus Materialgemeinkosten ergeben die Materialkosten. Fertigungslöhne plus Fertigungsgemeinkosten ergeben die Fertigungskosten. Beides zusammen sind die Herstellkosten. Dazu kommen Verwaltungsgemeinkosten und Vertriebsgemeinkosten, das ergibt die Selbstkosten. Mit dem Gewinnzuschlag kommst du zum Verkaufspreis.
+Der Deckungsbeitrag zeigt, wie viel jedes verkaufte Teil zur Deckung der Fixkosten beiträgt. Die Gewinnschwelle sind die Fixkosten geteilt durch den Deckungsbeitrag pro Stück.
+Baustein: Kosten in fix und variabel, Einzel- und Gemeinkosten trennen.
+Baustein: Zuschlagssätze aus dem Betriebsabrechnungsbogen nehmen.
+Baustein: Kalkulationsschema Zeile für Zeile durchrechnen.
+Baustein: Mit Deckungsbeitrag und Gewinnschwelle die Wirtschaftlichkeit prüfen.
+Fehler: Gemeinkostenzuschlag auf die falsche Basis | Die Materialgemeinkosten beziehen sich auf die Materialeinzelkosten, die Fertigungsgemeinkosten auf die Fertigungslöhne.
+Formel: Gesamtkosten | K = K_f + k_v · x | x = (K − K_f) / k_v; K_f = K − k_v · x
+Formel: Deckungsbeitrag pro Stück | db = p − k_v | p = db + k_v; k_v = p − db
+Formel: Gewinnschwelle | x_BE = K_f / (p − k_v) | K_f = x_BE · (p − k_v)
+Karte: Was ist der Deckungsbeitrag pro Stück? | Verkaufspreis minus variable Stückkosten.
+Karte: Herstellkosten setzen sich zusammen aus? | Materialkosten und Fertigungskosten.
+Karte: Wie berechnet man die Gewinnschwelle? | Fixkosten geteilt durch Deckungsbeitrag pro Stück.
+=== ENDE ===
+
+=== LERNWERK ===
+Fach: Ökonomie und Nachhaltigkeit
+Thema: Bilanz und Kennzahlen
+Anker: Eine Bilanz ist wie eine Waage: Links steht, was das Unternehmen besitzt, rechts, woher das Geld dafür kommt. Beide Seiten sind immer gleich schwer.
+Begriff: Bilanz | Gegenüberstellung von Vermögen und Kapital zu einem Stichtag.
+Begriff: Aktiva | Die linke Seite: Vermögen, also wie das Geld verwendet wird.
+Begriff: Passiva | Die rechte Seite: Kapital, also woher das Geld kommt.
+Begriff: Anlagevermögen | Was langfristig im Unternehmen bleibt, zum Beispiel Maschinen und Gebäude.
+Begriff: Umlaufvermögen | Was sich schnell ändert, zum Beispiel Material, Forderungen und Bankguthaben.
+Begriff: Eigenkapital | Kapital der Eigentümer.
+Begriff: Fremdkapital | Schulden, zum Beispiel Kredite und Lieferantenverbindlichkeiten.
+Merksatz: Aktiva gleich Passiva. Langfristiges Vermögen langfristig finanzieren.
+Prinzip: Die Bilanz zeigt einen Stand an einem Tag. Den Erfolg eines Jahres zeigt die Gewinn- und Verlustrechnung.
+Aus der Bilanz bildet man Kennzahlen. Die Eigenkapitalquote zeigt, wie unabhängig ein Unternehmen ist. Die Rentabilität zeigt, wie viel Gewinn das eingesetzte Kapital bringt. Die Liquidität zeigt, ob kurzfristige Schulden bezahlt werden können: 1. Grades nur mit flüssigen Mitteln, 2. Grades zusätzlich mit kurzfristigen Forderungen, 3. Grades mit dem ganzen Umlaufvermögen.
+Die goldene Bilanzregel sagt: Das Anlagevermögen soll mit Eigenkapital und langfristigem Fremdkapital finanziert sein, nicht mit kurzfristigen Krediten.
+Baustein: Bilanzposten der richtigen Seite zuordnen.
+Baustein: Summen bilden und prüfen, ob beide Seiten gleich sind.
+Baustein: Passende Kennzahl wählen.
+Baustein: Kennzahl berechnen und mit Vorjahr oder Branche vergleichen.
+Formel: Eigenkapitalquote | EKQ = EK / GK · 100 | EK = EKQ · GK / 100; GK = EK · 100 / EKQ
+Formel: Eigenkapitalrentabilität | R_EK = G / EK · 100 | G = R_EK · EK / 100; EK = G · 100 / R_EK
+Formel: Umsatzrentabilität | R_U = G / U · 100 | G = R_U · U / 100; U = G · 100 / R_U
+Formel: Liquidität 1. Grades | L1 = FM / KV · 100 | FM = L1 · KV / 100
+Karte: Was steht auf der Aktivseite? | Das Vermögen: Anlagevermögen und Umlaufvermögen.
+Karte: Was steht auf der Passivseite? | Das Kapital: Eigenkapital und Fremdkapital.
+Karte: Was sagt die goldene Bilanzregel? | Langfristiges Vermögen wird langfristig finanziert.
+Karte: Liquidität 1. Grades? | Flüssige Mittel durch kurzfristige Verbindlichkeiten mal 100.
+=== ENDE ===
+
+=== LERNWERK ===
+Fach: Ökonomie und Nachhaltigkeit
+Thema: Gründung und Rechtsformen
+Anker: Vielleicht machst du dich irgendwann mit einer eigenen Lohnfertigung selbstständig. Dann musst du entscheiden: Hafte ich mit meinem Privatvermögen, oder gründe ich eine GmbH?
+Begriff: Rechtsform | Die rechtliche Form eines Unternehmens, sie regelt Haftung, Leitung und Kapital.
+Begriff: Haftung | Mit welchem Vermögen für Schulden des Unternehmens eingestanden wird.
+Begriff: Einzelunternehmen | Ein Inhaber, der unbeschränkt mit seinem gesamten Vermögen haftet.
+Begriff: GbR | Gesellschaft bürgerlichen Rechts, mindestens zwei Gesellschafter, die unbeschränkt haften.
+Begriff: GmbH | Gesellschaft mit beschränkter Haftung, Stammkapital mindestens 25 000 Euro.
+Begriff: UG haftungsbeschränkt | Kleine Form der GmbH, Gründung schon ab 1 Euro Stammkapital.
+Begriff: Businessplan | Ein schriftlicher Plan mit Geschäftsidee, Markt, Finanzierung und Zahlen.
+Merksatz: Personengesellschaft heißt meist persönliche Haftung, Kapitalgesellschaft heißt Haftung mit dem Firmenvermögen.
+Prinzip: Bei Einzelunternehmen, GbR und OHG haften die Inhaber mit ihrem privaten Vermögen. Bei der KG haftet der Komplementär voll, der Kommanditist nur mit seiner Einlage. Bei Kapitalgesellschaften wie GmbH und AG haftet nur das Gesellschaftsvermögen.
+Für eine GmbH sind mindestens 25 000 Euro Stammkapital nötig, bei der Anmeldung muss mindestens die Hälfte eingezahlt sein. Die UG haftungsbeschränkt kann mit 1 Euro gegründet werden, muss aber ein Viertel ihres Jahresüberschusses zurücklegen, bis 25 000 Euro erreicht sind. Für eine AG sind 50 000 Euro Grundkapital nötig.
+Zur Gründung gehören: Geschäftsidee und Businessplan, Finanzierung, Wahl der Rechtsform, Gewerbeanmeldung, bei GmbH Notar und Handelsregister, Anmeldung beim Finanzamt, Mitgliedschaft in IHK oder Handwerkskammer und passende Versicherungen.
+Baustein: Geschäftsidee und Markt prüfen.
+Baustein: Businessplan schreiben.
+Baustein: Kapitalbedarf und Finanzierung klären.
+Baustein: Rechtsform nach Haftung, Kapital und Aufwand wählen.
+Baustein: Anmeldungen erledigen.
+Karte: Mindeststammkapital einer GmbH? | 25 000 Euro.
+Karte: Wie haftet der Inhaber eines Einzelunternehmens? | Unbeschränkt, auch mit seinem Privatvermögen.
+Karte: Wie haftet ein Kommanditist? | Nur mit seiner Einlage.
+Karte: Ab welchem Kapital kann man eine UG gründen? | Ab 1 Euro.
+=== ENDE ===

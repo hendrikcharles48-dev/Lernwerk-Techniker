@@ -7,7 +7,7 @@ import { nextState, isDue, SEKUNDEN } from './srs.js';
 
 export const S = {
   base: null, plan: null,
-  builtin: new Map(), content: new Map(),
+  builtin: new Map(), content: new Map(), introOnly: new Set(), fachIntro: {},
   notes: [], cards: new Map(), errors: [], events: [], exams: [], kv: new Map(),
   photoMeta: [], ready: false
 };
@@ -68,20 +68,30 @@ async function loadBuiltin() {
   const idx = await fetchText('inhalte/index.json');
   if (!idx) return;
   let files = [];
-  try { files = JSON.parse(idx).dateien || []; } catch (e) { return; }
-  const texts = await Promise.all(files.map(f => fetchText('inhalte/' + f)));
+  try { files = (JSON.parse(idx).dateien || []).map(f => (typeof f === 'string' ? { datei: f } : f)); } catch (e) { return; }
+  const texts = await Promise.all(files.map(f => fetchText('inhalte/' + f.datei)));
+  const voll = new Set();
   texts.forEach((txt, i) => {
     if (!txt) return;
+    const intro = files[i].art === 'einfuehrung';
     const r = parseBlocks(txt);
-    if (r.fehler.length) console.warn('Inhaltsdatei ' + files[i], r.fehler);
+    if (r.fehler.length) console.warn('Inhaltsdatei ' + files[i].datei, r.fehler);
     for (const t of r.themen) {
-      const m = findThema(t.fach, t.thema, 'inhalte/' + files[i]);
+      const m = findThema(t.fach, t.thema, 'inhalte/' + files[i].datei);
       if (!m) { console.warn('Kein Lehrplan-Thema für', t.fach, t.thema); continue; }
       const old = S.builtin.get(m.thema.id);
       S.builtin.set(m.thema.id, old ? mergeTopic(old, t).topic : t);
+      if (intro) S.introOnly.add(m.thema.id); else voll.add(m.thema.id);
     }
   });
+  for (const tid of voll) S.introOnly.delete(tid);
+  const fi = await fetchText('inhalte/faecher.json');
+  if (fi) { try { S.fachIntro = JSON.parse(fi); } catch (e) { console.warn('faecher.json', e); } }
 }
+// Einleitung eines Fachs (Markdown) oder leer
+export const fachIntro = fid => S.fachIntro[fid] || '';
+// Hat das Thema nur die eingebaute Einführung, aber noch nichts aus dem Unterricht?
+export const isIntroOnly = tid => S.introOnly.has(tid) && !(S.content.get(tid) && hasContent(S.content.get(tid)));
 
 /* ===== Lehrplan ===== */
 export const faecher = () => S.plan.faecher;
@@ -148,7 +158,8 @@ export function status(tid) {
   if (kvGet('aktuell', []).includes(tid)) return 'aktuell';
   const th = thema(tid);
   if (th && th.thema.trainer && th.thema.trainer.length) return 'vorhanden';
-  if (hasTopicContent(tid) || S.notes.some(n => n.tid === tid) || S.photoMeta.some(p => p.tid === tid)) return 'vorhanden';
+  if (S.notes.some(n => n.tid === tid) || S.photoMeta.some(p => p.tid === tid)) return 'vorhanden';
+  if (hasTopicContent(tid) && !isIntroOnly(tid)) return 'vorhanden';
   return 'geplant';
 }
 export async function setAktuell(tid, on) {
