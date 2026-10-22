@@ -6,9 +6,9 @@ import { $, $$, icon, row, list, seg, sw, empty, on, push, initTabs, showTab, ta
 import { topicPage, runSession, sortForPractice, fachProgress, topicProgress, openTrainer, askClaude, shrinkImage, noteReader, firstLine, itemTitle } from './engine.js';
 import { mehrPage, termineDetail, termEditor, datensicherung, applyTheme } from './extra.js';
 import { prefs } from './db.js';
-import { speak, canSpeak } from './speech.js';
+import { canSpeak, readAloud } from './speech.js';
 
-export const VERSION = '1.3.0';
+export const VERSION = '1.4.1';
 
 /* ===== Heute ===== */
 // Freundliche, wechselnde Sätze für den Start. Ohne Druck.
@@ -161,7 +161,7 @@ export function fachPage(fid) {
       if (!f.themen.length) h += empty('Noch keine Themen.', 'Füge einen Lernwerk-Block oder einen Lernzettel über Einfügen hinzu.');
       h += `<div class="sec-f">Ein Thema öffnen und „Aktuell im Unterricht“ einschalten, dann steht es hier oben und kommt in Heute zuerst.</div>`;
       b.innerHTML = h;
-      on(b, { topic: tid => push(topicPage(tid)), introvor: () => { speak(plainText(st.fachIntro(f.id))); toast('Ich lese vor.'); } });
+      on(b, { topic: tid => push(topicPage(tid)), introvor: () => readAloud(plainText(st.fachIntro(f.id)), f.name) });
     }
   };
 }

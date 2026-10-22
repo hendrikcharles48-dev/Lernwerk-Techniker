@@ -6,7 +6,7 @@ import { lernplan } from './srs.js';
 import * as st from './store.js';
 import { $, $$, icon, row, list, seg, sw, empty, on, push, pop, openSheet, toast, copyText, progress, confirmBox, saveFile, refreshTop, hinweisTabellenbuch } from './ui.js';
 import { topicPage, runSession, runItem, sortForPractice, topicProgress, formelCard, askClaude, noteReader, openTrainer, itemTitle, rich } from './engine.js';
-import { speak, stopSpeaking, canSpeak, keepAwake, pause } from './speech.js';
+import { speak, stopSpeaking, canSpeak, keepAwake, pause, readAloud, stopReading } from './speech.js';
 import { prefs } from './db.js';
 
 export function applyTheme(t) {
@@ -171,7 +171,7 @@ export function lexikonPage() {
                 ${x.anker ? `<div class="card anchor"><div class="card-k">Bild aus deiner Welt</div><p>${esc(x.anker)}</p></div>` : ''}
                 ${x.merk.map(m => `<div class="card merk" style="--fc:${x.f.farbe}"><div class="card-k">Merksatz</div><p>${esc(m)}</p></div>`).join('')}
                 <div class="btn-col">${canSpeak() ? `<button class="btn" data-a="sp">${icon('ear')} Vorlesen</button>` : ''}<button class="btn filled" data-a="go">Zum Thema</button></div>`;
-              on(sb, { sp: () => speak(x.b + '. ' + x.e + '. ' + x.merk.join('. ')), go: () => { api.close(); push(topicPage(x.t.id)); } });
+              on(sb, { sp: () => readAloud(x.b + '. ' + x.e + '. ' + x.merk.join('. '), x.b), go: () => { api.close(); push(topicPage(x.t.id)); } });
             }
           });
         }
@@ -401,7 +401,7 @@ export function hoerPage(opt = {}) {
         }
         if (token === run && idx >= queue.length && playing) { playing = false; keepAwake(false); ui(); $('.pl-q', b).textContent = 'Fertig. Gut gemacht.'; }
       }
-      const start = () => { if (!queue.length || idx >= queue.length) { queue = build(); idx = 0; } if (!queue.length) { toast('Hier gibt es nichts vorzulesen.'); return; } playing = true; run++; keepAwake(true); loop(run); ui(); };
+      const start = () => { stopReading(); if (!queue.length || idx >= queue.length) { queue = build(); idx = 0; } if (!queue.length) { toast('Hier gibt es nichts vorzulesen.'); return; } playing = true; run++; keepAwake(true); loop(run); ui(); };
       function stop() { playing = false; run++; stopSpeaking(); keepAwake(false); queue = []; idx = 0; ui(); }
       on(b, {
         'seg:q': v => { quelle = v; stop(); this.render(b); },

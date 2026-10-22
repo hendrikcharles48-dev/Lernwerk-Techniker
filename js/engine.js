@@ -4,9 +4,10 @@ import { fml, fmlWith, nameHTML, parseEq, keyOf, calc, checkSolved, checkStep, v
 import { checkNumber, showValue } from './check.js';
 import * as st from './store.js';
 import { $, $$, icon, row, list, seg, sw, empty, on, push, openSheet, toast, copyText, confirmBox, progress, fachIcon, hinweisTabellenbuch } from './ui.js';
-import { speak, stopSpeaking, canSpeak } from './speech.js';
+import { speak, stopSpeaking, canSpeak, readAloud, stopReading } from './speech.js';
 import { INTERVALS } from './srs.js';
 import { prefs } from './db.js';
+import { editorHTML, attachEditor } from './mathedit.js';
 
 /* ===== Frag Claude ===== */
 export async function askClaude(text) {
@@ -150,7 +151,7 @@ function renderTab(el, tab, tid, T, items, f) {
       note: id => noteReader(id),
       photo: id => photoViewer(id),
       trainer: d => openTrainer(tid, d),
-      vorlesen: () => { const txt = [...T.anker, ...T.merksaetze.map(m => 'Merksatz: ' + m), ...T.prinzip.map(plainText)].join('. '); speak(txt); toast('Ich lese vor.'); }
+      vorlesen: () => { const txt = [...T.anker, ...T.merksaetze.map(m => 'Merksatz: ' + m), ...T.prinzip.map(plainText)].join('. '); readAloud(txt, T.thema); }
   });
   if (!el._fileBound) {
     el._fileBound = true;
@@ -256,12 +257,12 @@ export function noteReader(id) {
       b.innerHTML = `<div class="note-meta">${th ? esc(th.fach.name + ' · ' + th.thema.name) : ''}</div><h2 class="note-t">${esc(n.titel || '')}</h2><div class="prose card">${markdown(n.text)}</div>
         <div class="btn-col">${canSpeak() ? `<button class="btn" data-a="read">${icon('ear')} Vorlesen</button>` : ''}<button class="btn" data-a="edit">${icon('edit')} Bearbeiten</button><button class="btn danger" data-a="del">${icon('trash')} Löschen</button></div>`;
       on(b, {
-        read: () => { speak(plainText(n.text)); toast('Ich lese vor.'); },
+        read: () => readAloud(plainText(n.text), n.titel || 'Lernzettel'),
         edit: () => { api.close(); noteEditor(n); },
         del: async () => { if (await confirmBox('Lernzettel wirklich löschen?', 'Löschen', true)) { await st.deleteNote(id); api.close(); } }
       });
     },
-    onClose: () => stopSpeaking()
+    onClose: () => stopReading()
   });
 }
 
@@ -310,30 +311,15 @@ export function instantiate(a) {
 }
 
 /* ===== Eingabefeld für Formeln mit Tasten ===== */
+// Formel-Eingabe mit eigener Tastatur: echter Bruch, Wurzel, Hochzahl, Funktionen
 function fmlInput(vars, placeholder) {
-  const keys = [...vars, '=', '·', '/', '(', ')', '²', '√', '+', '−', 'π'];
-  return `<div class="fml-in"><input type="text" class="inp" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" placeholder="${esc(placeholder || '')}" inputmode="text">
-    <div class="keys no-swipe">${keys.map(k => `<button type="button" class="key" data-key="${esc(k)}">${vars.includes(k) ? nameHTML(k) : esc(k)}</button>`).join('')}<button type="button" class="key wide" data-key="⌫" aria-label="Löschen">⌫</button></div>
-    <div class="fml-prev"></div></div>`;
+  return `<div class="fml-in">${editorHTML(vars, placeholder)}</div>`;
 }
 function bindFmlInput(root) {
-  const inp = $('.fml-in .inp', root);
-  if (!inp) return;
-  const prev = $('.fml-prev', root);
-  const upd = () => { prev.innerHTML = inp.value.trim() ? 'So lese ich das: ' + fml(inp.value) : ''; };
-  inp.addEventListener('input', upd);
-  $$('.key', root).forEach(k => k.addEventListener('click', e => {
-    e.preventDefault();
-    const v = k.dataset.key;
-    const s = inp.selectionStart != null ? inp.selectionStart : inp.value.length, en = inp.selectionEnd != null ? inp.selectionEnd : s;
-    if (v === '⌫') { if (s === en && s > 0) { inp.value = inp.value.slice(0, s - 1) + inp.value.slice(en); inp.setSelectionRange(s - 1, s - 1); } else { inp.value = inp.value.slice(0, s) + inp.value.slice(en); inp.setSelectionRange(s, s); } }
-    else {
-      const ins = v === '√' ? '√(' : v === '=' ? ' = ' : v === '·' ? ' · ' : v === '+' ? ' + ' : v === '−' ? ' − ' : v;
-      inp.value = inp.value.slice(0, s) + ins + inp.value.slice(en);
-      const p = s + ins.length; inp.setSelectionRange(p, p);
-    }
-    upd();
-  }));
+  const host = $('.fml-in .me', root);
+  if (!host || host._me) return;
+  host._me = true;
+  attachEditor(host, $('.fml-in .me-pad', root));
 }
 function numInput(unit) {
   return `<div class="num-in"><input type="text" class="inp" inputmode="decimal" autocomplete="off" placeholder="Zahl"><span class="unit">${esc(unit || '')}</span></div>`;
