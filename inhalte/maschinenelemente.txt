@@ -1,0 +1,548 @@
+=== LERNWERK ===
+Fach: Technische Mechanik
+Thema: Maschinenelemente: Schraubenverbindungen
+Anker: Wenn du an der Fräse den Schraubstock auf den Tisch spannst, ziehst du die Nutensteine mit dem Drehmomentschlüssel fest. Die Schraube wird dabei gedehnt wie eine harte Feder. Diese Vorspannung drückt Schraubstock und Tisch zusammen, und genau das hält.
+Anker: Beim Krafttraining ist es wie mit der Hantelstange und den Klemmen: Sitzt die Klemme nur lose, wandern die Scheiben. Erst die Klemmkraft sorgt dafür, dass nichts rutscht.
+Begriff: Festigkeitsklasse | Zwei Zahlen mit Punkt, zum Beispiel 8.8. Sie sagen, wie fest der Schraubenwerkstoff ist.
+Begriff: Zugfestigkeit R_m | Erste Zahl der Festigkeitsklasse mal 100, in N/mm².
+Begriff: Streckgrenze R_e | Erste Zahl mal zweite Zahl mal 10, in N/mm². Ab hier dehnt sich die Schraube bleibend.
+Begriff: Spannungsquerschnitt A_s | Der Querschnitt, mit dem man die Spannung in der Schraube rechnet. Er steht in der Gewindetabelle.
+Begriff: Vorspannkraft | Die Kraft, mit der die angezogene Schraube die Bauteile zusammendrückt.
+Begriff: Steigung P | Der Weg, den die Schraube bei einer Umdrehung vorwärts geht. Bei M10 sind es 1,5 mm.
+Begriff: Selbsthemmung | Die Schraube dreht sich unter Last nicht von allein los, weil die Reibung im Gewinde größer ist als die Steigung.
+Merksatz: Erste Zahl mal 100 gibt die Zugfestigkeit.
+Merksatz: Erste mal zweite Zahl mal 10 gibt die Streckgrenze.
+Merksatz: Spannung in der Schraube gleich Kraft durch Spannungsquerschnitt.
+Merksatz: Die Vorspannung hält die Verbindung, nicht der Schaft als Bolzen.
+Prinzip: Eine Schraubenverbindung hält, weil die Schraube beim Anziehen gedehnt wird. Sie zieht sich zurück wie eine Feder und presst die Bauteile zusammen. Solange diese Klemmkraft größer ist als das, was die Betriebskraft wegnimmt, bleibt die Fuge geschlossen und nichts rutscht.
+
+Für die Festigkeit zählt der Werkstoff. Er steht als Festigkeitsklasse auf dem Schraubenkopf. Bei 8.8 ist die Zugfestigkeit 800 N/mm² und die Streckgrenze 8 mal 8 mal 10, also 640 N/mm². Die Schraube darf im Betrieb nicht über die Streckgrenze kommen, sonst längt sie sich bleibend und die Vorspannung ist weg.
+
+Für die Rechnung nimmst du nicht den Querschnitt des Schafts, sondern den Spannungsquerschnitt aus der Tabelle. Er liegt zwischen Kerndurchmesser und Flankendurchmesser, weil das Gewinde die Stelle mit der kleinsten Fläche ist.
+Baustein: Festigkeitsklasse ablesen und R_m sowie R_e ausrechnen.
+Baustein: Spannungsquerschnitt A_s für das Gewinde aus der Tabelle holen.
+Baustein: Kraft in N umrechnen.
+Baustein: Spannung gleich Kraft durch A_s.
+Baustein: Mit der Streckgrenze oder der zulässigen Spannung vergleichen.
+Schnellweg: Wichtige Spannungsquerschnitte: M8 hat 36,6 mm², M10 hat 58 mm², M12 hat 84,3 mm², M16 hat 157 mm².
+Schnellweg: Bei 10.9 ist R_e gleich 900 N/mm², bei 12.9 sind es 1080 N/mm².
+Fehler: Mit dem Nenndurchmesser die Fläche gerechnet | Für Schrauben gilt der Spannungsquerschnitt A_s aus der Tabelle. Er ist deutlich kleiner.
+Fehler: Bei 8.8 die Streckgrenze als 880 gelesen | Die Streckgrenze ist 8 mal 8 mal 10, also 640 N/mm².
+Fehler: kN nicht in N umgerechnet | Für N/mm² muss die Kraft in N stehen.
+Formel: Spannung in der Schraube | σ = F / A_s | F = σ · A_s; A_s = F / σ
+Formel: Zugfestigkeit aus der Festigkeitsklasse | R_m = a · 100 | a = R_m / 100
+Formel: Streckgrenze aus der Festigkeitsklasse | R_e = a · b · 10 | b = R_e / (a · 10)
+Karte: Was bedeutet die erste Zahl bei 8.8? | Mal 100 genommen ist das die Zugfestigkeit, also 800 N/mm².
+Karte: Wie bekommst du die Streckgrenze aus 8.8? | 8 mal 8 mal 10, also 640 N/mm².
+Karte: Wie groß ist die Streckgrenze bei 10.9? | 900 N/mm².
+Karte: Mit welcher Fläche rechnest du die Spannung in einer Schraube? | Mit dem Spannungsquerschnitt A_s aus der Tabelle.
+Karte: Wie groß ist A_s bei M12? | 84,3 mm².
+Karte: Wie groß ist A_s bei M10? | 58 mm².
+Karte: Warum hält eine Schraubenverbindung? | Weil die gedehnte Schraube die Bauteile zusammenpresst. Das ist die Vorspannkraft.
+Karte: Was passiert, wenn die Schraube über die Streckgrenze kommt? | Sie längt sich bleibend und verliert ihre Vorspannung.
+Karte: Was ist Selbsthemmung? | Die Reibung im Gewinde verhindert, dass sich die Schraube unter Last von selbst losdreht.
+Karte: Welche Steigung hat ein Regelgewinde M10? | 1,5 mm.
+Karte: Nenne drei Schraubensicherungen. | Flüssige Schraubensicherung, Sicherungsmutter mit Klemmteil und Sicherungsblech.
+Karte: Womit stellst du die Vorspannkraft in der Werkstatt ein? | Mit dem Drehmomentschlüssel über das Anzugsmoment.
+Auswahl: Eine Schraube trägt Zug. Welche Fläche nimmst du für die Spannung? | Den Spannungsquerschnitt | Den Nennquerschnitt; Die Kopfauflage; Den Schaftquerschnitt | Das Gewinde ist die schwächste Stelle. Sein wirksamer Querschnitt ist der Spannungsquerschnitt aus der Tabelle.
+Auswahl: Welche Festigkeitsklasse hat die höhere Streckgrenze? | 10.9 | 8.8; 5.6; 4.6 | Bei 10.9 ist die Streckgrenze 10 mal 9 mal 10, also 900 N/mm².
+Reihenfolge: Schraube auf Zug nachrechnen | Festigkeitsklasse ablesen; Streckgrenze ausrechnen; Spannungsquerschnitt aus der Tabelle holen; Kraft durch Spannungsquerschnitt teilen; Mit der Streckgrenze vergleichen
+Aufgabe: Eine Schraube M12 mit dem Spannungsquerschnitt A_s = 84,3 mm² wird mit F = {F} kN auf Zug belastet. Wie groß ist die Zugspannung?
+Gegeben: F = {F} kN
+Gegeben: A_s = 84,3 mm²
+Gesucht: Zugspannung σ in N/mm²
+Ansatz: Kraft in N, dann σ = F / A_s | Kraft in kN, dann σ = F / A_s; Kraft in N, dann σ = F · A_s; Kraft in N, dann σ = A_s / F
+Signal: Eine Zugkraft und der Spannungsquerschnitt sind gegeben, gesucht ist die Spannung.
+Warum: Weil Spannung immer Kraft pro Fläche ist | Weil die Spannung von der Länge abhängt; Weil Kraft mal Fläche die Spannung gibt
+Kontrolle: Hält eine Schraube 8.8 bei dieser Spannung noch ohne bleibende Dehnung? | Ja, wenn σ unter 640 N/mm² liegt | Ja, wenn σ unter 880 N/mm² liegt; Ja, wenn σ unter 800 N/mm² liegt
+Schritt: Kraft in N | F * 1000 | N
+Schritt: Zugspannung | F * 1000 / 84.3 | N/mm²
+Variable: F | 5 | 45 | 1
+Rechnung: F * 1000 / 84.3
+Aufgabe: Eine Schraube der Festigkeitsklasse {a}.8 soll ausgewählt werden. Wie groß ist ihre Streckgrenze?
+Gegeben: Festigkeitsklasse {a}.8
+Gesucht: Streckgrenze R_e in N/mm²
+Ansatz: Erste mal zweite Zahl mal 10 | Erste Zahl mal 100; Zweite Zahl mal 100; Erste plus zweite Zahl mal 10
+Signal: Eine Festigkeitsklasse ist angegeben, gefragt ist die Streckgrenze.
+Warum: Weil die zweite Zahl das Verhältnis R_e zu R_m angibt | Weil die zweite Zahl die Härte der Schraube ist; Weil die zweite Zahl den Durchmesser angibt
+Kontrolle: Ist die Streckgrenze kleiner als die Zugfestigkeit? | Ja, sie ist 80 Prozent davon | Nein, sie ist größer; Nein, beide sind gleich groß
+Schritt: Zugfestigkeit | a * 100 | N/mm²
+Schritt: Streckgrenze | a * 8 * 10 | N/mm²
+Variable: a | 4 | 6 | 1
+Rechnung: a * 8 * 10
+Aufgabe: Eine Schraube soll F = {F} kN Zug tragen. Die zulässige Spannung ist σ_zul = {sz} N/mm². Welchen Spannungsquerschnitt braucht sie mindestens?
+Gegeben: F = {F} kN
+Gegeben: σ_zul = {sz} N/mm²
+Gesucht: Spannungsquerschnitt A_s in mm²
+Ansatz: Kraft in N, dann A_s = F / σ_zul | Kraft in N, dann A_s = σ_zul / F; Kraft in kN, dann A_s = F / σ_zul; Kraft in N, dann A_s = F · σ_zul
+Signal: Kraft und zulässige Spannung sind gegeben, gesucht ist die nötige Fläche.
+Warum: Weil die Fläche groß genug für σ_zul sein muss | Weil die Fläche immer gleich der Kraft ist; Weil die Fläche aus dem Gewinde folgt
+Kontrolle: Welches Gewinde nimmst du aus der Tabelle? | Das nächste mit größerem A_s | Das nächste mit kleinerem A_s; Das mit dem genau gleichen Wert
+Schritt: Kraft in N | F * 1000 | N
+Schritt: Nötiger Spannungsquerschnitt | F * 1000 / sz | mm²
+Variable: F | 5 | 60 | 1
+Variable: sz | 200 | 500 | 20
+Rechnung: F * 1000 / sz
+Quelle: Selbst formuliert. Werte für Spannungsquerschnitte wie im Tabellenbuch Metall und im Roloff/Matek. Im Zweifel gilt dein Tabellenbuch.
+=== ENDE ===
+
+=== LERNWERK ===
+Fach: Technische Mechanik
+Thema: Maschinenelemente: Bolzen und Stifte
+Anker: Am Anhänger hängt die Deichsel mit einem Bolzen in der Gabel. Der Bolzen geht durch drei Bleche: zwei außen, eins in der Mitte. Zieht das Auto, will der Bolzen an zwei Stellen gleichzeitig abgeschert werden.
+Anker: An der Hantelbank steckst du die Höhe mit einem Steckbolzen ab. Er trägt die ganze Last quer, und das Loch drückt auf ihn. Genau das sind Abscherung und Flächenpressung.
+Begriff: Bolzen | Zylindrisches Teil, das Bauteile gelenkig verbindet. Er wird meist mit Splint oder Sicherungsring gesichert.
+Begriff: Zylinderstift | Stift, der zwei Bauteile genau zueinander ausrichtet. Er sitzt mit Übermaß in der Bohrung.
+Begriff: Kegelstift | Stift mit Kegel 1 zu 50. Er lässt sich lösen und wieder genau einsetzen.
+Begriff: Spannstift | Geschlitzte Hülse aus Federstahl. Sie federt in die Bohrung und braucht keine genaue Passung.
+Begriff: Zweischnittig | Der Bolzen wird an zwei Querschnitten gleichzeitig abgeschert, wie in einer Gabel.
+Begriff: Projizierte Fläche | Bei der Flächenpressung im Loch zählt Durchmesser mal tragende Länge, nicht die halbe Mantelfläche.
+Merksatz: Gabel heißt zweischnittig, also zwei Querschnitte teilen sich die Kraft.
+Merksatz: Abscherung: Kraft durch Anzahl der Schnitte mal Kreisfläche.
+Merksatz: Flächenpressung im Loch: Kraft durch Durchmesser mal Blechdicke.
+Merksatz: Stifte richten aus, Bolzen tragen und lassen drehen.
+Prinzip: Ein Bolzen in einer Gabel wird quer belastet. Die Kraft der Mittellasche will ihn an den beiden Kanten zur Außenlasche abscheren. Deshalb gibt es zwei Scherflächen, und jede trägt die halbe Kraft. Das nennt man zweischnittig.
+
+Gleichzeitig drückt jede Lasche auf den Bolzen. Diese Flächenpressung rechnet man mit der projizierten Fläche: Bolzendurchmesser mal Dicke der Lasche. Meist ist die Mittellasche am kritischsten, weil sie die ganze Kraft allein überträgt.
+
+Stifte sind kleiner und haben eine andere Aufgabe. Zylinderstifte und Kegelstifte sorgen dafür, dass zwei Bauteile nach dem Zerlegen wieder genau an der gleichen Stelle sitzen. Spannstifte sind billig und halten durch ihre eigene Federkraft.
+Baustein: Zählen, an wie vielen Stellen der Bolzen abgeschert wird.
+Baustein: Kreisfläche π d² durch 4 ausrechnen.
+Baustein: Scherspannung gleich Kraft durch Anzahl der Schnitte mal Fläche.
+Baustein: Flächenpressung gleich Kraft durch Durchmesser mal Laschendicke.
+Baustein: Beide Werte mit den zulässigen Werten vergleichen.
+Schnellweg: Einschnittig nimmt die volle Kraft auf eine Fläche, zweischnittig die halbe Kraft auf jede Fläche.
+Fehler: In der Gabel einschnittig gerechnet | In der Gabel wird der Bolzen an zwei Stellen geschert. Teile die Kraft auf zwei Flächen auf.
+Fehler: Für die Flächenpressung die Kreisfläche genommen | Bei der Pressung im Loch zählt Durchmesser mal Laschendicke.
+Fehler: Durchmesser statt Radius ins π r² eingesetzt | Entweder π r² oder π d² durch 4.
+Formel: Abscherung zweischnittig | τ_a = F / (2 · A) | F = 2 · A · τ_a; A = F / (2 · τ_a)
+Formel: Kreisfläche | A = π · d² / 4 | d = √(4 · A / π)
+Formel: Flächenpressung im Bolzenloch | p = F / (d · t) | F = p · d · t; t = F / (p · d)
+Karte: Was heißt zweischnittig? | Der Bolzen wird an zwei Querschnitten gleichzeitig abgeschert.
+Karte: Wie viele Schnitte hat ein Bolzen in einer Gabel? | Zwei.
+Karte: Welche Fläche nimmst du für die Flächenpressung im Loch? | Durchmesser mal Laschendicke, die projizierte Fläche.
+Karte: Wofür nimmt man Zylinderstifte? | Um zwei Bauteile genau zueinander auszurichten.
+Karte: Welche Kegelform hat ein Kegelstift? | 1 zu 50.
+Karte: Was ist der Vorteil eines Spannstifts? | Er braucht keine genaue Passung, weil er selbst federt.
+Karte: Womit sichert man einen Bolzen gegen Herausrutschen? | Mit Splint, Sicherungsring oder Mutter.
+Karte: Wie groß ist die Scherspannung bei zweischnittiger Belastung? | Kraft durch zwei mal Querschnittsfläche.
+Karte: Welche Lasche ist in einer Gabel meist für die Pressung kritisch? | Die Mittellasche, weil sie die ganze Kraft allein trägt.
+Karte: Wie lautet die Kreisfläche mit dem Durchmesser? | π mal d hoch 2 durch 4.
+Auswahl: Ein Bolzen verbindet eine Lasche mit einer Gabel. Wie rechnest du die Abscherung? | Zweischnittig | Einschnittig; Dreischnittig; Gar nicht, nur Pressung | Die Mittellasche will den Bolzen an zwei Kanten abscheren. Also teilen sich zwei Querschnitte die Kraft.
+Auswahl: Ein Deckel soll nach jeder Wartung wieder genau gleich sitzen. Was nimmst du? | Zylinderstifte | Spannstifte; Senkschrauben; Splinte | Zylinderstifte sitzen mit Passung und richten den Deckel jedes Mal gleich aus.
+Reihenfolge: Bolzen in einer Gabel nachrechnen | Anzahl der Schnitte bestimmen; Kreisfläche ausrechnen; Scherspannung ausrechnen; Flächenpressung an der Mittellasche ausrechnen; Mit den zulässigen Werten vergleichen
+Aufgabe: Ein Bolzen mit d = {d} mm verbindet eine Zugstange mit einer Gabel. Die Kraft ist F = {F} kN. Wie groß ist die Scherspannung im Bolzen?
+Gegeben: d = {d} mm
+Gegeben: F = {F} kN
+Gesucht: Scherspannung τ_a in N/mm²
+Ansatz: Zweischnittig: τ = F / (2 · π · d² / 4) | Einschnittig: τ = F / (π · d² / 4); Zweischnittig: τ = 2 · F / (π · d² / 4); Zweischnittig: τ = F / (2 · π · d)
+Signal: Der Bolzen sitzt in einer Gabel und wird quer belastet.
+Warum: Weil sich zwei Scherflächen die Kraft teilen | Weil sich die Kraft in der Gabel verdoppelt; Weil nur die Mantelfläche trägt
+Kontrolle: Wie ändert sich τ bei doppeltem Durchmesser? | Es wird ein Viertel so groß | Es wird halb so groß; Es bleibt gleich groß
+Schritt: Querschnittsfläche | pi * d^2 / 4 | mm²
+Schritt: Scherspannung zweischnittig | F * 1000 / (2 * pi * d^2 / 4) | N/mm²
+Variable: d | 8 | 30 | 2
+Variable: F | 5 | 40 | 1
+Rechnung: F * 1000 / (2 * pi * d^2 / 4)
+Aufgabe: Ein Bolzen mit d = {d} mm sitzt in einer Lasche der Dicke t = {t} mm. Die Lasche überträgt F = {F} kN. Wie groß ist die Flächenpressung im Loch?
+Gegeben: d = {d} mm
+Gegeben: t = {t} mm
+Gegeben: F = {F} kN
+Gesucht: Flächenpressung p in N/mm²
+Ansatz: Kraft in N, dann p = F / (d · t) | Kraft in N, dann p = F / (π · d² / 4); Kraft in N, dann p = F / (π · d · t); Kraft in N, dann p = F · d / t
+Signal: Ein Bolzen drückt in eine Bohrung, gesucht ist die Pressung an der Wand.
+Warum: Weil bei der Lochleibung die projizierte Fläche zählt | Weil bei der Lochleibung der Querschnitt zählt; Weil bei der Lochleibung der Umfang zählt
+Kontrolle: Wie senkst du die Pressung, ohne den Bolzen zu ändern? | Die Lasche dicker machen | Die Lasche dünner machen; Den Bolzen härten
+Schritt: Projizierte Fläche | d * t | mm²
+Schritt: Flächenpressung | F * 1000 / (d * t) | N/mm²
+Variable: d | 10 | 30 | 2
+Variable: t | 8 | 25 | 1
+Variable: F | 5 | 40 | 1
+Rechnung: F * 1000 / (d * t)
+Aufgabe: Ein Gabelbolzen soll F = {F} kN übertragen. Die zulässige Scherspannung ist τ_zul = {tz} N/mm². Welchen Durchmesser braucht er mindestens?
+Gegeben: F = {F} kN
+Gegeben: τ_zul = {tz} N/mm²
+Gesucht: Mindestdurchmesser d in mm
+Ansatz: A = F / (2 · τ_zul), dann d = √(4 · A / π) | A = F / τ_zul, dann d = √(4 · A / π); A = 2 · F / τ_zul, dann d = √(4 · A / π); A = F / (2 · τ_zul), dann d = 4 · A / π
+Signal: Kraft und zulässige Spannung sind gegeben, der Bolzen sitzt in einer Gabel.
+Warum: Weil jede der zwei Scherflächen die halbe Kraft trägt | Weil die Kraft in der Gabel doppelt wirkt; Weil der Bolzen nur auf einer Seite trägt
+Kontrolle: Rundest du den Durchmesser auf oder ab? | Auf den nächsten Normdurchmesser auf | Auf den nächsten Normdurchmesser ab; Auf eine ganze Zahl ab
+Schritt: Nötige Fläche je Schnitt | F * 1000 / (2 * tz) | mm²
+Schritt: Mindestdurchmesser | sqrt(4 * F * 1000 / (2 * tz) / pi) | mm
+Variable: F | 5 | 50 | 1
+Variable: tz | 60 | 120 | 10
+Rechnung: sqrt(4 * F * 1000 / (2 * tz) / pi)
+Quelle: Selbst formuliert. Rechenweg wie in der Festigkeitslehre üblich. Zulässige Werte stehen im Tabellenbuch und im Roloff/Matek.
+=== ENDE ===
+
+=== LERNWERK ===
+Fach: Technische Mechanik
+Thema: Maschinenelemente: Passfeder und Welle-Nabe-Verbindung
+Anker: Auf der Spindel der Drehmaschine sitzt eine Riemenscheibe. Damit sie sich nicht auf der Welle durchdreht, steckt in einer Nut ein kleiner Stahlklotz, die Passfeder. Sie nimmt die Scheibe mit wie ein Mitnehmer.
+Anker: Beim Krafttraining greifst du die Stange mit rauem Griffbereich. Die Rändelung greift in die Haut, das ist Formschluss. Ohne sie müsste allein die Reibung halten.
+Begriff: Welle-Nabe-Verbindung | Verbindung, die ein Drehmoment von einer Welle auf ein Rad, eine Scheibe oder eine Kupplung überträgt.
+Begriff: Formschluss | Die Form der Teile greift ineinander. Beispiel: Passfeder, Keilwelle, Zahnwelle.
+Begriff: Kraftschluss | Reibung überträgt die Kraft. Beispiel: Pressverband, Klemmverbindung, Kegelsitz.
+Begriff: Stoffschluss | Die Teile sind verschweißt, verlötet oder verklebt.
+Begriff: Passfeder | Prismatischer Stahlklotz in Wellennut und Nabennut. Sie überträgt das Moment über die Seitenflächen.
+Begriff: Umfangskraft F_u | Die Kraft am Wellenumfang. Sie ist zwei mal Moment durch Durchmesser.
+Begriff: Tragende Länge | Bei der rundstirnigen Passfeder ist das die Länge minus die Breite, weil die runden Enden kaum tragen.
+Merksatz: Passfeder ist Formschluss, Pressverband ist Kraftschluss.
+Merksatz: Umfangskraft gleich zwei mal Moment durch Durchmesser.
+Merksatz: Die Passfeder wird auf Flächenpressung an der Seite gerechnet.
+Merksatz: Rundstirnig trägt nur Länge minus Breite.
+Prinzip: Eine Welle soll ein Rad mitnehmen. Dafür gibt es drei Wege. Beim Formschluss greifen die Teile ineinander, wie bei Passfeder oder Zahnwelle. Beim Kraftschluss presst man die Nabe so fest auf, dass die Reibung das Moment überträgt. Beim Stoffschluss werden die Teile fest miteinander verbunden.
+
+Die Passfeder ist der häufigste Formschluss. Das Moment erzeugt am Wellenumfang eine Umfangskraft. Diese Kraft drückt seitlich auf die Passfeder. Gefährlich ist die Flächenpressung an der Seitenfläche, meist an der Nabe, weil die Nabe oft aus weicherem Werkstoff ist.
+
+Die tragende Fläche ist die Höhe, mit der die Passfeder in die Nabe ragt, mal der tragenden Länge. Bei rundstirnigen Passfedern ziehst du von der Länge die Breite ab. Die genauen Maße für Nuttiefe und Passfedergröße stehen in der Tabelle zur DIN 6885.
+Baustein: Moment in Nmm umrechnen.
+Baustein: Umfangskraft gleich zwei mal Moment durch Wellendurchmesser.
+Baustein: Tragende Höhe und tragende Länge bestimmen.
+Baustein: Flächenpressung gleich Umfangskraft durch tragende Höhe mal tragende Länge.
+Baustein: Mit der zulässigen Pressung der Nabe vergleichen.
+Schnellweg: Reicht eine Passfeder nicht, nimm eine längere Nabe oder zwei Passfedern. Achtung: Zwei Passfedern tragen nicht doppelt so viel, weil sie nie ganz gleich anliegen. Man rechnet mit einem Abschlag, die genaue Zahl steht in deinem Tabellenbuch.
+Fehler: Moment in Nm gelassen | Für N/mm² muss das Moment in Nmm stehen, also mal 1000.
+Fehler: Umfangskraft mit Moment durch Durchmesser gerechnet | Der Hebelarm ist der Radius. Also zwei mal Moment durch Durchmesser.
+Fehler: Bei der rundstirnigen Passfeder die volle Länge genommen | Die runden Enden tragen kaum. Rechne mit Länge minus Breite.
+Formel: Umfangskraft | F_u = 2 · M / d | M = F_u · d / 2; d = 2 · M / F_u
+Formel: Flächenpressung an der Passfeder | p = F_u / (h_t · l_t) | F_u = p · h_t · l_t; l_t = F_u / (p · h_t)
+Karte: Was ist Formschluss? | Die Teile greifen mit ihrer Form ineinander, wie bei Passfeder oder Zahnwelle.
+Karte: Was ist Kraftschluss? | Reibung überträgt die Kraft, wie beim Pressverband.
+Karte: Nenne eine stoffschlüssige Verbindung. | Schweißen, Löten oder Kleben.
+Karte: Wie bekommst du die Umfangskraft aus dem Moment? | Zwei mal Moment durch Durchmesser.
+Karte: Worauf wird die Passfeder gerechnet? | Auf Flächenpressung an der Seitenfläche.
+Karte: Warum ist meist die Nabe kritisch? | Weil sie oft aus weicherem Werkstoff ist und eine kleinere zulässige Pressung hat.
+Karte: Was ist die tragende Länge bei einer rundstirnigen Passfeder? | Länge minus Breite.
+Karte: Nach welcher Norm sind Passfedern genormt? | DIN 6885.
+Karte: Nenne zwei kraftschlüssige Welle-Nabe-Verbindungen. | Pressverband und Spannelement, auch der Kegelsitz.
+Karte: Was tust du, wenn eine Passfeder die Pressung nicht schafft? | Die Nabe und damit die Passfeder länger machen oder eine Zahnwelle nehmen.
+Auswahl: Ein Zahnrad soll auf der Welle verschiebbar bleiben und trotzdem ein großes Moment übertragen. Was passt? | Zahnwelle | Pressverband; Kegelsitz; Schweißnaht | Eine Zahnwelle ist formschlüssig und lässt das Rad in Längsrichtung gleiten.
+Auswahl: Welche Verbindung ist kraftschlüssig? | Pressverband | Passfeder; Zahnwelle; Polygonprofil | Beim Pressverband hält allein die Reibung durch das Übermaß.
+Reihenfolge: Passfeder nachrechnen | Moment in Nmm umrechnen; Umfangskraft ausrechnen; Tragende Höhe und Länge bestimmen; Flächenpressung ausrechnen; Mit der zulässigen Pressung vergleichen
+Aufgabe: Eine Welle mit d = {d} mm überträgt M = {M} Nm. Wie groß ist die Umfangskraft am Wellenumfang?
+Gegeben: d = {d} mm
+Gegeben: M = {M} Nm
+Gesucht: Umfangskraft F_u in N
+Ansatz: M in Nmm, dann F_u = 2 · M / d | M in Nmm, dann F_u = M / d; M in Nm, dann F_u = 2 · M / d; M in Nmm, dann F_u = M · d / 2
+Signal: Ein Moment und der Wellendurchmesser sind gegeben, gesucht ist die Kraft am Umfang.
+Warum: Weil der Hebelarm der Radius ist, also d durch 2 | Weil der Hebelarm der Durchmesser ist; Weil die Kraft immer doppelt so groß ist
+Kontrolle: Wird die Umfangskraft größer, wenn die Welle dicker wird? | Nein, sie wird kleiner | Ja, sie wird größer; Sie bleibt gleich
+Schritt: Moment in Nmm | M * 1000 | Nmm
+Schritt: Umfangskraft | 2 * M * 1000 / d | N
+Variable: d | 20 | 60 | 2
+Variable: M | 50 | 600 | 10
+Rechnung: 2 * M * 1000 / d
+Aufgabe: Eine Welle mit d = {d} mm überträgt M = {M} Nm über eine Passfeder. Die tragende Höhe in der Nabe ist h_t = {h} mm, die tragende Länge l_t = {l} mm. Wie groß ist die Flächenpressung?
+Gegeben: d = {d} mm
+Gegeben: M = {M} Nm
+Gegeben: h_t = {h} mm
+Gegeben: l_t = {l} mm
+Gesucht: Flächenpressung p in N/mm²
+Ansatz: F_u = 2 · M / d, dann p = F_u / (h_t · l_t) | F_u = M / d, dann p = F_u / (h_t · l_t); F_u = 2 · M / d, dann p = F_u / (d · l_t); F_u = 2 · M / d, dann p = F_u · h_t · l_t
+Signal: Passfeder, Moment und tragende Maße sind gegeben, gesucht ist die Pressung.
+Warum: Weil die Umfangskraft seitlich auf die Passfeder drückt | Weil die Passfeder auf Biegung bricht; Weil die Passfeder auf Zug belastet wird
+Kontrolle: Was hilft am einfachsten, wenn p zu groß ist? | Eine längere Passfeder | Eine kürzere Passfeder; Ein kleinerer Wellendurchmesser
+Schritt: Umfangskraft | 2 * M * 1000 / d | N
+Schritt: Flächenpressung | 2 * M * 1000 / d / (h * l) | N/mm²
+Variable: d | 25 | 50 | 5
+Variable: M | 50 | 300 | 10
+Variable: h | 3 | 5 | 0,5
+Variable: l | 20 | 60 | 5
+Rechnung: 2 * M * 1000 / d / (h * l)
+Aufgabe: Eine Welle mit d = {d} mm soll M = {M} Nm übertragen. Die tragende Höhe ist h_t = {h} mm, die zulässige Pressung p_zul = {pz} N/mm². Welche tragende Länge braucht die Passfeder?
+Gegeben: d = {d} mm
+Gegeben: M = {M} Nm
+Gegeben: h_t = {h} mm
+Gegeben: p_zul = {pz} N/mm²
+Gesucht: Tragende Länge l_t in mm
+Ansatz: F_u = 2 · M / d, dann l_t = F_u / (p_zul · h_t) | F_u = 2 · M / d, dann l_t = F_u · p_zul / h_t; F_u = M / d, dann l_t = F_u / (p_zul · h_t); F_u = 2 · M / d, dann l_t = p_zul / (F_u · h_t)
+Signal: Die zulässige Pressung ist vorgegeben, gesucht ist eine Länge.
+Warum: Weil die Fläche groß genug für p_zul sein muss | Weil die Länge immer gleich dem Durchmesser ist; Weil die Länge aus der Höhe allein folgt
+Kontrolle: Welche Gesamtlänge hat eine rundstirnige Passfeder dann? | Tragende Länge plus Breite | Tragende Länge minus Breite; Genau die tragende Länge
+Schritt: Umfangskraft | 2 * M * 1000 / d | N
+Schritt: Tragende Länge | 2 * M * 1000 / d / (pz * h) | mm
+Variable: d | 25 | 50 | 5
+Variable: M | 50 | 300 | 10
+Variable: h | 3 | 5 | 0,5
+Variable: pz | 60 | 120 | 10
+Rechnung: 2 * M * 1000 / d / (pz * h)
+Quelle: Selbst formuliert. Vereinfachte Rechnung wie im Unterricht üblich. Genaue Maße und Tragfaktoren stehen in der Tabelle zur DIN 6885 und im Roloff/Matek.
+=== ENDE ===
+
+=== LERNWERK ===
+Fach: Technische Mechanik
+Thema: Maschinenelemente: Wälzlager
+Anker: Die Spindel der Fräse läuft in Wälzlagern. Kugeln oder Rollen rollen zwischen zwei Ringen ab, statt zu gleiten. Deshalb dreht sich die Spindel mit wenig Reibung, auch bei hoher Drehzahl.
+Anker: Ein Skateboardrad hat auch ein Kugellager. Kommt Dreck hinein oder wird es überlastet, wird es rau und laut. Genau das passiert in der Maschine, wenn die Lebensdauer erreicht ist.
+Begriff: Rillenkugellager | Das häufigste Lager. Es nimmt Radialkräfte und auch kleinere Axialkräfte auf.
+Begriff: Zylinderrollenlager | Trägt große Radialkräfte, je nach Bauart kaum oder keine Axialkraft.
+Begriff: Kegelrollenlager | Nimmt große Radial- und Axialkräfte zusammen auf. Wird meist paarweise eingebaut.
+Begriff: Festlager | Das Lager, das die Welle in Längsrichtung festhält. Es nimmt die Axialkraft auf.
+Begriff: Loslager | Das Lager, das in Längsrichtung verschieben kann. So kann sich die Welle bei Wärme ausdehnen.
+Begriff: Dynamische Tragzahl C | Die Last, bei der das Lager eine Million Umdrehungen schafft. Sie steht im Lagerkatalog.
+Begriff: Nominelle Lebensdauer L_10 | So viele Millionen Umdrehungen erreichen 90 Prozent der gleichen Lager mindestens.
+Merksatz: Ein Festlager, ein Loslager, damit die Welle wachsen kann.
+Merksatz: Lebensdauer gleich C durch P hoch p.
+Merksatz: Kugellager hoch 3, Rollenlager hoch 10 Drittel.
+Merksatz: Bei Lagerreihe 62 und ab Kennzahl 04 ist die Bohrung die Kennzahl mal 5.
+Prinzip: Ein Wälzlager ersetzt Gleiten durch Rollen. Zwischen Innenring und Außenring laufen Kugeln oder Rollen in einem Käfig. Kugeln haben nur kleine Berührungspunkte und sind gut für hohe Drehzahlen. Rollen haben Berührungslinien und tragen mehr.
+
+Eine Welle braucht meist zwei Lager. Eines ist das Festlager, es hält die Welle in Längsrichtung. Das andere ist das Loslager, es darf verschieben. So klemmt die Welle nicht, wenn sie warm wird und sich ausdehnt.
+
+Wälzlager sterben irgendwann an Materialermüdung. Wie lange sie halten, sagt die Lebensdauerformel: Tragzahl durch Belastung hoch Lebensdauerexponent ergibt Millionen Umdrehungen. Mit der Drehzahl rechnest du das in Betriebsstunden um. Doppelte Last heißt beim Kugellager nur ein Achtel der Lebensdauer.
+Baustein: Lagerart bestimmen und den Exponenten wählen, 3 für Kugeln, 10 Drittel für Rollen.
+Baustein: Tragzahl C aus dem Katalog und äquivalente Last P bestimmen.
+Baustein: L_10 gleich C durch P hoch p in Millionen Umdrehungen.
+Baustein: In Stunden umrechnen: mal eine Million, geteilt durch 60 mal Drehzahl.
+Baustein: Mit der geforderten Lebensdauer vergleichen.
+Schnellweg: Lagerbohrung aus der Bezeichnung: 6205 hat Kennzahl 05, also 25 mm. Achtung, unter 04 gilt das nicht: 00 sind 10 mm, 01 sind 12 mm, 02 sind 15 mm, 03 sind 17 mm.
+Schnellweg: Wirken Radial- und Axialkraft zusammen, rechnet man vorher die äquivalente Last P gleich X mal F_r plus Y mal F_a. X und Y stehen im Katalog.
+Fehler: Beim Rollenlager hoch 3 gerechnet | Für Rollenlager ist der Exponent 10 durch 3.
+Fehler: L_10 schon für Stunden gehalten | L_10 ist in Millionen Umdrehungen. Für Stunden mal eine Million und durch 60 mal Drehzahl.
+Fehler: Zwei Festlager eingebaut | Dann klemmt die Welle bei Erwärmung. Ein Lager muss Loslager sein.
+Formel: Nominelle Lebensdauer Kugellager | L = (C / P)^3 | C = P · L^(1 / 3); P = C / L^(1 / 3)
+Formel: Lebensdauer in Stunden | L_h = L · 1000000 / (60 · n) | L = L_h · 60 · n / 1000000; n = L · 1000000 / (60 · L_h)
+Karte: Wozu braucht eine Welle ein Loslager? | Damit sie sich bei Wärme ausdehnen kann, ohne zu klemmen.
+Karte: Welches Lager nimmt die Axialkraft auf? | Das Festlager.
+Karte: Wie lautet die Lebensdauerformel? | L_10 gleich C durch P hoch p, in Millionen Umdrehungen.
+Karte: Welchen Exponenten hat ein Kugellager? | 3.
+Karte: Welchen Exponenten hat ein Rollenlager? | 10 durch 3.
+Karte: Was bedeutet L_10? | 90 Prozent der Lager erreichen mindestens diese Lebensdauer.
+Karte: Welche Bohrung hat ein Lager 6206? | 30 mm, Kennzahl 06 mal 5.
+Karte: Welche Bohrung hat ein Lager 6203? | 17 mm.
+Karte: Welches Lager nimmt große Radial- und Axialkräfte zusammen auf? | Das Kegelrollenlager.
+Karte: Was passiert mit der Lebensdauer eines Kugellagers bei doppelter Last? | Sie sinkt auf ein Achtel.
+Karte: Wo findest du die Tragzahl C? | Im Lagerkatalog des Herstellers oder im Tabellenbuch.
+Auswahl: Eine Welle wird im Betrieb 60 Grad warm. Wie lagerst du sie? | Ein Festlager und ein Loslager | Zwei Festlager; Zwei Loslager; Ein einziges Rollenlager | Das Festlager führt die Welle, das Loslager lässt die Wärmedehnung zu.
+Auswahl: Eine Radnabe bekommt große Radial- und Axialkräfte. Welche Lager passen? | Zwei Kegelrollenlager | Zwei Nadellager; Zwei Zylinderrollenlager; Zwei Axialkugellager | Kegelrollenlager tragen beide Richtungen gleichzeitig und werden paarweise gegeneinander eingebaut.
+Reihenfolge: Lebensdauer eines Lagers prüfen | Lagerart und Exponent bestimmen; Tragzahl aus dem Katalog holen; Äquivalente Last bestimmen; L_10 ausrechnen; In Stunden umrechnen und vergleichen
+Aufgabe: Ein Rillenkugellager hat die dynamische Tragzahl C = {C} kN. Es wird mit P = {P} kN belastet. Wie groß ist die nominelle Lebensdauer in Millionen Umdrehungen?
+Gegeben: C = {C} kN
+Gegeben: P = {P} kN
+Gesucht: Lebensdauer L_10 in Millionen Umdrehungen
+Ansatz: L_10 = (C / P)^3 | L_10 = (C / P)^(10 / 3); L_10 = (P / C)^3; L_10 = 3 · C / P
+Signal: Kugellager, Tragzahl und Belastung sind gegeben, gefragt ist die Lebensdauer.
+Warum: Weil der Exponent beim Kugellager 3 ist | Weil der Exponent beim Kugellager 10 Drittel ist; Weil Lebensdauer und Last gleich wachsen
+Kontrolle: Was passiert bei halber Last? | Die Lebensdauer wird achtmal so groß | Die Lebensdauer wird doppelt so groß; Die Lebensdauer bleibt gleich
+Schritt: Verhältnis C durch P | C / P |
+Schritt: Lebensdauer | (C / P)^3 | Mio. Umdrehungen
+Variable: C | 10 | 40 | 1
+Variable: P | 1 | 6 | 0,5
+Rechnung: (C / P)^3
+Aufgabe: Ein Rillenkugellager mit C = {C} kN läuft mit P = {P} kN bei n = {n} 1/min. Wie viele Betriebsstunden hält es nominell?
+Gegeben: C = {C} kN
+Gegeben: P = {P} kN
+Gegeben: n = {n} 1/min
+Gesucht: Lebensdauer L_h in Stunden
+Ansatz: L_10 = (C / P)^3, dann L_h = L_10 · 10⁶ / (60 · n) | L_10 = (C / P)^3, dann L_h = L_10 / (60 · n); L_10 = (C / P)^3, dann L_h = L_10 · 60 · n; L_10 = (P / C)^3, dann L_h = L_10 · 10⁶ / (60 · n)
+Signal: Zusätzlich zur Last ist die Drehzahl gegeben, gefragt sind Stunden.
+Warum: Weil L_10 in Millionen Umdrehungen herauskommt | Weil L_10 schon in Stunden herauskommt; Weil die Drehzahl die Tragzahl ändert
+Kontrolle: Hält das Lager bei doppelter Drehzahl länger oder kürzer? | Halb so viele Stunden | Doppelt so viele Stunden; Genau gleich viele Stunden
+Schritt: Lebensdauer in Millionen Umdrehungen | (C / P)^3 | Mio. Umdrehungen
+Schritt: Lebensdauer in Stunden | (C / P)^3 * 1000000 / (60 * n) | h
+Variable: C | 10 | 40 | 1
+Variable: P | 1 | 6 | 0,5
+Variable: n | 500 | 3000 | 100
+Rechnung: (C / P)^3 * 1000000 / (60 * n)
+Aufgabe: Ein Zylinderrollenlager hat C = {C} kN und wird mit P = {P} kN belastet. Wie groß ist die nominelle Lebensdauer in Millionen Umdrehungen?
+Gegeben: C = {C} kN
+Gegeben: P = {P} kN
+Gesucht: Lebensdauer L_10 in Millionen Umdrehungen
+Ansatz: L_10 = (C / P)^(10 / 3) | L_10 = (C / P)^3; L_10 = (P / C)^(10 / 3); L_10 = 10 · C / (3 · P)
+Signal: Diesmal ist es ein Rollenlager.
+Warum: Weil Rollen eine Linie berühren und der Exponent 10 Drittel ist | Weil Rollen einen Punkt berühren und der Exponent 3 ist; Weil Rollenlager gar keine Lebensdauer haben
+Kontrolle: Ist das Ergebnis größer als mit dem Exponenten 3? | Ja, wenn C größer als P ist | Nein, es ist immer kleiner; Es ist immer genau gleich
+Schritt: Verhältnis C durch P | C / P |
+Schritt: Lebensdauer | (C / P)^(10 / 3) | Mio. Umdrehungen
+Variable: C | 20 | 80 | 2
+Variable: P | 2 | 10 | 1
+Rechnung: (C / P)^(10 / 3)
+Quelle: Selbst formuliert. Lebensdauerformel nach DIN ISO 281 in der einfachen Form ohne Zusatzfaktoren. Tragzahlen stehen im Katalog des Lagerherstellers.
+=== ENDE ===
+
+=== LERNWERK ===
+Fach: Technische Mechanik
+Thema: Maschinenelemente: Zahnräder
+Anker: Am Getriebe der Drehmaschine schaltest du Gänge. Ein kleines Rad treibt ein großes an. Das große dreht langsamer, aber mit mehr Kraft. Genau wie beim Fahrrad: Kleiner Gang vorne, großes Ritzel hinten, und der Berg geht leichter.
+Begriff: Modul m | Die Grundgröße eines Zahnrads in mm. Zwei Räder kämmen nur, wenn sie den gleichen Modul haben.
+Begriff: Zähnezahl z | Die Anzahl der Zähne.
+Begriff: Teilkreisdurchmesser d | Modul mal Zähnezahl. Auf diesem Kreis rollen die Räder gedanklich aufeinander ab.
+Begriff: Kopfkreisdurchmesser d_a | Außendurchmesser des Rads, Teilkreis plus zwei Modul.
+Begriff: Fußkreisdurchmesser d_f | Teilkreis minus 2,5 Modul.
+Begriff: Teilung p | Abstand von Zahn zu Zahn auf dem Teilkreis, π mal Modul.
+Begriff: Übersetzung i | Zähnezahl getrieben durch Zähnezahl treibend. Sie ist auch Drehzahl treibend durch Drehzahl getrieben.
+Begriff: Achsabstand a | Abstand der beiden Radmitten, halbe Summe der Teilkreise.
+Merksatz: Teilkreis gleich Modul mal Zähnezahl.
+Merksatz: Kopfkreis gleich Modul mal Zähnezahl plus 2.
+Merksatz: Großes Rad getrieben heißt langsamer und stärker.
+Merksatz: Übersetzung gleich z2 durch z1 gleich n1 durch n2.
+Prinzip: Zahnräder übertragen Drehung formschlüssig, ohne Schlupf. Damit sie zusammenpassen, brauchen sie denselben Modul. Der Modul bestimmt die Zahngröße. Aus Modul und Zähnezahl folgen alle Durchmesser: Teilkreis ist m mal z, Kopfkreis zwei Modul mehr, Fußkreis 2,5 Modul weniger.
+
+Treibt ein kleines Rad ein großes an, dreht das große langsamer. Das Verhältnis der Zähnezahlen ist die Übersetzung. Die Leistung bleibt bis auf die Reibung gleich. Wenn die Drehzahl sinkt, steigt deshalb das Moment im gleichen Verhältnis.
+
+Für den Achsabstand addierst du die beiden Teilkreise und halbierst. So prüfst du, ob zwei Räder in ein vorhandenes Gehäuse passen.
+Baustein: Gleichen Modul für beide Räder sicherstellen.
+Baustein: Teilkreis d gleich m mal z.
+Baustein: Kopfkreis d_a gleich d plus 2 m, Fußkreis d_f gleich d minus 2,5 m.
+Baustein: Übersetzung i gleich z2 durch z1.
+Baustein: Abtriebsdrehzahl n2 gleich n1 durch i, Abtriebsmoment M2 gleich M1 mal i mal Wirkungsgrad.
+Schnellweg: Achsabstand gleich m mal z1 plus z2, das Ganze durch 2.
+Schnellweg: Zahnhöhe gleich 2,25 Modul.
+Fehler: Übersetzung umgekehrt gerechnet | Die Übersetzung ist getrieben durch treibend, also z2 durch z1.
+Fehler: Beim Kopfkreis nur einen Modul addiert | Der Kopf ragt auf beiden Seiten einen Modul heraus, also plus 2 m.
+Fehler: Moment beim Untersetzen gleich gelassen | Wird die Drehzahl kleiner, wird das Moment um den gleichen Faktor größer.
+Formel: Teilkreisdurchmesser | d = m · z | m = d / z; z = d / m
+Formel: Kopfkreisdurchmesser | d_a = m · (z + 2) | m = d_a / (z + 2); z = d_a / m − 2
+Formel: Achsabstand | a = m · (z_1 + z_2) / 2 | m = 2 · a / (z_1 + z_2); z_2 = 2 · a / m − z_1
+Formel: Übersetzung über die Drehzahlen | i = n_1 / n_2 | n_2 = n_1 / i; n_1 = i · n_2
+Karte: Was muss bei zwei kämmenden Zahnrädern gleich sein? | Der Modul.
+Karte: Wie groß ist der Teilkreisdurchmesser? | Modul mal Zähnezahl.
+Karte: Wie groß ist der Kopfkreisdurchmesser? | Modul mal Zähnezahl plus 2.
+Karte: Wie groß ist der Fußkreisdurchmesser? | Teilkreis minus 2,5 Modul.
+Karte: Wie lautet die Übersetzung über die Zähnezahlen? | Zähnezahl getrieben durch Zähnezahl treibend.
+Karte: Was passiert mit dem Moment, wenn ein Getriebe langsamer macht? | Es wird größer, um den Faktor der Übersetzung, abzüglich Reibung.
+Karte: Wie rechnest du den Achsabstand? | Teilkreis 1 plus Teilkreis 2, durch 2.
+Karte: Wie groß ist die Teilung? | π mal Modul.
+Karte: Wie hoch ist ein Zahn? | 2,25 Modul.
+Karte: Warum haben Zahnräder keinen Schlupf? | Weil sie formschlüssig ineinandergreifen.
+Auswahl: Ein Motor dreht zu schnell und hat zu wenig Moment. Was baust du ein? | Eine Untersetzung, kleines Rad treibt großes | Eine Übersetzung ins Schnelle; Zwei gleich große Räder; Ein Rad mit anderem Modul | Das große getriebene Rad dreht langsamer und hat dafür mehr Moment.
+Auswahl: Zwei Räder sollen kämmen. Rad 1 hat m = 2, Rad 2 hat m = 3. Was stimmt? | Das geht nicht | Das geht mit Fett; Das geht bei kleiner Drehzahl; Das geht mit Schrägverzahnung | Nur Räder mit gleichem Modul haben gleich große Zähne und kämmen richtig.
+Reihenfolge: Zahnradpaar auslegen | Modul festlegen; Zähnezahlen aus der Übersetzung wählen; Teilkreise ausrechnen; Kopfkreise ausrechnen; Achsabstand prüfen
+Aufgabe: Ein Zahnrad hat den Modul m = {m} mm und z = {z} Zähne. Wie groß ist der Kopfkreisdurchmesser?
+Gegeben: m = {m} mm
+Gegeben: z = {z}
+Gesucht: Kopfkreisdurchmesser d_a in mm
+Ansatz: d = m · z, dann d_a = d + 2 · m | d = m · z, dann d_a = d + m; d = m · z, dann d_a = d − 2,5 · m; d = m + z, dann d_a = d + 2 · m
+Signal: Modul und Zähnezahl sind gegeben, gefragt ist ein Durchmesser.
+Warum: Weil der Kopf auf jeder Seite einen Modul übersteht | Weil der Kopf nur auf einer Seite übersteht; Weil der Kopfkreis kleiner als der Teilkreis ist
+Kontrolle: Ist der Kopfkreis größer als der Teilkreis? | Ja, um zwei Modul | Nein, um zwei Modul kleiner; Beide sind gleich groß
+Schritt: Teilkreisdurchmesser | m * z | mm
+Schritt: Kopfkreisdurchmesser | m * z + 2 * m | mm
+Variable: m | 1 | 5 | 0,5
+Variable: z | 15 | 80 | 1
+Rechnung: m * z + 2 * m
+Aufgabe: Zwei Zahnräder mit m = {m} mm haben z_1 = {z1} und z_2 = {z2} Zähne. Wie groß ist der Achsabstand?
+Gegeben: m = {m} mm
+Gegeben: z_1 = {z1}
+Gegeben: z_2 = {z2}
+Gesucht: Achsabstand a in mm
+Ansatz: a = m · (z_1 + z_2) / 2 | a = m · (z_1 + z_2); a = m · (z_2 − z_1) / 2; a = (z_1 + z_2) / (2 · m)
+Signal: Zwei Räder, ein Modul und beide Zähnezahlen sind gegeben, gefragt ist der Abstand der Mitten.
+Warum: Weil der Abstand die Summe der beiden Teilkreisradien ist | Weil der Abstand die Summe der beiden Kopfkreise ist; Weil der Abstand der Differenz der Teilkreise entspricht
+Kontrolle: Liegt der Achsabstand zwischen den beiden Teilkreisdurchmessern? | Ja, er ist ihr Mittelwert | Nein, er ist größer als beide; Nein, er ist kleiner als beide
+Schritt: Teilkreis 1 | m * z1 | mm
+Schritt: Teilkreis 2 | m * z2 | mm
+Schritt: Achsabstand | (m * z1 + m * z2) / 2 | mm
+Variable: m | 1 | 5 | 0,5
+Variable: z1 | 15 | 30 | 1
+Variable: z2 | 35 | 90 | 1
+Rechnung: (m * z1 + m * z2) / 2
+Aufgabe: Ein Motor treibt mit n_1 = {n1} 1/min und M_1 = {M1} Nm ein Ritzel mit z_1 = {z1} Zähnen an. Es kämmt mit einem Rad mit z_2 = {z2} Zähnen. Der Wirkungsgrad ist 0,97. Wie groß ist das Abtriebsmoment?
+Gegeben: n_1 = {n1} 1/min
+Gegeben: M_1 = {M1} Nm
+Gegeben: z_1 = {z1}
+Gegeben: z_2 = {z2}
+Gegeben: η = 0,97
+Gesucht: Abtriebsmoment M_2 in Nm
+Ansatz: i = z_2 / z_1, dann M_2 = M_1 · i · η | i = z_1 / z_2, dann M_2 = M_1 · i · η; i = z_2 / z_1, dann M_2 = M_1 / i · η; i = z_2 / z_1, dann M_2 = M_1 · η
+Signal: Zähnezahlen und Antriebsmoment sind gegeben, gefragt ist das Moment am großen Rad.
+Warum: Weil die Leistung fast gleich bleibt, die Drehzahl aber sinkt | Weil das Moment beim Untersetzen kleiner wird; Weil Zahnräder das Moment nicht ändern
+Kontrolle: Ist M_2 größer als M_1? | Ja, wenn das getriebene Rad größer ist | Nein, es ist immer kleiner; Es ist immer genau gleich
+Schritt: Übersetzung | z2 / z1 |
+Schritt: Abtriebsmoment | M1 * z2 / z1 * 0.97 | Nm
+Variable: n1 | 700 | 2900 | 100
+Variable: M1 | 5 | 60 | 1
+Variable: z1 | 15 | 25 | 1
+Variable: z2 | 40 | 90 | 1
+Rechnung: M1 * z2 / z1 * 0.97
+Quelle: Selbst formuliert. Verzahnungsgrößen für Null-Räder ohne Profilverschiebung, wie im Tabellenbuch Metall und im Roloff/Matek.
+=== ENDE ===
+
+=== LERNWERK ===
+Fach: Technische Mechanik
+Thema: Maschinenelemente: Riementrieb
+Anker: Bei vielen Ständerbohrmaschinen wechselst du die Drehzahl, indem du den Keilriemen auf eine andere Stufe der Riemenscheiben legst. Kleine Scheibe am Motor und große an der Spindel heißt langsam und kräftig. Andersherum wird es schnell.
+Begriff: Flachriemen | Flacher Riemen, der über Reibung auf glatten Scheiben läuft.
+Begriff: Keilriemen | Riemen mit Trapezquerschnitt. Er klemmt sich in die Rille der Scheibe und überträgt so mehr Kraft als ein Flachriemen.
+Begriff: Zahnriemen | Riemen mit Zähnen. Er ist formschlüssig und läuft ohne Schlupf. Deshalb nimmt man ihn für Achsen, die synchron laufen müssen.
+Begriff: Schlupf | Der Riemen rutscht ein wenig auf der Scheibe. Die getriebene Scheibe dreht dadurch etwas langsamer als gerechnet.
+Begriff: Riemengeschwindigkeit v | Wie schnell der Riemen läuft, in m/s. Sie ist auf beiden Scheiben gleich.
+Begriff: Umfangskraft | Die Kraft, die der Riemen überträgt. Sie ist Leistung durch Riemengeschwindigkeit.
+Merksatz: Die Riemengeschwindigkeit ist an beiden Scheiben gleich.
+Merksatz: d1 mal n1 gleich d2 mal n2.
+Merksatz: Zahnriemen läuft synchron, Keilriemen und Flachriemen haben Schlupf.
+Merksatz: Umfangskraft gleich Leistung durch Geschwindigkeit.
+Prinzip: Der Riemen läuft über zwei Scheiben. Er hat überall dieselbe Geschwindigkeit. Deshalb muss die kleine Scheibe schneller drehen als die große. Daraus folgt: Durchmesser mal Drehzahl ist an beiden Scheiben gleich.
+
+Flachriemen und Keilriemen übertragen die Kraft durch Reibung. Sie brauchen eine Vorspannung und rutschen ein wenig, das ist der Schlupf von etwa 1 bis 2 Prozent. Dafür sind sie leise und schützen bei einer Blockade den Antrieb, weil sie durchrutschen. Zahnriemen greifen formschlüssig und laufen ohne Schlupf. Sie treiben Achsen, die genau im Takt bleiben müssen, wie eine Nockenwelle oder eine Linearachse.
+
+Die Kraft im Riemen bekommst du aus der Leistung. Leistung ist Kraft mal Geschwindigkeit, also ist die Umfangskraft Leistung durch Riemengeschwindigkeit.
+Baustein: Durchmesser und Drehzahlen sortieren: treibend ist 1, getrieben ist 2.
+Baustein: Übersetzung i gleich d2 durch d1 gleich n1 durch n2.
+Baustein: Riemengeschwindigkeit v gleich π mal d mal n, in Metern und pro Sekunde.
+Baustein: Umfangskraft gleich Leistung in W durch v.
+Baustein: Bei Reibriemen etwas Schlupf einplanen.
+Schnellweg: v in m/s gleich π mal d in mm mal n in 1 pro Minute durch 60000.
+Fehler: Durchmesser in mm und Drehzahl pro Minute direkt eingesetzt | Für m/s teilst du durch 1000 und durch 60, zusammen durch 60000.
+Fehler: Übersetzung umgedreht | Große getriebene Scheibe heißt kleinere Drehzahl. n2 gleich n1 mal d1 durch d2.
+Fehler: Leistung in kW durch v geteilt und das Ergebnis als N gelesen | Für N muss die Leistung in W stehen, also mal 1000.
+Formel: Riemengeschwindigkeit | v = π · d · n / 60000 | d = 60000 · v / (π · n); n = 60000 · v / (π · d)
+Formel: Drehzahl der getriebenen Scheibe | n_2 = n_1 · d_1 / d_2 | n_1 = n_2 · d_2 / d_1; d_2 = n_1 · d_1 / n_2
+Formel: Umfangskraft am Riemen | F = P / v | P = F · v; v = P / F
+Karte: Warum ist d1 mal n1 gleich d2 mal n2? | Weil der Riemen an beiden Scheiben gleich schnell läuft.
+Karte: Welcher Riemen läuft ohne Schlupf? | Der Zahnriemen.
+Karte: Warum überträgt ein Keilriemen mehr als ein Flachriemen? | Weil er sich in die Rille klemmt und so mehr Reibkraft entsteht.
+Karte: Wie groß ist der Schlupf bei Reibriemen ungefähr? | Etwa 1 bis 2 Prozent.
+Karte: Wie rechnest du die Riemengeschwindigkeit in m/s? | π mal d in mm mal n in 1 pro Minute durch 60000.
+Karte: Wie bekommst du die Umfangskraft? | Leistung in W durch Riemengeschwindigkeit in m/s.
+Karte: Wofür nimmt man Zahnriemen? | Für Antriebe, die genau im Takt laufen müssen, wie Linearachsen.
+Karte: Was ist ein Vorteil von Reibriemen bei einer Blockade? | Sie rutschen durch und schützen den Antrieb.
+Karte: Was passiert mit der Drehzahl, wenn die getriebene Scheibe größer ist? | Sie wird kleiner.
+Karte: Warum brauchen Reibriemen eine Vorspannung? | Ohne Anpresskraft gibt es keine Reibung, und der Riemen rutscht.
+Auswahl: Eine Linearachse muss genau positioniert werden. Welcher Riemen passt? | Zahnriemen | Keilriemen; Flachriemen; Rundriemen | Nur der Zahnriemen ist formschlüssig. Er hat keinen Schlupf, und die Position stimmt.
+Auswahl: Die Spindel soll langsamer drehen als der Motor. Wie legst du den Riemen? | Kleine Scheibe am Motor, große an der Spindel | Große Scheibe am Motor, kleine an der Spindel; Gleich große Scheiben an beiden; Riemen über Kreuz legen | Die große getriebene Scheibe dreht langsamer, weil der Riemen überall gleich schnell läuft.
+Reihenfolge: Riementrieb nachrechnen | Treibende und getriebene Scheibe festlegen; Übersetzung ausrechnen; Abtriebsdrehzahl ausrechnen; Riemengeschwindigkeit ausrechnen; Umfangskraft aus der Leistung ausrechnen
+Aufgabe: Eine Riemenscheibe mit d = {d} mm dreht mit n = {n} 1/min. Wie schnell läuft der Riemen?
+Gegeben: d = {d} mm
+Gegeben: n = {n} 1/min
+Gesucht: Riemengeschwindigkeit v in m/s
+Ansatz: v = π · d · n / 60000 | v = π · d · n / 1000; v = d · n / 60000; v = π · d · n / 60
+Signal: Durchmesser in mm und Drehzahl pro Minute sind gegeben, gefragt ist m/s.
+Warum: Weil mm durch 1000 und Minuten durch 60 geteilt werden | Weil nur die Millimeter umgerechnet werden; Weil der Umfang nicht gebraucht wird
+Kontrolle: Liegt v für einen Keilriemen in einem sinnvollen Bereich? | Ja, meist zwischen 5 und 30 m/s | Ja, meist um 1000 m/s; Ja, meist unter 0,1 m/s
+Schritt: Umfang in mm | pi * d | mm
+Schritt: Riemengeschwindigkeit | pi * d * n / 60000 | m/s
+Variable: d | 80 | 400 | 10
+Variable: n | 700 | 2900 | 100
+Rechnung: pi * d * n / 60000
+Aufgabe: Ein Motor dreht mit n_1 = {n1} 1/min. Seine Riemenscheibe hat d_1 = {d1} mm, die Scheibe an der Spindel d_2 = {d2} mm. Wie schnell dreht die Spindel ohne Schlupf?
+Gegeben: n_1 = {n1} 1/min
+Gegeben: d_1 = {d1} mm
+Gegeben: d_2 = {d2} mm
+Gesucht: Spindeldrehzahl n_2 in 1/min
+Ansatz: n_2 = n_1 · d_1 / d_2 | n_2 = n_1 · d_2 / d_1; n_2 = n_1 + d_1 − d_2; n_2 = d_1 · d_2 / n_1
+Signal: Zwei Scheibendurchmesser und eine Drehzahl sind gegeben.
+Warum: Weil die Riemengeschwindigkeit an beiden Scheiben gleich ist | Weil die Drehzahl an beiden Scheiben gleich ist; Weil das Moment an beiden Scheiben gleich ist
+Kontrolle: Dreht die Spindel langsamer als der Motor? | Ja, wenn d_2 größer als d_1 ist | Nein, immer schneller; Beide drehen immer gleich
+Schritt: Übersetzung | d2 / d1 |
+Schritt: Spindeldrehzahl | n1 * d1 / d2 | 1/min
+Variable: n1 | 1000 | 3000 | 100
+Variable: d1 | 60 | 150 | 10
+Variable: d2 | 160 | 400 | 10
+Rechnung: n1 * d1 / d2
+Aufgabe: Ein Riementrieb überträgt P = {P} kW bei einer Riemengeschwindigkeit von v = {v} m/s. Wie groß ist die Umfangskraft?
+Gegeben: P = {P} kW
+Gegeben: v = {v} m/s
+Gesucht: Umfangskraft F in N
+Ansatz: Leistung in W, dann F = P / v | Leistung in kW, dann F = P / v; Leistung in W, dann F = P · v; Leistung in W, dann F = v / P
+Signal: Leistung und Geschwindigkeit sind gegeben, gefragt ist eine Kraft.
+Warum: Weil Leistung gleich Kraft mal Geschwindigkeit ist | Weil Leistung gleich Kraft durch Geschwindigkeit ist; Weil Kraft und Leistung gleich sind
+Kontrolle: Wie ändert sich die Kraft bei doppelter Geschwindigkeit? | Sie halbiert sich | Sie verdoppelt sich; Sie bleibt gleich
+Schritt: Leistung in W | P * 1000 | W
+Schritt: Umfangskraft | P * 1000 / v | N
+Variable: P | 1 | 30 | 0,5
+Variable: v | 5 | 30 | 1
+Rechnung: P * 1000 / v
+Quelle: Selbst formuliert. Grundgleichungen für Riementriebe, wie im Tabellenbuch Metall und im Roloff/Matek.
+=== ENDE ===

@@ -1,5 +1,5 @@
 {
- "version": 1,
+ "version": 2,
  "schule": "Technikakademie Northeim (BBS III des Landkreises Northeim), zweijährige Fachschule Technik, Maschinentechnik, Schwerpunkt Automatisierungstechnik",
  "module": [
   {
@@ -397,6 +397,30 @@
     {
      "id": "tm-torsion",
      "name": "Torsion"
+    },
+    {
+     "id": "tm-me-schrauben",
+     "name": "Maschinenelemente: Schraubenverbindungen"
+    },
+    {
+     "id": "tm-me-bolzen-stifte",
+     "name": "Maschinenelemente: Bolzen und Stifte"
+    },
+    {
+     "id": "tm-me-passfeder",
+     "name": "Maschinenelemente: Passfeder und Welle-Nabe-Verbindung"
+    },
+    {
+     "id": "tm-me-waelzlager",
+     "name": "Maschinenelemente: Wälzlager"
+    },
+    {
+     "id": "tm-me-zahnraeder",
+     "name": "Maschinenelemente: Zahnräder"
+    },
+    {
+     "id": "tm-me-riementrieb",
+     "name": "Maschinenelemente: Riementrieb"
     }
    ]
   },

@@ -1,0 +1,524 @@
+=== LERNWERK ===
+Fach: Elektrotechnik
+Thema: Spule und Induktion
+Anker: Wenn du an der Maschine den Not-Halt drückst, fällt das Schütz mit einem Klack ab. In der Spule des Schützes steckt Energie aus dem Magnetfeld. Ohne Schutzbeschaltung entlädt sie sich als Funke am Kontakt.
+Anker: Beim Krafttraining merkst du die Trägheit der Hantel: Anheben kostet Kraft, und einmal in Bewegung will sie weiter. Die Spule ist die Hantel des Stroms.
+Begriff: Induktiver Blindwiderstand X_L | Der Widerstand einer Spule bei Wechselstrom. Er wächst mit Frequenz und Induktivität.
+Begriff: Transformator | Zwei Spulen auf einem gemeinsamen Eisenkern. Er setzt Wechselspannung herauf oder herab.
+Begriff: Windungszahl N | Wie oft der Draht um den Kern gewickelt ist.
+Begriff: Übersetzungsverhältnis ü | Beim idealen Transformator ist es N1 durch N2 und gleich U1 durch U2.
+Begriff: Zeitkonstante τ | L durch R. Nach fünf τ ist der Strom praktisch fertig angestiegen.
+Begriff: Selbstinduktion | Die Spule induziert in sich selbst eine Spannung, wenn sich ihr eigener Strom ändert.
+Merksatz: X_L gleich 2 π f L. Doppelte Frequenz, doppelter Blindwiderstand.
+Merksatz: Beim Transformator verhalten sich die Spannungen wie die Windungszahlen.
+Merksatz: Die Ströme verhalten sich umgekehrt wie die Windungszahlen.
+Merksatz: Nach fünf Zeitkonstanten ist der Einschaltvorgang praktisch vorbei.
+Prinzip: Eine Spule wehrt sich gegen jede Stromänderung. Bei Gleichstrom zeigt sich das nur beim Ein- und Ausschalten. Beim Einschalten steigt der Strom langsam an. Nach etwa fünf Zeitkonstanten, also fünf mal L durch R, hat er seinen Endwert erreicht. Danach wirkt nur noch der ohmsche Widerstand des Drahts.
+
+Bei Wechselstrom ändert sich der Strom ständig. Deshalb wehrt sich die Spule dauernd. Dieser induktive Blindwiderstand ist 2 π mal Frequenz mal Induktivität. Bei hoher Frequenz sperrt die Spule fast, bei Gleichstrom lässt sie durch.
+
+Der Transformator nutzt die Induktion: Die erste Spule erzeugt ein wechselndes Magnetfeld im Eisenkern. Es induziert in der zweiten Spule eine Spannung. Hat die zweite Spule weniger Windungen, ist die Spannung kleiner und der Strom größer. So macht das Netzteil im Schaltschrank aus 230 V die Steuerspannung, die dann noch gleichgerichtet wird.
+Baustein: Klären, ob Gleichstrom mit Schaltvorgang oder Wechselstrom vorliegt.
+Baustein: Bei Wechselstrom X_L gleich 2 π f L, L in Henry.
+Baustein: Beim Schalten τ gleich L durch R und mal fünf für die Einschaltzeit.
+Baustein: Beim Transformator Windungszahlen ins Verhältnis setzen.
+Baustein: Einheiten prüfen, mH in H umrechnen.
+Schnellweg: mH durch Ω ergibt direkt ms. So sparst du dir die Umrechnung bei τ.
+Fehler: L in mH direkt in 2 π f L eingesetzt | Für Ohm muss L in Henry stehen, also durch 1000.
+Fehler: Beim Transformator die Ströme wie die Spannungen gerechnet | Die Ströme verhalten sich umgekehrt. Weniger Spannung heißt mehr Strom.
+Fehler: Gedacht, der Strom sei nach einer Zeitkonstante fertig | Nach einem τ sind es erst etwa 63 Prozent. Fertig ist er nach etwa fünf τ.
+Formel: Induktiver Blindwiderstand | X_L = 2 · π · f · L | L = X_L / (2 · π · f); f = X_L / (2 · π · L)
+Formel: Idealer Transformator | U_2 = U_1 · N_2 / N_1 | U_1 = U_2 · N_1 / N_2; N_2 = U_2 · N_1 / U_1
+Formel: Einschaltzeit der Spule | t = 5 · L / R | L = t · R / 5; R = 5 · L / t
+Karte: Wie lautet der induktive Blindwiderstand? | X_L gleich 2 π mal Frequenz mal Induktivität.
+Karte: Was passiert mit X_L bei doppelter Frequenz? | Er verdoppelt sich.
+Karte: Wie verhält sich eine Spule bei Gleichstrom nach dem Einschalten? | Sie wirkt nur noch mit ihrem Drahtwiderstand.
+Karte: Wie viel Prozent des Endstroms sind nach einer Zeitkonstante erreicht? | Etwa 63 Prozent.
+Karte: Nach wie vielen Zeitkonstanten ist der Einschaltvorgang praktisch fertig? | Nach etwa fünf.
+Karte: Wie verhalten sich die Spannungen am idealen Transformator? | Wie die Windungszahlen.
+Karte: Wie verhalten sich die Ströme am idealen Transformator? | Umgekehrt wie die Windungszahlen.
+Karte: Warum arbeitet ein Transformator nicht mit Gleichstrom? | Weil nur ein sich änderndes Magnetfeld eine Spannung induziert.
+Karte: Was ergibt mH durch Ω? | Millisekunden.
+Karte: Wo findest du Spulen im Schaltschrank? | In Relais, Schützen, Magnetventilen und im Netzteil.
+Auswahl: Eine Spule liegt an Wechselspannung. Womit rechnest du ihren Widerstand? | X_L = 2 · π · f · L | R = U / I mit dem Drahtwiderstand; X_C = 1 / (2 · π · f · C); τ = L / R | Bei Wechselstrom zählt der induktive Blindwiderstand. Er hängt von Frequenz und Induktivität ab.
+Auswahl: Ein Transformator hat 1000 Windungen primär und 100 sekundär. Was passiert? | Die Spannung wird zehnmal kleiner | Die Spannung wird zehnmal größer; Der Strom wird zehnmal kleiner; Spannung und Strom bleiben gleich | Die Spannungen verhalten sich wie die Windungszahlen. Der Strom wird dafür etwa zehnmal größer.
+Reihenfolge: Blindwiderstand einer Spule berechnen | Frequenz ablesen; Induktivität in Henry umrechnen; 2 π f L ausrechnen; Einheit Ohm prüfen; Mit dem Drahtwiderstand vergleichen
+Aufgabe: Eine Spule mit L = {L} mH liegt an Wechselspannung mit f = {f} Hz. Wie groß ist ihr induktiver Blindwiderstand?
+Gegeben: L = {L} mH
+Gegeben: f = {f} Hz
+Gesucht: Blindwiderstand X_L in Ω
+Ansatz: L in H, dann X_L = 2 · π · f · L | L in mH, dann X_L = 2 · π · f · L; L in H, dann X_L = 1 / (2 · π · f · L); L in H, dann X_L = f · L
+Signal: Eine Spule an Wechselspannung, gegeben sind Induktivität und Frequenz.
+Warum: Weil die Spule sich gegen die ständige Änderung wehrt | Weil die Spule bei Wechselstrom gar nicht wirkt; Weil nur der Drahtwiderstand zählt
+Kontrolle: Wird X_L größer, wenn die Frequenz steigt? | Ja, im gleichen Verhältnis | Nein, es wird kleiner; Es bleibt gleich groß
+Schritt: Induktivität in H | L / 1000 | H
+Schritt: Blindwiderstand | 2 * pi * f * L / 1000 | Ω
+Variable: L | 10 | 500 | 10
+Variable: f | 50 | 1000 | 50
+Rechnung: 2 * pi * f * L / 1000
+Aufgabe: Ein Transformator hat N_1 = {N1} Windungen auf der Primärseite und N_2 = {N2} Windungen auf der Sekundärseite. Primär liegen 230 V an. Wie groß ist die Sekundärspannung?
+Gegeben: N_1 = {N1}
+Gegeben: N_2 = {N2}
+Gegeben: U_1 = 230 V
+Gesucht: Sekundärspannung U_2 in V
+Ansatz: U_2 = U_1 · N_2 / N_1 | U_2 = U_1 · N_1 / N_2; U_2 = U_1 · N_1 · N_2; U_2 = N_2 / (U_1 · N_1)
+Signal: Ein Transformator mit zwei Windungszahlen, gesucht ist eine Spannung.
+Warum: Weil die Spannungen sich wie die Windungszahlen verhalten | Weil die Spannungen sich umgekehrt verhalten; Weil der Kern die Spannung halbiert
+Kontrolle: Ist U_2 kleiner als 230 V? | Ja, weil N_2 kleiner als N_1 ist | Nein, sie ist immer größer; Sie ist immer genau 230 V
+Schritt: Verhältnis N_2 durch N_1 | N2 / N1 |
+Schritt: Sekundärspannung | 230 * N2 / N1 | V
+Variable: N1 | 500 | 2000 | 100
+Variable: N2 | 50 | 200 | 10
+Rechnung: 230 * N2 / N1
+Aufgabe: Eine Relaisspule hat L = {L} mH und R = {R} Ω. Nach welcher Zeit ist der Strom nach dem Einschalten praktisch voll da?
+Gegeben: L = {L} mH
+Gegeben: R = {R} Ω
+Gesucht: Einschaltzeit t in ms
+Ansatz: τ = L / R, dann t = 5 · τ | τ = L · R, dann t = 5 · τ; τ = L / R, dann t = τ; τ = R / L, dann t = 5 · τ
+Signal: Eine Spule an Gleichspannung wird eingeschaltet, gefragt ist eine Zeit.
+Warum: Weil der Strom nach fünf Zeitkonstanten praktisch fertig ist | Weil der Strom nach einer Zeitkonstante fertig ist; Weil der Strom sofort voll da ist
+Kontrolle: Welche Einheit ergibt mH durch Ω? | Millisekunden | Sekunden; Mikrosekunden
+Schritt: Zeitkonstante | L / R | ms
+Schritt: Einschaltzeit | 5 * L / R | ms
+Variable: L | 50 | 1000 | 50
+Variable: R | 10 | 200 | 10
+Rechnung: 5 * L / R
+Quelle: Selbst formuliert. Grundgleichungen der Elektrotechnik, wie in Elektro T und im Tabellenbuch Elektrotechnik.
+=== ENDE ===
+
+=== LERNWERK ===
+Fach: Automatisierung vertieft
+Thema: Messtechnik
+Anker: An der Anlage zeigt das Display 4,8 bar, aber der Drucksensor schickt nur einen Strom zwischen 4 und 20 mA. Die SPS rechnet den Strom in bar um. Wenn du das Prinzip kennst, kannst du mit dem Multimeter am Kabel nachprüfen, ob der Sensor stimmt.
+Begriff: Normsignal | Genormtes analoges Signal für Sensoren. Häufig sind 4 bis 20 mA und 0 bis 10 V.
+Begriff: Live Zero | Das Signal 4 bis 20 mA beginnt nicht bei null. So erkennt man einen Drahtbruch, denn dann fließen 0 mA.
+Begriff: Messbereich | Von welchem bis zu welchem Wert der Sensor misst. Der Endwert heißt Messbereichsendwert.
+Begriff: Absolute Messabweichung | Angezeigter Wert minus richtiger Wert.
+Begriff: Relative Messabweichung | Absolute Abweichung geteilt durch den richtigen Wert, meist in Prozent.
+Begriff: Genauigkeitsklasse | Bei analogen Messgeräten die größte erlaubte Abweichung in Prozent vom Messbereichsendwert.
+Begriff: Auflösung | Der kleinste Schritt, den ein Messgerät oder ein Analogeingang unterscheiden kann.
+Merksatz: 4 mA ist der Anfang, 20 mA das Ende, dazwischen liegen 16 mA.
+Merksatz: Messwert gleich Strom minus 4, durch 16, mal Messspanne.
+Merksatz: Klasse mal Endwert durch 100 gibt die größte Abweichung.
+Merksatz: Im oberen Drittel des Messbereichs messen.
+Prinzip: Sensoren in der Automatisierung schicken ihren Messwert meist als Normsignal. Beim Stromsignal 4 bis 20 mA steht 4 mA für den Anfang des Messbereichs und 20 mA für das Ende. Weil der Anfang nicht null ist, merkt die SPS sofort, wenn das Kabel unterbrochen ist. Ein Strom stört sich außerdem kaum an langen Leitungen.
+
+Die Umrechnung ist eine gerade Linie: Vom Strom ziehst du 4 ab, teilst durch 16 und nimmst mit der Messspanne mal. Ist der Messbereich 0 bis 10 bar und fließen 12 mA, sind es 8 durch 16 mal 10, also 5 bar.
+
+Jedes Messgerät hat Abweichungen. Bei analogen Zeigerinstrumenten gibt die Genauigkeitsklasse die Abweichung in Prozent vom Endwert an. Die Abweichung ist also überall gleich groß. Misst du einen kleinen Wert im großen Bereich, wird die relative Abweichung riesig. Deshalb wählt man den Bereich so, dass der Zeiger im oberen Drittel steht.
+
+Ein Analogeingang der SPS teilt das Signal in Stufen. Ein 12-Bit-Eingang hat 4096 Stufen. Die Auflösung ist der Messbereich durch die Anzahl der Stufen.
+Baustein: Signalart und Messbereich aus dem Datenblatt holen.
+Baustein: Bei 4 bis 20 mA: Strom minus 4, durch 16, mal Spanne, plus Anfangswert.
+Baustein: Abweichung absolut ausrechnen, dann relativ zum richtigen Wert.
+Baustein: Bei Zeigerinstrumenten Klasse mal Endwert durch 100.
+Baustein: Ergebnis mit der geforderten Genauigkeit vergleichen.
+Schnellweg: 12 mA ist bei 4 bis 20 mA immer genau die Mitte des Messbereichs.
+Schnellweg: Achtung bei der Auflösung: Manche Bücher teilen durch 2 hoch n, andere durch 2 hoch n minus 1. Der Unterschied ist sehr klein.
+Fehler: Bei 4 bis 20 mA durch 20 geteilt | Die Spanne des Signals ist 16 mA, weil es bei 4 beginnt.
+Fehler: Relative Abweichung auf den angezeigten Wert bezogen | Bezugswert ist der richtige Wert.
+Fehler: Genauigkeitsklasse auf den Messwert bezogen | Die Klasse bezieht sich auf den Messbereichsendwert.
+Formel: Messwert aus 4 bis 20 mA | x = (I − 4) / 16 · S | I = x · 16 / S + 4; S = 16 · x / (I − 4)
+Formel: Relative Messabweichung | f = (x_a − x_r) / x_r · 100 | x_a = x_r · (1 + f / 100)
+Formel: Größte Abweichung nach Klasse | F = k · M / 100 | k = 100 · F / M; M = 100 · F / k
+Karte: Wofür steht 4 mA beim Normsignal 4 bis 20 mA? | Für den Anfang des Messbereichs.
+Karte: Warum beginnt das Signal bei 4 mA und nicht bei 0? | Damit ein Drahtbruch erkannt wird. Dann fließen 0 mA.
+Karte: Welcher Messwert gehört zu 12 mA? | Genau die Mitte des Messbereichs.
+Karte: Wie rechnest du 4 bis 20 mA in den Messwert um? | Strom minus 4, durch 16, mal Messspanne, plus Anfangswert.
+Karte: Worauf bezieht sich die Genauigkeitsklasse? | Auf den Messbereichsendwert.
+Karte: Warum soll man im oberen Drittel messen? | Weil die absolute Abweichung fest ist und die relative Abweichung dort klein bleibt.
+Karte: Wie viele Stufen hat ein 12-Bit-Analogeingang? | 4096.
+Karte: Wie rechnest du die relative Messabweichung? | Angezeigt minus richtig, durch richtig, mal 100.
+Karte: Warum ist ein Stromsignal bei langen Leitungen gut? | Der Strom ist in einer Reihenschaltung überall gleich, der Leitungswiderstand verfälscht ihn kaum.
+Karte: Wie wird ein Strommessgerät angeschlossen? | In Reihe zum Verbraucher.
+Karte: Wie wird ein Spannungsmessgerät angeschlossen? | Parallel zum Bauteil.
+Auswahl: Ein Sensor liefert 0 mA. Was ist am wahrscheinlichsten? | Ein Drahtbruch | Der Messwert ist null; Der Messwert ist maximal; Der Sensor misst die Mitte | Bei 4 bis 20 mA bedeutet der Messwert null schon 4 mA. 0 mA heißt: Kein Strom fließt, die Leitung ist unterbrochen.
+Auswahl: Du misst etwa 20 V. Welcher Bereich am Zeigerinstrument ist am besten? | 30 V | 300 V; 100 V; 1000 V | Im 30-V-Bereich steht der Zeiger im oberen Drittel. Die feste Klassenabweichung ist dann im Verhältnis am kleinsten.
+Reihenfolge: Sensorsignal 4 bis 20 mA auswerten | Messbereich aus dem Datenblatt holen; Strom messen; 4 mA abziehen; Durch 16 teilen und mit der Spanne malnehmen; Anfangswert addieren und prüfen
+Aufgabe: Ein Drucksensor misst 0 bis {S} bar und liefert 4 bis 20 mA. Gemessen werden I = {I} mA. Wie groß ist der Druck?
+Gegeben: Messbereich 0 bis {S} bar
+Gegeben: I = {I} mA
+Gesucht: Druck p in bar
+Ansatz: p = (I − 4) / 16 · S | p = I / 20 · S; p = (I − 4) / 20 · S; p = I / 16 · S
+Signal: Ein Normsignal 4 bis 20 mA und ein Messbereich sind gegeben.
+Warum: Weil das Signal bei 4 mA beginnt und 16 mA Spanne hat | Weil das Signal bei 0 mA beginnt und 20 mA Spanne hat; Weil der Druck dem Strom direkt entspricht
+Kontrolle: Was zeigt der Sensor bei 12 mA? | Die Hälfte des Messbereichs | Ein Viertel des Messbereichs; Den Endwert des Messbereichs
+Schritt: Strom über dem Anfang | I - 4 | mA
+Schritt: Druck | (I - 4) / 16 * S | bar
+Variable: S | 6 | 40 | 2
+Variable: I | 4 | 20 | 0,5
+Rechnung: (I - 4) / 16 * S
+Aufgabe: Ein Spannungsmesser der Genauigkeitsklasse 1,5 steht im Messbereich M = {M} V. Wie groß ist die größte mögliche Abweichung?
+Gegeben: Klasse 1,5
+Gegeben: M = {M} V
+Gesucht: Größte Abweichung F in V
+Ansatz: F = 1,5 · M / 100 | F = 1,5 · M; F = 1,5 / M; F = M / 1,5
+Signal: Eine Genauigkeitsklasse und ein Messbereich sind gegeben.
+Warum: Weil die Klasse Prozent vom Endwert des Bereichs ist | Weil die Klasse Prozent vom Messwert ist; Weil die Klasse die Zahl der Stellen angibt
+Kontrolle: Gilt diese Abweichung auch für kleine Messwerte im Bereich? | Ja, in voller Größe | Nein, sie wird kleiner; Nein, sie verschwindet
+Schritt: Größte Abweichung | 1.5 * M / 100 | V
+Variable: M | 10 | 600 | 10
+Rechnung: 1.5 * M / 100
+Aufgabe: Ein Analogeingang misst 0 bis 10 V mit n = {n} Bit. Wie groß ist seine Auflösung in mV?
+Gegeben: Messbereich 0 bis 10 V
+Gegeben: n = {n} Bit
+Gesucht: Auflösung in mV
+Ansatz: 10 V durch 2 hoch n | 10 V durch n; 10 V mal 2 hoch n; 10 V durch 2 mal n
+Signal: Bitzahl und Messbereich eines Analogeingangs sind gegeben.
+Warum: Weil n Bit genau 2 hoch n Stufen ergeben | Weil n Bit genau n Stufen ergeben; Weil n Bit doppelt so viele Stufen wie Bits ergeben
+Kontrolle: Wird die Auflösung mit mehr Bit feiner oder gröber? | Feiner, jedes Bit halbiert den Schritt | Gröber, jedes Bit verdoppelt den Schritt; Gleich, die Bits ändern nichts
+Schritt: Anzahl der Stufen | 2^n |
+Schritt: Auflösung | 10000 / 2^n | mV
+Variable: n | 8 | 16 | 1
+Rechnung: 10000 / 2^n
+Quelle: Selbst formuliert. Normsignale nach DIN IEC 60381, Klassen für Zeigerinstrumente nach DIN EN 60051. Achtung: Drahtbrucherkennung meist unter etwa 3,6 mA nach der NAMUR-Empfehlung NE 43, das hängt vom Gerät ab.
+=== ENDE ===
+
+=== LERNWERK ===
+Fach: Automatisierung vertieft
+Thema: Regelungstechnik
+Anker: Beim Bankdrücken mit einem Spotter: Er schaut auf die Stange und greift nur ein, wenn sie zu tief sinkt. Je weiter sie absackt, desto stärker hilft er. Das ist ein P-Regler.
+Anker: Der Kühlschmierstoff an der Fräse soll 22 °C haben. Ein Thermostat schaltet die Kühlung bei 23 °C ein und bei 21 °C wieder aus. Das ist ein Zweipunktregler mit Schaltdifferenz.
+Begriff: P-Regler | Die Stellgröße ist proportional zur Regeldifferenz, y gleich K_P mal e.
+Begriff: Proportionalbeiwert K_P | Die Verstärkung des P-Reglers. Großes K_P heißt starke Reaktion.
+Begriff: Bleibende Regeldifferenz | Beim reinen P-Regler bleibt meist eine kleine Abweichung, weil ohne Abweichung keine Stellgröße entsteht.
+Begriff: Schaltdifferenz | Beim Zweipunktregler der Abstand zwischen Einschaltpunkt und Ausschaltpunkt. Sie verhindert ständiges Schalten.
+Begriff: Regelstrecke mit Ausgleich | Die Regelgröße findet nach einer Änderung von selbst einen neuen festen Wert, wie die Temperatur eines Ofens.
+Begriff: Totzeit | Die Zeit, in der nach einer Änderung noch gar nichts passiert, wie bei einem langen Förderband.
+Begriff: Sprungantwort | Wie die Regelgröße reagiert, wenn man die Stellgröße plötzlich ändert. So erkennt man die Strecke.
+Merksatz: Regeldifferenz gleich Sollwert minus Istwert.
+Merksatz: P ist schnell, I ist genau, D reagiert auf Tempo.
+Merksatz: K_P zu groß, und der Kreis fängt an zu schwingen.
+Merksatz: Kleine Schaltdifferenz heißt genauer, aber öfter schalten.
+Prinzip: Der Regler vergleicht ständig Sollwert und Istwert. Die Regeldifferenz ist Sollwert minus Istwert. Ist es zu kalt, ist sie positiv, und der Regler heizt mehr. Ist es zu warm, ist sie negativ.
+
+Der P-Regler rechnet einfach K_P mal Regeldifferenz. In der Praxis kommt oft noch ein fester Arbeitspunkt dazu, in den Aufgaben hier rechnen wir ohne. Er reagiert sofort. Aber sobald die Abweichung null wäre, gäbe er nichts mehr aus. Deshalb pendelt sich der Istwert knapp neben dem Sollwert ein. Diese bleibende Regeldifferenz beseitigt erst ein I-Anteil, der die Abweichung über die Zeit aufsummiert.
+
+Der Zweipunktregler kennt nur ein und aus. Damit er nicht ständig klappert, hat er eine Schaltdifferenz. Ist sie symmetrisch um den Sollwert gelegt, schaltet er bei Sollwert minus halbe Schaltdifferenz ein und bei Sollwert plus halbe Schaltdifferenz aus. Achtung: Manche Regler legen die Schaltdifferenz nur auf eine Seite des Sollwerts. Schau ins Datenblatt oder in die Aufgabe.
+Baustein: Sollwert, Istwert und Stellgröße benennen.
+Baustein: Regeldifferenz gleich Sollwert minus Istwert, Vorzeichen beachten.
+Baustein: P-Regler: Stellgröße gleich K_P mal Regeldifferenz.
+Baustein: Zweipunktregler: Ein- und Ausschaltpunkt aus Sollwert und Schaltdifferenz bestimmen.
+Baustein: Prüfen, ob eine bleibende Abweichung erlaubt ist, sonst I-Anteil dazu.
+Schnellweg: Negative Regeldifferenz heißt Istwert zu hoch, der Regler muss weniger stellen.
+Fehler: Istwert minus Sollwert gerechnet | Die Regeldifferenz ist Sollwert minus Istwert. Sonst stimmt das Vorzeichen nicht.
+Fehler: Gedacht, ein größeres K_P mache den Kreis immer besser | Zu großes K_P bringt Überschwingen und Schwingungen.
+Fehler: Beim Zweipunktregler die ganze Schaltdifferenz auf beide Seiten gelegt | Symmetrisch liegt auf jeder Seite nur die halbe Schaltdifferenz.
+Formel: P-Regler | y = K_P · (w − x) | K_P = y / (w − x); w = y / K_P + x
+Formel: Einschaltpunkt Zweipunktregler symmetrisch | T_ein = w − h / 2 | w = T_ein + h / 2; h = 2 · (w − T_ein)
+Formel: Ausschaltpunkt Zweipunktregler symmetrisch | T_aus = w + h / 2 | w = T_aus − h / 2; h = 2 · (T_aus − w)
+Karte: Was ist die Regeldifferenz? | Sollwert minus Istwert.
+Karte: Was bedeutet eine negative Regeldifferenz? | Der Istwert liegt über dem Sollwert.
+Karte: Wie rechnet ein P-Regler? | Stellgröße gleich K_P mal Regeldifferenz.
+Karte: Warum bleibt beim P-Regler eine Abweichung? | Weil er ohne Abweichung keine Stellgröße ausgeben würde.
+Karte: Welcher Anteil beseitigt die bleibende Regeldifferenz? | Der I-Anteil.
+Karte: Worauf reagiert der D-Anteil? | Auf die Geschwindigkeit, mit der sich die Abweichung ändert.
+Karte: Was passiert bei zu großem K_P? | Der Regelkreis schwingt über oder wird instabil.
+Karte: Wozu hat ein Zweipunktregler eine Schaltdifferenz? | Damit er nicht ständig ein- und ausschaltet.
+Karte: Was ist eine Totzeit? | Die Zeit, in der nach einer Änderung noch nichts an der Regelgröße passiert.
+Karte: Wie erkennt man das Verhalten einer Regelstrecke? | An ihrer Sprungantwort.
+Karte: Nenne ein Beispiel für eine Strecke mit Ausgleich. | Einen Ofen: Nach einer Änderung stellt sich eine neue feste Temperatur ein.
+Auswahl: Eine Temperatur soll ohne bleibende Abweichung genau gehalten werden. Welcher Regler passt? | PI-Regler | P-Regler; Zweipunktregler; D-Regler allein | Der P-Anteil reagiert schnell, der I-Anteil beseitigt die bleibende Regeldifferenz.
+Auswahl: Ein Wasserboiler soll einfach und billig geregelt werden. Kleine Schwankungen sind egal. Was passt? | Zweipunktregler | PID-Regler; PI-Regler; Stetiger P-Regler mit Ventil | Der Heizstab kennt nur ein und aus. Ein Thermostat mit Schaltdifferenz reicht.
+Reihenfolge: Regelkreis untersuchen | Regelgröße und Sollwert benennen; Messglied und Stellglied finden; Störgrößen überlegen; Regeldifferenz bilden; Passenden Regler wählen
+Aufgabe: Ein Ofen soll w = {w} °C haben. Gemessen werden x = {x} °C. Wie groß ist die Regeldifferenz?
+Gegeben: w = {w} °C
+Gegeben: x = {x} °C
+Gesucht: Regeldifferenz e in K
+Ansatz: e = w − x | e = x − w; e = w + x; e = w / x
+Signal: Sollwert und Istwert sind gegeben, gefragt ist die Abweichung.
+Warum: Weil die Regeldifferenz als Sollwert minus Istwert definiert ist | Weil die Regeldifferenz als Istwert minus Sollwert definiert ist; Weil die Regeldifferenz immer positiv sein muss
+Kontrolle: Was bedeutet ein negatives Ergebnis? | Der Ofen ist zu heiß | Der Ofen ist zu kalt; Der Ofen ist genau richtig
+Schritt: Regeldifferenz | w - x | K
+Variable: w | 150 | 250 | 5
+Variable: x | 140 | 260 | 1
+Rechnung: w - x
+Aufgabe: Ein P-Regler mit K_P = {Kp} regelt eine Temperatur. Der Sollwert ist w = {w} °C, der Istwert x = {x} °C. Wie groß ist die Stellgröße in Prozent?
+Gegeben: K_P = {Kp} Prozent pro K
+Gegeben: w = {w} °C
+Gegeben: x = {x} °C
+Gesucht: Stellgröße y in Prozent
+Ansatz: y = K_P · (w − x) | y = K_P · (x − w); y = K_P + (w − x); y = (w − x) / K_P
+Signal: Ein P-Regler mit Verstärkung und eine Abweichung sind gegeben.
+Warum: Weil der P-Regler die Abweichung verstärkt | Weil der P-Regler die Abweichung aufsummiert; Weil der P-Regler nur ein und aus kennt
+Kontrolle: Was gibt der P-Regler bei x gleich w aus? | Null, ohne Abweichung keine Stellgröße | Hundert Prozent, also volle Leistung; Genau K_P Prozent als Grundlast
+Schritt: Regeldifferenz | w - x | K
+Schritt: Stellgröße | Kp * (w - x) | %
+Variable: Kp | 2 | 10 | 1
+Variable: w | 60 | 90 | 5
+Variable: x | 50 | 85 | 1
+Rechnung: Kp * (w - x)
+Aufgabe: Ein Thermostat soll w = {w} °C halten. Die Schaltdifferenz ist h = {h} K und liegt symmetrisch um den Sollwert. Bei welcher Temperatur schaltet die Heizung ein?
+Gegeben: w = {w} °C
+Gegeben: h = {h} K
+Gesucht: Einschalttemperatur in °C
+Ansatz: T_ein = w − h / 2 | T_ein = w − h; T_ein = w + h / 2; T_ein = w + h
+Signal: Ein Zweipunktregler mit symmetrischer Schaltdifferenz.
+Warum: Weil auf jeder Seite des Sollwerts die halbe Schaltdifferenz liegt | Weil die ganze Schaltdifferenz unter dem Sollwert liegt; Weil die Heizung über dem Sollwert einschaltet
+Kontrolle: Liegt der Ausschaltpunkt genau h über dem Einschaltpunkt? | Ja, das ist die Schaltdifferenz | Nein, nur h durch 2 darüber; Nein, beide sind gleich
+Schritt: Halbe Schaltdifferenz | h / 2 | K
+Schritt: Einschalttemperatur | w - h / 2 | °C
+Variable: w | 18 | 90 | 1
+Variable: h | 1 | 6 | 1
+Rechnung: w - h / 2
+Quelle: Selbst formuliert. Begriffe nach DIN IEC 60050-351. Achtung: Ältere Bücher schreiben die Regeldifferenz als x_d gleich w minus x.
+=== ENDE ===
+
+=== LERNWERK ===
+Fach: Steuerungstechnik, Pneumatik und SPS
+Thema: Elektropneumatik mit Relais und Selbsthaltung
+Anker: An der Spannvorrichtung der Fräse drückst du einen Taster, und der Zylinder spannt das Teil. Dahinter steckt eine Kette: Taster, Relais, Relaiskontakt, Ventilspule, Ventil und Zylinder. Wer die Kette kennt, findet jeden Fehler.
+Begriff: Monostabiles Magnetventil | Ventil mit einer Spule und Federrückstellung. Fällt der Strom weg, schaltet die Feder zurück.
+Begriff: Bistabiles Magnetventil | Ventil mit zwei Spulen, auch Impulsventil. Es bleibt in seiner Stellung, bis die andere Spule ein Signal bekommt.
+Begriff: Reedkontakt | Sensor am Zylinder. Ein Magnet im Kolben schließt den Kontakt, wenn der Kolben in der Endlage ist.
+Begriff: Induktiver Sensor | Erkennt Metall ohne Berührung.
+Begriff: Kapazitiver Sensor | Erkennt fast alle Stoffe, auch Kunststoff und Flüssigkeit durch eine Behälterwand.
+Begriff: Verriegelung | Zwei Funktionen dürfen nie gleichzeitig laufen. Ein Öffner des einen Relais liegt im Strompfad des anderen.
+Begriff: Strompfad | Eine senkrechte Linie im Stromlaufplan von plus 24 V nach 0 V. Die Strompfade werden nummeriert.
+Merksatz: Taster, Relais, Kontakt, Spule, Ventil, Zylinder. So läuft das Signal.
+Merksatz: Monostabil vergisst, bistabil merkt sich die Stellung.
+Merksatz: Gegenseitige Verriegelung: Öffner von K2 vor K1, Öffner von K1 vor K2.
+Merksatz: Taster heißt S, Relais heißt K, Sensor heißt B.
+Prinzip: In der Elektropneumatik denkt die Elektrik, und die Druckluft arbeitet. Der Stromlaufplan zeigt den Steuerstromkreis mit 24 V Gleichspannung. Oben liegt plus, unten 0 V, dazwischen die Strompfade. Ein Relais wird in einem Strompfad angesteuert, seine Kontakte schalten in anderen Strompfaden die Ventilspulen.
+
+Die Wahl des Ventils bestimmt das Verhalten. Ein monostabiles Ventil mit Feder braucht Dauerstrom. Fällt der Strom weg, fährt der Zylinder zurück. Deshalb braucht man dafür eine Selbsthaltung. Ein bistabiles Ventil merkt sich die Stellung. Ein kurzer Impuls reicht. Fällt der Strom weg, bleibt der Zylinder, wo er ist. Welches Verhalten sicherer ist, hängt von der Anlage ab: Eine Spannvorrichtung soll bei Stromausfall nicht öffnen.
+
+Sensoren melden die Endlagen. Am Zylinder sitzt meist ein Reedkontakt oder ein Magnetsensor, der den Magneten im Kolben erkennt. Achtung: In vielen Schulunterlagen heißt die Ventilspule Y1. Nach der neueren DIN EN 81346-2 steht dafür MB1. Frag nach, welche Schreibweise im Unterricht gilt.
+Baustein: Ventil bestimmen: monostabil oder bistabil.
+Baustein: Bei monostabil eine Selbsthaltung mit Stopp als Öffner vorsehen.
+Baustein: Sensoren für die Endlagen eintragen.
+Baustein: Verriegelungen gegen gleichzeitige Bewegungen einbauen.
+Baustein: Strombedarf aller Spulen zusammenzählen und das Netzteil prüfen.
+Schnellweg: Strom einer Spule gleich Leistung durch 24 V. Eine 4-W-Spule zieht etwa 167 mA.
+Fehler: Monostabiles Ventil nur mit Tastimpuls angesteuert | Ohne Selbsthaltung fährt der Zylinder sofort zurück, wenn du loslässt.
+Fehler: Bistabiles Ventil mit beiden Spulen gleichzeitig angesteuert | Dann ist die Stellung undefiniert. Es gewinnt das Signal, das zuerst kam.
+Fehler: Netzteil nur nach einer Spule ausgelegt | Zähle alle Spulen und Relais zusammen, die gleichzeitig an sein können.
+Formel: Spulenstrom | I = P / U | P = I · U; U = P / I
+Formel: Kolbengeschwindigkeit | v = s / t | s = v · t; t = s / v
+Karte: Was passiert bei Stromausfall mit einem monostabilen Ventil? | Die Feder schaltet es zurück.
+Karte: Was passiert bei Stromausfall mit einem bistabilen Ventil? | Es bleibt in seiner Stellung.
+Karte: Warum braucht ein monostabiles Ventil meist eine Selbsthaltung? | Weil es nur so lange schaltet, wie Strom an der Spule liegt.
+Karte: Was erkennt ein induktiver Sensor? | Metall.
+Karte: Was erkennt ein kapazitiver Sensor? | Fast alle Stoffe, auch Kunststoff und Flüssigkeiten.
+Karte: Wie erkennt ein Reedkontakt die Endlage? | Ein Magnet im Kolben schließt den Kontakt.
+Karte: Wie baust du eine gegenseitige Verriegelung? | Ein Öffner von K2 im Strompfad von K1 und ein Öffner von K1 im Strompfad von K2.
+Karte: Welcher Kennbuchstabe steht für ein Relais? | K.
+Karte: Welcher Kennbuchstabe steht für einen Taster? | S.
+Karte: Wie groß ist der Strom einer 24-V-Spule mit 4 W? | Etwa 167 mA.
+Karte: Welche Steuerspannung ist in der Elektropneumatik üblich? | 24 V Gleichspannung.
+Auswahl: Ein Zylinder soll bei Stromausfall sofort zurückfahren. Welches Ventil passt? | Monostabil mit Feder | Bistabil mit zwei Spulen; Handventil mit Rastung; 5/3-Ventil mit Sperrmitte | Fällt der Strom weg, schaltet die Feder das Ventil zurück, und der Zylinder fährt ein.
+Auswahl: Zwei Zylinder dürfen nie gleichzeitig ausfahren. Was baust du ein? | Gegenseitige Verriegelung mit Öffnern | Zwei Selbsthaltungen in Reihe; Eine Freilaufdiode an jeder Spule; Einen gemeinsamen Stopp-Taster | Der Öffner des einen Relais unterbricht den Strompfad des anderen. So kann immer nur einer an sein.
+Reihenfolge: Elektropneumatische Steuerung aufbauen | Ventilart festlegen; Pneumatikplan zeichnen; Stromlaufplan mit Strompfaden zeichnen; Selbsthaltung und Verriegelung einbauen; Ablauf mit Sensoren prüfen
+Aufgabe: Eine Ventilspule hat P = {P} W bei 24 V Gleichspannung. Wie groß ist ihr Strom?
+Gegeben: P = {P} W
+Gegeben: U = 24 V
+Gesucht: Strom I in mA
+Ansatz: I = P / U, dann in mA | I = U / P, dann in mA; I = P · U, dann in mA; I = U² / P, dann in mA
+Signal: Leistung und Spannung einer Spule sind gegeben, gefragt ist der Strom.
+Warum: Weil die Leistung Spannung mal Strom ist | Weil die Leistung Spannung durch Strom ist; Weil Strom und Leistung gleich sind
+Kontrolle: Liegt der Strom unter einem Ampere? | Ja, bei wenigen Watt an 24 V | Nein, er liegt bei 100 A; Nein, er liegt bei 24 A
+Schritt: Strom in A | P / 24 | A
+Schritt: Strom in mA | P / 24 * 1000 | mA
+Variable: P | 1 | 6 | 0,5
+Rechnung: P / 24 * 1000
+Aufgabe: In einer Anlage können {n} Ventilspulen mit je P = {P} W gleichzeitig eingeschaltet sein. Welchen Strom muss das 24-V-Netzteil mindestens liefern?
+Gegeben: {n} Spulen
+Gegeben: P = {P} W je Spule
+Gesucht: Gesamtstrom I in A
+Ansatz: I = n · P / 24 V | I = P / 24 V; I = n · 24 V / P; I = n · P · 24 V
+Signal: Mehrere Verbraucher laufen gleichzeitig am selben Netzteil.
+Warum: Weil sich die Ströme parallel geschalteter Spulen addieren | Weil sich die Ströme parallel geschalteter Spulen aufheben; Weil nur die größte Spule zählt
+Kontrolle: Welches Netzteil wählst du? | Das nächstgrößere mit Reserve | Das nächstkleinere, das spart Geld; Genau den gerechneten Wert
+Schritt: Strom je Spule | P / 24 | A
+Schritt: Gesamtstrom | n * P / 24 | A
+Variable: n | 2 | 12 | 1
+Variable: P | 1 | 6 | 0,5
+Rechnung: n * P / 24
+Aufgabe: Ein Zylinder hat den Hub s = {s} mm. Zwischen den Signalen der beiden Endlagensensoren vergehen t = {t} s. Wie schnell fährt der Kolben im Mittel?
+Gegeben: s = {s} mm
+Gegeben: t = {t} s
+Gesucht: Mittlere Kolbengeschwindigkeit v in mm/s
+Ansatz: v = s / t | v = s · t; v = t / s; v = s / t²
+Signal: Weg und Zeit zwischen zwei Sensorsignalen sind gegeben.
+Warum: Weil Geschwindigkeit Weg durch Zeit ist | Weil Geschwindigkeit Weg mal Zeit ist; Weil Geschwindigkeit Zeit durch Weg ist
+Kontrolle: Womit stellst du die Geschwindigkeit in der Anlage ein? | Mit einem Drosselrückschlagventil | Mit einem Wechselventil; Mit dem Relais
+Schritt: Mittlere Geschwindigkeit | s / t | mm/s
+Variable: s | 25 | 400 | 25
+Variable: t | 0,2 | 4 | 0,2
+Rechnung: s / t
+Quelle: Selbst formuliert. Stromlaufplan wie in den Unterlagen zur Elektropneumatik üblich. Achtung: Kennbuchstaben nach DIN EN 81346-2 weichen teilweise von älteren Unterlagen ab.
+=== ENDE ===
+
+=== LERNWERK ===
+Fach: Werkstofftechnik
+Thema: Wärmebehandlung
+Anker: Eine Bohrbuchse für eine Bohrvorrichtung muss außen hart sein, damit der Bohrer sie nicht abnutzt. Innen soll sie zäh bleiben, damit sie beim Einpressen nicht platzt. Genau dafür gibt es Einsatzhärten und Randschichthärten.
+Anker: Beim Schmied siehst du es: Er macht den Stahl rot glühend und taucht ihn ins Wasser. Es zischt, und der Stahl ist hart. Danach legt er ihn noch einmal ins Feuer, damit er nicht springt.
+Begriff: Austenitisieren | Den Stahl so weit erwärmen, dass Austenit entsteht. Erst dann kann er gehärtet werden.
+Begriff: Abschrecken | Schnelles Abkühlen in Wasser, Öl oder Luft. Unlegierte Stähle brauchen schärferes Abschrecken als legierte.
+Begriff: Kritische Abkühlgeschwindigkeit | So schnell muss man mindestens abkühlen, damit Martensit entsteht.
+Begriff: Normalglühen | Erwärmen etwas über den Austenitbereich und Abkühlen an Luft. Das Gefüge wird fein und gleichmäßig.
+Begriff: Weichglühen | Längeres Halten um etwa 700 °C, knapp unter 723 °C. Der Zementit wird kugelig, der Stahl lässt sich besser zerspanen.
+Begriff: Nitrieren | Stickstoff wird bei etwa 500 °C in die Randschicht eingebracht. Ohne Abschrecken, deshalb verzieht sich das Teil kaum.
+Begriff: Induktionshärten | Ein Wechselfeld erwärmt nur die Randschicht in Sekunden, dann wird abgeschreckt. Der Kern bleibt zäh.
+Merksatz: Untereutektoider Stahl wird etwa 30 bis 50 K über der Linie G S gehärtet.
+Merksatz: Abkühlgeschwindigkeit gleich Temperaturunterschied durch Zeit.
+Merksatz: Niedrig anlassen für Werkzeuge, hoch anlassen beim Vergüten.
+Merksatz: Einsatzhärten für wenig Kohlenstoff, Nitrieren für wenig Verzug.
+Prinzip: Ob ein Stahl hart wird, entscheiden drei Dinge. Erstens die Temperatur: Der Stahl muss ganz austenitisch sein. Bei untereutektoiden Stählen wie C45 liegt die Härtetemperatur etwa 30 bis 50 K über der Linie G S im Eisen-Kohlenstoff-Diagramm. Zweitens die Abkühlung: Sie muss schneller sein als die kritische Abkühlgeschwindigkeit, sonst entsteht kein Martensit. Drittens der Kohlenstoff: Ohne genug Kohlenstoff wird der Martensit nicht hart.
+
+Oft soll nur die Oberfläche hart sein. Beim Einsatzhärten wird ein kohlenstoffarmer Stahl wie 16MnCr5 im Rand aufgekohlt und dann gehärtet. Beim Induktionshärten oder Flammhärten wird ein vergütbarer Stahl nur außen schnell erwärmt und abgeschreckt. Beim Nitrieren dringt Stickstoff ein, ohne Abschrecken, deshalb bleibt das Teil fast maßhaltig.
+
+Achtung bei den Temperaturen: Bücher nennen für das Anlassen beim Vergüten Bereiche von etwa 500 bis 700 °C und für Werkzeuge etwa 150 bis 300 °C. Für deinen Stahl gilt der Wert im Tabellenbuch.
+Baustein: Ziel festlegen: ganz hart, nur außen hart, zäh und fest, weich oder spannungsarm.
+Baustein: Kohlenstoffgehalt aus der Bezeichnung lesen.
+Baustein: Verfahren wählen und Temperatur aus dem Tabellenbuch holen.
+Baustein: Abschreckmittel nach Stahlsorte wählen.
+Baustein: Nach dem Härten immer anlassen.
+Schnellweg: Bei unlegiertem Stahl C und Zahl ist der Kohlenstoff die Zahl durch 100 in Prozent. C45 hat 0,45 Prozent.
+Fehler: Einen Stahl mit 0,1 Prozent Kohlenstoff direkt gehärtet | Er hat zu wenig Kohlenstoff. Erst aufkohlen, also einsatzhärten.
+Fehler: Weichglühen mit Normalglühen verwechselt | Normalglühen macht das Gefüge fein. Weichglühen macht den Stahl weich und gut zerspanbar.
+Fehler: Verzugsarmes Teil abgeschreckt | Wenn sich das Teil nicht verziehen darf, ist Nitrieren besser, weil nicht abgeschreckt wird.
+Formel: Härtetemperatur | T_H = T_GS + z | z = T_H − T_GS; T_GS = T_H − z
+Formel: Mittlere Abkühlgeschwindigkeit | v_k = (T_1 − T_2) / t | t = (T_1 − T_2) / v_k; T_2 = T_1 − v_k · t
+Karte: Wie weit über der Linie G S härtet man untereutektoiden Stahl? | Etwa 30 bis 50 K.
+Karte: Was passiert, wenn die Abkühlung zu langsam ist? | Es entsteht kein Martensit, der Stahl wird nicht hart.
+Karte: Wozu dient Weichglühen? | Der Stahl wird weich und lässt sich besser zerspanen.
+Karte: Wozu dient Normalglühen? | Es macht das Gefüge fein und gleichmäßig.
+Karte: Warum verzieht sich ein nitriertes Teil kaum? | Weil nicht abgeschreckt wird und die Temperatur niedrig ist.
+Karte: Welcher Stahl wird typisch einsatzgehärtet? | Ein kohlenstoffarmer Einsatzstahl wie 16MnCr5.
+Karte: Was ist Induktionshärten? | Nur die Randschicht wird durch ein Wechselfeld schnell erwärmt und dann abgeschreckt.
+Karte: Wie viel Kohlenstoff hat C45? | 0,45 Prozent.
+Karte: Warum braucht unlegierter Stahl schärferes Abschrecken? | Weil seine kritische Abkühlgeschwindigkeit hoch ist.
+Karte: Bei welchem Anlassen bleibt ein Werkzeug sehr hart? | Bei niedriger Anlasstemperatur.
+Karte: Was ist der Unterschied zwischen Einsatzhärten und Induktionshärten? | Einsatzhärten bringt Kohlenstoff in den Rand. Induktionshärten härtet einen Stahl, der schon genug Kohlenstoff hat.
+Auswahl: Eine Welle aus C45 soll fest und trotzdem zäh werden. Was machst du? | Vergüten | Weichglühen; Nitrieren ohne Härten; Spannungsarmglühen | Vergüten heißt Härten und Anlassen bei hoher Temperatur. Das gibt hohe Festigkeit bei guter Zähigkeit.
+Auswahl: Ein Zahnrad aus 16MnCr5 soll eine harte Oberfläche bekommen. Was passt? | Einsatzhärten | Direkt härten; Normalglühen; Weichglühen | 16MnCr5 hat nur etwa 0,16 Prozent Kohlenstoff. Erst das Aufkohlen macht den Rand härtbar.
+Reihenfolge: Bauteil härten | Kohlenstoffgehalt prüfen; Härtetemperatur aus dem Tabellenbuch holen; Erwärmen und durchwärmen; Abschrecken im passenden Mittel; Sofort anlassen
+Aufgabe: Ein Stahl hat die Linie G S bei T_GS = {T} °C. Er soll {z} K darüber gehärtet werden. Wie hoch ist die Härtetemperatur?
+Gegeben: T_GS = {T} °C
+Gegeben: Zuschlag z = {z} K
+Gesucht: Härtetemperatur T_H in °C
+Ansatz: T_H = T_GS + z | T_H = T_GS − z; T_H = 723 °C + z; T_H = T_GS · z
+Signal: Ein untereutektoider Stahl, gegeben sind die Linie G S und ein Zuschlag.
+Warum: Weil der Stahl ganz austenitisch sein muss | Weil der Stahl unter 723 °C bleiben muss; Weil der Stahl schmelzen muss
+Kontrolle: Liegt die Härtetemperatur über 723 °C? | Ja, über der Linie P S K | Nein, darunter; Genau bei 723 °C
+Schritt: Härtetemperatur | T + z | °C
+Variable: T | 760 | 900 | 10
+Variable: z | 30 | 50 | 5
+Rechnung: T + z
+Aufgabe: Ein Teil wird von T_1 = {T1} °C auf T_2 = {T2} °C in t = {t} s abgeschreckt. Wie groß ist die mittlere Abkühlgeschwindigkeit?
+Gegeben: T_1 = {T1} °C
+Gegeben: T_2 = {T2} °C
+Gegeben: t = {t} s
+Gesucht: Abkühlgeschwindigkeit v_k in K/s
+Ansatz: v_k = (T_1 − T_2) / t | v_k = (T_1 + T_2) / t; v_k = t / (T_1 − T_2); v_k = (T_1 − T_2) · t
+Signal: Zwei Temperaturen und eine Zeit sind gegeben, gefragt ist ein Tempo.
+Warum: Weil Geschwindigkeit die Änderung pro Zeit ist | Weil Geschwindigkeit die Summe pro Zeit ist; Weil Geschwindigkeit die Zeit pro Änderung ist
+Kontrolle: Was passiert, wenn v_k unter der kritischen Abkühlgeschwindigkeit liegt? | Es entsteht kein Martensit | Es entsteht mehr Martensit; Der Stahl schmilzt
+Schritt: Temperaturunterschied | T1 - T2 | K
+Schritt: Abkühlgeschwindigkeit | (T1 - T2) / t | K/s
+Variable: T1 | 800 | 880 | 10
+Variable: T2 | 20 | 200 | 10
+Variable: t | 2 | 30 | 1
+Rechnung: (T1 - T2) / t
+Aufgabe: Ein unlegierter Stahl heißt C{k}. Wie viel Prozent Kohlenstoff hat er?
+Gegeben: Bezeichnung C{k}
+Gesucht: Kohlenstoffgehalt in Prozent
+Ansatz: Zahl durch 100 | Zahl durch 10; Zahl direkt in Prozent; Zahl durch 4
+Signal: Ein unlegierter Stahl mit C und einer Zahl.
+Warum: Weil die Zahl das Hundertfache des Kohlenstoffgehalts ist | Weil die Zahl die Zugfestigkeit angibt; Weil die Zahl die Härtetemperatur angibt
+Kontrolle: Ab welchem Kohlenstoffgehalt ist ein Stahl gut direkt härtbar? | Ab etwa 0,2 bis 0,3 Prozent | Ab etwa 2 bis 3 Prozent; Schon ab 0,01 Prozent
+Schritt: Kohlenstoffgehalt | k / 100 | %
+Variable: k | 10 | 60 | 5
+Rechnung: k / 100
+Quelle: Selbst formuliert. Temperaturen nur als Richtwerte, für deinen Stahl gilt das Tabellenbuch. Achtung: Die Grenze für die Härtbarkeit wird in Büchern zwischen 0,2 und 0,35 Prozent Kohlenstoff angegeben.
+=== ENDE ===
+
+=== LERNWERK ===
+Fach: Werkstofftechnik
+Thema: Werkstoffprüfung
+Anker: Im Fitnessstudio testest du dein Maximum: Du steigerst das Gewicht, bis es nicht mehr geht. Der Zugversuch macht das mit einer Stahlprobe. Die Maschine zieht immer stärker, bis die Probe reißt, und schreibt dabei alles auf.
+Begriff: Anfangsquerschnitt S_0 | Der Querschnitt der Probe vor dem Versuch. Bei einer Rundprobe π d_0² durch 4.
+Begriff: Höchstkraft F_m | Die größte Kraft im Zugversuch. Durch S_0 geteilt ergibt sie die Zugfestigkeit.
+Begriff: Elastizitätsmodul E | Spannung durch Dehnung im elastischen Bereich. Bei Stahl etwa 210000 N/mm².
+Begriff: Dehnung ε | Verlängerung durch Ausgangslänge, ohne Einheit oder in Prozent.
+Begriff: Proportionalstab | Eine Zugprobe, deren Messlänge fest zum Durchmesser passt. Beim kurzen Proportionalstab ist L_0 gleich 5 mal d_0.
+Begriff: Vickershärte HV | Härte aus der Diagonale des Eindrucks einer Diamantpyramide. HV 30 heißt Prüfkraft 294,2 N.
+Begriff: Brinellhärte HBW | Härte aus dem Durchmesser des Eindrucks einer Hartmetallkugel.
+Merksatz: Zugfestigkeit gleich Höchstkraft durch Anfangsquerschnitt.
+Merksatz: Im elastischen Bereich gilt σ gleich E mal ε.
+Merksatz: Vickers: 0,1891 mal Kraft durch Diagonale zum Quadrat.
+Merksatz: Großer Eindruck heißt weicher Werkstoff.
+Prinzip: Im Zugversuch zeichnet die Maschine Kraft und Verlängerung auf. Teilt man die Kraft durch den Anfangsquerschnitt, bekommt man die Spannung. Am Anfang steigt sie gerade an, das ist der elastische Bereich. Hier gilt das Hookesche Gesetz: Spannung gleich E-Modul mal Dehnung. Nimmt man die Last weg, geht die Probe ganz zurück.
+
+Danach beginnt das Fließen, die Probe verformt sich bleibend. Die höchste Spannung ist die Zugfestigkeit. Danach schnürt sich die Probe ein und reißt. Legt man die Bruchstücke zusammen und misst die Länge, bekommt man die Bruchdehnung. Sie zeigt, wie verformbar der Werkstoff ist.
+
+Bei der Härteprüfung drückt ein Prüfkörper mit fester Kraft in die Oberfläche. Bei Vickers misst man die beiden Diagonalen des quadratischen Eindrucks und nimmt den Mittelwert. Je kleiner der Eindruck, desto härter der Werkstoff. Die Zahl 0,1891 kommt aus der Pyramidenform und der alten Einheit Kilopond.
+Baustein: Probenmaße und Messwerte sammeln.
+Baustein: Anfangsquerschnitt π d_0² durch 4 ausrechnen.
+Baustein: Zugfestigkeit gleich Höchstkraft durch S_0.
+Baustein: Bruchdehnung gleich Längenzuwachs durch L_0 mal 100.
+Baustein: Bei Vickers den Mittelwert der Diagonalen nehmen und 0,1891 mal F durch d² rechnen.
+Schnellweg: Bei Stahl gilt grob: Zugfestigkeit in N/mm² ist etwa 3,5 mal Brinellhärte. Achtung, das ist nur eine Faustregel für unlegierte und niedriglegierte Stähle.
+Fehler: Für die Zugfestigkeit den Querschnitt nach dem Bruch genommen | Die Kennwerte beziehen sich auf den Anfangsquerschnitt S_0.
+Fehler: Bei der Bruchdehnung durch die Endlänge geteilt | Bezug ist immer die Anfangsmesslänge L_0.
+Fehler: Bei Vickers den Durchmesser statt der Diagonale genommen | Der Eindruck ist ein Quadrat. Gemessen werden die Diagonalen in mm.
+Formel: Anfangsquerschnitt Rundprobe | S_0 = π · d_0² / 4 | d_0 = √(4 · S_0 / π)
+Formel: Zugfestigkeit | R_m = F_m / S_0 | F_m = R_m · S_0; S_0 = F_m / R_m
+Formel: Vickershärte | HV = 0,1891 · F / d² | F = HV · d² / 0,1891; d = √(0,1891 · F / HV)
+Formel: Hookesches Gesetz | σ = E · ε | E = σ / ε; ε = σ / E
+Karte: Wie bekommst du die Zugfestigkeit? | Höchstkraft durch Anfangsquerschnitt.
+Karte: Wie groß ist der E-Modul von Stahl? | Etwa 210000 N/mm².
+Karte: Was gilt im elastischen Bereich? | Spannung gleich E-Modul mal Dehnung, und die Probe federt ganz zurück.
+Karte: Was ist ein kurzer Proportionalstab? | Eine Probe mit L_0 gleich 5 mal d_0.
+Karte: Worauf bezieht sich die Bruchdehnung? | Auf die Anfangsmesslänge L_0.
+Karte: Was misst man bei Vickers? | Die beiden Diagonalen des Eindrucks.
+Karte: Welche Prüfkraft gehört zu HV 30? | 294,2 N.
+Karte: Was bedeutet ein großer Härteeindruck? | Der Werkstoff ist weich.
+Karte: Was zeigt die Einschnürung im Zugversuch? | Dass die Höchstkraft überschritten ist und die Probe bald reißt.
+Karte: Welcher Prüfkörper wird bei Brinell verwendet? | Eine Hartmetallkugel.
+Karte: Was zeigt eine große Bruchdehnung? | Der Werkstoff ist gut verformbar.
+Auswahl: Ein gehärteter Stahl soll schnell in der Werkstatt geprüft werden. Was passt am besten? | Rockwell C | Brinell mit Kugel; Zugversuch; Kerbschlagbiegeversuch | Rockwell C ist schnell, weil die Maschine die Eindringtiefe direkt anzeigt. Für gehärteten Stahl ist es das übliche Verfahren.
+Auswahl: Du willst den E-Modul eines Werkstoffs bestimmen. Welchen Teil der Zugkurve nimmst du? | Den geraden Anstieg am Anfang | Den höchsten Punkt; Das Ende beim Bruch; Den Bereich der Einschnürung | Nur im elastischen Bereich sind Spannung und Dehnung proportional. Die Steigung dort ist der E-Modul.
+Reihenfolge: Zugversuch auswerten | Probendurchmesser und Messlänge messen; Anfangsquerschnitt ausrechnen; Höchstkraft ablesen; Zugfestigkeit ausrechnen; Bruchdehnung aus der Endlänge ausrechnen
+Aufgabe: Eine Rundprobe hat d_0 = {d} mm. Im Zugversuch wird die Höchstkraft F_m = {F} kN gemessen. Wie groß ist die Zugfestigkeit?
+Gegeben: d_0 = {d} mm
+Gegeben: F_m = {F} kN
+Gesucht: Zugfestigkeit R_m in N/mm²
+Ansatz: S_0 = π · d_0² / 4, dann R_m = F_m / S_0 | S_0 = π · d_0, dann R_m = F_m / S_0; S_0 = π · d_0² / 4, dann R_m = S_0 / F_m; S_0 = d_0², dann R_m = F_m / S_0
+Signal: Höchstkraft und Probendurchmesser aus einem Zugversuch sind gegeben.
+Warum: Weil die Zugfestigkeit auf den Anfangsquerschnitt bezogen wird | Weil die Zugfestigkeit auf den Bruchquerschnitt bezogen wird; Weil die Zugfestigkeit die Kraft selbst ist
+Kontrolle: Liegt das Ergebnis für Baustahl in einem sinnvollen Bereich? | Ja, etwa 300 bis 1200 N/mm² | Ja, etwa 3 bis 12 N/mm²; Ja, etwa 30000 N/mm²
+Schritt: Anfangsquerschnitt | pi * d^2 / 4 | mm²
+Schritt: Zugfestigkeit | F * 1000 / (pi * d^2 / 4) | N/mm²
+Variable: d | 8 | 14 | 1
+Variable: F | 30 | 60 | 1
+Rechnung: F * 1000 / (pi * d^2 / 4)
+Aufgabe: Eine Zugprobe hat die Messlänge L_0 = {L0} mm. Nach dem Bruch misst du L_u = {Lu} mm. Wie groß ist die Bruchdehnung?
+Gegeben: L_0 = {L0} mm
+Gegeben: L_u = {Lu} mm
+Gesucht: Bruchdehnung A in Prozent
+Ansatz: A = (L_u − L_0) / L_0 · 100 | A = (L_u − L_0) / L_u · 100; A = L_u / L_0 · 100; A = (L_u + L_0) / L_0 · 100
+Signal: Messlänge vor und nach dem Bruch sind gegeben.
+Warum: Weil die bleibende Verlängerung auf die Anfangslänge bezogen wird | Weil die Verlängerung auf die Endlänge bezogen wird; Weil die Endlänge selbst die Dehnung ist
+Kontrolle: Welcher Werkstoff ist verformbarer, 10 oder 25 Prozent Bruchdehnung? | Der mit 25 Prozent | Der mit 10 Prozent; Beide sind gleich verformbar
+Schritt: Verlängerung | Lu - L0 | mm
+Schritt: Bruchdehnung | (Lu - L0) / L0 * 100 | %
+Variable: L0 | 40 | 80 | 10
+Variable: Lu | 84 | 100 | 1
+Rechnung: (Lu - L0) / L0 * 100
+Aufgabe: Bei einer Härteprüfung HV 30 mit F = 294,2 N misst du die mittlere Diagonale d = {d} mm. Wie groß ist die Vickershärte?
+Gegeben: F = 294,2 N
+Gegeben: d = {d} mm
+Gesucht: Vickershärte HV
+Ansatz: HV = 0,1891 · F / d² | HV = 0,1891 · F / d; HV = 0,1891 · F · d²; HV = F / (0,1891 · d²)
+Signal: Prüfkraft und Diagonale eines Vickerseindrucks sind gegeben.
+Warum: Weil die Härte Kraft pro Eindruckfläche ist | Weil die Härte Kraft mal Eindruckfläche ist; Weil die Härte nur von der Kraft abhängt
+Kontrolle: Ist der Werkstoff härter, wenn d kleiner ist? | Ja, kleiner Eindruck heißt hart | Nein, kleiner Eindruck heißt weich; Die Diagonale sagt nichts aus
+Schritt: Diagonale zum Quadrat | d^2 | mm²
+Schritt: Vickershärte | 0.1891 * 294.2 / d^2 | HV
+Variable: d | 0,3 | 1 | 0,02
+Rechnung: 0.1891 * 294.2 / d^2
+Quelle: Selbst formuliert. Zugversuch nach DIN EN ISO 6892-1, Vickers nach DIN EN ISO 6507-1, Brinell nach DIN EN ISO 6506-1.
+=== ENDE ===
