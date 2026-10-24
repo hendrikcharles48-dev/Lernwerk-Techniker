@@ -140,6 +140,8 @@ ok(ra.fehler.length === 0 && ta.ansatz.richtig === 'Ohmsches Gesetz' && ta.ansat
 ok(ta.signal === 'Ein Bauteil, U und I gegeben.' && ta.warum.falsch.length === 2 && ta.kontrolle.frage === 'Passt die Größe?', 'Signal, Warum, Kontrolle', ta);
 ok(JSON.stringify(parseBlocks(exportBlock(ra.themen[0])).themen[0]) === JSON.stringify(ra.themen[0]), 'Ansatz Rundreise');
 ok(parseBlocks('Fach: A\nThema: B\nAufgabe: x\nAnsatz: nur richtig').fehler.length === 1, 'Ansatz ohne falsche Antworten meldet Fehler');
+ok(Math.abs(calc('e^1', {}) - Math.E) < 1e-12 && Math.abs(calc('U0 * e^(-t / tau)', { U0: 10, t: 1, tau: 1 }) - 10 / Math.E) < 1e-12, 'e ist die Eulersche Zahl');
+ok(parseEq('U = û / √2').r && checkSolved('u = U0 · e^(−t / τ)', 't', 't = −τ · ln(u / U0)', 't = −τ · ln(u / U0)').ok, 'û und e in Formeln');
 ok(calc('mu * FG', { mu: 0.2, FG: 100 }) === 20 && parseEq('F_R = µ · F_N').r, 'µ als Formelzeichen');
 
 console.log(`\n${pass} bestanden, ${fail} fehlgeschlagen`);

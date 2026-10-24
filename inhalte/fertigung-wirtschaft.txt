@@ -1,0 +1,279 @@
+=== LERNWERK ===
+Fach: Toleranzen und technische Zeichnung
+Thema: Passungen: Grenzmaße, Spiel, Übermaß
+Anker: Ein Fräserschaft im Spannfutter: Ist die Bohrung etwas größer als der Schaft, geht er leicht hinein, das ist Spiel. Beim Schrumpffutter ist die Bohrung kleiner als der Schaft, erst warm geht er hinein. Kalt sitzt er bombenfest, das ist Übermaß.
+Begriff: Nennmaß N | Das Maß, auf das sich die Abmaße beziehen, zum Beispiel 30 mm.
+Begriff: Oberes Abmaß | Wie weit das Höchstmaß über dem Nennmaß liegt. Bei Bohrungen ES, bei Wellen es.
+Begriff: Unteres Abmaß | Wie weit das Mindestmaß über dem Nennmaß liegt. Bei Bohrungen EI, bei Wellen ei.
+Begriff: Höchstmaß und Mindestmaß | Nennmaß plus oberes Abmaß und Nennmaß plus unteres Abmaß.
+Begriff: Spiel | Die Bohrung ist größer als die Welle. Der Unterschied ist positiv.
+Begriff: Übermaß | Die Welle ist größer als die Bohrung. Der Unterschied ist negativ.
+Begriff: Spielpassung | Es gibt in jedem Fall Spiel.
+Begriff: Übergangspassung | Je nach Istmaßen gibt es Spiel oder Übermaß.
+Begriff: Übermaßpassung | Es gibt in jedem Fall Übermaß. Man fügt mit Presse oder Wärme.
+Merksatz: Großbuchstabe Bohrung, Kleinbuchstabe Welle.
+Merksatz: Höchstspiel: größte Bohrung minus kleinste Welle.
+Merksatz: Mindestspiel: kleinste Bohrung minus größte Welle.
+Merksatz: Mindestspiel positiv: Spielpassung. Höchstspiel negativ: Übermaßpassung. Dazwischen: Übergang.
+Prinzip: Bei einer Passung kommen eine Bohrung und eine Welle zusammen. Beide haben Toleranzen, also liegen ihre Istmaße irgendwo zwischen Mindestmaß und Höchstmaß. Um zu wissen, wie sie zusammenpassen, schaust du dir die ungünstigsten Fälle an.
+
+Der lockerste Fall ist die größte Bohrung mit der kleinsten Welle. Das ergibt das Höchstspiel. Der festeste Fall ist die kleinste Bohrung mit der größten Welle. Das ergibt das Mindestspiel. Ist auch das Mindestspiel noch positiv, gibt es immer Spiel. Ist schon das Höchstspiel negativ, gibt es immer Übermaß. Liegt die Null dazwischen, ist es eine Übergangspassung.
+
+Mit Abmaßen geht es schneller: Höchstspiel gleich ES minus ei, Mindestspiel gleich EI minus es. Abmaße stehen meist in Mikrometer, das Nennmaß in Millimeter.
+Baustein: Bohrung und Welle anhand von Groß- und Kleinbuchstaben unterscheiden.
+Baustein: Abmaße aus Tabelle oder Zeichnung ablesen, mit Vorzeichen.
+Baustein: Grenzmaße ausrechnen: Nennmaß plus Abmaß, Mikrometer durch 1000 für Millimeter.
+Baustein: Höchstspiel ES minus ei, Mindestspiel EI minus es.
+Baustein: Passungsart bestimmen: Vorzeichen von Höchst- und Mindestspiel.
+Schnellweg: Bei Einheitsbohrung H ist EI gleich null. Dann ist das Mindestspiel einfach minus es.
+Schnellweg: Für die Passungsart reicht ein Blick: Liegt die Welle ganz unter der Nulllinie, ist es Spiel bei H.
+Fehler: Vorzeichen der Abmaße verloren | Minus mal minus: ES minus ei mit negativem ei wird zu einer Addition.
+Fehler: Mikrometer und Millimeter gemischt | Abmaße stehen in µm. Für Grenzmaße durch 1000 teilen.
+Fehler: Höchst- und Mindestspiel vertauscht | Höchstspiel: größte Bohrung, kleinste Welle. Mindestspiel: kleinste Bohrung, größte Welle.
+Formel: Höchstmaß | G_o = N + ES / 1000 | ES = (G_o − N) · 1000
+Formel: Höchstspiel | P_SH = ES − ei | ES = P_SH + ei; ei = ES − P_SH
+Formel: Mindestspiel | P_SM = EI − es | EI = P_SM + es; es = EI − P_SM
+Karte: Welche Buchstaben stehen für Bohrungen? | Großbuchstaben.
+Karte: Was ist das Höchstspiel? | Größte Bohrung minus kleinste Welle, ES minus ei.
+Karte: Was ist das Mindestspiel? | Kleinste Bohrung minus größte Welle, EI minus es.
+Karte: Wann liegt eine Spielpassung vor? | Wenn auch das Mindestspiel positiv oder null ist.
+Karte: Wann liegt eine Übermaßpassung vor? | Wenn auch das Höchstspiel negativ oder null ist.
+Karte: Was ist eine Übergangspassung? | Je nach Istmaß Spiel oder Übermaß.
+Karte: Wie groß ist EI bei einer H-Bohrung? | Null.
+Karte: Wie rechnest du 25 µm in mm um? | Durch 1000, also 0,025 mm.
+Karte: Wie fügt man eine Übermaßpassung? | Mit Presse oder durch Erwärmen der Bohrung oder Kühlen der Welle.
+Karte: Welche Passung hat ein Schrumpffutter? | Eine Übermaßpassung.
+Karte: 30 H7 hat ES = +21 µm. Wie groß ist das Höchstmaß? | 30,021 mm.
+Auswahl: Mindestspiel +7 µm, Höchstspiel +41 µm. Welche Passung? | Spielpassung | Übergangspassung; Übermaßpassung; Keine Passung
+Auswahl: Mindestspiel −15 µm, Höchstspiel +10 µm. Welche Passung? | Übergangspassung | Spielpassung; Übermaßpassung; Keine Passung
+Reihenfolge: Passung auswerten | Bohrung und Welle erkennen; Abmaße ablesen; Höchstspiel ES minus ei; Mindestspiel EI minus es; Passungsart bestimmen
+Aufgabe: Eine Bohrung hat das Nennmaß N = {N} mm und das obere Abmaß ES = +{ES} µm. Wie groß ist ihr Höchstmaß?
+Gegeben: N = {N} mm
+Gegeben: ES = +{ES} µm
+Gesucht: Höchstmaß in mm
+Ansatz: N + ES / 1000 | N + ES ohne Umrechnung; N − ES / 1000; N · ES / 1000
+Signal: Nennmaß in Millimeter und ein oberes Abmaß in Mikrometer.
+Warum: Weil Höchstmaß gleich Nennmaß plus oberes Abmaß ist | Weil man Abmaße vom Nennmaß abzieht; Weil Abmaße schon in Millimeter stehen
+Kontrolle: Liegt das Höchstmaß nur wenige Hundertstel über dem Nennmaß? | Ja, Abmaße sind klein | Nein, es liegt mehrere Millimeter darüber; Nein, es liegt darunter
+Schritt: Abmaß in mm | ES / 1000 | mm
+Schritt: Höchstmaß | N + ES / 1000 | mm
+Variable: N | 10 | 80 | 5
+Variable: ES | 12 | 46 | 1
+Rechnung: N + ES / 1000
+Aufgabe: Eine Bohrung H mit ES = +{ES} µm und EI = 0 wird mit einer Welle es = −{a} µm und ei = −{b} µm gepaart. Wie groß ist das Höchstspiel?
+Gegeben: Bohrung: ES = +{ES} µm, EI = 0 µm
+Gegeben: Welle: es = −{a} µm, ei = −{b} µm
+Gesucht: Höchstspiel in µm
+Ansatz: ES − ei | EI − es; ES − es; EI − ei
+Signal: Gesucht ist der lockerste Fall: größte Bohrung, kleinste Welle.
+Warum: Weil ES die größte Bohrung und ei die kleinste Welle beschreibt | Weil das Höchstspiel aus den beiden oberen Abmaßen kommt; Weil das Höchstspiel aus den unteren Abmaßen kommt
+Kontrolle: Ist das Höchstspiel größer als ES? | Ja, weil ein negatives ei abgezogen wird | Nein, es ist kleiner als ES; Nein, es ist genau ES
+Schritt: Höchstspiel | ES + b | µm
+Variable: ES | 15 | 40 | 1
+Variable: a | 5 | 20 | 1
+Variable: b | 25 | 50 | 1
+Rechnung: ES + b
+Aufgabe: Eine Bohrung H mit EI = 0 wird mit einer Welle es = +{c} µm und ei = +{d} µm gepaart. Die Bohrung hat ES = +{ES} µm. Wie groß ist das Höchstübermaß als Betrag?
+Gegeben: Bohrung: ES = +{ES} µm, EI = 0 µm
+Gegeben: Welle: es = +{c} µm, ei = +{d} µm
+Gesucht: Höchstübermaß in µm als Betrag
+Ansatz: Betrag von EI − es | Betrag von ES − ei; Betrag von ES − es; Betrag von EI − ei
+Signal: Die Welle liegt ganz über der Nulllinie und über der Bohrung. Gefragt ist der festeste Fall.
+Warum: Weil das größte Übermaß bei kleinster Bohrung und größter Welle entsteht | Weil das Übermaß aus den beiden unteren Abmaßen kommt; Weil das Übermaß aus den beiden oberen Abmaßen kommt
+Kontrolle: Welche Passungsart liegt vor, wenn ei größer als ES ist? | Übermaßpassung | Spielpassung; Übergangspassung
+Schritt: Höchstübermaß als Betrag | c | µm
+Variable: ES | 15 | 25 | 1
+Variable: d | 28 | 40 | 1
+Variable: c | 45 | 60 | 1
+Rechnung: c
+Quelle: Passungssystem nach DIN EN ISO 286. Abmaße für eigene Aufgaben aus der Tabelle oder der Toleranzen-App.
+=== ENDE ===
+
+=== LERNWERK ===
+Fach: Ökonomie und Nachhaltigkeit
+Thema: Kostenrechnung und Kalkulation
+Anker: Ein Lohnfertiger kalkuliert ein Frästeil: Material, die Zeit an der Maschine und ein Aufschlag für Halle, Strom, Werkzeuge und Büro. Was er nicht direkt einem Teil zuordnen kann, verteilt er mit Prozentzuschlägen. Das ist die Zuschlagskalkulation.
+Anker: Eine neue Maschine kostet jeden Monat Miete, egal wie viel sie fräst. Jedes Teil bringt aber einen Beitrag. Ab einer bestimmten Stückzahl sind die festen Kosten gedeckt, danach verdient man. Das ist die Gewinnschwelle.
+Begriff: Einzelkosten | Kosten, die man einem Produkt direkt zuordnen kann, zum Beispiel Material und Fertigungslohn.
+Begriff: Gemeinkosten | Kosten, die man nicht direkt zuordnen kann, zum Beispiel Miete, Verwaltung, Hallenstrom. Sie werden mit Zuschlägen verteilt.
+Begriff: Herstellkosten | Materialkosten plus Fertigungskosten.
+Begriff: Selbstkosten | Herstellkosten plus Verwaltungs- und Vertriebsgemeinkosten.
+Begriff: Fixe Kosten | Kosten, die unabhängig von der Menge anfallen.
+Begriff: Variable Kosten | Kosten, die mit jeder Einheit zusätzlich anfallen.
+Begriff: Deckungsbeitrag | Verkaufspreis minus variable Kosten pro Stück. Damit werden die fixen Kosten gedeckt.
+Begriff: Gewinnschwelle | Die Menge, bei der Erlös und Kosten gleich groß sind. Auch Break-even-Punkt.
+Merksatz: Material plus Zuschlag, Fertigung plus Zuschlag, zusammen Herstellkosten.
+Merksatz: Herstellkosten plus Verwaltung und Vertrieb gibt die Selbstkosten.
+Merksatz: Gewinnschwelle gleich fixe Kosten durch Deckungsbeitrag pro Stück.
+Merksatz: Zuschlag in Prozent: mal eins plus Prozent durch 100.
+Prinzip: Ein Unternehmen muss wissen, was ein Produkt kostet, um einen Preis festzulegen. Manche Kosten lassen sich direkt zuordnen, wie das Material für ein Teil. Andere entstehen für alle Produkte gemeinsam, wie die Miete der Halle. Diese Gemeinkosten verteilt man mit Prozentzuschlägen auf die Einzelkosten.
+
+Das Kalkulationsschema läuft immer gleich: Materialeinzelkosten plus Materialgemeinkosten, Fertigungslöhne plus Fertigungsgemeinkosten. Beides zusammen sind die Herstellkosten. Darauf kommen die Verwaltungs- und Vertriebsgemeinkosten, dann hast du die Selbstkosten. Mit dem Gewinnzuschlag ergibt sich der Verkaufspreis ohne Skonto und Rabatt.
+
+Für Entscheidungen über Stückzahlen trennt man fixe und variable Kosten. Jedes verkaufte Stück bringt den Deckungsbeitrag. Teilt man die fixen Kosten durch diesen Beitrag, weiß man, ab welcher Menge Gewinn entsteht.
+Baustein: Einzelkosten und Gemeinkosten trennen.
+Baustein: Zuschläge in der richtigen Reihenfolge anwenden: Material, Fertigung, dann Verwaltung und Vertrieb.
+Baustein: Prozent als Faktor: eins plus Prozent durch 100.
+Baustein: Für Mengenfragen fixe und variable Kosten trennen und den Deckungsbeitrag bilden.
+Baustein: Ergebnis plausibel prüfen: Der Preis muss über den Selbstkosten liegen.
+Schnellweg: Gewinnschwelle: fixe Kosten durch Preis minus variable Stückkosten.
+Schnellweg: Aufschläge immer auf die vorherige Zwischensumme rechnen, nicht auf die Einzelkosten am Anfang.
+Fehler: Zuschlag auf die falsche Basis gerechnet | Materialgemeinkosten auf das Material, Fertigungsgemeinkosten auf den Fertigungslohn.
+Fehler: Prozent als Zahl addiert | 20 Prozent auf 500 Euro sind 100 Euro, nicht 20 Euro.
+Fehler: Fixe Kosten pro Stück als konstant angenommen | Fixe Kosten pro Stück sinken mit steigender Menge.
+Formel: Herstellkosten | HK = MEK · (1 + z_M / 100) + FEK · (1 + z_F / 100)
+Formel: Selbstkosten | SK = HK · (1 + z_VV / 100) | HK = SK / (1 + z_VV / 100)
+Formel: Gewinnschwelle | x = K_f / (p − k_v) | K_f = x · (p − k_v); p = K_f / x + k_v
+Formel: Deckungsbeitrag pro Stück | db = p − k_v | p = db + k_v; k_v = p − db
+Karte: Was sind Einzelkosten? | Kosten, die einem Produkt direkt zugeordnet werden können.
+Karte: Was sind Gemeinkosten? | Kosten, die nicht direkt zuzuordnen sind und mit Zuschlägen verteilt werden.
+Karte: Woraus bestehen die Herstellkosten? | Aus Materialkosten und Fertigungskosten.
+Karte: Was kommt zu den Herstellkosten, um die Selbstkosten zu erhalten? | Die Verwaltungs- und Vertriebsgemeinkosten.
+Karte: Was ist der Deckungsbeitrag pro Stück? | Verkaufspreis minus variable Stückkosten.
+Karte: Wie berechnest du die Gewinnschwelle? | Fixe Kosten durch Deckungsbeitrag pro Stück.
+Karte: Was passiert mit den fixen Kosten pro Stück bei höherer Menge? | Sie sinken.
+Karte: 400 Euro Material, 25 Prozent Zuschlag. Materialkosten? | 500 Euro.
+Karte: Fixkosten 10 000 Euro, Deckungsbeitrag 25 Euro pro Stück. Gewinnschwelle? | 400 Stück.
+Karte: Nenne ein Beispiel für fixe Kosten. | Miete, Abschreibung einer Maschine, Gehälter in der Verwaltung.
+Karte: Nenne ein Beispiel für variable Kosten. | Material pro Teil, Energie pro Teil, Werkzeugverschleiß pro Teil.
+Auswahl: Auf welche Basis rechnest du die Fertigungsgemeinkosten? | Auf die Fertigungslöhne | Auf das Material; Auf die Selbstkosten; Auf den Verkaufspreis
+Auswahl: Fixe Kosten 6000 Euro, Preis 50 Euro, variable Kosten 30 Euro. Gewinnschwelle? | 300 Stück | 120 Stück; 200 Stück; 600 Stück
+Reihenfolge: Zuschlagskalkulation bis zu den Selbstkosten | Materialeinzelkosten; Plus Materialgemeinkosten; Fertigungslöhne plus Fertigungsgemeinkosten; Summe ergibt Herstellkosten; Plus Verwaltung und Vertrieb ergibt Selbstkosten
+Aufgabe: Ein Frästeil hat Materialeinzelkosten von {M} Euro bei {zM} Prozent Materialgemeinkosten und Fertigungslöhne von {F} Euro bei {zF} Prozent Fertigungsgemeinkosten. Wie hoch sind die Herstellkosten?
+Gegeben: MEK = {M} Euro, Zuschlag {zM} Prozent
+Gegeben: FEK = {F} Euro, Zuschlag {zF} Prozent
+Gesucht: Herstellkosten in Euro
+Ansatz: MEK und FEK je mit eigenem Zuschlag, dann addieren | MEK plus FEK, dann einen Zuschlag; Nur MEK mit Zuschlag, FEK ohne; MEK plus FEK plus beide Prozentzahlen
+Signal: Zwei Arten Einzelkosten, jede mit ihrem eigenen Gemeinkostenzuschlag.
+Warum: Weil jeder Zuschlag zu seiner eigenen Kostenbasis gehört | Weil man alle Zuschläge auf die Gesamtsumme rechnet; Weil Prozent einfach als Euro addiert werden
+Kontrolle: Sind die Herstellkosten größer als MEK plus FEK? | Ja, die Gemeinkosten kommen dazu | Nein, sie sind kleiner; Nein, sie sind gleich
+Schritt: Materialkosten | M * (1 + zM / 100) | Euro
+Schritt: Fertigungskosten | F * (1 + zF / 100) | Euro
+Schritt: Herstellkosten | M * (1 + zM / 100) + F * (1 + zF / 100) | Euro
+Variable: M | 20 | 200 | 10
+Variable: zM | 5 | 25 | 5
+Variable: F | 30 | 300 | 10
+Variable: zF | 80 | 200 | 10
+Rechnung: M * (1 + zM / 100) + F * (1 + zF / 100)
+Aufgabe: Ein Teil hat Herstellkosten von {HK} Euro. Der Zuschlag für Verwaltung und Vertrieb beträgt {zV} Prozent, der Gewinnzuschlag {g} Prozent. Wie hoch ist der Verkaufspreis ohne Skonto und Rabatt?
+Gegeben: HK = {HK} Euro
+Gegeben: Verwaltung und Vertrieb {zV} Prozent
+Gegeben: Gewinn {g} Prozent
+Gesucht: Verkaufspreis in Euro
+Ansatz: Erst Selbstkosten, dann Gewinn darauf | Beide Prozente addiert auf HK; Erst Gewinn auf HK, dann Verwaltung; Nur der Gewinnzuschlag auf HK
+Signal: Zwei Zuschläge nacheinander auf eine Zwischensumme.
+Warum: Weil der Gewinn auf die Selbstkosten gerechnet wird | Weil man alle Zuschläge auf die Herstellkosten rechnet; Weil der Gewinn vor der Verwaltung kommt
+Kontrolle: Ist der Preis größer als die Selbstkosten? | Ja, sonst gibt es keinen Gewinn | Nein, er ist kleiner; Nein, beide sind gleich
+Schritt: Selbstkosten | HK * (1 + zV / 100) | Euro
+Schritt: Verkaufspreis | HK * (1 + zV / 100) * (1 + g / 100) | Euro
+Variable: HK | 50 | 800 | 10
+Variable: zV | 10 | 30 | 5
+Variable: g | 5 | 20 | 5
+Rechnung: HK * (1 + zV / 100) * (1 + g / 100)
+Aufgabe: Eine Maschine verursacht fixe Kosten von {Kf} Euro im Monat. Ein Teil bringt {p} Euro Erlös bei {kv} Euro variablen Kosten. Ab wie vielen Teilen im Monat wird Gewinn gemacht?
+Gegeben: K_f = {Kf} Euro
+Gegeben: p = {p} Euro, k_v = {kv} Euro
+Gesucht: Gewinnschwelle x in Stück
+Ansatz: x = K_f / (p − k_v) | x = K_f / p; x = K_f / k_v; x = (K_f − k_v) / p
+Signal: Fixe Kosten, ein Stückpreis und variable Stückkosten. Gefragt ist die Menge, ab der es sich lohnt.
+Warum: Weil jedes Teil den Deckungsbeitrag p minus k_v zur Deckung der Fixkosten bringt | Weil jedes Teil seinen ganzen Preis für die Fixkosten bringt; Weil die variablen Kosten die Fixkosten decken
+Kontrolle: Rundest du die Stückzahl auf oder ab? | Aufrunden, sonst fehlt noch Deckung | Abrunden, damit man sicher ist; Gar nicht, Bruchteile gibt es
+Schritt: Deckungsbeitrag pro Stück | p - kv | Euro
+Schritt: Gewinnschwelle | Kf / (p - kv) | Stück
+Variable: Kf | 2000 | 20000 | 1000
+Variable: p | 20 | 80 | 5
+Variable: kv | 5 | 15 | 1
+Rechnung: Kf / (p - kv)
+Quelle: Grundzüge der Kosten- und Leistungsrechnung. Achtung: Das vollständige Kalkulationsschema enthält noch Sondereinzelkosten, Skonto und Rabatt. Prüf mit dem Schema aus deinem Unterricht.
+=== ENDE ===
+
+=== LERNWERK ===
+Fach: Qualitätsmanagement
+Thema: Maschinen- und Prozessfähigkeit
+Anker: Beim Bogenschießen oder Baseball-Pitching zählt nicht ein einzelner Treffer, sondern wie eng alle Würfe beieinander liegen und ob sie mittig im Ziel sind. Eng gestreut, aber am Rand, ist genauso schlecht wie mittig, aber weit gestreut. Genau das messen die Fähigkeitskennzahlen.
+Begriff: Toleranz T | Oberer Grenzwert minus unterer Grenzwert.
+Begriff: Mittelwert µ | Der Durchschnitt der gemessenen Werte. Er zeigt, wo der Prozess liegt.
+Begriff: Standardabweichung σ | Ein Maß dafür, wie stark die Werte um den Mittelwert streuen.
+Begriff: Cp | Prozesspotenzial: Toleranz geteilt durch sechs Sigma. Es sagt, wie eng der Prozess streut, ohne die Lage zu beachten.
+Begriff: Cpk | Prozessfähigkeit mit Lage: kleinerer Abstand des Mittelwerts zu einem Grenzwert geteilt durch drei Sigma.
+Begriff: Cm und Cmk | Die gleichen Kennzahlen für die Maschinenfähigkeit, gemessen in kurzer Zeit nur an der Maschine.
+Merksatz: Cp ist Toleranz durch sechs Sigma.
+Merksatz: Cpk nimmt den kürzeren Weg zur Grenze, geteilt durch drei Sigma.
+Merksatz: Cpk ist nie größer als Cp. Gleich sind sie nur, wenn der Prozess genau mittig liegt.
+Merksatz: Üblich gefordert: Cpk mindestens 1,33 für Prozesse und Cmk mindestens 1,67 für Maschinen.
+Prinzip: Ein Prozess ist fähig, wenn er fast alle Teile innerhalb der Toleranz fertigt, und zwar dauerhaft. Dafür zählen zwei Dinge: Wie stark streuen die Teile, und liegt der Prozess in der Mitte der Toleranz?
+
+Die Streuung beschreibt die Standardabweichung Sigma. Fast alle Werte liegen innerhalb von drei Sigma links und rechts vom Mittelwert, also in einem Band von sechs Sigma. Cp vergleicht dieses Band mit der Toleranz. Ist Cp gleich 1, passt die Streuung genau in die Toleranz, ohne Reserve.
+
+Cpk berücksichtigt zusätzlich die Lage. Man nimmt den kleineren Abstand vom Mittelwert zur oberen oder unteren Grenze und teilt ihn durch drei Sigma. Liegt der Prozess schief, ist Cpk kleiner als Cp. Dann hilft es oft schon, die Maschine auf Toleranzmitte zu korrigieren.
+Baustein: Grenzwerte, Mittelwert und Standardabweichung notieren.
+Baustein: Toleranz ausrechnen: oberer minus unterer Grenzwert.
+Baustein: Cp gleich Toleranz durch sechs Sigma.
+Baustein: Abstände des Mittelwerts zu beiden Grenzen ausrechnen, den kleineren nehmen, durch drei Sigma teilen.
+Baustein: Mit der Forderung vergleichen und entscheiden: Lage korrigieren oder Streuung verringern.
+Schnellweg: Ist Cp gut, aber Cpk schlecht, liegt der Prozess schief. Dann reicht oft eine Korrektur auf Toleranzmitte.
+Schnellweg: Ist schon Cp zu klein, streut der Prozess zu stark. Dann hilft nur eine stabilere Fertigung.
+Fehler: Durch drei statt sechs Sigma bei Cp geteilt | Cp nutzt die ganze Toleranz und sechs Sigma.
+Fehler: Bei Cpk den größeren Abstand genommen | Entscheidend ist die Seite, die der Grenze am nächsten ist.
+Fehler: Einheiten gemischt | Grenzwerte, Mittelwert und Sigma in derselben Einheit, zum Beispiel alle in mm.
+Formel: Prozesspotenzial | C_p = (OGW − UGW) / (6 · σ) | σ = (OGW − UGW) / (6 · C_p)
+Formel: Prozessfähigkeit obere Seite | C_po = (OGW − µ) / (3 · σ) | µ = OGW − 3 · σ · C_po
+Formel: Prozessfähigkeit untere Seite | C_pu = (µ − UGW) / (3 · σ) | µ = UGW + 3 · σ · C_pu
+Karte: Wie berechnest du Cp? | Toleranz geteilt durch sechs Sigma.
+Karte: Wie berechnest du Cpk? | Kleinerer Abstand des Mittelwerts zu einer Grenze geteilt durch drei Sigma.
+Karte: Kann Cpk größer als Cp sein? | Nein.
+Karte: Wann sind Cp und Cpk gleich? | Wenn der Prozess genau in der Toleranzmitte liegt.
+Karte: Was bedeutet Cp gleich 1? | Die Streuung von sechs Sigma passt genau in die Toleranz, ohne Reserve.
+Karte: Welcher Cpk wird für Prozesse oft gefordert? | Mindestens 1,33.
+Karte: Welcher Cmk wird für Maschinen oft gefordert? | Mindestens 1,67.
+Karte: Cp gut, Cpk schlecht. Was tust du? | Den Prozess auf Toleranzmitte korrigieren.
+Karte: Cp schon zu klein. Was tust du? | Die Streuung verringern, zum Beispiel durch stabilere Spannung, bessere Werkzeuge oder Temperatur.
+Karte: Was beschreibt Sigma? | Die Streuung der Werte um den Mittelwert.
+Karte: Unterschied zwischen Maschinen- und Prozessfähigkeit? | Maschinenfähigkeit nur kurzzeitig an der Maschine, Prozessfähigkeit langfristig mit allen Einflüssen.
+Auswahl: Toleranz 0,06 mm, Sigma 0,01 mm. Wie groß ist Cp? | 1 | 2; 0,5; 6
+Auswahl: Cp = 1,8 und Cpk = 0,9. Was ist das Problem? | Der Prozess liegt nicht mittig | Die Streuung ist zu groß; Die Toleranz ist zu groß; Die Messung ist falsch
+Reihenfolge: Prozessfähigkeit bewerten | Grenzwerte, Mittelwert und Sigma notieren; Cp ausrechnen; Abstände zu beiden Grenzen; Cpk mit dem kleineren Abstand; Mit der Forderung vergleichen
+Aufgabe: Ein Durchmesser hat die Toleranz {T} mm. Der Prozess streut mit σ = {s} mm. Wie groß ist Cp?
+Gegeben: Toleranz T = {T} mm
+Gegeben: σ = {s} mm
+Gesucht: Cp
+Ansatz: C_p = T / (6 · σ) | C_p = T / (3 · σ); C_p = T / σ; C_p = 6 · σ / T
+Signal: Toleranz und Streuung sind gegeben, die Lage spielt keine Rolle.
+Warum: Weil Cp das Streuband von sechs Sigma mit der Toleranz vergleicht | Weil Cp nur die Lage des Mittelwerts bewertet; Weil Cp die halbe Toleranz durch Sigma ist
+Kontrolle: Ist der Prozess bei Cp unter 1 fähig? | Nein, die Streuung ist breiter als die Toleranz | Ja, jeder Wert über 0 ist fähig; Ja, wenn er mittig liegt
+Schritt: Sechs Sigma | 6 * s | mm
+Schritt: Cp | T / (6 * s)
+Variable: T | 0,02 | 0,1 | 0,01
+Variable: s | 0,002 | 0,012 | 0,001
+Rechnung: T / (6 * s)
+Aufgabe: Ein Maß hat UGW = {U} mm und OGW = {U} mm plus {T} mm. Der Mittelwert liegt bei {U} mm plus {m} mm, σ = {s} mm. Wie groß ist Cpk?
+Gegeben: UGW = {U} mm, Toleranz {T} mm
+Gegeben: Mittelwert µ = {U} mm plus {m} mm
+Gegeben: σ = {s} mm
+Gesucht: Cpk
+Ansatz: Kleineren Abstand zur Grenze durch 3 · σ | Größeren Abstand zur Grenze durch 3 · σ; Ganze Toleranz durch 6 · σ; Kleineren Abstand zur Grenze durch 6 · σ
+Signal: Der Mittelwert liegt nicht in der Mitte. Gefragt ist die Fähigkeit mit Lage.
+Warum: Weil die Seite nahe der Grenze zuerst Ausschuss erzeugt | Weil die Seite mit mehr Platz die Fähigkeit bestimmt; Weil Cpk die Lage nicht beachtet
+Kontrolle: Ist Cpk kleiner als Cp, wenn der Prozess schief liegt? | Ja, die Lage kostet Fähigkeit | Nein, Cpk ist dann größer; Nein, beide sind immer gleich
+Tipp: Abstand nach oben ist T minus m, nach unten ist m.
+Schritt: Abstand zur unteren Grenze | m | mm
+Schritt: Abstand zur oberen Grenze | T - m | mm
+Schritt: Cpk mit dem kleineren Abstand | m / (3 * s)
+Variable: U | 10 | 50 | 5
+Variable: T | 0,06 | 0,1 | 0,01
+Variable: m | 0,01 | 0,025 | 0,005
+Variable: s | 0,002 | 0,006 | 0,001
+Rechnung: m / (3 * s)
+Aufgabe: Eine Toleranz beträgt {T} mm. Gefordert ist Cp = 1,33. Wie groß darf σ höchstens sein?
+Gegeben: Toleranz T = {T} mm
+Gegeben: Cp gefordert 1,33
+Gesucht: größtes σ in mm
+Ansatz: σ = T / (6 · C_p) | σ = T · 6 · C_p; σ = T / (3 · C_p); σ = C_p / (6 · T)
+Signal: Die Kennzahl ist vorgegeben, gesucht ist die erlaubte Streuung.
+Warum: Weil man die Cp-Formel nach σ umstellt | Weil σ immer ein Sechstel der Toleranz ist; Weil σ gleich Cp mal Toleranz ist
+Kontrolle: Ist σ deutlich kleiner als ein Sechstel der Toleranz? | Ja, wegen der Reserve von 1,33 | Nein, genau ein Sechstel; Nein, größer als ein Sechstel
+Schritt: Größtes σ | T / (6 * 1.33) | mm
+Variable: T | 0,02 | 0,2 | 0,01
+Rechnung: T / (6 * 1.33)
+Quelle: Grundlagen der statistischen Prozesslenkung. Achtung: Die geforderten Werte für Cpk und Cmk legen Kunde oder Firma fest. Häufig sind 1,33 und 1,67, manche fordern mehr.
+=== ENDE ===

@@ -5,10 +5,14 @@
   "mechanik-grundlagen.txt",
   "elektro-grundlagen.txt",
   "mathe-grundlagen.txt",
+  "mathe-aufbau.txt",
+  "elektro-aufbau.txt",
   {
    "datei": "einfuehrung/mathematik.txt",
    "art": "einfuehrung"
   },
+  "fertigung-wirtschaft.txt",
+  "mechanik-aufbau.txt",
   {
    "datei": "einfuehrung/elektrotechnik.txt",
    "art": "einfuehrung"

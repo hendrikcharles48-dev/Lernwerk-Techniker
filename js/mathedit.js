@@ -40,7 +40,7 @@ const strip = a => (a && a.t === 'par' ? a.a : a);
 function fromAst(n) {
   switch (n.t) {
     case 'num': return String(+n.v.toFixed(10)).replace('.', ',').split('').map(c => ({ k: 'd', v: c }));
-    case 'const': return [{ k: 'pi' }];
+    case 'const': return n.v === 'e' ? [{ k: 'v', v: 'e' }] : [{ k: 'pi' }];
     case 'var': return [{ k: 'v', v: n.n }];
     case 'par': return [{ k: 'o', v: '(' }, ...fromAst(n.a), { k: 'o', v: ')' }];
     case 'neg': return [{ k: 'o', v: '−' }, ...fromAst(n.a)];

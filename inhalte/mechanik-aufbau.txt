@@ -1,0 +1,273 @@
+=== LERNWERK ===
+Fach: Technische Mechanik
+Thema: Allgemeines Kräftesystem und Streckenlast
+Anker: Ein Regal voller Bücher drückt gleichmäßig über die ganze Länge auf das Brett. Für die Rechnung tust du so, als ob das ganze Gewicht in der Mitte als eine einzige Kraft wirkt. Das ist die Ersatzkraft der Streckenlast.
+Anker: Beim Bankdrücken liegt die Stange mit Scheiben auf zwei Ablagen. Hängen die Scheiben nicht in der Mitte, trägt eine Ablage mehr. Das ist ein allgemeines Kräftesystem: Die Kräfte greifen an verschiedenen Stellen an.
+Begriff: Allgemeines Kräftesystem | Die Kräfte greifen an verschiedenen Punkten an. Sie können verschieben und drehen.
+Begriff: Gleichgewichtsbedingungen | Summe aller Kräfte in x null, in y null und Summe aller Momente null.
+Begriff: Streckenlast q | Eine Last, die über eine Länge verteilt ist. Einheit N/m oder kN/m.
+Begriff: Ersatzkraft | Die Kraft, die dieselbe Wirkung hat wie die ganze Streckenlast: q mal Länge.
+Begriff: Schwerpunkt der Streckenlast | Bei gleichmäßiger Streckenlast die Mitte der belasteten Länge. Dort greift die Ersatzkraft an.
+Merksatz: Drei Gleichungen in der Ebene: Kräfte in x, Kräfte in y, Momente.
+Merksatz: Streckenlast mal Länge gibt die Ersatzkraft, sie greift in der Mitte an.
+Merksatz: Momentensumme um ein Lager, dann fällt dessen Kraft weg.
+Prinzip: Im allgemeinen Kräftesystem greifen Kräfte an verschiedenen Stellen an. Deshalb kann der Körper sich nicht nur verschieben, sondern auch drehen. Für das Gleichgewicht brauchst du drei Bedingungen: Kräfte in x, Kräfte in y und Momente.
+
+Eine verteilte Last wie das Eigengewicht eines Trägers oder Schüttgut nennt man Streckenlast. Für die Lagerkräfte ersetzt du sie durch eine einzelne Ersatzkraft. Diese ist so groß wie q mal die belastete Länge und greift im Schwerpunkt an. Bei gleichmäßiger Last ist das die Mitte der Länge.
+
+Danach rechnest du genau wie mit Einzellasten: Momentensumme um ein Lager, dann Kräftesumme in y. Wichtig ist, dass du für die Ersatzkraft den Abstand vom Lager zur Mitte der Streckenlast nimmst.
+Baustein: Träger freimachen und alle Lasten einzeichnen.
+Baustein: Streckenlast durch Ersatzkraft q mal Länge in der Mitte der belasteten Länge ersetzen.
+Baustein: Momentensumme um Lager A aufstellen und F_B ausrechnen.
+Baustein: Kräftesumme in y aufstellen und F_A ausrechnen.
+Baustein: Probe mit einer zweiten Momentensumme um B.
+Schnellweg: Gleichmäßige Streckenlast über den ganzen Träger: Jedes Lager trägt die Hälfte von q mal l.
+Fehler: Streckenlast nicht mit der Länge malgenommen | q ist eine Kraft pro Meter. Erst mal Länge ergibt eine Kraft.
+Fehler: Ersatzkraft am falschen Punkt angesetzt | Die Ersatzkraft greift in der Mitte der belasteten Länge an, nicht am Ende.
+Fehler: Einheiten von q falsch | kN pro m mal m ergibt kN.
+Formel: Ersatzkraft | F_q = q · l | q = F_q / l; l = F_q / q
+Formel: Lagerkraft bei Streckenlast über die ganze Länge | F_A = q · l / 2 | q = 2 · F_A / l
+Karte: Wie viele Gleichgewichtsbedingungen gibt es im allgemeinen ebenen Kräftesystem? | Drei.
+Karte: Wie groß ist die Ersatzkraft einer Streckenlast? | q mal belastete Länge.
+Karte: Wo greift die Ersatzkraft einer gleichmäßigen Streckenlast an? | In der Mitte der belasteten Länge.
+Karte: Welche Einheit hat eine Streckenlast? | N pro m oder kN pro m.
+Karte: Wie verteilt sich eine gleichmäßige Streckenlast über den ganzen Träger? | Jedes Lager trägt die Hälfte.
+Karte: q = 2 kN/m auf 5 m. Wie groß ist die Ersatzkraft? | 10 kN.
+Karte: Was ist der Unterschied zum zentralen Kräftesystem? | Im allgemeinen Kräftesystem greifen Kräfte an verschiedenen Punkten an, deshalb gibt es Momente.
+Karte: Wofür braucht man die Momentengleichung? | Damit sich der Körper nicht dreht.
+Karte: Welchen Abstand nimmst du für die Ersatzkraft? | Den Abstand vom Drehpunkt zur Mitte der Streckenlast.
+Karte: Was ist ein Beispiel für eine Streckenlast? | Das Eigengewicht eines Trägers oder Material auf einem Regalboden.
+Auswahl: Eine Streckenlast liegt nur auf der linken Hälfte eines Trägers. Wo greift die Ersatzkraft an? | In der Mitte der linken Hälfte | In der Mitte des Trägers; Am linken Lager; Am rechten Ende der Last
+Reihenfolge: Lagerkräfte bei Streckenlast | Freimachen; Ersatzkraft bestimmen; Angriffspunkt in der Mitte festlegen; Momentensumme um A; Kräftesumme in y; Probe
+Aufgabe: Ein Träger mit der Stützweite l = {l} m trägt eine gleichmäßige Streckenlast q = {q} kN/m über die ganze Länge. Wie groß ist die Lagerkraft in A?
+Gegeben: l = {l} m
+Gegeben: q = {q} kN/m über die ganze Länge
+Gesucht: Lagerkraft F_A in kN
+Ansatz: Ersatzkraft q · l in der Mitte, dann halbe Last | F_A = q · l, ohne halbieren; F_A = q / 2, ohne die Länge; F_A = q · l / 4, wie beim Moment
+Signal: Eine gleichmäßige Last über den ganzen Träger, gefragt ist eine Lagerkraft.
+Warum: Weil die Ersatzkraft genau in der Mitte zwischen beiden Lagern liegt | Weil Lager A immer die ganze Last trägt; Weil die Streckenlast keine Lagerkraft erzeugt
+Kontrolle: Ist F_A genauso groß wie F_B? | Ja, die Last ist symmetrisch | Nein, F_A ist doppelt so groß; Nein, F_B ist null
+Schritt: Ersatzkraft | q * l | kN
+Schritt: Lagerkraft in A | q * l / 2 | kN
+Variable: l | 2 | 10 | 0,5
+Variable: q | 1 | 12 | 0,5
+Rechnung: q * l / 2
+Aufgabe: Ein Träger mit l = {l} m hat eine Streckenlast q = {q} kN/m nur auf den ersten {c} m ab Lager A. Wie groß ist die Lagerkraft in B?
+Gegeben: l = {l} m
+Gegeben: q = {q} kN/m auf {c} m ab A
+Gesucht: Lagerkraft F_B in kN
+Ansatz: Ersatzkraft q · c bei c / 2, Momentensumme um A | Ersatzkraft q · l bei l / 2, Momente um A; Ersatzkraft q · c bei c, Momente um A; Ersatzkraft q · c bei l / 2, Momente um A
+Signal: Die Last liegt nur auf einem Teil des Trägers.
+Warum: Weil die Ersatzkraft in der Mitte der belasteten Länge angreift | Weil die Ersatzkraft immer in der Trägermitte liegt; Weil die Ersatzkraft am Ende der Last angreift
+Kontrolle: Ist F_B kleiner als F_A? | Ja, die Last liegt näher an A | Nein, F_B ist größer; Beide sind gleich
+Schritt: Ersatzkraft | q * c | kN
+Schritt: Abstand der Ersatzkraft von A | c / 2 | m
+Schritt: Lagerkraft in B | q * c * c / 2 / l | kN
+Variable: l | 6 | 10 | 1
+Variable: q | 2 | 10 | 1
+Variable: c | 1 | 4 | 0,5
+Rechnung: q * c * c / 2 / l
+Aufgabe: Ein Träger mit l = {l} m trägt eine Einzellast F = {F} kN in der Mitte und zusätzlich sein Eigengewicht als q = {q} kN/m. Wie groß ist die Lagerkraft in A?
+Gegeben: l = {l} m
+Gegeben: F = {F} kN in der Mitte
+Gegeben: q = {q} kN/m über die ganze Länge
+Gesucht: Lagerkraft F_A in kN
+Ansatz: Beide Lasten symmetrisch: F_A = (F + q · l) / 2 | F_A = F / 2 + q, ohne Länge; F_A = F + q · l, ohne halbieren; F_A = (F + q) / 2, ohne Länge
+Signal: Alle Lasten liegen symmetrisch zur Mitte.
+Warum: Weil bei symmetrischer Last jedes Lager die Hälfte trägt | Weil Einzellasten keine Lagerkraft erzeugen; Weil das Eigengewicht vernachlässigt werden muss
+Kontrolle: Ergeben F_A und F_B zusammen F plus q mal l? | Ja, das ist die Probe | Nein, sie ergeben nur F; Nein, sie ergeben nur q mal l
+Schritt: Ersatzkraft des Eigengewichts | q * l | kN
+Schritt: Gesamtlast | F + q * l | kN
+Schritt: Lagerkraft in A | (F + q * l) / 2 | kN
+Variable: l | 3 | 8 | 1
+Variable: F | 5 | 30 | 1
+Variable: q | 0,5 | 3 | 0,5
+Rechnung: (F + q * l) / 2
+Quelle: Technische Mechanik, Statik, allgemeines Kräftesystem und Streckenlasten.
+=== ENDE ===
+
+=== LERNWERK ===
+Fach: Technische Mechanik
+Thema: Biegung
+Anker: Ein Brett, das du über zwei Böcke legst und in der Mitte belastest, biegt sich durch. Oben wird es zusammengedrückt, unten auseinandergezogen. Stellst du dasselbe Brett hochkant, biegt es sich kaum noch. Die Form des Querschnitts entscheidet.
+Anker: Eine Hantelstange mit vielen Scheiben biegt sich in der Mitte. Ein dickerer Durchmesser hilft enorm, weil das Widerstandsmoment mit dem Durchmesser hoch drei wächst.
+Begriff: Biegung | Ein Bauteil wird durch Kräfte quer zur Längsachse gekrümmt.
+Begriff: Biegemoment M_b | Das Moment, das an einer Stelle des Trägers biegt. Am größten meist an der Einspannung oder in der Mitte.
+Begriff: Axiales Widerstandsmoment W | Eine Größe des Querschnitts, die angibt, wie gut er sich gegen Biegung wehrt. Einheit mm³.
+Begriff: Biegespannung σ_b | Biegemoment geteilt durch Widerstandsmoment. Am größten am Rand.
+Begriff: Kragträger | Ein Träger, der an einem Ende fest eingespannt ist und am anderen Ende frei herausragt.
+Begriff: Neutrale Faser | Die Mittellinie, die beim Biegen weder gedehnt noch gestaucht wird.
+Merksatz: Biegespannung gleich Biegemoment durch Widerstandsmoment.
+Merksatz: Rechteck: W gleich b mal h zum Quadrat durch 6. Die Höhe zählt im Quadrat.
+Merksatz: Kreis: W gleich π mal d hoch 3 durch 32.
+Merksatz: Kragträger: größtes Moment an der Einspannung, F mal l.
+Prinzip: Bei der Biegung wird das Bauteil auf einer Seite gestaucht und auf der anderen gedehnt. In der Mitte, an der neutralen Faser, passiert nichts. Am Rand ist die Spannung am größten. Deshalb ist es so wichtig, wie viel Material weit außen liegt.
+
+Für die Rechnung brauchst du zwei Dinge. Erstens das größte Biegemoment. Beim Kragträger ist es Kraft mal Länge an der Einspannung. Beim Träger auf zwei Stützen mit Last in der Mitte ist es F mal l durch 4. Zweitens das Widerstandsmoment des Querschnitts. Beim Rechteck steckt die Höhe im Quadrat drin, deshalb ist ein hochkant gestelltes Brett so viel steifer.
+
+Biegemoment durch Widerstandsmoment ergibt die Biegespannung. Die vergleichst du mit der zulässigen Spannung.
+Baustein: Lagerung erkennen: Kragträger oder Träger auf zwei Stützen.
+Baustein: Größtes Biegemoment bestimmen: Kragträger F mal l, Mitte zwischen zwei Lagern F mal l durch 4.
+Baustein: Widerstandsmoment des Querschnitts: Rechteck b h² durch 6, Kreis π d³ durch 32.
+Baustein: Einheiten: Moment in Nmm, W in mm³.
+Baustein: Biegespannung ausrechnen und mit dem zulässigen Wert vergleichen.
+Schnellweg: π durch 32 ist ungefähr 0,1. Also W bei Rundstahl etwa 0,1 mal d hoch 3.
+Schnellweg: Doppelter Durchmesser gibt das Achtfache an Widerstandsmoment.
+Fehler: Moment in Nm und W in mm³ gemischt | Nm mal 1000 ergibt Nmm. Nur dann kommt N pro mm² heraus.
+Fehler: b und h beim Rechteck vertauscht | h ist die Höhe in Richtung der Last. Sie steht im Quadrat.
+Fehler: Torsionsformel verwendet | Bei Biegung π d³ durch 32, bei Torsion π d³ durch 16.
+Fehler: Falsches maximales Moment | Kragträger F mal l, Einfeldträger mit Mittellast F mal l durch 4.
+Formel: Biegespannung | σ_b = M_b / W | M_b = σ_b · W; W = M_b / σ_b
+Formel: Widerstandsmoment Rechteck | W = b · h² / 6 | b = 6 · W / h²; h = √(6 · W / b)
+Formel: Widerstandsmoment Kreis | W = π · d³ / 32 | d = (32 · W / π)^(1 / 3)
+Formel: Kragträger mit Endlast | M_b = F · l | F = M_b / l; l = M_b / F
+Formel: Träger auf zwei Stützen, Last in der Mitte | M_b = F · l / 4 | F = 4 · M_b / l
+Karte: Wie lautet die Formel für die Biegespannung? | Biegemoment geteilt durch Widerstandsmoment.
+Karte: Wie groß ist W für einen Rechteckquerschnitt? | b mal h zum Quadrat durch 6.
+Karte: Wie groß ist W für einen Kreisquerschnitt? | π mal d hoch 3 durch 32.
+Karte: Wo ist das Biegemoment beim Kragträger am größten? | An der Einspannung.
+Karte: Wie groß ist das größte Moment beim Träger auf zwei Stützen mit Mittellast? | F mal l durch 4.
+Karte: Wo ist die Biegespannung am größten? | Am Rand des Querschnitts.
+Karte: Was ist die neutrale Faser? | Die Linie, die beim Biegen weder gedehnt noch gestaucht wird.
+Karte: Warum ist ein hochkant gestelltes Brett steifer? | Weil die Höhe im Widerstandsmoment im Quadrat steht.
+Karte: Was passiert mit W, wenn sich der Durchmesser verdoppelt? | Es wird achtmal so groß.
+Karte: Wie rechnest du 50 Nm in Nmm um? | Mal 1000, also 50 000 Nmm.
+Karte: Welcher Unterschied besteht zum Widerstandsmoment für Torsion? | Bei Torsion π d³ durch 16, also doppelt so groß.
+Auswahl: Ein Balken ist an einer Wand eingespannt und am Ende belastet. Wie groß ist das größte Biegemoment? | F mal l | F mal l durch 4; F mal l durch 2; F durch l
+Auswahl: Ein Rechteckbalken 20 mal 60 mm, Last von oben. Was ist h? | 60 mm | 20 mm; 40 mm; 80 mm
+Reihenfolge: Biegespannung bestimmen | Lagerung erkennen; Größtes Biegemoment; Widerstandsmoment des Querschnitts; Einheiten anpassen; Spannung ausrechnen und vergleichen
+Aufgabe: Ein Kragträger aus Rundstahl mit d = {d} mm ragt l = {l} mm aus der Einspannung. Am Ende hängt F = {F} N. Wie groß ist die Biegespannung an der Einspannung?
+Gegeben: d = {d} mm
+Gegeben: l = {l} mm
+Gegeben: F = {F} N am Ende
+Gesucht: Biegespannung σ_b in N/mm²
+Ansatz: M_b = F · l, W = π · d³ / 32, dann σ_b = M_b / W | M_b = F · l / 4, W = π · d³ / 32, dann teilen; M_b = F · l, W = π · d³ / 16, dann teilen; M_b = F · l, A = π · d² / 4, dann teilen
+Signal: Einseitig eingespannt, Last quer zur Achse am freien Ende.
+Warum: Weil die Last quer zur Achse biegt und an der Einspannung den größten Hebel hat | Weil die Last den Stab auf Zug beansprucht; Weil das Moment beim Kragträger in der Mitte am größten ist
+Kontrolle: Was passiert mit σ_b, wenn d doppelt so groß ist? | Sie wird achtmal kleiner | Sie wird halb so groß; Sie bleibt gleich
+Schritt: Biegemoment an der Einspannung | F * l | Nmm
+Schritt: Widerstandsmoment | pi * d^3 / 32 | mm³
+Schritt: Biegespannung | F * l / (pi * d^3 / 32) | N/mm²
+Variable: d | 20 | 50 | 5
+Variable: l | 100 | 500 | 50
+Variable: F | 200 | 2000 | 100
+Rechnung: F * l / (pi * d^3 / 32)
+Aufgabe: Ein Rechteckbalken mit b = {b} mm und h = {h} mm, Last von oben, wird mit M_b = {M} Nm belastet. Wie groß ist die Biegespannung?
+Gegeben: b = {b} mm
+Gegeben: h = {h} mm in Lastrichtung
+Gegeben: M_b = {M} Nm
+Gesucht: Biegespannung σ_b in N/mm²
+Ansatz: W = b · h² / 6, M in Nmm, dann σ_b = M_b / W | W = h · b² / 6, M in Nmm, dann teilen; W = b · h² / 6, M in Nm, dann teilen; A = b · h, M in Nmm, dann teilen
+Signal: Ein Rechteckquerschnitt wird quer zur Achse auf Biegung belastet.
+Warum: Weil das Widerstandsmoment die Höhe in Lastrichtung im Quadrat enthält | Weil Biegung immer mit der Fläche gerechnet wird; Weil die Breite im Quadrat zählt
+Kontrolle: Wie rechnest du Nm in Nmm um? | Mal 1000 | Durch 1000; Gar nicht
+Schritt: Widerstandsmoment | b * h^2 / 6 | mm³
+Schritt: Moment in Nmm | M * 1000 | Nmm
+Schritt: Biegespannung | M * 1000 / (b * h^2 / 6) | N/mm²
+Variable: b | 10 | 40 | 5
+Variable: h | 40 | 100 | 10
+Variable: M | 100 | 1000 | 50
+Rechnung: M * 1000 / (b * h^2 / 6)
+Aufgabe: Ein Träger liegt auf zwei Stützen mit l = {l} mm Abstand. In der Mitte wirkt F = {F} N. Wie groß ist das größte Biegemoment?
+Gegeben: l = {l} mm
+Gegeben: F = {F} N in der Mitte
+Gesucht: größtes Biegemoment M_b in Nm
+Ansatz: M_b = F · l / 4 | M_b = F · l; M_b = F · l / 2; M_b = F / l
+Signal: Zwei Stützen, eine Last genau in der Mitte.
+Warum: Weil F halbe am Hebel l halbe wirkt | Weil der Träger an einem Ende eingespannt ist; Weil das Moment über die ganze Länge gleich ist
+Kontrolle: Ist das Moment kleiner als beim Kragträger mit gleicher Last und Länge? | Ja, nur ein Viertel davon | Nein, es ist gleich groß; Nein, es ist größer
+Schritt: Biegemoment in Nmm | F * l / 4 | Nmm
+Schritt: Biegemoment in Nm | F * l / 4 / 1000 | Nm
+Variable: l | 500 | 3000 | 100
+Variable: F | 500 | 5000 | 100
+Rechnung: F * l / 4 / 1000
+Quelle: Technische Mechanik, Festigkeitslehre, Biegung. Formeln wie im Tabellenbuch Metall.
+=== ENDE ===
+
+=== LERNWERK ===
+Fach: Technische Mechanik
+Thema: Torsion
+Anker: Beim Festziehen einer langen Schraube mit dem Steckschlüssel verdreht sich die Verlängerung sichtbar ein Stück, bevor die Schraube sich bewegt. Das ist Torsion: Das Bauteil wird um seine eigene Achse verdreht.
+Anker: Eine Antriebswelle an der Fräse überträgt das Drehmoment vom Motor zum Werkzeug. Je mehr Leistung bei je weniger Drehzahl, desto größer das Moment und desto dicker muss die Welle sein.
+Begriff: Torsion | Verdrehung eines Bauteils um seine Längsachse durch ein Drehmoment.
+Begriff: Torsionsmoment M_t | Das Drehmoment, das die Welle verdreht. Einheit Nm.
+Begriff: Polares Widerstandsmoment W_p | Wie gut ein Querschnitt sich gegen Verdrehen wehrt. Beim Vollkreis π d³ durch 16.
+Begriff: Torsionsspannung τ_t | Torsionsmoment geteilt durch polares Widerstandsmoment.
+Begriff: Drehzahl n | Umdrehungen pro Minute. Zusammen mit der Leistung bestimmt sie das Moment.
+Merksatz: Tau gleich Torsionsmoment durch polares Widerstandsmoment.
+Merksatz: Vollwelle: W_p gleich π d³ durch 16. Doppelt so groß wie bei Biegung.
+Merksatz: Moment in Nm gleich 9550 mal Leistung in kW durch Drehzahl in 1 pro Minute.
+Merksatz: Halbe Drehzahl bei gleicher Leistung heißt doppeltes Moment.
+Prinzip: Eine Welle überträgt Leistung durch Drehen. Die Leistung ist Moment mal Winkelgeschwindigkeit. Bei gleicher Leistung bedeutet eine kleine Drehzahl ein großes Moment. Deshalb sitzen hinter Getrieben, die langsamer machen, dickere Wellen.
+
+Das Moment verdreht die Welle. Am Rand ist die Schubspannung am größten, in der Mitte null. Wie gut der Querschnitt dagegen hält, sagt das polare Widerstandsmoment. Für eine Vollwelle ist es π mal d hoch drei durch 16, doppelt so viel wie bei Biegung.
+
+Für die Rechnung brauchst du also zuerst das Moment, oft aus Leistung und Drehzahl. Dann teilst du durch W_p und vergleichst mit der zulässigen Torsionsspannung.
+Baustein: Prüf, ob das Moment gegeben ist oder aus Leistung und Drehzahl kommt.
+Baustein: Moment aus Leistung: M gleich 9550 mal P in kW durch n in 1 pro Minute.
+Baustein: Polares Widerstandsmoment: π d³ durch 16.
+Baustein: Moment in Nmm umrechnen und durch W_p teilen.
+Baustein: Mit der zulässigen Torsionsspannung vergleichen.
+Schnellweg: π durch 16 ist ungefähr 0,2. Also W_p etwa 0,2 mal d hoch 3.
+Schnellweg: Die Zahl 9550 kommt aus 60 mal 1000 durch 2 π.
+Fehler: Biegeformel mit 32 verwendet | Für Torsion gilt π d³ durch 16.
+Fehler: Leistung in Watt in die 9550-Formel | Die Formel M = 9550 · P / n gilt mit P in kW.
+Fehler: Nm nicht in Nmm umgerechnet | Für N pro mm² muss das Moment in Nmm stehen.
+Formel: Torsionsspannung | τ_t = M_t / W_p | M_t = τ_t · W_p; W_p = M_t / τ_t
+Formel: Polares Widerstandsmoment Vollwelle | W_p = π · d³ / 16 | d = (16 · W_p / π)^(1 / 3)
+Formel: Moment aus Leistung und Drehzahl | M = 9550 · P / n | P = M · n / 9550; n = 9550 · P / M
+Karte: Was ist Torsion? | Die Verdrehung eines Bauteils um seine Längsachse.
+Karte: Wie lautet die Formel für die Torsionsspannung? | Torsionsmoment durch polares Widerstandsmoment.
+Karte: Wie groß ist W_p bei einer Vollwelle? | π mal d hoch 3 durch 16.
+Karte: Wie bekommst du das Moment aus Leistung und Drehzahl? | 9550 mal P in kW durch n in 1 pro Minute.
+Karte: Was passiert mit dem Moment, wenn bei gleicher Leistung die Drehzahl halbiert wird? | Es verdoppelt sich.
+Karte: Wo ist die Torsionsspannung am größten? | Am Rand der Welle.
+Karte: Wie verhält sich W_p zum W bei Biegung? | Bei der Vollwelle ist W_p doppelt so groß.
+Karte: Welche Einheit hat das Torsionsmoment? | Nm.
+Karte: Warum haben langsame Wellen hinter Getrieben einen größeren Durchmesser? | Weil sie bei gleicher Leistung ein größeres Moment übertragen.
+Karte: Was ist ungefähr π durch 16? | Etwa 0,2.
+Auswahl: Eine Welle überträgt Leistung bei einer Drehzahl. Was rechnest du zuerst? | Das Moment aus P und n | Die Biegespannung; Den Querschnitt π d² durch 4; Die Flächenpressung
+Auswahl: Welches Widerstandsmoment gilt für Torsion einer Vollwelle? | π d³ / 16 | π d³ / 32; π d² / 4; b h² / 6
+Reihenfolge: Welle auf Torsion prüfen | Leistung und Drehzahl ablesen; Moment mit 9550 P durch n; Polares Widerstandsmoment; Moment in Nmm; Spannung ausrechnen und vergleichen
+Aufgabe: Ein Motor treibt mit P = {P} kW bei n = {n} 1/min eine Welle an. Wie groß ist das Drehmoment?
+Gegeben: P = {P} kW
+Gegeben: n = {n} 1/min
+Gesucht: Drehmoment M in Nm
+Ansatz: M = 9550 · P / n | M = P · n / 9550; M = 9550 · n / P; M = P / n
+Signal: Leistung und Drehzahl sind gegeben, gesucht ist das Moment.
+Warum: Weil Leistung gleich Moment mal Winkelgeschwindigkeit ist | Weil Moment und Leistung immer gleich groß sind; Weil das Moment mit der Drehzahl wächst
+Kontrolle: Wird das Moment größer, wenn n kleiner wird? | Ja, bei gleicher Leistung | Nein, es wird kleiner; Es bleibt gleich
+Schritt: Drehmoment | 9550 * P / n | Nm
+Variable: P | 1,5 | 22 | 0,5
+Variable: n | 500 | 3000 | 100
+Rechnung: 9550 * P / n
+Aufgabe: Eine Vollwelle mit d = {d} mm überträgt M_t = {M} Nm. Wie groß ist die Torsionsspannung?
+Gegeben: d = {d} mm
+Gegeben: M_t = {M} Nm
+Gesucht: Torsionsspannung τ_t in N/mm²
+Ansatz: W_p = π · d³ / 16, M in Nmm, dann τ = M / W_p | W = π · d³ / 32, M in Nmm, dann teilen; W_p = π · d³ / 16, M in Nm, dann teilen; A = π · d² / 4, M in Nmm, dann teilen
+Signal: Die Welle wird durch ein Moment um ihre eigene Achse verdreht.
+Warum: Weil Torsion mit dem polaren Widerstandsmoment gerechnet wird | Weil Torsion wie Biegung mit 32 gerechnet wird; Weil bei Torsion die Fläche zählt
+Kontrolle: Ist die Spannung bei halbem Durchmesser achtmal so groß? | Ja, d steht hoch drei im Nenner | Nein, doppelt so groß; Nein, viermal so groß
+Schritt: Polares Widerstandsmoment | pi * d^3 / 16 | mm³
+Schritt: Moment in Nmm | M * 1000 | Nmm
+Schritt: Torsionsspannung | M * 1000 / (pi * d^3 / 16) | N/mm²
+Variable: d | 15 | 60 | 5
+Variable: M | 20 | 500 | 10
+Rechnung: M * 1000 / (pi * d^3 / 16)
+Aufgabe: Eine Welle soll M_t = {M} Nm übertragen. Die zulässige Torsionsspannung ist τ_zul = {tz} N/mm². Welchen Durchmesser braucht sie mindestens?
+Gegeben: M_t = {M} Nm
+Gegeben: τ_zul = {tz} N/mm²
+Gesucht: Mindestdurchmesser d in mm
+Ansatz: W_p = M / τ_zul, dann d aus π · d³ / 16 | W_p = M / τ_zul, dann d aus π · d³ / 32; A = M / τ_zul, dann d aus π · d² / 4; d = M / τ_zul direkt
+Signal: Die zulässige Spannung ist vorgegeben, gesucht ist die Größe der Welle.
+Warum: Weil W_p groß genug für τ_zul sein muss | Weil man immer den Querschnitt aus der Kraft rechnet; Weil der Durchmesser direkt aus dem Moment folgt
+Kontrolle: Rundest du auf den nächsten Normdurchmesser auf oder ab? | Aufrunden, sonst wird τ zu groß | Abrunden, sonst wird die Welle zu schwer; Nicht runden, der genaue Wert ist Pflicht
+Schritt: Moment in Nmm | M * 1000 | Nmm
+Schritt: Nötiges W_p | M * 1000 / tz | mm³
+Schritt: Durchmesser | (16 * M * 1000 / tz / pi)^(1/3) | mm
+Variable: M | 20 | 500 | 10
+Variable: tz | 30 | 80 | 5
+Rechnung: (16 * M * 1000 / tz / pi)^(1/3)
+Quelle: Technische Mechanik, Festigkeitslehre, Torsion. Formeln wie im Tabellenbuch Metall.
+=== ENDE ===

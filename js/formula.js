@@ -8,8 +8,8 @@ const FUNCS = {
   asin: 'asin', acos: 'acos', atan: 'atan', arcsin: 'asin', arccos: 'acos', arctan: 'atan',
   sqrt: 'sqrt', wurzel: 'sqrt', ln: 'ln', lg: 'lg', log: 'lg', abs: 'abs'
 };
-const ID_START = /[A-Za-zÄÖÜäöüßΑ-Ωα-ωµ]/;
-const ID_PART = /[A-Za-z0-9_ÄÖÜäöüßΑ-Ωα-ωµ]/;
+const ID_START = /[A-Za-zÄÖÜäöüßΑ-Ωα-ωµû]/;
+const ID_PART = /[A-Za-z0-9_ÄÖÜäöüßΑ-Ωα-ωµû]/;
 
 export class FormulaError extends Error {
   constructor(msg, pos) { super(msg); this.pos = pos; }
@@ -37,6 +37,7 @@ export function tokenize(src) {
       const w = s.slice(i, j);
       const lw = w.toLowerCase();
       if (lw === 'pi') t.push({ k: 'const', v: 'pi', p: i });
+      else if (w === 'e') t.push({ k: 'const', v: 'e', p: i });   // Eulersche Zahl
       else if (FUNCS[lw]) t.push({ k: 'fn', v: FUNCS[lw], p: i });
       else t.push({ k: 'id', v: w, p: i });
       i = j; continue;
@@ -160,7 +161,7 @@ export const keyOf = n => String(n).replace(/_/g, '');
 export function evaluate(n, vars = {}) {
   switch (n.t) {
     case 'num': return n.v;
-    case 'const': return Math.PI;
+    case 'const': return n.v === 'e' ? Math.E : Math.PI;
     case 'var': {
       const k = keyOf(n.n);
       if (k in vars) return vars[k];
@@ -240,7 +241,7 @@ export function toHTML(n) {
   const wrap = (x, min) => (prec(x) < min ? '<span class="paren">(</span>' + toHTML(x) + '<span class="paren">)</span>' : toHTML(x));
   switch (n.t) {
     case 'num': return '<span class="n">' + fmtNum(n.v, 6) + '</span>';
-    case 'const': return '<var>π</var>';
+    case 'const': return n.v === 'e' ? '<var>e</var>' : '<var>π</var>';
     case 'var': return nameHTML(n.n);
     case 'par': return '<span class="paren">(</span>' + toHTML(n.a) + '<span class="paren">)</span>';
     case 'neg': return '<span class="sg">−</span>' + wrap(n.a, 3);
@@ -277,7 +278,7 @@ export function toSpeech(n) {
   const grouped = x => (prec(x) < 9 && x.t !== 'pow' && x.t !== 'root' && x.t !== 'fn' ? 'Klammer ' + toSpeech(x) + ' Klammer zu' : toSpeech(x));
   switch (n.t) {
     case 'num': return fmtNum(n.v, 6);
-    case 'const': return 'Pi';
+    case 'const': return n.v === 'e' ? 'e' : 'Pi';
     case 'var': return nameSpeech(n.n);
     case 'par': return toSpeech(n.a);
     case 'neg': return 'minus ' + toSpeech(n.a);

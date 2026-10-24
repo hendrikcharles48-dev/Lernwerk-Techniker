@@ -307,7 +307,9 @@ export function instantiate(a) {
   const lastNum = [...steps].reverse().find(s => s.typ === 'zahl');
   if (final && lastNum && Math.abs(lastNum.wert - final.wert) <= 1e-9 * Math.max(1, Math.abs(final.wert))) { if (!final.einheit) final.einheit = lastNum.einheit; final = null; if (!lastNum.einheit && a.ergebnis) lastNum.einheit = a.ergebnis.einheit; }
   if (final && !final.einheit && lastNum) final.einheit = lastNum.einheit;
-  return { text: fill(a.text), gegeben: a.gegeben.map(fill), gesucht: a.gesucht.map(fill), tipps: a.tipps.map(fill), steps, final, vals, random };
+  const mc = q => q && Object.assign({}, q, { frage: q.frage ? fill(q.frage) : q.frage, richtig: fill(q.richtig), falsch: q.falsch.map(fill) });
+  return { text: fill(a.text), gegeben: a.gegeben.map(fill), gesucht: a.gesucht.map(fill), tipps: a.tipps.map(fill), steps, final, vals, random,
+    ansatz: mc(a.ansatz), warum: mc(a.warum), kontrolle: mc(a.kontrolle), signal: fill(a.signal || '') };
 }
 
 /* ===== Eingabefeld für Formeln mit Tasten ===== */
@@ -359,7 +361,7 @@ function runAufgabe(el, item, ctx, meta) {
   const done = [];
   let tipOpen = false, solOpen = false, fb = null;
   // Ansatz zuerst: erkennen, begründen, am Ende das Ergebnis prüfen
-  const T0 = item.aufgabe;
+  const T0 = { ansatz: A.ansatz, warum: A.warum, kontrolle: A.kontrolle, signal: A.signal };
   let phase = T0.ansatz && !ctx.twinOf ? 'ansatz' : 'steps';
   let opts = null, picked = null, ansatzFirst = null, note = '', kontrolleFirst = null;
   const result = () => (shown ? 'falsch' : used ? 'hilfe' : 'richtig');
