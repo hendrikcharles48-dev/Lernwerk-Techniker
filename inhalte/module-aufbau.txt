@@ -1,0 +1,446 @@
+=== LERNWERK ===
+Fach: Qualitätsmanagement
+Thema: ISO 9001 und PDCA
+Anker: Im Training planst du einen Block, ziehst ihn durch, misst danach deine Werte und passt den nächsten Plan an. Genau das ist der PDCA-Zyklus: planen, machen, prüfen, verbessern. Und dann wieder von vorn.
+Begriff: ISO 9001 | Internationale Norm für Qualitätsmanagementsysteme. Sie legt fest, was ein Unternehmen organisieren muss, nicht wie das Produkt aussieht.
+Begriff: PDCA | Plan, Do, Check, Act: Planen, Umsetzen, Prüfen, Handeln. Ein Kreislauf für ständige Verbesserung.
+Begriff: Prozessorientierung | Die Arbeit wird als Folge von Prozessen mit Eingaben und Ergebnissen betrachtet.
+Begriff: Kontinuierliche Verbesserung | Prozesse werden immer wieder in kleinen Schritten besser gemacht. In Japan Kaizen genannt.
+Begriff: Zertifizierung | Eine unabhängige Stelle prüft in einem Audit, ob das System die Norm erfüllt, und stellt ein Zertifikat aus.
+Begriff: Kundenorientierung | Alles richtet sich danach, die Anforderungen der Kunden zu erfüllen.
+Merksatz: Plan, Do, Check, Act, und dann wieder Plan.
+Merksatz: Check heißt messen und vergleichen, Act heißt Konsequenzen ziehen.
+Merksatz: ISO 9001 prüft das System, nicht das einzelne Teil.
+Prinzip: Ein Qualitätsmanagementsystem sorgt dafür, dass ein Unternehmen zuverlässig gute Ergebnisse liefert und immer besser wird. Die ISO 9001 beschreibt die Anforderungen an so ein System: klare Prozesse, Verantwortlichkeiten, Kundenorientierung und ständige Verbesserung.
+
+Das Werkzeug für die Verbesserung ist der PDCA-Zyklus. Im Plan legst du Ziel und Maßnahme fest. Im Do setzt du die Maßnahme um, am besten erst im Kleinen. Im Check misst du, ob das Ziel erreicht wurde. Im Act machst du die Maßnahme zum Standard, wenn sie gewirkt hat, oder du startest einen neuen Plan, wenn nicht.
+
+Die meisten Prüfungsfragen drehen sich darum, eine Tätigkeit der richtigen Phase zuzuordnen.
+Baustein: Tätigkeit genau lesen: Wird etwas festgelegt, umgesetzt, gemessen oder als Standard übernommen?
+Baustein: Festlegen von Zielen und Maßnahmen: Plan.
+Baustein: Umsetzen und Ausprobieren: Do.
+Baustein: Messen und mit dem Ziel vergleichen: Check.
+Baustein: Standardisieren oder neu planen: Act.
+Schnellweg: Wenn ein Wort wie messen, auswerten, vergleichen vorkommt, ist es fast immer Check.
+Fehler: Check und Act verwechselt | Check stellt fest, Act zieht die Konsequenz.
+Fehler: ISO 9001 als Produktnorm verstanden | Sie beschreibt das Managementsystem, nicht die Produkteigenschaften.
+Karte: Wofür steht PDCA? | Plan, Do, Check, Act.
+Karte: Was passiert in der Phase Check? | Ergebnisse messen und mit dem Ziel vergleichen.
+Karte: Was passiert in der Phase Act? | Erfolgreiche Maßnahmen zum Standard machen oder neu planen.
+Karte: Was regelt die ISO 9001? | Die Anforderungen an ein Qualitätsmanagementsystem.
+Karte: Was ist Kaizen? | Kontinuierliche Verbesserung in kleinen Schritten.
+Karte: Wer zertifiziert nach ISO 9001? | Eine unabhängige Zertifizierungsstelle nach einem Audit.
+Karte: Was heißt Prozessorientierung? | Arbeit als Folge von Prozessen mit Eingaben und Ergebnissen sehen.
+Karte: Warum nach Act wieder Plan? | Weil Verbesserung ein Kreislauf ist, der nie aufhört.
+Karte: In welcher Phase probiert man eine Maßnahme im Kleinen aus? | In Do.
+Karte: Wer hat den PDCA-Zyklus bekannt gemacht? | W. Edwards Deming.
+Auswahl: Nach einer Woche werden die Ausschusszahlen mit dem Ziel verglichen. Welche Phase? | Check | Plan; Do; Act | Messen und vergleichen gehört zu Check.
+Auswahl: Die neue Spannvorrichtung hat gewirkt und wird in die Arbeitsanweisung aufgenommen. Welche Phase? | Act | Plan; Do; Check | Eine wirksame Maßnahme wird zum Standard gemacht.
+Auswahl: Das Team legt fest, den Ausschuss um 30 Prozent zu senken, und wählt eine Maßnahme. Welche Phase? | Plan | Do; Check; Act | Ziele und Maßnahmen festlegen ist Plan.
+Auswahl: Die Maßnahme wird zunächst an einer Maschine ausprobiert. Welche Phase? | Do | Plan; Check; Act | Umsetzen im Kleinen ist Do.
+Reihenfolge: PDCA-Zyklus | Ziel und Maßnahme planen; Maßnahme im Kleinen umsetzen; Ergebnis messen und vergleichen; Standardisieren oder neu planen
+Quelle: DIN EN ISO 9001:2015 und PDCA-Zyklus nach Deming.
+=== ENDE ===
+
+=== LERNWERK ===
+Fach: Qualitätsmanagement
+Thema: Q-Werkzeuge
+Anker: Beim Training schreibst du jeden Satz in eine Liste. Nach ein paar Wochen siehst du in einem Balkendiagramm, welche Übung am häufigsten scheitert. Dann fragst du nach den Ursachen: Technik, Ernährung, Schlaf. Genau das sind Q-Werkzeuge: Daten sammeln, darstellen, Ursachen finden.
+Begriff: Fehlersammelliste | Eine Strichliste, in der Fehler nach Art und Häufigkeit gesammelt werden.
+Begriff: Histogramm | Ein Säulendiagramm, das zeigt, wie sich Messwerte über Klassen verteilen.
+Begriff: Paretodiagramm | Fehlerarten nach Häufigkeit sortiert, mit Summenkurve. Zeigt die wenigen wichtigen Ursachen.
+Begriff: Ishikawa-Diagramm | Ursache-Wirkungs-Diagramm in Fischgrätform, oft mit den Kategorien Mensch, Maschine, Material, Methode, Milieu und Messung.
+Begriff: Korrelationsdiagramm | Punktwolke, die zeigt, ob zwei Größen zusammenhängen.
+Begriff: Qualitätsregelkarte | Ein Diagramm, in dem Messwerte über die Zeit mit Eingriffsgrenzen verfolgt werden.
+Begriff: Brainstorming | Ideen in der Gruppe sammeln, ohne sie zuerst zu bewerten.
+Merksatz: Sammeln mit der Fehlersammelliste, gewichten mit Pareto, Ursachen suchen mit Ishikawa.
+Merksatz: Verteilung: Histogramm. Verlauf über die Zeit: Regelkarte. Zusammenhang: Korrelationsdiagramm.
+Merksatz: Pareto-Regel: Etwa 80 Prozent der Fehler kommen aus etwa 20 Prozent der Ursachen.
+Prinzip: Die sieben klassischen Q-Werkzeuge helfen, Probleme mit Zahlen und Struktur zu lösen statt mit Bauchgefühl. Jedes beantwortet eine bestimmte Frage. Das Wichtigste ist, die Frage zu erkennen und das passende Werkzeug zu wählen.
+
+Willst du wissen, welche Fehler wie oft vorkommen, sammelst du sie in einer Fehlersammelliste. Willst du wissen, welche Fehler am meisten bringen, sortierst du sie im Paretodiagramm. Suchst du Ursachen, ordnest du sie im Ishikawa-Diagramm. Geht es um Messwerte, zeigt das Histogramm die Verteilung, die Regelkarte den Verlauf über die Zeit und das Korrelationsdiagramm den Zusammenhang zweier Größen.
+Baustein: Die Frage hinter der Aufgabe erkennen: Wie oft, was am wichtigsten, warum, wie verteilt, wie über die Zeit, hängt es zusammen?
+Baustein: Passendes Werkzeug wählen.
+Baustein: Daten aufnehmen und darstellen.
+Baustein: Schlussfolgerung ziehen und Maßnahme ableiten.
+Schnellweg: Fragewort warum heißt Ishikawa. Fragewort wie oft heißt Fehlersammelliste. Fragewort welche zuerst heißt Pareto.
+Fehler: Histogramm und Regelkarte verwechselt | Das Histogramm zeigt die Verteilung ohne Zeit, die Regelkarte den zeitlichen Verlauf.
+Fehler: Ishikawa als Zahlenwerkzeug verstanden | Ishikawa sammelt und ordnet Ursachen, es zählt nichts.
+Fehler: Korrelation mit Ursache gleichgesetzt | Ein Zusammenhang beweist noch keine Ursache.
+Formel: Anteil einer Fehlerart | a = n / N · 100 | n = a · N / 100
+Karte: Welches Werkzeug sammelt Fehler nach Art und Anzahl? | Die Fehlersammelliste.
+Karte: Welches Werkzeug zeigt die wichtigsten Fehlerarten zuerst? | Das Paretodiagramm.
+Karte: Welches Werkzeug ordnet mögliche Ursachen? | Das Ishikawa-Diagramm.
+Karte: Welches Werkzeug zeigt die Verteilung von Messwerten? | Das Histogramm.
+Karte: Welches Werkzeug überwacht einen Prozess über die Zeit? | Die Qualitätsregelkarte.
+Karte: Welches Werkzeug zeigt den Zusammenhang zweier Größen? | Das Korrelationsdiagramm.
+Karte: Was besagt die Pareto-Regel? | Etwa 80 Prozent der Wirkung kommen aus etwa 20 Prozent der Ursachen.
+Karte: Nenne die Kategorien im Ishikawa-Diagramm. | Mensch, Maschine, Material, Methode, Milieu, Messung.
+Karte: Was ist beim Brainstorming verboten? | Ideen sofort zu bewerten oder zu kritisieren.
+Karte: Beweist eine Korrelation eine Ursache? | Nein, nur einen Zusammenhang.
+Auswahl: Ein Team will herausfinden, warum Bohrungen außer Toleranz liegen. Welches Werkzeug? | Ishikawa-Diagramm | Paretodiagramm; Histogramm; Fehlersammelliste | Gesucht sind Ursachen. Das Ishikawa-Diagramm ordnet sie nach Kategorien.
+Auswahl: Es gibt zwölf Fehlerarten. Welche soll zuerst bearbeitet werden? | Paretodiagramm | Ishikawa-Diagramm; Korrelationsdiagramm; Regelkarte | Pareto sortiert nach Häufigkeit und zeigt die wenigen wichtigen.
+Auswahl: Ein Durchmesser soll während der Schicht überwacht werden, um rechtzeitig einzugreifen. Welches Werkzeug? | Qualitätsregelkarte | Histogramm; Fehlersammelliste; Brainstorming | Verlauf über die Zeit mit Eingriffsgrenzen.
+Auswahl: Hängt die Rauheit von der Schnittgeschwindigkeit ab? Welches Werkzeug? | Korrelationsdiagramm | Histogramm; Paretodiagramm; Ishikawa-Diagramm | Zwei Größen werden als Punktwolke gegeneinander aufgetragen.
+Reihenfolge: Ein Qualitätsproblem angehen | Fehler mit Fehlersammelliste sammeln; Mit Pareto die wichtigste Fehlerart wählen; Mit Ishikawa Ursachen sammeln; Maßnahme umsetzen; Mit Regelkarte die Wirkung überwachen
+Aufgabe: In einer Woche wurden {N} Fehler gezählt, davon {n} Mal Grat am Bohrungsrand. Wie viel Prozent aller Fehler sind das?
+Gegeben: Fehler gesamt {N}
+Gegeben: Grat: {n}
+Gesucht: Anteil in Prozent
+Ansatz: n / N · 100 | N / n · 100; n · N / 100; n / 100
+Signal: Ein Teil einer Gesamtzahl soll als Prozentanteil angegeben werden, wie im Paretodiagramm.
+Warum: Weil der Anteil der Teil durch das Ganze ist | Weil man das Ganze durch den Teil teilt; Weil Prozent einfach durch 100 sind
+Kontrolle: Liegt der Anteil zwischen 0 und 100 Prozent? | Ja, ein Teil ist nie mehr als das Ganze | Nein, er kann über 100 liegen; Nein, er ist immer genau 50
+Schritt: Anteil in Prozent | n / N * 100 | Prozent
+Variable: N | 80 | 300 | 10
+Variable: n | 10 | 60 | 2
+Rechnung: n / N * 100
+Quelle: Die sieben elementaren Werkzeuge der Qualitätssicherung. Achtung: Manche Bücher zählen statt Brainstorming das Flussdiagramm oder die Stratifikation dazu.
+=== ENDE ===
+
+=== LERNWERK ===
+Fach: Qualitätsmanagement
+Thema: FMEA
+Anker: Bevor du ein schweres Kreuzheben machst, überlegst du: Was kann schiefgehen, wie schlimm wäre es, wie wahrscheinlich ist es, und würde ich es rechtzeitig merken? Die FMEA macht genau das, nur für Bauteile und Prozesse, bevor der Fehler passiert.
+Begriff: FMEA | Fehlermöglichkeits- und Einflussanalyse. Eine Methode, mögliche Fehler vorab zu finden und zu bewerten.
+Begriff: Bedeutung B | Wie schwer die Folgen eines Fehlers für den Kunden wären, bewertet von 1 bis 10.
+Begriff: Auftreten A | Wie wahrscheinlich der Fehler auftritt, von 1 bis 10.
+Begriff: Entdeckung E | Wie wahrscheinlich es ist, dass der Fehler unentdeckt bleibt, von 1 sehr gut entdeckbar bis 10 kaum entdeckbar.
+Begriff: Risikoprioritätszahl RPZ | B mal A mal E. Werte von 1 bis 1000.
+Begriff: Vermeidungsmaßnahme | Eine Maßnahme, die das Auftreten senkt.
+Begriff: Entdeckungsmaßnahme | Eine Maßnahme, die das Entdecken verbessert, zum Beispiel eine zusätzliche Prüfung.
+Merksatz: RPZ gleich Bedeutung mal Auftreten mal Entdeckung.
+Merksatz: Hohe Zahl heißt hohes Risiko, auch bei E.
+Merksatz: Die Bedeutung senkt man nur durch eine andere Konstruktion.
+Merksatz: Vermeiden ist besser als entdecken.
+Prinzip: Die FMEA fragt systematisch: Was kann an einem Bauteil oder in einem Prozess schiefgehen? Für jeden möglichen Fehler bewertet das Team drei Dinge mit Zahlen von 1 bis 10: wie schlimm die Folge ist, wie oft der Fehler auftritt und wie schlecht er entdeckt wird.
+
+Bei der klassischen FMEA werden die drei Zahlen malgenommen. So entsteht die Risikoprioritätszahl. Die höchsten Zahlen werden zuerst bearbeitet. Für jede Maßnahme überlegt man, welche Zahl sie senkt: Eine bessere Spannvorrichtung senkt das Auftreten, eine zusätzliche Messung senkt die Entdeckungszahl. Die Bedeutung bleibt gleich, solange die Konstruktion gleich bleibt.
+
+Achtung, in der neueren FMEA nach AIAG und VDA von 2019 ersetzt die Aufgabenpriorität mit hoch, mittel und niedrig die Risikoprioritätszahl. In vielen Schulen und Betrieben wird die RPZ aber weiter verwendet.
+Baustein: Funktion und möglichen Fehler beschreiben.
+Baustein: Folge, Ursache und bisherige Prüfung aufschreiben.
+Baustein: B, A und E von 1 bis 10 bewerten.
+Baustein: RPZ ausrechnen und die höchsten zuerst bearbeiten.
+Baustein: Maßnahme festlegen und klären, welche Zahl sie senkt, dann neu bewerten.
+Schnellweg: Bei hoher Bedeutung, etwa 9 oder 10, immer handeln, auch wenn die RPZ klein ist.
+Fehler: Entdeckung falsch herum bewertet | E gleich 1 heißt sehr gut entdeckbar, E gleich 10 heißt kaum entdeckbar.
+Fehler: RPZ addiert statt malgenommen | Die RPZ ist das Produkt der drei Zahlen.
+Fehler: Bedeutung durch Prüfung gesenkt | Eine Prüfung ändert nicht die Folgen, sondern nur das Entdecken.
+Formel: Risikoprioritätszahl | RPZ = B · A · E | B = RPZ / (A · E); A = RPZ / (B · E); E = RPZ / (B · A)
+Karte: Wofür steht FMEA? | Fehlermöglichkeits- und Einflussanalyse.
+Karte: Wie berechnet man die RPZ? | B mal A mal E.
+Karte: Welchen Bereich hat die RPZ? | Von 1 bis 1000.
+Karte: Was bedeutet E gleich 10? | Der Fehler wird kaum entdeckt.
+Karte: Welche Zahl senkt eine zusätzliche Endprüfung? | Die Entdeckungszahl E.
+Karte: Welche Zahl senkt eine bessere Vorrichtung? | Die Auftretenszahl A.
+Karte: Wie senkt man die Bedeutung? | Nur durch eine andere Konstruktion oder ein anderes Konzept.
+Karte: Was ist besser, vermeiden oder entdecken? | Vermeiden.
+Karte: Was ersetzt in der FMEA nach AIAG und VDA die RPZ? | Die Aufgabenpriorität.
+Karte: Wann muss man trotz kleiner RPZ handeln? | Wenn die Bedeutung sehr hoch ist.
+Auswahl: Eine Firma führt eine 100-Prozent-Kontrolle mit Kamera ein. Welche Zahl sinkt? | Die Entdeckungszahl E | Die Bedeutung B; Die Auftretenszahl A; Keine | Der Fehler wird jetzt besser gefunden, aber nicht seltener gemacht.
+Auswahl: Ein Poka-Yoke-Stift verhindert, dass ein Teil falsch eingelegt wird. Welche Zahl sinkt? | Die Auftretenszahl A | Die Entdeckungszahl E; Die Bedeutung B; Keine | Der Fehler kann seltener oder gar nicht mehr auftreten.
+Reihenfolge: FMEA durchführen | Fehler beschreiben; Folge und Ursache bestimmen; B, A und E bewerten; RPZ ausrechnen; Maßnahmen festlegen; Neu bewerten
+Aufgabe: Ein möglicher Fehler wird mit Bedeutung B = {B}, Auftreten A = {A} und Entdeckung E = {E} bewertet. Wie groß ist die Risikoprioritätszahl?
+Gegeben: B = {B}, A = {A}, E = {E}
+Gesucht: RPZ
+Ansatz: B · A · E | B + A + E; B · A; (B + A + E) / 3
+Signal: Drei Bewertungen von 1 bis 10 sind gegeben, gesucht ist die RPZ.
+Warum: Weil die RPZ das Produkt der drei Bewertungen ist | Weil die RPZ die Summe der Bewertungen ist; Weil die RPZ der Mittelwert ist
+Kontrolle: Liegt die RPZ zwischen 1 und 1000? | Ja, so ist sie festgelegt | Nein, sie liegt zwischen 1 und 30; Nein, sie liegt zwischen 1 und 10
+Schritt: RPZ | B * A * E
+Variable: B | 2 | 10 | 1
+Variable: A | 1 | 10 | 1
+Variable: E | 1 | 10 | 1
+Rechnung: B * A * E
+Aufgabe: Ein Fehler hat B = {B}, A = {A} und E = {E}. Eine zusätzliche Messung senkt E auf {E2}. Um wie viel sinkt die RPZ?
+Gegeben: B = {B}, A = {A}, E = {E}
+Gegeben: neues E = {E2}
+Gesucht: Senkung der RPZ
+Ansatz: Alte RPZ minus neue RPZ | Nur E minus neues E; Neue RPZ minus alte RPZ; Alte RPZ durch neues E
+Signal: Eine Maßnahme ändert eine Bewertung, gefragt ist die Wirkung auf die RPZ.
+Warum: Weil die Wirkung der Unterschied der beiden Produkte ist | Weil sich nur E ändert und B und A egal sind; Weil die RPZ durch Messungen steigt
+Kontrolle: Ändern sich B und A durch die Messung? | Nein, nur E wird besser | Ja, B und A sinken; Ja, nur B sinkt
+Schritt: Alte RPZ | B * A * E
+Schritt: Neue RPZ | B * A * E2
+Schritt: Senkung | B * A * E - B * A * E2
+Variable: B | 5 | 10 | 1
+Variable: A | 3 | 8 | 1
+Variable: E | 6 | 9 | 1
+Variable: E2 | 2 | 4 | 1
+Rechnung: B * A * E - B * A * E2
+Quelle: FMEA nach VDA Band 4 und AIAG-VDA FMEA-Handbuch. Achtung: Grenzwerte für die RPZ legt jede Firma selbst fest.
+=== ENDE ===
+
+=== LERNWERK ===
+Fach: Projektmanagement und Datenverarbeitung
+Thema: Gantt, Meilensteine, kritischer Pfad
+Anker: Beim Umbau einer Maschine können Elektriker und Mechaniker teilweise gleichzeitig arbeiten. Fertig ist die Maschine erst, wenn der langsamste Strang fertig ist. Dieser längste Weg ist der kritische Pfad. Jede Verzögerung darauf verschiebt das Ende.
+Begriff: Vorgang | Eine Tätigkeit mit einer Dauer, zum Beispiel Schaltschrank verdrahten, 3 Tage.
+Begriff: Meilenstein | Ein Ereignis ohne Dauer, das einen wichtigen Zwischenstand markiert.
+Begriff: Gantt-Diagramm | Ein Balkenplan, in dem jeder Vorgang als Balken über der Zeit steht.
+Begriff: Netzplan | Eine Darstellung der Vorgänge mit ihren Abhängigkeiten als Kästchen und Pfeile.
+Begriff: Kritischer Pfad | Die Folge von Vorgängen ohne Puffer. Sie bestimmt die Projektdauer.
+Begriff: Gesamtpuffer | Um wie viel ein Vorgang sich verschieben darf, ohne das Projektende zu verschieben.
+Begriff: FAZ und FEZ | Frühester Anfangszeitpunkt und frühester Endzeitpunkt eines Vorgangs.
+Begriff: SAZ und SEZ | Spätester Anfangszeitpunkt und spätester Endzeitpunkt eines Vorgangs.
+Merksatz: Der längste Weg bestimmt die Projektdauer.
+Merksatz: Kritischer Pfad: Puffer null.
+Merksatz: Vorwärts rechnen ergibt die frühesten Zeiten, rückwärts die spätesten.
+Merksatz: Gesamtpuffer gleich SAZ minus FAZ.
+Prinzip: Ein Projekt besteht aus vielen Vorgängen. Manche müssen nacheinander kommen, andere können gleichzeitig laufen. Die Projektdauer hängt deshalb nicht von der Summe aller Vorgänge ab, sondern vom längsten zusammenhängenden Weg durch den Plan.
+
+Im Netzplan rechnest du zuerst vorwärts: Jeder Vorgang beginnt frühestens, wenn alle Vorgänger fertig sind. Der Endzeitpunkt ist Anfang plus Dauer. Dann rechnest du vom Projektende rückwärts und bekommst die spätesten Zeiten. Der Unterschied ist der Puffer. Vorgänge ohne Puffer liegen auf dem kritischen Pfad.
+
+Für die Praxis heißt das: Wer das Projekt schneller machen will, muss Vorgänge auf dem kritischen Pfad verkürzen. Alles andere bringt nichts für den Endtermin.
+Baustein: Vorgänge mit Dauer und Vorgängern auflisten.
+Baustein: Vorwärtsrechnung: FAZ ist das größte FEZ der Vorgänger, FEZ gleich FAZ plus Dauer.
+Baustein: Rückwärtsrechnung: SEZ ist das kleinste SAZ der Nachfolger, SAZ gleich SEZ minus Dauer.
+Baustein: Puffer ausrechnen: SAZ minus FAZ.
+Baustein: Kritischen Pfad markieren: alle Vorgänge mit Puffer null.
+Schnellweg: Bei zwei parallelen Strängen ist die Dauer der längere Strang, der Puffer des kürzeren ist die Differenz.
+Fehler: Alle Dauern addiert | Parallele Vorgänge laufen gleichzeitig. Es zählt der längste Weg.
+Fehler: Bei mehreren Vorgängern das kleinste FEZ genommen | Ein Vorgang kann erst beginnen, wenn alle Vorgänger fertig sind, also das größte FEZ.
+Fehler: Meilenstein mit Dauer geplant | Ein Meilenstein hat die Dauer null.
+Formel: Früheste Endzeit | FEZ = FAZ + D | FAZ = FEZ − D; D = FEZ − FAZ
+Formel: Gesamtpuffer | GP = SAZ − FAZ | SAZ = GP + FAZ; FAZ = SAZ − GP
+Karte: Was bestimmt die Projektdauer? | Der längste Weg, der kritische Pfad.
+Karte: Welchen Puffer haben Vorgänge auf dem kritischen Pfad? | Null.
+Karte: Was ist ein Meilenstein? | Ein wichtiges Ereignis ohne Dauer.
+Karte: Wie rechnest du FEZ aus? | FAZ plus Dauer.
+Karte: Wie rechnest du den Gesamtpuffer aus? | SAZ minus FAZ.
+Karte: Was nimmst du bei mehreren Vorgängern als FAZ? | Das größte FEZ der Vorgänger.
+Karte: Was nimmst du bei mehreren Nachfolgern als SEZ? | Das kleinste SAZ der Nachfolger.
+Karte: Was zeigt ein Gantt-Diagramm? | Die Vorgänge als Balken über der Zeit.
+Karte: Wie verkürzt man ein Projekt wirksam? | Vorgänge auf dem kritischen Pfad verkürzen.
+Karte: Strang A dauert 8 Tage, Strang B 5 Tage parallel. Wie lange dauert das Projekt? | 8 Tage.
+Auswahl: Ein Vorgang mit 3 Tagen Puffer verzögert sich um 2 Tage. Was passiert mit dem Projektende? | Nichts, der Puffer reicht | Es verschiebt sich um 2 Tage; Es verschiebt sich um 3 Tage; Es verschiebt sich um 5 Tage | Solange die Verzögerung kleiner als der Puffer ist, bleibt das Ende.
+Auswahl: Welcher Vorgang lohnt sich zu beschleunigen? | Einer auf dem kritischen Pfad | Einer mit großem Puffer; Der kürzeste Vorgang; Ein Meilenstein | Nur der kritische Pfad bestimmt das Ende.
+Reihenfolge: Netzplan rechnen | Vorgänge mit Dauer und Vorgängern auflisten; Vorwärts die frühesten Zeiten; Rückwärts die spätesten Zeiten; Puffer ausrechnen; Kritischen Pfad markieren
+Aufgabe: Nach dem Start laufen zwei Stränge parallel. Strang A besteht aus zwei Vorgängen mit {a1} und {a2} Tagen. Strang B ist ein Vorgang mit {b} Tagen. Danach folgt die Inbetriebnahme mit {c} Tagen. Wie lange dauert das Projekt?
+Gegeben: Strang A: {a1} Tage und {a2} Tage
+Gegeben: Strang B: {b} Tage
+Gegeben: Inbetriebnahme: {c} Tage
+Gesucht: Projektdauer in Tagen
+Ansatz: Längeren Strang nehmen, dann Inbetriebnahme dazu | Alle Dauern addieren; Kürzeren Strang nehmen, dann Inbetriebnahme dazu; Mittelwert der Stränge, dann Inbetriebnahme
+Signal: Zwei Stränge laufen gleichzeitig. Die Inbetriebnahme wartet auf beide.
+Warum: Weil die Inbetriebnahme auf den längeren Strang warten muss | Weil parallele Vorgänge nacheinander gezählt werden; Weil der kürzere Strang immer das Tempo vorgibt
+Kontrolle: Ist die Dauer kleiner als die Summe aller Vorgänge? | Ja, weil parallel gearbeitet wird | Nein, sie ist gleich; Nein, sie ist größer
+Schritt: Dauer Strang A | a1 + a2 | Tage
+Schritt: Projektdauer | a1 + a2 + c | Tage
+Variable: a1 | 3 | 6 | 1
+Variable: a2 | 3 | 6 | 1
+Variable: b | 2 | 5 | 1
+Variable: c | 1 | 4 | 1
+Rechnung: a1 + a2 + c
+Aufgabe: Strang A dauert {a} Tage, Strang B dauert {b} Tage. Beide laufen parallel zwischen denselben Meilensteinen. Wie groß ist der Gesamtpuffer von Strang B?
+Gegeben: Strang A: {a} Tage
+Gegeben: Strang B: {b} Tage
+Gesucht: Gesamtpuffer von B in Tagen
+Ansatz: Längerer Strang minus kürzerer Strang | Summe beider Stränge; Kürzerer Strang minus längerer Strang; Länge des kürzeren Strangs
+Signal: Zwei parallele Wege zwischen denselben Punkten, einer ist kürzer.
+Warum: Weil sich der kürzere Strang um den Unterschied verschieben darf | Weil der Puffer immer die halbe Dauer ist; Weil der kürzere Strang auf dem kritischen Pfad liegt
+Kontrolle: Hat Strang A einen Puffer? | Nein, er ist kritisch | Ja, denselben wie B; Ja, halb so viel wie B
+Schritt: Gesamtpuffer von B | a - b | Tage
+Variable: a | 8 | 15 | 1
+Variable: b | 3 | 7 | 1
+Rechnung: a - b
+Quelle: Netzplantechnik und Projektplanung nach DIN 69900.
+=== ENDE ===
+
+=== LERNWERK ===
+Fach: Projektmanagement und Datenverarbeitung
+Thema: Zahlensysteme
+Anker: Eine Reihe Schalter am Schaltschrank, jeder an oder aus. Mit einem Schalter hast du zwei Möglichkeiten, mit zwei Schaltern vier, mit acht Schaltern schon 256. Genau so zählt der Rechner im Binärsystem.
+Begriff: Dezimalsystem | Zahlensystem mit der Basis 10 und den Ziffern 0 bis 9.
+Begriff: Binärsystem | Zahlensystem mit der Basis 2 und den Ziffern 0 und 1.
+Begriff: Hexadezimalsystem | Zahlensystem mit der Basis 16 und den Ziffern 0 bis 9 und A bis F.
+Begriff: Bit | Eine binäre Stelle, 0 oder 1.
+Begriff: Byte | Acht Bit.
+Begriff: Stellenwert | Der Wert einer Stelle: Basis hoch Position, von rechts bei 0 beginnend.
+Merksatz: Mit n Bit gibt es 2 hoch n Werte.
+Merksatz: Die größte Zahl mit n Bit ist 2 hoch n minus 1.
+Merksatz: Eine Hex-Ziffer steht für genau 4 Bit.
+Merksatz: Binär nach dezimal: Stellenwerte der Einsen addieren.
+Prinzip: Jedes Zahlensystem funktioniert gleich. Jede Stelle hat einen Wert, der eine Potenz der Basis ist. Im Dezimalsystem sind das 1, 10, 100. Im Binärsystem 1, 2, 4, 8, 16 und so weiter. Eine Binärzahl rechnest du in eine Dezimalzahl um, indem du die Stellenwerte addierst, an denen eine 1 steht.
+
+Hexadezimal ist eine Kurzschrift für Binär. Vier Bit ergeben 16 Möglichkeiten, also genau eine Hex-Ziffer. Deshalb schreibt man ein Byte mit zwei Hex-Ziffern, zum Beispiel FF für 255.
+
+In der Steuerungstechnik brauchst du das bei Adressen, Analogwerten und Statusbits.
+Baustein: Basis des Zahlensystems erkennen.
+Baustein: Stellenwerte von rechts aufschreiben: Basis hoch 0, hoch 1, hoch 2.
+Baustein: Nach dezimal: Ziffer mal Stellenwert, alles addieren.
+Baustein: Von dezimal: fortlaufend durch die Basis teilen und die Reste von unten lesen.
+Baustein: Zwischen binär und hex in Vierergruppen umrechnen.
+Schnellweg: Stellenwerte binär auswendig: 128, 64, 32, 16, 8, 4, 2, 1.
+Schnellweg: Hex A bis F sind 10 bis 15.
+Fehler: Stellen von links gezählt | Der kleinste Stellenwert ist ganz rechts.
+Fehler: Größte Zahl mit 2 hoch n verwechselt | Mit 8 Bit gibt es 256 Werte, die größte Zahl ist aber 255, weil man bei 0 beginnt.
+Fehler: Hex-Ziffern über 9 vergessen | Nach 9 kommen A, B, C, D, E, F.
+Formel: Anzahl der Werte | W = 2^n | n = lg(W) / lg(2)
+Karte: Was ist 1010 binär in dezimal? | 10.
+Karte: Was ist 1111 1111 binär in dezimal? | 255.
+Karte: Was ist FF hexadezimal in dezimal? | 255.
+Karte: Für wie viele Bit steht eine Hex-Ziffer? | 4.
+Karte: Wie viele Werte gibt es mit 8 Bit? | 256.
+Karte: Was ist A hexadezimal in dezimal? | 10.
+Karte: Was ist 13 dezimal in binär? | 1101.
+Karte: Was ist 10 hexadezimal in dezimal? | 16.
+Karte: Wie viele Bit hat ein Byte? | 8.
+Karte: Was ist der Stellenwert der vierten Binärstelle von rechts? | 8.
+Auswahl: Was ist 0110 binär in dezimal? | 6 | 5; 9; 12 | 4 plus 2 ergibt 6.
+Auswahl: Was ist 2F hexadezimal in dezimal? | 47 | 32; 215; 29 | 2 mal 16 plus 15 ergibt 47.
+Reihenfolge: Binär in dezimal umrechnen | Stellenwerte von rechts notieren; Stellen mit 1 markieren; Deren Stellenwerte addieren; Ergebnis prüfen
+Aufgabe: Ein Analogwert wird mit {n} Bit dargestellt. Wie viele verschiedene Werte sind möglich?
+Gegeben: Auflösung {n} Bit
+Gesucht: Anzahl der Werte
+Ansatz: 2 hoch n | n hoch 2; 2 mal n; 10 hoch n
+Signal: Jedes Bit kann zwei Zustände haben, gefragt sind alle Kombinationen.
+Warum: Weil sich mit jedem Bit die Anzahl verdoppelt | Weil jedes Bit zehn Werte hat; Weil die Bits addiert werden
+Kontrolle: Wie viele Werte haben 8 Bit? | 256 | 255; 64
+Schritt: Anzahl der Werte | 2^n
+Variable: n | 4 | 16 | 1
+Rechnung: 2^n
+Aufgabe: Ein Zähler hat {n} Bit. Bis zu welcher Zahl kann er höchstens zählen, wenn er bei 0 beginnt?
+Gegeben: {n} Bit, Beginn bei 0
+Gesucht: größte darstellbare Zahl
+Ansatz: 2 hoch n minus 1 | 2 hoch n; 2 hoch n plus 1; n mal 2 minus 1
+Signal: Gefragt ist der höchste Wert, nicht die Anzahl der Werte.
+Warum: Weil die Null einen der Werte belegt | Weil die größte Zahl immer 2 hoch n ist; Weil ein Bit für das Vorzeichen fehlt
+Kontrolle: Was ist die größte Zahl mit 8 Bit? | 255 | 256; 128
+Schritt: Größte Zahl | 2^n - 1
+Variable: n | 4 | 16 | 1
+Rechnung: 2^n - 1
+Quelle: Grundlagen der Informationstechnik, Zahlensysteme.
+=== ENDE ===
+
+=== LERNWERK ===
+Fach: Werkstofftechnik
+Thema: Stahlbezeichnungen nach DIN EN 10027
+Anker: An der Fräse liest du auf dem Werkstoffschein C45 oder 42CrMo4. Dahinter stecken feste Regeln: Die Zahl vorne ist der Kohlenstoff in Hundertstel Prozent, die Zahlen hinten sind die Legierungselemente, aber mit einem Faktor verschlüsselt. Kennst du die Regeln, weißt du sofort, wie hart und zäh der Stahl ist.
+Begriff: Kurzname | Bezeichnung aus Buchstaben und Zahlen nach DIN EN 10027-1, zum Beispiel S235JR oder C45.
+Begriff: Werkstoffnummer | Bezeichnung mit Zahlen nach DIN EN 10027-2, zum Beispiel 1.0503 für C45.
+Begriff: Baustahl S | S und die Mindeststreckgrenze in N/mm², zum Beispiel S235.
+Begriff: Unlegierter Stahl C | C und der Kohlenstoffgehalt mal 100, zum Beispiel C45 mit 0,45 Prozent Kohlenstoff.
+Begriff: Niedriglegierter Stahl | Kohlenstoff mal 100, dann die Elemente, dann deren Gehalte mal Faktor. Kein Element erreicht 5 Prozent.
+Begriff: Hochlegierter Stahl X | X, Kohlenstoff mal 100, Elemente und deren Gehalte direkt in Prozent. Mindestens ein Element hat 5 Prozent oder mehr.
+Begriff: Legierungsfaktor | 4 für Cr, Co, Mn, Ni, Si, W. 10 für Al, Cu, Mo, Ti, V und andere. 100 für C, N, P, S. 1000 für B.
+Merksatz: Vorne steht der Kohlenstoff in Hundertstel Prozent.
+Merksatz: Niedriglegiert: Zahl hinten durch den Faktor teilen. Chrom, Nickel, Mangan durch 4, Molybdän und Vanadium durch 10.
+Merksatz: Mit X vorne: hochlegiert, Zahlen hinten direkt in Prozent.
+Merksatz: S und E: Zahl ist die Mindeststreckgrenze.
+Prinzip: Ein Stahlname ist eine verschlüsselte Rezeptur. Zuerst schaust du auf den Anfang. Steht dort S oder E, ist es ein Stahl nach Verwendung, und die Zahl ist die Mindeststreckgrenze. Steht dort C, ist es ein unlegierter Stahl, und die Zahl ist der Kohlenstoffgehalt mal 100.
+
+Beginnt der Name mit einer Zahl, ist es ein niedriglegierter Stahl. Die Zahl vorne ist wieder Kohlenstoff mal 100. Dann folgen die Elemente, nach Gehalt sortiert, und am Ende ihre Gehalte, aber mit einem Faktor malgenommen. Bei 42CrMo4 hat Chrom 4 durch 4, also etwa 1 Prozent. Molybdän wird nur genannt, der Gehalt ist klein.
+
+Beginnt der Name mit X, ist der Stahl hochlegiert. Dann stehen die Gehalte direkt in Prozent: X5CrNi18-10 hat 0,05 Prozent Kohlenstoff, 18 Prozent Chrom und 10 Prozent Nickel. Das ist der klassische Edelstahl 1.4301.
+Baustein: Anfang lesen: S oder E, C, Zahl oder X.
+Baustein: S oder E: Zahl ist Mindeststreckgrenze in N/mm².
+Baustein: C oder Zahl vorne: Kohlenstoff gleich Zahl durch 100 in Prozent.
+Baustein: Niedriglegiert: Gehalte hinten durch den Faktor des Elements teilen.
+Baustein: X: Gehalte hinten direkt in Prozent lesen.
+Schnellweg: Die vier häufigsten Faktoren: Cr, Ni, Mn, Si durch 4.
+Schnellweg: 1.43 oder 1.44 am Anfang der Werkstoffnummer heißt nichtrostender Stahl mit Nickel.
+Fehler: Bei niedriglegiertem Stahl die Zahl hinten direkt als Prozent gelesen | Erst durch den Faktor teilen. 42CrMo4 hat etwa 1 Prozent Chrom, nicht 4.
+Fehler: Kohlenstoff falsch umgerechnet | C45 heißt 0,45 Prozent, nicht 45 und nicht 4,5 Prozent.
+Fehler: S235 als Kohlenstoffgehalt gelesen | Bei S ist die Zahl die Streckgrenze.
+Formel: Kohlenstoffgehalt | c = k / 100 | k = c · 100
+Formel: Legierungsgehalt niedriglegiert | g = z / f | z = g · f
+Karte: Was bedeutet C45? | Unlegierter Stahl mit 0,45 Prozent Kohlenstoff.
+Karte: Was bedeutet S235? | Baustahl mit 235 N/mm² Mindeststreckgrenze.
+Karte: Wie viel Chrom hat 42CrMo4? | Etwa 1 Prozent, denn 4 durch 4.
+Karte: Wie viel Kohlenstoff hat 42CrMo4? | 0,42 Prozent.
+Karte: Was bedeutet X5CrNi18-10? | Hochlegiert, 0,05 Prozent C, 18 Prozent Cr, 10 Prozent Ni.
+Karte: Welchen Faktor hat Chrom? | 4.
+Karte: Welchen Faktor hat Molybdän? | 10.
+Karte: Woran erkennst du einen hochlegierten Stahl? | Am X vorne.
+Karte: Wie viel Mangan hat 16MnCr5? | Etwa 1,25 Prozent, denn 5 durch 4.
+Karte: Welche Werkstoffnummer hat C45? | 1.0503.
+Karte: Welche Werkstoffnummer hat V2A, X5CrNi18-10? | 1.4301.
+Auswahl: Welcher Stahl ist hochlegiert? | X40Cr13 | 42CrMo4; C45; S355J2 | Das X vorne zeigt hochlegiert an.
+Auswahl: Was gibt die Zahl in E295 an? | Mindeststreckgrenze in N/mm² | Kohlenstoff in Hundertstel Prozent; Zugfestigkeit in MPa; Härte in HRC | Bei S und E steht die Mindeststreckgrenze.
+Reihenfolge: Stahlnamen entschlüsseln | Anfang lesen; Stahlgruppe bestimmen; Kohlenstoff oder Streckgrenze bestimmen; Legierungselemente lesen; Gehalte mit Faktor umrechnen
+Aufgabe: Ein unlegierter Stahl heißt C{k}. Wie viel Prozent Kohlenstoff enthält er?
+Gegeben: Kurzname C{k}
+Gesucht: Kohlenstoffgehalt in Prozent
+Ansatz: Zahl durch 100 | Zahl durch 10; Zahl durch 4; Zahl direkt in Prozent
+Signal: Ein C vorne mit einer Zahl dahinter: unlegierter Stahl.
+Warum: Weil die Zahl den Kohlenstoff in Hundertstel Prozent angibt | Weil die Zahl die Streckgrenze angibt; Weil die Zahl durch den Faktor 4 geteilt wird
+Kontrolle: Liegt das Ergebnis unter 1 Prozent? | Ja, Stahl hat meist unter 1 Prozent | Nein, eher 10 bis 60 Prozent; Nein, es sind genau 45 Prozent
+Schritt: Kohlenstoffgehalt | k / 100 | Prozent
+Variable: k | 10 | 100 | 5
+Rechnung: k / 100
+Aufgabe: Ein niedriglegierter Stahl heißt {k}CrNi{z}-x. Die Zahl {z} gehört zum Chrom. Wie viel Prozent Chrom enthält er?
+Gegeben: Kurzname {k}CrNi{z}
+Gesucht: Chromgehalt in Prozent
+Ansatz: Zahl durch 4 | Zahl durch 10; Zahl durch 100; Zahl direkt in Prozent
+Signal: Vorne steht eine Zahl, kein X. Der Stahl ist niedriglegiert. Chrom hat den Faktor 4.
+Warum: Weil die Kennzahl der Gehalt mal Faktor ist | Weil die Zahl direkt den Gehalt in Prozent angibt; Weil Chrom immer den Faktor 10 bekommt
+Kontrolle: Ist der Gehalt kleiner als 5 Prozent? | Ja, sonst wäre der Stahl hochlegiert | Nein, er ist größer; Das kann man nicht sagen
+Schritt: Chromgehalt | z / 4 | Prozent
+Variable: k | 15 | 42 | 1
+Variable: z | 2 | 8 | 1
+Rechnung: z / 4
+Quelle: DIN EN 10027-1 und DIN EN 10027-2, Bezeichnungssysteme für Stähle.
+=== ENDE ===
+
+=== LERNWERK ===
+Fach: Instandhaltung und Arbeitssicherheit
+Thema: Instandhaltung nach DIN 31051
+Anker: Beim Auto wechselst du regelmäßig das Öl, bevor etwas kaputtgeht. Du schaust auf das Reifenprofil, um zu wissen, wie lange es noch hält. Und wenn doch ein Teil defekt ist, wird es repariert. Ölwechsel ist Wartung, Profil prüfen ist Inspektion, Reparatur ist Instandsetzung.
+Begriff: Instandhaltung | Alle Maßnahmen, die eine Anlage funktionsfähig erhalten oder wieder funktionsfähig machen.
+Begriff: Wartung | Maßnahmen, die den Abbau des Abnutzungsvorrats verzögern, zum Beispiel schmieren, reinigen, nachstellen.
+Begriff: Inspektion | Maßnahmen, die den Ist-Zustand feststellen und beurteilen, zum Beispiel messen, prüfen, Sichtkontrolle.
+Begriff: Instandsetzung | Maßnahmen, die eine Anlage nach einem Fehler in den funktionsfähigen Zustand zurückbringen, zum Beispiel Teil tauschen.
+Begriff: Verbesserung | Maßnahmen, die die Zuverlässigkeit oder Instandhaltbarkeit erhöhen, ohne die geforderte Funktion zu ändern.
+Begriff: Abnutzungsvorrat | Der Vorrat an möglicher Funktionserfüllung, der durch Verschleiß abgebaut wird.
+Begriff: MTBF | Mittlere Betriebszeit zwischen zwei Ausfällen.
+Begriff: MTTR | Mittlere Reparaturzeit nach einem Ausfall.
+Merksatz: Wartung erhält, Inspektion stellt fest, Instandsetzung stellt wieder her, Verbesserung macht besser.
+Merksatz: Verfügbarkeit gleich MTBF durch MTBF plus MTTR.
+Merksatz: Reaktiv: warten bis es kaputt ist. Vorbeugend: nach Zeit. Zustandsorientiert: nach Messung.
+Prinzip: Die DIN 31051 teilt die Instandhaltung in vier Grundmaßnahmen. Für die Prüfung musst du eine Tätigkeit der richtigen Maßnahme zuordnen können. Dafür fragst du: Wird etwas erhalten, wird der Zustand festgestellt, wird ein Fehler behoben oder wird die Anlage dauerhaft verbessert?
+
+Dazu kommen die Strategien. Bei der reaktiven Instandhaltung wird erst repariert, wenn etwas ausfällt. Das ist billig, aber ungeplant. Bei der vorbeugenden Instandhaltung wird nach festen Intervallen getauscht, auch wenn das Teil noch gut wäre. Bei der zustandsorientierten Instandhaltung misst man den Verschleiß, zum Beispiel Schwingungen an Spindellagern, und handelt erst, wenn es nötig wird.
+
+Eine wichtige Kennzahl ist die Verfügbarkeit. Sie sagt, welchen Anteil der Zeit die Anlage einsatzbereit ist.
+Baustein: Tätigkeit genau lesen: erhalten, feststellen, wiederherstellen oder verbessern?
+Baustein: Maßnahme zuordnen: Wartung, Inspektion, Instandsetzung oder Verbesserung.
+Baustein: Strategie erkennen: reaktiv, vorbeugend oder zustandsorientiert.
+Baustein: Verfügbarkeit ausrechnen: MTBF durch MTBF plus MTTR.
+Schnellweg: Messen und prüfen ohne zu reparieren ist immer Inspektion.
+Schnellweg: Ein Teil bekommt dauerhaft eine bessere Ausführung als vorher: Verbesserung.
+Fehler: Austausch eines defekten Teils als Wartung bezeichnet | Wird ein Fehler behoben, ist es Instandsetzung.
+Fehler: Inspektion mit Wartung verwechselt | Inspektion stellt nur fest, Wartung tut etwas gegen den Verschleiß.
+Fehler: Verfügbarkeit mit MTTR im Zähler | Im Zähler steht die Betriebszeit MTBF.
+Formel: Verfügbarkeit | V = MTBF / (MTBF + MTTR) | MTTR = MTBF / V − MTBF
+Karte: Welche vier Grundmaßnahmen nennt die DIN 31051? | Wartung, Inspektion, Instandsetzung, Verbesserung.
+Karte: Was ist Wartung? | Maßnahmen, die den Abbau des Abnutzungsvorrats verzögern.
+Karte: Was ist Inspektion? | Feststellen und Beurteilen des Ist-Zustands.
+Karte: Was ist Instandsetzung? | Wiederherstellen der Funktion nach einem Fehler.
+Karte: Was ist Verbesserung? | Die Zuverlässigkeit erhöhen, ohne die geforderte Funktion zu ändern.
+Karte: Was ist zustandsorientierte Instandhaltung? | Handeln, wenn Messungen Verschleiß zeigen.
+Karte: Was ist ein Nachteil der vorbeugenden Instandhaltung nach Zeit? | Teile werden getauscht, obwohl sie noch gut wären.
+Karte: Wofür steht MTBF? | Mittlere Betriebszeit zwischen Ausfällen.
+Karte: Wofür steht MTTR? | Mittlere Reparaturzeit.
+Karte: Wie berechnest du die Verfügbarkeit? | MTBF durch MTBF plus MTTR.
+Auswahl: Ein Instandhalter misst die Schwingungen an einem Spindellager. Welche Maßnahme? | Inspektion | Wartung; Instandsetzung; Verbesserung | Der Zustand wird festgestellt, aber nichts verändert.
+Auswahl: Die Führungsbahnen werden nach Plan geschmiert. Welche Maßnahme? | Wartung | Inspektion; Instandsetzung; Verbesserung | Schmieren verzögert den Verschleiß.
+Auswahl: Ein gebrochener Zahnriemen wird ersetzt. Welche Maßnahme? | Instandsetzung | Wartung; Inspektion; Verbesserung | Die Funktion wird nach einem Fehler wiederhergestellt.
+Auswahl: Ein häufig brechendes Kunststoffzahnrad wird dauerhaft durch eines aus Stahl ersetzt. Welche Maßnahme? | Verbesserung | Wartung; Inspektion; Instandsetzung | Die Zuverlässigkeit steigt dauerhaft, die Funktion bleibt gleich.
+Reihenfolge: Instandhaltungsstrategien nach steigendem Planungsaufwand | Reaktiv nach Ausfall; Vorbeugend nach festen Intervallen; Zustandsorientiert nach Messwerten
+Aufgabe: Eine Anlage läuft im Mittel {a} Stunden zwischen zwei Ausfällen. Eine Reparatur dauert im Mittel {r} Stunden. Wie hoch ist die Verfügbarkeit in Prozent?
+Gegeben: MTBF = {a} h
+Gegeben: MTTR = {r} h
+Gesucht: Verfügbarkeit in Prozent
+Ansatz: MTBF / (MTBF + MTTR) · 100 | MTTR / (MTBF + MTTR) · 100; MTBF / MTTR · 100; (MTBF − MTTR) / MTBF · 100
+Signal: Betriebszeit zwischen Ausfällen und Reparaturzeit sind gegeben.
+Warum: Weil die Verfügbarkeit der Anteil der Betriebszeit an der Gesamtzeit ist | Weil die Verfügbarkeit der Anteil der Reparaturzeit ist; Weil man Betriebszeit durch Reparaturzeit teilt
+Kontrolle: Liegt die Verfügbarkeit unter 100 Prozent? | Ja, die Reparaturzeit fehlt | Nein, sie liegt darüber; Nein, sie ist immer genau 100
+Schritt: Gesamtzeit eines Zyklus | a + r | h
+Schritt: Verfügbarkeit | a / (a + r) * 100 | Prozent
+Variable: a | 100 | 800 | 20
+Variable: r | 2 | 24 | 1
+Rechnung: a / (a + r) * 100
+Quelle: DIN 31051 Grundlagen der Instandhaltung.
+=== ENDE ===

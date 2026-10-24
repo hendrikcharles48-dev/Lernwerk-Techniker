@@ -13,6 +13,8 @@
   },
   "fertigung-wirtschaft.txt",
   "mechanik-aufbau.txt",
+  "steuerung-aufbau.txt",
+  "module-aufbau.txt",
   {
    "datei": "einfuehrung/elektrotechnik.txt",
    "art": "einfuehrung"

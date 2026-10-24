@@ -1,0 +1,300 @@
+=== LERNWERK ===
+Fach: Steuerungstechnik, Pneumatik und SPS
+Thema: Wegeventile und Schaltzeichen
+Anker: Ein Wegeventil ist wie eine Weiche bei der Druckluft: Es entscheidet, welche Leitung Druck bekommt und welche entlüftet wird. Die Zahl vor dem Schrägstrich sagt, wie viele Anschlüsse es hat, die Zahl dahinter, wie viele Stellungen.
+Begriff: Wegeventil | Ein Ventil, das den Weg der Druckluft freigibt, sperrt oder umleitet.
+Begriff: Bezeichnung 5/2 | Fünf Anschlüsse, zwei Schaltstellungen.
+Begriff: Anschluss 1 | Druckluftversorgung.
+Begriff: Anschlüsse 2 und 4 | Arbeitsleitungen zum Zylinder.
+Begriff: Anschlüsse 3 und 5 | Entlüftung.
+Begriff: Anschlüsse 12 und 14 | Steueranschlüsse. 14 verbindet 1 mit 4, 12 verbindet 1 mit 2.
+Begriff: Monostabil | Das Ventil hat eine Federrückstellung und geht ohne Signal in die Grundstellung.
+Begriff: Bistabil oder Impulsventil | Das Ventil bleibt nach einem kurzen Signal in seiner Stellung, bis es ein Gegensignal bekommt.
+Merksatz: Einfachwirkender Zylinder: 3/2-Wegeventil. Doppeltwirkender Zylinder: 5/2- oder 4/2-Wegeventil.
+Merksatz: Ungerade Anschlüsse außer 1 entlüften, gerade Anschlüsse arbeiten.
+Merksatz: Feder heißt monostabil, zwei Steuerseiten ohne Feder heißt Impulsventil.
+Prinzip: Jedes Wegeventil wird im Schaltplan als Reihe von Kästchen gezeichnet. Jedes Kästchen ist eine Schaltstellung. Die Pfeile darin zeigen, wohin die Luft fließt, ein T-Zeichen bedeutet gesperrt. Die Leitungen werden immer an dem Kästchen angeschlossen, das die Grundstellung zeigt.
+
+Für die Auswahl schaust du auf den Zylinder. Ein einfachwirkender Zylinder hat nur einen Luftanschluss, die Feder schiebt ihn zurück. Dafür reicht ein 3/2-Wegeventil: Druck auf den Anschluss oder entlüften. Ein doppeltwirkender Zylinder hat zwei Anschlüsse, die abwechselnd Druck bekommen. Dafür brauchst du ein 5/2- oder 4/2-Wegeventil.
+
+Ob das Ventil monostabil oder bistabil ist, entscheidet, ob der Zylinder nur so lange ausfährt, wie das Signal anliegt, oder ob er ausgefahren bleibt, bis ein Gegensignal kommt.
+Baustein: Zylinder bestimmen: einfachwirkend oder doppeltwirkend.
+Baustein: Ventilart wählen: 3/2 für einfachwirkend, 5/2 für doppeltwirkend.
+Baustein: Verhalten wählen: monostabil mit Feder oder bistabil als Impulsventil.
+Baustein: Anschlüsse richtig nummerieren: 1 Druck, 2 und 4 Arbeit, 3 und 5 Entlüftung.
+Baustein: Leitungen an die Grundstellung zeichnen.
+Schnellweg: Die erste Zahl ist die Anzahl der Anschlüsse ohne Steueranschlüsse.
+Schnellweg: Soll der Zylinder nach kurzem Tastendruck ausgefahren bleiben, brauchst du ein Impulsventil oder eine Selbsthaltung.
+Fehler: 3/2-Ventil für einen doppeltwirkenden Zylinder | Ein doppeltwirkender Zylinder braucht zwei Arbeitsanschlüsse, also 5/2 oder 4/2.
+Fehler: Leitungen an die falsche Stellung gezeichnet | Angeschlossen wird immer an der Grundstellung.
+Fehler: Monostabil und bistabil verwechselt | Mit Feder fällt das Ventil zurück, ohne Feder bleibt es stehen.
+Karte: Was bedeutet 5/2-Wegeventil? | Fünf Anschlüsse, zwei Schaltstellungen.
+Karte: Welcher Anschluss ist die Druckluftversorgung? | Anschluss 1.
+Karte: Welche Anschlüsse sind Entlüftungen? | 3 und 5.
+Karte: Welche Anschlüsse gehen zum Zylinder? | 2 und 4.
+Karte: Welches Ventil braucht ein einfachwirkender Zylinder? | Ein 3/2-Wegeventil.
+Karte: Welches Ventil braucht ein doppeltwirkender Zylinder? | Ein 5/2- oder 4/2-Wegeventil.
+Karte: Was bedeutet monostabil? | Mit Federrückstellung, ohne Signal in Grundstellung.
+Karte: Was ist ein Impulsventil? | Ein bistabiles Ventil, das nach einem Signal in seiner Stellung bleibt.
+Karte: Was bedeutet ein T-Zeichen im Ventilkästchen? | Der Anschluss ist gesperrt.
+Karte: An welches Kästchen werden die Leitungen gezeichnet? | An die Grundstellung.
+Karte: Was verbindet das Steuersignal 14? | Anschluss 1 mit Anschluss 4.
+Auswahl: Ein Spannzylinder mit Federrückstellung soll gesteuert werden. Welches Ventil passt? | 3/2-Wegeventil | 5/2-Wegeventil; 2/2-Wegeventil; 4/3-Wegeventil | Ein einfachwirkender Zylinder hat nur einen Anschluss. Er bekommt Druck oder wird entlüftet, die Feder fährt ihn zurück.
+Auswahl: Ein doppeltwirkender Zylinder soll nach einem kurzen Tastendruck ausgefahren bleiben. Was passt? | 5/2-Impulsventil | 5/2-Ventil mit Feder; 3/2-Ventil mit Feder; 3/2-Impulsventil | Doppeltwirkend braucht 5/2. Damit er nach kurzem Signal stehen bleibt, braucht es ein bistabiles Ventil.
+Auswahl: Wie viele Schaltstellungen hat ein 4/3-Wegeventil? | Drei | Vier; Zwei; Sieben | Die Zahl hinter dem Schrägstrich sind die Schaltstellungen.
+Reihenfolge: Ventil für einen Zylinder auswählen | Zylinderart bestimmen; Anzahl der Anschlüsse festlegen; Stellungen festlegen; Rückstellung wählen; Anschlüsse nummerieren
+Quelle: Grundlagen der Pneumatik, Ventilbezeichnungen nach ISO 5599 und Schaltzeichen nach ISO 1219.
+=== ENDE ===
+
+=== LERNWERK ===
+Fach: Steuerungstechnik, Pneumatik und SPS
+Thema: Pneumatik: direkte und indirekte Ansteuerung
+Anker: Beim Bankdrücken drückst du mit der ganzen Fläche der Hände. Ein Zylinder drückt mit der ganzen Kolbenfläche, wenn er ausfährt. Beim Zurückfahren fehlt die Fläche der Kolbenstange, also ist die Kraft kleiner.
+Anker: Ein kleiner Taster schaltet nicht direkt den großen Zylinder, sondern ein Stellglied, das dann die große Luftmenge schaltet. Wie ein Lichtschalter, der ein Schütz für die Maschine schaltet. Das ist indirekte Ansteuerung.
+Begriff: Direkte Ansteuerung | Das Signalglied, zum Beispiel ein Handtaster-Ventil, versorgt den Zylinder direkt.
+Begriff: Indirekte Ansteuerung | Das Signalglied schaltet ein Stellglied, und das Stellglied versorgt den Zylinder.
+Begriff: Kolbenfläche | Die volle Kreisfläche des Kolbens. Sie wirkt beim Ausfahren.
+Begriff: Ringfläche | Kolbenfläche minus Kolbenstangenfläche. Sie wirkt beim Einfahren.
+Begriff: Drosselrückschlagventil | Drosselt die Luft in eine Richtung und lässt sie in die andere frei durch. Damit stellt man die Geschwindigkeit ein.
+Begriff: Zweidruckventil | Ein UND in der Pneumatik: Am Ausgang ist Druck, wenn an beiden Eingängen Druck ist.
+Begriff: Wechselventil | Ein ODER in der Pneumatik: Am Ausgang ist Druck, wenn an mindestens einem Eingang Druck ist.
+Merksatz: Kraft gleich Druck mal Fläche. Ein bar sind 0,1 Newton pro Quadratmillimeter.
+Merksatz: Ausfahren mit Kolbenfläche, Einfahren mit Ringfläche.
+Merksatz: Große Zylinder und lange Leitungen: indirekt ansteuern.
+Merksatz: Geschwindigkeit beim doppeltwirkenden Zylinder in der Abluft drosseln.
+Prinzip: Ein Pneumatikzylinder wandelt Druck in Kraft um. Die Kraft ist Druck mal Fläche. Beim Ausfahren drückt die Luft auf die ganze Kolbenfläche. Beim Einfahren drückt sie auf die andere Seite, wo die Kolbenstange einen Teil der Fläche wegnimmt. Deshalb ist die Einfahrkraft kleiner.
+
+Der Druck steht meistens in bar. Ein bar sind 0,1 Newton pro Quadratmillimeter. Rechnest du die Fläche in Quadratmillimeter, kommt die Kraft direkt in Newton heraus. In der Praxis geht durch Reibung ein Teil verloren, oft rechnet man mit etwa 10 Prozent weniger.
+
+Bei der Ansteuerung unterscheidet man direkt und indirekt. Direkt ist einfach, aber das Signalventil muss die ganze Luft für den Zylinder durchlassen. Bei großen Zylindern oder wenn mehrere Bedingungen zusammenkommen, steuert man indirekt: kleine Signalventile schalten ein großes Stellglied.
+Baustein: Zylinderart und Bewegungsrichtung klären: Ausfahren oder Einfahren.
+Baustein: Wirksame Fläche bestimmen: Kolbenfläche oder Ringfläche.
+Baustein: Druck in N pro mm² umrechnen: bar mal 0,1.
+Baustein: Kraft ausrechnen: Druck mal Fläche.
+Baustein: Ansteuerung wählen: direkt bei kleinen Zylindern und einer Bedingung, indirekt sonst.
+Schnellweg: Bei 6 bar drückt jeder Quadratzentimeter mit 60 N.
+Schnellweg: Zwei Taster, beide müssen gedrückt sein: Zweidruckventil. Einer reicht: Wechselventil.
+Fehler: Bar direkt als N pro mm² eingesetzt | 6 bar sind 0,6 N pro mm², nicht 6.
+Fehler: Beim Einfahren mit der vollen Kolbenfläche gerechnet | Beim Einfahren fehlt die Fläche der Kolbenstange.
+Fehler: Durchmesser statt Radius in π r² | Mit Durchmesser rechnest du π mal d² durch 4.
+Formel: Kolbenkraft | F = p · A | p = F / A; A = F / p
+Formel: Kolbenfläche | A = π · D² / 4 | D = √(4 · A / π)
+Formel: Ringfläche | A_R = π · (D² − d²) / 4 | d = √(D² − 4 · A_R / π)
+Karte: Wie berechnest du die Kolbenkraft? | Druck mal Fläche.
+Karte: Wie viel N pro mm² sind 6 bar? | 0,6 N pro mm².
+Karte: Welche Fläche wirkt beim Ausfahren? | Die volle Kolbenfläche.
+Karte: Welche Fläche wirkt beim Einfahren? | Die Ringfläche, Kolbenfläche minus Stangenfläche.
+Karte: Was ist indirekte Ansteuerung? | Das Signalglied schaltet ein Stellglied, das Stellglied versorgt den Zylinder.
+Karte: Welches Ventil bildet ein pneumatisches UND? | Das Zweidruckventil.
+Karte: Welches Ventil bildet ein pneumatisches ODER? | Das Wechselventil.
+Karte: Womit stellt man die Zylindergeschwindigkeit ein? | Mit einem Drosselrückschlagventil.
+Karte: Wo drosselt man beim doppeltwirkenden Zylinder üblich? | In der Abluft.
+Karte: Warum ist die Einfahrkraft kleiner? | Weil die Kolbenstange einen Teil der Fläche wegnimmt.
+Karte: Mit wie viel Verlust durch Reibung rechnet man grob? | Mit etwa 10 Prozent.
+Auswahl: Ein Zylinder darf nur ausfahren, wenn zwei Taster gleichzeitig gedrückt sind. Was passt? | Zweidruckventil | Wechselventil; Drosselrückschlagventil; Schnellentlüftungsventil | Beide Signale müssen anliegen. Das ist ein UND, pneumatisch das Zweidruckventil.
+Auswahl: Ein Zylinder soll von zwei Stellen aus gestartet werden können. Was passt? | Wechselventil | Zweidruckventil; Drosselrückschlagventil; 2/2-Wegeventil | Ein Taster reicht. Das ist ein ODER, pneumatisch das Wechselventil.
+Auswahl: Ein großer Zylinder soll über einen kleinen Handtaster gesteuert werden. Wie steuerst du an? | Indirekt über ein Stellglied | Direkt über den Handtaster; Gar nicht, das geht nicht; Über ein Drosselventil | Der kleine Taster liefert nur ein Signal. Die große Luftmenge schaltet das Stellglied.
+Aufgabe: Ein Zylinder mit Kolbendurchmesser D = {D} mm fährt mit p = {p} bar aus. Wie groß ist die theoretische Kolbenkraft?
+Gegeben: D = {D} mm
+Gegeben: p = {p} bar
+Gesucht: Kolbenkraft F in N
+Ansatz: F = p · π · D² / 4 mit p in N/mm² | F = p · π · D² / 4 mit p in bar; F = p · π · D mit p in N/mm²; F = p · π · (D² − d²) / 4
+Signal: Der Zylinder fährt aus, also wirkt die volle Kolbenfläche.
+Warum: Weil beim Ausfahren die ganze Kolbenfläche wirkt | Weil beim Ausfahren nur die Ringfläche wirkt; Weil die Kraft nur vom Druck abhängt, nicht von der Fläche
+Kontrolle: Ist bei 6 bar und D = 50 mm eine Kraft um 1200 N plausibel? | Ja, 0,6 mal etwa 1960 mm² | Nein, es müssen 12 000 N sein; Nein, es müssen 120 N sein
+Schritt: Druck in N pro mm² | p / 10 | N/mm²
+Schritt: Kolbenfläche | pi * D^2 / 4 | mm²
+Schritt: Kolbenkraft | p / 10 * pi * D^2 / 4 | N
+Variable: D | 16 | 100 | 4
+Variable: p | 4 | 8 | 0,5
+Rechnung: p / 10 * pi * D^2 / 4
+Aufgabe: Ein Zylinder mit D = {D} mm und Kolbenstange d = {d} mm fährt mit p = {p} bar ein. Wie groß ist die theoretische Einfahrkraft?
+Gegeben: D = {D} mm, d = {d} mm
+Gegeben: p = {p} bar
+Gesucht: Einfahrkraft F in N
+Ansatz: F = p · π · (D² − d²) / 4 mit p in N/mm² | F = p · π · D² / 4 mit p in N/mm²; F = p · π · (D − d)² / 4 mit p in N/mm²; F = p · π · d² / 4 mit p in N/mm²
+Signal: Der Zylinder fährt ein. Auf dieser Seite sitzt die Kolbenstange.
+Warum: Weil beim Einfahren die Stange einen Teil der Fläche belegt | Weil beim Einfahren die volle Kolbenfläche wirkt; Weil beim Einfahren nur die Stangenfläche wirkt
+Kontrolle: Ist die Einfahrkraft kleiner als die Ausfahrkraft? | Ja, die Ringfläche ist kleiner | Nein, sie ist größer; Beide sind gleich
+Schritt: Ringfläche | pi * (D^2 - d^2) / 4 | mm²
+Schritt: Einfahrkraft | p / 10 * pi * (D^2 - d^2) / 4 | N
+Variable: D | 32 | 100 | 4
+Variable: d | 10 | 25 | 1
+Variable: p | 4 | 8 | 0,5
+Rechnung: p / 10 * pi * (D^2 - d^2) / 4
+Aufgabe: Ein Spannzylinder soll mindestens F = {F} N Kraft aufbringen. Es stehen p = {p} bar zur Verfügung. Wie groß muss der Kolbendurchmesser mindestens sein?
+Gegeben: F = {F} N
+Gegeben: p = {p} bar
+Gesucht: Kolbendurchmesser D in mm
+Ansatz: A = F / p mit p in N/mm², dann D aus der Kreisfläche | D = F / p mit p in N/mm²; A = F · p, dann D aus der Kreisfläche; A = F / p mit p in bar, dann D
+Signal: Kraft und Druck sind vorgegeben, gesucht ist die Baugröße.
+Warum: Weil Druck mal Fläche die Kraft ergeben muss | Weil der Durchmesser direkt Kraft durch Druck ist; Weil die Fläche von der Kraft ganz unabhängig ist
+Kontrolle: Wählst du den nächstgrößeren oder nächstkleineren Normzylinder? | Den nächstgrößeren, auch wegen Reibung | Den nächstkleineren, das spart Luft; Genau den gerechneten Wert
+Schritt: Druck in N pro mm² | p / 10 | N/mm²
+Schritt: Nötige Fläche | F / (p / 10) | mm²
+Schritt: Durchmesser | sqrt(4 * F / (p / 10) / pi) | mm
+Variable: F | 300 | 3000 | 100
+Variable: p | 4 | 8 | 0,5
+Rechnung: sqrt(4 * F / (p / 10) / pi)
+Quelle: Grundlagen der Pneumatik. Achtung: Die wirkliche Kraft ist durch Reibung kleiner, Herstellerangaben beachten.
+=== ENDE ===
+
+=== LERNWERK ===
+Fach: Steuerungstechnik, Pneumatik und SPS
+Thema: Logik und Wahrheitstabelle
+Anker: Die Schutztür an der Fräse: Die Spindel darf nur laufen, wenn die Tür zu ist UND die Spindel gestartet wurde. Der Not-Halt dreht alles um: Ist er gedrückt, geht nichts. Das ist ein NICHT. So wird aus Sicherheitsregeln eine Logikschaltung.
+Begriff: Signal 0 und 1 | 0 heißt aus, kein Signal. 1 heißt an, Signal liegt an.
+Begriff: Schaltfunktion | Die Vorschrift, die aus den Eingängen den Ausgang bestimmt.
+Begriff: Disjunktive Normalform | Alle Zeilen mit Ausgang 1 als UND der Eingänge, diese mit ODER verbunden.
+Begriff: De Morgan | NICHT von A UND B ist NICHT A ODER NICHT B, und NICHT von A ODER B ist NICHT A UND NICHT B.
+Begriff: Selbsthaltung in Logik | Der Ausgang hält sich über ein ODER selbst, bis ein Aus-Signal ihn löst.
+Merksatz: n Eingänge geben 2 hoch n Zeilen.
+Merksatz: Alle müssen: UND. Einer reicht: ODER. Genau einer: XOR.
+Merksatz: Sicherheit wird mit UND verknüpft: Alle Bedingungen müssen erfüllt sein.
+Prinzip: Jede Steuerung trifft Entscheidungen aus Ja und Nein. Diese Entscheidungen schreibt man mit UND, ODER und NICHT. Das Wichtigste ist, die Aufgabe in Worten richtig zu lesen: Heißt es alle müssen, ist es UND. Heißt es einer reicht, ist es ODER. Heißt es darf nicht, kommt ein NICHT dazu.
+
+Die Wahrheitstabelle ist dein sicherer Weg. Du schreibst alle Kombinationen der Eingänge auf, binär gezählt, und trägst für jede Zeile ein, ob der Ausgang an sein soll. Aus den Zeilen mit 1 baust du die Schaltfunktion.
+
+In der Praxis kommen oft Öffner vor. Ein Not-Halt ist ein Öffner: Im Normalfall liefert er 1, gedrückt liefert er 0. Das musst du in der Logik berücksichtigen.
+Baustein: Die Aufgabe in Worten lesen und Signalwörter markieren: alle, einer, nicht, genau einer.
+Baustein: Eingänge und Ausgang benennen und 0 und 1 festlegen.
+Baustein: Wahrheitstabelle mit 2 hoch n Zeilen anlegen.
+Baustein: Ausgang für jede Zeile eintragen.
+Baustein: Schaltfunktion aufstellen und in FUP oder KOP umsetzen.
+Schnellweg: Bei nur einer 1 in der Tabelle ist es ein UND der passenden Eingänge.
+Schnellweg: Bei nur einer 0 in der Tabelle ist es ein ODER.
+Fehler: Signalwort falsch gelesen | Sowohl als auch heißt UND, entweder oder heißt meist XOR, oder allein heißt ODER.
+Fehler: Öffner als Schließer gelesen | Ein Not-Halt liefert im Ruhezustand 1.
+Fehler: Zeilen in der Tabelle vergessen | Binär zählen, dann fehlt keine Kombination.
+Formel: Zeilen einer Wahrheitstabelle | z = 2^n | n = lg(z) / lg(2)
+Karte: Wie viele Zeilen hat eine Tabelle mit 4 Eingängen? | 16.
+Karte: Welche Verknüpfung passt zu alle müssen erfüllt sein? | UND.
+Karte: Welche Verknüpfung passt zu einer reicht? | ODER.
+Karte: Welche Verknüpfung passt zu genau einer? | XOR.
+Karte: Was liefert ein Not-Halt im Ruhezustand? | Eine 1, weil er ein Öffner ist.
+Karte: Was ist NICHT von A ODER B nach De Morgan? | NICHT A UND NICHT B.
+Karte: Wie baust du aus einer Tabelle die Funktion? | Zeilen mit 1 als UND aufschreiben und mit ODER verbinden.
+Karte: Was zeigt eine Tabelle mit nur einer 1? | Ein UND.
+Karte: Was zeigt eine Tabelle mit nur einer 0? | Ein ODER.
+Karte: Wie heißt das Zeichen für UND im Schaltsymbol? | Das Zeichen &.
+Karte: Wie heißt das Zeichen für XOR im Schaltsymbol? | Gleich 1.
+Auswahl: Eine Presse fährt, wenn beide Hände auf den Tastern liegen und die Schutztür zu ist. Welche Verknüpfung? | UND aus drei Signalen | ODER aus drei Signalen; XOR aus drei Signalen; NICHT der Schutztür | Alle drei Bedingungen müssen gleichzeitig erfüllt sein.
+Auswahl: Eine Lampe soll leuchten, wenn mindestens eine von drei Türen offen ist. Welche Verknüpfung? | ODER | UND; XOR; NAND | Eine offene Tür reicht.
+Auswahl: Ein Förderband darf nur laufen, wenn der Not-Halt nicht gedrückt ist. Wie fragst du den Not-Halt als Öffner ab? | Direkt als Schließerkontakt | Mit einem NICHT davor; Gar nicht; Als ODER mit Start | Der Öffner liefert im Normalfall schon 1. Eine zweite Negation würde die Anlage sperren.
+Reihenfolge: Logikaufgabe lösen | Signalwörter markieren; Eingänge und Ausgang benennen; Wahrheitstabelle anlegen; Ausgänge eintragen; Funktion aufstellen; In FUP umsetzen
+Aufgabe: Eine Steuerung hat {n} Eingänge. Wie viele Zeilen hat die vollständige Wahrheitstabelle?
+Gegeben: Anzahl Eingänge n = {n}
+Gesucht: Anzahl der Zeilen
+Ansatz: 2 hoch n | n mal 2; n hoch 2; 2 mal n plus 1
+Signal: Jeder Eingang kann 0 oder 1 sein, und alle Kombinationen sind gefragt.
+Warum: Weil sich mit jedem Eingang die Zahl der Kombinationen verdoppelt | Weil jeder Eingang zwei Zeilen dazugibt; Weil die Zeilenzahl das Quadrat der Eingänge ist
+Kontrolle: Wie viele Zeilen haben drei Eingänge? | Acht | Sechs; Neun
+Schritt: Zeilenzahl | 2^n
+Variable: n | 2 | 6 | 1
+Rechnung: 2^n
+Quelle: Grundlagen der Digitaltechnik und Steuerungstechnik.
+=== ENDE ===
+
+=== LERNWERK ===
+Fach: Steuerungstechnik, Pneumatik und SPS
+Thema: SPS-Grundlagen: EVA, Adressen, FUP und KOP, SR-Speicher, Timer, Zähler
+Anker: Ein Lüfter am Schaltschrank soll nach dem Ausschalten noch eine Minute nachlaufen, damit die Wärme rausgeht. Das ist eine Ausschaltverzögerung. Ein Förderband soll erst 3 Sekunden nach dem Warnsignal anlaufen. Das ist eine Einschaltverzögerung. Den passenden Timer zu erkennen ist die halbe Miete.
+Begriff: TON | Einschaltverzögerung. Der Ausgang wird erst 1, wenn der Eingang die eingestellte Zeit lang 1 war.
+Begriff: TOF | Ausschaltverzögerung. Der Ausgang bleibt nach dem Abschalten des Eingangs noch die eingestellte Zeit 1.
+Begriff: TP | Impuls. Bei einer steigenden Flanke wird der Ausgang für die eingestellte Zeit 1, egal wie lange der Eingang anliegt.
+Begriff: CTU | Vorwärtszähler. Er zählt bei jeder steigenden Flanke um eins hoch und meldet, wenn der Vorgabewert erreicht ist.
+Begriff: Flanke | Der Moment, in dem ein Signal von 0 auf 1 wechselt, steigend, oder von 1 auf 0, fallend.
+Begriff: Prozessabbild | Eine Kopie der Ein- und Ausgänge, mit der das Programm in einem Zyklus rechnet.
+Begriff: Selbsthaltung | Ein Ausgang hält sich nach einem kurzen Startsignal selbst, bis ein Stopp kommt. In der SPS oft mit SR- oder RS-Speicher.
+Merksatz: Verzögert einschalten: TON. Nachlaufen lassen: TOF. Fester Impuls: TP.
+Merksatz: Ein Byte hat acht Bits, nummeriert von 0 bis 7.
+Merksatz: Zähler zählen Flanken, nicht die Zeit, in der ein Signal anliegt.
+Merksatz: Stopp hat Vorrang: Rücksetzdominant.
+Prinzip: Die SPS liest am Anfang jedes Zyklus alle Eingänge ein, rechnet das Programm durch und schreibt am Ende alle Ausgänge. Ein Zyklus dauert nur Millisekunden, deshalb wirkt es, als würde sie ständig reagieren.
+
+Zeiten und Zähler sind fertige Bausteine. Beim Timer entscheidest du nach dem Verhalten: Soll etwas später anfangen, nimmst du TON. Soll etwas länger anbleiben, nimmst du TOF. Soll ein Signal genau eine feste Zeit dauern, egal wie lange gedrückt wird, nimmst du TP.
+
+Speicher brauchst du, wenn ein kurzer Tastendruck eine dauerhafte Wirkung haben soll. Für Sicherheit wählst du den Speicher, bei dem das Rücksetzen Vorrang hat. Dann gewinnt Stopp, wenn beide gleichzeitig kommen.
+Baustein: Verhalten in Worten beschreiben: später an, länger an, fester Impuls, zählen, speichern.
+Baustein: Passenden Baustein wählen: TON, TOF, TP, CTU oder Speicher.
+Baustein: Ein- und Ausgänge mit Adressen in eine Zuordnungsliste schreiben.
+Baustein: Bei Speichern den Vorrang festlegen: Für Sicherheit Rücksetzen dominant.
+Baustein: Im Simulator mit allen Fällen testen, auch mit gleichzeitigen Signalen.
+Schnellweg: Adressen zählen: Byte mal 8 plus Bit ergibt die laufende Nummer des Eingangs, bei 0 beginnend.
+Schnellweg: TON läuft nur, solange der Eingang anliegt. Lässt man vorher los, startet die Zeit von vorn.
+Fehler: TON und TOF verwechselt | TON verzögert das Einschalten, TOF verzögert das Ausschalten.
+Fehler: TP mit TON verwechselt | TP liefert sofort einen Impuls fester Länge, TON liefert erst nach der Zeit ein Signal.
+Fehler: Setzdominanter Speicher für eine Stoppfunktion | Bei Sicherheit muss Rücksetzen Vorrang haben.
+Formel: Laufende Nummer eines Eingangs | N = 8 · B + b | b = N − 8 · B
+Karte: Welcher Timer verzögert das Einschalten? | TON.
+Karte: Welcher Timer lässt etwas nachlaufen? | TOF.
+Karte: Welcher Timer liefert einen Impuls fester Länge? | TP.
+Karte: Was zählt ein CTU? | Steigende Flanken.
+Karte: Wie viele Bits hat ein Byte? | Acht, von 0 bis 7.
+Karte: Was ist eine steigende Flanke? | Der Wechsel von 0 auf 1.
+Karte: Welcher Vorrang ist für Stopp richtig? | Rücksetzen dominant.
+Karte: Was passiert bei TON, wenn der Eingang vor Ablauf der Zeit wegfällt? | Die Zeit wird zurückgesetzt, der Ausgang kommt nicht.
+Karte: Was ist das Prozessabbild? | Die Kopie der Ein- und Ausgänge für einen Zyklus.
+Karte: Was ist eine Selbsthaltung? | Ein Ausgang, der sich nach kurzem Start selbst hält, bis Stopp kommt.
+Karte: Was ist %Q4.0? | Ausgang, Byte 4, Bit 0.
+Auswahl: Ein Lüfter soll nach dem Ausschalten der Maschine noch 60 Sekunden laufen. Welcher Baustein? | TOF | TON; TP; CTU | Das Signal fällt weg, aber der Ausgang soll noch eine Zeit anbleiben. Das ist eine Ausschaltverzögerung.
+Auswahl: Ein Band soll 3 Sekunden nach dem Startsignal anlaufen. Welcher Baustein? | TON | TOF; TP; CTD | Der Ausgang soll später einschalten als das Signal. Das ist eine Einschaltverzögerung.
+Auswahl: Ein Stempel soll bei jedem Tastendruck genau 2 Sekunden drücken, egal wie lange gedrückt wird. Welcher Baustein? | TP | TON; TOF; CTU | Ein Impuls fester Länge, gestartet durch die Flanke.
+Auswahl: Nach 50 Teilen soll ein Karton gewechselt werden. Welcher Baustein? | CTU mit Vorgabe 50 | TON mit 50 Sekunden; TP mit 50 Sekunden; SR-Speicher | Gezählt werden Teile, also Flanken eines Sensors.
+Reihenfolge: Ein SPS-Zyklus | Eingänge ins Prozessabbild einlesen; Programm abarbeiten; Ausgänge aus dem Prozessabbild schreiben; Von vorn beginnen
+Aufgabe: Eine Baugruppe hat {B} Eingangsbytes. Wie viele einzelne digitale Eingänge sind das?
+Gegeben: {B} Bytes
+Gesucht: Anzahl der Eingänge
+Ansatz: Bytes mal 8 | Bytes mal 10; Bytes mal 16; Bytes plus 8
+Signal: Gefragt ist die Anzahl einzelner Bits in mehreren Bytes.
+Warum: Weil jedes Byte acht Bits hat | Weil jedes Byte zehn Bits hat; Weil jedes Byte sechzehn Bits hat
+Kontrolle: Wie heißt das letzte Bit in Byte 0? | Bit 7 | Bit 8; Bit 10
+Schritt: Anzahl der Eingänge | B * 8
+Variable: B | 1 | 8 | 1
+Rechnung: B * 8
+Quelle: SPS-Grundlagen nach IEC 61131-3 und TIA Portal. Achtung: Bausteinnamen und Vorrang beim Speicher in der eigenen Software prüfen.
+=== ENDE ===
+
+=== LERNWERK ===
+Fach: Steuerungstechnik, Pneumatik und SPS
+Thema: GRAFCET nach DIN EN 60848 und Schrittketten
+Anker: Ein Trainingsplan läuft Satz für Satz: Erst wenn ein Satz fertig ist, kommt die Pause, erst nach der Pause der nächste Satz. Jeder Schritt wartet auf eine Bedingung. Genau so arbeitet eine Schrittkette.
+Begriff: Kontinuierliche Aktion | Sie wirkt nur, solange der Schritt aktiv ist.
+Begriff: Gespeicherte Aktion | Sie wird beim Aktivieren eines Schritts gesetzt und bleibt, bis sie in einem anderen Schritt zurückgesetzt wird.
+Begriff: Schrittvariable | Die Variable X mit Schrittnummer, zum Beispiel X3. Sie ist 1, solange Schritt 3 aktiv ist.
+Begriff: Zeitbedingung | Eine Transition, die nach einer Zeit schaltet, zum Beispiel 5 Sekunden nach Aktivierung eines Schritts.
+Begriff: Rückführung | Die Linie vom letzten Schritt zurück zum Anfang.
+Merksatz: Schritt und Transition wechseln sich immer ab.
+Merksatz: Entweder oder: einfache Linie. Gleichzeitig: Doppellinie.
+Merksatz: Nach einer Parallelverzweigung geht es erst weiter, wenn alle Zweige fertig sind.
+Merksatz: Gespeichert heißt: setzen und später ausdrücklich zurücksetzen.
+Prinzip: Eine Schrittkette zerlegt einen Ablauf in Zustände. In jedem Zustand passiert etwas, und der nächste Zustand beginnt erst, wenn eine Bedingung erfüllt ist. So kann nichts durcheinanderlaufen.
+
+Beim Lesen eines GRAFCET fragst du an jeder Stelle: Welcher Schritt ist aktiv, was passiert dort, und worauf wartet der Übergang? An Verzweigungen klärst du, ob nur ein Weg gewählt wird oder alle gleichzeitig laufen.
+
+Bei den Aktionen ist der Unterschied zwischen kontinuierlich und gespeichert wichtig. Ein Zylinder mit Impulsventil bekommt oft eine gespeicherte Aktion, weil er nach dem Schritt ausgefahren bleiben soll.
+Baustein: Ablauf in Sätzen aufschreiben: Was passiert nacheinander, was gleichzeitig?
+Baustein: Schritte nummerieren und den Anfangsschritt festlegen.
+Baustein: Für jeden Übergang eine Bedingung festlegen: Sensor, Taster oder Zeit.
+Baustein: Aktionen eintragen und entscheiden: kontinuierlich oder gespeichert.
+Baustein: Verzweigungen prüfen und den Ablauf einmal gedanklich durchspielen.
+Schnellweg: Fragen für Verzweigungen: Kann es nur einen Weg geben? Dann alternativ. Laufen mehrere Dinge gleichzeitig? Dann parallel.
+Fehler: Parallelzweige ohne Zusammenführung | Nach einer Parallelverzweigung muss eine Doppellinie zusammenführen, bevor es weitergeht.
+Fehler: Gespeicherte Aktion nie zurückgesetzt | Was gesetzt wird, muss an einer späteren Stelle zurückgesetzt werden.
+Fehler: Alternativbedingungen, die gleichzeitig wahr sein können | Bei einer Alternativverzweigung müssen sich die Bedingungen ausschließen.
+Karte: Was ist eine kontinuierliche Aktion? | Sie wirkt nur, solange der Schritt aktiv ist.
+Karte: Was ist eine gespeicherte Aktion? | Sie wird gesetzt und bleibt, bis sie zurückgesetzt wird.
+Karte: Wie zeichnet man eine Alternativverzweigung? | Mit einer einfachen waagerechten Linie.
+Karte: Wann geht es nach einer Parallelverzweigung weiter? | Wenn alle Zweige ihren letzten Schritt erreicht haben und die Bedingung erfüllt ist.
+Karte: Was bedeutet X5? | Schritt 5 ist aktiv.
+Karte: Was muss zwischen zwei Schritten stehen? | Eine Transition.
+Karte: Was muss zwischen zwei Transitionen stehen? | Ein Schritt.
+Karte: Wofür steht eine Zeitbedingung wie 3 s/X2? | Die Transition schaltet 3 Sekunden nach Aktivierung von Schritt 2.
+Karte: Welche Aktion passt zu einem Zylinder, der nach dem Schritt ausgefahren bleiben soll? | Eine gespeicherte Aktion.
+Karte: Was ist der Anfangsschritt? | Der Schritt, der beim Start aktiv ist, mit doppeltem Rahmen.
+Auswahl: Nach dem Prüfen geht ein Teil entweder in den Gut-Behälter oder in den Ausschuss. Welche Verzweigung? | Alternativverzweigung | Parallelverzweigung; Keine Verzweigung; Rückführung | Es wird genau einer von zwei Wegen gegangen.
+Auswahl: Während der Bohrer bohrt, soll gleichzeitig die Kühlung laufen und der Späneförderer starten. Welche Verzweigung? | Parallelverzweigung | Alternativverzweigung; Zeitbedingung; Rückführung | Mehrere Vorgänge laufen gleichzeitig.
+Auswahl: Ein Zylinder mit Impulsventil soll in Schritt 2 ausfahren und erst in Schritt 5 einfahren. Welche Aktion? | Gespeichert setzen und später zurücksetzen | Kontinuierlich in Schritt 2; Kontinuierlich in Schritt 5; Gar keine | Die Wirkung soll über mehrere Schritte bestehen bleiben.
+Reihenfolge: GRAFCET entwerfen | Ablauf in Sätzen beschreiben; Schritte festlegen; Transitionen mit Bedingungen; Aktionen zuordnen; Verzweigungen prüfen; Gedanklich durchspielen
+Quelle: GRAFCET nach DIN EN 60848.
+=== ENDE ===

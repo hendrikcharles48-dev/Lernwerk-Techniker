@@ -672,6 +672,7 @@ function runAuswahl(el, item, ctx, meta) {
   let tries = 0, solved = false, shown = false, picked = new Set();
   function draw() {
     el.innerHTML = ctxLine(meta) + `<div class="ex-task">${esc(A.frage)}</div><div class="mc">${opts.map(o => `<button class="mc-o ${picked.has(o) ? (o === A.richtig ? 'ok' : 'no') : solved && o === A.richtig ? 'ok' : ''}" data-a="pick" data-d="${esc(o)}">${esc(o)}</button>`).join('')}</div>
+      ${solved && A.erklaerung ? `<div class="fb info"><b>Darum.</b> ${esc(A.erklaerung)}</div>` : ''}
       ${solved ? `<div class="btn-col"><button class="btn filled" data-a="fertig">${ctx.nextLabel || 'Weiter'}</button></div>` : ctx.exam ? '' : `<div class="act"><button class="btn" data-a="sol">Lösung zeigen</button></div>`}`;
   }
   on(el, {

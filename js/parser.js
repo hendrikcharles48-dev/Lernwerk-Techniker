@@ -279,9 +279,9 @@ export function parseBlocks(text) {
         field = null; break;
       }
       case 'auswahl': {
-        const [frage, richtig, falsch] = pipes(val);
+        const [frage, richtig, falsch, erklaerung] = pipes(val);
         if (!frage || !richtig || !falsch) { err(i, 'Auswahl bitte so schreiben: Frage | richtige Antwort | falsche Antwort; falsche Antwort.'); break; }
-        cur.auswahl.push({ frage, richtig, falsch: splitList(falsch) }); field = null; break;
+        cur.auswahl.push({ frage, richtig, falsch: splitList(falsch), erklaerung: erklaerung || '' }); field = null; break;
       }
       case 'reihenfolge': {
         const [titel, schritte] = pipes(val);
@@ -395,7 +395,7 @@ export function exportBlock(t, termine = []) {
     u.umformungen.forEach(f => L.push('Umformung: ' + f.operation + ' | ' + f.gleichung + (f.falsch.length ? ' | ' + f.falsch.join('; ') : '')));
     u.tipps.forEach(g => L.push(lineOut('Tipp', g)));
   });
-  t.auswahl.forEach(a => L.push('Auswahl: ' + a.frage + ' | ' + a.richtig + ' | ' + a.falsch.join('; ')));
+  t.auswahl.forEach(a => L.push('Auswahl: ' + a.frage + ' | ' + a.richtig + ' | ' + a.falsch.join('; ') + (a.erklaerung ? ' | ' + a.erklaerung : '')));
   t.reihenfolgen.forEach(r => L.push('Reihenfolge: ' + r.titel + ' | ' + r.schritte.join('; ')));
   t.quellen.forEach(q => L.push(lineOut('Quelle', q)));
   t.notizen.forEach(n => L.push(lineOut(n.schluessel, n.text)));
@@ -429,6 +429,7 @@ Ansatz: richtiger Lösungsansatz | falscher Ansatz; falscher Ansatz; falscher An
 Signal: woran ich in der Aufgabe erkenne, dass dieser Ansatz passt
 Warum: richtige Begründung | falsche Begründung; falsche Begründung
 Kontrolle: Frage zur Plausibilität des Ergebnisses | richtige Antwort | falsch; falsch
+Auswahl: kurzer Fall aus der Praxis | richtige Antwort | falsch; falsch; falsch | Erklärung, warum
 Termin: Fach | JJJJ-MM-TT | Themen
 === ENDE ===
 Zu jeder Aufgabe gehören Ansatz, Signal, Warum und Kontrolle. Die falschen Ansätze sollen plausibel sein, am besten Verfahren aus verwandten Themen, die man leicht verwechselt. Alle Antworten einer Auswahl gleich lang und gleich aufgebaut, damit die richtige nicht auffällt.
