@@ -521,3 +521,13 @@ body.sheet-open #readbar { bottom: calc(var(--sab) + 14px); }
 .week-ansatz { display: flex; align-items: center; gap: 8px; margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--sep); font-size: 15px; }
 .week-ansatz .ic { width: 20px; height: 20px; color: var(--accent); flex: none; }
 .lvl-hint { margin: 2px 2px 6px; }
+/* Im Unterricht */
+.unt-card { display: block; width: 100%; text-align: left; margin-bottom: 12px; }
+.unt-h { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+.unt-h .ic:first-child { color: var(--accent); width: 20px; height: 20px; }
+.unt-h .muted { margin-left: auto; }
+.unt-card .tc-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+.unt-card .tag { border-left: 3px solid var(--fc, var(--accent)); }
+.disc.unt summary { color: var(--label); }
+.unt-n { margin-left: auto; font-weight: 400; color: var(--label2); font-size: 14px; }
+.sw-wrap { display: flex; flex: none; }

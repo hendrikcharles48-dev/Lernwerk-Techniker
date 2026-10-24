@@ -4,11 +4,11 @@ import { parseBlocks, summary, TEMPLATE } from './parser.js';
 import * as st from './store.js';
 import { $, $$, icon, row, list, seg, sw, empty, on, push, initTabs, showTab, tab, openSheet, toast, copyText, readClipboard, progress, ring, fachIcon, confirmBox, refreshAll, refreshTop, initEdgeSwipe, hinweisTabellenbuch } from './ui.js';
 import { topicPage, runSession, sortForPractice, fachProgress, topicProgress, openTrainer, askClaude, shrinkImage, noteReader, firstLine, itemTitle } from './engine.js';
-import { mehrPage, termineDetail, termEditor, datensicherung, applyTheme } from './extra.js';
+import { mehrPage, unterrichtPage, termineDetail, termEditor, datensicherung, applyTheme } from './extra.js';
 import { prefs } from './db.js';
 import { canSpeak, readAloud } from './speech.js';
 
-export const VERSION = '1.7.0';
+export const VERSION = '1.7.1';
 
 /* ===== Heute ===== */
 // Freundliche, wechselnde Sätze für den Start. Ohne Druck.
@@ -47,6 +47,8 @@ const heute = {
       <div class="tc-t">${offen ? (erledigt ? 'Schon ' + plural(erledigt, 'Übung', 'Übungen') + ' geschafft' : 'Heute dran') : erledigt ? 'Alles geschafft für heute!' : 'Gerade nichts fällig'}</div>
       <div class="tc-s">${offen ? 'Noch ' + plural(offen, 'Übung', 'Übungen') + ', etwa ' + Math.max(1, Math.round(q.sekunden / 60)) + ' Minuten.' : erledigt ? 'Stark. Was du heute geübt hast, kommt in ein paar Tagen wieder.' : 'Markiere ein Thema als „aktuell im Unterricht“, dann kommen neue Karten dazu.'}</div></div></div>
       ${offen ? `<div class="tc-tags">${[...by].slice(0, 5).map(([k, n]) => `<span class="tag">${esc(k)} <b>${n}</b></span>`).join('')}</div><button class="btn filled wide" data-a="today">${icon('play')} Los geht’s</button>` : ''}</div>`;
+    const aktT = st.kvGet('aktuell', []).map(id => st.thema(id)).filter(Boolean);
+    h += `<button class="card unt-card" data-a="unterricht"><span class="unt-h">${icon('check')}<b>Im Unterricht</b><span class="muted">${aktT.length ? plural(aktT.length, 'Thema', 'Themen') : 'nichts angewählt'}</span>${icon('chev', 'chev')}</span>${aktT.length ? `<span class="tc-tags">${aktT.slice(0, 6).map(({ fach: f, thema: t }) => `<span class="tag" style="--fc:${f.farbe}">${esc(t.name)}</span>`).join('')}${aktT.length > 6 ? `<span class="tag">und ${aktT.length - 6} weitere</span>` : ''}</span>` : `<span class="muted">Tippe hier und schalte ein, was gerade dran ist.</span>`}</button>`;
     h += `<button class="five" data-a="five">${icon('bolt')}<span><b>5 Minuten</b><small>Sofort loslegen, ganz ohne Planen</small></span></button>`;
     h += `<button class="mixbtn" data-a="mix">${icon('mix')}<span><b>Gemischt üben</b><small>Aufgaben aus allen Themen. Du erkennst selbst, was dran ist.</small></span></button>`;
     const ex = st.nextExam(today);
@@ -82,6 +84,7 @@ const heute = {
       newexam: () => termEditor({}),
       five: () => fiveMinutes(),
       mix: () => gemischt(),
+      unterricht: () => push(unterrichtPage()),
       today: () => runSession(st.buildQueue(900).items, 'Heute dran', { onClose: () => refreshTop() }),
       topic: tid => push(topicPage(tid)),
       weiter: () => { const pl = st.place(); if (pl.art === 'trainer' && pl.datei) openTrainer(pl.tid, 'trainer/' + pl.datei); else push(topicPage(pl.tid, pl.tab)); }
@@ -130,6 +133,8 @@ const faecherRoot = {
       return `<button class="ftile" data-a="fach" data-d="${esc(f.id)}" style="--fc:${f.farbe}"><span class="ftile-ic">${icon(fachIcon(f))}</span><span class="ftile-t">${esc(f.name)}</span>
         <span class="ftile-s">${a ? a + ' aktuell · ' : ''}${n ? v + ' von ' + n + ' Themen' : 'Kommt über Einfügen'}</span>${progress(fachProgress(f), f.farbe)}</button>`;
     };
+    const nAkt = st.kvGet('aktuell', []).filter(id => st.thema(id)).length;
+    h += list([row({ a: 'unterricht', icon: 'check', color: '#0A84FF', title: 'Im Unterricht', sub: nAkt ? plural(nAkt, 'Thema', 'Themen') + ' angewählt' : 'Themen für den Unterricht anwählen' })]);
     if (faecherView === 'faecher') h += `<div class="fach-grid">${st.faecher().map(tile).join('')}</div>`;
     else {
       for (const m of st.S.plan.module) {
@@ -143,7 +148,7 @@ const faecherRoot = {
       h += `<p class="src">Module und Zuordnung änderst du unter Mehr, Lehrplan bearbeiten.</p>`;
     }
     b.innerHTML = h;
-    on(b, { 'seg:view': v => { faecherView = v; this.render(b); }, fach: id => push(fachPage(id)) });
+    on(b, { 'seg:view': v => { faecherView = v; this.render(b); }, fach: id => push(fachPage(id)), unterricht: () => push(unterrichtPage()) });
   }
 };
 export function fachPage(fid) {

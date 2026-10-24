@@ -24,7 +24,10 @@ export function mehrPage() {
     title: 'Mehr',
     render(b) {
       const ex = st.nextExam();
+      const nAkt = st.kvGet('aktuell', []).filter(id => st.thema(id)).length;
       b.innerHTML = list([
+        row({ a: 'unterricht', icon: 'check', color: '#0A84FF', title: 'Im Unterricht', sub: nAkt ? plural(nAkt, 'Thema', 'Themen') + ' angewählt' : 'Noch keine Themen angewählt' })
+      ]) + list([
         row({ a: 'termine', icon: 'calendar', color: '#FF453A', title: 'Termine', sub: ex ? 'Nächste Arbeit: ' + ex.fach + ', ' + dayShort(ex.datum) : 'Klassenarbeiten eintragen' }),
         row({ a: 'probe', icon: 'exam', color: '#FF9F0A', title: 'Probeklausur' }),
         row({ a: 'hoer', icon: 'ear', color: '#30D158', title: 'Hörmodus', sub: 'Karten und Lernzettel vorlesen, zum Beispiel im Auto' }),
@@ -41,7 +44,7 @@ export function mehrPage() {
         row({ a: 'info', icon: 'info', color: '#8E8E93', title: 'Über Lernwerk' })
       ]) + hinweisTabellenbuch();
       on(b, {
-        termine: () => push(terminePage()), probe: () => push(probePage()), hoer: () => push(hoerPage()), erklaer: () => push(erklaerPage()),
+        unterricht: () => push(unterrichtPage()), termine: () => push(terminePage()), probe: () => push(probePage()), hoer: () => push(hoerPage()), erklaer: () => push(erklaerPage()),
         lexikon: () => push(lexikonPage()), formeln: () => push(formelPage()), suche: () => push(suchePage()),
         lehrplan: () => push(lehrplanPage()), backup: () => push(datensicherung()), theme: () => push(themePage()),
         remind: () => push(erinnerungPage()), info: () => push(infoPage())
@@ -633,6 +636,46 @@ function infoPage() {
         <p>Erst das Prinzip, dann die Aufgabe. Du rechnest, die App prüft.</p>
         <p><b>Im Zweifel gilt dein Tabellenbuch und der Unterricht.</b></p></div>
         <div class="sec-f">${esc(st.S.plan.schule || '')}</div>`;
+    }
+  };
+}
+
+/* ===== Im Unterricht: alle Themen auf einen Blick an- und ausschalten ===== */
+const unterrichtOffen = new Set();
+export function unterrichtPage() {
+  return {
+    title: 'Im Unterricht',
+    render(b) {
+      const akt = new Set(st.kvGet('aktuell', []));
+      const swT = (tid, on) => `<span class="sw-wrap" data-t="${esc(tid)}">${sw('akt', on)}</span>`;
+      const art = tid => st.isIntroOnly(tid) ? 'Einführung' : st.hasTopicContent(tid) ? 'Mit Übungen' : st.status(tid) === 'geplant' ? 'Noch leer' : 'Eigene Inhalte';
+      const aktive = [...akt].map(id => st.thema(id)).filter(Boolean);
+      let h = `<p class="src">Was du hier einschaltest, kommt in Heute und in 5 Minuten zuerst dran.</p>`;
+      h += `<div class="sec-h">Gerade angewählt: ${aktive.length}</div>`;
+      h += aktive.length
+        ? list(aktive.map(({ fach: f, thema: t }) => row({ dot: f.farbe, title: t.name, sub: f.name, right: swT(t.id, true) })))
+          + `<button class="btn small" data-a="alleaus">Alle abwählen</button>`
+        : `<div class="sec-f">Noch nichts angewählt. Schalte unten die Themen ein, die gerade im Unterricht dran sind.</div>`;
+      h += `<div class="sec-h">Alle Themen nach Fach</div>`;
+      for (const f of st.faecher()) {
+        if (!f.themen.length) continue;
+        const n = f.themen.filter(t => akt.has(t.id)).length;
+        h += `<details class="disc unt" data-f="${esc(f.id)}" ${unterrichtOffen.has(f.id) ? 'open' : ''}><summary><span class="row-dot" style="background:${f.farbe}"></span>${esc(f.name)}<span class="unt-n">${n ? n + ' von ' + f.themen.length + ' an' : f.themen.length + ' Themen'}</span></summary>`
+          + list(f.themen.map(t => row({ title: t.name, sub: art(t.id), right: swT(t.id, akt.has(t.id)) }))) + `</details>`;
+      }
+      b.innerHTML = h;
+      if (!b._untToggle) {
+        b._untToggle = true;
+        b.addEventListener('toggle', e => { const d = e.target.closest && e.target.closest('details[data-f]'); if (d) d.open ? unterrichtOffen.add(d.dataset.f) : unterrichtOffen.delete(d.dataset.f); }, true);
+      }
+      on(b, {
+        'sw:akt': (v, el) => { const tid = el.closest('[data-t]').dataset.t; st.setAktuell(tid, v); toast(v ? 'Angewählt. Kommt in Heute zuerst.' : 'Abgewählt.'); },
+        alleaus: async () => {
+          if (!(await confirmBox('Alle Themen abwählen? Dein Fortschritt bleibt erhalten.', 'Abwählen', true))) return;
+          for (const id of [...akt]) await st.setAktuell(id, false);
+          toast('Alle abgewählt.');
+        }
+      });
     }
   };
 }
