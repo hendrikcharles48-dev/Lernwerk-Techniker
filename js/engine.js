@@ -323,8 +323,9 @@ function bindFmlInput(root) {
   host._me = true;
   attachEditor(host, $('.fml-in .me-pad', root));
 }
+// Zahlenfeld mit Taschenrechner-Tasten: Minus, Bruch, Wurzel, Hochzahl, sin, cos, tan
 function numInput(unit) {
-  return `<div class="num-in"><input type="text" class="inp" inputmode="decimal" autocomplete="off" placeholder="Zahl"><span class="unit">${esc(unit || '')}</span></div>`;
+  return `<div class="fml-in calc-in">${editorHTML([], 'Zahl oder Rechnung', { calc: true, unit })}</div>`;
 }
 
 /* ===== Einzelne Übung ausführen =====
@@ -651,6 +652,7 @@ function probe(el, U, meta, item, finish, nextLabel) {
   let fb = '';
   const draw = () => {
     box.innerHTML = `<div class="step-q">Rechne mit Zahlen: ${names.map(n => nameHTML(n) + ' = ' + fmtNum(vals[keyOf(n)])).join(', ')}. Wie groß ist ${nameHTML(U.nach)}?</div>${numInput('')}<div class="act"><button class="btn filled" data-a="pcheck">Prüfen</button><button class="btn" data-a="pskip">${nextLabel || 'Fertig'}</button></div>${fb}`;
+    bindFmlInput(box);
   };
   draw();
   el.appendChild(box);

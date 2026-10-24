@@ -144,5 +144,13 @@ ok(Math.abs(calc('e^1', {}) - Math.E) < 1e-12 && Math.abs(calc('U0 * e^(-t / tau
 ok(parseEq('U = û / √2').r && checkSolved('u = U0 · e^(−t / τ)', 't', 't = −τ · ln(u / U0)', 't = −τ · ln(u / U0)').ok, 'û und e in Formeln');
 ok(calc('mu * FG', { mu: 0.2, FG: 100 }) === 20 && parseEq('F_R = µ · F_N').r, 'µ als Formelzeichen');
 
+// Taschenrechner-Feld: Rechnungen werden ausgerechnet
+ok(checkNumber('-3,5', -3.5, '').status === 'ok' && checkNumber('−3,5', -3.5, '').status === 'ok', 'negative Zahl');
+ok(checkNumber('(3)/(4)', 0.75, '').status === 'ok' && checkNumber('-(3)/(4)', -0.75, '').status === 'ok', 'Bruch aus dem Feld');
+ok(checkNumber('sin(30)', 0.5, '').status === 'ok' && checkNumber('arctan(1)', 45, '°').status === 'ok', 'Winkelfunktionen in Grad');
+ok(checkNumber('2,5·10^(3)', 2500, 'N').status === 'ok' && checkNumber('√(2)', Math.SQRT2, '').status === 'ok', 'Zehnerpotenz und Wurzel');
+ok(checkNumber('12 - 20', -8, '').status === 'ok' && checkNumber('12,5 mA', 0.0125, 'A').status === 'ok', 'Rechnung und Einheit bleiben lesbar');
+ok(checkNumber('12 N/mm²', 12, 'N/mm²').status === 'ok', 'Einheit mit Bruchstrich');
+
 console.log(`\n${pass} bestanden, ${fail} fehlgeschlagen`);
 process.exit(fail ? 1 : 0);

@@ -1,5 +1,6 @@
 // Zahl mit Einheit prüfen: Toleranz 1 Prozent und gezielte Hinweise auf typische Fehler.
 import { fmtNum } from './util.js';
+import { calc } from './formula.js';
 
 const PREFIX = { G: 1e9, M: 1e6, k: 1e3, h: 1e2, d: 1e-1, c: 1e-2, m: 1e-3, µ: 1e-6, μ: 1e-6, u: 1e-6, n: 1e-9, p: 1e-12 };
 
@@ -7,6 +8,11 @@ const PREFIX = { G: 1e9, M: 1e6, k: 1e3, h: 1e2, d: 1e-1, c: 1e-2, m: 1e-3, µ: 
 export function readNumber(input) {
   let s = String(input == null ? '' : input).trim().replace(/−|–/g, '-').replace(/ /g, ' ');
   if (!s) return { empty: true };
+  // Rechnung aus dem Taschenrechner-Feld, zum Beispiel (3)/(4), √(2) oder sin(30)
+  if (/[·*/^√()π+]|\d\s*-|sin|cos|tan|ln|lg/.test(s)) {
+    const v = calc(s.replace(/·/g, '*'));
+    if (v != null) return { value: v, unit: '' };
+  }
   const m = /^([+-]?\s*[0-9][0-9.,' ]*(?:\s*(?:[eE]|·\s*10\s*\^|\*\s*10\s*\^|x\s*10\s*\^)\s*[+-]?\d+)?)\s*(.*)$/.exec(s)
     || /^([+-]?\s*[.,][0-9]+)\s*(.*)$/.exec(s);
   if (!m) return { error: true };

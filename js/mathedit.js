@@ -72,17 +72,28 @@ const KEYS = [
   ['1', '2', '3', '·', '−', '+'],
   ['0', ',', 'sq', '=', 'left', 'right']
 ];
+// Taschenrechner für Zahlenfelder: statt = gibt es mal zehn hoch
+const CALC_KEYS = [
+  ['7', '8', '9', '(', ')', '⌫'],
+  ['4', '5', '6', 'frac', 'sqrt', 'pow'],
+  ['1', '2', '3', '·', '−', '+'],
+  ['0', ',', 'sq', 'sci', 'left', 'right']
+];
 const KEY_LABEL = {
+  sci: '·10ⁿ',
   frac: '<span class="k-frac"><i></i><i></i></span>', sqrt: '√▢', pow: 'xⁿ', sq: 'x²',
   left: '‹', right: '›', '⌫': '⌫'
 };
-const KEY_ARIA = { frac: 'Bruch', sqrt: 'Wurzel', pow: 'Hochzahl', sq: 'hoch zwei', left: 'Cursor nach links', right: 'Cursor nach rechts', '⌫': 'Löschen' };
+const KEY_ARIA = { sci: 'mal zehn hoch', frac: 'Bruch', sqrt: 'Wurzel', pow: 'Hochzahl', sq: 'hoch zwei', left: 'Cursor nach links', right: 'Cursor nach rechts', '⌫': 'Löschen' };
 
-export function editorHTML(vars, placeholder) {
-  const varKeys = vars.map(v => `<button type="button" class="mk mk-var" data-mk="var" data-v="${esc(v)}">${nameHTML(v)}</button>`).join('') + `<button type="button" class="mk mk-var" data-mk="pi">π</button>`;
+// opts.calc: Zahlenfeld mit Taschenrechner-Tasten, opts.unit: Einheit hinter dem Feld
+export function editorHTML(vars, placeholder, opts = {}) {
+  const varKeys = vars.map(v => `<button type="button" class="mk mk-var" data-mk="var" data-v="${esc(v)}">${nameHTML(v)}</button>`).join('') + `<button type="button" class="mk mk-var" data-mk="pi">π</button>`
+    + (opts.calc ? `<button type="button" class="mk mk-var" data-mk="var" data-v="e" aria-label="Eulersche Zahl">e</button>` : '');
   const fnKeys = Object.entries(FN).map(([f, l]) => `<button type="button" class="mk mk-fn" data-mk="fn" data-v="${f}">${l}</button>`).join('');
-  const grid = KEYS.flat().map(k => `<button type="button" class="mk${/^[0-9,]$/.test(k) ? ' mk-num' : ''}${k === '⌫' ? ' mk-del' : ''}" data-mk="${esc(k)}" ${KEY_ARIA[k] ? `aria-label="${KEY_ARIA[k]}"` : ''}>${KEY_LABEL[k] || esc(k)}</button>`).join('');
-  return `<div class="me inp" tabindex="0" role="textbox" aria-label="Formel eingeben" data-ph="${esc(placeholder || '')}"></div>
+  const grid = (opts.calc ? CALC_KEYS : KEYS).flat().map(k => `<button type="button" class="mk${/^[0-9,]$/.test(k) ? ' mk-num' : ''}${k === '⌫' ? ' mk-del' : ''}" data-mk="${esc(k)}" ${KEY_ARIA[k] ? `aria-label="${KEY_ARIA[k]}"` : ''}>${KEY_LABEL[k] || esc(k)}</button>`).join('');
+  const field = `<div class="me inp" tabindex="0" role="textbox" aria-label="${opts.calc ? 'Zahl eingeben' : 'Formel eingeben'}" data-ph="${esc(placeholder || '')}"></div>`;
+  return (opts.calc ? `<div class="me-num">${field}${opts.unit ? `<span class="unit">${esc(opts.unit)}</span>` : ''}</div>` : field) + `
     <div class="me-pad no-swipe"><div class="me-row">${varKeys}</div><div class="me-row me-fns">${fnKeys}</div><div class="me-grid">${grid}</div></div>`;
 }
 
@@ -189,6 +200,7 @@ export function attachEditor(host, pad, opts = {}) {
     else if (k === 'frac') frac();
     else if (k === 'sqrt') insert({ k: 'sqrt', b: [] }, true);
     else if (k === 'pow') insert({ k: 'pow', e: [] }, true);
+    else if (k === 'sci') { insert({ k: 'o', v: '·' }); insert({ k: 'd', v: '1' }); insert({ k: 'd', v: '0' }); insert({ k: 'pow', e: [] }, true); }
     else if (k === 'sq') insert({ k: 'pow', e: [{ k: 'd', v: '2' }] });
     else if (k === 'left') moveLeft();
     else if (k === 'right') moveRight();

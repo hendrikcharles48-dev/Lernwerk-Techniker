@@ -531,3 +531,6 @@ body.sheet-open #readbar { bottom: calc(var(--sab) + 14px); }
 .disc.unt summary { color: var(--label); }
 .unt-n { margin-left: auto; font-weight: 400; color: var(--label2); font-size: 14px; }
 .sw-wrap { display: flex; flex: none; }
+.me-num { display: flex; align-items: center; gap: 8px; }
+.me-num .me { flex: 1; min-width: 0; }
+.me-num .unit { font-size: 18px; font-weight: 600; min-width: 24px; color: var(--label2); }
