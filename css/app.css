@@ -510,3 +510,11 @@ body.sheet-open #readbar { bottom: calc(var(--sab) + 14px); }
 #readbar .rb-main { background: var(--accent); color: #fff; }
 .me-row.me-fns { display: grid; grid-template-columns: repeat(4, 1fr); overflow: visible; }
 .me-fns .mk-fn { padding: 0 4px; }
+/* Gemischt üben und Ansatz-Quote */
+.mixbtn { display: flex; align-items: center; gap: 14px; width: 100%; border: 0; border-radius: 18px; padding: 16px 18px; margin: 0 0 6px; color: #fff; text-align: left; background: linear-gradient(130deg, #5E5CE6, #8E44EC 60%, #BF5AF2); box-shadow: 0 8px 22px rgba(94,92,230,.3); position: relative; overflow: hidden; }
+.mixbtn .ic { width: 32px; height: 32px; flex: none; }
+.mixbtn b { display: block; font-size: 19px; }
+.mixbtn small { display: block; font-size: 14px; opacity: .92; }
+.mixbtn:active { transform: scale(.98); }
+.sum-ansatz { display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 16px; margin: 6px 0; }
+.sum-ansatz .ic { width: 20px; height: 20px; color: var(--accent); }

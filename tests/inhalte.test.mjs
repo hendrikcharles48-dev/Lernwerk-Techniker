@@ -2,7 +2,7 @@
 // Ausführen mit: node tests/inhalte.test.mjs
 import fs from 'node:fs';
 import { parseBlocks, summary } from '../js/parser.js';
-import { checkSolved, samples, parseEq } from '../js/formula.js';
+import { checkSolved, samples, parseEq, calc, keyOf } from '../js/formula.js';
 import { norm } from '../js/util.js';
 const L = JSON.parse(fs.readFileSync(new URL('../lehrplan.json', import.meta.url), 'utf8'));
 let bad = 0;
@@ -28,6 +28,35 @@ for (const file of files) {
       }
     }
     for (const u of t.umstellen) if (!samples(u.formel, u.nach, u.loesung).length) { console.log('UMSTELLEN FALSCH?', u.formel, u.loesung); bad++; }
+    // Volle Lernblöcke: Mindestumfang und Ansatz-Training
+    const intro = typeof idx.dateien.find(f => (typeof f === 'string' ? f : f.datei) === String(file).split('/inhalte/')[1]) === 'object';
+    if (!intro && t.aufgaben.length) {
+      if (t.karten.length < 10) { console.log('ZU WENIG KARTEN', t.thema, t.karten.length); bad++; }
+      for (const a of t.aufgaben) {
+        const kurz = a.text.slice(0, 50);
+        if (!a.ansatz || !a.signal || !a.kontrolle) { console.log('ANSATZ, SIGNAL ODER KONTROLLE FEHLT', t.thema, '|', kurz); bad++; }
+        for (const q of [a.ansatz, a.warum, a.kontrolle]) if (q && (q.falsch.length < 2 || q.falsch.includes(q.richtig))) { console.log('AUSWAHL UNSAUBER', t.thema, '|', kurz); bad++; }
+        // Die richtige Antwort darf sich nicht durch ihre Länge verraten
+        for (const q of [a.ansatz, a.warum, a.kontrolle]) if (q) { const L = q.falsch.map(x => x.length); if (q.richtig.length > Math.max(...L) * 1.35 + 6 || q.richtig.length > Math.min(...L) * 2.2 + 10) { console.log('RICHTIGE ANTWORT AUFFÄLLIG LANG', t.thema, '|', q.richtig); bad++; } }
+        // Platzhalter müssen Variablen sein
+        const names = new Set(a.variablen.map(v => keyOf(v.name)));
+        for (const m of (a.text + a.gegeben.join(' ') + a.tipps.join(' ') + a.schritte.map(x => x.was).join(' ')).matchAll(/\{([^}]+)\}/g)) if (!names.has(keyOf(m[1]))) { console.log('PLATZHALTER OHNE VARIABLE', m[1], '|', kurz); bad++; }
+        // Zufallswerte: Rechnung und alle Schritte müssen gültige Zahlen liefern
+        if (a.variablen.length && a.rechnung) {
+          for (let k = 0; k < 40; k++) {
+            const vals = {};
+            for (const v of a.variablen) { const n = Math.floor((v.bis - v.von) / v.schritt + 1e-9); vals[keyOf(v.name)] = v.von + Math.floor(Math.random() * (n + 1)) * v.schritt; }
+            const r = calc(a.rechnung, vals);
+            if (r == null || !isFinite(r)) { console.log('RECHNUNG UNGÜLTIG', kurz, JSON.stringify(vals)); bad++; break; }
+            let last = null, badStep = false;
+            for (const st of a.schritte) if (st.ergebnis && st.ergebnis.typ === 'ausdruck') { const x = calc(st.ergebnis.text, vals); if (x == null || !isFinite(x)) { console.log('SCHRITT UNGÜLTIG', kurz, st.ergebnis.text, JSON.stringify(vals)); bad++; badStep = true; break; } last = st.ergebnis.text; }
+            if (badStep) break;
+            if (k === 0 && last && Math.abs(calc(last, vals) - r) > 1e-9 * Math.max(1, Math.abs(r))) { console.log('LETZTER SCHRITT UNGLEICH RECHNUNG', kurz); bad++; }
+          }
+        }
+        for (const st of a.schritte) if (st.ergebnis && st.ergebnis.typ === 'gleichung') { try { parseEq(st.ergebnis.text); } catch (e) { console.log('SCHRITT-GLEICHUNG unlesbar', st.ergebnis.text); bad++; } }
+      }
+    }
     // Pfeile und Abkürzungen vermeiden (vorlesbar)
     const all = JSON.stringify(t);
     for (const bad2 of ['→', '=>', 'z. B.', 'z.B.', 'bzw.', 'usw.', 'ca.', 'd. h.']) if (all.includes(bad2)) { console.log('VORLESEN', t.thema, bad2); bad++; }

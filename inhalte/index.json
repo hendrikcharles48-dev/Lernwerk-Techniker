@@ -2,6 +2,9 @@
  "dateien": [
   "formeln-umstellen.txt",
   "terme.txt",
+  "mechanik-grundlagen.txt",
+  "elektro-grundlagen.txt",
+  "mathe-grundlagen.txt",
   {
    "datei": "einfuehrung/mathematik.txt",
    "art": "einfuehrung"

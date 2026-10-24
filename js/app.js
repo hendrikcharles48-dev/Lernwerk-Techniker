@@ -1,5 +1,5 @@
 // Lernwerk Techniker: App-Hülle mit Heute, Fächer, Einfügen, Fehlerbuch und Mehr.
-import { esc, dayStr, dayLong, daysBetween, plural, fmtNum, markdown, plainText, uid } from './util.js';
+import { esc, dayStr, dayLong, daysBetween, plural, fmtNum, markdown, plainText, uid, shuffle } from './util.js';
 import { parseBlocks, summary, TEMPLATE } from './parser.js';
 import * as st from './store.js';
 import { $, $$, icon, row, list, seg, sw, empty, on, push, initTabs, showTab, tab, openSheet, toast, copyText, readClipboard, progress, ring, fachIcon, confirmBox, refreshAll, refreshTop, initEdgeSwipe, hinweisTabellenbuch } from './ui.js';
@@ -8,7 +8,7 @@ import { mehrPage, termineDetail, termEditor, datensicherung, applyTheme } from 
 import { prefs } from './db.js';
 import { canSpeak, readAloud } from './speech.js';
 
-export const VERSION = '1.4.3';
+export const VERSION = '1.5.0';
 
 /* ===== Heute ===== */
 // Freundliche, wechselnde Sätze für den Start. Ohne Druck.
@@ -48,6 +48,7 @@ const heute = {
       <div class="tc-s">${offen ? 'Noch ' + plural(offen, 'Übung', 'Übungen') + ', etwa ' + Math.max(1, Math.round(q.sekunden / 60)) + ' Minuten.' : erledigt ? 'Stark. Was du heute geübt hast, kommt in ein paar Tagen wieder.' : 'Markiere ein Thema als „aktuell im Unterricht“, dann kommen neue Karten dazu.'}</div></div></div>
       ${offen ? `<div class="tc-tags">${[...by].slice(0, 5).map(([k, n]) => `<span class="tag">${esc(k)} <b>${n}</b></span>`).join('')}</div><button class="btn filled wide" data-a="today">${icon('play')} Los geht’s</button>` : ''}</div>`;
     h += `<button class="five" data-a="five">${icon('bolt')}<span><b>5 Minuten</b><small>Sofort loslegen, ganz ohne Planen</small></span></button>`;
+    h += `<button class="mixbtn" data-a="mix">${icon('mix')}<span><b>Gemischt üben</b><small>Aufgaben aus allen Themen. Du erkennst selbst, was dran ist.</small></span></button>`;
     const ex = st.nextExam(today);
     if (ex) {
       const d = daysBetween(today, ex.datum);
@@ -78,6 +79,7 @@ const heute = {
       exam: id => push(termineDetail(id)),
       newexam: () => termEditor({}),
       five: () => fiveMinutes(),
+      mix: () => gemischt(),
       today: () => runSession(st.buildQueue(900).items, 'Heute dran', { onClose: () => refreshTop() }),
       topic: tid => push(topicPage(tid)),
       weiter: () => { const pl = st.place(); if (pl.art === 'trainer' && pl.datei) openTrainer(pl.tid, 'trainer/' + pl.datei); else push(topicPage(pl.tid, pl.tab)); }
@@ -93,6 +95,21 @@ export function fiveMinutes() {
     if (items.length) toast('Gerade ist nichts fällig. Ich nehme Karten aus deinen Themen.');
   }
   runSession(items, '5 Minuten', { minutes: 5, onClose: () => refreshTop() });
+}
+
+// Gemischtes Üben: Aufgaben verschiedener Themen im Wechsel, ohne Themenhinweis.
+// So trainierst du, selbst zu erkennen, welcher Ansatz passt.
+export function gemischt(n = 8) {
+  const tids = shuffle(st.allTids().filter(t => st.hasTopicContent(t)));
+  const pick = (lists, out) => { for (let r = 0; out.length < n && lists.some(l => l.length); r++) for (const l of lists) if (l.length && out.length < n) out.push(l.shift()); };
+  // Zuerst Rechenaufgaben mit Ansatz-Frage, im Wechsel der Themen, dann Umstellaufgaben als Auffüller
+  const mitAnsatz = tids.map(t => shuffle(st.topicItems(t).filter(i => i.art === 'aufgabe' && i.aufgabe.ansatz))).filter(l => l.length);
+  const rest = tids.map(t => shuffle(st.topicItems(t).filter(i => (i.art === 'aufgabe' && !i.aufgabe.ansatz) || i.art === 'umstellen'))).filter(l => l.length);
+  if (mitAnsatz.length + rest.length < 2) { toast('Für gemischtes Üben brauchst du mindestens zwei Themen mit Aufgaben.'); return; }
+  const items = [];
+  pick(mitAnsatz, items);
+  pick(rest, items);
+  runSession(items, 'Gemischt üben', { blind: true, onClose: () => refreshTop() });
 }
 
 /* ===== Fächer ===== */

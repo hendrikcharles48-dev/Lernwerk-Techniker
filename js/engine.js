@@ -333,12 +333,15 @@ export function runItem(el, item, ctx) {
   const th = st.thema(item.tid);
   const meta = { fach: th ? th.fach.name : '', thema: th ? th.thema.name : '', farbe: th ? th.fach.farbe : 'var(--accent)' };
   el.style.setProperty('--fc', meta.farbe);
+  // Gemischtes Üben: Das Thema wird nicht verraten, sonst ist der Ansatz schon klar
+  if (ctx.blind && item.art !== 'aufgabe') Object.assign(meta, { fach: 'Gemischt', thema: 'ohne Themenhinweis' });
   const runner = { aufgabe: runAufgabe, umstellen: runUmstellen, auswahl: runAuswahl, reihenfolge: runReihenfolge, karte: runKarte, begriff: runKarte, fehler: runFehler }[item.art];
   if (!runner) { el.innerHTML = empty('Diese Übung kenne ich nicht.'); ctx.onDone('hilfe'); return; }
   runner(el, item, ctx, meta);
 }
 // Text mit Indizes: F_G wird zu F mit tiefgestelltem G
 export const rich = s => esc(s).replace(/(^|[^A-Za-z0-9])([A-Za-zΑ-Ωα-ωΔ])_([A-Za-z0-9]+)/g, '$1$2<sub>$3</sub>');
+const blindLine = `<div class="ex-ctx"><span class="dot"></span>Gemischt · Das Thema erfährst du nach deiner Wahl</div>`;
 const ctxLine = meta => `<div class="ex-ctx"><span class="dot" style="background:${meta.farbe}"></span>${esc(meta.fach)} · ${esc(meta.thema)}</div>`;
 
 async function logError(meta, item, x) {
@@ -355,21 +358,37 @@ function runAufgabe(el, item, ctx, meta) {
   let i = 0, tries = 0, used = false, shown = false, first = 0;
   const done = [];
   let tipOpen = false, solOpen = false, fb = null;
-  const allVars = Object.keys(A.vals);
+  // Ansatz zuerst: erkennen, begründen, am Ende das Ergebnis prüfen
+  const T0 = item.aufgabe;
+  let phase = T0.ansatz && !ctx.twinOf ? 'ansatz' : 'steps';
+  let opts = null, picked = null, ansatzFirst = null, note = '', kontrolleFirst = null;
+  const result = () => (shown ? 'falsch' : used ? 'hilfe' : 'richtig');
 
   function draw() {
     const s = steps[i];
-    let h = ctxLine(meta) + `<div class="ex-task">${rich(A.text)}</div>`;
+    if (!s && phase === 'steps') phase = T0.kontrolle && !ctx.twinOf ? 'kontrolle' : 'done';
+    const hide = ctx.blind && (phase === 'ansatz' || (!T0.ansatz && phase === 'steps'));
+    let h = (hide ? blindLine : ctxLine(meta)) + `<div class="ex-task">${rich(A.text)}</div>`;
     if (A.gegeben.length || A.gesucht.length) h += `<div class="gg">${A.gegeben.length ? `<div><div class="gg-k">Gegeben</div>${A.gegeben.map(g => `<div>${rich(g)}</div>`).join('')}</div>` : ''}${A.gesucht.length ? `<div><div class="gg-k">Gesucht</div>${A.gesucht.map(g => `<div>${rich(g)}</div>`).join('')}</div>` : ''}</div>`;
     if (done.length) h += `<div class="done-steps">${done.map(d => `<div class="ds"><span class="ds-n">${d.n}</span><span class="ds-t">${rich(d.was)}</span><span class="ds-v">${d.html}</span></div>`).join('')}</div>`;
-    if (!s) {
-      h += `<div class="fb good"><b>Geschafft.</b> ${first} von ${steps.length} Schritten beim ersten Versuch richtig.</div>`;
-      if (topicT.schnellwege.length) h += `<details class="disc"><summary>${icon('bolt')} Schnellweg für die Prüfung</summary><div class="prose">${topicT.schnellwege.map(markdown).join('')}</div></details>`;
-      h += `<div class="btn-col">${A.random ? `<button class="btn" data-a="again">Neue Zahlen</button>` : ''}<button class="btn filled" data-a="fertig">${ctx.nextLabel || 'Fertig'}</button></div>`;
+    if (phase === 'ansatz' || phase === 'warum' || phase === 'kontrolle') {
+      const q = mcOf();
+      if (!opts) opts = shuffle([q.richtig, ...q.falsch]);
+      const head = { ansatz: ['Erst erkennen', 'Welcher Ansatz passt?'], warum: ['Kurz begründen', 'Warum passt dieser Ansatz?'], kontrolle: ['Zum Schluss prüfen', q.frage] }[phase];
+      h += note + `<div class="step-box"><div class="step-n">${head[0]}</div><div class="step-q">${rich(head[1])}</div><div class="mc">${opts.map((o, k) => `<button class="mc-o ${picked && picked.has(k) ? (o === q.richtig ? 'ok' : 'no') : ''}" data-a="pick" data-d="${k}">${rich(o)}</button>`).join('')}</div>${fb || ''}</div>`;
       el.innerHTML = h;
       return;
     }
-    h += `<div class="step-box"><div class="step-n">Schritt ${i + 1} von ${steps.length}</div><div class="step-q">${rich(s.was || 'Nächster Schritt')}</div>`;
+    if (!s) {
+      const twin = (used || shown) && A.random;
+      h += note + `<div class="fb good"><b>Geschafft.</b> ${first} von ${steps.length} Schritten beim ersten Versuch richtig.${T0.ansatz && !ctx.twinOf ? (ansatzFirst ? ' Den Ansatz hast du sofort erkannt.' : ' Den Ansatz hast du im zweiten Anlauf gefunden.') : ''}</div>`;
+      if (topicT.schnellwege.length) h += `<details class="disc"><summary>${icon('bolt')} Schnellweg für die Prüfung</summary><div class="prose">${topicT.schnellwege.map(markdown).join('')}</div></details>`;
+      if (twin) h += `<p class="muted">Jetzt dieselbe Aufgabe mit neuen Zahlen, einmal ganz allein. So setzt sich der Weg fest.</p>`;
+      h += `<div class="btn-col">${A.random ? `<button class="btn${twin ? ' filled' : ''}" data-a="again">${twin ? 'Zwillingsaufgabe: neue Zahlen' : 'Neue Zahlen'}</button>` : ''}<button class="btn${twin ? '' : ' filled'}" data-a="fertig">${ctx.nextLabel || 'Fertig'}</button></div>`;
+      el.innerHTML = h;
+      return;
+    }
+    h += note + `<div class="step-box"><div class="step-n">Schritt ${i + 1} von ${steps.length}</div><div class="step-q">${rich(s.was || 'Nächster Schritt')}</div>`;
     if (s.typ === 'gleichung') {
       const names = [...varNames(parseEqSafe(s.text)).values()];
       h += fmlInput(names, 'Gleichung, zum Beispiel ' + (names[0] || 'x') + ' = …');
@@ -386,6 +405,29 @@ function runAufgabe(el, item, ctx, meta) {
     const inp = $('.inp', el);
     if (inp) { inp.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); check(); } }); if (!fb && !tipOpen && !solOpen) setTimeout(() => { try { inp.focus({ preventScroll: true }); } catch (e) { /* alt */ } }, 50); }
   }
+  function mcOf() { return phase === 'ansatz' ? T0.ansatz : phase === 'warum' ? T0.warum : T0.kontrolle; }
+  function pick(k) {
+    const q = mcOf(), o = opts[+k];
+    picked = picked || new Set();
+    picked.add(+k);
+    if (o === q.richtig) {
+      if (phase === 'ansatz' && ansatzFirst == null) ansatzFirst = true;
+      if (phase === 'kontrolle' && kontrolleFirst == null) kontrolleFirst = true;
+      note = phase === 'kontrolle' ? `<div class="fb good"><b>Passt.</b> Das Ergebnis ist plausibel.</div>`
+        : phase === 'ansatz' ? `<div class="fb good"><b>Richtig erkannt: ${rich(q.richtig)}.</b> ${T0.signal ? rich(T0.signal) : ''}</div>` : `<div class="fb good"><b>Genau.</b> ${rich(q.richtig)}</div>`;
+      phase = phase === 'ansatz' && T0.warum ? 'warum' : phase === 'kontrolle' ? 'done' : 'steps';
+      opts = null; picked = null; fb = null;
+      draw();
+      return;
+    }
+    used = true;
+    if (phase === 'ansatz' && ansatzFirst == null) { ansatzFirst = false; logError(meta, item, { aufgabe: A.text, eingabe: 'Ansatz: ' + o, richtig: q.richtig, fehlerart: 'Falscher Ansatz', meldung: T0.signal || '' }); }
+    if (phase === 'kontrolle' && kontrolleFirst == null) { kontrolleFirst = false; logError(meta, item, { aufgabe: A.text, eingabe: 'Kontrolle: ' + o, richtig: q.richtig, fehlerart: 'Ergebnis nicht geprüft', meldung: q.frage }); }
+    fb = phase === 'ansatz' ? `<div class="fb bad"><b>Passt hier nicht.</b> ${T0.signal ? 'Achte auf das Signal in der Aufgabe: ' + rich(T0.signal) : 'Lies noch einmal, was gegeben ist und was gesucht wird.'}</div>`
+      : phase === 'warum' ? `<div class="fb bad"><b>Nicht ganz.</b> Schau, welche Größen gegeben sind und wie sie mit der gesuchten zusammenhängen.</div>`
+      : `<div class="fb bad"><b>Noch nicht.</b> Vergleich mit deinem Ergebnis: Stimmen Größenordnung, Einheit und Vorzeichen?</div>`;
+    draw();
+  }
   function tipText() {
     if (A.tipps.length) return A.tipps.map(esc).join(' ');
     const f = topicT.formeln.slice(0, 3).map(x => fml(x.formel)).join(', ');
@@ -400,7 +442,7 @@ function runAufgabe(el, item, ctx, meta) {
     const s = steps[i];
     done.push({ n: i + 1, was: s.was, html });
     if (ok && tries === 0) first++;
-    i++; tries = 0; tipOpen = false; solOpen = false; fb = null;
+    i++; tries = 0; tipOpen = false; solOpen = false; fb = null; note = '';
     draw();
   }
   function check() {
@@ -429,13 +471,14 @@ function runAufgabe(el, item, ctx, meta) {
     const inp2 = $('.inp', el); if (inp2) inp2.value = v;
   }
   on(el, {
-    check, plan: () => accept('erledigt', true),
+    check, pick, plan: () => accept('erledigt', true),
     tip: () => { tipOpen = !tipOpen; if (tipOpen) used = true; draw(); },
     sol: () => { solOpen = !solOpen; draw(); },
     take: () => { shown = true; const s = steps[i]; accept(solText(s) + ' <span class="muted">(Lösung angesehen)</span>', false); },
     claude: d => askClaude(d),
-    again: () => { const f = el.cloneNode(false); el.replaceWith(f); runAufgabe(f, item, ctx, meta); },
-    fertig: () => ctx.onDone(shown ? 'falsch' : used ? 'hilfe' : 'richtig', { first, total: steps.length })
+    // Zwillingsaufgabe: Für die Wiederholung zählt der erste Durchgang
+    again: () => { const f = el.cloneNode(false); el.replaceWith(f); runAufgabe(f, item, Object.assign({}, ctx, { twinOf: ctx.twinOf || result(), ansatzOf: ctx.twinOf ? ctx.ansatzOf : ansatzFirst }), meta); },
+    fertig: () => ctx.onDone(ctx.twinOf || result(), { first, total: steps.length, ansatz: ctx.twinOf ? ctx.ansatzOf : T0.ansatz ? ansatzFirst : null })
   });
   draw();
 }
@@ -688,9 +731,11 @@ export function runSession(items, title, opt = {}) {
     const fresh = box.cloneNode(false);
     box.replaceWith(fresh);
     runItem(fresh, it, {
+      blind: opt.blind,
       nextLabel: i < items.length - 1 ? 'Weiter' : 'Fertig',
       onDone: async (erg, info2) => {
-        if (!(info2 && info2.skip)) { await st.recordCard(it, erg); res.push({ it, erg }); }
+        if (!(info2 && info2.skip)) { await st.recordCard(it, erg); res.push({ it, erg, info: info2 }); }
+        if (info2 && info2.ansatz != null) await st.addEvent({ art: 'ansatz', tid: it.tid, ok: !!info2.ansatz });
         i++;
         show();
         $('.sheet-body', sheet.el).scrollTop = 0;
@@ -702,9 +747,11 @@ export function runSession(items, title, opt = {}) {
     if (opt.single && res.length) { sheet.close(); toast(res[0].erg === 'richtig' ? 'Sitzt. Kommt in ' + INTERVALS[Math.min(5, (st.card(res[0].it.id) || { stufe: 1 }).stufe - 1)] + ' Tagen wieder.' : 'Gespeichert. Kommt bald wieder dran.'); return; }
     const c = k => res.filter(r => r.erg === k).length;
     const q = res.length ? c('richtig') / res.length : 0;
+    const an = res.filter(r => r.info && r.info.ansatz != null);
     const lob = q >= 0.8 ? ['Stark gemacht!', 'Sitzt richtig gut!', 'Sauber, wie frisch geschlichtet!'] : q >= 0.5 ? ['Gut dabei!', 'Läuft!', 'Weiter so!'] : ['Dranbleiben lohnt sich!', 'Jeder Versuch zählt!', 'Gut, dass du geübt hast!'];
     box.innerHTML = `<div class="sum"><div class="celebrate ${q >= 0.5 ? 'ok' : 'mid'}">${icon(q >= 0.5 ? 'check' : 'sparkle')}</div><div class="sum-lob">${lob[Math.floor(Math.random() * lob.length)]}</div>
       <div class="sum-big">${c('richtig')} von ${res.length}</div><div class="muted">beim ersten Versuch gewusst</div>
+      ${an.length ? `<p class="sum-ansatz">${icon('target')} Ansatz sofort erkannt: <b>${an.filter(r => r.info.ansatz).length} von ${an.length}</b></p>` : ''}
       <div class="sum-row"><span class="pill ok">${c('richtig')} gewusst</span><span class="pill mid">${c('hilfe')} mit Hilfe</span><span class="pill no">${c('falsch')} noch nicht</span></div>
       <p>${q >= 0.8 ? 'Die Karten kommen jetzt in größeren Abständen wieder.' : 'Was noch wackelt, kommt morgen wieder. So setzt es sich fest.'}</p>
       <button class="btn filled" data-a="close">Fertig</button></div>`;

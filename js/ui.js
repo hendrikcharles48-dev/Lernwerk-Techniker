@@ -37,6 +37,8 @@ const P = {
   next: '<path d="M5 4.5v15l10-7.5z" fill="currentColor"/><path d="M17.5 4.5v15" stroke-width="2.6"/>',
   repeat: '<path d="M4.5 12a7.5 7.5 0 1 0 2.2-5.3L4.5 9"/><path d="M4.5 4v5h5"/>',
   bolt: '<path d="M13 2.5L5 13.5h6l-1 8 8-11h-6z"/>',
+  target: '<circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4.5"/><circle cx="12" cy="12" r="1"/>',
+  mix: '<path d="M3.5 7h3.2c2.2 0 3.4 1 4.6 3l1.4 2.4c1.2 2 2.4 3 4.6 3h3.2M3.5 17h3.2c1.4 0 2.4-.4 3.3-1.2M13.4 8.2c.9-.8 1.9-1.2 3.3-1.2h3.8M18 4.5L20.5 7 18 9.5M18 13.5l2.5 2.5-2.5 2.5"/>',
   trash: '<path d="M5 7h14M10 7V4.5h4V7M7 7l1 13h8l1-13"/>',
   claude: '<path d="M12 3l1.6 6.2L20 7.5l-4.6 4.5L20 16.5l-6.4-1.7L12 21l-1.6-6.2L4 16.5l4.6-4.5L4 7.5l6.4 1.7z"/>',
   cards: '<rect x="3.5" y="7" width="13" height="13" rx="2"/><path d="M8 7V5.5a2 2 0 0 1 2-2h8.5a2 2 0 0 1 2 2V14a2 2 0 0 1-2 2H16.5"/>',

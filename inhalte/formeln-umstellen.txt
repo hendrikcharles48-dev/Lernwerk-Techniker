@@ -117,6 +117,10 @@ Reihenfolge: Eine Formelaufgabe lösen | Gegeben und gesucht notieren; Passende 
 Aufgabe: Löse die Gleichung {a} · x + {b} = {c} nach x auf.
 Gegeben: {a} · x + {b} = {c}
 Gesucht: x
+Ansatz: Erst {b} abziehen, dann durch {a} teilen | Nur x durch {a} teilen, dann {b} abziehen; Erst mal {a} nehmen, dann {b} abziehen; Erst {b} addieren, dann durch {a} teilen
+Signal: Am x hängt außen ein plus {b} und innen ein mal {a}.
+Warum: Weil man in umgekehrter Reihenfolge abbaut, wie die Gleichung aufgebaut ist | Weil man beim Umstellen immer zuerst durch die Zahl vor x teilt; Weil plus und minus beim Umstellen keine Rolle spielen
+Kontrolle: Probe: Setzt du dein x ein, kommt links {c} heraus? | Ja, dann stimmt die Lösung | Nein, die Probe macht man nicht; Es reicht, wenn x positiv ist
 Tipp: Von außen nach innen: Erst das plus {b} wegschaffen, dann das mal {a}.
 Schritt: Auf beiden Seiten {b} abziehen. Was steht danach rechts? | c - b
 Schritt: Beide Seiten durch {a} teilen. Wie groß ist x? | (c - b) / a
@@ -127,6 +131,10 @@ Rechnung: (c - b) / a
 Aufgabe: Löse die Gleichung {a} · (x − {b}) = {c} nach x auf.
 Gegeben: {a} · (x − {b}) = {c}
 Gesucht: x
+Ansatz: Erst durch {a} teilen, dann {b} addieren | Erst {b} abziehen, dann durch {a} teilen; Nur x durch {a} teilen, dann {b} addieren; Erst {b} addieren, dann mal {a} nehmen
+Signal: Die ganze Klammer ist mit {a} malgenommen. Das mal {a} steht außen.
+Warum: Weil das mal {a} außen um die ganze Klammer herum steht | Weil man Klammern beim Umstellen immer zuerst weglässt; Weil das minus {b} in der Klammer zuerst wegmuss
+Kontrolle: Probe: x minus {b} mal {a} ergibt {c}? | Ja, dann stimmt es | Nein, die Probe geht bei Klammern nicht; Nur wenn x eine ganze Zahl ist
 Tipp: Die Klammer ist mit {a} malgenommen. Teile zuerst beide Seiten durch {a}, dann ist die Klammer allein.
 Schritt: Beide Seiten durch {a} teilen. Was steht danach rechts? | c / a
 Schritt: Auf beiden Seiten {b} addieren. Wie groß ist x? | c / a + b
@@ -138,6 +146,10 @@ Aufgabe: Du fräst mit einem Schaftfräser mit dem Durchmesser d = {d} mm. Der H
 Gegeben: d = {d} mm
 Gegeben: v_c = {vc} m/min
 Gesucht: Drehzahl n in 1/min
+Ansatz: Schnittgeschwindigkeit nach n umstellen | Hebelgesetz nach F2 umstellen; Ohmsches Gesetz nach I umstellen; Kreisfläche nach d umstellen
+Signal: Durchmesser und Schnittgeschwindigkeit sind gegeben, die Drehzahl ist gesucht.
+Warum: Weil diese Formel genau v_c, d und n miteinander verbindet | Weil der Durchmesser dem Hebelarm entspricht; Weil die Drehzahl aus der Kreisfläche folgt
+Kontrolle: Hat ein kleinerer Fräser bei gleicher Schnittgeschwindigkeit eine höhere Drehzahl? | Ja, er muss sich schneller drehen | Nein, eine kleinere; Die Drehzahl bleibt gleich
 Tipp: Die Formel lautet v_c = π · d · n / 1000. Die 1000 rechnet Millimeter in Meter um.
 Schritt: Formel nach n umstellen | n = 1000 · v_c / (π · d)
 Schritt: Drehzahl ausrechnen | 1000 * vc / (pi * d) | 1/min
@@ -148,6 +160,9 @@ Aufgabe: Ein Magnetventil hat die Leistung P = {P} W und liegt an U = 24 V. Wie 
 Gegeben: P = {P} W
 Gegeben: U = 24 V
 Gesucht: Strom I in A
+Ansatz: P = U · I nach I umstellen | U = R · I nach I umstellen; P = I² · R nach I umstellen; P = U² / R nach U umstellen
+Signal: Leistung und Spannung sind gegeben, der Strom ist gesucht.
+Kontrolle: Ist der Strom kleiner als 1 A? | Ja, wenige Watt bei 24 V ergeben weniger als 1 A | Nein, es müssen viele Ampere sein; Der Strom ist genau 24 A
 Schritt: Formel P = U · I nach I umstellen | I = P / U
 Schritt: Strom ausrechnen | P / 24 | A
 Variable: P | 2 | 12 | 0,5
@@ -156,6 +171,9 @@ Aufgabe: Ein Sensor zieht bei U = {U} V einen Strom von I = {I} mA. Berechne sei
 Gegeben: U = {U} V
 Gegeben: I = {I} mA
 Gesucht: Widerstand R in Ω
+Ansatz: U = R · I nach R umstellen | P = U · I nach P umstellen; R_ges = R1 + R2 addieren; P = I² · R nach R umstellen
+Signal: Spannung und Strom eines Bauteils sind gegeben, der Widerstand ist gesucht.
+Kontrolle: Liegt der Widerstand im Bereich von Kiloohm? | Ja, Volt durch Milliampere ergibt Kiloohm | Nein, Volt durch Milliampere ergibt wenige Ohm; Nein, Volt durch Milliampere ergibt Megaohm
 Schritt: Formel U = R · I nach R umstellen | R = U / I
 Schritt: Strom in Ampere umrechnen | I / 1000 | A
 Schritt: Widerstand ausrechnen | U / (I / 1000) | Ω
@@ -167,6 +185,9 @@ Gegeben: F1 = {F1} N
 Gegeben: l1 = {l1} m
 Gegeben: l2 = {l2} m
 Gesucht: F2 in N
+Ansatz: F1 · l1 = F2 · l2 nach F2 umstellen | F1 = F2, Kräfte gleichsetzen; F2 = F1 · l2 / l1 rechnen; F_R = √(F1² + F2²) rechnen
+Signal: Zwei Kräfte an zwei Hebelarmen um einen Drehpunkt, gefragt ist das Gleichgewicht.
+Kontrolle: Am kürzeren Arm braucht man mehr Kraft. Passt dein Ergebnis dazu? | Ja | Nein, am kürzeren Arm braucht man weniger; Die Arme spielen keine Rolle
 Schritt: Hebelgesetz F1 · l1 = F2 · l2 nach F2 umstellen | F2 = F1 · l1 / l2
 Schritt: F2 ausrechnen | F1 * l1 / l2 | N
 Variable: F1 | 100 | 800 | 50
@@ -177,6 +198,9 @@ Aufgabe: Ein Rundstab aus Stahl soll eine Zugkraft von F = {F} kN übertragen. D
 Gegeben: F = {F} kN
 Gegeben: σ_zul = 120 N/mm²
 Gesucht: Durchmesser d in mm
+Ansatz: Erst Fläche aus σ = F / A, dann d aus der Kreisfläche | Erst d aus der Kraft, dann die Fläche aus σ; Fläche mit Abscherung zweischnittig rechnen; Durchmesser direkt als F durch σ nehmen
+Signal: Die zulässige Spannung ist vorgegeben, gesucht ist die Größe des Bauteils.
+Kontrolle: Rundest du auf einen Normdurchmesser auf oder ab? | Aufrunden, sonst wird die Spannung zu groß | Abrunden, sonst wird das Bauteil zu schwer; Nicht runden, der genaue Wert ist Pflicht
 Tipp: Erst die nötige Fläche aus σ = F / A, dann den Durchmesser aus A = π · d² / 4.
 Schritt: Kraft in Newton umrechnen | F * 1000 | N
 Schritt: Nötige Fläche A = F / σ_zul ausrechnen | F * 1000 / 120 | mm²
@@ -188,6 +212,9 @@ Aufgabe: Eine Spannvorrichtung hat die Gewichtskraft F_G = {FG} N. Wie groß ist
 Gegeben: F_G = {FG} N
 Gegeben: g = 9,81 m/s²
 Gesucht: Masse m in kg
+Ansatz: F_G = m · g nach m umstellen | F_G = m · g nach g umstellen; m = F_G · g rechnen; F_R = µ · F_N nach F_N umstellen
+Signal: Eine Gewichtskraft in Newton ist gegeben, eine Masse in Kilogramm ist gesucht.
+Kontrolle: Ist die Masse in Kilogramm etwa ein Zehntel der Zahl in Newton? | Ja, weil g fast 10 ist | Nein, sie ist zehnmal größer; Beide Zahlen sind gleich
 Schritt: Formel F_G = m · g nach m umstellen | m = F_G / g
 Schritt: Masse ausrechnen | FG / 9.81 | kg
 Variable: FG | 50 | 600 | 10

@@ -124,5 +124,23 @@ s = nextState(s, 'hilfe', '2026-10-04'); ok(s.stufe === 2 && s.faellig === '2026
 s = nextState(s, 'falsch', '2026-10-06'); ok(s.stufe === 1 && s.faellig === '2026-10-07', 'falsch zurück auf 1', s);
 let t = null; for (let i = 0; i < 9; i++) t = nextState(t, 'richtig', '2026-10-01'); ok(t.stufe === 6 && t.faellig === '2026-10-31', 'höchstens 30 Tage', t);
 
+// Ansatz zuerst: Ansatz, Signal, Warum, Kontrolle
+const ra = parseBlocks(`=== LERNWERK ===
+Fach: Elektrotechnik
+Thema: Ohm
+Aufgabe: R gesucht
+Ansatz: Ohmsches Gesetz | Leistung; Reihe
+Signal: Ein Bauteil, U und I gegeben.
+Warum: Weil U, R und I zusammenhängen | Weil es immer so ist; Weil P gesucht ist
+Kontrolle: Passt die Größe? | Ja | Nein; Egal
+Schritt: R ausrechnen | 10 | Ω
+=== ENDE ===`);
+const ta = ra.themen[0].aufgaben[0];
+ok(ra.fehler.length === 0 && ta.ansatz.richtig === 'Ohmsches Gesetz' && ta.ansatz.falsch.length === 2, 'Ansatz gelesen', ta.ansatz);
+ok(ta.signal === 'Ein Bauteil, U und I gegeben.' && ta.warum.falsch.length === 2 && ta.kontrolle.frage === 'Passt die Größe?', 'Signal, Warum, Kontrolle', ta);
+ok(JSON.stringify(parseBlocks(exportBlock(ra.themen[0])).themen[0]) === JSON.stringify(ra.themen[0]), 'Ansatz Rundreise');
+ok(parseBlocks('Fach: A\nThema: B\nAufgabe: x\nAnsatz: nur richtig').fehler.length === 1, 'Ansatz ohne falsche Antworten meldet Fehler');
+ok(calc('mu * FG', { mu: 0.2, FG: 100 }) === 20 && parseEq('F_R = µ · F_N').r, 'µ als Formelzeichen');
+
 console.log(`\n${pass} bestanden, ${fail} fehlgeschlagen`);
 process.exit(fail ? 1 : 0);

@@ -8,8 +8,8 @@ const FUNCS = {
   asin: 'asin', acos: 'acos', atan: 'atan', arcsin: 'asin', arccos: 'acos', arctan: 'atan',
   sqrt: 'sqrt', wurzel: 'sqrt', ln: 'ln', lg: 'lg', log: 'lg', abs: 'abs'
 };
-const ID_START = /[A-Za-zÄÖÜäöüßΑ-Ωα-ω]/;
-const ID_PART = /[A-Za-z0-9_ÄÖÜäöüßΑ-Ωα-ω]/;
+const ID_START = /[A-Za-zÄÖÜäöüßΑ-Ωα-ωµ]/;
+const ID_PART = /[A-Za-z0-9_ÄÖÜäöüßΑ-Ωα-ωµ]/;
 
 export class FormulaError extends Error {
   constructor(msg, pos) { super(msg); this.pos = pos; }

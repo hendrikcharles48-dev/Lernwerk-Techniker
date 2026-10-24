@@ -24,7 +24,9 @@ const KEYS = {
   termin: 'termin', termine: 'termin',
   tipp: 'tipp',
   // Erweiterungen für eingebaute Trainer
-  umstellen: 'umstellen', umformung: 'umformung', auswahl: 'auswahl', reihenfolge: 'reihenfolge', quelle: 'quelle'
+  umstellen: 'umstellen', umformung: 'umformung', auswahl: 'auswahl', reihenfolge: 'reihenfolge', quelle: 'quelle',
+  // Ansatz zuerst: Aufgabe erkennen, begründen, Ergebnis prüfen
+  ansatz: 'ansatz', signal: 'signal', erkennen: 'signal', warum: 'warum', begruendung: 'warum', kontrolle: 'kontrolle', probe: 'kontrolle'
 };
 const keyNorm = s => String(s).toLowerCase().replace(/ä/g, 'ae').replace(/ö/g, 'oe').replace(/ü/g, 'ue').replace(/ß/g, 'ss').replace(/[^a-z]/g, '');
 
@@ -116,7 +118,7 @@ export function parseBlocks(text) {
     ctx = 'aufgabe';
     return task;
   }
-  const newTask = (i, text) => ({ text, gegeben: [], gesucht: [], schritte: [], ergebnis: null, variablen: [], rechnung: '', tipps: [], _z: i + 1 });
+  const newTask = (i, text) => ({ text, gegeben: [], gesucht: [], schritte: [], ergebnis: null, variablen: [], rechnung: '', tipps: [], ansatz: null, signal: '', warum: null, kontrolle: null, _z: i + 1 });
   const setField = (obj, prop) => { field = { obj, prop }; };
 
   for (let i = 0; i < lines.length; i++) {
@@ -236,6 +238,20 @@ export function parseBlocks(text) {
         const t = ensureTask(i);
         try { parseEq(val); t.rechnung = val; t._r = i + 1; } catch (e) { err(i, 'Die Rechnung kann ich nicht lesen: ' + e.message); }
         field = null; break;
+      }
+      case 'ansatz': case 'warum': {
+        const t = ensureTask(i);
+        const [richtig, falsch] = pipes(val);
+        const f = splitList(falsch || '');
+        if (!richtig || !f.length) { err(i, (key === 'ansatz' ? 'Ansatz' : 'Warum') + ' bitte so schreiben: richtige Antwort | falsch; falsch; falsch.'); break; }
+        t[key] = { richtig, falsch: f }; field = null; break;
+      }
+      case 'signal': { const t = ensureTask(i); t.signal = val; setField(t, 'signal'); break; }
+      case 'kontrolle': {
+        const t = ensureTask(i);
+        const [frage, richtig, falsch] = pipes(val);
+        if (!frage || !richtig || !falsch) { err(i, 'Kontrolle bitte so schreiben: Frage | richtige Antwort | falsch; falsch.'); break; }
+        t.kontrolle = { frage, richtig, falsch: splitList(falsch) }; field = null; break;
       }
       case 'termin': {
         const p = pipes(val);
@@ -369,6 +385,10 @@ export function exportBlock(t, termine = []) {
     if (a.ergebnis) L.push('Ergebnis: ' + fmtVal(a.ergebnis.wert) + (a.ergebnis.einheit ? ' | ' + a.ergebnis.einheit : ''));
     a.variablen.forEach(v => L.push('Variable: ' + v.name + ' | ' + v.von + ' | ' + v.bis + ' | ' + v.schritt));
     if (a.rechnung) L.push('Rechnung: ' + a.rechnung);
+    if (a.ansatz) L.push('Ansatz: ' + a.ansatz.richtig + ' | ' + a.ansatz.falsch.join('; '));
+    if (a.signal) L.push(lineOut('Signal', a.signal));
+    if (a.warum) L.push('Warum: ' + a.warum.richtig + ' | ' + a.warum.falsch.join('; '));
+    if (a.kontrolle) L.push('Kontrolle: ' + a.kontrolle.frage + ' | ' + a.kontrolle.richtig + ' | ' + a.kontrolle.falsch.join('; '));
   });
   t.umstellen.forEach(u => {
     L.push('Umstellen: ' + u.formel + ' | ' + u.nach + ' | ' + u.loesung);
@@ -405,7 +425,12 @@ Schritt: was berechnet wird | Ergebnis | Einheit
 Ergebnis: Zahl | Einheit
 Variable: Name | von | bis | Schrittweite
 Rechnung: Formel mit den Variablennamen
+Ansatz: richtiger Lösungsansatz | falscher Ansatz; falscher Ansatz; falscher Ansatz
+Signal: woran ich in der Aufgabe erkenne, dass dieser Ansatz passt
+Warum: richtige Begründung | falsche Begründung; falsche Begründung
+Kontrolle: Frage zur Plausibilität des Ergebnisses | richtige Antwort | falsch; falsch
 Termin: Fach | JJJJ-MM-TT | Themen
 === ENDE ===
+Zu jeder Aufgabe gehören Ansatz, Signal, Warum und Kontrolle. Die falschen Ansätze sollen plausibel sein, am besten Verfahren aus verwandten Themen, die man leicht verwechselt. Alle Antworten einer Auswahl gleich lang und gleich aufgebaut, damit die richtige nicht auffällt.
 Material:
 `;
