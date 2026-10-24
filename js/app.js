@@ -8,7 +8,7 @@ import { mehrPage, termineDetail, termEditor, datensicherung, applyTheme } from 
 import { prefs } from './db.js';
 import { canSpeak, readAloud } from './speech.js';
 
-export const VERSION = '1.5.0';
+export const VERSION = '1.5.1';
 
 /* ===== Heute ===== */
 // Freundliche, wechselnde Sätze für den Start. Ohne Druck.
@@ -37,7 +37,7 @@ const heute = {
     if (st.backupDue()) h += `<button class="banner warn" data-a="backup">${icon('save')}<span><b>Zeit für eine Sicherung.</b> Deine letzte Sicherung ist älter als 14 Tage. Tippe hier.</span></button>`;
     // Heute: Ring mit erledigt und offen
     const q = st.buildQueue(900);
-    const erledigt = st.S.events.filter(e => e.zeit >= d0.getTime() && e.ok != null).length;
+    const erledigt = st.S.events.filter(e => e.zeit >= d0.getTime() && e.ok != null && e.art !== 'ansatz').length;
     const offen = q.items.length;
     const anteil = erledigt + offen ? erledigt / (erledigt + offen) : 1;
     const by = new Map();
@@ -69,10 +69,12 @@ const heute = {
       h += `<div class="sec-h">Weiter, wo du warst</div>` + list([row({ a: 'weiter', icon: fachIcon(t.fach), color: t.fach.farbe, title: t.thema.name, sub: t.fach.name + (p.art === 'trainer' ? ' · alter Trainer' : '') })]);
     }
     const w = st.weekStats();
+    const mon = new Date(); mon.setHours(0, 0, 0, 0); mon.setDate(mon.getDate() - ((mon.getDay() + 6) % 7));
+    const aq = st.ansatzQuote(mon.getTime());
     const tage = ['Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa', 'So'];
     const heuteIdx = (new Date().getDay() + 6) % 7;
     h += `<div class="sec-h">Diese Woche</div><div class="card week"><div class="week-days">${w.tage.map((n, i) => `<div class="wd ${n ? 'on' : ''} ${i === heuteIdx ? 'now' : ''}"><span>${n ? icon('check') : ''}</span><small>${tage[i]}</small></div>`).join('')}</div>
-      <div class="muted">${w.n ? 'An ' + plural(w.aktiv, 'Tag', 'Tagen') + ' gelernt, ' + plural(w.n, 'Übung', 'Übungen') + ', davon ' + w.ok + ' beim ersten Mal gewusst.' : 'Noch nichts geübt diese Woche. Fünf Minuten reichen für den Anfang.'}</div></div>`;
+      <div class="muted">${w.n ? 'An ' + plural(w.aktiv, 'Tag', 'Tagen') + ' gelernt, ' + plural(w.n, 'Übung', 'Übungen') + ', davon ' + w.ok + ' beim ersten Mal gewusst.' : 'Noch nichts geübt diese Woche. Fünf Minuten reichen für den Anfang.'}</div>${aq.n ? `<div class="week-ansatz">${icon('target')}<span>Ansatz sofort erkannt: <b>${aq.ok} von ${aq.n}</b>. Das ist dein wichtigster Wert.</span></div>` : ''}</div>`;
     b.innerHTML = h;
     on(b, {
       backup: () => push(datensicherung()),

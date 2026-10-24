@@ -518,3 +518,6 @@ body.sheet-open #readbar { bottom: calc(var(--sab) + 14px); }
 .mixbtn:active { transform: scale(.98); }
 .sum-ansatz { display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 16px; margin: 6px 0; }
 .sum-ansatz .ic { width: 20px; height: 20px; color: var(--accent); }
+.week-ansatz { display: flex; align-items: center; gap: 8px; margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--sep); font-size: 15px; }
+.week-ansatz .ic { width: 20px; height: 20px; color: var(--accent); flex: none; }
+.lvl-hint { margin: 2px 2px 6px; }

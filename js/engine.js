@@ -363,6 +363,11 @@ function runAufgabe(el, item, ctx, meta) {
   let phase = T0.ansatz && !ctx.twinOf ? 'ansatz' : 'steps';
   let opts = null, picked = null, ansatzFirst = null, note = '', kontrolleFirst = null;
   const result = () => (shown ? 'falsch' : used ? 'hilfe' : 'richtig');
+  // Hilfe wird weniger: geführt mit offenen Tipps, mit Schritten, frei nur mit Endergebnis
+  const target = [...steps].reverse().find(s => s.typ === 'zahl' || s.typ === 'gleichung');
+  const level = ctx.twinOf ? 3 : (ctx.level || st.aufgabenStufe(item.tid));
+  let mode = level === 3 && target ? 'frei' : 'schritte', freiOk = false;
+  if (level === 1) { used = true; tipOpen = true; }
 
   function draw() {
     const s = steps[i];
@@ -381,14 +386,25 @@ function runAufgabe(el, item, ctx, meta) {
     }
     if (!s) {
       const twin = (used || shown) && A.random;
-      h += note + `<div class="fb good"><b>Geschafft.</b> ${first} von ${steps.length} Schritten beim ersten Versuch richtig.${T0.ansatz && !ctx.twinOf ? (ansatzFirst ? ' Den Ansatz hast du sofort erkannt.' : ' Den Ansatz hast du im zweiten Anlauf gefunden.') : ''}</div>`;
+      h += note + `<div class="fb good"><b>Geschafft.</b> ${freiOk ? (tries ? 'Frei gelöst, im zweiten Anlauf.' : 'Frei gelöst, ohne Zwischenschritte. Stark.') : first + ' von ' + steps.length + ' Schritten beim ersten Versuch richtig.'}${T0.ansatz && !ctx.twinOf ? (ansatzFirst ? ' Den Ansatz hast du sofort erkannt.' : ' Den Ansatz hast du im zweiten Anlauf gefunden.') : ''}</div>`;
       if (topicT.schnellwege.length) h += `<details class="disc"><summary>${icon('bolt')} Schnellweg für die Prüfung</summary><div class="prose">${topicT.schnellwege.map(markdown).join('')}</div></details>`;
       if (twin) h += `<p class="muted">Jetzt dieselbe Aufgabe mit neuen Zahlen, einmal ganz allein. So setzt sich der Weg fest.</p>`;
       h += `<div class="btn-col">${A.random ? `<button class="btn${twin ? ' filled' : ''}" data-a="again">${twin ? 'Zwillingsaufgabe: neue Zahlen' : 'Neue Zahlen'}</button>` : ''}<button class="btn${twin ? '' : ' filled'}" data-a="fertig">${ctx.nextLabel || 'Fertig'}</button></div>`;
       el.innerHTML = h;
       return;
     }
-    h += note + `<div class="step-box"><div class="step-n">Schritt ${i + 1} von ${steps.length}</div><div class="step-q">${rich(s.was || 'Nächster Schritt')}</div>`;
+    if (mode === 'frei') {
+      h += note + `<div class="step-box"><div class="step-n">Frei rechnen · nur das Ergebnis</div><div class="step-q">${rich(A.gesucht.length ? 'Gesucht: ' + A.gesucht.join(', ') : target.was)}</div>`;
+      h += (target.typ === 'zahl' ? numInput(target.einheit) : fmlInput([...varNames(parseEqSafe(target.text)).values()], ''));
+      h += `<div class="act"><button class="btn filled" data-a="checkFrei">Prüfen</button><button class="btn" data-a="schritte">Schritte zeigen</button></div>${fb || ''}</div>`;
+      el.innerHTML = h;
+      bindFmlInput(el);
+      const fi = $('.inp', el);
+      if (fi) fi.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); checkFrei(); } });
+      return;
+    }
+    if (level === 1 && i === 0 && !done.length) h += `<p class="muted small lvl-hint">Geführt: Die Tipps sind schon offen. Mit jeder sicheren Lösung wird die Hilfe weniger.</p>`;
+    h += note + `<div class="step-box"><div class="step-n">${level === 1 ? 'Geführt · ' : ''}Schritt ${i + 1} von ${steps.length}</div><div class="step-q">${rich(s.was || 'Nächster Schritt')}</div>`;
     if (s.typ === 'gleichung') {
       const names = [...varNames(parseEqSafe(s.text)).values()];
       h += fmlInput(names, 'Gleichung, zum Beispiel ' + (names[0] || 'x') + ' = …');
@@ -404,6 +420,26 @@ function runAufgabe(el, item, ctx, meta) {
     bindFmlInput(el);
     const inp = $('.inp', el);
     if (inp) { inp.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); check(); } }); if (!fb && !tipOpen && !solOpen) setTimeout(() => { try { inp.focus({ preventScroll: true }); } catch (e) { /* alt */ } }, 50); }
+  }
+  function checkFrei() {
+    const inp = $('.inp', el);
+    const v = inp ? inp.value : '';
+    if (!v.trim()) { fb = `<div class="fb bad">Gib zuerst dein Ergebnis ein.</div>`; draw(); return; }
+    let ok, msg = '', fehlerart = '', val = null;
+    if (target.typ === 'zahl') { const c = checkNumber(v, target.wert, target.einheit); ok = c.status === 'ok'; msg = c.msg; fehlerart = c.fehlerart; val = c.value; if (c.status !== 'ok' && c.status !== 'wrong') { fb = `<div class="fb bad">${esc(c.msg)}</div>`; draw(); return; } }
+    else { const r = checkSolved(target.text, (parseEqSafe(target.text).l || {}).n, target.text, v); ok = r.ok; msg = r.msg; fehlerart = r.fehlerart || 'Umstellen'; }
+    if (ok) {
+      freiOk = true;
+      done.push({ n: '✓', was: 'Ergebnis', html: target.typ === 'zahl' ? esc(showValue(val, target.einheit)) : fml(v) });
+      i = steps.length; fb = null; note = '';
+      draw();
+      return;
+    }
+    tries++; used = true;
+    if (tries === 1) logError(meta, item, { aufgabe: A.text, eingabe: v + (target.typ === 'zahl' && target.einheit ? ' ' + target.einheit : ''), richtig: target.typ === 'zahl' ? showValue(target.wert, target.einheit) : target.text, fehlerart, meldung: msg });
+    fb = `<div class="fb bad"><b>Noch nicht.</b> ${esc(msg || 'Das Ergebnis stimmt noch nicht.')} Versuch es noch einmal oder lass dir die Schritte zeigen.</div>`;
+    draw();
+    const inp2 = $('.inp', el); if (inp2) inp2.value = v;
   }
   function mcOf() { return phase === 'ansatz' ? T0.ansatz : phase === 'warum' ? T0.warum : T0.kontrolle; }
   function pick(k) {
@@ -429,6 +465,9 @@ function runAufgabe(el, item, ctx, meta) {
     draw();
   }
   function tipText() {
+    const cur = steps[i];
+    // Geführt: die Rechnung mit eingesetzten Zahlen vorgeben, ausrechnen musst du selbst
+    if (level === 1 && cur && cur.rechnung) return 'Setz ein: ' + fmlWith(cur.rechnung, A.vals) + (A.tipps.length ? '<br>' + A.tipps.map(esc).join(' ') : '');
     if (A.tipps.length) return A.tipps.map(esc).join(' ');
     const f = topicT.formeln.slice(0, 3).map(x => fml(x.formel)).join(', ');
     return topicT.bausteine.length ? 'Arbeitsplan: ' + esc(topicT.bausteine[Math.min(i, topicT.bausteine.length - 1)]) + (f ? ' Passende Formeln: ' + f : '') : (f ? 'Passende Formeln: ' + f : 'Was ist gegeben, was ist gesucht, und welche Regel verbindet beides?');
@@ -442,7 +481,7 @@ function runAufgabe(el, item, ctx, meta) {
     const s = steps[i];
     done.push({ n: i + 1, was: s.was, html });
     if (ok && tries === 0) first++;
-    i++; tries = 0; tipOpen = false; solOpen = false; fb = null; note = '';
+    i++; tries = 0; tipOpen = level === 1; solOpen = false; fb = null; note = '';
     draw();
   }
   function check() {
@@ -471,7 +510,8 @@ function runAufgabe(el, item, ctx, meta) {
     const inp2 = $('.inp', el); if (inp2) inp2.value = v;
   }
   on(el, {
-    check, pick, plan: () => accept('erledigt', true),
+    check, pick, checkFrei, plan: () => accept('erledigt', true),
+    schritte: () => { mode = 'schritte'; used = true; fb = null; draw(); },
     tip: () => { tipOpen = !tipOpen; if (tipOpen) used = true; draw(); },
     sol: () => { solOpen = !solOpen; draw(); },
     take: () => { shown = true; const s = steps[i]; accept(solText(s) + ' <span class="muted">(Lösung angesehen)</span>', false); },
@@ -486,7 +526,7 @@ const parseEqSafe = s => { try { return parseEq(s); } catch (e) { return { l: nu
 
 function runExamAufgabe(el, item, ctx, meta, A, steps) {
   const target = [...steps].reverse().find(s => s.typ === 'zahl' || s.typ === 'gleichung');
-  let h = ctxLine(meta) + `<div class="ex-task">${rich(A.text)}</div>`;
+  let h = (ctx.blind ? blindLine.replace('Das Thema erfährst du nach deiner Wahl', 'Probeklausur ohne Themenhinweis') : ctxLine(meta)) + `<div class="ex-task">${rich(A.text)}</div>`;
   if (A.gegeben.length || A.gesucht.length) h += `<div class="gg">${A.gegeben.length ? `<div><div class="gg-k">Gegeben</div>${A.gegeben.map(g => `<div>${rich(g)}</div>`).join('')}</div>` : ''}${A.gesucht.length ? `<div><div class="gg-k">Gesucht</div>${A.gesucht.map(g => `<div>${rich(g)}</div>`).join('')}</div>` : ''}</div>`;
   if (!target) { el.innerHTML = h + `<div class="btn-col"><button class="btn filled" data-a="next">Weiter</button></div>`; on(el, { next: () => ctx.onDone('hilfe', { skip: true }) }); return; }
   h += `<div class="step-box"><div class="step-q">Dein Endergebnis</div>${target.typ === 'zahl' ? numInput(target.einheit) : fmlInput([...varNames(parseEqSafe(target.text)).values()], '')}<div class="act"><button class="btn filled" data-a="next">Abgeben und weiter</button></div></div>`;
@@ -500,7 +540,7 @@ function runExamAufgabe(el, item, ctx, meta, A, steps) {
       else { const r = checkSolved(target.text, (parseEqSafe(target.text).l || {}).n, target.text, v); ok = r.ok; msg = r.msg; fehlerart = r.fehlerart || 'Umstellen'; }
       const richtig = target.typ === 'zahl' ? showValue(target.wert, target.einheit) : target.text;
       if (!ok) logError(meta, item, { aufgabe: A.text, eingabe: v || '(leer)', richtig, fehlerart, meldung: msg });
-      ctx.onDone(ok ? 'richtig' : 'falsch', { eingabe: v, richtig, msg, aufgabe: A.text });
+      ctx.onDone(ok ? 'richtig' : 'falsch', { eingabe: v, richtig, msg, aufgabe: A.text, fehlerart: ok ? '' : fehlerart });
     }
   });
 }

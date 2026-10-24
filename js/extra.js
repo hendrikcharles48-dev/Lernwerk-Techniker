@@ -281,7 +281,7 @@ function runExam(items, zeigeZeit) {
     const fresh = box.cloneNode(false); box.replaceWith(fresh);
     if (i >= items.length) return auswertung(fresh);
     const it = items[i];
-    runItem(fresh, it, { exam: true, onDone: async (erg, inf) => { res.push({ it, erg, inf: inf || {} }); await st.recordCard(it, erg); i++; show(); $('.sheet-body', sheet.el).scrollTop = 0; } });
+    runItem(fresh, it, { exam: true, blind: true, onDone: async (erg, inf) => { res.push({ it, erg, inf: inf || {} }); await st.recordCard(it, erg); i++; show(); $('.sheet-body', sheet.el).scrollTop = 0; } });
   }
   function auswertung(box) {
     clearInterval(tm);
@@ -291,6 +291,10 @@ function runExam(items, zeigeZeit) {
     let h = `<div class="sum"><div class="sum-big">${ok} von ${res.length}</div><div class="muted">richtig${zeigeZeit ? ' in ' + fmtT(Date.now() - t0) + ' Minuten' : ''}</div></div>`;
     h += `<div class="sec-h">Pro Thema</div>` + list([...by].map(([tid, rs]) => { const th = st.thema(tid); const n = rs.filter(r => r.erg === 'richtig').length; return row({ title: th ? th.thema.name : tid, detail: n + ' von ' + rs.length, html: progress(n / rs.length, th ? th.fach.farbe : null) }); }));
     const wrong = res.filter(r => r.erg !== 'richtig');
+    // Woran es lag: Fehlerarten zählen, damit klar ist, was als Nächstes geübt wird
+    const arten = new Map();
+    for (const r of wrong) { const k = r.inf.fehlerart || (r.inf.eingabe ? 'Rechenweg' : 'Nicht bearbeitet'); arten.set(k, (arten.get(k) || 0) + 1); }
+    if (arten.size) h += `<div class="sec-h">Nach Fehlerart</div>` + list([...arten].sort((a, b) => b[1] - a[1]).map(([k, n]) => row({ title: k, detail: String(n) })));
     if (wrong.length) h += `<div class="sec-h">Das schaust du dir nochmal an</div>` + list(wrong.map(r => row({ titleHTML: rich(r.inf.aufgabe || itemTitle(r.it)), sub: 'Deine Eingabe: ' + (r.inf.eingabe || 'keine') + (r.inf.richtig ? ' · richtig: ' + r.inf.richtig : '') }))) + `<div class="sec-f">Diese Fehler stehen jetzt auch im Fehlerbuch.</div>`;
     h += `<div class="btn-col"><button class="btn filled" data-a="close">Fertig</button></div>`;
     box.innerHTML = h;

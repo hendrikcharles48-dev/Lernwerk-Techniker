@@ -333,9 +333,25 @@ export function weekStats() {
     if (e.zeit < mon.getTime()) continue;
     const d = new Date(e.zeit);
     tage[(d.getDay() + 6) % 7]++;
-    if (e.ok != null) { n++; if (e.ok) ok++; }
+    if (e.ok != null && e.art !== 'ansatz') { n++; if (e.ok) ok++; }
   }
   return { tage, n, ok, aktiv: tage.filter(Boolean).length };
+}
+// Hilfestufe für Rechenaufgaben eines Themas: 1 geführt, 2 mit Schritten, 3 frei.
+// Neu: geführt. Dreimal hintereinander ohne Hilfe: frei. Zuletzt zweimal falsch: wieder geführt.
+export const STUFEN = { 1: 'geführt', 2: 'mit Schritten', 3: 'frei' };
+export function aufgabenStufe(tid) {
+  const r = S.events.filter(e => e.tid === tid && e.art === 'aufgabe' && e.ergebnis).slice(-3).map(e => e.ergebnis);
+  if (!r.length) return 1;
+  const l2 = r.slice(-2);
+  if (l2.length === 2 && l2.every(x => x === 'falsch')) return 1;
+  if (r.length === 3 && r.every(x => x === 'richtig')) return 3;
+  return 2;
+}
+// Wie oft wurde der Ansatz sofort erkannt? Für die Wochenübersicht.
+export function ansatzQuote(seit = 0) {
+  const e = S.events.filter(x => x.art === 'ansatz' && x.zeit >= seit);
+  return { n: e.length, ok: e.filter(x => x.ok).length };
 }
 export async function setPlace(p) { await kvSet('zuletzt', Object.assign({ zeit: Date.now() }, p)); }
 export const place = () => kvGet('zuletzt', null);
