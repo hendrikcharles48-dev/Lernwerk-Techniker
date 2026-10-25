@@ -8,7 +8,7 @@ import { mehrPage, unterrichtPage, termineDetail, termEditor, datensicherung, ap
 import { prefs } from './db.js';
 import { canSpeak, readAloud } from './speech.js';
 
-export const VERSION = '1.8.0';
+export const VERSION = '1.8.1';
 
 /* ===== Heute ===== */
 // Freundliche, wechselnde Sätze für den Start. Ohne Druck.
@@ -46,11 +46,12 @@ const heute = {
     h += `<div class="card today-card"><div class="tc-top">${ring(anteil, 76, offen ? 'var(--accent)' : 'var(--green)', ringIn)}<div class="tc-txt">
       <div class="tc-t">${offen ? (erledigt ? 'Schon ' + plural(erledigt, 'Übung', 'Übungen') + ' geschafft' : 'Heute dran') : erledigt ? 'Alles geschafft für heute!' : 'Gerade nichts fällig'}</div>
       <div class="tc-s">${offen ? 'Noch ' + plural(offen, 'Übung', 'Übungen') + ', etwa ' + Math.max(1, Math.round(q.sekunden / 60)) + ' Minuten.' : erledigt ? 'Stark. Was du heute geübt hast, kommt in ein paar Tagen wieder.' : 'Markiere ein Thema als „aktuell im Unterricht“, dann kommen neue Karten dazu.'}</div></div></div>
-      ${offen ? `<div class="tc-tags">${[...by].slice(0, 5).map(([k, n]) => `<span class="tag">${esc(k)} <b>${n}</b></span>`).join('')}</div><button class="btn filled wide" data-a="today">${icon('play')} Los geht’s</button>` : ''}</div>`;
+      ${offen ? `<div class="tc-tags">${[...by].slice(0, 5).map(([k, n]) => `<span class="tag">${esc(k)} <b>${n}</b></span>`).join('')}</div>` : ''}</div>`;
+    const qu = unterrichtQueue(), qa = allesQueue();
+    h += `<button class="five" data-a="lernU">${icon('bolt')}<span><b>Unterricht</b><small>${aktTids().length ? 'Nur was gerade im Unterricht dran ist. ' + (qu.items.length ? plural(qu.items.length, 'Übung', 'Übungen') + ' offen.' : 'Nichts fällig, du kannst trotzdem üben.') : 'Noch keine Themen angewählt. Tippe hier.'}</small></span></button>`;
+    h += `<button class="mixbtn" data-a="lernA">${icon('mix')}<span><b>Alles wiederholen</b><small>Alles, was schon dran war, gemischt. ${qa.faellig ? plural(qa.faellig, 'Übung', 'Übungen') + ' fällig.' : 'Gerade nichts fällig, du übst trotzdem gemischt.'}</small></span></button>`;
     const aktT = st.kvGet('aktuell', []).map(id => st.thema(id)).filter(Boolean);
     h += `<button class="card unt-card" data-a="unterricht"><span class="unt-h">${icon('check')}<b>Im Unterricht</b><span class="muted">${aktT.length ? plural(aktT.length, 'Thema', 'Themen') : 'nichts angewählt'}</span>${icon('chev', 'chev')}</span>${aktT.length ? `<span class="tc-tags">${aktT.slice(0, 6).map(({ fach: f, thema: t }) => `<span class="tag" style="--fc:${f.farbe}">${esc(t.name)}</span>`).join('')}${aktT.length > 6 ? `<span class="tag">und ${aktT.length - 6} weitere</span>` : ''}</span>` : `<span class="muted">Tippe hier und schalte ein, was gerade dran ist.</span>`}</button>`;
-    h += `<button class="five" data-a="five">${icon('bolt')}<span><b>5 Minuten</b><small>Sofort loslegen, ganz ohne Planen</small></span></button>`;
-    h += `<button class="mixbtn" data-a="mix">${icon('mix')}<span><b>Gemischt üben</b><small>Aufgaben aus allen Themen. Du erkennst selbst, was dran ist.</small></span></button>`;
     const ex = st.nextExam(today);
     if (ex) {
       const d = daysBetween(today, ex.datum);
@@ -82,39 +83,57 @@ const heute = {
       backup: () => push(datensicherung()),
       exam: id => push(termineDetail(id)),
       newexam: () => termEditor({}),
-      five: () => fiveMinutes(),
-      mix: () => gemischt(),
+      lernU: () => lernenUnterricht(),
+      lernA: () => lernenAlles(),
       unterricht: () => push(unterrichtPage()),
-      today: () => runSession(st.buildQueue(900).items, 'Heute dran', { onClose: () => refreshTop() }),
       topic: tid => push(topicPage(tid)),
       weiter: () => { const pl = st.place(); if (pl.art === 'trainer' && pl.datei) openTrainer(pl.tid, 'trainer/' + pl.datei); else push(topicPage(pl.tid, pl.tab)); }
     });
   }
 };
-export function fiveMinutes() {
-  let items = st.buildQueue(300).items;
-  if (!items.length) {
-    const akt = st.kvGet('aktuell', []);
-    const tids = akt.length ? akt : st.allTids().filter(t => st.hasTopicContent(t));
-    items = sortForPractice(tids.flatMap(t => st.topicItems(t)).filter(i => i.art !== 'aufgabe')).slice(0, 10);
-    if (items.length) toast('Gerade ist nichts fällig. Ich nehme Karten aus deinen Themen.');
-  }
-  runSession(items, '5 Minuten', { minutes: 5, onClose: () => refreshTop() });
+// Zwei Wege zum Lernen auf der Startseite:
+// Unterricht: nur die Themen, die gerade im Unterricht dran sind.
+// Alles: alles, was schon einmal dran war, gemischt und ohne Themenhinweis.
+const aktTids = () => st.kvGet('aktuell', []).filter(id => st.thema(id));
+// Themen, die schon dran waren: angewählt oder schon einmal geübt
+function gelernteTids() {
+  const akt = new Set(aktTids());
+  return st.allTids().filter(t => akt.has(t) || st.topicItems(t).some(i => st.card(i.id)));
 }
-
-// Gemischtes Üben: Aufgaben verschiedener Themen im Wechsel, ohne Themenhinweis.
-// So trainierst du, selbst zu erkennen, welcher Ansatz passt.
-export function gemischt(n = 8) {
-  const tids = shuffle(st.allTids().filter(t => st.hasTopicContent(t)));
+// Rechenaufgaben verschiedener Themen im Wechsel, zuerst die mit Ansatz-Frage
+function mixAufgaben(tids, n) {
   const pick = (lists, out) => { for (let r = 0; out.length < n && lists.some(l => l.length); r++) for (const l of lists) if (l.length && out.length < n) out.push(l.shift()); };
-  // Zuerst Rechenaufgaben mit Ansatz-Frage, im Wechsel der Themen, dann Umstellaufgaben als Auffüller
-  const mitAnsatz = tids.map(t => shuffle(st.topicItems(t).filter(i => i.art === 'aufgabe' && i.aufgabe.ansatz))).filter(l => l.length);
-  const rest = tids.map(t => shuffle(st.topicItems(t).filter(i => (i.art === 'aufgabe' && !i.aufgabe.ansatz) || i.art === 'umstellen'))).filter(l => l.length);
-  if (mitAnsatz.length + rest.length < 2) { toast('Für gemischtes Üben brauchst du mindestens zwei Themen mit Aufgaben.'); return; }
-  const items = [];
-  pick(mitAnsatz, items);
-  pick(rest, items);
-  runSession(items, 'Gemischt üben', { blind: true, onClose: () => refreshTop() });
+  const ts = shuffle([...tids]);
+  const mitAnsatz = ts.map(t => shuffle(st.topicItems(t).filter(i => i.art === 'aufgabe' && i.aufgabe.ansatz))).filter(l => l.length);
+  const rest = ts.map(t => shuffle(st.topicItems(t).filter(i => (i.art === 'aufgabe' && !i.aufgabe.ansatz) || i.art === 'umstellen'))).filter(l => l.length);
+  const out = [];
+  pick(mitAnsatz, out);
+  pick(rest, out);
+  return out;
+}
+export function unterrichtQueue() { const t = aktTids(); return t.length ? st.buildQueue(900, { tids: t, mitFehlern: true }) : { items: [], sekunden: 0 }; }
+export function allesQueue() { return st.buildQueue(900, { maxNeu: 0 }); }
+export function lernenUnterricht() {
+  const tids = aktTids();
+  if (!tids.length) { toast('Wähl zuerst aus, was gerade im Unterricht dran ist.'); push(unterrichtPage()); return; }
+  let items = unterrichtQueue().items;
+  if (!items.length) {
+    items = sortForPractice(tids.flatMap(t => st.topicItems(t))).slice(0, 12);
+    if (items.length) toast('Gerade ist nichts fällig. Ich nehme Übungen aus deinen Unterrichtsthemen.');
+  }
+  if (!items.length) { toast('Für deine Unterrichtsthemen gibt es noch keine Übungen. Füge Inhalte über Einfügen hinzu.'); return; }
+  runSession(items, 'Unterricht', { onClose: () => refreshTop() });
+}
+export function lernenAlles() {
+  const tids = gelernteTids();
+  if (!tids.length) { toast('Es war noch nichts dran. Fang mit Unterricht an.'); return; }
+  const due = allesQueue().items;
+  const ids = new Set(due.map(i => i.id));
+  const mix = mixAufgaben(tids, due.length >= 12 ? 3 : 6).filter(i => !ids.has(i.id));
+  let items = shuffle([...due, ...mix]);
+  if (items.length < 4) items = items.concat(sortForPractice(tids.flatMap(t => st.topicItems(t)).filter(i => !ids.has(i.id) && !mix.includes(i))).slice(0, 8));
+  if (!items.length) { toast('Gerade gibt es nichts zu wiederholen.'); return; }
+  runSession(items, 'Alles wiederholen', { blind: true, onClose: () => refreshTop() });
 }
 
 /* ===== Fächer ===== */
