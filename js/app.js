@@ -8,7 +8,7 @@ import { mehrPage, unterrichtPage, termineDetail, termEditor, datensicherung, ap
 import { prefs } from './db.js';
 import { canSpeak, readAloud } from './speech.js';
 
-export const VERSION = '1.9.0';
+export const VERSION = '1.9.1';
 
 /* ===== Heute ===== */
 // Freundliche, wechselnde Sätze für den Start. Ohne Druck.
@@ -59,7 +59,7 @@ const heute = {
       trs.push({ f, t, x, due: !!(c && c.faellig <= today) });
     }
     trs.sort((a, b) => b.due - a.due);
-    if (trs.length) h += `<div class="sec-h">Meine Trainer</div><div class="tr-grid">${trs.map(({ f, t, x, due }) => `<button class="tr-tile" data-a="trainer" data-d="${esc(t.id + '|' + x.datei)}" style="--fc:${f.farbe}"><span class="tr-ic">${icon(fachIcon(f))}</span><b>${esc(x.titel)}</b><small>${esc(f.kurz || f.name)}${due ? ' · fällig' : ''}</small></button>`).join('')}</div>`;
+    if (trs.length) h += `<div class="sec-h">Meine Trainer</div><div class="tr-grid"><button class="tr-tile tr-all" data-a="trmix"><span class="tr-ic">${icon('mix')}</span><b>Alle Trainer gemischt</b><small>Aufgaben aus allen Trainern durcheinander, ohne Themenhinweis</small></button>${trs.map(({ f, t, x, due }) => `<button class="tr-tile" data-a="trainer" data-d="${esc(t.id + '|' + x.datei)}" style="--fc:${f.farbe}"><span class="tr-ic">${icon(fachIcon(f))}</span><b>${esc(x.titel)}</b><small>${esc(f.kurz || f.name)}${due ? ' · fällig' : ''}</small></button>`).join('')}</div>`;
     const aktT = st.kvGet('aktuell', []).map(id => st.thema(id)).filter(Boolean);
     h += `<button class="card unt-card" data-a="unterricht"><span class="unt-h">${icon('check')}<b>Im Unterricht</b><span class="muted">${aktT.length ? plural(aktT.length, 'Thema', 'Themen') : 'nichts angewählt'}</span>${icon('chev', 'chev')}</span>${aktT.length ? `<span class="tc-tags">${aktT.slice(0, 6).map(({ fach: f, thema: t }) => `<span class="tag" style="--fc:${f.farbe}">${esc(t.name)}</span>`).join('')}${aktT.length > 6 ? `<span class="tag">und ${aktT.length - 6} weitere</span>` : ''}</span>` : `<span class="muted">Tippe hier und schalte ein, was gerade dran ist.</span>`}</button>`;
     const ex = st.nextExam(today);
@@ -92,6 +92,7 @@ const heute = {
       exam: id => push(termineDetail(id)),
       newexam: () => termEditor({}),
       lernU: () => lernenUnterricht(),
+      trmix: () => trainerGemischt(),
       trainer: d => { const i = d.indexOf('|'); openTrainer(d.slice(0, i), d.slice(i + 1)); },
       lernA: () => lernenAlles(),
       unterricht: () => push(unterrichtPage()),
@@ -107,7 +108,7 @@ const aktTids = () => st.kvGet('aktuell', []).filter(id => st.thema(id));
 // Themen, die schon dran waren: angewählt oder schon einmal geübt
 function gelernteTids() {
   const akt = new Set(aktTids());
-  return st.allTids().filter(t => akt.has(t) || st.topicItems(t).some(i => st.card(i.id)));
+  return st.allTids().filter(t => akt.has(t) || st.card('t:' + t) || st.topicItems(t).some(i => st.card(i.id)));
 }
 // Rechenaufgaben verschiedener Themen im Wechsel, zuerst die mit Ansatz-Frage
 function mixAufgaben(tids, n) {
@@ -132,6 +133,15 @@ export function lernenUnterricht() {
   }
   if (!items.length) { toast('Für deine Unterrichtsthemen gibt es noch keine Übungen. Füge Inhalte über Einfügen hinzu.'); return; }
   runSession(items, 'Unterricht', { onClose: () => refreshTop() });
+}
+// Aufgaben aus allen Themen, zu denen es einen Trainer gibt, gemischt und ohne Themenhinweis
+export function trainerGemischt() {
+  const tids = st.allTids().filter(t => ((st.thema(t) || { thema: {} }).thema.trainer || []).length);
+  const auf = mixAufgaben(tids, 7);
+  const mc = shuffle(tids.flatMap(t => st.topicItems(t).filter(i => i.art === 'auswahl'))).slice(0, 3);
+  const items = shuffle([...auf, ...mc]);
+  if (!items.length) { toast('Für die Trainer gibt es noch keine Aufgaben.'); return; }
+  runSession(items, 'Alle Trainer gemischt', { blind: true, onClose: () => refreshTop() });
 }
 export function lernenAlles() {
   const tids = gelernteTids();

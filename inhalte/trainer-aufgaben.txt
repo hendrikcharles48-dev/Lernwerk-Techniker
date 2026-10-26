@@ -1,0 +1,342 @@
+=== LERNWERK ===
+Fach: Technische Mechanik
+Thema: Zentrales Kräftesystem
+Karte: Mit welcher Probe prüfst du eine Zerlegung? | Wurzel aus F_x hoch 2 plus F_y hoch 2 muss wieder F ergeben.
+Karte: Welches Vorzeichen hat F_x bei einem Winkel von 120 Grad? | Minus, die Kraft zeigt nach links.
+Karte: Welches Vorzeichen hat F_y bei einem Winkel von 300 Grad? | Minus, die Kraft zeigt nach unten.
+Karte: Wie bekommst du die Gleichgewichtskraft aus der Resultierenden? | Gleicher Betrag, entgegengesetzte Richtung.
+Aufgabe: Eine Kraft F = {F} N wirkt unter α = {a}° zur positiven x-Achse, gegen den Uhrzeigersinn gemessen. Zerlege sie in F_x und F_y, mit Vorzeichen.
+Gegeben: F = {F} N
+Gegeben: α = {a}°
+Gesucht: F_x und F_y in N
+Ansatz: F_x = F · cos α, F_y = F · sin α | F_x = F · sin α, F_y = F · cos α; F_x = F / cos α, F_y = F / sin α; F_x = F · tan α, F_y = F / tan α
+Signal: Eine schräge Kraft und ihr Winkel zur x-Achse sind gegeben.
+Warum: Weil der Winkel an der x-Achse anliegt | Weil der Winkel an der y-Achse anliegt; Weil sin immer der waagerechte Anteil ist
+Kontrolle: Welche Probe passt? | √(F_x² + F_y²) muss wieder F ergeben | F_x + F_y muss wieder F ergeben; F_x mal F_y muss wieder F ergeben
+Schritt: x-Anteil F_x | F * cos(a) | N
+Schritt: y-Anteil F_y | F * sin(a) | N
+Variable: F | 100 | 900 | 50
+Variable: a | 10 | 350 | 10
+Rechnung: F * sin(a)
+Aufgabe: Am selben Punkt greifen F1 = {F1} N unter α1 = {a1}° und F2 = {F2} N unter α2 = {a2}° an, beide Winkel ab der positiven x-Achse. Wie groß ist die Resultierende R?
+Gegeben: F1 = {F1} N, α1 = {a1}°
+Gegeben: F2 = {F2} N, α2 = {a2}°
+Gesucht: Resultierende R in N
+Ansatz: Zerlegen, Anteile addieren, Pythagoras | Beträge addieren, fertig; Nur die größere Kraft nehmen; Winkel addieren, dann zerlegen
+Signal: Mehrere schräge Kräfte greifen am selben Punkt an.
+Warum: Weil sich Kräfte nur als Anteile addieren lassen | Weil sich Kräfte wie Zahlen addieren lassen; Weil die Winkel keine Rolle spielen
+Kontrolle: Kann R größer sein als F1 plus F2? | Nein, höchstens gleich groß | Ja, bei großen Winkeln; Ja, das ist immer so
+Schritt: Summe der x-Anteile R_x | F1 * cos(a1) + F2 * cos(a2) | N
+Schritt: Summe der y-Anteile R_y | F1 * sin(a1) + F2 * sin(a2) | N
+Schritt: Resultierende R | sqrt((F1 * cos(a1) + F2 * cos(a2))^2 + (F1 * sin(a1) + F2 * sin(a2))^2) | N
+Variable: F1 | 100 | 800 | 50
+Variable: a1 | 10 | 170 | 10
+Variable: F2 | 100 | 800 | 50
+Variable: a2 | 190 | 350 | 10
+Rechnung: sqrt((F1 * cos(a1) + F2 * cos(a2))^2 + (F1 * sin(a1) + F2 * sin(a2))^2)
+Aufgabe: An einem Knoten ziehen F1 = {F1} N unter α1 = {a1}° und F2 = {F2} N unter α2 = {a2}°. Welche Kraft F3 hält den Knoten im Gleichgewicht? Gib die Anteile mit Vorzeichen an.
+Gegeben: F1 = {F1} N, α1 = {a1}°
+Gegeben: F2 = {F2} N, α2 = {a2}°
+Gesucht: F3_x, F3_y und F3 in N
+Ansatz: Anteile summieren, F3 mit umgekehrtem Vorzeichen | Anteile summieren, F3 mit gleichem Vorzeichen; Nur die x-Anteile ausgleichen; F3 gleich F1 plus F2 setzen
+Signal: Gesucht ist die Kraft, die alles aufhebt, also Gleichgewicht.
+Warum: Weil im Gleichgewicht alle Anteile zusammen null ergeben | Weil im Gleichgewicht alle Kräfte gleich groß sind; Weil im Gleichgewicht nur die x-Anteile zählen
+Kontrolle: Wie verhält sich F3 zur Resultierenden aus F1 und F2? | Gleich groß, aber entgegengesetzt | Doppelt so groß, gleiche Richtung; Halb so groß, gleiche Richtung
+Schritt: x-Anteil F3_x | -(F1 * cos(a1) + F2 * cos(a2)) | N
+Schritt: y-Anteil F3_y | -(F1 * sin(a1) + F2 * sin(a2)) | N
+Schritt: Betrag F3 | sqrt((F1 * cos(a1) + F2 * cos(a2))^2 + (F1 * sin(a1) + F2 * sin(a2))^2) | N
+Variable: F1 | 100 | 800 | 50
+Variable: a1 | 10 | 170 | 10
+Variable: F2 | 100 | 800 | 50
+Variable: a2 | 190 | 350 | 10
+Rechnung: sqrt((F1 * cos(a1) + F2 * cos(a2))^2 + (F1 * sin(a1) + F2 * sin(a2))^2)
+Aufgabe: Eine Kraft F = {F} N zeigt nach rechts oben. Ihr x-Anteil ist F_x = {Fx} N. Bestimme den Winkel α zur x-Achse und den y-Anteil F_y.
+Gegeben: F = {F} N
+Gegeben: F_x = {Fx} N
+Gesucht: Winkel α in Grad und F_y in N
+Ansatz: α = arccos(F_x / F), dann F_y = √(F² − F_x²) | α = arcsin(F_x / F), dann F_y = √(F² − F_x²); α = arccos(F / F_x), dann F_y = F − F_x; α = cos(F_x / F), dann F_y = F − F_x
+Signal: Kraft und ein Anteil sind gegeben, gesucht sind Winkel und der andere Anteil.
+Warum: Weil F_x am Winkel anliegt, also gehört cos dazu | Weil F_x dem Winkel gegenüberliegt; Weil Anteile sich einfach abziehen lassen
+Kontrolle: Welche Probe passt? | F · cos α muss wieder F_x ergeben | F · sin α muss wieder F_x ergeben; F minus F_x muss F_y ergeben
+Schritt: Winkel α | acos(Fx / F) | °
+Schritt: y-Anteil F_y | sqrt(F^2 - Fx^2) | N
+Variable: F | 500 | 900 | 50
+Variable: Fx | 50 | 450 | 25
+Rechnung: sqrt(F^2 - Fx^2)
+Quelle: Selbst formuliert, nach den Aufgabenarten im Statik-Trainer.
+=== ENDE ===
+
+=== LERNWERK ===
+Fach: Technische Mechanik
+Thema: Momente
+Karte: Warum taucht die Lagerkraft in der Momentengleichung um den Drehpunkt nicht auf? | Ihr Hebelarm um diesen Punkt ist null.
+Karte: Wie lautet das Hebelgesetz? | F1 mal a1 gleich F2 mal a2.
+Aufgabe: Ein Hebel hat den Drehpunkt D. Links wirkt F1 = {F1} N im Abstand a1 = {a1} m. Rechts wird im Abstand a2 = {a2} m die Kraft F2 gesucht. Beide Kräfte zeigen senkrecht nach unten. Wie groß sind F2 und die Lagerkraft in D?
+Gegeben: F1 = {F1} N
+Gegeben: a1 = {a1} m
+Gegeben: a2 = {a2} m
+Gesucht: F2 und Lagerkraft F_D in N
+Ansatz: F1 · a1 = F2 · a2, dann F_D = F1 + F2 | F1 · a2 = F2 · a1, dann F_D = F1 + F2; F1 · a1 = F2 · a2, dann F_D = F1 − F2; F1 + a1 = F2 + a2, dann F_D = F1 + F2
+Signal: Ein Hebel mit Drehpunkt, gesucht sind eine Kraft und die Lagerkraft.
+Warum: Weil um D die Lagerkraft keinen Hebel hat | Weil die Lagerkraft immer null ist; Weil um D beide Abstände gleich sind
+Kontrolle: Warum ist F_D größer als F1 und F2? | Weil beide nach unten drücken | Weil der Hebel F_D verstärkt; Weil F_D waagerecht wirkt
+Schritt: Kraft F2 | F1 * a1 / a2 | N
+Schritt: Lagerkraft F_D | F1 + F1 * a1 / a2 | N
+Variable: F1 | 100 | 800 | 50
+Variable: a1 | 0,2 | 1,2 | 0,1
+Variable: a2 | 0,2 | 1,5 | 0,1
+Rechnung: F1 + F1 * a1 / a2
+Quelle: Selbst formuliert, nach den Aufgabenarten im Statik-Trainer.
+=== ENDE ===
+
+=== LERNWERK ===
+Fach: Technische Mechanik
+Thema: Lagerkräfte
+Karte: Was bedeutet ein Minus bei einer Lagerkraft? | Sie zeigt andersherum als angenommen, oft nach unten. Das Lager hält fest.
+Karte: Um welchen Punkt stellst du die erste Momentengleichung auf? | Um ein Lager, dann fällt dessen Lagerkraft heraus.
+Aufgabe: Ein Balken liegt auf Lager A links und Lager B im Abstand l = {l} m. Er ragt u = {u} m über B hinaus. Am Ende des Überstands hängt F = {F} N senkrecht nach unten. Wie groß sind die Lagerkräfte? Rechne nach oben positiv.
+Gegeben: l = {l} m
+Gegeben: u = {u} m
+Gegeben: F = {F} N
+Gesucht: F_B und F_A in N, mit Vorzeichen
+Ansatz: Momente um A: F_B · l = F · (l + u), dann Summe Fy | Momente um A: F_B · l = F · u, dann Summe Fy; Momente um B: F_A · l = F · l, dann Summe Fy; Summe Fy allein reicht für beide Lagerkräfte
+Signal: Ein Balken mit Überstand, die Last hängt außerhalb der Lager.
+Warum: Weil um A nur noch F_B unbekannt ist | Weil um A beide Lagerkräfte herausfallen; Weil Summe Fy zwei Unbekannte gleich löst
+Kontrolle: Was bedeutet das Minus bei F_A? | F_A zeigt nach unten, das Lager hält fest | Die Rechnung ist auf jeden Fall falsch; F_A ist null, das Lager trägt nichts
+Schritt: Lagerkraft F_B | F * (l + u) / l | N
+Schritt: Lagerkraft F_A | F - F * (l + u) / l | N
+Variable: l | 2 | 6 | 0,5
+Variable: u | 0,5 | 2 | 0,5
+Variable: F | 500 | 5000 | 250
+Rechnung: F - F * (l + u) / l
+Quelle: Selbst formuliert, nach den Aufgabenarten im Statik-Trainer.
+=== ENDE ===
+
+=== LERNWERK ===
+Fach: Elektrotechnik
+Thema: Rückrechnen
+Karte: Womit fängst du beim Rückrechnen in einer Reihenschaltung an? | Mit dem Strom am Widerstand, an dem du Spannung und Widerstand kennst.
+Karte: Womit fängst du beim Rückrechnen in einer Parallelschaltung an? | Mit der Spannung, denn sie ist an allen Zweigen gleich.
+Karte: Was ist in einer Reihenschaltung überall gleich? | Der Strom.
+Karte: Was ist in einer Parallelschaltung überall gleich? | Die Spannung.
+Aufgabe: R1 = {R1} Ω und R2 = {R2} Ω liegen in Reihe. An R2 misst du U2 = {U2} V. Wie groß ist die Gesamtspannung U?
+Gegeben: R1 = {R1} Ω
+Gegeben: R2 = {R2} Ω
+Gegeben: U2 = {U2} V
+Gesucht: Gesamtspannung U in V
+Ansatz: I = U2 / R2, dann U1 = I · R1, dann U = U1 + U2 | I = U2 / R1, dann U1 = I · R1, dann U = U1 + U2; I = U2 · R2, dann U1 = I · R1, dann U = U1 + U2; I = U2 / R2, dann gleich U = I · R2
+Signal: Reihenschaltung, an einem Widerstand sind Spannung und Widerstand bekannt.
+Warum: Weil der Strom in der Reihe überall gleich ist | Weil die Spannung in der Reihe überall gleich ist; Weil der Strom sich in der Reihe aufteilt
+Kontrolle: Ist U größer als U2? | Ja, U2 ist nur ein Teil von U | Nein, beide sind gleich groß; Nein, U ist kleiner als U2
+Schritt: Strom I | U2 / R2 | A
+Schritt: Spannung U1 | U2 / R2 * R1 | V
+Schritt: Gesamtspannung U | U2 / R2 * R1 + U2 | V
+Variable: R1 | 10 | 200 | 10
+Variable: R2 | 10 | 200 | 10
+Variable: U2 | 2 | 20 | 1
+Rechnung: U2 / R2 * (R1 + R2)
+Aufgabe: R1 = {R1} Ω und R2 = {R2} Ω liegen parallel. Durch R1 fließen I1 = {I1} A. Wie groß ist der Gesamtstrom I?
+Gegeben: R1 = {R1} Ω
+Gegeben: R2 = {R2} Ω
+Gegeben: I1 = {I1} A
+Gesucht: Gesamtstrom I in A
+Ansatz: U = I1 · R1, dann I2 = U / R2, dann I = I1 + I2 | U = I1 / R1, dann I2 = U / R2, dann I = I1 + I2; U = I1 · R1, dann I2 = U · R2, dann I = I1 + I2; U = I1 · R1, dann I = U / (R1 + R2)
+Signal: Parallelschaltung, in einem Zweig sind Strom und Widerstand bekannt.
+Warum: Weil die Spannung an beiden Zweigen gleich ist | Weil der Strom in beiden Zweigen gleich ist; Weil sich die Spannung aufteilt
+Kontrolle: Durch welchen Widerstand fließt mehr Strom? | Durch den kleineren | Durch den größeren; Durch beide gleich viel
+Schritt: Spannung U | I1 * R1 | V
+Schritt: Strom I2 | I1 * R1 / R2 | A
+Schritt: Gesamtstrom I | I1 + I1 * R1 / R2 | A
+Variable: R1 | 10 | 200 | 10
+Variable: R2 | 10 | 200 | 10
+Variable: I1 | 0,1 | 2 | 0,1
+Rechnung: I1 + I1 * R1 / R2
+Aufgabe: R1 = {R1} Ω liegt in Reihe zu einer Parallelschaltung aus R2 = {R2} Ω und R3 = {R3} Ω. Durch R3 fließen I3 = {I3} A. Wie groß ist die Gesamtspannung U?
+Gegeben: R1 = {R1} Ω
+Gegeben: R2 = {R2} Ω
+Gegeben: R3 = {R3} Ω
+Gegeben: I3 = {I3} A
+Gesucht: Gesamtspannung U in V
+Ansatz: U23 = I3 · R3, I2 = U23 / R2, I = I2 + I3, U = I · R1 + U23 | U23 = I3 · R1, I2 = U23 / R2, I = I2 + I3, U = I · R1 + U23; U23 = I3 · R3, I = I3, U = I · (R1 + R2 + R3); U23 = I3 · R3, I2 = I3, I = I2 + I3, U = I · R1
+Signal: Gemischte Schaltung, gemessen ist ein Strom in einem Zweig der Parallelschaltung.
+Warum: Weil man vom bekannten Zweig nach außen rechnet | Weil man immer bei der Quelle anfängt; Weil man alle Widerstände zuerst addiert
+Kontrolle: Fließt durch R1 der Gesamtstrom? | Ja, R1 liegt vor der Verzweigung | Nein, nur der Strom I3; Nein, nur der Strom I2
+Schritt: Spannung an der Parallelschaltung U23 | I3 * R3 | V
+Schritt: Strom I2 | I3 * R3 / R2 | A
+Schritt: Gesamtstrom I | I3 * R3 / R2 + I3 | A
+Schritt: Gesamtspannung U | (I3 * R3 / R2 + I3) * R1 + I3 * R3 | V
+Variable: R1 | 10 | 100 | 10
+Variable: R2 | 20 | 200 | 10
+Variable: R3 | 20 | 200 | 10
+Variable: I3 | 0,1 | 1 | 0,1
+Rechnung: (I3 * R3 / R2 + I3) * R1 + I3 * R3
+Quelle: Selbst formuliert, nach den Aufgabenarten im Rückrechen-Trainer.
+=== ENDE ===
+
+=== LERNWERK ===
+Fach: Mathematik
+Thema: Binomische Formeln
+Karte: Wie lautet die erste binomische Formel? | a plus b, das Ganze hoch 2, gleich a² plus 2ab plus b².
+Karte: Wie lautet die zweite binomische Formel? | a minus b, das Ganze hoch 2, gleich a² minus 2ab plus b².
+Karte: Wie lautet die dritte binomische Formel? | a plus b mal a minus b gleich a² minus b².
+Karte: Wie rechnest du 47 mal 53 im Kopf? | 50 hoch 2 minus 3 hoch 2, also 2500 minus 9 gleich 2491.
+Aufgabe: Rechne ({a}0 + {b})² mit der ersten binomischen Formel.
+Gegeben: a = {a}0
+Gegeben: b = {b}
+Gesucht: Ergebnis
+Ansatz: a² + 2ab + b² | a² + b²; a² + ab + b²; a² − 2ab + b²
+Signal: Eine Summe steht in Klammern hoch 2.
+Warum: Weil beim Ausmultiplizieren zweimal ab entsteht | Weil man nur die Quadrate addiert; Weil das Minus aus der Klammer kommt
+Kontrolle: Ist das Ergebnis größer als a² plus b²? | Ja, um 2ab | Nein, es ist gleich groß; Nein, es ist kleiner
+Schritt: a² | (10 * a)^2 | 
+Schritt: 2ab | 2 * 10 * a * b | 
+Schritt: b² | b^2 | 
+Schritt: Ergebnis | (10 * a)^2 + 2 * 10 * a * b + b^2 | 
+Variable: a | 2 | 9 | 1
+Variable: b | 1 | 9 | 1
+Rechnung: (10 * a + b)^2
+Aufgabe: Rechne ({a}0 − {b})² mit der zweiten binomischen Formel.
+Gegeben: a = {a}0
+Gegeben: b = {b}
+Gesucht: Ergebnis
+Ansatz: a² − 2ab + b² | a² + 2ab + b²; a² − b²; a² − 2ab − b²
+Signal: Eine Differenz steht in Klammern hoch 2.
+Warum: Weil minus mal minus bei b² plus ergibt | Weil b² immer abgezogen wird; Weil das Mittelglied wegfällt
+Kontrolle: Ist das Ergebnis kleiner als a²? | Ja, weil 2ab größer als b² ist | Nein, es ist größer als a²; Nein, es ist genau a²
+Schritt: a² | (10 * a)^2 | 
+Schritt: 2ab | 2 * 10 * a * b | 
+Schritt: b² | b^2 | 
+Schritt: Ergebnis | (10 * a)^2 - 2 * 10 * a * b + b^2 | 
+Variable: a | 2 | 9 | 1
+Variable: b | 1 | 9 | 1
+Rechnung: (10 * a - b)^2
+Aufgabe: Rechne ({a}0 + {b}) · ({a}0 − {b}) mit der dritten binomischen Formel.
+Gegeben: a = {a}0
+Gegeben: b = {b}
+Gesucht: Ergebnis
+Ansatz: a² − b² | a² + b²; a² − 2ab + b²; (a − b)²
+Signal: Summe und Differenz derselben zwei Zahlen werden malgenommen.
+Warum: Weil sich die Mittelglieder gegenseitig aufheben | Weil sich die Quadrate aufheben; Weil das Mittelglied doppelt zählt
+Kontrolle: Ist das Ergebnis knapp unter a²? | Ja, genau um b² darunter | Nein, um 2ab darüber; Nein, genau gleich a²
+Schritt: a² | (10 * a)^2 | 
+Schritt: b² | b^2 | 
+Schritt: Ergebnis | (10 * a)^2 - b^2 | 
+Variable: a | 2 | 9 | 1
+Variable: b | 1 | 9 | 1
+Rechnung: (10 * a)^2 - b^2
+Quelle: Selbst formuliert, nach den Aufgabenarten in Mathe trainieren.
+=== ENDE ===
+
+=== LERNWERK ===
+Fach: CAD und E-CAD
+Thema: SolidWorks-Kürzel
+Karte: Was macht Leertaste in SolidWorks? | Ansichtsauswahl öffnen. Würfel mit allen Ansichten.
+Karte: Was macht Strg+8 in SolidWorks? | Normal auf. Gerade auf Skizze oder Fläche schauen.
+Karte: Was macht Strg+7 in SolidWorks? | Isometrisch.
+Karte: Was macht Strg+1 in SolidWorks? | Ansicht vorne.
+Karte: Was macht Strg+2 in SolidWorks? | Ansicht hinten.
+Karte: Was macht Strg+3 in SolidWorks? | Ansicht links.
+Karte: Was macht Strg+4 in SolidWorks? | Ansicht rechts.
+Karte: Was macht Strg+5 in SolidWorks? | Ansicht oben.
+Karte: Was macht Strg+6 in SolidWorks? | Ansicht unten.
+Karte: Was macht F in SolidWorks? | Alles zoomen. Ganzes Modell ins Bild.
+Karte: Was macht Z in SolidWorks? | Schrittweise rauszoomen.
+Karte: Was macht Shift+Z in SolidWorks? | Schrittweise reinzoomen.
+Karte: Was macht G in SolidWorks? | Lupe. Darin kannst du auch auswählen und bemaßen.
+Karte: Was macht Shift+Pfeiltaste in SolidWorks? | Um 90 Grad drehen.
+Karte: Was macht Strg+Pfeiltaste in SolidWorks? | Ansicht verschieben.
+Karte: Was macht Strg+Shift+Z in SolidWorks? | Vorherige Ansicht.
+Karte: Was macht Q in SolidWorks? | Ebenen ein- und ausblenden. Ab SolidWorks 2022.
+Karte: Was macht S in SolidWorks? | Kontextsymbolleiste an der Maus. Selbst bestückbar per Rechtsklick, Anpassen.
+Karte: Was macht Enter in SolidWorks? | Letzten Befehl wiederholen.
+Karte: Was macht Strg+B in SolidWorks? | Neu aufbauen.
+Karte: Was macht Strg+Q in SolidWorks? | Vollständig neu aufbauen.
+Karte: Was macht Strg+Z in SolidWorks? | Rückgängig.
+Karte: Was macht Strg+Y in SolidWorks? | Wiederholen.
+Karte: Was macht Strg+S in SolidWorks? | Speichern.
+Karte: Was macht D in SolidWorks? | Bestätigung und Breadcrumbs zur Maus holen.
+Karte: Was macht Esc in SolidWorks? | Befehl abbrechen.
+Karte: Was macht C in SolidWorks? | Featurebaum auf- und zuklappen.
+Karte: Was macht Shift+C in SolidWorks? | Featurebaum komplett zuklappen.
+Karte: Was macht Strg in SolidWorks? | Beim Zeichnen gedrückt halten. Setzt keine automatischen Beziehungen, also weniger Überbestimmung.
+Karte: Was macht A in SolidWorks? | Linie und Tangentenbogen wechseln. Während das Linienwerkzeug aktiv ist.
+Karte: Was macht Strg+Klick in SolidWorks? | Mehrere Elemente auswählen. Danach Beziehung direkt in der Kontextleiste setzen.
+Karte: Was macht Shift+Klick in SolidWorks? | Kreis oder Bogen auf Außenkante bemaßen. Beim Bemaßen, für Maximal- oder Minimalabstand.
+Karte: Was macht F5 in SolidWorks? | Auswahlfilter-Leiste zeigen.
+Karte: Was macht F6 in SolidWorks? | Auswahlfilter an oder aus.
+Karte: Was macht E in SolidWorks? | Filter nur Kanten.
+Karte: Was macht X in SolidWorks? | Filter nur Flächen.
+Karte: Was macht V in SolidWorks? | Filter nur Punkte.
+Karte: Was macht Tab in SolidWorks? | Komponente unter der Maus ausblenden.
+Karte: Was macht Shift+Tab in SolidWorks? | Ausgeblendete Komponente einblenden.
+Karte: Was macht Mausrad halten in SolidWorks? | Drehen.
+Karte: Was macht Strg+Mausrad halten in SolidWorks? | Verschieben.
+Karte: Was macht Shift+Mausrad halten in SolidWorks? | Stufenlos zoomen.
+Karte: Was macht Doppelklick Mausrad in SolidWorks? | Alles zoomen.
+Karte: Was macht Rechte Taste ziehen in SolidWorks? | Mausgesten. In der Skizze liegen dort Skizzenbefehle.
+Karte: Was macht L in SolidWorks? | Linie.
+Karte: Was macht Shift+L in SolidWorks? | Mittellinie.
+Karte: Was macht K in SolidWorks? | Kreis.
+Karte: Was macht R in SolidWorks? | Rechteck. Ersetzt Zuletzt verwendete Dokumente.
+Karte: Was macht M in SolidWorks? | Intelligente Bemaßung. M wie Maß.
+Karte: Was macht T in SolidWorks? | Elemente trimmen.
+Karte: Was macht O in SolidWorks? | Elemente versetzen. O wie Offset.
+Karte: Was macht B in SolidWorks? | Beziehungen hinzufügen.
+Karte: Was macht Shift+E in SolidWorks? | Linear austragen. E wie Extrudieren.
+Karte: Was macht Shift+X in SolidWorks? | Linear ausgetragener Schnitt. X wie Ausschneiden.
+Karte: Was macht Shift+R in SolidWorks? | Rotieren (Aufsatz).
+Karte: Was macht Shift+F in SolidWorks? | Verrundung.
+Karte: Was macht Shift+M in SolidWorks? | Messen.
+Auswahl: Welches Kürzel steht für Ansichtsauswahl öffnen? | Leertaste | Shift+Z; Strg+1; Strg+5 | Würfel mit allen Ansichten.
+Auswahl: Welches Kürzel steht für Normal auf? | Strg+8 | Strg+7; Q; Strg+Pfeiltaste | Gerade auf Skizze oder Fläche schauen.
+Auswahl: Welches Kürzel steht für Isometrisch? | Strg+7 | Strg+2; Strg+4; Z
+Auswahl: Welches Kürzel steht für Ansicht vorne? | Strg+1 | Strg+8; Strg+Shift+Z; F
+Auswahl: Welches Kürzel steht für Ansicht hinten? | Strg+2 | Strg+5; Leertaste; Strg+8
+Auswahl: Welches Kürzel steht für Ansicht links? | Strg+3 | Strg+Pfeiltaste; Strg+5; Strg+8
+Auswahl: Welches Kürzel steht für Ansicht rechts? | Strg+4 | Strg+6; Strg+8; F
+Auswahl: Welches Kürzel steht für Ansicht oben? | Strg+5 | Strg+Pfeiltaste; Leertaste; Q
+Auswahl: Welches Kürzel steht für Ansicht unten? | Strg+6 | Strg+1; Q; Shift+Z
+Auswahl: Welches Kürzel steht für Alles zoomen? | F | Strg+8; Z; Strg+Shift+Z | Ganzes Modell ins Bild.
+Auswahl: Welches Kürzel steht für Schrittweise rauszoomen? | Z | Shift+Pfeiltaste; Leertaste; Strg+1
+Auswahl: Welches Kürzel steht für Schrittweise reinzoomen? | Shift+Z | Strg+8; Strg+6; Strg+Pfeiltaste
+Auswahl: Welches Kürzel steht für Lupe? | G | Strg+2; Q; Strg+4 | Darin kannst du auch auswählen und bemaßen.
+Auswahl: Welches Kürzel steht für Um 90 Grad drehen? | Shift+Pfeiltaste | Strg+2; Strg+6; Strg+8
+Auswahl: Welches Kürzel steht für Ansicht verschieben? | Strg+Pfeiltaste | F; Strg+6; Shift+Pfeiltaste
+Auswahl: Welches Kürzel steht für Vorherige Ansicht? | Strg+Shift+Z | Strg+3; Strg+8; F
+Auswahl: Welches Kürzel steht für Ebenen ein- und ausblenden? | Q | Strg+4; Strg+3; Strg+8 | Ab SolidWorks 2022.
+Auswahl: Welches Kürzel steht für Kontextsymbolleiste an der Maus? | S | C; Strg+B; Enter | Selbst bestückbar per Rechtsklick, Anpassen.
+Auswahl: Welches Kürzel steht für Letzten Befehl wiederholen? | Enter | Shift+C; Strg+Z; Esc
+Auswahl: Welches Kürzel steht für Neu aufbauen? | Strg+B | C; D; Strg+S
+Auswahl: Welches Kürzel steht für Vollständig neu aufbauen? | Strg+Q | Esc; Shift+C; Strg+S
+Auswahl: Welches Kürzel steht für Rückgängig? | Strg+Z | Strg+Y; Strg+Q; Strg+B
+Auswahl: Welches Kürzel steht für Wiederholen? | Strg+Y | Strg+Q; Enter; Strg+Z
+Auswahl: Welches Kürzel steht für Speichern? | Strg+S | C; Esc; Strg+Y
+Auswahl: Welches Kürzel steht für Bestätigung und Breadcrumbs zur Maus holen? | D | Esc; Strg+Z; Enter
+Auswahl: Welches Kürzel steht für Befehl abbrechen? | Esc | Enter; C; Strg+S
+Auswahl: Welches Kürzel steht für Featurebaum auf- und zuklappen? | C | Strg+B; Strg+Y; Shift+C
+Auswahl: Welches Kürzel steht für Featurebaum komplett zuklappen? | Shift+C | D; Strg+S; S
+Auswahl: Welches Kürzel steht für Linie und Tangentenbogen wechseln? | A | Shift+Klick; O; R | Während das Linienwerkzeug aktiv ist.
+Auswahl: Welches Kürzel steht für Mehrere Elemente auswählen? | Strg+Klick | R; B; T | Danach Beziehung direkt in der Kontextleiste setzen.
+Auswahl: Welches Kürzel steht für Kreis oder Bogen auf Außenkante bemaßen? | Shift+Klick | B; T; Strg+Klick | Beim Bemaßen, für Maximal- oder Minimalabstand.
+Auswahl: Welches Kürzel steht für Auswahlfilter-Leiste zeigen? | F5 | F6; X; V
+Auswahl: Welches Kürzel steht für Auswahlfilter an oder aus? | F6 | Shift+Tab; F5; Tab
+Auswahl: Welches Kürzel steht für Filter nur Kanten? | E | Shift+Tab; X; V
+Auswahl: Welches Kürzel steht für Filter nur Flächen? | X | E; V; Shift+Tab
+Auswahl: Welches Kürzel steht für Filter nur Punkte? | V | F5; X; E
+Auswahl: Welches Kürzel steht für Komponente unter der Maus ausblenden? | Tab | F6; V; F5
+Auswahl: Welches Kürzel steht für Ausgeblendete Komponente einblenden? | Shift+Tab | X; F5; F6
+Auswahl: Welches Kürzel steht für Linie? | L | K; Shift+Klick; Shift+L
+Auswahl: Welches Kürzel steht für Mittellinie? | Shift+L | M; B; T
+Auswahl: Welches Kürzel steht für Kreis? | K | Strg+Klick; Shift+Klick; T
+Auswahl: Welches Kürzel steht für Rechteck? | R | M; O; Shift+L | Ersetzt Zuletzt verwendete Dokumente.
+Auswahl: Welches Kürzel steht für Intelligente Bemaßung? | M | Shift+Klick; R; Shift+L | M wie Maß.
+Auswahl: Welches Kürzel steht für Elemente trimmen? | T | R; K; B
+Auswahl: Welches Kürzel steht für Elemente versetzen? | O | L; Shift+Klick; Strg+Klick | O wie Offset.
+Auswahl: Welches Kürzel steht für Beziehungen hinzufügen? | B | Shift+Klick; O; L
+Auswahl: Welches Kürzel steht für Linear austragen? | Shift+E | Shift+R; Shift+X; Shift+M | E wie Extrudieren.
+Auswahl: Welches Kürzel steht für Linear ausgetragener Schnitt? | Shift+X | Shift+R; Shift+M; Shift+F | X wie Ausschneiden.
+Auswahl: Welches Kürzel steht für Rotieren (Aufsatz)? | Shift+R | Shift+E; Shift+M; Shift+X
+Auswahl: Welches Kürzel steht für Verrundung? | Shift+F | Shift+R; Shift+M; Shift+X
+Auswahl: Welches Kürzel steht für Messen? | Shift+M | Shift+X; Shift+R; Shift+E
+Quelle: Aus dem Trainer SolidWorks Kürzel übernommen.
+=== ENDE ===

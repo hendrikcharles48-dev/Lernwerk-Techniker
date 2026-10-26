@@ -542,3 +542,5 @@ body.sheet-open #readbar { bottom: calc(var(--sab) + 14px); }
 .tr-tile .tr-ic .ic { width: 24px; height: 24px; }
 .tr-tile b { font-size: 16px; line-height: 1.25; }
 .tr-tile small { font-size: 13px; color: var(--label2); }
+.tr-tile.tr-all { grid-column: 1 / -1; min-height: 0; flex-direction: row; flex-wrap: wrap; align-items: center; column-gap: 10px; --fc: #5E5CE6; }
+.tr-tile.tr-all small { flex-basis: 100%; }

@@ -29,9 +29,11 @@ for (const file of files) {
     }
     for (const u of t.umstellen) if (!samples(u.formel, u.nach, u.loesung).length) { console.log('UMSTELLEN FALSCH?', u.formel, u.loesung); bad++; }
     // Volle Lernblöcke: Mindestumfang und Ansatz-Training
-    const intro = typeof idx.dateien.find(f => (typeof f === 'string' ? f : f.datei) === String(file).split('/inhalte/')[1]) === 'object';
-    if (!intro && t.aufgaben.length) {
-      if (t.karten.length < 10) { console.log('ZU WENIG KARTEN', t.thema, t.karten.length); bad++; }
+    // Einführungen werden nicht geprüft, Ergänzungen brauchen keine 10 Karten (sie ergänzen ein volles Thema)
+    const entry = idx.dateien.find(f => (typeof f === 'string' ? f : f.datei) === String(file).split('/inhalte/')[1]);
+    const art = typeof entry === 'object' ? entry.art : '';
+    if (art !== 'einfuehrung' && t.aufgaben.length) {
+      if (art !== 'ergaenzung' && t.karten.length < 10) { console.log('ZU WENIG KARTEN', t.thema, t.karten.length); bad++; }
       for (const a of t.aufgaben) {
         const kurz = a.text.slice(0, 50);
         if (!a.ansatz || !a.signal || !a.kontrolle) { console.log('ANSATZ, SIGNAL ODER KONTROLLE FEHLT', t.thema, '|', kurz); bad++; }

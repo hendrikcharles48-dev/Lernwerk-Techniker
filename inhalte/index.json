@@ -18,6 +18,10 @@
   "maschinenelemente.txt",
   "vertiefung.txt",
   {
+   "datei": "trainer-aufgaben.txt",
+   "art": "ergaenzung"
+  },
+  {
    "datei": "einfuehrung/elektrotechnik.txt",
    "art": "einfuehrung"
   },
