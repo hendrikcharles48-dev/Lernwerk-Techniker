@@ -534,3 +534,11 @@ body.sheet-open #readbar { bottom: calc(var(--sab) + 14px); }
 .me-num { display: flex; align-items: center; gap: 8px; }
 .me-num .me { flex: 1; min-width: 0; }
 .me-num .unit { font-size: 18px; font-weight: 600; min-width: 24px; color: var(--label2); }
+/* Meine Trainer auf der Startseite */
+.tr-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin-bottom: 14px; }
+.tr-tile { display: flex; flex-direction: column; align-items: flex-start; gap: 4px; min-height: 96px; border: 0; border-radius: 16px; padding: 12px 14px; text-align: left; background: var(--bg2); color: var(--label); box-shadow: var(--shadow); border-top: 4px solid var(--fc); }
+.tr-tile:active { transform: scale(.97); }
+.tr-tile .tr-ic { color: var(--fc); }
+.tr-tile .tr-ic .ic { width: 24px; height: 24px; }
+.tr-tile b { font-size: 16px; line-height: 1.25; }
+.tr-tile small { font-size: 13px; color: var(--label2); }

@@ -66,7 +66,7 @@ export function topicPage(tid, startTab) {
         <div class="chips"><span class="chip chip-ic" style="background:${f.farbe}">${icon(fachIcon(f))}${esc(f.kurz || f.name)}</span>${(f.module || []).map(m => `<span class="chip ghost">${esc(m === 'Ü' ? 'übergreifend' : m)}</span>`).join('')}${T.modul && !(f.module || []).includes(T.modul) ? `<span class="chip ghost">${esc(T.modul)}</span>` : ''}</div>
         ${list([row({ title: 'Aktuell im Unterricht', right: sw('akt', akt) })])}`;
       if (t.trainer && t.trainer.length) {
-        h += `<div class="trainer-btns">${t.trainer.map(x => `<button class="btn-big" data-a="trainer" data-d="${esc(x.datei)}" style="--fc:${f.farbe}">${icon('open')}<span><b>${esc(x.titel)}</b><small>Alter Trainer${tc ? ' · ' + stufeText(tc) : ''}</small></span></button>`).join('')}</div>`;
+        h += `<div class="trainer-btns">${t.trainer.map(x => `<button class="btn-big" data-a="trainer" data-d="${esc(x.datei)}" style="--fc:${f.farbe}">${icon('open')}<span><b>${esc(x.titel)}</b><small>Trainer${tc ? ' · ' + stufeText(tc) : ''}</small></span></button>`).join('')}</div>`;
       }
       h += `</div><div class="seg-scroll">${seg('tab', TABS.map(([v, l]) => [v, l + countFor(v, T, items, tid)]), cur)}</div><div class="tab-body"></div>`;
       body.innerHTML = h;
@@ -167,7 +167,7 @@ function renderTab(el, tab, tid, T, items, f) {
 function emptyContent(tid) {
   const th = st.thema(tid);
   const tr = th && th.thema.trainer && th.thema.trainer.length;
-  return empty(tr ? 'Der Stoff steckt im alten Trainer.' : 'Noch kein Inhalt.', tr ? 'Öffne ihn oben. Über Einfügen kannst du Prinzip, Karten und Aufgaben ergänzen.' : 'Lass dir das Thema im Claude-Chat erklären und füge den Lernwerk-Block über Einfügen ein.');
+  return empty(tr ? 'Der Stoff steckt im Trainer.' : 'Noch kein Inhalt.', tr ? 'Öffne ihn oben. Über Einfügen kannst du Prinzip, Karten und Aufgaben ergänzen.' : 'Lass dir das Thema im Claude-Chat erklären und füge den Lernwerk-Block über Einfügen ein.');
 }
 export function formelCard(fo) {
   return `<div class="card formel">${fo.name ? `<div class="card-k">${esc(fo.name)}</div>` : ''}<div class="fml-main">${fml(fo.formel)}</div>${fo.umgestellt.length ? `<div class="fml-alt">${fo.umgestellt.map(u => `<div>${fml(u)}</div>`).join('')}</div>` : ''}</div>`;

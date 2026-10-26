@@ -8,7 +8,7 @@ import { mehrPage, unterrichtPage, termineDetail, termEditor, datensicherung, ap
 import { prefs } from './db.js';
 import { canSpeak, readAloud } from './speech.js';
 
-export const VERSION = '1.8.1';
+export const VERSION = '1.8.2';
 
 /* ===== Heute ===== */
 // Freundliche, wechselnde Sätze für den Start. Ohne Druck.
@@ -50,6 +50,16 @@ const heute = {
     const qu = unterrichtQueue(), qa = allesQueue();
     h += `<button class="five" data-a="lernU">${icon('bolt')}<span><b>Unterricht</b><small>${aktTids().length ? 'Nur was gerade im Unterricht dran ist. ' + (qu.items.length ? plural(qu.items.length, 'Übung', 'Übungen') + ' offen.' : 'Nichts fällig, du kannst trotzdem üben.') : 'Noch keine Themen angewählt. Tippe hier.'}</small></span></button>`;
     h += `<button class="mixbtn" data-a="lernA">${icon('mix')}<span><b>Alles wiederholen</b><small>Alles, was schon dran war, gemischt. ${qa.faellig ? plural(qa.faellig, 'Übung', 'Übungen') + ' fällig.' : 'Gerade nichts fällig, du übst trotzdem gemischt.'}</small></span></button>`;
+    // Meine Trainer: alle Trainer mit einem Tipp erreichbar, fällige zuerst
+    const trs = [], seen = new Set();
+    for (const f of st.faecher()) for (const t of f.themen) for (const x of t.trainer || []) {
+      if (seen.has(x.datei)) continue;
+      seen.add(x.datei);
+      const c = st.card('t:' + t.id);
+      trs.push({ f, t, x, due: !!(c && c.faellig <= today) });
+    }
+    trs.sort((a, b) => b.due - a.due);
+    if (trs.length) h += `<div class="sec-h">Meine Trainer</div><div class="tr-grid">${trs.map(({ f, t, x, due }) => `<button class="tr-tile" data-a="trainer" data-d="${esc(t.id + '|' + x.datei)}" style="--fc:${f.farbe}"><span class="tr-ic">${icon(fachIcon(f))}</span><b>${esc(x.titel)}</b><small>${esc(f.kurz || f.name)}${due ? ' · fällig' : ''}</small></button>`).join('')}</div>`;
     const aktT = st.kvGet('aktuell', []).map(id => st.thema(id)).filter(Boolean);
     h += `<button class="card unt-card" data-a="unterricht"><span class="unt-h">${icon('check')}<b>Im Unterricht</b><span class="muted">${aktT.length ? plural(aktT.length, 'Thema', 'Themen') : 'nichts angewählt'}</span>${icon('chev', 'chev')}</span>${aktT.length ? `<span class="tc-tags">${aktT.slice(0, 6).map(({ fach: f, thema: t }) => `<span class="tag" style="--fc:${f.farbe}">${esc(t.name)}</span>`).join('')}${aktT.length > 6 ? `<span class="tag">und ${aktT.length - 6} weitere</span>` : ''}</span>` : `<span class="muted">Tippe hier und schalte ein, was gerade dran ist.</span>`}</button>`;
     const ex = st.nextExam(today);
@@ -64,12 +74,10 @@ const heute = {
     } else {
       h += `<button class="card count empty-count" data-a="newexam">${icon('calendar')}<span><span class="count-t">Klassenarbeit eintragen</span><span class="muted">Dann zieht Lernwerk deren Themen vor und plant rückwärts bis zum Termin.</span></span></button>`;
     }
-    const tr = st.dueTrainers(today);
-    if (tr.length) h += `<div class="sec-h">Alte Trainer zum Wiederholen</div>` + list(tr.map(x => row({ a: 'topic', d: x.thema.id, icon: fachIcon(x.fach), color: x.fach.farbe, title: x.thema.name, sub: x.fach.name + ' · fällig' })));
     const p = st.place();
     if (p && p.tid && st.thema(p.tid)) {
       const t = st.thema(p.tid);
-      h += `<div class="sec-h">Weiter, wo du warst</div>` + list([row({ a: 'weiter', icon: fachIcon(t.fach), color: t.fach.farbe, title: t.thema.name, sub: t.fach.name + (p.art === 'trainer' ? ' · alter Trainer' : '') })]);
+      h += `<div class="sec-h">Weiter, wo du warst</div>` + list([row({ a: 'weiter', icon: fachIcon(t.fach), color: t.fach.farbe, title: t.thema.name, sub: t.fach.name + (p.art === 'trainer' ? ' · Trainer' : '') })]);
     }
     const w = st.weekStats();
     const mon = new Date(); mon.setHours(0, 0, 0, 0); mon.setDate(mon.getDate() - ((mon.getDay() + 6) % 7));
@@ -84,6 +92,7 @@ const heute = {
       exam: id => push(termineDetail(id)),
       newexam: () => termEditor({}),
       lernU: () => lernenUnterricht(),
+      trainer: d => { const i = d.indexOf('|'); openTrainer(d.slice(0, i), d.slice(i + 1)); },
       lernA: () => lernenAlles(),
       unterricht: () => push(unterrichtPage()),
       topic: tid => push(topicPage(tid)),
@@ -182,7 +191,7 @@ export function fachPage(fid) {
         const items = st.topicItems(t.id);
         const due = items.filter(i => { const c = st.card(i.id); return c && c.faellig <= dayStr(); }).length;
         const bits = [];
-        if (t.trainer && t.trainer.length) bits.push('alter Trainer');
+        if (t.trainer && t.trainer.length) bits.push('Trainer');
         const k = items.filter(i => i.art === 'karte' || i.art === 'begriff').length, a = items.length - k;
         if (k) bits.push(plural(k, 'Karte', 'Karten'));
         if (a) bits.push(plural(a, 'Übung', 'Übungen'));
@@ -375,14 +384,14 @@ const fehlerbuch = {
     let h = `<div class="btn-row"><button class="btn filled" data-a="ueben">${icon('cards')} Fehlerkarten üben${due ? ' (' + due + ' fällig)' : ''}</button><button class="btn" data-a="neu">${icon('edit')} Fehler eintragen</button></div>`;
     const fs = st.faecher().filter(f => st.S.errors.some(e => (st.thema(e.tid) || {}).fach === f || e.fach === f.name));
     if (fs.length > 1) h += `<label class="fld inline"><span>Fach</span><select data-k="ff"><option value="">Alle Fächer</option>${fs.map(f => `<option value="${f.id}" ${f.id === fbFach ? 'selected' : ''}>${esc(f.name)}</option>`).join('')}</select></label>`;
-    if (!errs.length) h += empty('Noch keine Fehler eingetragen.', 'Fehler aus den Übungen und alten Trainern landen automatisch hier. Fehler aus einer zurückgegebenen Klassenarbeit trägst du oben selbst ein.');
+    if (!errs.length) h += empty('Noch keine Fehler eingetragen.', 'Fehler aus den Übungen und Trainern landen automatisch hier. Fehler aus einer zurückgegebenen Klassenarbeit trägst du oben selbst ein.');
     else {
       const groups = new Map();
       for (const e of offen) { if (!groups.has(e.fehlerart)) groups.set(e.fehlerart, []); groups.get(e.fehlerart).push(e); }
       const sorted = [...groups].sort((a, b) => b[1].length - a[1].length);
       if (sorted.length) h += `<div class="card pattern"><div class="card-k">Dein häufigstes Muster</div><p><b>${esc(sorted[0][0])}</b>: ${plural(sorted[0][1].length, 'Mal', 'Mal')}.${tipFor(sorted[0][0])}</p></div>`;
       for (const [art, es] of sorted) {
-        h += `<div class="sec-h">${esc(art)} · ${es.length}</div>` + list(es.sort((a, b) => b.zeit - a.zeit).map(e => row({ a: 'err', d: e.id, title: e.aufgabe || '(ohne Aufgabentext)', sub: [e.thema || e.fach, new Date(e.zeit).toLocaleDateString('de-DE'), e.quelle === 'trainer' ? 'alter Trainer' : e.quelle === 'manuell' ? 'selbst eingetragen' : ''].filter(Boolean).join(' · ') })));
+        h += `<div class="sec-h">${esc(art)} · ${es.length}</div>` + list(es.sort((a, b) => b.zeit - a.zeit).map(e => row({ a: 'err', d: e.id, title: e.aufgabe || '(ohne Aufgabentext)', sub: [e.thema || e.fach, new Date(e.zeit).toLocaleDateString('de-DE'), e.quelle === 'trainer' ? 'Trainer' : e.quelle === 'manuell' ? 'selbst eingetragen' : ''].filter(Boolean).join(' · ') })));
       }
       const erl = errs.filter(e => e.erledigt);
       if (erl.length) h += `<details class="disc"><summary>Verstanden (${erl.length})</summary>${list(erl.map(e => row({ a: 'err', d: e.id, title: e.aufgabe || e.fehlerart, sub: e.fehlerart })))}</details>`;

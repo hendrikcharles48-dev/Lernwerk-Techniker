@@ -193,7 +193,7 @@ export function formelPage() {
       const all = [];
       for (const f of st.faecher()) for (const t of f.themen) st.topic(t.id).formeln.forEach(fo => all.push({ fo, f, t }));
       b.innerHTML = `<input type="search" class="search" placeholder="Nach Größe oder Name suchen, zum Beispiel I oder σ" value="${esc(q)}" data-k="q">
-        ${list([row({ a: 'statik', icon: 'formula', color: '#FF453A', title: 'Formelsammlung Statik', sub: 'Alter Trainer, fertig umgestellt' })])}<div class="fs"></div>`;
+        ${list([row({ a: 'statik', icon: 'formula', color: '#FF453A', title: 'Formelsammlung Statik', sub: 'Trainer, fertig umgestellt' })])}<div class="fs"></div>`;
       const out = $('.fs', b);
       const varsFor = fo => { const s = new Set(); for (const x of [fo.formel, ...fo.umgestellt]) { try { const e = parseEq(x); varsOf(e.l, varsOf(e.r, s)); } catch (err) { /* Text */ } } return s; };
       const draw = () => {
@@ -604,7 +604,7 @@ function themePage() {
     title: 'Darstellung',
     render(b) {
       const t = prefs.get('theme', 'auto');
-      b.innerHTML = seg('t', [['auto', 'Automatisch'], ['hell', 'Hell'], ['dunkel', 'Dunkel']], t) + `<div class="sec-f">Automatisch folgt der Einstellung deines iPhones. Die alten Trainer übernehmen die Wahl.</div>`;
+      b.innerHTML = seg('t', [['auto', 'Automatisch'], ['hell', 'Hell'], ['dunkel', 'Dunkel']], t) + `<div class="sec-f">Automatisch folgt der Einstellung deines iPhones. Die Trainer übernehmen die Wahl.</div>`;
       on(b, { 'seg:t': v => { prefs.set('theme', v); applyTheme(v); } });
     }
   };
