@@ -1,5 +1,5 @@
 {
- "version": 2,
+ "version": 3,
  "schule": "Technikakademie Northeim (BBS III des Landkreises Northeim), zweijährige Fachschule Technik, Maschinentechnik, Schwerpunkt Automatisierungstechnik",
  "module": [
   {
@@ -273,23 +273,68 @@
     },
     {
      "id": "et-belasteter-spannungsteiler",
-     "name": "Belasteter Spannungsteiler"
+     "name": "Belasteter Spannungsteiler",
+     "trainer": [
+      {
+       "datei": "trainer/elektro-trainer.html",
+       "titel": "Elektrotechnik-Trainer"
+      }
+     ],
+     "trainerThemen": [
+      "Belasteter Spannungsteiler"
+     ]
     },
     {
      "id": "et-kondensator",
-     "name": "Kondensator"
+     "name": "Kondensator",
+     "trainer": [
+      {
+       "datei": "trainer/elektro-trainer.html",
+       "titel": "Elektrotechnik-Trainer"
+      }
+     ],
+     "trainerThemen": [
+      "Kondensator"
+     ]
     },
     {
      "id": "et-spule-und-induktion",
-     "name": "Spule und Induktion"
+     "name": "Spule und Induktion",
+     "trainer": [
+      {
+       "datei": "trainer/elektro-trainer.html",
+       "titel": "Elektrotechnik-Trainer"
+      }
+     ],
+     "trainerThemen": [
+      "Spule und Induktion"
+     ]
     },
     {
      "id": "et-wechselstrom",
-     "name": "Wechselstrom"
+     "name": "Wechselstrom",
+     "trainer": [
+      {
+       "datei": "trainer/elektro-trainer.html",
+       "titel": "Elektrotechnik-Trainer"
+      }
+     ],
+     "trainerThemen": [
+      "Wechselstrom"
+     ]
     },
     {
      "id": "et-drehstrom",
-     "name": "Drehstrom"
+     "name": "Drehstrom",
+     "trainer": [
+      {
+       "datei": "trainer/elektro-trainer.html",
+       "titel": "Elektrotechnik-Trainer"
+      }
+     ],
+     "trainerThemen": [
+      "Drehstrom"
+     ]
     }
    ]
   },
@@ -380,7 +425,16 @@
     },
     {
      "id": "tm-festigkeitslehre-zug-druck-flaechenpress",
-     "name": "Festigkeitslehre: Zug, Druck, Flächenpressung, Abscherung"
+     "name": "Festigkeitslehre: Zug, Druck, Flächenpressung, Abscherung",
+     "trainer": [
+      {
+       "datei": "trainer/festigkeit-trainer.html",
+       "titel": "Festigkeit-Trainer"
+      }
+     ],
+     "trainerThemen": [
+      "Festigkeitslehre: Zug, Druck, Flächenpressung, Abscherung"
+     ]
     },
     {
      "id": "tm-allgemeines-kraeftesystem-und-streckenla",
@@ -392,35 +446,107 @@
     },
     {
      "id": "tm-biegung",
-     "name": "Biegung"
+     "name": "Biegung",
+     "trainer": [
+      {
+       "datei": "trainer/festigkeit-trainer.html",
+       "titel": "Festigkeit-Trainer"
+      }
+     ],
+     "trainerThemen": [
+      "Biegung"
+     ]
     },
     {
      "id": "tm-torsion",
-     "name": "Torsion"
+     "name": "Torsion",
+     "trainer": [
+      {
+       "datei": "trainer/festigkeit-trainer.html",
+       "titel": "Festigkeit-Trainer"
+      }
+     ],
+     "trainerThemen": [
+      "Torsion"
+     ]
     },
     {
      "id": "tm-me-schrauben",
-     "name": "Maschinenelemente: Schraubenverbindungen"
+     "name": "Maschinenelemente: Schraubenverbindungen",
+     "trainer": [
+      {
+       "datei": "trainer/maschinenelemente-trainer.html",
+       "titel": "Maschinenelemente-Trainer"
+      }
+     ],
+     "trainerThemen": [
+      "Maschinenelemente: Schraubenverbindungen"
+     ]
     },
     {
      "id": "tm-me-bolzen-stifte",
-     "name": "Maschinenelemente: Bolzen und Stifte"
+     "name": "Maschinenelemente: Bolzen und Stifte",
+     "trainer": [
+      {
+       "datei": "trainer/maschinenelemente-trainer.html",
+       "titel": "Maschinenelemente-Trainer"
+      }
+     ],
+     "trainerThemen": [
+      "Maschinenelemente: Bolzen und Stifte"
+     ]
     },
     {
      "id": "tm-me-passfeder",
-     "name": "Maschinenelemente: Passfeder und Welle-Nabe-Verbindung"
+     "name": "Maschinenelemente: Passfeder und Welle-Nabe-Verbindung",
+     "trainer": [
+      {
+       "datei": "trainer/maschinenelemente-trainer.html",
+       "titel": "Maschinenelemente-Trainer"
+      }
+     ],
+     "trainerThemen": [
+      "Maschinenelemente: Passfeder und Welle-Nabe-Verbindung"
+     ]
     },
     {
      "id": "tm-me-waelzlager",
-     "name": "Maschinenelemente: Wälzlager"
+     "name": "Maschinenelemente: Wälzlager",
+     "trainer": [
+      {
+       "datei": "trainer/maschinenelemente-trainer.html",
+       "titel": "Maschinenelemente-Trainer"
+      }
+     ],
+     "trainerThemen": [
+      "Maschinenelemente: Wälzlager"
+     ]
     },
     {
      "id": "tm-me-zahnraeder",
-     "name": "Maschinenelemente: Zahnräder"
+     "name": "Maschinenelemente: Zahnräder",
+     "trainer": [
+      {
+       "datei": "trainer/maschinenelemente-trainer.html",
+       "titel": "Maschinenelemente-Trainer"
+      }
+     ],
+     "trainerThemen": [
+      "Maschinenelemente: Zahnräder"
+     ]
     },
     {
      "id": "tm-me-riementrieb",
-     "name": "Maschinenelemente: Riementrieb"
+     "name": "Maschinenelemente: Riementrieb",
+     "trainer": [
+      {
+       "datei": "trainer/maschinenelemente-trainer.html",
+       "titel": "Maschinenelemente-Trainer"
+      }
+     ],
+     "trainerThemen": [
+      "Maschinenelemente: Riementrieb"
+     ]
     }
    ]
   },
@@ -523,15 +649,42 @@
     },
     {
      "id": "ws-stahlbezeichnungen-nach-din-en-10027",
-     "name": "Stahlbezeichnungen nach DIN EN 10027"
+     "name": "Stahlbezeichnungen nach DIN EN 10027",
+     "trainer": [
+      {
+       "datei": "trainer/festigkeit-trainer.html",
+       "titel": "Festigkeit-Trainer"
+      }
+     ],
+     "trainerThemen": [
+      "Stahlbezeichnungen nach DIN EN 10027"
+     ]
     },
     {
      "id": "ws-waermebehandlung",
-     "name": "Wärmebehandlung"
+     "name": "Wärmebehandlung",
+     "trainer": [
+      {
+       "datei": "trainer/festigkeit-trainer.html",
+       "titel": "Festigkeit-Trainer"
+      }
+     ],
+     "trainerThemen": [
+      "Wärmebehandlung"
+     ]
     },
     {
      "id": "ws-werkstoffpruefung",
-     "name": "Werkstoffprüfung"
+     "name": "Werkstoffprüfung",
+     "trainer": [
+      {
+       "datei": "trainer/festigkeit-trainer.html",
+       "titel": "Festigkeit-Trainer"
+      }
+     ],
+     "trainerThemen": [
+      "Werkstoffprüfung"
+     ]
     }
    ]
   },
@@ -546,27 +699,81 @@
    "themen": [
     {
      "id": "st-wegeventile-und-schaltzeichen",
-     "name": "Wegeventile und Schaltzeichen"
+     "name": "Wegeventile und Schaltzeichen",
+     "trainer": [
+      {
+       "datei": "trainer/steuerung-trainer.html",
+       "titel": "Steuerungs-Trainer"
+      }
+     ],
+     "trainerThemen": [
+      "Wegeventile und Schaltzeichen"
+     ]
     },
     {
      "id": "st-pneumatik-direkte-und-indirekte-ansteuer",
-     "name": "Pneumatik: direkte und indirekte Ansteuerung"
+     "name": "Pneumatik: direkte und indirekte Ansteuerung",
+     "trainer": [
+      {
+       "datei": "trainer/steuerung-trainer.html",
+       "titel": "Steuerungs-Trainer"
+      }
+     ],
+     "trainerThemen": [
+      "Pneumatik: direkte und indirekte Ansteuerung"
+     ]
     },
     {
      "id": "st-elektropneumatik-mit-relais-und-selbstha",
-     "name": "Elektropneumatik mit Relais und Selbsthaltung"
+     "name": "Elektropneumatik mit Relais und Selbsthaltung",
+     "trainer": [
+      {
+       "datei": "trainer/steuerung-trainer.html",
+       "titel": "Steuerungs-Trainer"
+      }
+     ],
+     "trainerThemen": [
+      "Elektropneumatik mit Relais und Selbsthaltung"
+     ]
     },
     {
      "id": "st-logik-und-wahrheitstabelle",
-     "name": "Logik und Wahrheitstabelle"
+     "name": "Logik und Wahrheitstabelle",
+     "trainer": [
+      {
+       "datei": "trainer/steuerung-trainer.html",
+       "titel": "Steuerungs-Trainer"
+      }
+     ],
+     "trainerThemen": [
+      "Logik und Wahrheitstabelle"
+     ]
     },
     {
      "id": "st-sps-grundlagen-eva-adressen-fup-und-kop-",
-     "name": "SPS-Grundlagen: EVA, Adressen, FUP und KOP, SR-Speicher, Timer, Zähler"
+     "name": "SPS-Grundlagen: EVA, Adressen, FUP und KOP, SR-Speicher, Timer, Zähler",
+     "trainer": [
+      {
+       "datei": "trainer/steuerung-trainer.html",
+       "titel": "Steuerungs-Trainer"
+      }
+     ],
+     "trainerThemen": [
+      "SPS-Grundlagen: EVA, Adressen, FUP und KOP, SR-Speicher, Timer, Zähler"
+     ]
     },
     {
      "id": "st-grafcet-nach-din-en-60848-und-schrittket",
-     "name": "GRAFCET nach DIN EN 60848 und Schrittketten"
+     "name": "GRAFCET nach DIN EN 60848 und Schrittketten",
+     "trainer": [
+      {
+       "datei": "trainer/steuerung-trainer.html",
+       "titel": "Steuerungs-Trainer"
+      }
+     ],
+     "trainerThemen": [
+      "GRAFCET nach DIN EN 60848 und Schrittketten"
+     ]
     }
    ]
   },
@@ -582,11 +789,29 @@
    "themen": [
     {
      "id": "auto-regelungstechnik",
-     "name": "Regelungstechnik"
+     "name": "Regelungstechnik",
+     "trainer": [
+      {
+       "datei": "trainer/steuerung-trainer.html",
+       "titel": "Steuerungs-Trainer"
+      }
+     ],
+     "trainerThemen": [
+      "Regelungstechnik"
+     ]
     },
     {
      "id": "auto-messtechnik",
-     "name": "Messtechnik"
+     "name": "Messtechnik",
+     "trainer": [
+      {
+       "datei": "trainer/elektro-trainer.html",
+       "titel": "Elektrotechnik-Trainer"
+      }
+     ],
+     "trainerThemen": [
+      "Messtechnik"
+     ]
     },
     {
      "id": "auto-robotik",

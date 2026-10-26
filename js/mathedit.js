@@ -93,7 +93,7 @@ export function editorHTML(vars, placeholder, opts = {}) {
   const fnKeys = Object.entries(FN).map(([f, l]) => `<button type="button" class="mk mk-fn" data-mk="fn" data-v="${f}">${l}</button>`).join('');
   const grid = (opts.calc ? CALC_KEYS : KEYS).flat().map(k => `<button type="button" class="mk${/^[0-9,]$/.test(k) ? ' mk-num' : ''}${k === '⌫' ? ' mk-del' : ''}" data-mk="${esc(k)}" ${KEY_ARIA[k] ? `aria-label="${KEY_ARIA[k]}"` : ''}>${KEY_LABEL[k] || esc(k)}</button>`).join('');
   const field = `<div class="me inp" tabindex="0" role="textbox" aria-label="${opts.calc ? 'Zahl eingeben' : 'Formel eingeben'}" data-ph="${esc(placeholder || '')}"></div>`;
-  return (opts.calc ? `<div class="me-num">${field}${opts.unit ? `<span class="unit">${esc(opts.unit)}</span>` : ''}</div>` : field) + `
+  return (opts.calc ? `<div class="me-numrow">${field}${opts.unit ? `<span class="unit">${esc(opts.unit)}</span>` : ''}</div>` : field) + `
     <div class="me-pad no-swipe"><div class="me-row">${varKeys}</div><div class="me-row me-fns">${fnKeys}</div><div class="me-grid">${grid}</div></div>`;
 }
 

@@ -1,7 +1,7 @@
 // Service Worker: Offline-Nutzung und automatische Updates.
 // Bei jeder Änderung VERSION erhöhen (gleicher Wert wie in js/app.js).
 // Die neue Version installiert sich beim nächsten Öffnen von selbst.
-const VERSION = '1.8.2';
+const VERSION = '1.9.0';
 const CACHE = 'lernwerk-' + VERSION;
 const FILES = [
   './', 'index.html', 'manifest.webmanifest', 'css/app.css', 'lehrplan.json', 'lernwerk-bridge.js',
@@ -16,7 +16,9 @@ const FILES = [
   'trainer/mathe-trainieren.html', 'trainer/statik-trainer.html', 'trainer/statik-kraefte-momente.html',
   'trainer/statik-formelsammlung.html', 'trainer/statik-wandschwenkkran.html', 'trainer/et-rueckrechen-trainer.html',
   'trainer/et-rueckrechnen-lernblatt.html', 'trainer/toleranzen.html', 'trainer/toleranzen-it-ablesen.html',
-  'trainer/toleranzen-passungen-lernblatt.html', 'trainer/solidworks-kuerzel.html', 'trainer/werkstoffe-eisen-kohlenstoff.html'
+  'trainer/toleranzen-passungen-lernblatt.html', 'trainer/solidworks-kuerzel.html', 'trainer/werkstoffe-eisen-kohlenstoff.html',
+  'trainer/fachtrainer.css', 'js/fachtrainer.js', 'trainer/festigkeit-trainer.html', 'trainer/maschinenelemente-trainer.html',
+  'trainer/elektro-trainer.html', 'trainer/steuerung-trainer.html'
 ];
 
 self.addEventListener('install', e => {
