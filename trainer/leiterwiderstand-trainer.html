@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="de"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Leiterwiderstand-Trainer</title>
+<link rel="stylesheet" href="fachtrainer.css">
+</head>
+<body><main class="sheet">
+<div class="hero"><h1 id="h1">Leiterwiderstand-Trainer</h1><p id="lead"></p></div>
+<div class="tb"><div><small>Fach</small><b id="fach"></b></div><div><small>Inhalt</small><b id="themen">Wird geladen …</b></div></div>
+<section><h3>Aufgabe wählen</h3><div class="pick" id="pick"></div>
+<label class="tog" id="togrow"><input type="checkbox" id="ansatzOn" checked> Vor jeder Aufgabe fragen: Welcher Ansatz passt?</label>
+<div id="kl" hidden><div class="prog"><span id="klp"></span><div class="bar"><i id="klb"></i></div><div class="syncnote">Fortschritt wird auf diesem Gerät gespeichert.</div></div>
+<details class="kld" id="kld"><summary>Alle Punkte der Kann-Liste</summary><div class="qlist" id="klq"></div></details>
+<div class="act klnav"><button type="button" id="klprev">Zurück</button><button type="button" id="klskip">Überspringen</button><button type="button" id="klreset">Von vorn</button></div></div>
+<div id="area"></div></section>
+<footer>Winkel in Grad, Taschenrechner auf DEG. Die Tastatur hat Minus, Bruch, Wurzel und Hochzahl, du kannst auch ganze Rechnungen eingeben. Kleine Rundungen zählen als richtig. Im Zweifel gilt dein Tabellenbuch.</footer>
+</main>
+<script>window.FACHTRAINER = {"id": "leiterwiderstand", "titel": "Leiterwiderstand-Trainer", "fach": "Elektrotechnik", "farbe": "#B45309", "text": "Widerstand von Leitungen aus Länge, Querschnitt und Werkstoff, Spannungsfall auf der Zuleitung, Querschnitt auslegen und Erwärmung. Dazu das ohmsche Gesetz. Erst den Ansatz erkennen, dann Schritt für Schritt rechnen.", "themen": [{"datei": "leiterwiderstand.txt", "thema": "Leiterwiderstand", "kurz": "Leiterwiderstand"}, {"datei": "elektro-grundlagen.txt", "thema": "Ohmsches Gesetz", "kurz": "Ohmsches Gesetz"}]};</script>
+<script src="../lernwerk-bridge.js"></script>
+<script type="module" src="../js/fachtrainer.js"></script>
+</body></html>

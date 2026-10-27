@@ -1,5 +1,5 @@
 {
- "version": 3,
+ "version": 4,
  "schule": "Technikakademie Northeim (BBS III des Landkreises Northeim), zweijährige Fachschule Technik, Maschinentechnik, Schwerpunkt Automatisierungstechnik",
  "module": [
   {
@@ -187,10 +187,28 @@
       {
        "datei": "trainer/et-rueckrechen-trainer.html",
        "titel": "Rückrechen-Trainer"
+      },
+      {
+       "datei": "trainer/leiterwiderstand-trainer.html",
+       "titel": "Leiterwiderstand-Trainer"
       }
      ],
      "trainerThemen": [
-      "Ohm"
+      "Ohm",
+      "Ohmsches Gesetz"
+     ]
+    },
+    {
+     "id": "et-leiterwiderstand",
+     "name": "Leiterwiderstand",
+     "trainer": [
+      {
+       "datei": "trainer/leiterwiderstand-trainer.html",
+       "titel": "Leiterwiderstand-Trainer"
+      }
+     ],
+     "trainerThemen": [
+      "Leiterwiderstand"
      ]
     },
     {

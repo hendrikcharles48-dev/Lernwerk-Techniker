@@ -1,14 +1,14 @@
 // Service Worker: Offline-Nutzung und automatische Updates.
 // Bei jeder Änderung VERSION erhöhen (gleicher Wert wie in js/app.js).
 // Die neue Version installiert sich beim nächsten Öffnen von selbst.
-const VERSION = '1.9.1';
+const VERSION = '1.9.2';
 const CACHE = 'lernwerk-' + VERSION;
 const FILES = [
   './', 'index.html', 'manifest.webmanifest', 'css/app.css', 'lehrplan.json', 'lernwerk-bridge.js',
   'js/app.js', 'js/extra.js', 'js/engine.js', 'js/store.js', 'js/db.js', 'js/ui.js', 'js/parser.js',
   'js/formula.js', 'js/check.js', 'js/srs.js', 'js/speech.js', 'js/util.js', 'js/mathedit.js',
   'inhalte/index.json', 'inhalte/faecher.json', 'inhalte/formeln-umstellen.txt', 'inhalte/terme.txt',
-  'inhalte/mathe-grundlagen.txt', 'inhalte/mathe-aufbau.txt', 'inhalte/elektro-grundlagen.txt', 'inhalte/elektro-aufbau.txt', 'inhalte/mechanik-grundlagen.txt', 'inhalte/mechanik-aufbau.txt', 'inhalte/fertigung-wirtschaft.txt', 'inhalte/steuerung-aufbau.txt', 'inhalte/module-aufbau.txt', 'inhalte/maschinenelemente.txt', 'inhalte/vertiefung.txt', 'inhalte/trainer-aufgaben.txt',
+  'inhalte/mathe-grundlagen.txt', 'inhalte/mathe-aufbau.txt', 'inhalte/elektro-grundlagen.txt', 'inhalte/elektro-aufbau.txt', 'inhalte/mechanik-grundlagen.txt', 'inhalte/mechanik-aufbau.txt', 'inhalte/fertigung-wirtschaft.txt', 'inhalte/steuerung-aufbau.txt', 'inhalte/module-aufbau.txt', 'inhalte/maschinenelemente.txt', 'inhalte/vertiefung.txt', 'inhalte/leiterwiderstand.txt', 'inhalte/trainer-aufgaben.txt',
   'inhalte/einfuehrung/mathematik.txt', 'inhalte/einfuehrung/elektrotechnik.txt', 'inhalte/einfuehrung/mechanik.txt',
   'inhalte/einfuehrung/toleranzen-cad-werkstoffe.txt', 'inhalte/einfuehrung/steuerung-automatisierung.txt',
   'inhalte/einfuehrung/projekte-module.txt', 'inhalte/einfuehrung/sprachen.txt',
@@ -18,7 +18,7 @@ const FILES = [
   'trainer/et-rueckrechnen-lernblatt.html', 'trainer/toleranzen.html', 'trainer/toleranzen-it-ablesen.html',
   'trainer/toleranzen-passungen-lernblatt.html', 'trainer/solidworks-kuerzel.html', 'trainer/werkstoffe-eisen-kohlenstoff.html',
   'trainer/fachtrainer.css', 'js/fachtrainer.js', 'trainer/festigkeit-trainer.html', 'trainer/maschinenelemente-trainer.html',
-  'trainer/elektro-trainer.html', 'trainer/steuerung-trainer.html'
+  'trainer/elektro-trainer.html', 'trainer/steuerung-trainer.html', 'trainer/leiterwiderstand-trainer.html'
 ];
 
 self.addEventListener('install', e => {

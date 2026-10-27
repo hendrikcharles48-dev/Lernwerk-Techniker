@@ -8,8 +8,8 @@ const FUNCS = {
   asin: 'asin', acos: 'acos', atan: 'atan', arcsin: 'asin', arccos: 'acos', arctan: 'atan',
   sqrt: 'sqrt', wurzel: 'sqrt', ln: 'ln', lg: 'lg', log: 'lg', abs: 'abs'
 };
-const ID_START = /[A-Za-zÄÖÜäöüßΑ-Ωα-ωµû]/;
-const ID_PART = /[A-Za-z0-9_ÄÖÜäöüßΑ-Ωα-ωµû]/;
+const ID_START = /[A-Za-zÄÖÜäöüßΑ-Ωα-ωµûϑ]/;
+const ID_PART = /[A-Za-z0-9_ÄÖÜäöüßΑ-Ωα-ωµûϑ]/;
 
 export class FormulaError extends Error {
   constructor(msg, pos) { super(msg); this.pos = pos; }
@@ -218,7 +218,7 @@ export function calc(src, vars = {}) {
 
 /* ===== Darstellung als HTML mit echtem Bruchstrich ===== */
 const GREEK_NAME = {
-  α: 'Alpha', β: 'Beta', γ: 'Gamma', δ: 'Delta', Δ: 'Delta', ε: 'Epsilon', η: 'Eta', θ: 'Theta', λ: 'Lambda',
+  α: 'Alpha', β: 'Beta', γ: 'Gamma', δ: 'Delta', Δ: 'Delta', ε: 'Epsilon', η: 'Eta', θ: 'Theta', ϑ: 'Theta', λ: 'Lambda',
   μ: 'My', ν: 'Ny', π: 'Pi', ρ: 'Rho', σ: 'Sigma', τ: 'Tau', φ: 'Phi', ϕ: 'Phi', ω: 'Omega', Ω: 'Omega', ξ: 'Xi'
 };
 function splitName(name) {
