@@ -156,17 +156,64 @@ export const topic = tid => {
 export const hasTopicContent = tid => !!(S.builtin.get(tid) && hasContent(S.builtin.get(tid))) || !!(S.content.get(tid) && hasContent(S.content.get(tid)));
 export function status(tid) {
   if (kvGet('aktuell', []).includes(tid)) return 'aktuell';
+  if (kvGet('abgeschlossen', []).includes(tid)) return 'abgeschlossen';
   const th = thema(tid);
   if (th && th.thema.trainer && th.thema.trainer.length) return 'vorhanden';
   if (S.notes.some(n => n.tid === tid) || S.photoMeta.some(p => p.tid === tid)) return 'vorhanden';
   if (hasTopicContent(tid) && !isIntroOnly(tid)) return 'vorhanden';
   return 'geplant';
 }
-export async function setAktuell(tid, on) {
-  const a = new Set(kvGet('aktuell', []));
-  on ? a.add(tid) : a.delete(tid);
+export async function setAktuell(tid, on) { await setZustand(tid, on ? 'aktuell' : 'kommt'); }
+/* ===== Zustand eines Themas: kommt noch, im Unterricht, abgeschlossen ===== */
+export function zustand(tid) {
+  if (kvGet('aktuell', []).includes(tid)) return 'aktuell';
+  if (kvGet('abgeschlossen', []).includes(tid)) return 'fertig';
+  return 'kommt';
+}
+export async function setZustand(tid, z) {
+  const a = new Set(kvGet('aktuell', [])), f = new Set(kvGet('abgeschlossen', []));
+  const seit = Object.assign({}, kvGet('aktuellSeit', {}));
+  a.delete(tid); f.delete(tid);
+  if (z === 'aktuell') { a.add(tid); if (!seit[tid]) seit[tid] = dayStr(); } else delete seit[tid];
+  if (z === 'fertig') f.add(tid);
   await kvSet('aktuell', [...a]);
+  await kvSet('abgeschlossen', [...f]);
+  await kvSet('aktuellSeit', seit);
   changed('aktuell');
+}
+export const abgeschlosseneTids = () => kvGet('abgeschlossen', []).filter(t => thema(t));
+// Seit über fünf Wochen im Unterricht und zwei Wochen nicht geübt: Vorschlag zum Abschließen
+export function abschliessenVorschlag(today = dayStr()) {
+  const seit = kvGet('aktuellSeit', {});
+  const grenze = Date.now() - 14 * 86400000;
+  return kvGet('aktuell', []).filter(t => thema(t) && seit[t] && daysBetween(seit[t], today) >= 35 && !S.events.some(e => e.tid === t && e.zeit >= grenze));
+}
+
+/* ===== Stärke eines Themas: schwach, mittel oder sicher =====
+ * Aus den letzten Übungen (erster Versuch richtig), dem Ansatz, offenen Fehlern und der letzten Klausur.
+ * Die Klausur zählt am Anfang stark und mit jeder Übung danach weniger, nach zehn Übungen gar nicht mehr.
+ */
+export function staerke(tid) {
+  const ev = S.events.filter(e => e.tid === tid && e.ok != null && e.art !== 'ansatz' && e.art !== 'trainer-schritt').slice(-12);
+  const an = S.events.filter(e => e.tid === tid && e.art === 'ansatz').slice(-8);
+  const offen = S.errors.filter(e => !e.erledigt && e.tid === tid).length;
+  let base = null;
+  if (ev.length >= 3) {
+    const q = ev.filter(e => e.ok).length / ev.length;
+    const a = an.length >= 2 ? an.filter(e => e.ok).length / an.length : q;
+    base = 0.7 * q + 0.3 * a;
+  }
+  let k = null, w = 0;
+  const ex = S.exams.filter(e => (e.note != null || e.prozent != null) && (e.themaIds || []).includes(tid)).sort((a, b) => (a.datum < b.datum ? 1 : -1))[0];
+  if (ex) {
+    k = { gut: 0.9, mittel: 0.65, schlecht: 0.3 }[themaErgebnis(ex, tid)];
+    const ab = new Date(ex.datum).getTime();
+    w = Math.max(0, 1 - S.events.filter(e => e.tid === tid && e.ok != null && e.art !== 'trainer-schritt' && e.zeit >= ab).length / 10);
+  }
+  let v = base == null ? (k == null ? null : k) : k == null ? base : w * k + (1 - w) * base;
+  if (v == null) return { wert: null, stufe: offen ? 'schwach' : 'mittel', n: ev.length };
+  v = Math.max(0, v - 0.05 * Math.min(offen, 4));
+  return { wert: v, stufe: v < 0.6 ? 'schwach' : v < 0.8 ? 'mittel' : 'sicher', n: ev.length };
 }
 
 /* ===== Inhalte aus Blöcken übernehmen ===== */
@@ -231,6 +278,11 @@ export async function recordCard(item, ergebnis) {
   const today = dayStr();
   const old = S.cards.get(item.id);
   const st = nextState(old, ergebnis, today);
+  // Schwache Themen kommen früher wieder, sichere später
+  if (item.tid && item.art !== 'fehler') {
+    const f = { schwach: 0.6, mittel: 1, sicher: 1.4 }[staerke(item.tid).stufe];
+    if (f !== 1) st.faellig = addDays(today, Math.max(1, Math.round(daysBetween(today, st.faellig) * f)));
+  }
   st.id = item.id; st.tid = item.tid; st.art = item.art;
   S.cards.set(item.id, st);
   await db.put('cards', st);
@@ -256,7 +308,9 @@ export function buildQueue(maxSec = 900, opt = {}) {
   const pool = [];
   for (const tid of tids) for (const it of topicItems(tid)) pool.push(it);
   if (!opt.tids || opt.mitFehlern) for (const e of S.errors) if (!e.erledigt && (!opt.tids || opt.tids.includes(e.tid))) pool.push(errorItem(e));
-  const prio = it => (exT.has(it.tid) ? 0 : (nach.get(it.tid) || {}).bewertung === 'schlecht' ? 1 : akt.has(it.tid) ? 2 : nach.has(it.tid) ? 3 : 4);
+  const stk = new Map();
+  const stufe = tid => { if (!stk.has(tid)) stk.set(tid, tid ? staerke(tid).stufe : 'mittel'); return stk.get(tid); };
+  const prio = it => (exT.has(it.tid) ? 0 : stufe(it.tid) === 'schwach' ? 1 : akt.has(it.tid) ? 2 : stufe(it.tid) === 'mittel' ? 3 : 4);
   const due = pool.filter(it => isDue(S.cards.get(it.id), today, exT.has(it.tid) ? dEx : null))
     .sort((a, b) => prio(a) - prio(b) || (S.cards.get(a.id).faellig < S.cards.get(b.id).faellig ? -1 : 1));
   const neu = pool.filter(it => !S.cards.get(it.id) && it.art !== 'fehler' && (exT.has(it.tid) || akt.has(it.tid) || nach.has(it.tid) || opt.tids))
@@ -382,11 +436,15 @@ export function weekStats() {
 export const STUFEN = { 1: 'geführt', 2: 'mit Schritten', 3: 'frei' };
 export function aufgabenStufe(tid) {
   const r = S.events.filter(e => e.tid === tid && e.art === 'aufgabe' && e.ergebnis).slice(-3).map(e => e.ergebnis);
-  if (!r.length) return 1;
+  const s = staerke(tid).stufe;
   const l2 = r.slice(-2);
-  if (l2.length === 2 && l2.every(x => x === 'falsch')) return 1;
-  if (r.length === 3 && r.every(x => x === 'richtig')) return 3;
-  return 2;
+  const zweiFalsch = l2.length === 2 && l2.every(x => x === 'falsch');
+  const dreiRichtig = r.length === 3 && r.every(x => x === 'richtig');
+  // Schwach: geführt, erst nach drei sicheren Lösungen mit Schritten. Sicher: frei, außer nach zwei Fehlern.
+  if (s === 'schwach') return dreiRichtig ? 2 : 1;
+  if (s === 'sicher') return zweiFalsch ? 1 : 3;
+  if (!r.length || zweiFalsch) return 1;
+  return dreiRichtig ? 3 : 2;
 }
 // Wie oft wurde der Ansatz sofort erkannt? Für die Wochenübersicht.
 export function ansatzQuote(seit = 0) {

@@ -5,7 +5,7 @@ import { fml, speakFml, varsOf, parseEq, keyOf } from './formula.js';
 import { lernplan } from './srs.js';
 import * as st from './store.js';
 import { $, $$, icon, row, list, seg, sw, empty, on, push, pop, openSheet, toast, copyText, progress, confirmBox, saveFile, refreshTop, hinweisTabellenbuch } from './ui.js';
-import { topicPage, runSession, runItem, sortForPractice, topicProgress, formelCard, askClaude, noteReader, openTrainer, itemTitle, rich } from './engine.js';
+import { topicPage, runSession, runItem, ZUSTAENDE, staerkeHTML, sortForPractice, topicProgress, formelCard, askClaude, noteReader, openTrainer, itemTitle, rich } from './engine.js';
 import { speak, stopSpeaking, canSpeak, keepAwake, pause, readAloud, stopReading } from './speech.js';
 import { prefs } from './db.js';
 
@@ -647,40 +647,50 @@ function infoPage() {
   };
 }
 
-/* ===== Im Unterricht: alle Themen auf einen Blick an- und ausschalten ===== */
+/* ===== Im Unterricht: Zustand aller Themen auf einen Blick ===== */
 const unterrichtOffen = new Set();
 export function unterrichtPage() {
   return {
     title: 'Im Unterricht',
     render(b) {
-      const akt = new Set(st.kvGet('aktuell', []));
-      const swT = (tid, on) => `<span class="sw-wrap" data-t="${esc(tid)}">${sw('akt', on)}</span>`;
+      const zSeg = tid => `<div class="zst" data-t="${esc(tid)}">${seg('z', ZUSTAENDE, st.zustand(tid))}</div>`;
       const art = tid => st.isIntroOnly(tid) ? 'Einführung' : st.hasTopicContent(tid) ? 'Mit Übungen' : st.status(tid) === 'geplant' ? 'Noch leer' : 'Eigene Inhalte';
-      const aktive = [...akt].map(id => st.thema(id)).filter(Boolean);
-      let h = `<p class="src">Was du hier einschaltest, kommt in Heute und in 5 Minuten zuerst dran.</p>`;
-      h += `<div class="sec-h">Gerade angewählt: ${aktive.length}</div>`;
-      h += aktive.length
-        ? list(aktive.map(({ fach: f, thema: t }) => row({ dot: f.farbe, title: t.name, sub: f.name, right: swT(t.id, true) })))
-          + `<button class="btn small" data-a="alleaus">Alle abwählen</button>`
-        : `<div class="sec-f">Noch nichts angewählt. Schalte unten die Themen ein, die gerade im Unterricht dran sind.</div>`;
+      const tRow = (f, t, mitFach) => row({ dot: mitFach ? f.farbe : null, title: t.name, sub: mitFach ? f.name : art(t.id), html: staerkeHTML(st.staerke(t.id), true) + zSeg(t.id) });
+      const alle = st.faecher().flatMap(f => f.themen.map(t => ({ f, t })));
+      const akt = alle.filter(x => st.zustand(x.t.id) === 'aktuell');
+      const fertig = alle.filter(x => st.zustand(x.t.id) === 'fertig');
+      const vorschlag = st.abschliessenVorschlag();
+      let h = `<p class="src">Im Unterricht kommt bei Unterricht dran. Abgeschlossen kommt bei Alles wiederholen dran, schwache Themen öfter.</p>`;
+      if (vorschlag.length) h += `<div class="fb info"><b>Schon lange im Unterricht und zwei Wochen nicht geübt:</b> ${vorschlag.map(t => esc(st.thema(t).thema.name)).join(', ')}. Sind diese Themen abgeschlossen?<div class="btn-row"><button class="btn small" data-a="vorschlag">Ja, abschließen</button></div></div>`;
+      h += `<div class="sec-h">Gerade im Unterricht: ${akt.length}</div>`;
+      h += akt.length ? list(akt.map(x => tRow(x.f, x.t, true))) + `<button class="btn small" data-a="alleab">Alle abschließen</button>` : `<div class="sec-f">Noch nichts im Unterricht. Wähl unten bei den Fächern aus, was gerade dran ist.</div>`;
+      if (fertig.length) h += `<details class="disc unt" data-f="__fertig" ${unterrichtOffen.has('__fertig') ? 'open' : ''}><summary>Abgeschlossen<span class="unt-n">${fertig.length} Themen</span></summary>` + list(fertig.map(x => tRow(x.f, x.t, true))) + `</details>`;
       h += `<div class="sec-h">Alle Themen nach Fach</div>`;
       for (const f of st.faecher()) {
         if (!f.themen.length) continue;
-        const n = f.themen.filter(t => akt.has(t.id)).length;
-        h += `<details class="disc unt" data-f="${esc(f.id)}" ${unterrichtOffen.has(f.id) ? 'open' : ''}><summary><span class="row-dot" style="background:${f.farbe}"></span>${esc(f.name)}<span class="unt-n">${n ? n + ' von ' + f.themen.length + ' an' : f.themen.length + ' Themen'}</span></summary>`
-          + list(f.themen.map(t => row({ title: t.name, sub: art(t.id), right: swT(t.id, akt.has(t.id)) }))) + `</details>`;
+        const n = f.themen.filter(t => st.zustand(t.id) === 'aktuell').length, d = f.themen.filter(t => st.zustand(t.id) === 'fertig').length;
+        h += `<details class="disc unt" data-f="${esc(f.id)}" ${unterrichtOffen.has(f.id) ? 'open' : ''}><summary><span class="row-dot" style="background:${f.farbe}"></span>${esc(f.name)}<span class="unt-n">${[n ? n + ' im Unterricht' : '', d ? d + ' fertig' : ''].filter(Boolean).join(', ') || f.themen.length + ' Themen'}</span></summary>`
+          + list(f.themen.map(t => tRow(f, t, false))) + `</details>`;
       }
       b.innerHTML = h;
       if (!b._untToggle) {
         b._untToggle = true;
         b.addEventListener('toggle', e => { const d = e.target.closest && e.target.closest('details[data-f]'); if (d) d.open ? unterrichtOffen.add(d.dataset.f) : unterrichtOffen.delete(d.dataset.f); }, true);
+        b.addEventListener('click', e => {
+          const btn = e.target.closest('.zst [data-seg] button');
+          if (!btn) return;
+          const tid = btn.closest('.zst').dataset.t, v = btn.dataset.v;
+          if (st.zustand(tid) === v) return;
+          st.setZustand(tid, v);
+          toast({ kommt: 'Kommt noch.', aktuell: 'Im Unterricht.', fertig: 'Abgeschlossen.' }[v]);
+        });
       }
       on(b, {
-        'sw:akt': (v, el) => { const tid = el.closest('[data-t]').dataset.t; st.setAktuell(tid, v); toast(v ? 'Angewählt. Kommt in Heute zuerst.' : 'Abgewählt.'); },
-        alleaus: async () => {
-          if (!(await confirmBox('Alle Themen abwählen? Dein Fortschritt bleibt erhalten.', 'Abwählen', true))) return;
-          for (const id of [...akt]) await st.setAktuell(id, false);
-          toast('Alle abgewählt.');
+        vorschlag: async () => { for (const t of vorschlag) await st.setZustand(t, 'fertig'); toast('Abgeschlossen.'); },
+        alleab: async () => {
+          if (!(await confirmBox('Alle Themen im Unterricht als abgeschlossen markieren? Sie kommen dann bei Alles wiederholen dran.', 'Abschließen'))) return;
+          for (const x of akt) await st.setZustand(x.t.id, 'fertig');
+          toast('Alle abgeschlossen.');
         }
       });
     }
@@ -807,7 +817,11 @@ export function notenEditor(e0) {
           const erg = {};
           for (const t of e.themaIds) if (e.ergebnis[t]) erg[t] = e.ergebnis[t];
           await st.addExam({ id: e0.id, fachId: e.fachId, fach: f.name, datum: e.datum, themen: e0.themen || '', themaIds: e.themaIds, note: e.note, prozent: e.prozent, ergebnis: erg, notiz: e.notiz });
-          api.close(); toast('Note gespeichert.'); refreshTop();
+          api.close();
+          const offen = e.themaIds.filter(t => st.zustand(t) !== 'fertig');
+          if (offen.length && await confirmBox('Note gespeichert. Sind die ' + plural(offen.length, 'Thema', 'Themen') + ' dieser Klausur jetzt abgeschlossen? Dann kommen sie bei Alles wiederholen dran.', 'Ja, abschließen')) { for (const t of offen) await st.setZustand(t, 'fertig'); toast('Themen abgeschlossen.'); }
+          else toast('Note gespeichert.');
+          refreshTop();
         },
         del: async () => { if (await confirmBox('Diese Klausur löschen?', 'Löschen', true)) { await st.deleteExam(e0.id); api.close(); pop(); } }
       });

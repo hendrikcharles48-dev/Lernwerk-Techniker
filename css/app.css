@@ -550,3 +550,12 @@ body.sheet-open #readbar { bottom: calc(var(--sab) + 14px); }
 .kl-note { font-size: 34px; font-weight: 800; margin-top: 8px; display: flex; align-items: baseline; gap: 10px; }
 .kl-note small { font-size: 18px; font-weight: 600; color: var(--label2); }
 .kl-note.leer { font-size: 17px; font-weight: 600; color: var(--label2); }
+/* Zustand und Stärke der Themen */
+.zst { margin-top: 8px; }
+.zst .seg button { font-size: 13px; padding: 6px 4px; }
+.topic-head .zst { margin: 4px 0 8px; }
+.stk-row { display: flex; align-items: center; gap: 8px; margin: 6px 0 2px; font-size: 13px; color: var(--label2); }
+.stk-row .bar { flex: 1; max-width: 160px; }
+.stk-l { min-width: 0; }
+.merk-line { font-weight: 600; margin: 8px 0; }
+.zst .seg { margin: 0; }

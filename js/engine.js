@@ -46,6 +46,13 @@ export async function openTrainer(tid, datei) {
 /* ===== Themenseite ===== */
 const TABS = [['prinzip', 'Prinzip'], ['bausteine', 'Bausteine'], ['ueben', 'Üben'], ['karten', 'Karten'], ['schnellweg', 'Schnellweg'], ['zettel', 'Lernzettel'], ['fotos', 'Fotos']];
 
+export const ZUSTAENDE = [['kommt', 'Kommt noch'], ['aktuell', 'Im Unterricht'], ['fertig', 'Abgeschlossen']];
+// Kleiner Balken: Wie sicher sitzt das Thema?
+export function staerkeHTML(sk, kurz) {
+  if (sk.wert == null) return kurz ? '' : `<div class="stk-row muted small">Stärke: noch zu wenig geübt</div>`;
+  const farbe = { schwach: 'var(--red)', mittel: 'var(--orange)', sicher: 'var(--green)' }[sk.stufe];
+  return `<div class="stk-row"><span class="stk-l">${kurz ? '' : 'Stärke: '}${{ schwach: 'Schwach', mittel: 'Mittel', sicher: 'Sicher' }[sk.stufe]}</span>${progress(sk.wert, farbe)}</div>`;
+}
 export function topicPage(tid, startTab) {
   const th = st.thema(tid);
   let cur = startTab || null;
@@ -60,11 +67,11 @@ export function topicPage(tid, startTab) {
       const items = st.topicItems(tid);
       if (!cur) cur = st.hasTopicContent(tid) ? 'prinzip' : (st.notesFor(tid).length ? 'zettel' : 'prinzip');
       st.setPlace({ art: 'thema', tid, titel: t.name, tab: cur });
-      const akt = st.status(tid) === 'aktuell';
+      const sk = st.staerke(tid);
       const tc = st.card('t:' + tid);
       let h = `<div class="topic-head" style="--fc:${f.farbe}">
         <div class="chips"><span class="chip chip-ic" style="background:${f.farbe}">${icon(fachIcon(f))}${esc(f.kurz || f.name)}</span>${(f.module || []).map(m => `<span class="chip ghost">${esc(m === 'Ü' ? 'übergreifend' : m)}</span>`).join('')}${T.modul && !(f.module || []).includes(T.modul) ? `<span class="chip ghost">${esc(T.modul)}</span>` : ''}</div>
-        ${list([row({ title: 'Aktuell im Unterricht', right: sw('akt', akt) })])}`;
+        <div class="zst">${seg('zst', ZUSTAENDE, st.zustand(tid))}</div>${staerkeHTML(sk)}`;
       if (t.trainer && t.trainer.length) {
         h += `<div class="trainer-btns">${t.trainer.map(x => `<button class="btn-big" data-a="trainer" data-d="${esc(x.datei)}" style="--fc:${f.farbe}">${icon('open')}<span><b>${esc(x.titel)}</b><small>Trainer${tc ? ' · ' + stufeText(tc) : ''}</small></span></button>`).join('')}</div>`;
       }
@@ -73,7 +80,7 @@ export function topicPage(tid, startTab) {
       const tb = $('.tab-body', body);
       const draw = () => { st.setPlace({ art: 'thema', tid, titel: t.name, tab: cur }); renderTab(tb, cur, tid, T, items, f); };
       on(body, {
-        'sw:akt': v => { st.setAktuell(tid, v); toast(v ? 'Als aktuell markiert. Kommt in Heute zuerst.' : 'Nicht mehr aktuell.'); },
+        'seg:zst': v => { st.setZustand(tid, v); toast({ kommt: 'Kommt noch.', aktuell: 'Im Unterricht. Kommt bei Unterricht dran.', fertig: 'Abgeschlossen. Kommt bei Alles wiederholen dran.' }[v]); },
         trainer: d => openTrainer(tid, d),
         'seg:tab': v => { cur = v; draw(); }
       });
@@ -338,7 +345,7 @@ export function runItem(el, item, ctx) {
   el.style.setProperty('--fc', meta.farbe);
   // Gemischtes Üben: Das Thema wird nicht verraten, sonst ist der Ansatz schon klar
   if (ctx.blind && item.art !== 'aufgabe') Object.assign(meta, { fach: 'Gemischt', thema: 'ohne Themenhinweis' });
-  const runner = { aufgabe: runAufgabe, umstellen: runUmstellen, auswahl: runAuswahl, reihenfolge: runReihenfolge, karte: runKarte, begriff: runKarte, fehler: runFehler }[item.art];
+  const runner = { auffrischen: runAuffrischen, aufgabe: runAufgabe, umstellen: runUmstellen, auswahl: runAuswahl, reihenfolge: runReihenfolge, karte: runKarte, begriff: runKarte, fehler: runFehler }[item.art];
   if (!runner) { el.innerHTML = empty('Diese Übung kenne ich nicht.'); ctx.onDone('hilfe'); return; }
   runner(el, item, ctx, meta);
 }
@@ -346,6 +353,16 @@ export function runItem(el, item, ctx) {
 export const rich = s => esc(s).replace(/(^|[^A-Za-z0-9])([A-Za-zΑ-Ωα-ωΔ])_([A-Za-z0-9]+)/g, '$1$2<sub>$3</sub>');
 const blindLine = `<div class="ex-ctx"><span class="dot"></span>Gemischt · Das Thema erfährst du nach deiner Wahl</div>`;
 const ctxLine = meta => `<div class="ex-ctx"><span class="dot" style="background:${meta.farbe}"></span>${esc(meta.fach)} · ${esc(meta.thema)}</div>`;
+
+function runAuffrischen(el, item, ctx, meta) {
+  const T = st.topic(item.tid);
+  const th = st.thema(item.tid);
+  const m = T.merksaetze.slice(0, 3), sw2 = T.schnellwege.slice(0, 2);
+  el.innerHTML = `<div class="ex-ctx"><span class="dot" style="background:${th ? th.fach.farbe : 'var(--accent)'}"></span>Kurz auffrischen · ${esc(th ? th.thema.name : '')}</div>
+    <div class="card"><div class="card-k">Dieses Thema sitzt noch nicht sicher. Lies es einmal laut.</div>${m.map(x => `<div class="merk-line">${rich(x)}</div>`).join('')}${sw2.map(x => `<div class="fb info"><b>Schnellweg.</b> ${rich(x)}</div>`).join('')}${!m.length && !sw2.length && T.bausteine.length ? `<ol>${T.bausteine.map(x => `<li>${rich(x)}</li>`).join('')}</ol>` : ''}</div>
+    <div class="btn-col"><button class="btn filled" data-a="ok">${ctx.nextLabel || 'Weiter'}</button></div>`;
+  on(el, { ok: () => ctx.onDone('hilfe', { skip: true }) });
+}
 
 async function logError(meta, item, x) {
   if (x.fehlerart === 'Schreibweise' || !x.fehlerart) return;

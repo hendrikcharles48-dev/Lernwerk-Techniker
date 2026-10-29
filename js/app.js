@@ -8,7 +8,7 @@ import { mehrPage, unterrichtPage, termineDetail, termEditor, datensicherung, ap
 import { prefs } from './db.js';
 import { canSpeak, readAloud } from './speech.js';
 
-export const VERSION = '1.10.2';
+export const VERSION = '1.11.0';
 
 /* ===== Heute ===== */
 // Freundliche, wechselnde Sätze für den Start. Ohne Druck.
@@ -49,7 +49,7 @@ const heute = {
       ${offen ? `<div class="tc-tags">${[...by].slice(0, 5).map(([k, n]) => `<span class="tag">${esc(k)} <b>${n}</b></span>`).join('')}</div>` : ''}</div>`;
     const qu = unterrichtQueue(), qa = allesQueue();
     h += `<button class="five" data-a="lernU">${icon('bolt')}<span><b>Unterricht</b><small>${aktTids().length ? 'Nur was gerade im Unterricht dran ist. ' + (qu.items.length ? plural(qu.items.length, 'Übung', 'Übungen') + ' offen.' : 'Nichts fällig, du kannst trotzdem üben.') : 'Noch keine Themen angewählt. Tippe hier.'}</small></span></button>`;
-    h += `<button class="mixbtn" data-a="lernA">${icon('mix')}<span><b>Alles wiederholen</b><small>Alles, was schon dran war, gemischt. ${qa.faellig ? plural(qa.faellig, 'Übung', 'Übungen') + ' fällig.' : 'Gerade nichts fällig, du übst trotzdem gemischt.'}</small></span></button>`;
+    h += `<button class="mixbtn" data-a="lernA">${icon('mix')}<span><b>Alles wiederholen</b><small>Alles, was abgeschlossen ist oder schon dran war. Schwache Themen kommen öfter.${qa.faellig ? ' ' + plural(qa.faellig, 'Übung', 'Übungen') + ' fällig.' : ''}</small></span></button>`;
     // Meine Trainer: alle Trainer mit einem Tipp erreichbar, fällige zuerst
     const trs = [], seen = new Set();
     for (const f of st.faecher()) for (const t of f.themen) for (const x of t.trainer || []) {
@@ -109,7 +109,8 @@ const aktTids = () => st.kvGet('aktuell', []).filter(id => st.thema(id));
 function gelernteTids() {
   const akt = new Set(aktTids());
   const nach = st.nacharbeitThemen();
-  return st.allTids().filter(t => akt.has(t) || nach.has(t) || st.card('t:' + t) || st.topicItems(t).some(i => st.card(i.id)));
+  const fertig = new Set(st.abgeschlosseneTids());
+  return st.allTids().filter(t => akt.has(t) || fertig.has(t) || nach.has(t) || st.card('t:' + t) || st.topicItems(t).some(i => st.card(i.id)));
 }
 // Rechenaufgaben verschiedener Themen im Wechsel, zuerst die mit Ansatz-Frage
 function mixAufgaben(tids, n) {
@@ -145,16 +146,41 @@ export function trainerGemischt() {
   if (!items.length) { toast('Für die Trainer gibt es noch keine Aufgaben.'); return; }
   runSession(items, 'Alle Trainer gemischt', { blind: true, onClose: () => refreshTop() });
 }
+// Alles wiederholen: etwa die Hälfte aus schwachen Themen, ein Drittel aus mittleren, der Rest aus sicheren.
+// Fehlt eine Gruppe, bekommt die nächste ihren Anteil. Schwache Themen bekommen danach eine kurze Auffrischung.
 export function lernenAlles() {
   const tids = gelernteTids();
   if (!tids.length) { toast('Es war noch nichts dran. Fang mit Unterricht an.'); return; }
+  const grp = { schwach: [], mittel: [], sicher: [] };
+  for (const t of tids) grp[st.staerke(t).stufe].push(t);
+  const N = 12, ziel = { schwach: 6, mittel: 4, sicher: 2 };
   const due = allesQueue().items;
-  const ids = new Set(due.map(i => i.id));
-  const mix = mixAufgaben(tids, due.length >= 12 ? 3 : 6).filter(i => !ids.has(i.id));
-  let items = shuffle([...due, ...mix]);
-  if (items.length < 4) items = items.concat(sortForPractice(tids.flatMap(t => st.topicItems(t)).filter(i => !ids.has(i.id) && !mix.includes(i))).slice(0, 8));
-  if (!items.length) { toast('Gerade gibt es nichts zu wiederholen.'); return; }
-  runSession(items, 'Alles wiederholen', { blind: true, onClose: () => refreshTop() });
+  const used = new Set();
+  const take = (it, out) => { if (used.has(it.id)) return; used.add(it.id); out.push(it); };
+  const pickFor = (ts, n, mitLosen) => {
+    const set = new Set(ts), out = [];
+    for (const it of due) if (out.length < n && (set.has(it.tid) || (mitLosen && it.art === 'fehler' && !st.thema(it.tid)))) take(it, out);
+    for (const it of mixAufgaben(ts, n)) if (out.length < n) take(it, out);
+    for (const it of sortForPractice(ts.flatMap(t => st.topicItems(t)))) { if (out.length >= n) break; take(it, out); }
+    return out;
+  };
+  let items = [], rest = 0;
+  for (const g of ['schwach', 'mittel', 'sicher']) {
+    const n = ziel[g] + rest;
+    const got = grp[g].length ? pickFor(grp[g], n, g === 'schwach') : [];
+    items = items.concat(got);
+    rest = n - got.length;
+  }
+  if (items.length < N) items = items.concat(pickFor(tids, N - items.length, true));
+  items = shuffle(items);
+  // Nach der ersten Übung eines schwachen Themas: kurz Merksätze und Schnellweg
+  const schwach = new Set(grp.schwach), done = new Set(), out = [];
+  for (const it of items) {
+    out.push(it);
+    if (schwach.has(it.tid) && !done.has(it.tid)) { done.add(it.tid); const T = st.topic(it.tid); if (T.merksaetze.length || T.schnellwege.length) out.push({ id: 'auffrischen:' + it.tid, art: 'auffrischen', tid: it.tid }); }
+  }
+  if (!out.length) { toast('Gerade gibt es nichts zu wiederholen.'); return; }
+  runSession(out, 'Alles wiederholen', { blind: true, onClose: () => refreshTop() });
 }
 
 /* ===== Fächer ===== */
@@ -197,7 +223,7 @@ export function fachPage(fid) {
     render(b) {
       const f = st.fach(fid);
       if (!f) { b.innerHTML = empty('Dieses Fach gibt es nicht mehr.'); return; }
-      const g = { aktuell: [], vorhanden: [], geplant: [] };
+      const g = { aktuell: [], abgeschlossen: [], vorhanden: [], geplant: [] };
       for (const t of f.themen) g[st.status(t.id)].push(t);
       const tRow = t => {
         const items = st.topicItems(t.id);
@@ -220,10 +246,11 @@ export function fachPage(fid) {
         h += `<div class="card intro" style="--fc:${f.farbe}"><div class="card-k">Worum es in diesem Fach geht</div><div class="prose">${markdown(parts[0])}</div>${parts.length > 1 ? `<details class="more"><summary>Weiterlesen</summary><div class="prose">${markdown(parts.slice(1).join('\n\n'))}</div></details>` : ''}${canSpeak() ? `<button class="btn small" data-a="introvor">${icon('ear')} Vorlesen</button>` : ''}</div>`;
       }
       if (g.aktuell.length) h += `<div class="sec-h">Aktuell im Unterricht</div>` + list(g.aktuell.map(tRow));
+      if (g.abgeschlossen.length) h += `<div class="sec-h">Abgeschlossen</div>` + list(g.abgeschlossen.map(tRow));
       if (g.vorhanden.length) h += `<div class="sec-h">Vorhanden</div>` + list(g.vorhanden.map(tRow));
       if (g.geplant.length) h += `<div class="sec-h">Kommt noch</div>` + list(g.geplant.map(tRow));
       if (!f.themen.length) h += empty('Noch keine Themen.', 'Füge einen Lernwerk-Block oder einen Lernzettel über Einfügen hinzu.');
-      h += `<div class="sec-f">Ein Thema öffnen und „Aktuell im Unterricht“ einschalten, dann steht es hier oben und kommt in Heute zuerst.</div>`;
+      h += `<div class="sec-f">Unter Im Unterricht legst du fest, was gerade dran ist und was abgeschlossen ist.</div>`;
       b.innerHTML = h;
       on(b, { topic: tid => push(topicPage(tid)), introvor: () => readAloud(plainText(st.fachIntro(f.id)), f.name) });
     }
