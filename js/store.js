@@ -299,16 +299,29 @@ export async function addExam(x) {
   return e;
 }
 // Note nach dem IHK-Schlüssel aus Prozent, nur als Vorschlag
+// Notenschlüssel: ab wie viel Prozent es die Noten 1 bis 5 gibt, darunter 6. Standard ist der IHK-Schlüssel.
+export const IHK_SCHLUESSEL = [92, 81, 67, 50, 30];
+export const notenSchluessel = () => { const k = kvGet('notenschluessel', null); return Array.isArray(k) && k.length === 5 ? k : IHK_SCHLUESSEL; };
+export async function setNotenSchluessel(k) { await kvSet('notenschluessel', k); changed('noten'); }
 export function noteAusProzent(p) {
   if (p == null || !isFinite(p)) return null;
-  return p >= 92 ? 1 : p >= 81 ? 2 : p >= 67 ? 3 : p >= 50 ? 4 : p >= 30 ? 5 : 6;
+  const k = notenSchluessel();
+  for (let i = 0; i < 5; i++) if (p >= k[i]) return i + 1;
+  return 6;
+}
+// Wie viel Prozent fehlen bis zur nächstbesseren Note? null bei der 1
+export function bisZurBesserenNote(p) {
+  const n = noteAusProzent(p);
+  if (!n || n === 1) return null;
+  return { note: n - 1, fehlt: Math.round((notenSchluessel()[n - 2] - p) * 10) / 10 };
 }
 // Wie lief ein Thema in der Arbeit? Ohne eigene Angabe zählt das Gesamtergebnis
 export function themaErgebnis(e, tid) {
   if (e.ergebnis && e.ergebnis[tid]) return e.ergebnis[tid];
-  const p = e.prozent != null ? e.prozent : e.note != null ? { 1: 95, 2: 85, 3: 72, 4: 58, 5: 40, 6: 15 }[Math.round(e.note)] : null;
-  if (p == null) return null;
-  return p >= 81 ? 'gut' : p >= 60 ? 'mittel' : 'schlecht';
+  // Note 1 und 2 sind gut, 3 ist mittel, ab 4 schlecht. Prozent laufen über den Notenschlüssel.
+  const n = e.prozent != null ? noteAusProzent(e.prozent) : e.note != null ? e.note : null;
+  if (n == null) return null;
+  return n < 2.5 ? 'gut' : n < 3.5 ? 'mittel' : 'schlecht';
 }
 // Themen zum Nacharbeiten: In der letzten benoteten Arbeit mittel oder schlecht, nicht älter als 120 Tage
 export function nacharbeitThemen(today = dayStr()) {

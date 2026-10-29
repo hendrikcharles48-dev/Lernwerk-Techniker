@@ -699,7 +699,9 @@ export function notenPage() {
       const today = dayStr();
       const graded = st.S.exams.filter(e => e.note != null || e.prozent != null).sort((a, c) => (a.datum > c.datum ? -1 : 1));
       const offen = st.S.exams.filter(e => e.note == null && e.prozent == null && e.datum < today).sort((a, c) => (a.datum > c.datum ? -1 : 1));
+      const ks = st.notenSchluessel();
       let h = `<div class="btn-row"><button class="btn filled" data-a="neu">${icon('plus')} Note eintragen</button></div>`;
+      h += list([row({ a: 'schl', icon: 'list', color: '#8E8E93', title: 'Notenschlüssel', sub: ks.map((g, i) => (i + 1) + ' ab ' + g).join(', ') + ', darunter 6' + (ks.join() === st.IHK_SCHLUESSEL.join() ? ' · IHK' : ' · eigener') })]);
       if (offen.length) h += `<div class="sec-h">Note fehlt noch</div>` + list(offen.map(e => { const f = st.fach(e.fachId); return row({ a: 'ed', d: e.id, dot: f ? f.farbe : '#888', title: e.fach, sub: dayLong(e.datum), detail: 'eintragen' }); }));
       if (graded.length) {
         // Schnitt je Fach
@@ -714,10 +716,11 @@ export function notenPage() {
       } else if (!offen.length) h += empty('Noch keine Note eingetragen.', 'Trag nach jeder Arbeit Note, Prozent und die Themen ein. Themen, die nicht gut liefen, zieht Lernwerk danach beim Lernen vor.');
       const nach = st.nacharbeitThemen(today);
       if (nach.size) h += `<div class="sec-h">Zum Nacharbeiten</div>` + list([...nach].map(([tid, v]) => row({ a: 'topic', d: tid, title: st.thema(tid).thema.name, sub: (v.bewertung === 'schlecht' ? 'Lief schlecht' : 'Lief mittel') + ' in ' + v.exam.fach + ', ' + dayShort(v.exam.datum) }))) + `<div class="btn-row"><button class="btn filled" data-a="nach">${icon('bolt')} Jetzt nacharbeiten</button></div>`;
-      h += `<div class="sec-f">So wirkt es aufs Lernen: Themen, die in einer Arbeit schlecht liefen, kommen bei Alles wiederholen zuerst, mittel gelaufene direkt danach. Aus beiden kommen auch neue Karten dazu, selbst wenn sie nicht im Unterricht angewählt sind. Ohne eigene Bewertung zählt das Gesamtergebnis: ab 81 Prozent gut, ab 60 Prozent mittel, darunter schlecht. Das gilt 120 Tage nach der Arbeit oder bis eine neuere Arbeit das Thema gut bewertet. Deine Noten bleiben nur auf diesem Gerät und in deiner Datensicherung.</div>`;
+      h += `<div class="sec-f">So wirkt es aufs Lernen: Themen, die in einer Arbeit schlecht liefen, kommen bei Alles wiederholen zuerst, mittel gelaufene direkt danach. Aus beiden kommen auch neue Karten dazu, selbst wenn sie nicht im Unterricht angewählt sind. Ohne eigene Bewertung zählt das Gesamtergebnis: Note 1 und 2 gut, Note 3 mittel, ab Note 4 schlecht. Das gilt 120 Tage nach der Arbeit oder bis eine neuere Arbeit das Thema gut bewertet. Deine Noten bleiben nur auf diesem Gerät und in deiner Datensicherung.</div>`;
       b.innerHTML = h;
       on(b, {
         neu: () => notenEditor({}),
+        schl: () => schluesselEditor(),
         ed: id => { const e = st.S.exams.find(x => x.id === id); if (e) notenEditor(e); },
         topic: tid => push(topicPage(tid)),
         nach: () => {
@@ -729,11 +732,36 @@ export function notenPage() {
     }
   };
 }
+function schluesselEditor() {
+  const k = st.notenSchluessel().slice();
+  openSheet({
+    title: 'Notenschlüssel',
+    render(b, api) {
+      b.innerHTML = `<div class="form"><p class="muted">Trag ein, ab wie viel Prozent es welche Note gibt. Darunter gibt es die 6.</p>
+        ${k.map((g, i) => `<label class="fld"><span>Note ${i + 1} ab Prozent</span><input type="text" inputmode="decimal" data-g="${i}" value="${esc(fmtNum(g, 1))}"></label>`).join('')}
+        <button class="btn filled" data-a="save">Speichern</button><button class="btn" data-a="ihk">IHK-Schlüssel nehmen</button></div>`;
+      on(b, {
+        save: async () => {
+          const v = [...b.querySelectorAll('[data-g]')].map(x => parseFloat(x.value.replace(',', '.')));
+          if (v.some(x => !isFinite(x) || x < 0 || x > 100)) { toast('Bitte überall eine Zahl zwischen 0 und 100.'); return; }
+          if (v.some((x, i) => i && x >= v[i - 1])) { toast('Jede Note braucht weniger Prozent als die bessere Note davor.'); return; }
+          await st.setNotenSchluessel(v); api.close(); toast('Notenschlüssel gespeichert.'); refreshTop();
+        },
+        ihk: async () => { await st.setNotenSchluessel(st.IHK_SCHLUESSEL.slice()); api.close(); toast('IHK-Schlüssel eingestellt.'); refreshTop(); }
+      });
+    }
+  });
+}
 export function notenEditor(e0) {
   const e = Object.assign({ fachId: '', datum: dayStr(), themaIds: [], ergebnis: {}, note: null, prozent: null, notiz: '' }, JSON.parse(JSON.stringify(e0)));
   e.ergebnis = e.ergebnis || {};
   const num = v => { const x = parseFloat(String(v).replace(',', '.')); return isFinite(x) ? x : null; };
-  const hint = p => { const n = st.noteAusProzent(p); return n ? 'Nach dem IHK-Schlüssel wären ' + fmtNum(p, 1) + ' Prozent etwa die Note ' + n + '. Achtung, deine Schule kann einen anderen Schlüssel haben.' : ''; };
+  const hint = p => {
+    const n = st.noteAusProzent(p);
+    if (!n) return '';
+    const b2 = st.bisZurBesserenNote(p);
+    return 'Nach deinem Notenschlüssel sind ' + fmtNum(p, 1) + ' Prozent die Note ' + n + '.' + (b2 ? ' Bis zur ' + b2.note + ' haben ' + fmtNum(b2.fehlt, 1) + ' Prozent gefehlt.' : '') + ' Lässt du die Note leer, trage ich sie so ein.';
+  };
   openSheet({
     title: e0.id ? 'Note bearbeiten' : 'Note eintragen', full: true,
     render(b, api) {
@@ -767,6 +795,7 @@ export function notenEditor(e0) {
           if (!e.fachId) { toast('Bitte ein Fach wählen.'); return; }
           if (!e.datum) { toast('Bitte das Datum wählen.'); return; }
           if (e.note == null && e.prozent == null) { toast('Trag eine Note oder die Prozent ein.'); return; }
+          if (e.note == null) e.note = st.noteAusProzent(e.prozent);
           if (e.note != null && (e.note < 1 || e.note > 6)) { toast('Die Note muss zwischen 1 und 6 liegen.'); return; }
           if (e.prozent != null && (e.prozent < 0 || e.prozent > 100)) { toast('Prozent müssen zwischen 0 und 100 liegen.'); return; }
           const f = st.fach(e.fachId);

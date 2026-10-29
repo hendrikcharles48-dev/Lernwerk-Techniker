@@ -8,7 +8,7 @@ import { mehrPage, unterrichtPage, notenPage, termineDetail, termEditor, datensi
 import { prefs } from './db.js';
 import { canSpeak, readAloud } from './speech.js';
 
-export const VERSION = '1.10.0';
+export const VERSION = '1.10.1';
 
 /* ===== Heute ===== */
 // Freundliche, wechselnde Sätze für den Start. Ohne Druck.
