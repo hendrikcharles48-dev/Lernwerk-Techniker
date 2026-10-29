@@ -17,13 +17,15 @@ Baustein: Diese Gruppe durch ihren Ersatzwiderstand ersetzen und neu zeichnen.
 Baustein: Wiederholen, bis nur ein Gesamtwiderstand übrig ist.
 Baustein: Gesamtstrom mit dem Ohmschen Gesetz ausrechnen.
 Baustein: Zurückrechnen: Teilspannungen in der Reihe, Teilströme in der Parallelgruppe.
-Schnellweg: R1 in Reihe zu R2 parallel R3: Gesamtwiderstand gleich R1 plus R2 mal R3 durch R2 plus R3.
+Schnellweg: R1 in Reihe zu R2 parallel R3: Gesamtwiderstand = R1 + R2 · R3 / (R2 + R3).
 Schnellweg: Probe: Alle Teilspannungen auf einem Weg ergeben die Gesamtspannung.
 Fehler: Alles auf einmal addiert | Erst die Gruppen erkennen. Parallele Widerstände dürfen nicht einfach addiert werden.
 Fehler: Gesamtspannung an die Parallelgruppe gelegt | An der Parallelgruppe liegt nur die Spannung, die nach dem Reihenwiderstand übrig bleibt.
 Fehler: Keine neue Skizze gezeichnet | Ohne Zwischenskizze verliert man leicht den Überblick, welche Gruppe schon ersetzt ist.
 Formel: R1 in Reihe zu R2 parallel R3 | R_ges = R1 + R2 · R3 / (R2 + R3) | R1 = R_ges − R2 · R3 / (R2 + R3)
+Aufbau: Erst die Parallelgruppe zu einem Widerstand zusammenfassen: R2 · R3 / (R2 + R3). R1 liegt in Reihe davor, deshalb kommt er mit + dazu.
 Formel: Spannung an der Parallelgruppe | U_p = U − I · R1 | I = (U − U_p) / R1
+Aufbau: I · R1 ist die Spannung, die an R1 abfällt. Was von U übrig bleibt, liegt an der Parallelgruppe, deshalb −.
 Karte: Wie gehst du beim Zusammenfassen vor? | Von innen nach außen, Gruppe für Gruppe.
 Karte: Wie gehst du beim Zurückrechnen vor? | Von außen nach innen, mit dem Gesamtstrom beginnen.
 Karte: Welche Spannung liegt an einer Parallelgruppe hinter einem Reihenwiderstand? | Die Gesamtspannung minus die Spannung am Reihenwiderstand.
@@ -34,14 +36,14 @@ Karte: Was ist eine Ersatzschaltung? | Die vereinfachte Schaltung mit Ersatzwide
 Karte: Was ergibt die Probe auf einem Weg? | Die Teilspannungen ergeben zusammen die Gesamtspannung.
 Karte: Wie teilen sich die Ströme in der Parallelgruppe auf? | Umgekehrt zu den Widerständen. Der kleinere Widerstand bekommt mehr Strom.
 Karte: Woran erkennst du die innerste Gruppe? | Zwei Bauteile, die eindeutig in Reihe oder eindeutig an denselben zwei Knoten liegen.
-Auswahl: R1 liegt vor einem Knoten, danach teilen sich R2 und R3 auf. Was rechnest du zuerst? | R2 parallel R3 | R1 plus R2 plus R3; R1 parallel R2; R1 parallel R3
+Auswahl: R1 liegt vor einem Knoten, danach teilen sich R2 und R3 auf. Was rechnest du zuerst? | R2 parallel R3 | R1 + R2 + R3; R1 parallel R2; R1 parallel R3
 Reihenfolge: Gemischte Schaltung durchrechnen | Gruppen erkennen; Innerste Gruppe ersetzen; Gesamtwiderstand bestimmen; Gesamtstrom ausrechnen; Teilspannungen und Teilströme zurückrechnen
 Aufgabe: R1 = {R1} Ω liegt in Reihe zu einer Parallelschaltung aus R2 = {R2} Ω und R3 = {R3} Ω. Die Schaltung liegt an U = {U} V. Wie groß ist der Gesamtstrom?
 Gegeben: R1 = {R1} Ω in Reihe
 Gegeben: R2 = {R2} Ω parallel zu R3 = {R3} Ω
 Gegeben: U = {U} V
 Gesucht: Gesamtstrom I in A
-Ansatz: Erst R2 parallel R3, dann plus R1 | Erst R1 plus R2, dann parallel R3; Alle drei Widerstände addieren; Alle drei Widerstände parallel
+Ansatz: Erst R2 parallel R3, dann plus R1 | Erst R1 + R2, dann parallel R3; Alle drei Widerstände addieren; Alle drei Widerstände parallel
 Signal: R2 und R3 hängen an denselben zwei Knoten, R1 liegt davor im einzigen Weg.
 Warum: Weil die Parallelgruppe die innerste Gruppe ist | Weil R1 als erster Widerstand immer zuerst kommt; Weil man in gemischten Schaltungen alles addiert
 Kontrolle: Liegt der Gesamtwiderstand zwischen R1 und R1 plus dem kleineren Widerstand der Gruppe? | Ja, die Gruppe ist kleiner als ihr kleinster Widerstand | Nein, er ist größer als alle zusammen; Nein, er ist kleiner als R1
@@ -58,7 +60,7 @@ Gegeben: R1 = {R1} Ω
 Gegeben: R2 = R3 = {R2} Ω
 Gegeben: U = {U} V
 Gesucht: Spannung U_p an der Parallelgruppe in V
-Ansatz: Spannungsteiler aus R1 und der Ersatzgruppe | Volle Spannung U an der Gruppe; U halbieren, weil R2 gleich R3; Spannungsteiler aus R1 und R2
+Ansatz: Spannungsteiler aus R1 und der Ersatzgruppe | Volle Spannung U an der Gruppe; U halbieren, weil R2 = R3; Spannungsteiler aus R1 und R2
 Signal: Die Gruppe liegt in Reihe hinter R1. Die Spannung teilt sich zwischen R1 und der Gruppe auf.
 Warum: Weil sich die Spannung auf R1 und die Gruppe aufteilt | Weil an jeder Parallelgruppe die volle Spannung liegt; Weil gleiche Widerstände die Spannung immer halbieren
 Kontrolle: Ist U_p kleiner als U? | Ja, ein Teil fällt an R1 ab | Nein, sie ist gleich U; Nein, sie ist größer als U
@@ -72,7 +74,7 @@ Aufgabe: R1 = {R1} Ω liegt in Reihe zu R2 = {R2} Ω parallel R3 = {R3} Ω. Der 
 Gegeben: R1 = {R1} Ω
 Gegeben: R2 = {R2} Ω, R3 = {R3} Ω parallel
 Gegeben: I = {I} A
-Gesucht: Strom I2 durch R2 in A
+Gesucht: Strom I2 / R2 in A
 Ansatz: Spannung an der Gruppe, dann I2 = U_p / R2 | I2 = I / 2, gleichmäßig verteilt; I2 = I · R2 / (R2 + R3); I2 = I, weil Reihe
 Signal: Der Gesamtstrom teilt sich an der Parallelgruppe auf. Gesucht ist ein Teilstrom.
 Warum: Weil an R2 dieselbe Spannung liegt wie an der ganzen Gruppe | Weil sich Ströme immer gleichmäßig aufteilen; Weil durch R2 der volle Gesamtstrom fließt
@@ -117,7 +119,9 @@ Fehler: Vorzeichen in der Masche vergessen | Spannungen gegen die Umlaufrichtung
 Fehler: Negativen Strom für falsch gehalten | Ein negatives Ergebnis heißt nur, dass der Strom gegen den Pfeil fließt.
 Fehler: Strom am Knoten addiert statt abgezogen | Zufließende und abfließende Ströme auf verschiedene Seiten schreiben.
 Formel: Knotenregel mit drei Strömen | I = I1 + I2 | I1 = I − I2; I2 = I − I1
+Aufbau: Was in einen Knoten hineinfließt, muss wieder hinaus. Die Ströme der Zweige werden deshalb addiert.
 Formel: Maschenregel in der Reihe | U = U1 + U2 + U3 | U3 = U − U1 − U2
+Aufbau: In der Reihe teilt sich die Spannung auf. Alle Teilspannungen zusammen ergeben die Gesamtspannung, deshalb +.
 Karte: Was sagt die Knotenregel? | Die Summe der zufließenden Ströme ist gleich der Summe der abfließenden.
 Karte: Was sagt die Maschenregel? | Die Summe aller Spannungen in einer Masche ist null.
 Karte: Was ist ein Knoten? | Ein Punkt, an dem sich Leitungen verbinden.
@@ -192,7 +196,7 @@ Deshalb rechnest du zuerst R2 parallel R_L aus. Dieser Ersatzwiderstand ersetzt 
 
 In der Praxis wählt man R_L mindestens zehnmal so groß wie R2. Dann bleibt der Einbruch klein.
 Baustein: Prüf, ob am Ausgang etwas angeschlossen ist. Dann ist der Teiler belastet.
-Baustein: R2 parallel R_L ausrechnen: Produkt durch Summe.
+Baustein: R2 parallel R_L ausrechnen: Produkt / Summe.
 Baustein: Spannungsteiler mit R1 und dem Ersatzwiderstand rechnen.
 Baustein: Mit der unbelasteten Spannung vergleichen. Die belastete muss kleiner sein.
 Schnellweg: Ist R_L mehr als zehnmal so groß wie R2, kannst du überschlägig unbelastet rechnen.
@@ -200,7 +204,9 @@ Fehler: Last einfach ignoriert | Mit Last liegt R_L parallel zu R2. Ohne diesen 
 Fehler: R_L in Reihe statt parallel | Der Verbraucher hängt zwischen Mittelpunkt und Masse, also parallel zu R2.
 Fehler: Ersatzwiderstand nur unten eingesetzt | Der Ersatzwiderstand steht in der Formel im Zähler und im Nenner.
 Formel: Ersatzwiderstand unten | R_2L = R2 · R_L / (R2 + R_L) | R_L = R_2L · R2 / (R2 − R_2L)
+Aufbau: Die Last R_L hängt parallel zu R2. Zwei parallele Widerstände fasst man mit Produkt / Summe zusammen.
 Formel: Belastete Ausgangsspannung | U_2 = U · R_2L / (R1 + R_2L) | U = U_2 · (R1 + R_2L) / R_2L
+Aufbau: Spannungsteiler: Der untere Teil bekommt den Anteil R_2L / (R1 + R_2L) von U. Statt R2 steht hier R2 parallel R_L.
 Karte: Wann ist ein Spannungsteiler belastet? | Wenn am Ausgang ein Verbraucher angeschlossen ist.
 Karte: Wie liegt die Last zu R2? | Parallel.
 Karte: Was passiert mit der Ausgangsspannung bei Belastung? | Sie sinkt.
@@ -234,7 +240,7 @@ Gegeben: R1 = R2 = {R} kΩ
 Gegeben: U = {U} V
 Gegeben: R_L = {RL} kΩ
 Gesucht: Spannungseinbruch in V
-Ansatz: Unbelastet minus belastet ausrechnen | Nur die belastete Spannung angeben; U mal R_L durch R; Halbe Spannung minus R_L
+Ansatz: Unbelastete − belastete Spannung ausrechnen | Nur die belastete Spannung angeben; U · R_L / R ausrechnen und angeben; Halbe Spannung − R_L ausrechnen
 Signal: Gefragt ist der Unterschied zwischen ohne und mit Last.
 Warum: Weil der Einbruch der Unterschied der beiden Ausgangsspannungen ist | Weil sich die Spannung durch die Last nicht ändert; Weil der Einbruch immer die halbe Spannung ist
 Kontrolle: Wird der Einbruch kleiner, wenn R_L größer wird? | Ja, eine große Last belastet weniger | Nein, er wird größer; Er hängt nicht von R_L ab
@@ -257,43 +263,47 @@ Anker: Der Behälter füllt sich am Anfang schnell, kurz vor dem Enddruck immer 
 Begriff: Kondensator | Ein Bauteil, das elektrische Ladung zwischen zwei Platten speichert.
 Begriff: Kapazität C | Wie viel Ladung der Kondensator pro Volt speichert. Einheit Farad, F.
 Begriff: Ladung Q | Die gespeicherte Elektrizitätsmenge. Einheit Coulomb, C, gleich Amperesekunde.
-Begriff: Zeitkonstante τ | R mal C. Nach einer Zeitkonstante ist der Kondensator zu etwa 63 Prozent geladen.
-Begriff: Gespeicherte Energie | Die Energie im elektrischen Feld, ein halb mal C mal U zum Quadrat.
-Merksatz: Q gleich C mal U.
-Merksatz: Tau gleich R mal C. Nach fünf Tau ist er praktisch voll oder leer.
+Begriff: Zeitkonstante τ | R · C. Nach einer Zeitkonstante ist der Kondensator zu etwa 63 % geladen.
+Begriff: Gespeicherte Energie | Die Energie im elektrischen Feld, ein halb mal C mal U².
+Merksatz: Q = C · U.
+Merksatz: Tau = R · C. Nach fünf Tau ist er praktisch voll oder leer.
 Merksatz: Kondensatoren parallel: Kapazitäten addieren. In Reihe: wie Widerstände parallel.
-Merksatz: Mikrofarad ist 10 hoch minus 6 Farad.
+Merksatz: Mikrofarad ist 10⁻⁶ Farad.
 Prinzip: Ein Kondensator ist ein kleiner Speicher. Legst du Spannung an, fließen Ladungen auf die Platten, bis die Spannung am Kondensator so groß ist wie die Quelle. Wie viel Ladung hineinpasst, sagt die Kapazität.
 
-Über einen Widerstand geladen, geht das nicht sofort. Am Anfang fließt viel Strom, weil der Kondensator noch leer ist. Je voller er wird, desto weniger Strom fließt. Die Zeitkonstante R mal C sagt, wie schnell das geht. Nach einer Zeitkonstante sind etwa 63 Prozent erreicht, nach fünf Zeitkonstanten über 99 Prozent.
+Über einen Widerstand geladen, geht das nicht sofort. Am Anfang fließt viel Strom, weil der Kondensator noch leer ist. Je voller er wird, desto weniger Strom fließt. Die Zeitkonstante R · C sagt, wie schnell das geht. Nach einer Zeitkonstante sind etwa 63 % erreicht, nach fünf Zeitkonstanten über 99 %.
 
 Bei der Zusammenschaltung ist es genau umgekehrt wie bei Widerständen. Parallel werden Kapazitäten einfach addiert, weil die Plattenfläche größer wird. In Reihe wird die Gesamtkapazität kleiner.
 Baustein: Gegeben und gesucht notieren und Vorsätze umrechnen: Mikro, Nano, Piko.
 Baustein: Gesucht ist Ladung oder Kapazität? Q = C · U.
 Baustein: Gesucht ist eine Zeit beim Laden? τ = R · C, nach 5 τ praktisch voll.
-Baustein: Gesucht ist Energie? W = ein halb mal C mal U zum Quadrat.
-Baustein: Mehrere Kondensatoren? Parallel addieren, in Reihe Produkt durch Summe.
-Schnellweg: Kiloohm mal Mikrofarad ergibt Millisekunden.
+Baustein: Gesucht ist Energie? W = ein halb mal C mal U².
+Baustein: Mehrere Kondensatoren? Parallel addieren, in Reihe Produkt / Summe.
+Schnellweg: Kiloohm · Mikrofarad ergibt Millisekunden.
 Schnellweg: Zwei gleiche Kondensatoren in Reihe ergeben die halbe Kapazität.
 Fehler: Mikrofarad nicht umgerechnet | 100 µF sind 0,0001 F. Für Q in Coulomb muss C in Farad stehen.
 Fehler: Reihen- und Parallelregel von Widerständen übernommen | Bei Kondensatoren ist es umgekehrt: parallel addieren.
-Fehler: Nach einer Zeitkonstante voll geladen angenommen | Nach einer Zeitkonstante sind es nur etwa 63 Prozent.
+Fehler: Nach einer Zeitkonstante voll geladen angenommen | Nach einer Zeitkonstante sind es nur etwa 63 %.
 Formel: Ladung | Q = C · U | C = Q / U; U = Q / C
+Aufbau: C sagt, wie viel Ladung pro Volt hineinpasst. Mehr Spannung heißt mehr Ladung, deshalb ·.
 Formel: Zeitkonstante | τ = R · C | R = τ / C; C = τ / R
+Aufbau: Großer Widerstand bremst den Ladestrom, große Kapazität braucht mehr Ladung. Beides macht das Laden langsamer, deshalb ·.
 Formel: Energie im Kondensator | W = C · U² / 2 | C = 2 · W / U²; U = √(2 · W / C)
+Aufbau: Beim Laden steigt die Spannung von 0 auf U, im Mittel also U / 2. Energie ist Ladung C · U mal mittlere Spannung U / 2.
 Formel: Zwei Kondensatoren in Reihe | C_ges = C1 · C2 / (C1 + C2) | C2 = C_ges · C1 / (C1 − C_ges)
-Karte: Wie lautet die Grundformel des Kondensators? | Q gleich C mal U.
+Aufbau: In Reihe wirken Kondensatoren wie ein dickerer Abstand der Platten. Die Gesamtkapazität wird kleiner, gerechnet wie Widerstände parallel: Produkt / Summe.
+Karte: Wie lautet die Grundformel des Kondensators? | Q = C · U.
 Karte: In welcher Einheit wird die Kapazität angegeben? | In Farad.
-Karte: Was ist die Zeitkonstante? | R mal C.
-Karte: Wie weit ist ein Kondensator nach einer Zeitkonstante geladen? | Zu etwa 63 Prozent.
+Karte: Was ist die Zeitkonstante? | R · C.
+Karte: Wie weit ist ein Kondensator nach einer Zeitkonstante geladen? | Zu etwa 63 %.
 Karte: Wann gilt ein Kondensator als voll geladen? | Nach etwa fünf Zeitkonstanten.
 Karte: Wie addierst du parallele Kondensatoren? | Einfach addieren.
-Karte: Wie rechnest du zwei Kondensatoren in Reihe? | Produkt durch Summe.
+Karte: Wie rechnest du zwei Kondensatoren in Reihe? | Produkt / Summe.
 Karte: Wie viel Farad sind 47 µF? | 0,000047 F.
-Karte: Was ergibt Kiloohm mal Mikrofarad? | Millisekunden.
-Karte: Wie groß ist die gespeicherte Energie? | Ein halb mal C mal U zum Quadrat.
+Karte: Was ergibt Kiloohm · Mikrofarad? | Millisekunden.
+Karte: Wie groß ist die gespeicherte Energie? | Ein halb mal C mal U².
 Karte: Wann fließt beim Laden der größte Strom? | Ganz am Anfang.
-Auswahl: Zwei Kondensatoren liegen parallel. Wie bekommst du die Gesamtkapazität? | Addieren | Produkt durch Summe; Abziehen; Den größeren nehmen
+Auswahl: Zwei Kondensatoren liegen parallel. Wie bekommst du die Gesamtkapazität? | Addieren | Produkt / Summe; Abziehen; Den größeren nehmen
 Auswahl: R = 10 kΩ, C = 100 µF. Wie groß ist τ? | 1 s | 0,1 s; 10 s; 1 ms
 Reihenfolge: Ladezeit eines RC-Glieds bestimmen | Vorsätze umrechnen; τ = R · C ausrechnen; Mit 5 malnehmen; Ergebnis in Sekunden angeben
 Aufgabe: Ein Kondensator mit C = {C} µF liegt an U = {U} V. Welche Ladung speichert er?
@@ -303,7 +313,7 @@ Gesucht: Ladung Q in mC
 Ansatz: Q = C · U | Q = C / U; τ = R · C; W = C · U² / 2
 Signal: Kapazität und Spannung sind gegeben, gefragt ist die gespeicherte Ladung.
 Warum: Weil die Kapazität sagt, wie viel Ladung pro Volt gespeichert wird | Weil die Ladung von der Zeitkonstante abhängt; Weil Ladung und Energie dasselbe sind
-Kontrolle: Was ergibt Mikrofarad mal Volt? | Mikrocoulomb | Coulomb; Millicoulomb
+Kontrolle: Was ergibt Mikrofarad · Volt? | Mikrocoulomb | Coulomb; Millicoulomb
 Schritt: Ladung in Mikrocoulomb | C * U | µC
 Schritt: Ladung in Millicoulomb | C * U / 1000 | mC
 Variable: C | 10 | 470 | 10
@@ -316,7 +326,7 @@ Gesucht: Ladezeit t in s
 Ansatz: τ = R · C, dann mal 5 | τ = R · C, dann fertig; Q = C · U, dann mal 5; τ = R / C, dann mal 5
 Signal: Ein Kondensator wird über einen Widerstand geladen. Gefragt ist, wann er voll ist.
 Warum: Weil ein Kondensator nach fünf Zeitkonstanten praktisch voll ist | Weil er nach einer Zeitkonstante voll ist; Weil die Ladezeit nur von der Spannung abhängt
-Kontrolle: Was ergibt Kiloohm mal Mikrofarad? | Millisekunden | Sekunden; Mikrosekunden
+Kontrolle: Was ergibt Kiloohm · Mikrofarad? | Millisekunden | Sekunden; Mikrosekunden
 Schritt: Zeitkonstante in Millisekunden | R * C | ms
 Schritt: Ladezeit in Sekunden | 5 * R * C / 1000 | s
 Variable: C | 10 | 1000 | 10
@@ -326,7 +336,7 @@ Aufgabe: Zwei Kondensatoren C1 = {C1} µF und C2 = {C2} µF liegen in Reihe. Wie
 Gegeben: C1 = {C1} µF
 Gegeben: C2 = {C2} µF in Reihe
 Gesucht: Gesamtkapazität in µF
-Ansatz: Produkt durch Summe | Kapazitäten addieren; Kapazitäten abziehen; Den kleineren nehmen
+Ansatz: Produkt / Summe | Kapazitäten addieren; Kapazitäten abziehen; Den kleineren nehmen
 Signal: Zwei Kondensatoren hintereinander, also in Reihe.
 Warum: Weil sich bei Kondensatoren in Reihe die Kapazität verkleinert | Weil man Kapazitäten in Reihe immer addiert; Weil die Reihe wie bei Widerständen addiert wird
 Kontrolle: Ist das Ergebnis kleiner als der kleinere Kondensator? | Ja, in Reihe wird es kleiner als der kleinste | Nein, es liegt zwischen beiden; Nein, es ist die Summe
@@ -346,56 +356,62 @@ Begriff: Wechselspannung | Eine Spannung, die periodisch ihre Richtung wechselt,
 Begriff: Frequenz f | Wie viele Perioden pro Sekunde ablaufen. Einheit Hertz, Hz. Im Netz 50 Hz.
 Begriff: Periodendauer T | Die Zeit für eine volle Schwingung. T gleich eins durch f.
 Begriff: Scheitelwert û | Der höchste Wert der Spannung.
-Begriff: Effektivwert | Der Wert, der dieselbe Wärmewirkung hat wie eine gleich große Gleichspannung. Bei Sinus Scheitelwert durch Wurzel aus 2.
+Begriff: Effektivwert | Der Wert, der dieselbe Wärmewirkung hat wie eine gleich große Gleichspannung. Bei Sinus Scheitelwert / √2.
 Begriff: Blindwiderstand X | Der Widerstand von Spule oder Kondensator bei Wechselstrom. Er hängt von der Frequenz ab.
 Begriff: Scheinwiderstand Z | Der gesamte Wechselstromwiderstand aus Wirk- und Blindwiderstand.
 Begriff: Phasenverschiebung φ | Der zeitliche Versatz zwischen Spannung und Strom.
 Merksatz: Netz: 230 Volt effektiv, Scheitelwert etwa 325 Volt.
 Merksatz: Spule: mehr Frequenz, mehr Widerstand. Kondensator: mehr Frequenz, weniger Widerstand.
 Merksatz: Wirk- und Blindwiderstand nie einfach addieren, sondern mit Pythagoras.
-Merksatz: Leistungsfaktor cos φ gleich R durch Z.
-Prinzip: Bei Wechselstrom ändert sich die Spannung ständig. Rechnet man mit Messgeräten oder Typenschildern, sind fast immer Effektivwerte gemeint. Der Scheitelwert ist um den Faktor Wurzel aus 2 größer.
+Merksatz: Leistungsfaktor cos φ = R / Z.
+Prinzip: Bei Wechselstrom ändert sich die Spannung ständig. Rechnet man mit Messgeräten oder Typenschildern, sind fast immer Effektivwerte gemeint. Der Scheitelwert ist um den Faktor √2 größer.
 
 Ohmsche Widerstände verhalten sich wie bei Gleichstrom. Spulen und Kondensatoren aber haben einen Blindwiderstand, der von der Frequenz abhängt. Eine Spule bremst schnellen Wechselstrom stärker, ein Kondensator lässt ihn leichter durch.
 
 Wirk- und Blindwiderstand stehen rechtwinklig aufeinander, weil Strom und Spannung am Blindwiderstand zeitlich versetzt sind. Deshalb rechnet man den Scheinwiderstand mit Pythagoras aus. Der Winkel in diesem Dreieck ist die Phasenverschiebung.
 Baustein: Prüf, ob Effektivwerte oder Scheitelwerte gegeben sind.
-Baustein: Blindwiderstand ausrechnen: Spule 2 π f L, Kondensator 1 durch 2 π f C.
+Baustein: Blindwiderstand ausrechnen: Spule 2 π f L, Kondensator 1 / 2 π f C.
 Baustein: Scheinwiderstand mit Pythagoras aus R und X.
 Baustein: Strom mit I = U / Z.
 Baustein: Phasenverschiebung und Leistungsfaktor aus cos φ = R / Z.
 Schnellweg: Bei 50 Hz ist 2 π f ungefähr 314.
 Schnellweg: Periodendauer bei 50 Hz: 20 Millisekunden.
-Fehler: Scheitelwert und Effektivwert verwechselt | Netzspannung 230 V ist der Effektivwert. Der Scheitelwert ist 230 mal Wurzel aus 2.
-Fehler: R und X einfach addiert | Sie stehen rechtwinklig aufeinander. Z ist die Wurzel aus R zum Quadrat plus X zum Quadrat.
+Fehler: Scheitelwert und Effektivwert verwechselt | Netzspannung 230 V ist der Effektivwert. Der Scheitelwert ist 230 · √2.
+Fehler: R und X einfach addiert | Sie stehen rechtwinklig aufeinander. Z ist die Wurzel aus R² + X².
 Fehler: Mikrofarad und Millihenry nicht umgerechnet | In die Formeln gehören Farad und Henry.
 Formel: Effektivwert | U = û / √2 | û = U · √2
+Aufbau: Der Effektivwert ist die Gleichspannung mit derselben Wärmewirkung. Beim Sinus ist das der Scheitelwert / √2, etwa 0,707 · û.
 Formel: Periodendauer | T = 1 / f | f = 1 / T
+Aufbau: f sagt, wie viele Schwingungen pro Sekunde kommen. Eine Schwingung dauert deshalb 1 / f.
 Formel: Induktiver Blindwiderstand | X_L = 2 · π · f · L | L = X_L / (2 · π · f); f = X_L / (2 · π · L)
+Aufbau: 2 · π · f ist die Kreisfrequenz, also wie schnell sich der Strom ändert. Je schneller die Änderung und je größer L, desto mehr wehrt sich die Spule, deshalb ·.
 Formel: Kapazitiver Blindwiderstand | X_C = 1 / (2 · π · f · C) | C = 1 / (2 · π · f · X_C)
+Aufbau: Ein Kondensator lässt schnelle Änderungen gut durch. Hohe Frequenz und große Kapazität machen den Widerstand kleiner, deshalb steht alles unter dem Bruchstrich.
 Formel: Scheinwiderstand | Z = √(R² + X²) | X = √(Z² − R²)
+Aufbau: R und X sind um 90° verschoben und stehen wie die Seiten eines rechtwinkligen Dreiecks zueinander. Z ist die schräge Seite, also Pythagoras.
 Formel: Leistungsfaktor | cos_φ = R / Z | R = cos_φ · Z
+Aufbau: Im Widerstandsdreieck liegt R am Winkel φ an, Z ist die Hypotenuse. Ankathete / Hypotenuse ist der Kosinus.
 Karte: Wie groß ist die Netzfrequenz in Deutschland? | 50 Hz.
 Karte: Wie lang ist eine Periode bei 50 Hz? | 20 Millisekunden.
-Karte: Wie rechnest du vom Scheitelwert zum Effektivwert? | Durch Wurzel aus 2 teilen.
+Karte: Wie rechnest du vom Scheitelwert zum Effektivwert? | Durch √2 teilen.
 Karte: Wie groß ist der Scheitelwert der Netzspannung? | Etwa 325 V.
 Karte: Was passiert mit X_L bei höherer Frequenz? | Er wird größer.
 Karte: Was passiert mit X_C bei höherer Frequenz? | Er wird kleiner.
-Karte: Wie rechnest du den Scheinwiderstand aus R und X? | Wurzel aus R zum Quadrat plus X zum Quadrat.
-Karte: Was gibt cos φ an? | Den Anteil der Wirkleistung an der Scheinleistung, R durch Z.
+Karte: Wie rechnest du den Scheinwiderstand aus R und X? | Wurzel aus R² + X².
+Karte: Was gibt cos φ an? | Den Anteil der Wirkleistung an der Scheinleistung, R / Z.
 Karte: Wofür steht der Effektivwert? | Für die Gleichspannung mit derselben Wärmewirkung.
 Karte: In welcher Einheit wird die Induktivität angegeben? | In Henry.
 Karte: Warum darf man R und X nicht addieren? | Weil Strom und Spannung am Blindwiderstand zeitlich versetzt sind.
-Auswahl: Gegeben sind R und X_L. Gesucht ist Z. Was passt? | Pythagoras | Addieren; Produkt durch Summe; Abziehen
+Auswahl: Gegeben sind R und X_L. Gesucht ist Z. Was passt? | Pythagoras | Addieren; Produkt / Summe; Abziehen
 Auswahl: Ein Messgerät zeigt 230 V an. Was ist das? | Der Effektivwert | Der Scheitelwert; Der Mittelwert über die Periode; Der Spitze-Spitze-Wert
-Reihenfolge: Strom in einer RL-Schaltung bestimmen | Blindwiderstand X_L ausrechnen; Scheinwiderstand mit Pythagoras; Strom mit U durch Z; Leistungsfaktor mit R durch Z
+Reihenfolge: Strom in einer RL-Schaltung bestimmen | Blindwiderstand X_L ausrechnen; Scheinwiderstand mit Pythagoras; Strom mit U / Z; Leistungsfaktor mit R / Z
 Aufgabe: Eine Wechselspannung hat den Scheitelwert û = {u} V. Wie groß ist ihr Effektivwert?
 Gegeben: û = {u} V, Sinusform
 Gesucht: Effektivwert U in V
 Ansatz: U = û / √2 | U = û · √2; U = û / 2; U = û
 Signal: Gegeben ist der höchste Wert einer Sinusspannung, gesucht der Effektivwert.
-Warum: Weil der Effektivwert bei Sinus um den Faktor Wurzel aus 2 kleiner ist | Weil der Effektivwert der halbe Scheitelwert ist; Weil der Effektivwert größer als der Scheitelwert ist
-Kontrolle: Ist der Effektivwert kleiner als der Scheitelwert? | Ja, etwa 71 Prozent davon | Nein, er ist größer; Nein, beide sind gleich
+Warum: Weil der Effektivwert bei Sinus um den Faktor √2 kleiner ist | Weil der Effektivwert der halbe Scheitelwert ist; Weil der Effektivwert größer als der Scheitelwert ist
+Kontrolle: Ist der Effektivwert kleiner als der Scheitelwert? | Ja, etwa 71 % davon | Nein, er ist größer; Nein, beide sind gleich
 Schritt: Effektivwert ausrechnen | u / sqrt(2) | V
 Variable: u | 10 | 400 | 10
 Rechnung: u / sqrt(2)
@@ -417,7 +433,7 @@ Gegeben: R = {R} Ω
 Gegeben: X_L = {X} Ω
 Gegeben: U = 230 V
 Gesucht: Strom I in A
-Ansatz: Erst Z mit Pythagoras, dann I = U / Z | Erst R plus X_L, dann I = U / R; Nur I = U / R; Nur I = U / X_L
+Ansatz: Erst Z mit Pythagoras, dann I = U / Z | Erst R + X_L, dann I = U / R; Nur I = U / R; Nur I = U / X_L
 Signal: Wirkwiderstand und Blindwiderstand in Reihe bei Wechselstrom.
 Warum: Weil R und X_L rechtwinklig zusammenwirken | Weil man Wechselstromwiderstände einfach addiert; Weil der Blindwiderstand keinen Strom bremst
 Kontrolle: Ist Z größer als R und größer als X_L, aber kleiner als beide zusammen? | Ja, wie die Hypotenuse im Dreieck | Nein, Z ist die Summe; Nein, Z ist kleiner als R
@@ -433,44 +449,47 @@ Quelle: Grundlagen der Elektrotechnik, Wechselstromtechnik.
 Fach: Elektrotechnik
 Thema: Drehstrom
 Anker: Drei Ruderer im selben Boot ziehen zeitversetzt. Weil immer einer gerade voll zieht, läuft das Boot gleichmäßiger als mit einem einzelnen Ruderer. Drehstrom sind drei Wechselspannungen, je um ein Drittel versetzt. Deshalb laufen Drehstrommotoren so ruhig.
-Begriff: Drehstrom | Drei Wechselspannungen gleicher Frequenz, die um 120 Grad gegeneinander versetzt sind.
+Begriff: Drehstrom | Drei Wechselspannungen gleicher Frequenz, die um 120° gegeneinander versetzt sind.
 Begriff: Außenleiter | Die drei Leiter L1, L2 und L3.
 Begriff: Neutralleiter N | Der Rückleiter im Sternpunkt.
 Begriff: Leiterspannung | Die Spannung zwischen zwei Außenleitern, im Netz 400 V.
 Begriff: Strangspannung | Die Spannung an einem Strang, also an einer Wicklung oder einem Heizelement.
-Begriff: Sternschaltung | Die drei Stränge sind an einem Ende im Sternpunkt verbunden. Strangspannung gleich Leiterspannung durch Wurzel aus 3.
-Begriff: Dreieckschaltung | Die Stränge liegen zwischen je zwei Außenleitern. Strangspannung gleich Leiterspannung.
+Begriff: Sternschaltung | Die drei Stränge sind an einem Ende im Sternpunkt verbunden. Strangspannung = Leiterspannung durch √3.
+Begriff: Dreieckschaltung | Die Stränge liegen zwischen je zwei Außenleitern. Strangspannung = Leiterspannung.
 Begriff: Leistungsfaktor cos φ | Der Anteil der Wirkleistung an der Scheinleistung, steht auf dem Typenschild.
-Merksatz: 400 durch Wurzel 3 ist 230. Das ist die Spannung zwischen Außenleiter und N.
-Merksatz: Leistung bei Drehstrom: Wurzel 3 mal U mal I mal cos φ.
+Merksatz: 400 / √3 ist 230. Das ist die Spannung zwischen Außenleiter und N.
+Merksatz: Leistung bei Drehstrom: √3 · U · I · cos φ.
 Merksatz: Stern: weniger Spannung am Strang. Dreieck: volle Leiterspannung am Strang.
 Merksatz: Ein Motor im Dreieck nimmt etwa dreimal so viel Leistung auf wie im Stern.
-Prinzip: Beim Drehstrom kommen drei Spannungen aus dem Netz, jede um ein Drittel einer Periode versetzt. Zwischen zwei Außenleitern misst du 400 V, zwischen einem Außenleiter und dem Neutralleiter 230 V. Der Faktor dazwischen ist Wurzel aus 3.
+Prinzip: Beim Drehstrom kommen drei Spannungen aus dem Netz, jede um ein Drittel einer Periode versetzt. Zwischen zwei Außenleitern misst du 400 V, zwischen einem Außenleiter und dem Neutralleiter 230 V. Der Faktor dazwischen ist √3.
 
-Für die Leistung rechnest du mit der Leiterspannung und dem Leiterstrom. Dann steht in der Formel der Faktor Wurzel aus 3. Bei Motoren kommt der Leistungsfaktor cos φ dazu, weil die Wicklungen einen Blindanteil haben.
+Für die Leistung rechnest du mit der Leiterspannung und dem Leiterstrom. Dann steht in der Formel der Faktor √3. Bei Motoren kommt der Leistungsfaktor cos φ dazu, weil die Wicklungen einen Blindanteil haben.
 
 Ob ein Verbraucher im Stern oder im Dreieck geschaltet wird, entscheidet, welche Spannung an jedem Strang liegt. Im Stern sind es 230 V, im Dreieck 400 V. Deshalb läuft ein Motor im Stern sanfter an.
 Baustein: Prüf, ob Leiter- oder Strangwerte gegeben sind.
 Baustein: Schaltungsart klären: Stern oder Dreieck.
-Baustein: Strangspannung bestimmen: Stern Leiterspannung durch Wurzel 3, Dreieck gleich Leiterspannung.
-Baustein: Leistung mit Wurzel 3 mal U mal I mal cos φ.
+Baustein: Strangspannung bestimmen: Stern Leiterspannung durch √3, Dreieck gleich Leiterspannung.
+Baustein: Leistung mit √3 · U · I · cos φ.
 Baustein: Bei Motoren: Abgegebene Leistung vom Typenschild, aufgenommene über den Wirkungsgrad.
-Schnellweg: Wurzel aus 3 ist ungefähr 1,73. Bei 400 V ist Wurzel 3 mal U etwa 693 V.
+Schnellweg: √3 ist ungefähr 1,73. Bei 400 V ist √3 · U etwa 693 V.
 Schnellweg: Stromschätzung für Motoren an 400 V: etwa 2 Ampere pro Kilowatt. Das ist nur eine Näherung, sie hängt von cos φ und Wirkungsgrad ab.
-Fehler: Faktor Wurzel 3 vergessen | Bei Drehstrom mit Leiterwerten gehört Wurzel aus 3 in die Leistungsformel.
+Fehler: Faktor √3 vergessen | Bei Drehstrom mit Leiterwerten gehört √3 in die Leistungsformel.
 Fehler: Strang- und Leiterspannung verwechselt | Im Stern liegen am Strang nur 230 V, nicht 400 V.
 Fehler: cos φ vergessen | Bei Motoren ist cos φ meist zwischen 0,7 und 0,9 und gehört in die Wirkleistung.
 Formel: Drehstrom-Wirkleistung | P = √3 · U · I · cos_φ | I = P / (√3 · U · cos_φ); cos_φ = P / (√3 · U · I)
+Aufbau: Drei Stränge liefern Leistung. Mit der Leiterspannung U gerechnet ergibt das den Faktor √3. cos φ nimmt nur den Anteil, der wirklich Arbeit leistet.
 Formel: Strangspannung im Stern | U_Str = U / √3 | U = U_Str · √3
+Aufbau: Im Stern liegt ein Strang zwischen Außenleiter und Sternpunkt. Diese Spannung ist um den Faktor √3 kleiner als die Leiterspannung: 400 V / √3 ≈ 230 V.
 Formel: Drehstrom-Scheinleistung | S = √3 · U · I | I = S / (√3 · U)
+Aufbau: Wie die Wirkleistung, nur ohne cos φ. S ist die ganze Leistung, die das Netz liefern muss.
 Karte: Wie groß ist die Leiterspannung im Niederspannungsnetz? | 400 V.
 Karte: Wie groß ist die Spannung zwischen Außenleiter und N? | 230 V.
-Karte: Um wie viel Grad sind die drei Spannungen versetzt? | Um 120 Grad.
-Karte: Wie lautet die Formel für die Drehstrom-Wirkleistung? | Wurzel 3 mal U mal I mal cos φ.
-Karte: Welche Spannung liegt im Stern an einem Strang? | Leiterspannung durch Wurzel 3, also 230 V.
+Karte: Um wie viel Grad sind die drei Spannungen versetzt? | Um 120°.
+Karte: Wie lautet die Formel für die Drehstrom-Wirkleistung? | √3 · U · I · cos φ.
+Karte: Welche Spannung liegt im Stern an einem Strang? | Leiterspannung durch √3, also 230 V.
 Karte: Welche Spannung liegt im Dreieck an einem Strang? | Die volle Leiterspannung, 400 V.
 Karte: Warum startet man Motoren manchmal im Stern? | Weil der Anlaufstrom kleiner ist, etwa ein Drittel.
-Karte: Wie groß ist Wurzel aus 3 ungefähr? | 1,73.
+Karte: Wie groß ist √3 ungefähr? | 1,73.
 Karte: Was steht auf dem Typenschild eines Motors als Leistung? | Die abgegebene mechanische Leistung.
 Karte: Wie heißen die drei Außenleiter? | L1, L2 und L3.
 Auswahl: Ein Motor nimmt an 400 V den Strom I auf, cos φ ist bekannt. Welche Formel passt für P? | P = √3 · U · I · cos φ | P = U · I · cos φ; P = 3 · U · I; P = √3 · U · I / cos φ
@@ -482,9 +501,9 @@ Gegeben: cos φ = {c}
 Gesucht: Wirkleistung P in kW
 Ansatz: P = √3 · U · I · cos φ | P = U · I · cos φ; P = 3 · U · I · cos φ; P = √3 · U · I
 Signal: Drehstrom, Leiterspannung, Leiterstrom und Leistungsfaktor sind gegeben.
-Warum: Weil bei Drehstrom mit Leiterwerten der Faktor Wurzel 3 dazugehört | Weil Drehstrom wie Wechselstrom gerechnet wird; Weil man bei drei Leitern immer mal drei nimmt
+Warum: Weil bei Drehstrom mit Leiterwerten der Faktor √3 dazugehört | Weil Drehstrom wie Wechselstrom gerechnet wird; Weil man bei drei Leitern immer mal drei nimmt
 Kontrolle: Passt grob die Faustregel von etwa 2 Ampere pro Kilowatt? | Ja, als grobe Näherung je nach cos φ | Nein, es müssen viel mehr Kilowatt sein; Nein, Ampere und Kilowatt sind gleich
-Schritt: Wurzel 3 mal 400 V | sqrt(3) * 400 | V
+Schritt: √3 · 400 V | sqrt(3) * 400 | V
 Schritt: Wirkleistung in Watt | sqrt(3) * 400 * I * c | W
 Schritt: Wirkleistung in Kilowatt | sqrt(3) * 400 * I * c / 1000 | kW
 Variable: I | 2 | 40 | 1

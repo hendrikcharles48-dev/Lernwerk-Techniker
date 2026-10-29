@@ -9,6 +9,7 @@ Begriff: Summand | Ein Teil einer Summe, also etwas, das addiert wird.
 Begriff: Faktor | Ein Teil eines Produkts, also etwas, das malgenommen wird.
 Merksatz: Paketbote bringt Butterbrötchen, jeder in der Klammer kriegt eins.
 Formel: Distributivgesetz | a · (b + c) = a · b + a · c
+Aufbau: Der Faktor vor der Klammer gilt für jedes Glied in der Klammer. Deshalb wird jedes einzeln malgenommen.
 Karte: 3 · (x + 4) ausmultiplizieren? | 3x + 12
 Karte: Was besagt das Distributivgesetz? | Der Faktor vor der Klammer wird mit jedem Glied in der Klammer malgenommen.
 Karte: 6a + 9b ausklammern? | 3 · (2a + 3b)

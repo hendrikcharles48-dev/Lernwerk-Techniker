@@ -6,14 +6,14 @@ Begriff: Spannung | Der elektrische Druck, der die Ladungen antreibt, Formelzeic
 Begriff: Stromstärke | Wie viel Ladung pro Sekunde fließt, Formelzeichen I, Einheit Ampere (A).
 Begriff: Widerstand | Wie stark ein Bauteil den Strom bremst, Formelzeichen R, Einheit Ohm (Ω).
 Begriff: Leitwert | Der Kehrwert des Widerstands, Formelzeichen G, Einheit Siemens (S).
-Merksatz: U gleich R mal I. Mehr Druck heißt mehr Strom, mehr Widerstand heißt weniger Strom.
+Merksatz: U = R · I. Mehr Druck heißt mehr Strom, mehr Widerstand heißt weniger Strom.
 Prinzip: Das ohmsche Gesetz verbindet die drei Grundgrößen. Bei gleichem Widerstand steigt der Strom im selben Verhältnis wie die Spannung: doppelte Spannung, doppelter Strom.
 Rechne immer in Grundeinheiten: Volt, Ampere, Ohm. Milliampere und Kiloohm rechnest du vorher um, sonst liegst du um den Faktor 1000 daneben.
 Baustein: Gegeben und gesucht mit Einheiten aufschreiben.
 Baustein: Alle Werte in V, A und Ω umrechnen.
 Baustein: Formel U = R · I nach der gesuchten Größe umstellen.
 Baustein: Einsetzen, ausrechnen, Einheit dazuschreiben.
-Schnellweg: Volt geteilt durch Kiloohm ergibt direkt Milliampere. 12 V durch 4 kΩ sind 3 mA.
+Schnellweg: Volt geteilt durch Kiloohm ergibt direkt Milliampere. 12 V / 4 kΩ sind 3 mA.
 Fehler: mA als A eingesetzt | 20 mA sind 0,02 A.
 Formel: Ohmsches Gesetz | U = R · I | R = U / I; I = U / R
 Formel: Leitwert | G = 1 / R | R = 1 / G
@@ -37,7 +37,7 @@ Baustein: Ersatzwiderstand berechnen.
 Baustein: Mit dem ohmschen Gesetz Gesamtstrom oder Gesamtspannung ausrechnen.
 Baustein: Teilspannungen oder Teilströme ausrechnen.
 Baustein: Probe: Teilspannungen ergeben zusammen die Gesamtspannung, Teilströme ergeben zusammen den Gesamtstrom.
-Schnellweg: Zwei gleiche Widerstände parallel ergeben den halben Wert. Bei zwei verschiedenen gilt: Produkt durch Summe.
+Schnellweg: Zwei gleiche Widerstände parallel ergeben den halben Wert. Bei zwei verschiedenen gilt: Produkt / Summe.
 Fehler: Parallel einfach addiert | Bei Parallelschaltung werden die Kehrwerte addiert, der Gesamtwiderstand wird kleiner.
 Formel: Reihenschaltung | R_ges = R1 + R2 | R1 = R_ges − R2; R2 = R_ges − R1
 Formel: Parallelschaltung zweier Widerstände | R_ges = R1 · R2 / (R1 + R2) | R1 = R_ges · R2 / (R2 − R_ges); R2 = R_ges · R1 / (R1 − R_ges)
@@ -59,7 +59,7 @@ Prinzip: Eine gemischte Schaltung löst du in zwei Richtungen. Zuerst fasst du s
 Danach rechnest du zurück: Mit dem Gesamtwiderstand bekommst du den Gesamtstrom. Mit ihm berechnest du die Spannungen an den Widerständen in Reihe, die Restspannung liegt an der Parallelgruppe, und daraus folgen die Teilströme.
 Baustein: Knotenpunkte markieren, um zu sehen, was parallel liegt.
 Baustein: Zusammenfassen und nach jedem Schritt eine neue Ersatzschaltung zeichnen.
-Baustein: Gesamtstrom mit U durch R_ges berechnen.
+Baustein: Gesamtstrom mit U / R_ges berechnen.
 Baustein: Zurückrechnen: Spannungen an Reihenteilen, dann Spannung an der Parallelgruppe, dann Teilströme.
 Baustein: Probe mit Knoten- und Maschenregel.
 Fehler: Widerstände zusammengefasst, die nicht eindeutig parallel sind | Parallel heißt: beide Enden an denselben zwei Knoten.
@@ -82,12 +82,12 @@ Für die Rechnung legst du vorher Zählpfeile fest. Ergibt sich ein negativer We
 Baustein: Knoten und Maschen in der Skizze markieren.
 Baustein: Zählpfeile für Ströme und Spannungen einzeichnen.
 Baustein: Knotengleichung aufstellen: zufließend gleich abfließend.
-Baustein: Maschengleichung aufstellen: Quellenspannung gleich Summe der Spannungsfälle.
+Baustein: Maschengleichung aufstellen: Quellenspannung = Summe der Spannungsfälle.
 Baustein: Gleichungen lösen, Vorzeichen deuten.
 Fehler: Vorzeichen in der Masche falsch | Spannungen in Umlaufrichtung positiv, gegen die Umlaufrichtung negativ.
 Formel: Knotenregel mit zwei Zweigen | I = I1 + I2 | I1 = I − I2; I2 = I − I1
 Formel: Maschenregel mit zwei Spannungsfällen | U = U1 + U2 | U1 = U − U2; U2 = U − U1
-Karte: Was sagt die Knotenregel? | Summe der zufließenden Ströme gleich Summe der abfließenden Ströme.
+Karte: Was sagt die Knotenregel? | Summe der zufließenden Ströme = Summe der abfließenden Ströme.
 Karte: Was sagt die Maschenregel? | In einer geschlossenen Masche ist die Summe der Spannungen null.
 Karte: Was bedeutet ein negativer Strom im Ergebnis? | Er fließt entgegen der angenommenen Pfeilrichtung.
 === ENDE ===
@@ -97,7 +97,7 @@ Fach: Elektrotechnik
 Thema: Rückrechnen
 Anker: Wie bei der Fehlersuche an der Maschine: Du kennst das Ergebnis am Ende und arbeitest dich Schritt für Schritt zurück bis zur Ursache.
 Begriff: Rückrechnen | Aus Gesamtgrößen die Spannungen und Ströme an den einzelnen Bauteilen bestimmen.
-Begriff: Spannungsfall | Die Spannung, die an einem Widerstand abfällt, berechnet mit R mal I.
+Begriff: Spannungsfall | Die Spannung, die an einem Widerstand abfällt, berechnet mit R · I.
 Merksatz: Für jeden Schritt fragst du: Zu welchem Bauteil gehören U, R und I? Alle drei müssen vom selben Bauteil sein.
 Prinzip: Beim Rückrechnen ist das ohmsche Gesetz das Werkzeug, aber nur, wenn alle drei Größen zum selben Bauteil oder zur selben Gruppe gehören. Mit dem Gesamtstrom und einem Widerstand in Reihe bekommst du dessen Spannungsfall. Die Restspannung liegt an der nächsten Gruppe. Mit dieser Spannung und den Einzelwiderständen bekommst du die Teilströme.
 Vor jedem Schritt entscheidest du, welche Regel passt: zusammenfassen, Ohm, Knotenregel oder Maschenregel. Genau so arbeitet auch dein Rückrechen-Trainer.
@@ -120,13 +120,13 @@ Begriff: Elektrische Leistung | Wie viel Energie pro Sekunde umgesetzt wird, For
 Begriff: Elektrische Arbeit | Die umgesetzte Energie, Formelzeichen W, Einheit Joule oder Wattsekunde, im Alltag Kilowattstunde (kWh).
 Begriff: Wirkungsgrad | Das Verhältnis von abgegebener zu aufgenommener Leistung, Formelzeichen η, immer kleiner als 1.
 Begriff: Verlustleistung | Der Teil der Leistung, der als Wärme verloren geht.
-Merksatz: Leistung ist Spannung mal Strom. Arbeit ist Leistung mal Zeit. Wirkungsgrad ist ab durch zu.
+Merksatz: Leistung ist Spannung · Strom. Arbeit ist Leistung · Zeit. Wirkungsgrad ist ab durch zu.
 Prinzip: Die Leistung P = U · I kannst du mit dem ohmschen Gesetz umformen: P = I² · R oder P = U² / R. Nimm die Form, für die du die Werte schon hast.
-Die Arbeit ist Leistung mal Zeit. Ein Motor mit 2 kW, der 3 Stunden läuft, braucht 6 kWh. Eine Kilowattstunde sind 3,6 Millionen Joule.
-Jede Maschine hat Verluste, meist als Wärme. Der Wirkungsgrad ist darum immer kleiner als 1, also kleiner als 100 Prozent. Hängen mehrere Stufen hintereinander, zum Beispiel Motor und Getriebe, nimmst du die Wirkungsgrade miteinander mal.
+Die Arbeit ist Leistung · Zeit. Ein Motor mit 2 kW, der 3 Stunden läuft, braucht 6 kWh. Eine Kilowattstunde sind 3,6 Millionen Joule.
+Jede Maschine hat Verluste, meist als Wärme. Der Wirkungsgrad ist darum immer kleiner als 1, also kleiner als 100 %. Hängen mehrere Stufen hintereinander, zum Beispiel Motor und Getriebe, nimmst du die Wirkungsgrade miteinander mal.
 Baustein: Gegeben und gesucht notieren, auf Einheiten achten: W, kW, h, s.
 Baustein: Passende Leistungsformel wählen.
-Baustein: Für Arbeit Leistung mal Zeit, Zeit in Stunden für kWh oder in Sekunden für Joule.
+Baustein: Für Arbeit Leistung · Zeit, Zeit in Stunden für kWh oder in Sekunden für Joule.
 Baustein: Beim Wirkungsgrad klären: Was wird abgegeben, was aufgenommen?
 Schnellweg: Gesamtwirkungsgrad mehrerer Stufen ist das Produkt der Einzelwirkungsgrade.
 Fehler: Wirkungsgrad verkehrt herum | η ist abgegeben durch zugeführt, das Ergebnis muss unter 1 liegen.
@@ -139,7 +139,7 @@ Formel: Wirkungsgrad | η = P_ab / P_zu | P_ab = η · P_zu; P_zu = P_ab / η
 Formel: Gesamtwirkungsgrad | η_ges = η1 · η2 | η1 = η_ges / η2; η2 = η_ges / η1
 Karte: Einheit der Leistung? | Watt (W)
 Karte: Wie viele Joule sind 1 kWh? | 3,6 Millionen Joule
-Karte: Motor 90 Prozent, Getriebe 95 Prozent. Gesamtwirkungsgrad? | 0,855, also 85,5 Prozent
+Karte: Motor 90 %, Getriebe 95 %. Gesamtwirkungsgrad? | 0,855, also 85,5 %
 Karte: Warum ist der Wirkungsgrad immer kleiner als 1? | Weil immer Verluste entstehen, meist als Wärme.
 === ENDE ===
 
@@ -184,7 +184,7 @@ Merksatz: Last parallel zu R2, dann neu teilen. Unter Last sinkt die Spannung im
 Prinzip: Ohne Last teilt sich die Spannung im Verhältnis der beiden Widerstände. Hängt ein Verbraucher an R2, liegt er parallel zu R2. Diese Parallelschaltung ist kleiner als R2 allein, darum bekommt sie einen kleineren Anteil der Spannung.
 Damit die Ausgangsspannung unter Last kaum sinkt, muss der Querstrom deutlich größer sein als der Laststrom. Viele Bücher nennen als Faustregel das Zwei- bis Zehnfache. Der Nachteil: Ein großer Querstrom kostet Leistung.
 Baustein: R2 und R_L parallel zusammenfassen zu R_2L.
-Baustein: Gesamtwiderstand R1 plus R_2L.
+Baustein: Gesamtwiderstand R1 + R_2L.
 Baustein: Ausgangsspannung mit der Spannungsteilerformel berechnen.
 Baustein: Mit der unbelasteten Spannung vergleichen.
 Fehler: Last in Reihe statt parallel gerechnet | Der Verbraucher hängt an denselben zwei Punkten wie R2, also parallel.
@@ -203,14 +203,14 @@ Anker: Ein Druckluftspeicher an der Maschine: Er füllt sich über den Kompresso
 Begriff: Kondensator | Bauteil aus zwei leitenden Flächen mit einem Isolierstoff dazwischen, das Ladung speichert.
 Begriff: Kapazität | Wie viel Ladung pro Volt gespeichert werden kann, Formelzeichen C, Einheit Farad (F).
 Begriff: Ladung | Die gespeicherte Elektrizitätsmenge, Formelzeichen Q, Einheit Coulomb (C), also Amperesekunde.
-Begriff: Zeitkonstante | τ = R · C, nach dieser Zeit ist der Kondensator zu etwa 63 Prozent geladen.
+Begriff: Zeitkonstante | τ = R · C, nach dieser Zeit ist der Kondensator zu etwa 63 % geladen.
 Begriff: Dielektrikum | Der Isolierstoff zwischen den Platten.
-Merksatz: Q gleich C mal U. Nach fünf τ ist er praktisch voll.
-Prinzip: Legt man Spannung an, fließt zuerst ein großer Ladestrom, der immer kleiner wird. Die Spannung am Kondensator steigt dabei nicht gerade, sondern in einer Kurve. Nach einer Zeitkonstante τ sind etwa 63 Prozent erreicht, nach fünf τ gilt er als voll geladen.
+Merksatz: Q = C · U. Nach fünf τ ist er praktisch voll.
+Prinzip: Legt man Spannung an, fließt zuerst ein großer Ladestrom, der immer kleiner wird. Die Spannung am Kondensator steigt dabei nicht gerade, sondern in einer Kurve. Nach einer Zeitkonstante τ sind etwa 63 % erreicht, nach fünf τ gilt er als voll geladen.
 Bei Gleichspannung sperrt ein geladener Kondensator. Bei Wechselspannung lässt er Strom durch, umso besser, je höher die Frequenz ist.
 Kondensatoren in Parallelschaltung addieren sich, in Reihe gilt die Kehrwertformel. Das ist genau umgekehrt wie bei Widerständen.
 Je größer die Plattenfläche und je kleiner der Abstand, desto größer die Kapazität.
-Baustein: Werte mit Vorsätzen umrechnen: µF ist 10 hoch minus 6 F, nF ist 10 hoch minus 9 F.
+Baustein: Werte mit Vorsätzen umrechnen: µF ist 10⁻⁶ F, nF ist 10⁻⁹ F.
 Baustein: Passende Formel wählen: Ladung, Energie oder Zeitkonstante.
 Baustein: Bei Schaltungen erkennen: parallel addieren, Reihe Kehrwerte.
 Baustein: Ergebnis mit Einheit und sinnvollem Vorsatz angeben.
@@ -225,7 +225,7 @@ Formel: Plattenkondensator | C = ε0 · εr · A / d | A = C · d / (ε0 · εr)
 Karte: Einheit der Kapazität? | Farad (F)
 Karte: Nach welcher Zeit ist ein Kondensator praktisch geladen? | Nach fünf Zeitkonstanten, also 5 · R · C.
 Karte: Wie addieren sich Kondensatoren parallel? | Einfach: C1 + C2.
-Karte: Wie viel Prozent nach einer Zeitkonstante? | Etwa 63 Prozent.
+Karte: Wie viel % nach einer Zeitkonstante? | Etwa 63 %.
 === ENDE ===
 
 === LERNWERK ===
@@ -267,7 +267,7 @@ Begriff: Effektivwert | Der Wert, der dieselbe Wärme erzeugt wie eine gleich gr
 Begriff: Phasenverschiebung | Der zeitliche Versatz zwischen Spannung und Strom, als Winkel φ.
 Begriff: Blindwiderstand | Der Widerstand von Spule oder Kondensator bei Wechselstrom, abhängig von der Frequenz.
 Merksatz: Beim Kondensator eilt der Strom vor, bei Induktivitäten tut er sich verspäten.
-Prinzip: Die Netzspannung ist sinusförmig. Der Effektivwert ist der Scheitelwert geteilt durch die Wurzel aus 2. Bei 230 Volt Effektivwert ist der Scheitelwert also etwa 325 Volt.
+Prinzip: Die Netzspannung ist sinusförmig. Der Effektivwert ist der Scheitelwert geteilt durch die √2. Bei 230 Volt Effektivwert ist der Scheitelwert also etwa 325 Volt.
 Spule und Kondensator haben bei Wechselstrom einen Blindwiderstand. Der der Spule steigt mit der Frequenz, der des Kondensators sinkt mit der Frequenz.
 Bei Spulen und Kondensatoren sind Strom und Spannung zeitlich verschoben. Darum gibt es drei Leistungen: Die Wirkleistung P in Watt ist das, was wirklich Arbeit macht. Die Blindleistung Q in var pendelt hin und her. Die Scheinleistung S in VA ist das, was das Netz liefern muss. Der Leistungsfaktor cos φ sagt, wie viel davon Wirkleistung ist.
 Baustein: Werte zuordnen: Effektivwert oder Scheitelwert?
@@ -290,7 +290,7 @@ Karte: Was passiert mit dem Blindwiderstand der Spule bei höherer Frequenz? | E
 === LERNWERK ===
 Fach: Elektrotechnik
 Thema: Drehstrom
-Anker: Drei Kolben in einem Motor, die nacheinander zünden, geben einen gleichmäßigen Lauf. Drehstrom sind drei Wechselspannungen, die nacheinander kommen, jeweils um 120 Grad versetzt. Das treibt den Drehstrommotor deiner Fräse an.
+Anker: Drei Kolben in einem Motor, die nacheinander zünden, geben einen gleichmäßigen Lauf. Drehstrom sind drei Wechselspannungen, die nacheinander kommen, jeweils um 120° versetzt. Das treibt den Drehstrommotor deiner Fräse an.
 Begriff: Außenleiter | Die drei Leiter L1, L2 und L3.
 Begriff: Neutralleiter | Der Leiter N, gemeinsamer Rückleiter in der Sternschaltung.
 Begriff: Schutzleiter | Der grün-gelbe Leiter PE für den Schutz gegen elektrischen Schlag.
@@ -298,16 +298,16 @@ Begriff: Leiterspannung | Spannung zwischen zwei Außenleitern, im Netz 400 Volt
 Begriff: Strangspannung | Spannung an einem Strang, in der Sternschaltung 230 Volt.
 Begriff: Sternschaltung | Die drei Stränge sind an einem gemeinsamen Punkt verbunden.
 Begriff: Dreieckschaltung | Die drei Stränge sind im Kreis hintereinander geschaltet, jeder Strang liegt an 400 Volt.
-Merksatz: Zwischen Leiterspannung und Strangspannung liegt der Faktor Wurzel 3: 230 mal 1,73 sind 400.
-Prinzip: Im Drehstromnetz liegen zwischen zwei Außenleitern 400 Volt und zwischen einem Außenleiter und N 230 Volt. Der Faktor ist die Wurzel aus 3, also etwa 1,73.
+Merksatz: Zwischen Leiterspannung und Strangspannung liegt der Faktor √3: 230 · 1,73 sind 400.
+Prinzip: Im Drehstromnetz liegen zwischen zwei Außenleitern 400 Volt und zwischen einem Außenleiter und N 230 Volt. Der Faktor ist die √3, also etwa 1,73.
 In der Sternschaltung liegt an jedem Strang nur die Strangspannung von 230 Volt. In der Dreieckschaltung liegen an jedem Strang 400 Volt. Darum nimmt ein Motor im Dreieck mehr Leistung auf.
 Beim Stern-Dreieck-Anlauf startet ein Motor in Stern und wird dann auf Dreieck umgeschaltet. Im Stern sind Anlaufstrom und Anlaufmoment nur etwa ein Drittel so groß wie in Dreieck.
 Die Drehrichtung eines Drehstrommotors änderst du, indem du zwei Außenleiter tauschst.
 Baustein: Schaltung erkennen: Stern oder Dreieck?
 Baustein: Spannungen zuordnen: Was liegt am Strang, was zwischen den Leitern?
-Baustein: Ströme zuordnen: Im Stern ist Leiterstrom gleich Strangstrom, im Dreieck ist der Leiterstrom Wurzel 3 mal so groß.
-Baustein: Leistung mit Wurzel 3 mal U mal I mal cos φ berechnen.
-Fehler: Wurzel 3 doppelt verwendet | In der Leistungsformel mit Leiterspannung und Leiterstrom steht Wurzel 3 genau einmal.
+Baustein: Ströme zuordnen: Im Stern ist Leiterstrom = Strangstrom, im Dreieck ist der Leiterstrom √3 mal so groß.
+Baustein: Leistung mit √3 · U · I · cos φ berechnen.
+Fehler: √3 doppelt verwendet | In der Leistungsformel mit Leiterspannung und Leiterstrom steht √3 genau einmal.
 Formel: Leiterspannung | U = √3 · U_str | U_str = U / √3
 Formel: Leiterstrom im Dreieck | I = √3 · I_str | I_str = I / √3
 Formel: Wirkleistung Drehstrom | P = √3 · U · I · cos(φ) | I = P / (√3 · U · cos(φ)); U = P / (√3 · I · cos(φ))

@@ -54,43 +54,46 @@ Anker: Ein kleiner Taster schaltet nicht direkt den großen Zylinder, sondern ei
 Begriff: Direkte Ansteuerung | Das Signalglied, zum Beispiel ein Handtaster-Ventil, versorgt den Zylinder direkt.
 Begriff: Indirekte Ansteuerung | Das Signalglied schaltet ein Stellglied, und das Stellglied versorgt den Zylinder.
 Begriff: Kolbenfläche | Die volle Kreisfläche des Kolbens. Sie wirkt beim Ausfahren.
-Begriff: Ringfläche | Kolbenfläche minus Kolbenstangenfläche. Sie wirkt beim Einfahren.
+Begriff: Ringfläche | Kolbenfläche − Kolbenstangenfläche. Sie wirkt beim Einfahren.
 Begriff: Drosselrückschlagventil | Drosselt die Luft in eine Richtung und lässt sie in die andere frei durch. Damit stellt man die Geschwindigkeit ein.
 Begriff: Zweidruckventil | Ein UND in der Pneumatik: Am Ausgang ist Druck, wenn an beiden Eingängen Druck ist.
 Begriff: Wechselventil | Ein ODER in der Pneumatik: Am Ausgang ist Druck, wenn an mindestens einem Eingang Druck ist.
-Merksatz: Kraft gleich Druck mal Fläche. Ein bar sind 0,1 Newton pro Quadratmillimeter.
+Merksatz: Kraft = Druck · Fläche. Ein bar sind 0,1 Newton pro Quadratmillimeter.
 Merksatz: Ausfahren mit Kolbenfläche, Einfahren mit Ringfläche.
 Merksatz: Große Zylinder und lange Leitungen: indirekt ansteuern.
 Merksatz: Geschwindigkeit beim doppeltwirkenden Zylinder in der Abluft drosseln.
-Prinzip: Ein Pneumatikzylinder wandelt Druck in Kraft um. Die Kraft ist Druck mal Fläche. Beim Ausfahren drückt die Luft auf die ganze Kolbenfläche. Beim Einfahren drückt sie auf die andere Seite, wo die Kolbenstange einen Teil der Fläche wegnimmt. Deshalb ist die Einfahrkraft kleiner.
+Prinzip: Ein Pneumatikzylinder wandelt Druck in Kraft um. Die Kraft ist Druck · Fläche. Beim Ausfahren drückt die Luft auf die ganze Kolbenfläche. Beim Einfahren drückt sie auf die andere Seite, wo die Kolbenstange einen Teil der Fläche wegnimmt. Deshalb ist die Einfahrkraft kleiner.
 
-Der Druck steht meistens in bar. Ein bar sind 0,1 Newton pro Quadratmillimeter. Rechnest du die Fläche in Quadratmillimeter, kommt die Kraft direkt in Newton heraus. In der Praxis geht durch Reibung ein Teil verloren, oft rechnet man mit etwa 10 Prozent weniger.
+Der Druck steht meistens in bar. Ein bar sind 0,1 Newton pro Quadratmillimeter. Rechnest du die Fläche in Quadratmillimeter, kommt die Kraft direkt in Newton heraus. In der Praxis geht durch Reibung ein Teil verloren, oft rechnet man mit etwa 10 % weniger.
 
 Bei der Ansteuerung unterscheidet man direkt und indirekt. Direkt ist einfach, aber das Signalventil muss die ganze Luft für den Zylinder durchlassen. Bei großen Zylindern oder wenn mehrere Bedingungen zusammenkommen, steuert man indirekt: kleine Signalventile schalten ein großes Stellglied.
 Baustein: Zylinderart und Bewegungsrichtung klären: Ausfahren oder Einfahren.
 Baustein: Wirksame Fläche bestimmen: Kolbenfläche oder Ringfläche.
-Baustein: Druck in N pro mm² umrechnen: bar mal 0,1.
-Baustein: Kraft ausrechnen: Druck mal Fläche.
+Baustein: Druck in N pro mm² umrechnen: bar · 0,1.
+Baustein: Kraft ausrechnen: Druck · Fläche.
 Baustein: Ansteuerung wählen: direkt bei kleinen Zylindern und einer Bedingung, indirekt sonst.
 Schnellweg: Bei 6 bar drückt jeder Quadratzentimeter mit 60 N.
 Schnellweg: Zwei Taster, beide müssen gedrückt sein: Zweidruckventil. Einer reicht: Wechselventil.
 Fehler: Bar direkt als N pro mm² eingesetzt | 6 bar sind 0,6 N pro mm², nicht 6.
 Fehler: Beim Einfahren mit der vollen Kolbenfläche gerechnet | Beim Einfahren fehlt die Fläche der Kolbenstange.
-Fehler: Durchmesser statt Radius in π r² | Mit Durchmesser rechnest du π mal d² durch 4.
+Fehler: Durchmesser statt Radius in π r² | Mit Durchmesser rechnest du π · d² / 4.
 Formel: Kolbenkraft | F = p · A | p = F / A; A = F / p
+Aufbau: Druck ist Kraft pro Fläche. Der Druck wirkt auf die ganze Kolbenfläche, deshalb ergibt p · A die Kraft.
 Formel: Kolbenfläche | A = π · D² / 4 | D = √(4 · A / π)
+Aufbau: Die Kolbenfläche ist eine Kreisfläche: π · r² mit r = D / 2, also π · D² / 4.
 Formel: Ringfläche | A_R = π · (D² − d²) / 4 | d = √(D² − 4 · A_R / π)
-Karte: Wie berechnest du die Kolbenkraft? | Druck mal Fläche.
+Aufbau: Beim Einfahren drückt die Luft auf die Kolbenfläche ohne die Fläche der Stange. Deshalb Kolbenkreis − Stangenkreis.
+Karte: Wie berechnest du die Kolbenkraft? | Druck · Fläche.
 Karte: Wie viel N pro mm² sind 6 bar? | 0,6 N pro mm².
 Karte: Welche Fläche wirkt beim Ausfahren? | Die volle Kolbenfläche.
-Karte: Welche Fläche wirkt beim Einfahren? | Die Ringfläche, Kolbenfläche minus Stangenfläche.
+Karte: Welche Fläche wirkt beim Einfahren? | Die Ringfläche, Kolbenfläche − Stangenfläche.
 Karte: Was ist indirekte Ansteuerung? | Das Signalglied schaltet ein Stellglied, das Stellglied versorgt den Zylinder.
 Karte: Welches Ventil bildet ein pneumatisches UND? | Das Zweidruckventil.
 Karte: Welches Ventil bildet ein pneumatisches ODER? | Das Wechselventil.
 Karte: Womit stellt man die Zylindergeschwindigkeit ein? | Mit einem Drosselrückschlagventil.
 Karte: Wo drosselt man beim doppeltwirkenden Zylinder üblich? | In der Abluft.
 Karte: Warum ist die Einfahrkraft kleiner? | Weil die Kolbenstange einen Teil der Fläche wegnimmt.
-Karte: Mit wie viel Verlust durch Reibung rechnet man grob? | Mit etwa 10 Prozent.
+Karte: Mit wie viel Verlust durch Reibung rechnet man grob? | Mit etwa 10 %.
 Auswahl: Ein Zylinder darf nur ausfahren, wenn zwei Taster gleichzeitig gedrückt sind. Was passt? | Zweidruckventil | Wechselventil; Drosselrückschlagventil; Schnellentlüftungsventil | Beide Signale müssen anliegen. Das ist ein UND, pneumatisch das Zweidruckventil.
 Auswahl: Ein Zylinder soll von zwei Stellen aus gestartet werden können. Was passt? | Wechselventil | Zweidruckventil; Drosselrückschlagventil; 2/2-Wegeventil | Ein Taster reicht. Das ist ein ODER, pneumatisch das Wechselventil.
 Auswahl: Ein großer Zylinder soll über einen kleinen Handtaster gesteuert werden. Wie steuerst du an? | Indirekt über ein Stellglied | Direkt über den Handtaster; Gar nicht, das geht nicht; Über ein Drosselventil | Der kleine Taster liefert nur ein Signal. Die große Luftmenge schaltet das Stellglied.
@@ -128,7 +131,7 @@ Gegeben: p = {p} bar
 Gesucht: Kolbendurchmesser D in mm
 Ansatz: A = F / p mit p in N/mm², dann D aus der Kreisfläche | D = F / p mit p in N/mm²; A = F · p, dann D aus der Kreisfläche; A = F / p mit p in bar, dann D
 Signal: Kraft und Druck sind vorgegeben, gesucht ist die Baugröße.
-Warum: Weil Druck mal Fläche die Kraft ergeben muss | Weil der Durchmesser direkt Kraft durch Druck ist; Weil die Fläche von der Kraft ganz unabhängig ist
+Warum: Weil Druck · Fläche die Kraft ergeben muss | Weil der Durchmesser direkt Kraft / Druck ist; Weil die Fläche von der Kraft ganz unabhängig ist
 Kontrolle: Wählst du den nächstgrößeren oder nächstkleineren Normzylinder? | Den nächstgrößeren, auch wegen Reibung | Den nächstkleineren, das spart Luft; Genau den gerechneten Wert
 Schritt: Druck in N pro mm² | p / 10 | N/mm²
 Schritt: Nötige Fläche | F / (p / 10) | mm²
@@ -148,7 +151,7 @@ Begriff: Schaltfunktion | Die Vorschrift, die aus den Eingängen den Ausgang bes
 Begriff: Disjunktive Normalform | Alle Zeilen mit Ausgang 1 als UND der Eingänge, diese mit ODER verbunden.
 Begriff: De Morgan | NICHT von A UND B ist NICHT A ODER NICHT B, und NICHT von A ODER B ist NICHT A UND NICHT B.
 Begriff: Selbsthaltung in Logik | Der Ausgang hält sich über ein ODER selbst, bis ein Aus-Signal ihn löst.
-Merksatz: n Eingänge geben 2 hoch n Zeilen.
+Merksatz: n Eingänge geben 2ⁿ Zeilen.
 Merksatz: Alle müssen: UND. Einer reicht: ODER. Genau einer: XOR.
 Merksatz: Sicherheit wird mit UND verknüpft: Alle Bedingungen müssen erfüllt sein.
 Prinzip: Jede Steuerung trifft Entscheidungen aus Ja und Nein. Diese Entscheidungen schreibt man mit UND, ODER und NICHT. Das Wichtigste ist, die Aufgabe in Worten richtig zu lesen: Heißt es alle müssen, ist es UND. Heißt es einer reicht, ist es ODER. Heißt es darf nicht, kommt ein NICHT dazu.
@@ -158,7 +161,7 @@ Die Wahrheitstabelle ist dein sicherer Weg. Du schreibst alle Kombinationen der 
 In der Praxis kommen oft Öffner vor. Ein Not-Halt ist ein Öffner: Im Normalfall liefert er 1, gedrückt liefert er 0. Das musst du in der Logik berücksichtigen.
 Baustein: Die Aufgabe in Worten lesen und Signalwörter markieren: alle, einer, nicht, genau einer.
 Baustein: Eingänge und Ausgang benennen und 0 und 1 festlegen.
-Baustein: Wahrheitstabelle mit 2 hoch n Zeilen anlegen.
+Baustein: Wahrheitstabelle mit 2ⁿ Zeilen anlegen.
 Baustein: Ausgang für jede Zeile eintragen.
 Baustein: Schaltfunktion aufstellen und in FUP oder KOP umsetzen.
 Schnellweg: Bei nur einer 1 in der Tabelle ist es ein UND der passenden Eingänge.
@@ -167,6 +170,7 @@ Fehler: Signalwort falsch gelesen | Sowohl als auch heißt UND, entweder oder he
 Fehler: Öffner als Schließer gelesen | Ein Not-Halt liefert im Ruhezustand 1.
 Fehler: Zeilen in der Tabelle vergessen | Binär zählen, dann fehlt keine Kombination.
 Formel: Zeilen einer Wahrheitstabelle | z = 2^n | n = lg(z) / lg(2)
+Aufbau: Jeder Eingang kann 0 oder 1 sein. Mit jedem weiteren Eingang verdoppelt sich die Zahl der Kombinationen.
 Karte: Wie viele Zeilen hat eine Tabelle mit 4 Eingängen? | 16.
 Karte: Welche Verknüpfung passt zu alle müssen erfüllt sein? | UND.
 Karte: Welche Verknüpfung passt zu einer reicht? | ODER.
@@ -185,7 +189,7 @@ Reihenfolge: Logikaufgabe lösen | Signalwörter markieren; Eingänge und Ausgan
 Aufgabe: Eine Steuerung hat {n} Eingänge. Wie viele Zeilen hat die vollständige Wahrheitstabelle?
 Gegeben: Anzahl Eingänge n = {n}
 Gesucht: Anzahl der Zeilen
-Ansatz: 2 hoch n | n mal 2; n hoch 2; 2 mal n plus 1
+Ansatz: 2ⁿ | n · 2; n²; 2 · n + 1
 Signal: Jeder Eingang kann 0 oder 1 sein, und alle Kombinationen sind gefragt.
 Warum: Weil sich mit jedem Eingang die Zahl der Kombinationen verdoppelt | Weil jeder Eingang zwei Zeilen dazugibt; Weil die Zeilenzahl das Quadrat der Eingänge ist
 Kontrolle: Wie viele Zeilen haben drei Eingänge? | Acht | Sechs; Neun
@@ -220,12 +224,13 @@ Baustein: Passenden Baustein wählen: TON, TOF, TP, CTU oder Speicher.
 Baustein: Ein- und Ausgänge mit Adressen in eine Zuordnungsliste schreiben.
 Baustein: Bei Speichern den Vorrang festlegen: Für Sicherheit Rücksetzen dominant.
 Baustein: Im Simulator mit allen Fällen testen, auch mit gleichzeitigen Signalen.
-Schnellweg: Adressen zählen: Byte mal 8 plus Bit ergibt die laufende Nummer des Eingangs, bei 0 beginnend.
+Schnellweg: Adressen zählen: Byte · 8 + Bit ergibt die laufende Nummer des Eingangs, bei 0 beginnend.
 Schnellweg: TON läuft nur, solange der Eingang anliegt. Lässt man vorher los, startet die Zeit von vorn.
 Fehler: TON und TOF verwechselt | TON verzögert das Einschalten, TOF verzögert das Ausschalten.
 Fehler: TP mit TON verwechselt | TP liefert sofort einen Impuls fester Länge, TON liefert erst nach der Zeit ein Signal.
 Fehler: Setzdominanter Speicher für eine Stoppfunktion | Bei Sicherheit muss Rücksetzen Vorrang haben.
 Formel: Laufende Nummer eines Eingangs | N = 8 · B + b | b = N − 8 · B
+Aufbau: Ein Byte hat 8 Bits. Byte B enthält die Eingänge ab 8 · B, das Bit b kommt dazu. So zählt man von 0 an durch alle Eingänge.
 Karte: Welcher Timer verzögert das Einschalten? | TON.
 Karte: Welcher Timer lässt etwas nachlaufen? | TOF.
 Karte: Welcher Timer liefert einen Impuls fester Länge? | TP.
@@ -245,7 +250,7 @@ Reihenfolge: Ein SPS-Zyklus | Eingänge ins Prozessabbild einlesen; Programm aba
 Aufgabe: Eine Baugruppe hat {B} Eingangsbytes. Wie viele einzelne digitale Eingänge sind das?
 Gegeben: {B} Bytes
 Gesucht: Anzahl der Eingänge
-Ansatz: Bytes mal 8 | Bytes mal 10; Bytes mal 16; Bytes plus 8
+Ansatz: Bytes · 8 | Bytes · 10; Bytes · 16; Bytes + 8
 Signal: Gefragt ist die Anzahl einzelner Bits in mehreren Bytes.
 Warum: Weil jedes Byte acht Bits hat | Weil jedes Byte zehn Bits hat; Weil jedes Byte sechzehn Bits hat
 Kontrolle: Wie heißt das letzte Bit in Byte 0? | Bit 7 | Bit 8; Bit 10

@@ -93,7 +93,7 @@ Begriff: NOR | ODER mit nachgeschaltetem NICHT.
 Begriff: XOR | Exklusives ODER: Der Ausgang ist 1, wenn genau ein Eingang 1 ist.
 Begriff: Wahrheitstabelle | Eine Tabelle mit allen Kombinationen der Eingänge und dem Ausgang dazu.
 Merksatz: UND braucht alle, ODER braucht einen, NICHT dreht um.
-Prinzip: In der Steuerungstechnik gibt es nur 0 und 1. Jede Verknüpfung lässt sich mit einer Wahrheitstabelle vollständig beschreiben. Bei n Eingängen hat sie 2 hoch n Zeilen: zwei Eingänge vier Zeilen, drei Eingänge acht Zeilen.
+Prinzip: In der Steuerungstechnik gibt es nur 0 und 1. Jede Verknüpfung lässt sich mit einer Wahrheitstabelle vollständig beschreiben. Bei n Eingängen hat sie 2ⁿ Zeilen: zwei Eingänge vier Zeilen, drei Eingänge acht Zeilen.
 Die Zeilen schreibst du wie beim Binärzählen: 00, 01, 10, 11. So vergisst du keine Kombination.
 In Schaltzeichen nach IEC 60617 steht im Kasten das Zeichen & für UND, ≥1 für ODER, =1 für XOR. Ein kleiner Kreis am Ausgang bedeutet eine Negation.
 Mit den Regeln von De Morgan kannst du umformen: NICHT von A UND B ist dasselbe wie NICHT A ODER NICHT B.
@@ -105,7 +105,7 @@ Baustein: Für jede Zeile den Ausgang bestimmen.
 Baustein: Aus den Zeilen mit 1 die Funktion aufstellen und wenn möglich vereinfachen.
 Fehler: Zeilen vergessen | Bei drei Eingängen sind es acht Zeilen. Zähl binär, dann fehlt keine.
 Karte: Wie viele Zeilen hat eine Wahrheitstabelle mit 3 Eingängen? | 8
-Karte: Wann ist XOR gleich 1? | Wenn genau ein Eingang 1 ist.
+Karte: Wann ist XOR = 1? | Wenn genau ein Eingang 1 ist.
 Karte: Zeichen für ODER im Schaltzeichen? | ≥1
 Karte: NICHT (A UND B) nach De Morgan? | NICHT A ODER NICHT B
 Karte: Welche Verknüpfung ist eine Zweihandbedienung? | UND
@@ -180,7 +180,7 @@ Begriff: Regelung | Ein geschlossener Wirkungskreis: Die Regelgröße wird gemes
 Begriff: Steuerung | Ein offener Wirkungsablauf ohne Rückmeldung.
 Begriff: Führungsgröße | Der Sollwert, Formelzeichen w.
 Begriff: Regelgröße | Der Istwert, der geregelt wird, Formelzeichen x.
-Begriff: Regeldifferenz | Sollwert minus Istwert, e = w − x.
+Begriff: Regeldifferenz | Sollwert − Istwert, e = w − x.
 Begriff: Stellgröße | Was der Regler ausgibt, um die Strecke zu beeinflussen, Formelzeichen y.
 Begriff: Störgröße | Ein äußerer Einfluss, der die Regelgröße verändert, Formelzeichen z.
 Begriff: Regelstrecke | Der Teil der Anlage, in dem geregelt wird.

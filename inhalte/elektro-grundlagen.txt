@@ -5,33 +5,35 @@ Anker: Der Kühlschmierstoff an der Fräse: Die Pumpe macht Druck, das ist die S
 Begriff: Spannung U | Der elektrische Druck, der die Elektronen antreibt. Einheit Volt, V.
 Begriff: Strom I | Die Menge an Ladung, die pro Sekunde durch den Leiter fließt. Einheit Ampere, A.
 Begriff: Widerstand R | Wie stark ein Bauteil den Strom bremst. Einheit Ohm, Ω.
-Begriff: Ohmsches Gesetz | Spannung gleich Widerstand mal Strom. Es gilt für Bauteile mit festem Widerstand.
+Begriff: Ohmsches Gesetz | Spannung = Widerstand · Strom. Es gilt für Bauteile mit festem Widerstand.
 Begriff: Leitwert G | Der Kehrwert des Widerstands. Einheit Siemens, S.
-Merksatz: U gleich R mal I. Wer den Widerstand kennt, kennt den Zusammenhang.
+Merksatz: U = R · I. Wer den Widerstand kennt, kennt den Zusammenhang.
 Merksatz: Doppelte Spannung, doppelter Strom, solange der Widerstand gleich bleibt.
-Merksatz: Volt durch Kiloohm gibt Milliampere.
+Merksatz: Volt / Kiloohm gibt Milliampere.
 Prinzip: Das Ohmsche Gesetz verbindet drei Größen. Kennst du zwei, kannst du die dritte ausrechnen. Spannung ist der Antrieb, Widerstand die Bremse, Strom das Ergebnis.
 
-Die meisten Fehler passieren bei den Einheiten. Sensoren arbeiten oft mit Milliampere, Widerstände sind oft in Kiloohm angegeben. Rechnest du alles in Grundeinheiten um, also Volt, Ampere und Ohm, kann nichts schiefgehen. Wer geübt ist, nutzt den Schnellweg: Volt durch Kiloohm ergibt direkt Milliampere.
+Die meisten Fehler passieren bei den Einheiten. Sensoren arbeiten oft mit Milliampere, Widerstände sind oft in Kiloohm angegeben. Rechnest du alles in Grundeinheiten um, also Volt, Ampere und Ohm, kann nichts schiefgehen. Wer geübt ist, nutzt den Schnellweg: Volt / Kiloohm ergibt direkt Milliampere.
 Baustein: Gegeben und gesucht mit Einheiten aufschreiben.
 Baustein: Prüf, ob nur ein Bauteil betrachtet wird. Dann reicht das Ohmsche Gesetz.
 Baustein: Formel U = R · I nach der gesuchten Größe umstellen.
 Baustein: Einheiten in Volt, Ampere und Ohm umrechnen.
 Baustein: Ausrechnen und mit Einheit angeben.
 Schnellweg: Formeldreieck: U oben, R und I unten. Halte die gesuchte Größe zu, der Rest zeigt die Rechnung.
-Schnellweg: Volt durch Kiloohm gibt Milliampere, Kiloohm mal Milliampere gibt Volt.
+Schnellweg: Volt / Kiloohm gibt Milliampere, Kiloohm · Milliampere gibt Volt.
 Fehler: Milliampere nicht umgerechnet | 20 mA sind 0,02 A. Sonst liegst du um den Faktor 1000 daneben.
 Fehler: Mit dem Gesamtwert gerechnet, obwohl ein einzelnes Bauteil gefragt ist | Für ein Bauteil gehören nur seine eigene Spannung und sein eigener Strom in die Formel.
-Fehler: Formel falsch umgestellt | R gleich U durch I, nicht I durch U. Probe: Größere Spannung muss bei gleichem Strom einen größeren Widerstand ergeben.
+Fehler: Formel falsch umgestellt | R = U / I, nicht I / U. Probe: Größere Spannung muss bei gleichem Strom einen größeren Widerstand ergeben.
 Formel: Ohmsches Gesetz | U = R · I | R = U / I; I = U / R
+Aufbau: Der Widerstand bremst den Strom. Für mehr Strom durch denselben Widerstand braucht man mehr Spannung, deshalb ·.
 Formel: Leitwert | G = 1 / R | R = 1 / G
-Karte: Wie lautet das Ohmsche Gesetz? | U gleich R mal I.
+Aufbau: Der Leitwert sagt, wie gut etwas leitet. Das ist das Gegenteil vom Widerstand, also der Kehrwert.
+Karte: Wie lautet das Ohmsche Gesetz? | U = R · I.
 Karte: In welcher Einheit wird der Widerstand angegeben? | In Ohm.
 Karte: Wie viel Ampere sind 15 mA? | 0,015 A.
 Karte: Was passiert mit dem Strom, wenn die Spannung sich verdoppelt? | Er verdoppelt sich auch, bei gleichem Widerstand.
-Karte: Was ergibt 12 V durch 2 kΩ? | 6 mA.
+Karte: Was ergibt 12 V / 2 kΩ? | 6 mA.
 Karte: Was ist der Leitwert? | Der Kehrwert des Widerstands, in Siemens.
-Karte: Wie berechnest du R aus U und I? | R gleich U durch I.
+Karte: Wie berechnest du R aus U und I? | R = U / I.
 Karte: Wofür steht das Formelzeichen I? | Für die Stromstärke.
 Karte: Wie viel Ohm sind 4,7 kΩ? | 4700 Ω.
 Karte: Gilt das Ohmsche Gesetz für eine Glühlampe beim Einschalten? | Nur eingeschränkt, ihr Widerstand ändert sich mit der Temperatur.
@@ -43,7 +45,7 @@ Gesucht: Widerstand R in Ω
 Ansatz: R = U / I | R = I / U; P = U · I; R = R1 + R2
 Signal: Ein einzelnes Bauteil, Spannung und Strom sind gegeben, der Widerstand ist gesucht.
 Warum: Weil das Ohmsche Gesetz genau U, R und I verbindet | Weil Sensoren immer in Reihe liegen; Weil die Leistung gesucht ist
-Kontrolle: Liegt der Widerstand bei einigen Hundert Ohm bis einigen Kiloohm? | Ja, Volt durch Milliampere ergibt Kiloohm | Nein, es müssen wenige Ohm sein; Nein, es müssen Millionen Ohm sein
+Kontrolle: Liegt der Widerstand bei einigen Hundert Ohm bis einigen Kiloohm? | Ja, Volt / Milliampere ergibt Kiloohm | Nein, es müssen wenige Ohm sein; Nein, es müssen Millionen Ohm sein
 Schritt: Formel U = R · I nach R umstellen | R = U / I
 Schritt: Strom in Ampere umrechnen | I / 1000 | A
 Schritt: Widerstand ausrechnen | U / (I / 1000) | Ω
@@ -56,8 +58,8 @@ Gegeben: U = {U} V
 Gesucht: Strom I in mA
 Ansatz: I = U / R | I = R / U; P = U² / R; I = I1 + I2
 Signal: Ein einzelner Widerstand mit seiner Spannung. Der Strom ist gesucht.
-Kontrolle: Was ergibt Volt durch Kiloohm? | Milliampere | Ampere; Mikroampere
-Schritt: Strom in mA ausrechnen: Volt durch Kiloohm | U / R | mA
+Kontrolle: Was ergibt Volt / Kiloohm? | Milliampere | Ampere; Mikroampere
+Schritt: Strom in mA ausrechnen: Volt / Kiloohm | U / R | mA
 Variable: R | 1 | 10 | 0,5
 Variable: U | 5 | 24 | 1
 Rechnung: U / R
@@ -94,26 +96,30 @@ Prinzip: Woran du die Schaltung erkennst: Folge dem Strom mit dem Finger. Gibt e
 
 In der Reihe bremst jedes Bauteil zusätzlich, deshalb werden die Widerstände addiert. Der Strom ist überall gleich, und die Spannung teilt sich im Verhältnis der Widerstände auf.
 
-Parallel bekommt jedes Bauteil die volle Spannung. Jeder Zweig ist ein zusätzlicher Weg, deshalb fließt insgesamt mehr Strom, und der Ersatzwiderstand wird kleiner. Bei zwei Widerständen rechnest du Produkt durch Summe.
+Parallel bekommt jedes Bauteil die volle Spannung. Jeder Zweig ist ein zusätzlicher Weg, deshalb fließt insgesamt mehr Strom, und der Ersatzwiderstand wird kleiner. Bei zwei Widerständen rechnest du Produkt / Summe.
 Baustein: Mit dem Finger dem Strom folgen und Knoten markieren.
 Baustein: Entscheiden: Reihe, wenn kein Knoten dazwischen liegt. Parallel, wenn beide Bauteile an denselben zwei Knoten hängen.
-Baustein: Ersatzwiderstand ausrechnen: Reihe addieren, parallel Produkt durch Summe oder Leitwerte addieren.
+Baustein: Ersatzwiderstand ausrechnen: Reihe addieren, parallel Produkt / Summe oder Leitwerte addieren.
 Baustein: Gesamtstrom mit dem Ohmschen Gesetz aus Gesamtspannung und Ersatzwiderstand.
 Baustein: Zurückrechnen: In der Reihe Teilspannungen mit dem gemeinsamen Strom, parallel Teilströme mit der gemeinsamen Spannung.
 Schnellweg: Zwei gleiche Widerstände parallel ergeben den halben Wert.
-Schnellweg: Spannungsteiler: Teilspannung gleich Gesamtspannung mal eigener Widerstand durch Summe der Widerstände.
+Schnellweg: Spannungsteiler: Teilspannung = Gesamtspannung mal eigener Widerstand / Summe der Widerstände.
 Fehler: Parallele Widerstände einfach addiert | Parallel werden die Leitwerte addiert, nicht die Widerstände.
 Fehler: Bei Parallelschaltung die Spannung aufgeteilt | Parallel liegt an jedem Zweig die volle Spannung.
-Fehler: Kehrwert am Ende vergessen | Bei 1 durch R gesamt gleich 1 durch R1 plus 1 durch R2 musst du am Schluss den Kehrwert nehmen.
+Fehler: Kehrwert am Ende vergessen | Bei 1 / R_ges = 1 / R1 + 1 / R2 musst du am Schluss den Kehrwert nehmen.
 Fehler: Ersatzwiderstand parallel größer als ein Einzelwiderstand | Das ist unmöglich. Dann ist falsch gerechnet.
 Formel: Reihenschaltung zweier Widerstände | R_ges = R1 + R2 | R1 = R_ges − R2; R2 = R_ges − R1
+Aufbau: Der Strom muss nacheinander durch beide Widerstände. Die Hindernisse addieren sich, deshalb +.
 Formel: Parallelschaltung zweier Widerstände | R_ges = R1 · R2 / (R1 + R2) | R2 = R_ges · R1 / (R1 − R_ges)
+Aufbau: Parallel hat der Strom zwei Wege, der Gesamtwiderstand wird kleiner als der kleinste. Für zwei Widerstände gilt die Kurzform Produkt / Summe.
 Formel: Unbelasteter Spannungsteiler | U2 = U · R2 / (R1 + R2) | U = U2 · (R1 + R2) / R2
+Aufbau: Die Spannung teilt sich im Verhältnis der Widerstände auf. R2 bekommt seinen Anteil R2 / (R1 + R2) von U.
 Formel: Ströme in der Parallelschaltung | I = I1 + I2 | I1 = I − I2; I2 = I − I1
+Aufbau: Was in einen Knoten hineinfließt, muss wieder hinaus. Die Ströme der Zweige werden deshalb addiert.
 Karte: Was ist in der Reihenschaltung überall gleich? | Der Strom.
 Karte: Was ist in der Parallelschaltung überall gleich? | Die Spannung.
 Karte: Wie berechnest du den Ersatzwiderstand in Reihe? | Alle Widerstände addieren.
-Karte: Wie berechnest du zwei Widerstände parallel? | Produkt durch Summe.
+Karte: Wie berechnest du zwei Widerstände parallel? | Produkt / Summe.
 Karte: Was ergeben zwei Widerstände mit je 100 Ω parallel? | 50 Ω.
 Karte: Wo fällt in der Reihe die größte Spannung ab? | Am größten Widerstand.
 Karte: Durch welchen Zweig fließt parallel der größte Strom? | Durch den kleinsten Widerstand.
@@ -122,17 +128,17 @@ Karte: Was addierst du bei parallelen Widerständen? | Die Leitwerte, also die K
 Karte: Kann der Ersatzwiderstand einer Parallelschaltung größer sein als ein Einzelwiderstand? | Nein, er ist immer kleiner als der kleinste.
 Karte: Was ist ein Knoten? | Ein Punkt, an dem sich der Strom verzweigt.
 Auswahl: Zwei Widerstände hängen an denselben zwei Knoten. Wie liegen sie? | Parallel | In Reihe; Gemischt; Das kann man nicht sagen
-Auswahl: In einer Reihenschaltung kennst du U gesamt und alle Widerstände. Was rechnest du zuerst? | Den Ersatzwiderstand durch Addieren | Produkt durch Summe; Die Teilströme; Die Leistung
+Auswahl: In einer Reihenschaltung kennst du U gesamt und alle Widerstände. Was rechnest du zuerst? | Den Ersatzwiderstand durch Addieren | Produkt / Summe; Die Teilströme; Die Leistung
 Reihenfolge: Eine Reihenschaltung durchrechnen | Schaltung erkennen; Widerstände addieren; Strom mit dem Ohmschen Gesetz; Teilspannungen mit dem gemeinsamen Strom; Probe: Teilspannungen ergeben zusammen die Gesamtspannung
 Aufgabe: Zwei Widerstände R1 = {R1} Ω und R2 = {R2} Ω sind in Reihe an U = {U} V angeschlossen. Wie groß ist der Strom?
 Gegeben: R1 = {R1} Ω
 Gegeben: R2 = {R2} Ω
 Gegeben: U = {U} V
 Gesucht: Strom I in A
-Ansatz: Widerstände addieren, dann I = U / R | Produkt durch Summe, dann I = U / R; Nur R1 nehmen, dann I = U / R; Leitwerte addieren, dann I = U · G
+Ansatz: Widerstände addieren, dann I = U / R | Produkt / Summe, dann I = U / R; Nur R1 nehmen, dann I = U / R; Leitwerte addieren, dann I = U · G
 Signal: Die Widerstände liegen hintereinander, der Strom hat nur einen Weg.
 Warum: Weil der Strom nacheinander durch beide Widerstände muss | Weil beide Widerstände dieselbe Spannung haben; Weil sich der Strom an einem Knoten aufteilt
-Kontrolle: Probe: Ergeben die beiden Teilspannungen zusammen wieder U? | Ja, R1 mal I plus R2 mal I ist U | Nein, jede Teilspannung ist gleich U; Nein, die Teilspannungen sind gleich groß
+Kontrolle: Probe: Ergeben die beiden Teilspannungen zusammen wieder U? | Ja, R1 · I + R2 · I ist U | Nein, jede Teilspannung ist gleich U; Nein, die Teilspannungen sind gleich groß
 Schritt: Ersatzwiderstand ausrechnen | R1 + R2 | Ω
 Schritt: Strom ausrechnen | U / (R1 + R2) | A
 Variable: R1 | 10 | 200 | 10
@@ -143,7 +149,7 @@ Aufgabe: Zwei Widerstände R1 = {R1} Ω und R2 = {R2} Ω liegen parallel. Wie gr
 Gegeben: R1 = {R1} Ω
 Gegeben: R2 = {R2} Ω
 Gesucht: Ersatzwiderstand R_ges in Ω
-Ansatz: Produkt durch Summe | Widerstände addieren; Widerstände abziehen; Mittelwert bilden
+Ansatz: Produkt / Summe | Widerstände addieren; Widerstände abziehen; Mittelwert bilden
 Signal: Die Widerstände liegen nebeneinander an denselben zwei Punkten.
 Warum: Weil jeder Zweig ein zusätzlicher Weg für den Strom ist | Weil der Strom durch beide nacheinander fließt; Weil man Widerstände immer addiert
 Kontrolle: Ist dein Ergebnis kleiner als der kleinere Widerstand? | Ja, das muss parallel so sein | Nein, es liegt zwischen beiden; Nein, es ist größer als beide
@@ -189,39 +195,44 @@ Thema: Leistung, Arbeit, Wirkungsgrad
 Anker: Im Krafttraining ist die Arbeit, wie viel Gewicht du wie weit hebst. Die Leistung ist, wie schnell du das schaffst. Wer dieselbe Hantel doppelt so schnell hebt, bringt die doppelte Leistung, aber dieselbe Arbeit.
 Anker: Ein Spindelmotor wird warm. Diese Wärme ist Energie, die nicht am Werkzeug ankommt. Der Wirkungsgrad sagt, welcher Anteil der aufgenommenen Leistung wirklich nutzbar ist.
 Begriff: Elektrische Leistung P | Wie viel Energie pro Sekunde umgesetzt wird. Einheit Watt, W.
-Begriff: Elektrische Arbeit W | Die gesamte umgesetzte Energie, Leistung mal Zeit. Einheit Wattsekunde oder Kilowattstunde.
+Begriff: Elektrische Arbeit W | Die gesamte umgesetzte Energie, Leistung · Zeit. Einheit Wattsekunde oder Kilowattstunde.
 Begriff: Kilowattstunde | Die Arbeit, die 1 kW in einer Stunde umsetzt. Danach rechnet der Stromversorger ab.
 Begriff: Wirkungsgrad η | Abgegebene Leistung geteilt durch aufgenommene Leistung. Er ist immer kleiner als 1.
 Begriff: Verlustleistung | Der Teil der aufgenommenen Leistung, der als Wärme verloren geht.
-Merksatz: P gleich U mal I. Kennst du nur einen der beiden, nimm den Widerstand dazu.
-Merksatz: Arbeit ist Leistung mal Zeit.
+Merksatz: P = U · I. Kennst du nur einen der beiden, nimm den Widerstand dazu.
+Merksatz: Arbeit ist Leistung · Zeit.
 Merksatz: Abgegeben durch aufgenommen gibt den Wirkungsgrad. Ab durch zu.
 Merksatz: Die aufgenommene Leistung ist immer größer als die abgegebene.
 Prinzip: Leistung sagt, wie stark etwas gerade arbeitet. Arbeit sagt, wie viel insgesamt umgesetzt wurde. Deshalb gehört zur Arbeit immer eine Zeit.
 
-Für die Leistung gibt es drei Formeln. Sie sagen alle dasselbe, nur mit anderen bekannten Größen. Kennst du Spannung und Strom, nimmst du U mal I. Kennst du Strom und Widerstand, nimmst du I zum Quadrat mal R. Kennst du Spannung und Widerstand, nimmst du U zum Quadrat durch R. Das Entscheidende ist: Schau, welche zwei Größen gegeben sind.
+Für die Leistung gibt es drei Formeln. Sie sagen alle dasselbe, nur mit anderen bekannten Größen. Kennst du Spannung und Strom, nimmst du U · I. Kennst du Strom und Widerstand, nimmst du I² · R. Kennst du Spannung und Widerstand, nimmst du U² / R. Das Entscheidende ist: Schau, welche zwei Größen gegeben sind.
 
 Kein Motor gibt alles weiter, was er aufnimmt. Ein Teil wird Wärme. Der Wirkungsgrad ist das Verhältnis von Nutzen zu Aufwand. Ist die abgegebene Leistung gegeben und die aufgenommene gesucht, teilst du durch den Wirkungsgrad. Das Ergebnis muss größer werden.
 Baustein: Gegeben und gesucht mit Einheiten notieren.
 Baustein: Leistung: Prüf, welche zwei der Größen U, I und R gegeben sind, und wähle die passende Formel.
-Baustein: Arbeit: Leistung in Kilowatt mal Zeit in Stunden ergibt Kilowattstunden.
+Baustein: Arbeit: Leistung in Kilowatt · Zeit in Stunden ergibt Kilowattstunden.
 Baustein: Wirkungsgrad: Klären, welche Leistung aufgenommen und welche abgegeben wird.
 Baustein: Ergebnis prüfen: Wirkungsgrad kleiner als 1, aufgenommene Leistung größer als abgegebene.
-Schnellweg: Kosten gleich Leistung in Kilowatt mal Stunden mal Preis pro Kilowattstunde.
+Schnellweg: Kosten = Leistung in Kilowatt · Stunden · Preis pro Kilowattstunde.
 Schnellweg: Typenschild eines Motors: Die angegebene Leistung ist die abgegebene mechanische Leistung an der Welle.
 Fehler: Watt und Kilowatt gemischt | Für Kilowattstunden die Leistung in Kilowatt und die Zeit in Stunden einsetzen.
 Fehler: Wirkungsgrad falsch herum | Immer abgegeben durch aufgenommen. Ein Wirkungsgrad über 1 ist unmöglich.
 Fehler: Mit dem Wirkungsgrad malgenommen statt geteilt | Ist die abgegebene Leistung bekannt, teilst du durch η, um die aufgenommene zu bekommen.
-Fehler: Prozent nicht umgerechnet | 85 Prozent sind 0,85 in der Formel.
+Fehler: % nicht umgerechnet | 85 % sind 0,85 in der Formel.
 Formel: Elektrische Leistung | P = U · I | U = P / I; I = P / U
+Aufbau: Spannung ist Energie pro Ladung, Strom ist Ladung pro Sekunde. Zusammen ergibt das Energie pro Sekunde, also Leistung, deshalb ·.
 Formel: Leistung mit Strom und Widerstand | P = I² · R | I = √(P / R); R = P / I²
+Aufbau: Aus P = U · I und U = R · I: Für U wird R · I eingesetzt, also P = R · I · I = I² · R.
 Formel: Leistung mit Spannung und Widerstand | P = U² / R | U = √(P · R); R = U² / P
+Aufbau: Aus P = U · I und I = U / R: Für I wird U / R eingesetzt, also P = U · U / R = U² / R.
 Formel: Elektrische Arbeit | W = P · t | P = W / t; t = W / P
+Aufbau: Leistung ist Energie pro Sekunde. Über die Zeit t aufsummiert ergibt das die Arbeit, deshalb ·.
 Formel: Wirkungsgrad | η = P_ab / P_zu | P_ab = η · P_zu; P_zu = P_ab / η
-Karte: Wie lautet die Grundformel der Leistung? | P gleich U mal I.
-Karte: U und R sind gegeben, P ist gesucht. Welche Formel? | P gleich U zum Quadrat durch R.
-Karte: I und R sind gegeben, P ist gesucht. Welche Formel? | P gleich I zum Quadrat mal R.
-Karte: Wie berechnest du die Arbeit? | Leistung mal Zeit.
+Aufbau: Der Wirkungsgrad sagt, welcher Anteil der zugeführten Leistung nutzbar herauskommt. Anteil heißt teilen: genutzt / zugeführt.
+Karte: Wie lautet die Grundformel der Leistung? | P = U · I.
+Karte: U und R sind gegeben, P ist gesucht. Welche Formel? | P = U² / R.
+Karte: I und R sind gegeben, P ist gesucht. Welche Formel? | P = I² · R.
+Karte: Wie berechnest du die Arbeit? | Leistung · Zeit.
 Karte: Wie viele Wattsekunden sind eine Kilowattstunde? | 3,6 Millionen Wattsekunden.
 Karte: Wie lautet die Formel für den Wirkungsgrad? | Abgegebene Leistung durch aufgenommene Leistung.
 Karte: Kann der Wirkungsgrad größer als 1 sein? | Nein, dann würde Energie aus dem Nichts entstehen.
@@ -263,7 +274,7 @@ Gegeben: η = {eta}
 Gesucht: aufgenommene Leistung P_zu in kW
 Ansatz: P_zu = P_ab / η | P_zu = P_ab · η; P_zu = η / P_ab; P_zu = P_ab − η
 Signal: Gegeben sind die abgegebene Leistung und ein Wirkungsgrad. Gesucht ist, was hineingeht.
-Warum: Weil η gleich P_ab durch P_zu ist und P_zu im Nenner steht | Weil man den Wirkungsgrad immer malnimmt; Weil ein Motor mehr abgibt, als er aufnimmt
+Warum: Weil η = P_ab / P_zu ist und P_zu im Nenner steht | Weil man den Wirkungsgrad immer malnimmt; Weil ein Motor mehr abgibt, als er aufnimmt
 Kontrolle: Ist P_zu größer als P_ab? | Ja, ein Teil geht als Wärme verloren | Nein, sie muss kleiner sein; Beide sind gleich
 Schritt: Formel η = P_ab / P_zu nach P_zu umstellen | P_zu = P_ab / η
 Schritt: Aufgenommene Leistung ausrechnen | Pab / eta | kW

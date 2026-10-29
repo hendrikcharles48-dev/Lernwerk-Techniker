@@ -560,3 +560,8 @@ body.sheet-open #readbar { bottom: calc(var(--sab) + 14px); }
 .merk-line { font-weight: 600; margin: 8px 0; }
 .zst .seg { margin: 0; }
 .zu-btn { display: block; margin: 6px auto 2px; border: 0; background: none; color: var(--label2); font-size: 13px; font-weight: 600; padding: 8px 12px; }
+/* Aufbau einer Formel */
+.fml-aufbau { font-size: 15px; color: var(--label2); margin-top: 6px; line-height: 1.4; }
+.aufbau-box .ab-z { margin-top: 6px; }
+.aufbau-box .ab-z .fml { display: inline-flex; margin-right: 8px; font-weight: 600; }
+.aufbau-box .ab-z span { display: block; margin-top: 2px; }

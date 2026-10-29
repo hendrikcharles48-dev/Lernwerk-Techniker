@@ -7,7 +7,7 @@ Begriff: Oberes Abmaß | Wie weit das Maß nach oben abweichen darf, bei Bohrung
 Begriff: Unteres Abmaß | Wie weit das Maß nach unten abweichen darf, bei Bohrungen EI, bei Wellen ei.
 Begriff: Höchstmaß | Nennmaß plus oberes Abmaß.
 Begriff: Mindestmaß | Nennmaß plus unteres Abmaß.
-Begriff: Toleranz | Höchstmaß minus Mindestmaß, immer positiv.
+Begriff: Toleranz | Höchstmaß − Mindestmaß, immer positiv.
 Begriff: Allgemeintoleranz | Toleranz für alle Maße ohne eigene Angabe, nach ISO 2768-1 in den Klassen f, m, c und v.
 Merksatz: Große Buchstaben für Bohrungen, kleine für Wellen.
 Prinzip: Eine ISO-Toleranz wie 25 H7 besteht aus drei Teilen: dem Nennmaß 25 mm, dem Buchstaben H für die Lage des Toleranzfeldes und der Zahl 7 für den Grundtoleranzgrad, also die Breite des Feldes.
@@ -67,11 +67,11 @@ Baustein: Abmaße von Bohrung und Welle aus der Tabelle holen.
 Baustein: Grenzmaße beider Teile ausrechnen.
 Baustein: Höchstspiel und Mindestspiel bilden.
 Baustein: Passungsart an den Vorzeichen erkennen.
-Fehler: Bohrung und Welle beim Spiel vertauscht | Spiel ist immer Bohrung minus Welle.
+Fehler: Bohrung und Welle beim Spiel vertauscht | Spiel ist immer Bohrung − Welle.
 Formel: Höchstspiel | P_SH = G_oB − G_uW | G_oB = P_SH + G_uW; G_uW = G_oB − P_SH
 Formel: Mindestspiel | P_SM = G_uB − G_oW | G_uB = P_SM + G_oW; G_oW = G_uB − P_SM
 Karte: Was bedeutet ein negatives Spiel? | Übermaß.
-Karte: Ø25 H7/g6: Höchstspiel? | 0,041 mm, aus 25,021 minus 24,980.
+Karte: Ø25 H7/g6: Höchstspiel? | 0,041 mm, aus 25,021 − 24,980.
 Karte: Welche Passungsart ist H7/k6? | Übergangspassung.
 Karte: Was heißt Einheitsbohrung? | Alle Bohrungen haben H, die Passung wird über die Welle gewählt.
 === ENDE ===
@@ -200,16 +200,16 @@ Begriff: Ferrit | Alpha-Eisen bei Raumtemperatur, weich und zäh, löst kaum Koh
 Begriff: Austenit | Gamma-Eisen bei hoher Temperatur, kann viel Kohlenstoff lösen.
 Begriff: Zementit | Eine Verbindung aus Eisen und Kohlenstoff, Fe3C, sehr hart und spröde.
 Begriff: Perlit | Ein Gemisch aus Ferrit und Zementit in feinen Lamellen.
-Merksatz: Unter etwa 2 Prozent Kohlenstoff Stahl, darüber Gusseisen. Mehr Kohlenstoff macht härter, aber spröder.
+Merksatz: Unter etwa 2 % Kohlenstoff Stahl, darüber Gusseisen. Mehr Kohlenstoff macht härter, aber spröder.
 Prinzip: Das Diagramm zeigt, welches Gefüge bei welcher Temperatur und welchem Kohlenstoffgehalt vorliegt. Die wichtigsten Linien: Die Grenze zwischen Stahl und Gusseisen und die Linie, an der sich beim Abkühlen aus Austenit Perlit bildet.
-Achtung, unterschiedliche Zahlen in Büchern: Ältere Tabellenbücher nennen 723 °C für die Perlitlinie und 2,06 Prozent als Grenze zwischen Stahl und Gusseisen. Neuere Bücher nennen 727 °C und 2,11 Prozent, manche auch 2,14 Prozent. Der Perlitpunkt liegt je nach Quelle bei 0,77 bis 0,8 Prozent Kohlenstoff. Nimm in der Arbeit die Werte aus deinem Tabellenbuch.
+Achtung, unterschiedliche Zahlen in Büchern: Ältere Tabellenbücher nennen 723 °C für die Perlitlinie und 2,06 % als Grenze zwischen Stahl und Gusseisen. Neuere Bücher nennen 727 °C und 2,11 %, manche auch 2,14 %. Der Perlitpunkt liegt je nach Quelle bei 0,77 bis 0,8 % Kohlenstoff. Nimm in der Arbeit die Werte aus deinem Tabellenbuch.
 Für die Wärmebehandlung ist das Diagramm die Grundlage: Zum Härten erwärmst du in das Gebiet des Austenits.
 Baustein: Kohlenstoffgehalt auf der waagerechten Achse suchen.
 Baustein: Temperatur auf der senkrechten Achse suchen.
 Baustein: Gebiet ablesen und Gefüge benennen.
 Baustein: Beim Abkühlen senkrecht nach unten gehen und die Linien zählen, die du kreuzt.
 Karte: Was ist Austenit? | Gamma-Eisen, bei hoher Temperatur, löst viel Kohlenstoff.
-Karte: Grenze zwischen Stahl und Gusseisen? | Etwa 2 Prozent Kohlenstoff, je nach Buch 2,06 oder 2,11 Prozent.
+Karte: Grenze zwischen Stahl und Gusseisen? | Etwa 2 % Kohlenstoff, je nach Buch 2,06 oder 2,11 %.
 Karte: Was ist Perlit? | Ein lamellares Gemisch aus Ferrit und Zementit.
 Karte: Temperatur der Perlitlinie? | Je nach Buch 723 °C oder 727 °C.
 === ENDE ===
@@ -221,23 +221,23 @@ Anker: Wie die Bezeichnung auf einem Fräser, die dir Durchmesser, Schneidenzahl
 Begriff: Kurzname | Bezeichnung aus Buchstaben und Zahlen nach DIN EN 10027-1, zum Beispiel S235JR oder 42CrMo4.
 Begriff: Werkstoffnummer | Nummer nach DIN EN 10027-2, zum Beispiel 1.0038.
 Begriff: Unlegierter Stahl | Stahl ohne gezielt zugesetzte Legierungselemente über bestimmten Grenzen.
-Begriff: Niedriglegiert | Kein Legierungselement erreicht 5 Prozent.
-Begriff: Hochlegiert | Mindestens ein Legierungselement hat 5 Prozent oder mehr.
+Begriff: Niedriglegiert | Kein Legierungselement erreicht 5 %.
+Begriff: Hochlegiert | Mindestens ein Legierungselement hat 5 % oder mehr.
 Merksatz: S und E nach Verwendung, C nach Kohlenstoff, Zahl mit Faktor bei Legierungen, X heißt hochlegiert.
 Prinzip: Es gibt zwei Gruppen von Kurznamen.
 Gruppe 1 nach Verwendung: S steht für Stahlbau, E für Maschinenbau. Die Zahl dahinter ist die Mindeststreckgrenze in N/mm². S235JR heißt: Stahlbau, 235 N/mm² Streckgrenze, JR heißt 27 Joule Kerbschlagarbeit bei Raumtemperatur.
-Gruppe 2 nach chemischer Zusammensetzung: Bei unlegierten Stählen steht C und dann der Kohlenstoffgehalt mal 100. C45 hat also 0,45 Prozent Kohlenstoff.
-Bei niedriglegierten Stählen steht vorne der Kohlenstoff mal 100, dann die Elemente und ihre Gehalte mal einem Faktor. Der Faktor ist 4 für Chrom, Kobalt, Mangan, Nickel, Silizium und Wolfram, 10 für Aluminium, Kupfer, Molybdän, Titan, Vanadium und weitere, 100 für Cer, Stickstoff, Phosphor und Schwefel, 1000 für Bor. 42CrMo4 hat also 0,42 Prozent Kohlenstoff und etwa 1 Prozent Chrom, Molybdän nur in kleinen Mengen.
-Bei hochlegierten Stählen steht ein X vorne, dann der Kohlenstoff mal 100, und die Legierungsgehalte stehen ohne Faktor in Prozent. X5CrNi18-10 hat 0,05 Prozent Kohlenstoff, 18 Prozent Chrom und 10 Prozent Nickel.
+Gruppe 2 nach chemischer Zusammensetzung: Bei unlegierten Stählen steht C und dann der Kohlenstoffgehalt · 100. C45 hat also 0,45 % Kohlenstoff.
+Bei niedriglegierten Stählen steht vorne der Kohlenstoff · 100, dann die Elemente und ihre Gehalte mal einem Faktor. Der Faktor ist 4 für Chrom, Kobalt, Mangan, Nickel, Silizium und Wolfram, 10 für Aluminium, Kupfer, Molybdän, Titan, Vanadium und weitere, 100 für Cer, Stickstoff, Phosphor und Schwefel, 1000 für Bor. 42CrMo4 hat also 0,42 % Kohlenstoff und etwa 1 % Chrom, Molybdän nur in kleinen Mengen.
+Bei hochlegierten Stählen steht ein X vorne, dann der Kohlenstoff · 100, und die Legierungsgehalte stehen ohne Faktor in %. X5CrNi18-10 hat 0,05 % Kohlenstoff, 18 % Chrom und 10 % Nickel.
 Baustein: Ersten Buchstaben ansehen: S, E, C, X oder eine Zahl?
 Baustein: Gruppe bestimmen: Verwendung oder Zusammensetzung.
 Baustein: Zahlen mit dem richtigen Faktor zurückrechnen.
 Baustein: Zusatzsymbole am Ende deuten, zum Beispiel JR oder J2 für die Kerbschlagarbeit.
 Fehler: Faktor bei hochlegiertem Stahl angewendet | Hinter dem X stehen die Prozente direkt, nur der Kohlenstoff ist mal 100.
 Karte: Was bedeutet S235JR? | Stahlbau, Mindeststreckgrenze 235 N/mm², 27 J Kerbschlagarbeit bei Raumtemperatur.
-Karte: Kohlenstoffgehalt von C45? | 0,45 Prozent.
-Karte: Was bedeutet 42CrMo4? | 0,42 Prozent C, etwa 1 Prozent Chrom, etwas Molybdän.
-Karte: Was bedeutet X5CrNi18-10? | Hochlegiert, 0,05 Prozent C, 18 Prozent Chrom, 10 Prozent Nickel.
+Karte: Kohlenstoffgehalt von C45? | 0,45 %.
+Karte: Was bedeutet 42CrMo4? | 0,42 % C, etwa 1 % Chrom, etwas Molybdän.
+Karte: Was bedeutet X5CrNi18-10? | Hochlegiert, 0,05 % C, 18 % Chrom, 10 % Nickel.
 Karte: Faktor für Chrom bei niedriglegierten Stählen? | 4
 === ENDE ===
 
@@ -251,8 +251,8 @@ Begriff: Martensit | Ein sehr hartes, sprödes Gefüge, das beim Abschrecken ent
 Begriff: Anlassen | Erneutes Erwärmen nach dem Härten, um Sprödigkeit abzubauen.
 Begriff: Vergüten | Härten und anschließendes Anlassen bei hoher Temperatur für eine hohe Festigkeit bei guter Zähigkeit.
 Begriff: Einsatzhärten | Aufkohlen der Randschicht eines kohlenstoffarmen Stahls und anschließendes Härten.
-Merksatz: Härten macht hart und spröde, Anlassen macht wieder zäh. Härten plus Anlassen bei hoher Temperatur heißt Vergüten.
-Prinzip: Beim Härten erwärmst du den Stahl so weit, dass Austenit entsteht, und schreckst ihn schnell ab, in Wasser, Öl oder Luft je nach Stahl. Der Kohlenstoff kann nicht mehr entweichen, es entsteht Martensit. Dafür braucht der Stahl genug Kohlenstoff. Als Grenze werden in Büchern etwa 0,2 bis 0,3 Prozent genannt.
+Merksatz: Härten macht hart und spröde, Anlassen macht wieder zäh. Härten + Anlassen bei hoher Temperatur heißt Vergüten.
+Prinzip: Beim Härten erwärmst du den Stahl so weit, dass Austenit entsteht, und schreckst ihn schnell ab, in Wasser, Öl oder Luft je nach Stahl. Der Kohlenstoff kann nicht mehr entweichen, es entsteht Martensit. Dafür braucht der Stahl genug Kohlenstoff. Als Grenze werden in Büchern etwa 0,2 bis 0,3 % genannt.
 Danach wird angelassen. Bei niedriger Temperatur bleibt der Stahl sehr hart, das nutzt man für Werkzeuge. Bei hoher Temperatur wird er zäher, das ist das Vergüten für Wellen und Zahnräder.
 Glühverfahren machen den Stahl gleichmäßig oder weich: Normalglühen erzeugt ein feines, gleichmäßiges Gefüge, Weichglühen verbessert die Zerspanbarkeit, Spannungsarmglühen baut innere Spannungen ab, zum Beispiel nach dem Schweißen.
 Stähle mit wenig Kohlenstoff härtet man durch Einsatzhärten: Nur die Randschicht wird aufgekohlt und gehärtet, der Kern bleibt zäh.
@@ -274,12 +274,12 @@ Anker: Bevor du einem neuen Fräser vertraust, machst du einen Probeschnitt. Wer
 Begriff: Zugversuch | Eine Probe wird bis zum Bruch gezogen, dabei misst man Kraft und Verlängerung.
 Begriff: Streckgrenze | Spannung, ab der sich der Werkstoff bleibend verformt, R_e.
 Begriff: Zugfestigkeit | Die höchste Spannung im Zugversuch, R_m.
-Begriff: Bruchdehnung | Die bleibende Verlängerung nach dem Bruch in Prozent, A.
+Begriff: Bruchdehnung | Die bleibende Verlängerung nach dem Bruch in %, A.
 Begriff: Härteprüfung | Ein Prüfkörper wird in die Oberfläche gedrückt, aus dem Eindruck folgt die Härte.
 Begriff: Kerbschlagbiegeversuch | Eine gekerbte Probe wird mit einem Pendelhammer zerschlagen, gemessen wird die verbrauchte Arbeit in Joule.
 Begriff: Zerstörungsfreie Prüfung | Prüfverfahren, bei denen das Bauteil heil bleibt, zum Beispiel Ultraschall.
 Merksatz: Zugversuch für Festigkeit, Härteprüfung für Härte, Kerbschlag für Zähigkeit.
-Prinzip: Der Zugversuch liefert die wichtigsten Kennwerte für die Berechnung: Streckgrenze, Zugfestigkeit und Bruchdehnung. Hat ein Werkstoff keine ausgeprägte Streckgrenze, nimmt man die 0,2-Prozent-Dehngrenze R_p0,2.
+Prinzip: Der Zugversuch liefert die wichtigsten Kennwerte für die Berechnung: Streckgrenze, Zugfestigkeit und Bruchdehnung. Hat ein Werkstoff keine ausgeprägte Streckgrenze, nimmt man die 0,2-%-Dehngrenze R_p0,2.
 Bei der Härteprüfung gibt es drei Verfahren: Brinell mit einer Hartmetallkugel, Vickers mit einer Diamantpyramide und Rockwell C mit einem Diamantkegel, bei dem die Eindringtiefe gemessen wird. Vickers geht für fast alle Werkstoffe, Rockwell ist schnell und wird oft für gehärteten Stahl genutzt.
 Der Kerbschlagbiegeversuch zeigt, wie zäh ein Werkstoff ist, besonders bei Kälte.
 Zerstörungsfreie Verfahren finden Fehler im Bauteil: Ultraschall und Röntgen sehen ins Innere, Magnetpulver und Farbeindringprüfung finden Risse an der Oberfläche. Magnetpulver geht nur bei ferromagnetischen Werkstoffen.

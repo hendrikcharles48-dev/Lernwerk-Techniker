@@ -9,7 +9,7 @@ Begriff: Differenzmenge | Alle Elemente von A, die nicht in B liegen, Zeichen \ 
 Begriff: Teilmenge | A ist Teilmenge von B, wenn jedes Element von A auch in B liegt.
 Merksatz: Schnitt heißt und, Vereinigung heißt oder, Differenz heißt ohne.
 Prinzip: Mengenlehre ordnet Dinge in Gruppen. Bei jeder Aufgabe fragst du dich: Welche Elemente gehören in A, welche in B, und was verlangt das Zeichen dazwischen?
-Die wichtigsten Zahlenmengen bauen aufeinander auf: Die natürlichen Zahlen ℕ sind 0, 1, 2, 3 und so weiter. Die ganzen Zahlen ℤ nehmen die negativen Zahlen dazu. Die rationalen Zahlen ℚ sind alle Brüche. Die reellen Zahlen ℝ nehmen auch Zahlen wie die Wurzel aus 2 und Pi dazu.
+Die wichtigsten Zahlenmengen bauen aufeinander auf: Die natürlichen Zahlen ℕ sind 0, 1, 2, 3 und so weiter. Die ganzen Zahlen ℤ nehmen die negativen Zahlen dazu. Die rationalen Zahlen ℚ sind alle Brüche. Die reellen Zahlen ℝ nehmen auch Zahlen wie die √2 und Pi dazu.
 
 Ob die Null zu ℕ gehört, wird unterschiedlich festgelegt. In der Norm DIN 5473 gehört sie dazu. Nimm die Schreibweise aus deinem Unterricht.
 Baustein: Schreib beide Mengen vollständig auf.
@@ -41,7 +41,7 @@ Karte: −(a − b) aufgelöst? | −a + b
 === LERNWERK ===
 Fach: Mathematik
 Thema: Binomische Formeln
-Anker: Eine quadratische Platte mit der Kantenlänge a + b kannst du in vier Teile zerlegen: ein großes Quadrat a mal a, ein kleines Quadrat b mal b und zwei gleiche Rechtecke a mal b. Genau das sagt die erste binomische Formel.
+Anker: Eine quadratische Platte mit der Kantenlänge a + b kannst du in vier Teile zerlegen: ein großes Quadrat a · a, ein kleines Quadrat b · b und zwei gleiche Rechtecke a · b. Genau das sagt die erste binomische Formel.
 Begriff: Binom | Eine Summe oder Differenz aus zwei Gliedern, zum Beispiel a + b.
 Begriff: Ausmultiplizieren | Jedes Glied der einen Klammer mit jedem Glied der anderen malnehmen.
 Merksatz: Erstes Quadrat, doppeltes Produkt, zweites Quadrat.
@@ -51,7 +51,7 @@ Prinzip: Die drei binomischen Formeln sind Abkürzungen für das Ausmultiplizier
 (a + b) · (a − b) = a² − b²
 Wichtig ist das Mittelglied 2ab. Wer es vergisst, rechnet falsch. Die dritte Formel hat kein Mittelglied, weil sich plus ab und minus ab gegenseitig aufheben.
 Baustein: Erkenne, welche Formel passt: plus, minus oder plus mal minus.
-Baustein: Bestimme, was a und was b ist. Zahlen und Buchstaben gehören zusammen, zum Beispiel ist bei (3x + 2)² a gleich 3x.
+Baustein: Bestimme, was a und was b ist. Zahlen und Buchstaben gehören zusammen, zum Beispiel ist bei (3x + 2)² a = 3x.
 Baustein: Setz in die Formel ein und rechne jedes Glied einzeln aus.
 Schnellweg: Zur Probe eine einfache Zahl einsetzen, zum Beispiel x = 1. Beide Seiten müssen dasselbe ergeben.
 Fehler: Mittelglied vergessen | (a + b)² ist nicht a² + b². Das doppelte Produkt 2ab fehlt sonst.
@@ -92,7 +92,7 @@ Begriff: Definitionsmenge | Alle Zahlen, die man einsetzen darf. Werte, bei dene
 Begriff: Hauptnenner | Der kleinste gemeinsame Nenner mehrerer Brüche.
 Merksatz: Aus Summen kürzen nur die Dummen. Gekürzt werden nur Faktoren.
 Prinzip: Bevor du rechnest, legst du die Definitionsmenge fest: Der Nenner darf nie null sein. Kürzen darfst du nur, wenn Zähler und Nenner als Produkt dastehen. Darum faktorisierst du zuerst.
-Plus und minus geht nur mit gleichem Nenner. Dafür erweiterst du alle Brüche auf den Hauptnenner. Malnehmen geht direkt: Zähler mal Zähler, Nenner mal Nenner. Geteilt durch einen Bruch heißt mal den Kehrwert.
+Plus und minus geht nur mit gleichem Nenner. Dafür erweiterst du alle Brüche auf den Hauptnenner. Malnehmen geht direkt: Zähler · Zähler, Nenner · Nenner. Geteilt durch einen Bruch heißt mal den Kehrwert.
 Baustein: Definitionsmenge bestimmen: Wann wird ein Nenner null?
 Baustein: Zähler und Nenner faktorisieren.
 Baustein: Bei plus und minus den Hauptnenner bilden und erweitern.
@@ -131,7 +131,7 @@ Auswahl: x + y = 10 und x − y = 2. Welches Verfahren geht am schnellsten? | Ad
 Fach: Mathematik
 Thema: Potenzen, Wurzeln und Einheiten
 Anker: Ein Kilonewton sind tausend Newton, ein Mikrometer ist ein Millionstel Meter. Diese Vorsätze sind nichts anderes als Zehnerpotenzen, und mit ihnen rechnest du an der Maschine ständig.
-Begriff: Potenz | Kurzschreibweise für mehrfaches Malnehmen derselben Zahl, a hoch n heißt a n-mal mit sich selbst malgenommen.
+Begriff: Potenz | Kurzschreibweise für mehrfaches Malnehmen derselben Zahl, aⁿ heißt a n-mal mit sich selbst malgenommen.
 Begriff: Basis | Die Zahl, die malgenommen wird.
 Begriff: Exponent | Die Hochzahl, sie sagt, wie oft malgenommen wird.
 Begriff: Wurzel | Die Umkehrung des Potenzierens. Die n-te Wurzel aus a ist a hoch eins durch n.
@@ -143,12 +143,12 @@ a^m / a^n = a^(m − n)
 (a^m)^n = a^(m · n)
 a^0 = 1 und a^(−n) = 1 / a^n
 Die Vorsätze für Einheiten sind Zehnerpotenzen: Giga 10^9, Mega 10^6, Kilo 10^3, Milli 10^−3, Mikro 10^−6, Nano 10^−9.
-Vorsicht bei Flächen und Volumen: 1 m sind 1000 mm, aber 1 m² sind 1000 mal 1000, also 1 000 000 mm². Die Umrechnungszahl wird mitquadriert.
+Vorsicht bei Flächen und Volumen: 1 m sind 1000 mm, aber 1 m² sind 1000 · 1000, also 1 000 000 mm². Die Umrechnungszahl wird mitquadriert.
 Baustein: Alle Größen in Grundeinheiten oder in passende Zehnerpotenzen umschreiben.
 Baustein: Zahlen und Zehnerpotenzen getrennt rechnen.
 Baustein: Bei Flächen den Umrechnungsfaktor quadrieren, bei Volumen hoch drei nehmen.
 Baustein: Ergebnis wieder mit einem passenden Vorsatz schreiben.
-Schnellweg: Bei der Umrechnung von mm² in m² rechnest du mal 10 hoch minus 6. Merk dir: Die Hochzahl wird bei Flächen verdoppelt, bei Volumen verdreifacht.
+Schnellweg: Bei der Umrechnung von mm² in m² rechnest du mal 10⁻⁶. Merk dir: Die Hochzahl wird bei Flächen verdoppelt, bei Volumen verdreifacht.
 Fehler: Flächeneinheit wie Längeneinheit umgerechnet | 1 cm² sind 100 mm², nicht 10 mm².
 Fehler: Potenzen von Summen falsch | (a + b)² ist nicht a² + b².
 Karte: 10³ · 10⁻⁵ = ? | 10⁻²
@@ -190,8 +190,8 @@ Anker: Bei einer Fase oder einer schrägen Bohrung kennst du oft einen Winkel un
 Begriff: Hypotenuse | Die längste Seite im rechtwinkligen Dreieck, sie liegt gegenüber dem rechten Winkel.
 Begriff: Gegenkathete | Die Seite, die dem betrachteten Winkel gegenüberliegt.
 Begriff: Ankathete | Die Seite, die am betrachteten Winkel anliegt und nicht die Hypotenuse ist.
-Begriff: Bogenmaß | Winkelmaß in rad. Ein voller Kreis sind 2π rad, also 360 Grad.
-Merksatz: GAGA Hühnerhof AG: Sinus ist G durch H, Kosinus ist A durch H, Tangens ist G durch A.
+Begriff: Bogenmaß | Winkelmaß in rad. Ein voller Kreis sind 2π rad, also 360°.
+Merksatz: GAGA Hühnerhof AG: Sinus ist G / H, Kosinus ist A / H, Tangens ist G / A.
 Prinzip: Im rechtwinkligen Dreieck gilt:
 sin α = Gegenkathete / Hypotenuse
 cos α = Ankathete / Hypotenuse
@@ -209,9 +209,9 @@ Fehler: Taschenrechner auf RAD | Ergebnisse wie sin 30 = −0,988 zeigen, dass d
 Fehler: Ankathete und Gegenkathete vertauscht | Die Namen hängen immer vom betrachteten Winkel ab.
 Formel: Satz des Pythagoras | c² = a² + b² | c = √(a² + b²); a = √(c² − b²)
 Formel: Kosinussatz | c² = a² + b² − 2 · a · b · cos(γ) | c = √(a² + b² − 2 · a · b · cos(γ))
-Karte: sin α = ? | Gegenkathete durch Hypotenuse
-Karte: cos α = ? | Ankathete durch Hypotenuse
-Karte: tan α = ? | Gegenkathete durch Ankathete
+Karte: sin α = ? | Gegenkathete / Hypotenuse
+Karte: cos α = ? | Ankathete / Hypotenuse
+Karte: tan α = ? | Gegenkathete / Ankathete
 Karte: Welche Seite ist die Hypotenuse? | Die Seite gegenüber dem rechten Winkel, die längste Seite.
 Karte: sin 30° = ? | 0,5
 === ENDE ===
@@ -258,7 +258,7 @@ log(x^n) = n · log x
 Damit löst du Gleichungen, bei denen die Unbekannte im Exponenten steht, zum Beispiel bei Lade- und Entladekurven von Kondensatoren.
 Baustein: Gleichung so umstellen, dass die Potenz allein steht.
 Baustein: Auf beiden Seiten den Logarithmus nehmen.
-Baustein: Mit der Regel log(x hoch n) gleich n mal log x den Exponenten nach vorne holen.
+Baustein: Mit der Regel log(x hoch n) = n · log x den Exponenten nach vorne holen.
 Baustein: Nach der Unbekannten auflösen.
 Fehler: log einer Summe aufgeteilt | log(x + y) ist nicht log x + log y.
 Karte: lg 100 = ? | 2
@@ -274,7 +274,7 @@ Anker: Der Tacho im Auto zeigt, wie schnell sich der zurückgelegte Weg gerade �
 Begriff: Ableitung | Die Steigung einer Funktion an einer bestimmten Stelle, geschrieben f'(x).
 Begriff: Tangente | Die Gerade, die den Graphen in einem Punkt berührt und dort dieselbe Steigung hat.
 Begriff: Extremstelle | Eine Stelle mit einem Hochpunkt oder Tiefpunkt.
-Begriff: Potenzregel | Die Ableitung von x hoch n ist n mal x hoch n minus 1.
+Begriff: Potenzregel | Die Ableitung von xⁿ ist n mal xⁿ minus 1.
 Merksatz: Hochzahl nach vorne, Hochzahl minus eins.
 Prinzip: Die Ableitung f'(x) gibt an, wie steil eine Funktion an der Stelle x ist. Die wichtigsten Regeln:
 Die Potenzregel: aus x^n wird n · x^(n − 1).

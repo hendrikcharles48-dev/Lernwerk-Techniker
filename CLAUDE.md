@@ -19,4 +19,7 @@
 - Neue Themen als Lernwerk-Block unter `inhalte/` (Format in README.md), in `inhalte/index.json` eintragen.
 - Erst das Prinzip mit einem Bild aus seiner Welt (Fräse, Werkstatt, Krafttraining, Baseball), dann Fachbegriff, Merksatz, Bausteine, Schnellweg.
 - Texte vorlesbar: ganze Sätze, keine Pfeile, keine Abkürzungen wie „z. B.“.
+- Rechenzeichen, Prozent, Grad und Hochzahlen als Zeichen schreiben (·, /, +, −, =, %, °, ²), nicht als Wort. Die Vorlesefunktion spricht sie aus. Bei Punkt vor Strich Klammern setzen.
+- Jede Formel bekommt darunter eine Zeile „Aufbau:“, die kurz erklärt, warum sie so zusammengesetzt ist.
+- Jeder Rechenschritt wendet eine Formel an oder rechnet eine Einheit um, keine bloßen Rechen-Zwischenstücke.
 - Fakten sorgfältig prüfen. Bei Widersprüchen beide Angaben nennen und mit „Achtung“ markieren.

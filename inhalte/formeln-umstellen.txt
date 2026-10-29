@@ -30,28 +30,44 @@ Baustein: Erst jetzt Zahlen mit Einheiten einsetzen und ausrechnen.
 Schnellweg: Ein Faktor wechselt die Seite und wird dabei zum Teiler. Ein Teiler wechselt die Seite und wird zum Faktor. Ein Summand wechselt die Seite und ändert sein Vorzeichen. Das ist die Kurzform dafür, auf beiden Seiten dasselbe zu tun.
 Schnellweg: Formeldreieck für reine Produkte wie U = R · I: Halte die gesuchte Größe zu, der Rest zeigt die Lösung. Oben geteilt durch unten, oder unten mal unten. Das klappt nur, wenn in der Formel ausschließlich mal und geteilt vorkommen.
 Schnellweg: Über Kreuz: Bei a / b = c / d gilt a · d = b · c. Damit schaffst du beide Nenner in einem Schritt weg.
-Schnellweg: Drehzahl an der Fräse als Faustformel: n ist ungefähr 318 mal v c geteilt durch d, weil 1000 geteilt durch Pi ungefähr 318 ist. Dabei steht d in Millimeter und v c in Meter pro Minute.
+Schnellweg: Drehzahl an der Fräse als Faustformel: n ist ungefähr 318 · v c geteilt durch d, weil 1000 geteilt durch Pi ungefähr 318 ist. Dabei steht d in Millimeter und v c in Meter pro Minute.
 Fehler: Nur einen Summanden geteilt | Steht auf einer Seite eine Summe, musst du die ganze Seite teilen. Setz eine Klammer um die Summe.
 Fehler: Vorzeichen beim Rüberbringen vergessen | Aus plus wird minus, aus minus wird plus.
 Fehler: Mal und geteilt verwechselt | Was auf der einen Seite mal steht, kommt auf der anderen Seite geteilt an.
-Fehler: Wurzel nur aus einem Teil gezogen | Die Wurzel gilt für die ganze Seite. Die Wurzel aus a plus b ist nicht die Wurzel aus a plus die Wurzel aus b.
+Fehler: Wurzel nur aus einem Teil gezogen | Die Wurzel gilt für die ganze Seite. Die Wurzel aus a + b ist nicht die Wurzel aus a plus die Wurzel aus b.
 Fehler: Einheiten nicht umgerechnet | Erst umstellen, dann alles in passende Einheiten umrechnen, zum Beispiel Milliampere in Ampere.
 Formel: Ohmsches Gesetz | U = R · I | R = U / I; I = U / R
+Aufbau: Der Widerstand bremst den Strom. Für mehr Strom durch denselben Widerstand braucht man mehr Spannung, deshalb ·.
 Formel: Elektrische Leistung | P = U · I | U = P / I; I = P / U
+Aufbau: Spannung ist Energie pro Ladung, Strom ist Ladung pro Sekunde. Zusammen ergibt das Energie pro Sekunde, also Leistung, deshalb ·.
 Formel: Leistung mit Strom und Widerstand | P = I² · R | I = √(P / R); R = P / I²
+Aufbau: Aus P = U · I und U = R · I: Für U wird R · I eingesetzt, also P = R · I · I = I² · R.
 Formel: Leistung mit Spannung und Widerstand | P = U² / R | U = √(P · R); R = U² / P
+Aufbau: Aus P = U · I und I = U / R: Für I wird U / R eingesetzt, also P = U · U / R = U² / R.
 Formel: Reihenschaltung | R_ges = R1 + R2 | R1 = R_ges − R2; R2 = R_ges − R1
+Aufbau: Der Strom muss nacheinander durch beide Widerstände. Die Hindernisse addieren sich, deshalb +.
 Formel: Parallelschaltung zweier Widerstände | R_ges = R1 · R2 / (R1 + R2) | R1 = R_ges · R2 / (R2 − R_ges); R2 = R_ges · R1 / (R1 − R_ges)
+Aufbau: Parallel hat der Strom zwei Wege, der Gesamtwiderstand wird kleiner als der kleinste. Für zwei Widerstände gilt die Kurzform Produkt / Summe.
 Formel: Unbelasteter Spannungsteiler | U2 = U · R2 / (R1 + R2) | U = U2 · (R1 + R2) / R2; R2 = U2 · R1 / (U − U2); R1 = R2 · (U − U2) / U2
+Aufbau: Die Spannung teilt sich im Verhältnis der Widerstände auf. R2 bekommt seinen Anteil R2 / (R1 + R2) von U.
 Formel: Gewichtskraft | F_G = m · g | m = F_G / g; g = F_G / m
+Aufbau: Die Erde zieht an jedem Kilogramm mit etwa 9,81 N. Doppelte Masse, doppelte Kraft, deshalb ·.
 Formel: Drehmoment | M = F · l | F = M / l; l = M / F
+Aufbau: Ein Moment ist Drehwirkung. Mehr Kraft oder ein längerer Hebel drehen stärker, deshalb ·. l ist der senkrechte Abstand zur Wirkungslinie.
 Formel: Hebelgesetz | F1 · l1 = F2 · l2 | F2 = F1 · l1 / l2; l2 = F1 · l1 / F2; F1 = F2 · l2 / l1; l1 = F2 · l2 / F1
+Aufbau: Im Gleichgewicht ist das linksdrehende Moment so groß wie das rechtsdrehende. Jede Seite ist Kraft · Hebel.
 Formel: Kraftkomponente in x-Richtung | F_x = F · cos(α) | F = F_x / cos(α); α = acos(F_x / F)
+Aufbau: Die Kraft ist die schräge Seite eines rechtwinkligen Dreiecks. Der x-Anteil liegt am Winkel α an, Ankathete = Hypotenuse · cos α.
 Formel: Resultierende aus zwei rechtwinkligen Kräften | F_R = √(F_x² + F_y²) | F_x = √(F_R² − F_y²); F_y = √(F_R² − F_x²)
+Aufbau: Die beiden Anteile stehen rechtwinklig zueinander. Die Resultierende ist die schräge Seite, also Pythagoras.
 Formel: Mechanische Spannung | σ = F / A | F = σ · A; A = F / σ
+Aufbau: Spannung ist Kraft pro Fläche. Die gleiche Kraft auf eine größere Fläche verteilt belastet weniger, deshalb teilen.
 Formel: Kreisfläche | A = π · d² / 4 | d = √(4 · A / π)
+Aufbau: Die Kreisfläche ist π · r². Mit r = d / 2 wird daraus π · d² / 4.
 Formel: Schnittgeschwindigkeit | v_c = π · d · n / 1000 | n = 1000 · v_c / (π · d); d = 1000 · v_c / (π · n)
+Aufbau: Eine Umdrehung legt den Umfang π · d zurück, n Umdrehungen pro Minute also π · d · n in mm pro Minute. / 1000 macht daraus m pro Minute.
 Formel: Gerade | y = m · x + b | x = (y − b) / m; m = (y − b) / x; b = y − m · x
+Aufbau: b ist der Startwert bei x = 0. Pro Schritt in x kommt die Steigung m dazu, deshalb m · x + b.
 Karte: Was ist eine Äquivalenzumformung? | Eine Umformung, die du auf beiden Seiten gleich machst, damit die Gleichung wahr bleibt.
 Karte: Was ist das Gegenstück zu mal? | Geteilt.
 Karte: Was ist das Gegenstück zu hoch zwei? | Die Wurzel ziehen.
@@ -93,7 +109,7 @@ Umformung: Beide Seiten mal R nehmen | P · R = U² | Beide Seiten durch R teile
 Umformung: Beide Seiten durch P teilen | R = U² / P | Beide Seiten mal P nehmen; Die Wurzel ziehen; Auf beiden Seiten P abziehen
 Umstellen: v_c = π · d · n / 1000 | n | n = 1000 · v_c / (π · d)
 Umformung: Beide Seiten mal 1000 nehmen | 1000 · v_c = π · d · n | Beide Seiten durch 1000 teilen; Auf beiden Seiten 1000 addieren; Die Wurzel ziehen
-Umformung: Beide Seiten durch π · d teilen | 1000 · v_c / (π · d) = n | Beide Seiten mal π · d nehmen; Nur durch π teilen; Auf beiden Seiten π · d abziehen
+Umformung: Beide Seiten durch π · d teilen | 1000 · v_c / (π · d) = n | Beide Seiten mal π mit d malnehmen; Nur durch π teilen; Auf beiden Seiten π · d abziehen
 Tipp: Erst den Nenner 1000 wegschaffen, dann alles, was mit n malgenommen ist.
 Umstellen: F1 · l1 = F2 · l2 | l2 | l2 = F1 · l1 / F2
 Umformung: Beide Seiten durch F2 teilen | F1 · l1 / F2 = l2 | Beide Seiten mal F2 nehmen; Auf beiden Seiten F2 abziehen; Beide Seiten durch l1 teilen
@@ -108,7 +124,7 @@ Umstellen: U2 = U · R2 / (R1 + R2) | U | U = U2 · (R1 + R2) / R2
 Umformung: Beide Seiten mal (R1 + R2) nehmen | U2 · (R1 + R2) = U · R2 | Beide Seiten durch (R1 + R2) teilen; Auf beiden Seiten R1 abziehen; Nur R2 malnehmen
 Umformung: Beide Seiten durch R2 teilen | U2 · (R1 + R2) / R2 = U | Beide Seiten mal R2 nehmen; Auf beiden Seiten R2 abziehen; Beide Seiten durch U2 teilen
 Auswahl: Du willst U = R · I nach I umstellen. Was machst du? | Beide Seiten durch R teilen | Beide Seiten mal R nehmen; Auf beiden Seiten R abziehen; Beide Seiten durch U teilen
-Auswahl: 3 · x + 5 = 20: Was ist der geschickteste erste Schritt? | Auf beiden Seiten 5 abziehen | Nur die 3 durch 3 teilen; Auf beiden Seiten 5 addieren; Beide Seiten mal 3 nehmen
+Auswahl: 3 · x + 5 = 20: Was ist der geschickteste erste Schritt? | Auf beiden Seiten 5 abziehen | Nur die 3 durch 3 teilen; Auf beiden Seiten 5 addieren; Beide Seiten mit 3 malnehmen
 Auswahl: Was ist das Gegenstück zu hoch zwei? | Die Wurzel ziehen | Durch 2 teilen; Mal 2 nehmen; Hoch minus eins nehmen
 Auswahl: Welche Umstellung von σ = F / A nach A ist richtig? | A = F / σ | A = σ · F; A = σ / F; A = F − σ
 Auswahl: Warum wird beim Umstellen von außen nach innen gearbeitet? | Weil die Rechenarten in umgekehrter Reihenfolge rückgängig gemacht werden | Weil es schneller geht; Weil Plus immer zuerst kommt; Weil man sonst durch null teilt
@@ -173,7 +189,7 @@ Gegeben: I = {I} mA
 Gesucht: Widerstand R in Ω
 Ansatz: U = R · I nach R umstellen | P = U · I nach P umstellen; R_ges = R1 + R2 addieren; P = I² · R nach R umstellen
 Signal: Spannung und Strom eines Bauteils sind gegeben, der Widerstand ist gesucht.
-Kontrolle: Liegt der Widerstand bei einigen Hundert Ohm bis einigen Kiloohm? | Ja, Volt durch Milliampere ergibt Kiloohm | Nein, Volt durch Milliampere ergibt wenige Ohm; Nein, Volt durch Milliampere ergibt Megaohm
+Kontrolle: Liegt der Widerstand bei einigen Hundert Ohm bis einigen Kiloohm? | Ja, Volt / Milliampere ergibt Kiloohm | Nein, Volt / Milliampere ergibt wenige Ohm; Nein, Volt / Milliampere ergibt Megaohm
 Schritt: Formel U = R · I nach R umstellen | R = U / I
 Schritt: Strom in Ampere umrechnen | I / 1000 | A
 Schritt: Widerstand ausrechnen | U / (I / 1000) | Ω
@@ -198,7 +214,7 @@ Aufgabe: Ein Rundstab aus Stahl soll eine Zugkraft von F = {F} kN übertragen. D
 Gegeben: F = {F} kN
 Gegeben: σ_zul = 120 N/mm²
 Gesucht: Durchmesser d in mm
-Ansatz: Erst Fläche aus σ = F / A, dann d aus der Kreisfläche | Erst d aus der Kraft, dann die Fläche aus σ; Fläche mit Abscherung zweischnittig rechnen; Durchmesser direkt als F durch σ nehmen
+Ansatz: Erst Fläche aus σ = F / A, dann d aus der Kreisfläche | Erst d aus der Kraft, dann die Fläche aus σ; Fläche mit Abscherung zweischnittig rechnen; Durchmesser direkt als F / σ nehmen
 Signal: Die zulässige Spannung ist vorgegeben, gesucht ist die Größe des Bauteils.
 Kontrolle: Rundest du auf einen Normdurchmesser auf oder ab? | Aufrunden, sonst wird die Spannung zu groß | Abrunden, sonst wird das Bauteil zu schwer; Nicht runden, der genaue Wert ist Pflicht
 Tipp: Erst die nötige Fläche aus σ = F / A, dann den Durchmesser aus A = π · d² / 4.

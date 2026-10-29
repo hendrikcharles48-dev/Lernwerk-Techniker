@@ -247,3 +247,6 @@ h2{margin-top:18px}
 .me-numrow .me { flex: 1; min-width: 0; }
 .me-numrow .unit { font-size: 18px; font-weight: 600; min-width: 24px; color: var(--label2); }
 [hidden]{display:none!important}
+.aufbau-box .ab-z{margin-top:6px}.aufbau-box .ab-z .fml{font-weight:600}.aufbau-box .ab-z span{display:block;margin-top:2px}
+.umg.aufbau{color:var(--ink);font-size:15px}
+#pre .aufbau-box{margin:12px 0}

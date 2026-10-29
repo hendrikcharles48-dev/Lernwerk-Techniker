@@ -2,22 +2,22 @@
 Fach: Mathematik
 Thema: Potenzen, Wurzeln und Einheiten
 Anker: An der Fräse rechnest du ständig um. Der Vorschub steht in Millimeter pro Minute, die Toleranz in Mikrometer. Ein Millimeter sind 1000 Mikrometer, also zehn hoch drei. Jeder Vorsatz wie Kilo, Milli oder Mikro ist nur eine Zehnerpotenz, die vor der Einheit steht.
-Anker: Im Training legst du jede Woche doppelt so viel Gewicht auf. Nach drei Wochen ist es 2 mal 2 mal 2, also 2 hoch 3, das Achtfache. Eine Potenz ist nichts anderes als wiederholtes Malnehmen.
-Begriff: Potenz | Eine Kurzschreibweise für wiederholtes Malnehmen derselben Zahl, zum Beispiel 2 hoch 3 gleich 2 mal 2 mal 2.
+Anker: Im Training legst du jede Woche doppelt so viel Gewicht auf. Nach drei Wochen ist es 2 · 2 · 2, also 2³, das Achtfache. Eine Potenz ist nichts anderes als wiederholtes Malnehmen.
+Begriff: Potenz | Eine Kurzschreibweise für wiederholtes Malnehmen derselben Zahl, zum Beispiel 2³ = 2 · 2 · 2.
 Begriff: Basis | Die Zahl, die mehrfach malgenommen wird.
 Begriff: Exponent | Die Hochzahl. Sie sagt, wie oft die Basis malgenommen wird.
-Begriff: Wurzel | Die Umkehrung der Potenz. Die Wurzel aus 49 ist 7, weil 7 hoch 2 gleich 49 ist.
-Begriff: Zehnerpotenz | Eine Potenz mit der Basis 10, zum Beispiel 10 hoch 3 gleich 1000 oder 10 hoch minus 3 gleich ein Tausendstel.
-Begriff: Vorsatz | Ein Wort vor der Einheit, das für eine Zehnerpotenz steht: Kilo ist 10 hoch 3, Milli ist 10 hoch minus 3, Mikro ist 10 hoch minus 6, Mega ist 10 hoch 6.
-Begriff: Wissenschaftliche Schreibweise | Eine Zahl wird als Zahl zwischen 1 und 10 mal einer Zehnerpotenz geschrieben, zum Beispiel 0,00045 gleich 4,5 mal 10 hoch minus 4.
+Begriff: Wurzel | Die Umkehrung der Potenz. Die √49 ist 7, weil 7² = 49 ist.
+Begriff: Zehnerpotenz | Eine Potenz mit der Basis 10, zum Beispiel 10³ = 1000 oder 10⁻³ gleich ein Tausendstel.
+Begriff: Vorsatz | Ein Wort vor der Einheit, das für eine Zehnerpotenz steht: Kilo ist 10³, Milli ist 10⁻³, Mikro ist 10⁻⁶, Mega ist 10⁶.
+Begriff: Wissenschaftliche Schreibweise | Eine Zahl wird als Zahl zwischen 1 und 10 mal einer Zehnerpotenz geschrieben, zum Beispiel 0,00045 = 4,5 mal 10⁻⁴.
 Merksatz: Gleiche Basis malnehmen: Exponenten addieren.
 Merksatz: Gleiche Basis teilen: Exponenten abziehen.
 Merksatz: Potenz hoch Potenz: Exponenten malnehmen.
-Merksatz: Ein negativer Exponent heißt Kehrwert. 10 hoch minus 3 ist eins durch tausend.
+Merksatz: Ein negativer Exponent heißt Kehrwert. 10⁻³ ist eins durch tausend.
 Merksatz: Bei Flächen zählt der Vorsatz doppelt, bei Volumen dreifach. Ein Quadratmeter hat eine Million Quadratmillimeter.
-Prinzip: Eine Potenz ist eine Abkürzung. Statt 10 mal 10 mal 10 schreibst du 10 hoch 3. Die Hochzahl sagt, wie oft malgenommen wird.
+Prinzip: Eine Potenz ist eine Abkürzung. Statt 10 · 10 · 10 schreibst du 10³. Die Hochzahl sagt, wie oft malgenommen wird.
 
-Daraus folgen die Potenzgesetze. Nimmst du 10 hoch 2 mal 10 hoch 3, steht da 10 mal 10 mal 10 mal 10 mal 10. Das sind fünf Zehner, also 10 hoch 5. Die Exponenten werden addiert. Beim Teilen kürzen sich Faktoren weg, deshalb werden die Exponenten abgezogen.
+Daraus folgen die Potenzgesetze. Nimmst du 10² · 10³, steht da 10 · 10 · 10 · 10 · 10. Das sind fünf Zehner, also 10⁵. Die Exponenten werden addiert. Beim Teilen kürzen sich Faktoren weg, deshalb werden die Exponenten abgezogen.
 
 Einheiten funktionieren genauso. Kilo heißt mal 1000, Milli heißt durch 1000. Wenn du Meter in Millimeter umrechnest, nimmst du mal 1000. Bei Quadratmetern steckt der Meter zweimal drin, also rechnest du zweimal mal 1000, das ist mal eine Million.
 
@@ -29,37 +29,41 @@ Baustein: Rechne aus und prüf die Größenordnung: Wird die Einheit größer, m
 Schnellweg: Längen: Eine Stufe zwischen Meter, Millimeter und Mikrometer ist der Faktor 1000. Flächen: Faktor eine Million. Volumen: Faktor eine Milliarde.
 Schnellweg: Ein Liter ist ein Kubikdezimeter. Tausend Liter sind ein Kubikmeter.
 Schnellweg: Auf dem Taschenrechner gibst du Zehnerpotenzen mit der Taste EXP oder mal 10 hoch x ein. So rechnest du ohne lange Nullenketten.
-Fehler: Bei Flächen nur mit 1000 umgerechnet | Ein Quadratmeter sind 1000 mal 1000 Quadratmillimeter, also eine Million.
+Fehler: Bei Flächen nur mit 1000 umgerechnet | Ein Quadratmeter sind 1000 · 1000 Quadratmillimeter, also eine Million.
 Fehler: Exponenten beim Malnehmen malgenommen | Bei gleicher Basis werden die Exponenten beim Malnehmen addiert, nicht malgenommen.
-Fehler: Negativen Exponenten als negative Zahl gelesen | 10 hoch minus 2 ist nicht minus 100, sondern ein Hundertstel.
-Fehler: Wurzel aus einer Summe falsch gezogen | Die Wurzel aus a plus b ist nicht die Wurzel aus a plus die Wurzel aus b.
+Fehler: Negativen Exponenten als negative Zahl gelesen | 10⁻² ist nicht minus 100, sondern ein Hundertstel.
+Fehler: Wurzel aus einer Summe falsch gezogen | Die Wurzel aus a + b ist nicht die Wurzel aus a plus die Wurzel aus b.
 Formel: Fläche eines Quadrats | A = a² | a = √A
+Aufbau: Ein Quadrat hat zwei gleich lange Seiten. Fläche ist Länge · Breite, also a · a = a².
 Formel: Volumen eines Würfels | V = a³ | a = V^(1/3)
+Aufbau: Ein Würfel hat drei gleich lange Kanten. Volumen ist Länge · Breite · Höhe, also a · a · a = a³.
 Formel: Gleiche Basis malnehmen | 10^m · 10^n = 10^(m + n)
+Aufbau: 10^m sind m Zehnen malgenommen, 10^n sind n Zehnen. Zusammen sind es m + n Zehnen.
 Formel: Gleiche Basis teilen | 10^m / 10^n = 10^(m − n)
-Karte: Was ist 10 hoch 3 mal 10 hoch 4? | 10 hoch 7, die Exponenten werden addiert.
-Karte: Was ist 10 hoch 6 geteilt durch 10 hoch 2? | 10 hoch 4, die Exponenten werden abgezogen.
-Karte: Was ist 10 hoch minus 3? | Ein Tausendstel, also 0,001.
-Karte: Welche Zehnerpotenz steckt in Mikro? | 10 hoch minus 6.
-Karte: Welche Zehnerpotenz steckt in Mega? | 10 hoch 6.
-Karte: Wie viele Quadratmillimeter hat ein Quadratmeter? | Eine Million, also 10 hoch 6.
+Aufbau: Beim Teilen kürzen sich n Zehnen weg. Übrig bleiben m − n Zehnen.
+Karte: Was ist 10³ mal 10⁴? | 10⁷, die Exponenten werden addiert.
+Karte: Was ist 10⁶ geteilt durch 10²? | 10⁴, die Exponenten werden abgezogen.
+Karte: Was ist 10⁻³? | Ein Tausendstel, also 0,001.
+Karte: Welche Zehnerpotenz steckt in Mikro? | 10⁻⁶.
+Karte: Welche Zehnerpotenz steckt in Mega? | 10⁶.
+Karte: Wie viele Quadratmillimeter hat ein Quadratmeter? | Eine Million, also 10⁶.
 Karte: Wie viele Liter hat ein Kubikmeter? | 1000 Liter.
-Karte: Was ist 2 hoch 0? | 1. Jede Zahl außer null hoch null ist 1.
-Karte: Was ist die Wurzel aus 144? | 12.
-Karte: Wie schreibst du 0,00045 wissenschaftlich? | 4,5 mal 10 hoch minus 4.
-Karte: Was ist 10 hoch 2 hoch 3? | 10 hoch 6, die Exponenten werden malgenommen.
+Karte: Was ist 2⁰? | 1. Jede Zahl außer null hoch null ist 1.
+Karte: Was ist die √144? | 12.
+Karte: Wie schreibst du 0,00045 wissenschaftlich? | 4,5 mal 10⁻⁴.
+Karte: Was ist 10² hoch 3? | 10⁶, die Exponenten werden malgenommen.
 Karte: Wie viele Mikrometer sind 0,02 Millimeter? | 20 Mikrometer.
 Auswahl: Wie viele Quadratmillimeter sind 1 Quadratzentimeter? | 100 | 10; 1000; 10000
-Auswahl: Was ergibt 10 hoch 5 mal 10 hoch minus 2? | 10 hoch 3 | 10 hoch minus 10; 10 hoch 7; 100 hoch 3
+Auswahl: Was ergibt 10⁵ mal 10⁻²? | 10³ | 10⁻¹⁰; 10⁷; 100³
 Reihenfolge: Eine Fläche in eine andere Einheit umrechnen | Einheit vorher und nachher aufschreiben; Prüfen, dass es eine Fläche ist; Längenfaktor bestimmen; Längenfaktor quadrieren; Zahl umrechnen und Größenordnung prüfen
 Aufgabe: Ein Bohrungsquerschnitt hat die Fläche A = {A} mm². Wie groß ist die Fläche in Quadratmeter?
 Gegeben: A = {A} mm²
 Gesucht: Fläche in m²
-Ansatz: Durch 1000 hoch 2 teilen, also durch eine Million | Durch 1000 teilen wie bei einer Länge; Mit 1000 hoch 2 malnehmen, also mit einer Million; Durch 100 teilen wie bei Prozent
+Ansatz: Durch 1000² teilen, also durch eine Million | Durch 1000 teilen wie bei einer Länge; Mit 1000² malnehmen, also mit einer Million; Durch 100 teilen wie bei %
 Signal: Gesucht ist eine Fläche in einer anderen Einheit. In Quadratmillimeter steckt der Millimeter zweimal drin.
 Warum: Weil im Quadratmillimeter der Millimeter zweimal steckt | Weil man Flächen genauso wie Längen umrechnet; Weil der Quadratmeter die kleinere Einheit ist
 Kontrolle: Passt die Größenordnung deines Ergebnisses? | Ja, die Zahl in m² muss viel kleiner sein als in mm² | Nein, die Zahl in m² muss viel größer sein als in mm²; Nein, die Zahl muss in beiden Einheiten gleich sein
-Tipp: Ein Meter hat 1000 Millimeter, ein Quadratmeter hat 1000 mal 1000 Quadratmillimeter.
+Tipp: Ein Meter hat 1000 Millimeter, ein Quadratmeter hat 1000 · 1000 Quadratmillimeter.
 Schritt: Fläche in Quadratmeter ausrechnen | A / 1000000 | m²
 Variable: A | 2 | 500 | 2
 Rechnung: A / 1000000
@@ -67,9 +71,9 @@ Aufgabe: Ein quadratisches Blech hat die Fläche A = {A} cm². Wie lang ist eine
 Gegeben: A = {A} cm²
 Gesucht: Seitenlänge a in mm
 Ansatz: Wurzel aus der Fläche, dann mal 10 für mm | Wurzel aus der Fläche, dann mal 100 für mm; Fläche durch 4 teilen, dann mal 10 für mm; Fläche durch 2 teilen, dann mal 10 für mm
-Signal: Die Fläche ist gegeben, gesucht ist eine Länge. Beim Quadrat ist die Fläche Seite mal Seite, also hoch zwei.
+Signal: Die Fläche ist gegeben, gesucht ist eine Länge. Beim Quadrat ist die Fläche Seite · Seite, also hoch zwei.
 Warum: Weil die Wurzel das Quadrieren rückgängig macht | Weil ein Quadrat vier Seiten hat; Weil man Flächen immer halbiert
-Kontrolle: Probe: Ist Seite mal Seite in mm² das Hundertfache der Fläche in cm²? | Ja, ein Quadratzentimeter hat 100 Quadratmillimeter | Nein, es muss das Zehnfache sein; Nein, es muss das Tausendfache sein
+Kontrolle: Probe: Ist Seite · Seite in mm² das Hundertfache der Fläche in cm²? | Ja, ein Quadratzentimeter hat 100 Quadratmillimeter | Nein, es muss das Zehnfache sein; Nein, es muss das Tausendfache sein
 Tipp: Erst a in Zentimeter aus a = √A, dann mal 10 für Millimeter.
 Schritt: Formel A = a² nach a umstellen | a = √A
 Schritt: Seitenlänge in Zentimeter ausrechnen | sqrt(A) | cm
@@ -81,8 +85,8 @@ Gegeben: 10 hoch {m} mal 10 hoch {n}
 Gesucht: Exponent des Ergebnisses
 Ansatz: Exponenten addieren | Exponenten malnehmen; Exponenten abziehen; Basen addieren
 Signal: Zwei Potenzen mit derselben Basis 10 werden malgenommen.
-Warum: Weil dann m plus n Zehner als Faktoren zusammenkommen | Weil beim Malnehmen auch die Exponenten malgenommen werden; Weil immer nur die größere Potenz zählt
-Kontrolle: Probe: Was ist 10 hoch 2 mal 10 hoch 3? | 10 hoch 5, also 100 000 | 10 hoch 6, also eine Million; 20 hoch 5, also 3,2 Millionen
+Warum: Weil dann m + n Zehner als Faktoren zusammenkommen | Weil beim Malnehmen auch die Exponenten malgenommen werden; Weil immer nur die größere Potenz zählt
+Kontrolle: Probe: Was ist 10² · 10³? | 10⁵, also 100 000 | 10⁶, also eine Million; 20⁵, also 3,2 Millionen
 Schritt: Exponenten addieren | m + n
 Variable: m | -6 | 6 | 1
 Variable: n | -6 | 6 | 1
@@ -124,14 +128,16 @@ Baustein: Schau die Form an und wähle das Verfahren: addieren, einsetzen oder g
 Baustein: Lass eine Unbekannte wegfallen und löse die übrige Gleichung.
 Baustein: Setz das Ergebnis in eine Gleichung ein und berechne die zweite Unbekannte.
 Baustein: Mach die Probe mit der anderen Gleichung.
-Schnellweg: Bei Kostenvergleichen schreibst du beide Kosten als Fixkosten plus Stückkosten mal Menge und setzt sie gleich. Die Menge ist dann der Unterschied der Fixkosten geteilt durch den Unterschied der Stückkosten.
+Schnellweg: Bei Kostenvergleichen schreibst du beide Kosten als Fixkosten + Stückkosten · Menge und setzt sie gleich. Die Menge ist dann der Unterschied der Fixkosten geteilt durch den Unterschied der Stückkosten.
 Schnellweg: Viele Taschenrechner lösen Gleichungssysteme im Modus EQN. Nutze ihn zur Kontrolle, aber kenne den Rechenweg.
 Fehler: Nur eine Seite subtrahiert | Beim Additionsverfahren ziehst du beide Seiten ab, links von links und rechts von rechts.
 Fehler: Vorzeichen beim Abziehen vergessen | Minus mal minus gibt plus. Setz die abgezogene Gleichung in Klammern.
 Fehler: Zweite Unbekannte vergessen | Die Aufgabe ist erst fertig, wenn x und y bekannt sind.
 Fehler: Probe mit derselben Gleichung | Die Probe zählt nur mit der Gleichung, die du zum Einsetzen nicht benutzt hast.
 Formel: Gerade | y = m · x + b | x = (y − b) / m; b = y − m · x
+Aufbau: b ist der Startwert bei x = 0. Pro Schritt in x kommt die Steigung m dazu, deshalb m · x + b.
 Formel: Kostenfunktion | K = K_f + k_v · x | x = (K − K_f) / k_v; K_f = K − k_v · x
+Aufbau: Die Fixkosten fallen immer an. Für jedes Stück kommen die variablen Kosten dazu, also k_v · x.
 Karte: Wie viele Gleichungen brauchst du für zwei Unbekannte? | Zwei.
 Karte: Wann nimmst du das Additionsverfahren? | Wenn vor einer Unbekannten in beiden Gleichungen dieselbe Zahl steht.
 Karte: Wann nimmst du das Einsetzungsverfahren? | Wenn eine Gleichung schon nach einer Unbekannten aufgelöst ist.
@@ -146,16 +152,16 @@ Auswahl: y = 2x + 1 und y = −x + 7. Welches Verfahren passt am besten? | Gleic
 Auswahl: 3x + 2y = 12 und 5x + 2y = 16. Welcher erste Schritt ist geschickt? | Gleichung eins von Gleichung zwei abziehen | Beide Gleichungen addieren; Nach y umstellen und quadrieren; Durch 2 teilen und fertig
 Reihenfolge: Ein Gleichungssystem lösen | Gleichungen nummerieren; Verfahren wählen; Eine Unbekannte wegfallen lassen; Erste Unbekannte ausrechnen; Einsetzen und zweite Unbekannte ausrechnen; Probe mit der anderen Gleichung
 Aufgabe: Eine Hantelstange mit 2 gleichen Scheiben wiegt {G1} kg. Mit 6 solchen Scheiben wiegt sie {G2} kg. Wie schwer ist die Stange?
-Gegeben: Stange plus 2 Scheiben: {G1} kg
-Gegeben: Stange plus 6 Scheiben: {G2} kg
+Gegeben: Stange + 2 Scheiben: {G1} kg
+Gegeben: Stange + 6 Scheiben: {G2} kg
 Gesucht: Masse der Stange in kg
 Ansatz: Gleichungen voneinander abziehen | Beide Gewichte addieren und halbieren; Ein Gewicht durch die Scheiben teilen; Dreisatz mit nur einer Angabe
 Signal: Zwei Unbekannte, Stange und Scheibe, und zwei Angaben. Die Stange steckt in beiden Angaben genau einmal drin.
 Warum: Weil der Unterschied nur von den 4 zusätzlichen Scheiben kommt | Weil man die beiden Gewichte immer addieren muss; Weil die Stange in beiden Angaben verschieden ist
-Kontrolle: Probe: Stange plus 6 Scheiben ergibt wieder das zweite Gewicht? | Ja, mit beiden Ergebnissen eingesetzt stimmt auch die zweite Angabe | Nein, die Probe macht man mit der ersten Angabe; Nein, die Stange muss schwerer als alle Scheiben sein
+Kontrolle: Probe: Stange + 6 Scheiben ergibt wieder das zweite Gewicht? | Ja, mit beiden Ergebnissen eingesetzt stimmt auch die zweite Angabe | Nein, die Probe macht man mit der ersten Angabe; Nein, die Stange muss schwerer als alle Scheiben sein
 Tipp: Der Unterschied sind 4 Scheiben.
 Schritt: Masse einer Scheibe: Unterschied geteilt durch 4 | (G2 - G1) / 4 | kg
-Schritt: Masse der Stange: erstes Gewicht minus 2 Scheiben | G1 - (G2 - G1) / 2 | kg
+Schritt: Masse der Stange: erstes Gewicht − 2 Scheiben | G1 - (G2 - G1) / 2 | kg
 Variable: G1 | 30 | 40 | 2
 Variable: G2 | 50 | 80 | 2
 Rechnung: G1 - (G2 - G1) / 2
@@ -164,9 +170,9 @@ Gegeben: Gleichung 1: {a} · x + y = {c1}
 Gegeben: Gleichung 2: x − y = {c2}
 Gesucht: y
 Ansatz: Additionsverfahren, Gleichungen addieren | Gleichungen voneinander abziehen; Erste Gleichung quadrieren; pq-Formel anwenden
-Signal: In Gleichung 1 steht plus y, in Gleichung 2 minus y. Zusammen ergibt das null.
+Signal: In Gleichung 1 steht plus y, in Gleichung 2 − y. Zusammen ergibt das null.
 Warum: Weil plus y und minus y sich beim Addieren aufheben | Weil man Gleichungen immer addiert; Weil x dann doppelt so groß wird
-Kontrolle: Probe: Setzt du x und y in Gleichung 2 ein, kommt die rechte Seite heraus? | Ja, x minus y ergibt die Zahl rechts | Nein, die Probe geht nur mit Gleichung 1; Nein, y muss immer positiv sein
+Kontrolle: Probe: Setzt du x und y in Gleichung 2 ein, kommt die rechte Seite heraus? | Ja, x − y ergibt die Zahl rechts | Nein, die Probe geht nur mit Gleichung 1; Nein, y muss immer positiv sein
 Schritt: Gleichungen addieren und x ausrechnen | (c1 + c2) / (a + 1)
 Schritt: x in Gleichung 2 einsetzen und y ausrechnen | (c1 + c2) / (a + 1) - c2
 Variable: a | 2 | 5 | 1
@@ -200,9 +206,9 @@ Anker: Ein Baseball, der hochgeworfen wird, fliegt eine Parabel. Er ist zweimal 
 Anker: Ein Werkstück soll quadratisch werden, und du kennst nur die Fläche. Dann steckt die gesuchte Länge hoch zwei in der Gleichung, und du brauchst die Wurzel.
 Begriff: Quadratische Gleichung | Eine Gleichung, in der die Unbekannte hoch zwei vorkommt, aber nicht höher.
 Begriff: Normalform | Die Form x² + p · x + q = 0. Vor dem x² steht eine 1.
-Begriff: pq-Formel | Die Lösungsformel für die Normalform: x gleich minus p halbe plus oder minus die Wurzel aus p halbe zum Quadrat minus q.
+Begriff: pq-Formel | Die Lösungsformel für die Normalform: x = −p halbe plus oder minus die Wurzel aus p halbe zum Quadrat − q.
 Begriff: Diskriminante | Der Ausdruck unter der Wurzel in der pq-Formel. Er entscheidet, ob es zwei, eine oder keine Lösung gibt.
-Begriff: Ausklammern | Ein gemeinsamer Faktor wird vor die Klammer geschrieben, zum Beispiel x² minus 4x gleich x mal x minus 4.
+Begriff: Ausklammern | Ein gemeinsamer Faktor wird vor die Klammer geschrieben, zum Beispiel x² − 4x = x · (x − 4).
 Begriff: Satz vom Nullprodukt | Ein Produkt ist null, wenn mindestens einer der Faktoren null ist.
 Begriff: Nullstelle | Eine Stelle, an der die Parabel die x-Achse schneidet. Sie ist eine Lösung der Gleichung.
 Merksatz: Kein Glied ohne x: ausklammern.
@@ -211,9 +217,9 @@ Merksatz: Sonst: Normalform herstellen, dann pq-Formel.
 Merksatz: Diskriminante positiv: zwei Lösungen. Null: eine. Negativ: keine.
 Prinzip: Bei einer quadratischen Gleichung gibt es drei Fälle, und jeder hat seinen eigenen Weg. Das Wichtigste ist, den Fall zu erkennen, bevor du rechnest.
 
-Fehlt das Glied ohne x, zum Beispiel bei 3x² minus 12x gleich null, klammerst du x aus. Dann hast du ein Produkt, das null ist. Also ist entweder x gleich null, oder die Klammer ist null.
+Fehlt das Glied ohne x, zum Beispiel bei 3x² − 12x gleich null, klammerst du x aus. Dann hast du ein Produkt, das null ist. Also ist entweder x gleich null, oder die Klammer ist null.
 
-Fehlt das Glied mit nur x, zum Beispiel bei 2x² gleich 50, stellst du nach x² um und ziehst die Wurzel. Denk an beide Vorzeichen.
+Fehlt das Glied mit nur x, zum Beispiel bei 2x² = 50, stellst du nach x² um und ziehst die Wurzel. Denk an beide Vorzeichen.
 
 Sind alle drei Glieder da, bringst du die Gleichung in Normalform. Steht vor dem x² keine 1, teilst du zuerst die ganze Gleichung durch diese Zahl. Dann liest du p und q ab und setzt sie in die pq-Formel ein.
 Baustein: Bring alles auf eine Seite, sodass rechts null steht.
@@ -226,20 +232,23 @@ Schnellweg: Viele Taschenrechner lösen quadratische Gleichungen im Modus EQN. G
 Fehler: Durch x geteilt | Teilst du durch x, verlierst du die Lösung x gleich null. Immer ausklammern.
 Fehler: pq-Formel ohne Normalform | Steht vor x² eine andere Zahl als 1, erst die ganze Gleichung durch diese Zahl teilen.
 Fehler: Vorzeichen von p oder q falsch abgelesen | p und q immer mit ihrem Vorzeichen aus der Normalform übernehmen.
-Fehler: Nur die positive Wurzel genommen | Aus x² gleich 25 folgen x gleich 5 und x gleich minus 5.
+Fehler: Nur die positive Wurzel genommen | Aus x² = 25 folgen x = 5 und x = −5.
 Formel: pq-Formel, größere Lösung | x = −p / 2 + √((p / 2)² − q)
+Aufbau: Die pq-Formel kommt aus der quadratischen Ergänzung von x² + p · x + q = 0. −p / 2 ist die Mitte zwischen beiden Lösungen, die Wurzel ist der Abstand davon.
 Formel: Diskriminante | D = (p / 2)² − q | q = (p / 2)² − D
+Aufbau: Die Diskriminante steht unter der Wurzel der pq-Formel. Ist sie negativ, gibt es keine Lösung.
 Formel: Rein quadratisch | a · x² = c | x = √(c / a)
+Aufbau: Ohne x-Glied geht es ohne pq-Formel: durch a teilen, dann die Wurzel ziehen. Es gibt eine positive und eine negative Lösung.
 Karte: Wie sieht die Normalform aus? | x² + p · x + q = 0.
-Karte: Wie lautet die pq-Formel? | x gleich minus p halbe plus oder minus die Wurzel aus p halbe zum Quadrat minus q.
-Karte: Was machst du bei 3x² − 12x = 0? | x ausklammern: x mal 3x minus 12 gleich null. Lösungen 0 und 4.
-Karte: Was machst du bei 2x² = 50? | Durch 2 teilen, Wurzel ziehen: x gleich 5 oder minus 5.
+Karte: Wie lautet die pq-Formel? | x = −p halbe plus oder minus die Wurzel aus p halbe zum Quadrat − q.
+Karte: Was machst du bei 3x² − 12x = 0? | x ausklammern: x · (3x − 12) = 0. Lösungen 0 und 4.
+Karte: Was machst du bei 2x² = 50? | Durch 2 teilen, Wurzel ziehen: x = 5 oder minus 5.
 Karte: Was machst du bei 2x² + 8x + 6 = 0 zuerst? | Durch 2 teilen, damit vor x² eine 1 steht.
 Karte: Was bedeutet eine negative Diskriminante? | Es gibt keine reelle Lösung. Die Parabel schneidet die x-Achse nicht.
 Karte: Was bedeutet eine Diskriminante von null? | Es gibt genau eine Lösung. Die Parabel berührt die x-Achse.
 Karte: Warum darfst du bei x² − 5x = 0 nicht durch x teilen? | Weil die Lösung x gleich null verloren geht.
 Karte: Was sagt der Satz vom Nullprodukt? | Ein Produkt ist null, wenn einer der Faktoren null ist.
-Karte: Welche Probe geht schnell nach Vieta? | x1 plus x2 gleich minus p und x1 mal x2 gleich q.
+Karte: Welche Probe geht schnell nach Vieta? | x1 + x2 = −p und x1 · x2 = q.
 Karte: Wie viele Lösungen hat x² = 49? | Zwei: 7 und minus 7.
 Auswahl: 4x² − 20x = 0. Welcher Weg passt? | x ausklammern | pq-Formel ohne Umformen; Wurzel ziehen; Durch x teilen
 Auswahl: x² + 6x + 5 = 0. Welcher Weg passt? | pq-Formel mit p = 6 und q = 5 | Ausklammern; Wurzel ziehen; Durch x teilen
@@ -251,9 +260,9 @@ Gesucht: größere Lösung x1
 Ansatz: pq-Formel | Ausklammern; Wurzel ziehen; Durch x teilen
 Signal: Vor x² steht eine 1, und es gibt ein Glied mit x und ein Glied ohne x.
 Warum: Weil alle drei Glieder da sind und vor x² eine 1 steht | Weil die pq-Formel bei jeder Gleichung am schnellsten ist; Weil q positiv ist und deshalb nichts anderes geht
-Kontrolle: Probe nach Vieta: Ergeben beide Lösungen zusammen minus p? | Ja, x1 plus x2 ist minus p | Nein, zusammen ergeben sie q; Nein, zusammen ergeben sie p
+Kontrolle: Probe nach Vieta: Ergeben beide Lösungen zusammen minus p? | Ja, x1 + x2 ist minus p | Nein, zusammen ergeben sie q; Nein, zusammen ergeben sie p
 Schritt: p halbe ausrechnen | p / 2
-Schritt: Diskriminante: p halbe zum Quadrat minus q | (p / 2)^2 - q
+Schritt: Diskriminante: p halbe zum Quadrat − q | (p / 2)^2 - q
 Schritt: Größere Lösung: minus p halbe plus Wurzel aus der Diskriminante | -p / 2 + sqrt((p / 2)^2 - q)
 Variable: p | 8 | 14 | 2
 Variable: q | 1 | 15 | 1
@@ -308,12 +317,12 @@ Begriff: Sinus | Gegenkathete geteilt durch Hypotenuse.
 Begriff: Kosinus | Ankathete geteilt durch Hypotenuse.
 Begriff: Tangens | Gegenkathete geteilt durch Ankathete.
 Begriff: Arkusfunktion | Die Umkehrung einer Winkelfunktion. Sie macht aus einem Seitenverhältnis wieder einen Winkel.
-Begriff: Satz des Pythagoras | Im rechtwinkligen Dreieck gilt: Kathete zum Quadrat plus Kathete zum Quadrat gleich Hypotenuse zum Quadrat.
-Merksatz: Sinus: Gegenkathete durch Hypotenuse. Kosinus: Ankathete durch Hypotenuse. Tangens: Gegenkathete durch Ankathete.
+Begriff: Satz des Pythagoras | Im rechtwinkligen Dreieck gilt: Kathete zum Quadrat + Kathete zum Quadrat = Hypotenuse zum Quadrat.
+Merksatz: Sinus: Gegenkathete / Hypotenuse. Kosinus: Ankathete / Hypotenuse. Tangens: Gegenkathete / Ankathete.
 Merksatz: Winkel gesucht: Arkusfunktion. Seite gesucht: normale Winkelfunktion.
 Merksatz: Drei Seiten, kein Winkel: Pythagoras.
 Merksatz: Taschenrechner auf DEG stellen, wenn du in Grad rechnest.
-Prinzip: In jedem rechtwinkligen Dreieck hängen Winkel und Seitenverhältnisse fest zusammen. Ist der Winkel 30 Grad, ist die Gegenkathete immer halb so lang wie die Hypotenuse, egal wie groß das Dreieck ist. Dieses feste Verhältnis heißt Sinus.
+Prinzip: In jedem rechtwinkligen Dreieck hängen Winkel und Seitenverhältnisse fest zusammen. Ist der Winkel 30°, ist die Gegenkathete immer halb so lang wie die Hypotenuse, egal wie groß das Dreieck ist. Dieses feste Verhältnis heißt Sinus.
 
 Der Trick ist, zuerst die Seiten zu benennen. Stell dich in Gedanken in den Winkel, um den es geht. Die Seite gegenüber ist die Gegenkathete, die Seite neben dir ist die Ankathete, und die lange schräge Seite ist die Hypotenuse.
 
@@ -323,23 +332,27 @@ Baustein: Vom gegebenen oder gesuchten Winkel aus die Seiten benennen: Gegenkath
 Baustein: Prüf, welche zwei Seiten im Spiel sind, und wähle die Funktion, die genau diese zwei verbindet.
 Baustein: Formel nach der gesuchten Größe umstellen.
 Baustein: Mit dem Taschenrechner auf DEG ausrechnen und prüfen, ob die Hypotenuse die längste Seite ist.
-Schnellweg: Gegenkathete gleich Hypotenuse mal Sinus, Ankathete gleich Hypotenuse mal Kosinus. Das brauchst du ständig beim Kräftezerlegen.
-Schnellweg: Kegel: Einstellwinkel gleich Arkustangens von großer Durchmesser minus kleiner Durchmesser geteilt durch zwei mal Länge.
+Schnellweg: Gegenkathete = Hypotenuse · Sinus, Ankathete = Hypotenuse · Kosinus. Das brauchst du ständig beim Kräftezerlegen.
+Schnellweg: Kegel: Einstellwinkel = Arkustangens von großer Durchmesser minus kleiner Durchmesser geteilt durch 2 mal Länge.
 Fehler: Taschenrechner auf RAD | Stell auf DEG, sonst kommen bei Winkeln in Grad falsche Werte heraus.
 Fehler: Ankathete und Gegenkathete vertauscht | Die Seiten hängen vom Winkel ab. Schau immer vom betrachteten Winkel aus.
 Fehler: Pythagoras mit Winkel verwechselt | Pythagoras verbindet nur Seiten. Kommt ein Winkel vor, brauchst du Sinus, Kosinus oder Tangens.
 Fehler: Hypotenuse kürzer als eine Kathete | Das ist unmöglich. Dann ist die falsche Funktion oder Umstellung gewählt.
 Formel: Sinus | a = c · sin(α) | c = a / sin(α); α = asin(a / c)
+Aufbau: sin α = Gegenkathete / Hypotenuse. Umgestellt nach der Gegenkathete a ergibt das c · sin α.
 Formel: Kosinus | b = c · cos(α) | c = b / cos(α); α = acos(b / c)
+Aufbau: cos α = Ankathete / Hypotenuse. Umgestellt nach der Ankathete b ergibt das c · cos α.
 Formel: Tangens | a = b · tan(α) | b = a / tan(α); α = atan(a / b)
+Aufbau: tan α = Gegenkathete / Ankathete. Umgestellt nach der Gegenkathete a ergibt das b · tan α.
 Formel: Satz des Pythagoras | c = √(a² + b²) | a = √(c² − b²); b = √(c² − a²)
+Aufbau: Im rechtwinkligen Dreieck gilt a² + b² = c². Die Wurzel daraus ist die längste Seite c.
 Karte: Was ist der Sinus? | Gegenkathete geteilt durch Hypotenuse.
 Karte: Was ist der Kosinus? | Ankathete geteilt durch Hypotenuse.
 Karte: Was ist der Tangens? | Gegenkathete geteilt durch Ankathete.
 Karte: Welche Seite ist die Hypotenuse? | Die längste Seite, gegenüber dem rechten Winkel.
 Karte: Zwei Katheten gegeben, Winkel gesucht. Welche Funktion? | Arkustangens.
-Karte: Hypotenuse und Winkel gegeben, Gegenkathete gesucht. Welche Funktion? | Sinus: Gegenkathete gleich Hypotenuse mal Sinus.
-Karte: Hypotenuse und Winkel gegeben, Ankathete gesucht. Welche Funktion? | Kosinus: Ankathete gleich Hypotenuse mal Kosinus.
+Karte: Hypotenuse und Winkel gegeben, Gegenkathete gesucht. Welche Funktion? | Sinus: Gegenkathete = Hypotenuse · Sinus.
+Karte: Hypotenuse und Winkel gegeben, Ankathete gesucht. Welche Funktion? | Kosinus: Ankathete = Hypotenuse · Kosinus.
 Karte: Zwei Seiten gegeben, dritte Seite gesucht, kein Winkel gefragt. Was nimmst du? | Den Satz des Pythagoras.
 Karte: Was ist sin(30°)? | 0,5.
 Karte: Was ist tan(45°)? | 1.
@@ -354,7 +367,7 @@ Gegeben: α = {al}°
 Gesucht: Höhe a in mm
 Ansatz: Sinus | Kosinus; Tangens; Satz des Pythagoras
 Signal: Die schräge Seite ist die Hypotenuse. Gesucht ist die Seite gegenüber dem Winkel.
-Warum: Weil der Sinus genau Gegenkathete und Hypotenuse verbindet | Weil der Sinus immer zuerst kommt; Weil der Winkel kleiner als 45 Grad ist
+Warum: Weil der Sinus genau Gegenkathete und Hypotenuse verbindet | Weil der Sinus immer zuerst kommt; Weil der Winkel immer kleiner als 45° ist
 Kontrolle: Ist die Höhe kürzer als die schräge Länge? | Ja, eine Kathete ist kürzer als die Hypotenuse | Nein, eine Kathete ist länger als die Hypotenuse; Nein, beide Seiten sind immer gleich lang
 Schritt: Formel a = c · sin(α) aufstellen und ausrechnen | c * sin(al) | mm
 Variable: c | 1 | 8 | 0,5

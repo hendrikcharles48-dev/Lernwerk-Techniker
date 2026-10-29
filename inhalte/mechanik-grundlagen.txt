@@ -15,7 +15,7 @@ Merksatz: Summe aller x-Kräfte null, Summe aller y-Kräfte null.
 Merksatz: Je flacher ein Seil hängt, desto größer die Seilkraft.
 Prinzip: Eine schräge Kraft wirkt gleichzeitig in zwei Richtungen. Damit man rechnen kann, zerlegt man sie in einen waagerechten und einen senkrechten Anteil. Dafür braucht man das rechtwinklige Dreieck aus der Trigonometrie: Die Kraft ist die Hypotenuse, die Anteile sind die Katheten.
 
-Ist der Winkel zur Waagerechten gegeben, ist der waagerechte Anteil die Kraft mal Kosinus und der senkrechte Anteil die Kraft mal Sinus. Ist der Winkel zur Senkrechten gegeben, tauschen Sinus und Kosinus die Rollen. Deshalb immer zuerst schauen, von wo der Winkel gemessen wird.
+Ist der Winkel zur Waagerechten gegeben, ist der waagerechte Anteil die Kraft · Kosinus und der senkrechte Anteil die Kraft · Sinus. Ist der Winkel zur Senkrechten gegeben, tauschen Sinus und Kosinus die Rollen. Deshalb immer zuerst schauen, von wo der Winkel gemessen wird.
 
 Willst du mehrere Kräfte zusammenfassen, addierst du alle x-Anteile und alle y-Anteile getrennt. Aus den beiden Summen bekommst du mit Pythagoras die Resultierende und mit dem Arkustangens ihre Richtung. Ist ein Körper in Ruhe, müssen beide Summen null sein. Daraus rechnest du unbekannte Kräfte aus.
 Baustein: Körper freimachen und alle Kräfte mit Richtung einzeichnen.
@@ -23,29 +23,33 @@ Baustein: Achsen festlegen und für jeden Winkel klären, ob er zur x-Achse oder
 Baustein: Jede Kraft in x-Anteil und y-Anteil zerlegen, mit Vorzeichen.
 Baustein: Summe in x und Summe in y aufstellen.
 Baustein: Gleichgewicht: Summen gleich null setzen und nach der Unbekannten auflösen. Resultierende: Pythagoras und Arkustangens.
-Schnellweg: Zwei symmetrische Seile mit Winkel β zur Senkrechten: Seilkraft gleich Last geteilt durch zwei mal Kosinus β.
-Schnellweg: Bei 90 Grad zwischen zwei Kräften ist die Resultierende einfach Pythagoras.
+Schnellweg: Zwei symmetrische Seile mit Winkel β zur Senkrechten: Seilkraft gleich Last geteilt durch 2 · Kosinus β.
+Schnellweg: Bei 90° zwischen zwei Kräften ist die Resultierende einfach Pythagoras.
 Fehler: Sinus und Kosinus vertauscht | Schau, von welcher Achse der Winkel gemessen ist. Die Komponente am Winkel bekommt den Kosinus.
 Fehler: Vorzeichen vergessen | Kräfte nach links oder unten bekommen ein Minus, wenn die Achsen nach rechts und oben zeigen.
 Fehler: Beträge statt Komponenten addiert | Kräfte in verschiedenen Richtungen darfst du nicht einfach addieren. Erst zerlegen.
 Fehler: Gewichtskraft vergessen | Beim Freimachen gehört die Gewichtskraft immer dazu, wenn sie nicht vernachlässigt werden soll.
 Formel: Kraftkomponente in x-Richtung | F_x = F · cos(α) | F = F_x / cos(α); α = acos(F_x / F)
+Aufbau: Die Kraft ist die schräge Seite eines rechtwinkligen Dreiecks. Der x-Anteil liegt am Winkel α an, Ankathete = Hypotenuse · cos α.
 Formel: Kraftkomponente in y-Richtung | F_y = F · sin(α) | F = F_y / sin(α); α = asin(F_y / F)
+Aufbau: Der y-Anteil liegt dem Winkel α gegenüber. Gegenkathete = Hypotenuse · sin α.
 Formel: Resultierende aus zwei rechtwinkligen Kräften | F_R = √(F_x² + F_y²) | F_x = √(F_R² − F_y²)
+Aufbau: Die beiden Anteile stehen rechtwinklig zueinander. Die Resultierende ist die schräge Seite, also Pythagoras.
 Formel: Seilkraft bei zwei symmetrischen Seilen | F_S = F_G / (2 · cos(β)) | F_G = 2 · F_S · cos(β)
+Aufbau: Zwei Seile tragen die Last, jedes mit seinem senkrechten Anteil F_S · cos β, gemessen zur Senkrechten. Zusammen 2 · F_S · cos β = F_G, umgestellt nach F_S.
 Karte: Was heißt zentrales Kräftesystem? | Alle Kräfte greifen in einem Punkt an.
 Karte: Wie lauten die Gleichgewichtsbedingungen im zentralen Kräftesystem? | Summe der x-Kräfte null und Summe der y-Kräfte null.
-Karte: Winkel zur x-Achse gegeben: Wie bekommst du den x-Anteil? | Kraft mal Kosinus des Winkels.
-Karte: Winkel zur x-Achse gegeben: Wie bekommst du den y-Anteil? | Kraft mal Sinus des Winkels.
-Karte: Wie bekommst du die Resultierende aus F_x und F_y? | Wurzel aus F_x zum Quadrat plus F_y zum Quadrat.
-Karte: Wie bekommst du die Richtung der Resultierenden? | Arkustangens von F_y durch F_x.
+Karte: Winkel zur x-Achse gegeben: Wie bekommst du den x-Anteil? | Kraft · Kosinus des Winkels.
+Karte: Winkel zur x-Achse gegeben: Wie bekommst du den y-Anteil? | Kraft · Sinus des Winkels.
+Karte: Wie bekommst du die Resultierende aus F_x und F_y? | Wurzel aus F_x² + F_y².
+Karte: Wie bekommst du die Richtung der Resultierenden? | Arkustangens von F_y / F_x.
 Karte: Was passiert mit der Seilkraft, wenn das Seil flacher hängt? | Sie wird größer.
 Karte: Was ist der erste Schritt bei jeder Statikaufgabe? | Den Körper freimachen.
 Karte: Darf man Kräfte in verschiedene Richtungen einfach addieren? | Nein, erst in Komponenten zerlegen.
 Karte: Was ist eine Komponente? | Der Anteil einer Kraft in einer Achsrichtung.
 Karte: Zwei Kräfte von 30 N und 40 N stehen senkrecht aufeinander. Wie groß ist die Resultierende? | 50 N.
-Auswahl: Eine Kraft wirkt unter 30 Grad zur Waagerechten. Wie bekommst du den senkrechten Anteil? | F mal sin 30 Grad | F mal cos 30 Grad; F durch sin 30 Grad; F mal tan 30 Grad
-Auswahl: Eine Last hängt an zwei schrägen Seilen. Was rechnest du? | Gleichgewicht in x und y, beide Summen null | Last durch 2, fertig; Nur die Momente; Reibung
+Auswahl: Eine Kraft wirkt unter 30° zur Waagerechten. Wie bekommst du den senkrechten Anteil? | F · sin 30° | F · cos 30°; F / sin 30°; F · tan 30°
+Auswahl: Eine Last hängt an zwei schrägen Seilen. Was rechnest du? | Gleichgewicht in x und y, beide Summen null | Last / 2, fertig; Nur die Momente; Reibung
 Reihenfolge: Unbekannte Kraft im zentralen Kräftesystem bestimmen | Freimachen; Achsen festlegen; Kräfte zerlegen; Summe in x und Summe in y aufstellen; Nach der Unbekannten auflösen; Ergebnis auf Plausibilität prüfen
 Aufgabe: Ein Kabelzug zieht mit F = {F} N unter einem Winkel von α = {al}° zur Waagerechten. Wie groß ist der waagerechte Anteil?
 Gegeben: F = {F} N
@@ -80,7 +84,7 @@ Ansatz: 2 · F_S · cos(β) = F_G | 2 · F_S = F_G; 2 · F_S · sin(β) = F_G; F
 Signal: Die Last ist in Ruhe und hängt an zwei schrägen Seilen. Die Winkel sind zur Senkrechten angegeben.
 Warum: Weil nur die senkrechten Seilanteile die Last tragen | Weil sich die Last immer auf zwei Seile halbiert; Weil die waagerechten Anteile die Last tragen
 Kontrolle: Ist die Seilkraft größer als die halbe Last? | Ja, weil die Seile schräg hängen | Nein, sie ist genau die halbe Last; Nein, sie ist kleiner
-Tipp: Senkrechter Anteil eines Seils ist F_S mal Kosinus β, weil der Winkel zur Senkrechten gemessen ist.
+Tipp: Senkrechter Anteil eines Seils ist F_S · Kosinus β, weil der Winkel zur Senkrechten gemessen ist.
 Schritt: Gleichgewicht 2 · F_S · cos(β) = F_G nach F_S umstellen | F_S = F_G / (2 · cos(β))
 Schritt: Seilkraft ausrechnen | FG / (2 * cos(be)) | N
 Variable: FG | 500 | 5000 | 100
@@ -92,44 +96,47 @@ Quelle: Technische Mechanik, Statik, zentrales Kräftesystem.
 === LERNWERK ===
 Fach: Technische Mechanik
 Thema: Momente
-Anker: Beim Festziehen einer Schraube: Je länger der Schlüssel, desto weniger Kraft brauchst du. Das Drehmoment ist Kraft mal Hebelarm. Ein Drehmomentschlüssel misst genau das.
+Anker: Beim Festziehen einer Schraube: Je länger der Schlüssel, desto weniger Kraft brauchst du. Das Drehmoment ist Kraft · Hebelarm. Ein Drehmomentschlüssel misst genau das.
 Anker: Beim Bizepscurl wirkt die Hantel umso schwerer, je weiter der Unterarm vom Körper weg ist. Der Hebelarm wächst, das Moment am Ellbogen auch.
-Begriff: Moment | Die Drehwirkung einer Kraft um einen Punkt. Kraft mal Hebelarm. Einheit Newtonmeter, Nm.
+Begriff: Moment | Die Drehwirkung einer Kraft um einen Punkt. Kraft · Hebelarm. Einheit Newtonmeter, Nm.
 Begriff: Hebelarm | Der senkrechte Abstand zwischen der Wirkungslinie der Kraft und dem Drehpunkt.
 Begriff: Drehpunkt | Der Punkt, um den sich der Körper drehen würde.
 Begriff: Momentengleichgewicht | Die Summe aller Momente um einen Punkt ist null. Der Körper dreht sich nicht.
 Begriff: Drehsinn | Linksdrehend gegen den Uhrzeigersinn, rechtsdrehend im Uhrzeigersinn. Ein Drehsinn wird positiv gezählt.
-Merksatz: Moment gleich Kraft mal Hebelarm.
+Merksatz: Moment = Kraft · Hebelarm.
 Merksatz: Der Hebelarm steht immer senkrecht auf der Kraft.
 Merksatz: Linksdrehend gleich rechtsdrehend, dann herrscht Gleichgewicht.
 Merksatz: Eine Kraft durch den Drehpunkt erzeugt kein Moment.
 Prinzip: Eine Kraft kann einen Körper verschieben und drehen. Wie stark sie dreht, hängt von zwei Dingen ab: wie groß die Kraft ist und wie weit sie vom Drehpunkt entfernt wirkt.
 
-Wichtig ist, dass der Hebelarm senkrecht zur Kraft gemessen wird. Ziehst du schräg am Schlüssel, ist der wirksame Hebelarm kürzer als der Schlüssel. Dann rechnest du Kraft mal Länge mal Sinus des Winkels zwischen Schlüssel und Kraft.
+Wichtig ist, dass der Hebelarm senkrecht zur Kraft gemessen wird. Ziehst du schräg am Schlüssel, ist der wirksame Hebelarm kürzer als der Schlüssel. Dann rechnest du Kraft · Länge · Sinus des Winkels zwischen Schlüssel und Kraft.
 
-Ein Körper ist im Gleichgewicht, wenn sich alle Momente um einen beliebigen Punkt aufheben. Beim Hebel heißt das: Kraft mal Arm links gleich Kraft mal Arm rechts.
+Ein Körper ist im Gleichgewicht, wenn sich alle Momente um einen beliebigen Punkt aufheben. Beim Hebel heißt das: Kraft · Arm links gleich Kraft · Arm rechts.
 Baustein: Drehpunkt festlegen.
 Baustein: Für jede Kraft den senkrechten Abstand zum Drehpunkt bestimmen.
 Baustein: Drehsinn festlegen, zum Beispiel linksdrehend positiv.
 Baustein: Alle Momente mit Vorzeichen aufschreiben und die Summe gleich null setzen.
-Baustein: Nach der Unbekannten umstellen und die Einheiten prüfen: Newton mal Meter gibt Newtonmeter.
-Schnellweg: Schräge Kraft am Hebel: Moment gleich F mal l mal Sinus des Winkels zwischen Hebel und Kraft.
+Baustein: Nach der Unbekannten umstellen und die Einheiten prüfen: Newton · Meter gibt Newtonmeter.
+Schnellweg: Schräge Kraft am Hebel: Moment = F · l · Sinus des Winkels zwischen Hebel und Kraft.
 Schnellweg: Millimeter durch 1000 ergibt Meter. 250 mm Hebel sind 0,25 m.
 Fehler: Länge in Millimeter eingesetzt | Für Newtonmeter muss der Hebelarm in Meter stehen.
 Fehler: Schräge Länge statt senkrechtem Abstand | Der Hebelarm ist der kürzeste Abstand zur Wirkungslinie, nicht die Länge des Bauteils.
 Fehler: Drehsinn vergessen | Momente in entgegengesetzte Richtungen haben verschiedene Vorzeichen.
 Formel: Drehmoment | M = F · l | F = M / l; l = M / F
+Aufbau: Ein Moment ist Drehwirkung. Mehr Kraft oder ein längerer Hebel drehen stärker, deshalb ·. l ist der senkrechte Abstand zur Wirkungslinie.
 Formel: Hebelgesetz | F1 · l1 = F2 · l2 | F2 = F1 · l1 / l2; l2 = F1 · l1 / F2
+Aufbau: Im Gleichgewicht ist das linksdrehende Moment so groß wie das rechtsdrehende. Jede Seite ist Kraft · Hebel.
 Formel: Moment einer schrägen Kraft | M = F · l · sin(α) | F = M / (l · sin(α))
-Karte: Wie berechnest du ein Moment? | Kraft mal Hebelarm.
+Aufbau: Nur der Anteil der Kraft, der senkrecht zum Hebel steht, dreht. Das ist F · sin α, mal den Hebel l.
+Karte: Wie berechnest du ein Moment? | Kraft · Hebelarm.
 Karte: In welcher Einheit wird das Moment angegeben? | In Newtonmeter, Nm.
 Karte: Was ist der Hebelarm? | Der senkrechte Abstand der Wirkungslinie zum Drehpunkt.
 Karte: Welches Moment erzeugt eine Kraft, die durch den Drehpunkt geht? | Keins.
 Karte: Wann ist ein Hebel im Gleichgewicht? | Wenn die linksdrehenden Momente gleich den rechtsdrehenden sind.
 Karte: 100 N an 0,3 m Hebel. Welches Moment? | 30 Nm.
 Karte: Wie viel Meter sind 400 mm? | 0,4 m.
-Karte: Du ziehst unter 30 Grad schräg am Schlüssel. Wie groß ist der wirksame Hebel? | Länge mal Sinus 30 Grad, also die halbe Länge.
-Karte: Wie lautet das Hebelgesetz? | F1 mal l1 gleich F2 mal l2.
+Karte: Du ziehst unter 30° schräg am Schlüssel. Wie groß ist der wirksame Hebel? | Länge · Sinus 30°, also die halbe Länge.
+Karte: Wie lautet das Hebelgesetz? | F1 · l1 = F2 · l2.
 Karte: Warum ist ein langer Schlüssel leichter zu drehen? | Weil der Hebelarm länger ist und deshalb weniger Kraft für dasselbe Moment reicht.
 Auswahl: Ein Drehmoment und die Schlüssellänge sind gegeben. Was ist gesucht und wie? | Die Handkraft: F = M / l | F = M · l; F = l / M; F = M − l
 Reihenfolge: Ein Momentengleichgewicht aufstellen | Drehpunkt festlegen; Hebelarme senkrecht zur Kraft bestimmen; Drehsinn festlegen; Summe der Momente gleich null setzen; Nach der Unbekannten umstellen
@@ -168,7 +175,7 @@ Gesucht: Moment M in Nm
 Ansatz: M = F · l · sin(α) | M = F · l; M = F · l · cos(α); M = F / l
 Signal: Die Kraft greift schräg am Hebel an. Nur der Anteil senkrecht zum Hebel dreht.
 Warum: Weil nur der Anteil senkrecht zum Hebel dreht | Weil schräge Kräfte gar nicht drehen; Weil man bei Winkeln immer den Kosinus nimmt
-Kontrolle: Ist das Moment kleiner als F mal l? | Ja, außer bei genau 90 Grad | Nein, es ist größer; Es ist immer genau F mal l
+Kontrolle: Ist das Moment kleiner als F · l? | Ja, außer bei genau 90° | Nein, es ist größer; Es ist immer genau F · l
 Schritt: Moment ausrechnen | F * l * sin(al) | Nm
 Variable: l | 0,2 | 1 | 0,1
 Variable: F | 100 | 600 | 50
@@ -198,21 +205,24 @@ Baustein: Balken freimachen: Lager durch Lagerkräfte ersetzen, Lasten einzeichn
 Baustein: Abstände aller Kräfte von Lager A und von Lager B notieren.
 Baustein: Momentensumme um Lager A aufstellen und nach F_B auflösen.
 Baustein: Kräftesumme in y aufstellen und F_A ausrechnen.
-Baustein: Probe: Momentensumme um Lager B oder F_A plus F_B gleich Summe der Lasten.
-Schnellweg: Einzellast auf einem Träger mit zwei Lagern: F_A gleich F mal Abstand zu B durch Stützweite. F_B gleich F mal Abstand zu A durch Stützweite.
+Baustein: Probe: Momentensumme um Lager B oder F_A + F_B = Summe der Lasten.
+Schnellweg: Einzellast auf einem Träger mit zwei Lagern: F_A = F · Abstand zu B / Stützweite. F_B = F · Abstand zu A / Stützweite.
 Schnellweg: Last in der Mitte: Jedes Lager trägt die Hälfte.
 Fehler: Abstand zum falschen Lager eingesetzt | Für F_A brauchst du den Abstand der Last zum Lager B, nicht zu A.
 Fehler: Probe weggelassen | Die Summe der Lagerkräfte muss die Summe der Lasten ergeben. Das kostet zehn Sekunden.
 Fehler: Momentensumme um einen Punkt ohne Lager | Wähle als Drehpunkt ein Lager, sonst hast du zwei Unbekannte in einer Gleichung.
 Formel: Lagerkraft A bei Einzellast | F_A = F · b / l | F = F_A · l / b; b = F_A · l / F
+Aufbau: Momente um B: F_A · l = F · b. Die Last ist b von B entfernt. Umgestellt nach F_A.
 Formel: Lagerkraft B bei Einzellast | F_B = F · a / l | F = F_B · l / a; a = F_B · l / F
+Aufbau: Momente um A: F_B · l = F · a. Die Last ist a von A entfernt. Umgestellt nach F_B.
 Formel: Kräftegleichgewicht senkrecht | F_A + F_B = F | F_A = F − F_B
+Aufbau: Der Träger bewegt sich nicht nach oben oder unten. Die Lager drücken zusammen genau so stark hoch, wie die Last nach unten zieht.
 Karte: Welche Kräfte nimmt ein Festlager auf? | Waagerecht und senkrecht.
 Karte: Welche Kraft nimmt ein Loslager auf? | Nur eine Kraft senkrecht zur Auflage.
 Karte: Warum stellst du die Momentensumme um ein Lager auf? | Weil die Lagerkraft dort kein Moment erzeugt und wegfällt.
 Karte: Eine Last steht in der Mitte zwischen zwei Lagern. Wie verteilt sie sich? | Jedes Lager trägt die Hälfte.
 Karte: Welches Lager trägt mehr? | Das Lager, das näher an der Last liegt.
-Karte: Wie lautet die Probe bei Lagerkräften? | F_A plus F_B gleich Summe der senkrechten Lasten.
+Karte: Wie lautet die Probe bei Lagerkräften? | F_A + F_B = Summe der senkrechten Lasten.
 Karte: Wie viele Gleichgewichtsbedingungen gibt es in der Ebene? | Drei: Summe x, Summe y, Summe der Momente.
 Karte: Was heißt statisch bestimmt? | Es gibt so viele Unbekannte wie Gleichgewichtsbedingungen.
 Karte: Für F_B nimmst du welchen Abstand der Last? | Den Abstand zu Lager A.
@@ -242,8 +252,8 @@ Gesucht: Lagerkraft F_A in kN
 Ansatz: Momentensumme um Lager B | Momentensumme um Lager A; Beide Lasten halbieren; Nur die größere Last nehmen
 Signal: Gesucht ist F_A. Um A zu bekommen, dreht man um das andere Lager.
 Warum: Weil F_B dann kein Moment hat und wegfällt | Weil man für jede Lagerkraft um Lager A dreht; Weil sich die Lasten auf beide Lager halbieren
-Kontrolle: Probe: Ergeben F_A und F_B zusammen F1 plus F2? | Ja, das muss immer stimmen | Nein, nur F_A zählt; Nein, die Summe ist doppelt so groß
-Tipp: Abstand von F1 zu B ist l minus a1, von F2 zu B ist l minus a2.
+Kontrolle: Probe: Ergeben F_A und F_B zusammen F1 + F2? | Ja, das muss immer stimmen | Nein, nur F_A zählt; Nein, die Summe ist doppelt so groß
+Tipp: Abstand von F1 zu B ist l − a1, von F2 zu B ist l − a2.
 Schritt: Moment von F1 um B | F1 * (l - a1) | kNm
 Schritt: Moment von F2 um B | F2 * (l - a2) | kNm
 Schritt: F_A ausrechnen | (F1 * (l - a1) + F2 * (l - a2)) / l | kN
@@ -269,14 +279,14 @@ Begriff: Abscherung τ | Zwei Bauteile wollen aneinander vorbeigleiten und schne
 Begriff: Schnittigkeit | Die Anzahl der Scherflächen. Ein Bolzen in einer Gabel ist zweischnittig.
 Begriff: Zulässige Spannung | Die Spannung, die ein Bauteil höchstens haben darf. Sie enthält schon eine Sicherheit.
 Begriff: Sicherheit | Grenzspannung des Werkstoffs geteilt durch die vorhandene Spannung, zum Beispiel Streckgrenze durch Zugspannung.
-Merksatz: Spannung gleich Kraft durch tragende Fläche. Die Frage ist immer: Welche Fläche trägt?
+Merksatz: Spannung = Kraft durch tragende Fläche. Die Frage ist immer: Welche Fläche trägt?
 Merksatz: Zug und Druck: Querschnitt senkrecht zur Kraft.
-Merksatz: Abscherung: Bolzenquerschnitt mal Anzahl der Scherflächen.
+Merksatz: Abscherung: Bolzenquerschnitt · Anzahl der Scherflächen.
 Merksatz: Flächenpressung am Bolzen: Durchmesser mal tragende Länge.
 Merksatz: Sicherheit ist Grenzwert durch vorhandenen Wert und muss größer als 1 sein.
-Prinzip: In der Festigkeitslehre geht es fast immer um dieselbe Formel: Spannung gleich Kraft durch Fläche. Was sich ändert, ist die Fläche. Deshalb ist der wichtigste Schritt, die Belastungsart zu erkennen.
+Prinzip: In der Festigkeitslehre geht es fast immer um dieselbe Formel: Spannung = Kraft / Fläche. Was sich ändert, ist die Fläche. Deshalb ist der wichtigste Schritt, die Belastungsart zu erkennen.
 
-Zieht oder drückt die Kraft in Längsrichtung des Bauteils, trägt der Querschnitt. Bei einem Rundstab ist das π mal d zum Quadrat durch 4.
+Zieht oder drückt die Kraft in Längsrichtung des Bauteils, trägt der Querschnitt. Bei einem Rundstab ist das π · d² / 4.
 
 Schiebt die Kraft zwei Bauteile quer aneinander vorbei, wird der Bolzen abgeschert. Die tragende Fläche ist sein Querschnitt. Hat der Bolzen zwei Scherflächen, wie in einer Gabel, zählt der Querschnitt doppelt.
 
@@ -284,21 +294,26 @@ Drückt ein Bolzen gegen die Bohrungswand, entsteht Flächenpressung. Man rechne
 
 Zum Schluss vergleichst du die Spannung mit dem zulässigen Wert. Ist sie kleiner, hält das Bauteil.
 Baustein: Belastungsart erkennen: Zug, Druck, Abscherung oder Flächenpressung.
-Baustein: Tragende Fläche bestimmen: Querschnitt, Querschnitt mal Scherflächen oder Durchmesser mal Länge.
+Baustein: Tragende Fläche bestimmen: Querschnitt, Querschnitt · Scherflächen oder Durchmesser · Länge.
 Baustein: Kraft in Newton und Fläche in Quadratmillimeter umrechnen.
 Baustein: Spannung ausrechnen in N/mm².
 Baustein: Mit dem zulässigen Wert vergleichen oder die Sicherheit ausrechnen.
-Schnellweg: N/mm² ist dasselbe wie MPa. Kilonewton mal 1000 ergibt Newton.
-Schnellweg: Bemessen: Nötige Fläche gleich Kraft durch zulässige Spannung. Dann den Durchmesser aus der Kreisfläche.
-Fehler: Falsche Fläche gewählt | Erst die Belastungsart bestimmen, dann die Fläche. Bei Abscherung zählt der Querschnitt, bei Flächenpressung Durchmesser mal Länge.
+Schnellweg: N/mm² ist dasselbe wie MPa. Kilonewton · 1000 ergibt Newton.
+Schnellweg: Bemessen: Nötige Fläche = Kraft durch zulässige Spannung. Dann den Durchmesser aus der Kreisfläche.
+Fehler: Falsche Fläche gewählt | Erst die Belastungsart bestimmen, dann die Fläche. Bei Abscherung zählt der Querschnitt, bei Flächenpressung Durchmesser · Länge.
 Fehler: Zweischnittig übersehen | Ein Bolzen in einer Gabel hat zwei Scherflächen. Dann halbiert sich die Scherspannung.
 Fehler: Kilonewton nicht umgerechnet | Für N/mm² muss die Kraft in Newton stehen.
-Fehler: Radius und Durchmesser verwechselt | Die Kreisfläche ist π mal d zum Quadrat durch 4 oder π mal r zum Quadrat.
+Fehler: Radius und Durchmesser verwechselt | Die Kreisfläche ist π · d² / 4 oder π · r².
 Formel: Zug- und Druckspannung | σ = F / A | F = σ · A; A = F / σ
+Aufbau: Spannung ist Kraft pro Fläche. Die gleiche Kraft auf eine größere Fläche verteilt belastet weniger, deshalb teilen.
 Formel: Kreisfläche | A = π · d² / 4 | d = √(4 · A / π)
+Aufbau: Die Kreisfläche ist π · r². Mit r = d / 2 wird daraus π · d² / 4.
 Formel: Scherspannung | τ = F / (n · A) | F = τ · n · A; A = F / (τ · n)
+Aufbau: Die Kraft verteilt sich auf n Scherflächen. Jede Fläche trägt ihren Teil, deshalb n · A unter dem Bruchstrich.
 Formel: Flächenpressung am Bolzen | p = F / (d · l) | F = p · d · l; l = F / (p · d)
+Aufbau: Der Bolzen drückt auf die Lochwand. Man rechnet mit der projizierten Fläche Durchmesser · tragende Länge.
 Formel: Sicherheit gegen Fließen | ν = R_e / σ | σ = R_e / ν; R_e = ν · σ
+Aufbau: Die Sicherheit sagt, wie oft die vorhandene Spannung in die Streckgrenze passt. Deshalb Grenze / vorhanden.
 Karte: Wie lautet die Grundformel der Spannung? | Kraft durch tragende Fläche.
 Karte: Welche Fläche trägt bei Zug? | Der Querschnitt senkrecht zur Kraft.
 Karte: Welche Fläche trägt bei Abscherung? | Der Bolzenquerschnitt mal der Anzahl der Scherflächen.
@@ -310,10 +325,10 @@ Karte: Was bedeutet eine Sicherheit kleiner als 1? | Das Bauteil versagt.
 Karte: Wie groß ist die Fläche eines Rundstabs mit d = 10 mm? | Etwa 78,5 mm².
 Karte: Woran erkennst du Abscherung? | Zwei Bauteile werden quer zum Bolzen gegeneinander verschoben.
 Karte: Woran erkennst du Flächenpressung? | Ein Bauteil drückt gegen die Fläche eines anderen, zum Beispiel ein Bolzen gegen die Bohrungswand.
-Karte: Wie bekommst du den Mindestdurchmesser aus der zulässigen Spannung? | Fläche gleich Kraft durch zulässige Spannung, dann d gleich Wurzel aus 4 A durch π.
+Karte: Wie bekommst du den Mindestdurchmesser aus der zulässigen Spannung? | Fläche = Kraft durch zulässige Spannung, dann d gleich √4 A durch π.
 Auswahl: Ein Bolzen verbindet eine Lasche mit einer Gabel. Die Kraft zieht die Lasche aus der Gabel. Welche Rechnung prüft, ob der Bolzen quer durchgeschnitten wird? | Abscherung, zweischnittig | Zug mit dem Bolzenquerschnitt; Flächenpressung; Biegung
 Auswahl: Ein Rundstab hängt an einem Haken und trägt eine Last. Welche Belastung liegt im Stab vor? | Zug | Abscherung; Flächenpressung; Torsion
-Auswahl: Welche Fläche nimmst du für die Flächenpressung zwischen Bolzen und Lasche? | Bolzendurchmesser mal Laschendicke | Bolzenquerschnitt; Halber Umfang mal Dicke; Laschenbreite mal Dicke
+Auswahl: Welche Fläche nimmst du für die Flächenpressung zwischen Bolzen und Lasche? | Bolzendurchmesser · Laschendicke | Bolzenquerschnitt; Halber Umfang · Dicke; Laschenbreite · Dicke
 Reihenfolge: Ein Bauteil auf Festigkeit prüfen | Belastungsart erkennen; Tragende Fläche bestimmen; Einheiten umrechnen; Spannung ausrechnen; Mit dem zulässigen Wert vergleichen
 Aufgabe: Ein Rundstab mit d = {d} mm trägt eine Zugkraft von F = {F} kN. Wie groß ist die Zugspannung?
 Gegeben: d = {d} mm
@@ -387,50 +402,54 @@ Begriff: Reibungszahl µ | Eine Zahl ohne Einheit, die angibt, wie rau die Paaru
 Begriff: Haftreibung | Reibung, solange sich nichts bewegt. Sie ist größer als die Gleitreibung.
 Begriff: Gleitreibung | Reibung, während der Körper rutscht.
 Begriff: Schiefe Ebene | Eine geneigte Fläche. Die Gewichtskraft teilt sich in einen Anteil senkrecht zur Fläche und einen Hangabtrieb.
-Merksatz: Reibkraft gleich Reibungszahl mal Normalkraft.
+Merksatz: Reibkraft = Reibungszahl · Normalkraft.
 Merksatz: Die Normalkraft steht senkrecht auf der Fläche, nicht immer senkrecht nach unten.
 Merksatz: Auf der schiefen Ebene: Normalkraft mit Kosinus, Hangabtrieb mit Sinus.
 Merksatz: Haften ist stärker als Gleiten.
 Prinzip: Reibung hängt von zwei Dingen ab: wie stark die Flächen aufeinander gedrückt werden und wie rau die Paarung ist. Die Fläche selbst spielt bei der einfachen Rechnung keine Rolle.
 
-Auf einer waagerechten Fläche ist die Normalkraft einfach die Gewichtskraft. Auf einer schiefen Ebene drückt der Körper nur mit dem Anteil senkrecht zur Fläche, also Gewichtskraft mal Kosinus des Neigungswinkels. Der andere Anteil, Gewichtskraft mal Sinus, zieht den Körper hangabwärts.
+Auf einer waagerechten Fläche ist die Normalkraft einfach die Gewichtskraft. Auf einer schiefen Ebene drückt der Körper nur mit dem Anteil senkrecht zur Fläche, also Gewichtskraft · Kosinus des Neigungswinkels. Der andere Anteil, Gewichtskraft · Sinus, zieht den Körper hangabwärts.
 
 Ein Körper auf der schiefen Ebene rutscht, wenn der Hangabtrieb größer ist als die größte Haftreibung. Willst du ihn hochschieben, musst du Hangabtrieb und Reibung zusammen überwinden.
 Baustein: Körper freimachen: Gewichtskraft, Normalkraft, Reibkraft und Zugkraft einzeichnen.
-Baustein: Normalkraft bestimmen: waagerecht gleich Gewichtskraft, auf der Schräge Gewichtskraft mal Kosinus.
-Baustein: Reibkraft ausrechnen: µ mal Normalkraft. Haften oder Gleiten richtig wählen.
+Baustein: Normalkraft bestimmen: waagerecht gleich Gewichtskraft, auf der Schräge Gewichtskraft · Kosinus.
+Baustein: Reibkraft ausrechnen: µ · Normalkraft. Haften oder Gleiten richtig wählen.
 Baustein: Kräftegleichgewicht in Bewegungsrichtung aufstellen.
 Baustein: Ergebnis prüfen: Die Reibkraft wirkt immer gegen die Bewegung.
 Schnellweg: Selbsthemmung: Ein Körper bleibt auf der Schräge liegen, solange der Tangens des Winkels kleiner als die Haftreibungszahl ist.
-Schnellweg: Hochschieben auf der Schräge: F gleich F_G mal Sinus plus µ mal F_G mal Kosinus.
-Fehler: Auf der Schräge mit der vollen Gewichtskraft als Normalkraft gerechnet | Auf der Schräge ist die Normalkraft F_G mal Kosinus des Neigungswinkels.
+Schnellweg: Hochschieben auf der Schräge: F = F_G · Sinus + µ · F_G · Kosinus.
+Fehler: Auf der Schräge mit der vollen Gewichtskraft als Normalkraft gerechnet | Auf der Schräge ist die Normalkraft F_G · Kosinus des Neigungswinkels.
 Fehler: Haft- und Gleitreibungszahl verwechselt | Losbrechen: Haftreibung. Weiterschieben: Gleitreibung.
 Fehler: Reibkraft in Bewegungsrichtung eingezeichnet | Reibung wirkt immer entgegen der Bewegung.
 Formel: Reibkraft | F_R = µ · F_N | µ = F_R / F_N; F_N = F_R / µ
+Aufbau: Je fester die Flächen aufeinander gedrückt werden, desto größer die Reibung. µ sagt, wie rau die Paarung ist, deshalb ·.
 Formel: Normalkraft auf der schiefen Ebene | F_N = F_G · cos(α) | F_G = F_N / cos(α)
+Aufbau: Auf der Rampe drückt nur der Anteil der Gewichtskraft senkrecht auf die Fläche. Er liegt am Rampenwinkel an, also cos α.
 Formel: Hangabtrieb | F_H = F_G · sin(α) | F_G = F_H / sin(α)
+Aufbau: Der Anteil der Gewichtskraft entlang der Rampe zieht das Teil nach unten. Er liegt dem Winkel gegenüber, also sin α.
 Formel: Kraft zum Hochschieben | F = F_G · (sin(α) + µ · cos(α)) | F_G = F / (sin(α) + µ · cos(α))
-Karte: Wie lautet die Formel für die Reibkraft? | F_R gleich µ mal F_N.
+Aufbau: Beim Hochschieben musst du den Hangabtrieb F_G · sin α und die Reibung µ · F_G · cos α zusammen überwinden. F_G ausgeklammert ergibt die Klammer.
+Karte: Wie lautet die Formel für die Reibkraft? | F_R = µ · F_N.
 Karte: Welche Einheit hat die Reibungszahl? | Keine.
 Karte: Was ist größer, Haftreibung oder Gleitreibung? | Die Haftreibung.
 Karte: Wie groß ist die Normalkraft auf einer waagerechten Fläche ohne Zusatzkräfte? | So groß wie die Gewichtskraft.
-Karte: Wie groß ist die Normalkraft auf einer Schräge? | Gewichtskraft mal Kosinus des Neigungswinkels.
-Karte: Wie groß ist der Hangabtrieb? | Gewichtskraft mal Sinus des Neigungswinkels.
+Karte: Wie groß ist die Normalkraft auf einer Schräge? | Gewichtskraft · Kosinus des Neigungswinkels.
+Karte: Wie groß ist der Hangabtrieb? | Gewichtskraft · Sinus des Neigungswinkels.
 Karte: In welche Richtung wirkt die Reibkraft? | Gegen die Bewegung oder die gewollte Bewegung.
 Karte: Wann rutscht ein Körper auf einer Schräge von selbst? | Wenn der Hangabtrieb größer ist als die größte Haftreibung.
 Karte: Hängt die Reibkraft in der einfachen Rechnung von der Auflagefläche ab? | Nein, nur von µ und der Normalkraft.
 Karte: Was ist Selbsthemmung? | Der Körper bleibt von allein liegen, weil die Haftreibung den Hangabtrieb hält.
 Karte: Welche Kraft brauchst du, um eine Kiste mit 1000 N bei µ = 0,3 waagerecht weiterzuschieben? | 300 N.
-Auswahl: Ein Körper liegt auf einer Schräge. Welche Kraft drückt ihn auf die Fläche? | F_G mal cos α | F_G; F_G mal sin α; F_G mal tan α
+Auswahl: Ein Körper liegt auf einer Schräge. Welche Kraft drückt ihn auf die Fläche? | F_G · cos α | F_G; F_G · sin α; F_G · tan α
 Auswahl: Eine Kiste soll losgerissen werden. Welche Reibungszahl gilt? | Haftreibungszahl | Gleitreibungszahl; Rollreibungszahl; Keine
-Reihenfolge: Kraft zum Hochschieben auf einer Schräge | Freimachen; Gewichtskraft zerlegen; Normalkraft bestimmen; Reibkraft ausrechnen; Hangabtrieb plus Reibkraft ergibt die nötige Kraft
+Reihenfolge: Kraft zum Hochschieben auf einer Schräge | Freimachen; Gewichtskraft zerlegen; Normalkraft bestimmen; Reibkraft ausrechnen; Hangabtrieb + Reibkraft ergibt die nötige Kraft
 Aufgabe: Ein Schraubstock mit F_G = {FG} N wird auf dem Werktisch weitergeschoben. Die Gleitreibungszahl ist µ = {mu}. Welche Kraft brauchst du?
 Gegeben: F_G = {FG} N
 Gegeben: µ = {mu}
 Gesucht: Schiebekraft F in N
 Ansatz: F = µ · F_G | F = F_G / µ; F = F_G; F = F_G · sin(α)
 Signal: Waagerechte Fläche, gleichförmiges Weiterschieben, eine Reibungszahl ist gegeben.
-Warum: Weil auf ebener Fläche F_N gleich F_G ist | Weil Reibung immer die halbe Gewichtskraft ist; Weil man dafür die schiefe Ebene braucht
+Warum: Weil auf ebener Fläche F_N = F_G ist | Weil Reibung immer die halbe Gewichtskraft ist; Weil man dafür die schiefe Ebene braucht
 Kontrolle: Ist die Schiebekraft kleiner als die Gewichtskraft? | Ja, weil µ kleiner als 1 ist | Nein, sie ist größer; Sie ist gleich groß
 Schritt: Normalkraft | FG | N
 Schritt: Schiebekraft ausrechnen | mu * FG | N

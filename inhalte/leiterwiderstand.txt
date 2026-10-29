@@ -4,56 +4,61 @@ Thema: Leiterwiderstand
 Anker: Ein Gartenschlauch: Je länger und je dünner er ist, desto weniger Wasser kommt hinten an. Ein Kabel ist genauso. Lang und dünn heißt großer Widerstand, kurz und dick heißt kleiner Widerstand.
 Anker: An der Fräse hängt die Absaugung an einer langen Verlängerung. Ist die Leitung zu dünn, wird sie warm, und am Motor kommt weniger Spannung an. Das ist der Spannungsfall auf der Leitung.
 Begriff: Leiterwiderstand | Der Widerstand eines Drahts. Er hängt von Länge, Querschnitt und Werkstoff ab.
-Begriff: Spezifischer Widerstand ρ | Der Widerstand eines Drahts mit 1 m Länge und 1 mm² Querschnitt. Einheit Ω mal mm² durch m.
-Begriff: Leitfähigkeit κ | Der Kehrwert des spezifischen Widerstands. Einheit m durch Ω mal mm².
-Begriff: Querschnitt A | Die Fläche des Leiters in mm². Bei rundem Draht π d² durch 4.
-Begriff: Spannungsfall ΔU | Die Spannung, die auf der Leitung verloren geht. Sie ist Strom mal Leitungswiderstand.
+Begriff: Spezifischer Widerstand ρ | Der Widerstand eines Drahts mit 1 m Länge und 1 mm² Querschnitt. Einheit Ω · mm² / m.
+Begriff: Leitfähigkeit κ | Der Kehrwert des spezifischen Widerstands. Einheit m / (Ω · mm²).
+Begriff: Querschnitt A | Die Fläche des Leiters in mm². Bei rundem Draht π d² / 4.
+Begriff: Spannungsfall ΔU | Die Spannung, die auf der Leitung verloren geht. Sie ist Strom · Leitungswiderstand.
 Begriff: Temperaturbeiwert α | Um wie viel der Widerstand pro Kelvin Erwärmung steigt. Bei Kupfer etwa 0,0039 pro Kelvin.
 Begriff: Hin- und Rückleiter | Der Strom fließt zum Verbraucher hin und wieder zurück. Die Leitungslänge zählt deshalb doppelt.
-Merksatz: R gleich ρ mal l durch A.
+Merksatz: R = ρ · l / A.
 Merksatz: Doppelte Länge, doppelter Widerstand. Doppelter Querschnitt, halber Widerstand.
 Merksatz: Bei einer Zuleitung zählt die Länge doppelt, hin und zurück.
-Merksatz: Kupfer hat ρ gleich 0,0178 und κ gleich 56.
+Merksatz: Kupfer hat ρ = 0,0178 und κ = 56.
 Merksatz: Warmes Kupfer hat mehr Widerstand.
 Prinzip: Ein Draht ist kein perfekter Leiter. Die Elektronen stoßen auf ihrem Weg an die Atome des Metalls. Je länger der Weg, desto mehr Stöße, also wächst der Widerstand mit der Länge. Je dicker der Draht, desto mehr Platz haben die Elektronen nebeneinander, also sinkt der Widerstand mit dem Querschnitt.
 
-Wie gut ein Werkstoff leitet, sagt der spezifische Widerstand ρ. Kupfer hat etwa 0,0178 Ω mal mm² durch m, Aluminium etwa 0,0278. Damit gilt: R gleich ρ mal l durch A. Manche Bücher rechnen lieber mit der Leitfähigkeit κ, dem Kehrwert. Dann heißt es R gleich l durch κ mal A, mit κ gleich 56 bei Kupfer.
+Wie gut ein Werkstoff leitet, sagt der spezifische Widerstand ρ. Kupfer hat etwa 0,0178 Ω · mm² / m, Aluminium etwa 0,0278. Damit gilt: R = ρ · l / A. Manche Bücher rechnen lieber mit der Leitfähigkeit κ, dem Kehrwert. Dann heißt es R = l / (κ · A), mit κ = 56 bei Kupfer.
 
 In der Praxis brauchst du das für Zuleitungen. Der Strom fließt hin und zurück, also zählt die Leitungslänge doppelt. Auf dem Leitungswiderstand geht Spannung verloren, das ist der Spannungsfall. Er darf nicht zu groß werden, sonst bekommt der Verbraucher zu wenig Spannung und die Leitung wird warm.
 
-Dazu kommt die Temperatur. Bei Metallen steigt der Widerstand, wenn sie warm werden. Bei Kupfer sind es etwa 0,39 Prozent pro Kelvin.
+Dazu kommt die Temperatur. Bei Metallen steigt der Widerstand, wenn sie warm werden. Bei Kupfer sind es etwa 0,39 % pro Kelvin.
 Baustein: Werkstoff bestimmen und ρ oder κ aus der Tabelle holen.
-Baustein: Länge in m, Querschnitt in mm². Bei rundem Draht A aus π d² durch 4.
+Baustein: Länge in m, Querschnitt in mm². Bei rundem Draht A aus π d² / 4.
 Baustein: Bei einer Zuleitung die Länge verdoppeln.
-Baustein: R gleich ρ mal l durch A ausrechnen.
-Baustein: Spannungsfall gleich Strom mal Leitungswiderstand, dann mit dem erlaubten Wert vergleichen.
-Schnellweg: Mit ρ in Ω mal mm² durch m, l in m und A in mm² kommt R direkt in Ω heraus. Nichts umrechnen.
+Baustein: R = ρ · l / A ausrechnen.
+Baustein: Spannungsfall = Strom · Leitungswiderstand, dann mit dem erlaubten Wert vergleichen.
+Schnellweg: Mit ρ in Ω · mm² / m, l in m und A in mm² kommt R direkt in Ω heraus. Nichts umrechnen.
 Schnellweg: Achtung bei den Tabellenwerten: Für Kupfer stehen in Büchern 0,0175 bis 0,0179, für κ 56 oder 57. Nimm den Wert aus deinem Tabellenbuch.
-Schnellweg: Achtung beim erlaubten Spannungsfall: DIN 18015 empfiehlt für Wohngebäude höchstens 3 Prozent, DIN VDE 0100-520 empfiehlt bis zum Verbraucher 4 Prozent. Es gilt, was in der Aufgabe oder im Unterricht steht.
+Schnellweg: Achtung beim erlaubten Spannungsfall: DIN 18015 empfiehlt für Wohngebäude höchstens 3 %, DIN VDE 0100-520 empfiehlt bis zum Verbraucher 4 %. Es gilt, was in der Aufgabe oder im Unterricht steht.
 Fehler: Bei der Zuleitung nur die einfache Länge genommen | Der Strom fließt hin und zurück. Die Länge zählt doppelt.
-Fehler: Durchmesser statt Querschnitt eingesetzt | In die Formel gehört die Fläche A. Aus dem Durchmesser erst π d² durch 4 rechnen.
-Fehler: Mit ρ malgenommen, wo κ gegeben war | κ ist der Kehrwert. Mit κ wird geteilt: R gleich l durch κ mal A.
-Fehler: Querschnitt in m² umgerechnet | Mit ρ in Ω mal mm² durch m bleibt A in mm².
+Fehler: Durchmesser statt Querschnitt eingesetzt | In die Formel gehört die Fläche A. Aus dem Durchmesser erst π d² / 4 rechnen.
+Fehler: Mit ρ malgenommen, wo κ gegeben war | κ ist der Kehrwert. Mit κ wird geteilt: R = l / (κ · A).
+Fehler: Querschnitt in m² umgerechnet | Mit ρ in Ω · mm² / m bleibt A in mm².
 Formel: Leiterwiderstand mit ρ | R = ρ · l / A | l = R · A / ρ; A = ρ · l / R; ρ = R · A / l
+Aufbau: ρ ist der Widerstand von 1 m Draht mit 1 mm². Mehr Länge heißt mehr Widerstand, deshalb · l. Mehr Querschnitt heißt mehr Platz für den Strom, deshalb / A.
 Formel: Leiterwiderstand mit κ | R = l / (κ · A) | l = R · κ · A; A = l / (κ · R); κ = l / (R · A)
+Aufbau: κ ist der Kehrwert von ρ: Gute Leitfähigkeit macht den Widerstand kleiner. Deshalb steht κ zusammen mit A unter dem Bruchstrich.
 Formel: Querschnitt aus dem Durchmesser | A = π · d² / 4 | d = √(4 · A / π)
+Aufbau: Die Kreisfläche ist π · r². Mit r = d / 2 wird daraus π · d² / 4.
 Formel: Spannungsfall | ΔU = I · R | I = ΔU / R; R = ΔU / I
+Aufbau: Das ist das ohmsche Gesetz für die Leitung. Der Strom fließt durch den Leitungswiderstand, und die Spannung I · R geht dabei verloren.
 Formel: Widerstand bei Erwärmung | R_w = R_k · (1 + α · Δϑ) | R_k = R_w / (1 + α · Δϑ); Δϑ = (R_w / R_k − 1) / α
-Karte: Wie lautet die Formel für den Leiterwiderstand? | R gleich ρ mal l durch A.
-Karte: Wie groß ist ρ von Kupfer ungefähr? | 0,0178 Ω mal mm² durch m.
-Karte: Wie groß ist κ von Kupfer ungefähr? | 56 m durch Ω mal mm².
-Karte: Wie groß ist ρ von Aluminium ungefähr? | 0,0278 Ω mal mm² durch m.
+Aufbau: α · Δϑ ist der Zuwachs als Anteil, bei Kupfer 0,0039 pro Kelvin. Die 1 steht für den alten Widerstand, also 100 %. (1 + Zuwachs) · R_k ergibt den neuen Widerstand.
+Karte: Wie lautet die Formel für den Leiterwiderstand? | R = ρ · l / A.
+Karte: Wie groß ist ρ von Kupfer ungefähr? | 0,0178 Ω · mm² / m.
+Karte: Wie groß ist κ von Kupfer ungefähr? | 56 m / (Ω · mm²).
+Karte: Wie groß ist ρ von Aluminium ungefähr? | 0,0278 Ω · mm² / m.
 Karte: Was passiert mit R bei doppelter Länge? | Er verdoppelt sich.
 Karte: Was passiert mit R bei doppeltem Querschnitt? | Er halbiert sich.
 Karte: Warum zählt bei einer Zuleitung die Länge doppelt? | Weil der Strom hin und zurück fließt.
-Karte: Wie rechnest du den Querschnitt aus dem Durchmesser? | π mal d hoch 2 durch 4.
-Karte: Was ist der Spannungsfall? | Die Spannung, die auf der Leitung verloren geht, Strom mal Leitungswiderstand.
-Karte: Was passiert mit dem Widerstand von Kupfer, wenn es warm wird? | Er steigt, um etwa 0,39 Prozent pro Kelvin.
+Karte: Wie rechnest du den Querschnitt aus dem Durchmesser? | π · d² / 4.
+Karte: Was ist der Spannungsfall? | Die Spannung, die auf der Leitung verloren geht, Strom · Leitungswiderstand.
+Karte: Was passiert mit dem Widerstand von Kupfer, wenn es warm wird? | Er steigt, um etwa 0,39 % pro Kelvin.
 Karte: Wie hängen ρ und κ zusammen? | κ ist eins durch ρ.
 Karte: Nenne übliche Leitungsquerschnitte. | 1,5 mm², 2,5 mm², 4 mm², 6 mm², 10 mm².
 Karte: Welche Folgen hat ein zu großer Spannungsfall? | Der Verbraucher bekommt zu wenig Spannung, und die Leitung wird warm.
 Auswahl: Eine Leitung wird doppelt so lang. Was passiert mit dem Widerstand? | Er verdoppelt sich | Er halbiert sich; Er bleibt gleich; Er vervierfacht sich | Der Widerstand wächst im gleichen Verhältnis wie die Länge.
-Auswahl: Ein Draht bekommt den doppelten Durchmesser. Was passiert mit dem Widerstand? | Er wird ein Viertel so groß | Er wird halb so groß; Er verdoppelt sich; Er bleibt gleich | Der Querschnitt wächst mit d hoch 2, also viermal so viel Fläche und ein Viertel des Widerstands.
+Auswahl: Ein Draht bekommt den doppelten Durchmesser. Was passiert mit dem Widerstand? | Er wird ein Viertel so groß | Er wird halb so groß; Er verdoppelt sich; Er bleibt gleich | Der Querschnitt wächst mit d², also viermal so viel Fläche und ein Viertel des Widerstands.
 Auswahl: Welcher Werkstoff leitet am besten? | Kupfer | Aluminium; Stahl; Konstantan | Kupfer hat von diesen den kleinsten spezifischen Widerstand. Nur Silber leitet noch etwas besser.
 Auswahl: Eine Zuleitung ist 20 m lang. Welche Länge setzt du für den Leitungswiderstand ein? | 40 m | 20 m; 10 m; 80 m | Hinleiter und Rückleiter sind zusammen doppelt so lang wie die Strecke.
 Reihenfolge: Spannungsfall einer Zuleitung berechnen | Werkstoff und ρ bestimmen; Länge verdoppeln; Leitungswiderstand ausrechnen; Mit dem Strom malnehmen; Mit dem erlaubten Spannungsfall vergleichen
@@ -133,7 +138,7 @@ Gegeben: ΔU = {dU} V
 Gesucht: Mindestquerschnitt A in mm²
 Ansatz: A = ρ · 2l · I / ΔU | A = ρ · l · I / ΔU; A = ΔU / (ρ · 2l · I); A = ρ · 2l / (I · ΔU)
 Signal: Der erlaubte Spannungsfall ist vorgegeben, gesucht ist der Querschnitt.
-Warum: Weil R höchstens ΔU durch I sein darf | Weil R mindestens ΔU mal I sein muss; Weil der Querschnitt nur von der Länge abhängt
+Warum: Weil R höchstens ΔU / I sein darf | Weil R mindestens ΔU · I sein muss; Weil der Querschnitt nur von der Länge abhängt
 Kontrolle: Welchen Normquerschnitt wählst du? | Den nächstgrößeren | Den nächstkleineren; Genau den gerechneten Wert
 Schritt: Größter erlaubter Leitungswiderstand | dU / I | Ω
 Schritt: Mindestquerschnitt | 0.0178 * 2 * l * I / dU | mm²

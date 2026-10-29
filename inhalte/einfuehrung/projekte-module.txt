@@ -77,7 +77,7 @@ Begriff: Risiko | Ein mögliches Ereignis mit negativer Wirkung auf das Projekt.
 Begriff: Eintrittswahrscheinlichkeit | Wie wahrscheinlich das Risiko eintritt.
 Begriff: Tragweite | Wie groß der Schaden wäre.
 Begriff: Stakeholder | Alle Personen und Gruppen, die vom Projekt betroffen sind oder es beeinflussen können.
-Merksatz: Risiko ist Wahrscheinlichkeit mal Schaden. Die großen zuerst angehen.
+Merksatz: Risiko ist Wahrscheinlichkeit · Schaden. Die großen zuerst angehen.
 Prinzip: Bei der Risikoanalyse sammelst du mögliche Risiken, schätzt für jedes Wahrscheinlichkeit und Tragweite ab, zum Beispiel auf einer Skala von 1 bis 5, und multiplizierst beides. In einer Risikomatrix siehst du, welche Risiken du sofort angehen musst.
 Für jedes wichtige Risiko legst du eine Maßnahme fest: vermeiden, vermindern, übertragen, zum Beispiel durch eine Versicherung, oder bewusst akzeptieren.
 Bei der Stakeholderanalyse listest du alle Beteiligten auf und bewertest ihren Einfluss und ihre Einstellung zum Projekt. Wer viel Einfluss hat und skeptisch ist, braucht besondere Aufmerksamkeit.
@@ -89,7 +89,7 @@ Baustein: Stakeholder auflisten und nach Einfluss und Einstellung einordnen.
 Formel: Risikowert | R = W · S | W = R / S; S = R / W
 Karte: Vier Strategien gegen Risiken? | Vermeiden, vermindern, übertragen, akzeptieren.
 Karte: Was ist ein Stakeholder? | Jemand, der vom Projekt betroffen ist oder es beeinflussen kann.
-Karte: Wie berechnet man den Risikowert? | Eintrittswahrscheinlichkeit mal Tragweite.
+Karte: Wie berechnet man den Risikowert? | Eintrittswahrscheinlichkeit · Tragweite.
 === ENDE ===
 
 === LERNWERK ===
@@ -102,13 +102,13 @@ Begriff: Hexadezimalsystem | Zahlensystem mit der Basis 16 und den Ziffern 0 bis
 Begriff: Bit | Die kleinste Informationseinheit, 0 oder 1.
 Begriff: Byte | Acht Bit, Wertebereich 0 bis 255.
 Merksatz: Vier Bit sind eine Hexziffer. Ein Byte sind zwei Hexziffern.
-Prinzip: In jedem Stellenwertsystem ist eine Stelle das Vielfache der Basis. Im Dualsystem haben die Stellen von rechts die Werte 1, 2, 4, 8, 16, 32, 64, 128. 1101 dual ist also 8 plus 4 plus 1 gleich 13.
+Prinzip: In jedem Stellenwertsystem ist eine Stelle das Vielfache der Basis. Im Dualsystem haben die Stellen von rechts die Werte 1, 2, 4, 8, 16, 32, 64, 128. 1101 dual ist also 8 + 4 + 1 = 13.
 Von dezimal nach dual teilst du immer wieder durch 2 und schreibst die Reste von unten nach oben.
 Von dual nach hexadezimal bildest du von rechts Vierergruppen. Jede Gruppe ist eine Hexziffer: 1111 ist F, 1010 ist A.
 In der SPS begegnen dir Byte, Wort mit 16 Bit und Doppelwort mit 32 Bit. Hexwerte schreibt man dort mit 16# davor, zum Beispiel 16#FF.
 Baustein: Stellenwerte der Basis aufschreiben.
 Baustein: Nach dual: durch 2 teilen, Reste von unten lesen.
-Baustein: Nach dezimal: Ziffern mal Stellenwert addieren.
+Baustein: Nach dezimal: Ziffern · Stellenwert addieren.
 Baustein: Zwischen dual und hex: Vierergruppen von rechts bilden.
 Fehler: Reste in falscher Reihenfolge gelesen | Der erste Rest ist die letzte Stelle rechts.
 Karte: 13 dezimal in dual? | 1101
@@ -314,7 +314,7 @@ Begriff: FMEA | Fehlermöglichkeits- und Einflussanalyse, eine vorbeugende Metho
 Begriff: Bedeutung | Wie schwer die Folge eines Fehlers ist, Bewertung 1 bis 10.
 Begriff: Auftreten | Wie wahrscheinlich die Ursache auftritt, Bewertung 1 bis 10.
 Begriff: Entdeckung | Wie gut der Fehler vor der Auslieferung entdeckt wird, Bewertung 1 bis 10, wobei 10 heißt schlecht entdeckbar.
-Begriff: Risikoprioritätszahl | Bedeutung mal Auftreten mal Entdeckung, höchstens 1000.
+Begriff: Risikoprioritätszahl | Bedeutung · Auftreten · Entdeckung, höchstens 1000.
 Begriff: Aufgabenpriorität | Neuere Bewertung nach AIAG und VDA in hoch, mittel und niedrig.
 Merksatz: Fehler, Folge, Ursache, dann bewerten und Maßnahmen festlegen.
 Prinzip: Man unterscheidet die Konstruktions-FMEA für ein Produkt und die Prozess-FMEA für einen Fertigungsablauf. Für jede Funktion fragt das Team: Welcher Fehler ist möglich, welche Folge hat er, welche Ursache? Dann wird bewertet und für die größten Risiken eine Maßnahme festgelegt.
@@ -327,7 +327,7 @@ Baustein: Maßnahmen festlegen und danach neu bewerten.
 Fehler: Hohe Entdeckungszahl als gut gelesen | Bei der Entdeckung heißt 10, dass der Fehler kaum entdeckt wird.
 Formel: Risikoprioritätszahl | RPZ = B · A · E | B = RPZ / (A · E); A = RPZ / (B · E); E = RPZ / (B · A)
 Karte: Wofür steht FMEA? | Fehlermöglichkeits- und Einflussanalyse.
-Karte: Wie berechnet sich die Risikoprioritätszahl? | Bedeutung mal Auftreten mal Entdeckung.
+Karte: Wie berechnet sich die Risikoprioritätszahl? | Bedeutung · Auftreten · Entdeckung.
 Karte: Was ersetzt die RPZ im AIAG-VDA-Handbuch von 2019? | Die Aufgabenpriorität mit hoch, mittel, niedrig.
 Karte: Was bedeutet Entdeckung 10? | Der Fehler wird kaum entdeckt.
 === ENDE ===
@@ -464,7 +464,7 @@ Begriff: Deckungsbeitrag | Verkaufspreis minus variable Kosten pro Stück.
 Begriff: Gewinnschwelle | Die Stückzahl, ab der alle Kosten gedeckt sind, auch Break-even-Point.
 Merksatz: Welche Kosten, wo entstanden, wofür verwendet: Kostenarten, Kostenstellen, Kostenträger.
 Prinzip: Die Kostenrechnung hat drei Stufen. Die Kostenartenrechnung fragt, welche Kosten entstanden sind. Die Kostenstellenrechnung verteilt sie auf die Bereiche, in denen sie entstanden sind, mit dem Betriebsabrechnungsbogen. Die Kostenträgerrechnung ordnet sie den Produkten zu.
-Bei der Zuschlagskalkulation addierst du schrittweise: Materialeinzelkosten plus Materialgemeinkosten ergeben die Materialkosten. Fertigungslöhne plus Fertigungsgemeinkosten ergeben die Fertigungskosten. Beides zusammen sind die Herstellkosten. Dazu kommen Verwaltungsgemeinkosten und Vertriebsgemeinkosten, das ergibt die Selbstkosten. Mit dem Gewinnzuschlag kommst du zum Verkaufspreis.
+Bei der Zuschlagskalkulation addierst du schrittweise: Materialeinzelkosten + Materialgemeinkosten ergeben die Materialkosten. Fertigungslöhne + Fertigungsgemeinkosten ergeben die Fertigungskosten. Beides zusammen sind die Herstellkosten. Dazu kommen Verwaltungsgemeinkosten und Vertriebsgemeinkosten, das ergibt die Selbstkosten. Mit dem Gewinnzuschlag kommst du zum Verkaufspreis.
 Der Deckungsbeitrag zeigt, wie viel jedes verkaufte Teil zur Deckung der Fixkosten beiträgt. Die Gewinnschwelle sind die Fixkosten geteilt durch den Deckungsbeitrag pro Stück.
 Baustein: Kosten in fix und variabel, Einzel- und Gemeinkosten trennen.
 Baustein: Zuschlagssätze aus dem Betriebsabrechnungsbogen nehmen.
@@ -490,7 +490,7 @@ Begriff: Anlagevermögen | Was langfristig im Unternehmen bleibt, zum Beispiel M
 Begriff: Umlaufvermögen | Was sich schnell ändert, zum Beispiel Material, Forderungen und Bankguthaben.
 Begriff: Eigenkapital | Kapital der Eigentümer.
 Begriff: Fremdkapital | Schulden, zum Beispiel Kredite und Lieferantenverbindlichkeiten.
-Merksatz: Aktiva gleich Passiva. Langfristiges Vermögen langfristig finanzieren.
+Merksatz: Aktiva = Passiva. Langfristiges Vermögen langfristig finanzieren.
 Prinzip: Die Bilanz zeigt einen Stand an einem Tag. Den Erfolg eines Jahres zeigt die Gewinn- und Verlustrechnung.
 Aus der Bilanz bildet man Kennzahlen. Die Eigenkapitalquote zeigt, wie unabhängig ein Unternehmen ist. Die Rentabilität zeigt, wie viel Gewinn das eingesetzte Kapital bringt. Die Liquidität zeigt, ob kurzfristige Schulden bezahlt werden können: 1. Grades nur mit flüssigen Mitteln, 2. Grades zusätzlich mit kurzfristigen Forderungen, 3. Grades mit dem ganzen Umlaufvermögen.
 Die goldene Bilanzregel sagt: Das Anlagevermögen soll mit Eigenkapital und langfristigem Fremdkapital finanziert sein, nicht mit kurzfristigen Krediten.

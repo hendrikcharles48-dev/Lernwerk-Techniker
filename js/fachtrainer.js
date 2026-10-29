@@ -209,7 +209,9 @@ function runAufgabe(it, o) {
     $('#valsw').hidden = !done.length;
     $('#vals').innerHTML = done.map(d => `<tr><td>${rich(d.was)}</td><td>${d.html}</td></tr>`).join('');
   };
-  const goSteps = () => drawStep();
+  const ids = new Set(([A.ansatz ? A.ansatz.richtig : '', it.a.rechnung || '', ...it.a.schritte.map(x => (x.ergebnis && x.ergebnis.text) || '')].join(' ').match(/[A-Za-zΑ-Ωα-ωµûϑΔ][A-Za-z0-9_Α-Ωα-ωµûϑ]*/g) || []).map(keyOf));
+  const passend = T.formeln.filter(f => f.aufbau).map(f => { let v; try { v = [...varNames(parseEq(f.formel)).keys()]; } catch (e) { return null; } return v.length ? { f, s: v.filter(x => ids.has(x)).length / v.length } : null; }).filter(x => x && x.s >= 0.6).sort((x, y) => y.s - x.s).slice(0, 2).map(x => x.f);
+  const goSteps = () => { if (passend.length) $('#pre').insertAdjacentHTML('beforeend', `<div class="fb info aufbau-box"><b>So ist die Formel aufgebaut.</b>${passend.map(f => `<div class="ab-z">${fml(f.formel)}<span>${rich(f.aufbau)}</span></div>`).join('')}</div>`); drawStep(); };
   // Erst den Ansatz wählen, wie im Statik-Trainer: Was brauchst du?
   if (ansatzOn && A.ansatz) {
     const box = mcBox({ frage: 'Welcher Ansatz passt?', richtig: A.ansatz.richtig, falsch: A.ansatz.falsch }, 'Erst erkennen', (firstTry, bx) => {
@@ -340,7 +342,7 @@ function drawBlatt() {
   const prinzip = [].concat(T.prinzip || []).join('\n\n');
   if (prinzip.trim()) h += `<section>${prinzip.split(/\n\s*\n|\n/).filter(p => p.trim()).map(p => `<p>${rich(p.trim())}</p>`).join('')}</section>`;
   if (T.merksaetze.length) h += `<h3>Merksätze</h3>` + T.merksaetze.map(m => `<div class="merk">${rich(m)}</div>`).join('');
-  if (T.formeln.length) h += `<h3>Formeln</h3><div class="tw"><table>${T.formeln.map(f => `<tr><td>${rich(f.name || '')}</td><td>${fml(f.formel)}${f.umgestellt.length ? `<div class="umg">${f.umgestellt.map(u => fml(u)).join('<br>')}</div>` : ''}</td></tr>`).join('')}</table></div>`;
+  if (T.formeln.length) h += `<h3>Formeln</h3><div class="tw"><table>${T.formeln.map(f => `<tr><td>${rich(f.name || '')}</td><td>${fml(f.formel)}${f.aufbau ? `<div class="umg aufbau">${rich(f.aufbau)}</div>` : ''}${f.umgestellt.length ? `<div class="umg">${f.umgestellt.map(u => fml(u)).join('<br>')}</div>` : ''}</td></tr>`).join('')}</table></div>`;
   if (T.begriffe.length) h += `<h3>Begriffe</h3><div class="trio">${T.begriffe.map(b => `<div><span class="k">${rich(b.begriff)}</span>${rich(b.erklaerung)}</div>`).join('')}</div>`;
   if (T.bausteine.length) h += `<h3>So gehst du vor</h3><section><ol>${T.bausteine.map(b => `<li>${rich(b)}</li>`).join('')}</ol></section>`;
   if (T.schnellwege.length) h += `<h3>Schnellweg</h3>` + T.schnellwege.map(s => `<div class="fast">${rich(s)}</div>`).join('');

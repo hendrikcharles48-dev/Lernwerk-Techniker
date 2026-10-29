@@ -17,7 +17,7 @@ Baustein: Tabelle anlegen: Kraft, Winkel, F_x, F_y.
 Baustein: Spalten addieren.
 Baustein: Betrag mit Pythagoras, Winkel mit Arcustangens, Quadrant prüfen.
 Schnellweg: Kräfte, die genau waagerecht oder senkrecht liegen, musst du nicht zerlegen. Sie stehen nur in einer Spalte.
-Fehler: Quadrant vergessen | Der Taschenrechner liefert beim Arcustangens nur Winkel zwischen minus 90 und plus 90 Grad. Prüf die Vorzeichen von x und y.
+Fehler: Quadrant vergessen | Der Taschenrechner liefert beim Arcustangens nur Winkel zwischen minus 90 und plus 90°. Prüf die Vorzeichen von x und y.
 Formel: Kraftkomponente x | F_x = F · cos(α) | F = F_x / cos(α)
 Formel: Kraftkomponente y | F_y = F · sin(α) | F = F_y / sin(α)
 Formel: Resultierende aus Komponenten | F_R = √(F_x² + F_y²) | F_x = √(F_R² − F_y²); F_y = √(F_R² − F_x²)
@@ -30,7 +30,7 @@ Karte: Was ist die Resultierende? | Die Ersatzkraft mit derselben Wirkung wie al
 Fach: Technische Mechanik
 Thema: Momente
 Anker: Ein Drehmomentschlüssel: Je länger der Hebel und je fester du drückst, desto stärker dreht die Schraube. Drückst du schräg, wirkt nur der Anteil senkrecht zum Hebel.
-Begriff: Drehmoment | Die Drehwirkung einer Kraft, Kraft mal Hebelarm, Einheit Newtonmeter (Nm).
+Begriff: Drehmoment | Die Drehwirkung einer Kraft, Kraft · Hebelarm, Einheit Newtonmeter (Nm).
 Begriff: Hebelarm | Der senkrechte Abstand zwischen Drehpunkt und Wirkungslinie der Kraft.
 Begriff: Drehsinn | Die Richtung der Drehung, linksdrehend oder rechtsdrehend.
 Begriff: Kräftepaar | Zwei gleich große, entgegengesetzte Kräfte mit Abstand. Sie erzeugen nur ein Moment und keine Verschiebung.
@@ -42,7 +42,7 @@ Baustein: Drehpunkt festlegen, möglichst dort, wo Unbekannte angreifen.
 Baustein: Positiven Drehsinn festlegen.
 Baustein: Für jede Kraft den senkrechten Hebelarm bestimmen, schräge Kräfte vorher zerlegen.
 Baustein: Momentengleichung aufschreiben und nach der Unbekannten umstellen.
-Schnellweg: Beim einfachen Hebel gilt: Kraft mal Arm links gleich Kraft mal Arm rechts.
+Schnellweg: Beim einfachen Hebel gilt: Kraft · Arm links gleich Kraft · Arm rechts.
 Fehler: Bauteillänge statt senkrechtem Abstand | Bei schräger Kraft zählt nur der senkrechte Abstand oder der senkrechte Kraftanteil.
 Formel: Drehmoment | M = F · l | F = M / l; l = M / F
 Formel: Hebelgesetz | F1 · l1 = F2 · l2 | F2 = F1 · l1 / l2; l2 = F1 · l1 / F2; F1 = F2 · l2 / l1; l1 = F2 · l2 / F1
@@ -117,7 +117,7 @@ Begriff: Sicherheitszahl | Der Faktor, um den die zulässige Spannung kleiner is
 Begriff: Flächenpressung | Druck zwischen zwei sich berührenden Flächen, Formelzeichen p.
 Begriff: Abscherspannung | Spannung quer zur Fläche, die ein Bauteil abschert, Formelzeichen τ.
 Begriff: Elastizitätsmodul | Steifigkeit eines Werkstoffs, Formelzeichen E. Für Stahl etwa 210 000 N/mm².
-Merksatz: Spannung ist Kraft durch Fläche. Die Frage ist immer: welche Fläche?
+Merksatz: Spannung ist Kraft / Fläche. Die Frage ist immer: welche Fläche?
 Prinzip: Bei Zug und Druck ist die Fläche der Querschnitt senkrecht zur Kraft. Die Spannung muss kleiner oder gleich der zulässigen Spannung sein. Die zulässige Spannung ist der Werkstoffkennwert geteilt durch die Sicherheitszahl. Bei zähen Stählen nimmt man die Streckgrenze R_e.
 Bei der Flächenpressung zählt die gedrückte Fläche. Bei einem Bolzen in einer Bohrung nimmt man die projizierte Fläche: Durchmesser mal tragende Länge.
 Beim Abscheren ist die Fläche die Schnittfläche quer zum Bolzen. Hat ein Bolzen zwei Schnittflächen wie in einer Gabel, teilt sich die Kraft auf beide auf.
@@ -136,7 +136,7 @@ Formel: Abscherspannung | τ_a = F / (n · S) | F = τ_a · n · S; S = F / (n �
 Formel: Dehnung | ε = Δl / l0 | Δl = ε · l0; l0 = Δl / ε
 Formel: Hookesches Gesetz | σ = E · ε | E = σ / ε; ε = σ / E
 Karte: Einheit der Spannung? | N/mm², gleich MPa
-Karte: Welche Fläche nimmt man bei der Flächenpressung am Bolzen? | Die projizierte Fläche: Durchmesser mal Länge.
+Karte: Welche Fläche nimmt man bei der Flächenpressung am Bolzen? | Die projizierte Fläche: Durchmesser · Länge.
 Karte: E-Modul von Stahl? | Etwa 210 000 N/mm².
 Karte: Wie viele Scherflächen hat ein Bolzen in einer Gabel? | Zwei.
 === ENDE ===
@@ -149,9 +149,9 @@ Begriff: Allgemeines Kräftesystem | Die Wirkungslinien der Kräfte schneiden si
 Begriff: Streckenlast | Eine Last, die über eine Länge verteilt ist, Formelzeichen q, Einheit N/m oder kN/m.
 Begriff: Ersatzkraft | Die Einzelkraft, die dieselbe Wirkung hat wie die Streckenlast.
 Begriff: Schwerpunkt | Der Punkt, an dem die Ersatzkraft angreift.
-Merksatz: Streckenlast mal Länge, angreifend im Schwerpunkt.
+Merksatz: Streckenlast · Länge, angreifend im Schwerpunkt.
 Prinzip: Im allgemeinen Kräftesystem reichen die Kraftgleichungen nicht. Du brauchst zusätzlich die Momentengleichung. Damit hast du drei Gleichungen und kannst drei Unbekannte berechnen.
-Eine gleichmäßige Streckenlast ersetzt du durch eine Kraft F = q · l. Sie greift in der Mitte der belasteten Länge an. Bei einer dreieckförmigen Last ist die Ersatzkraft halb so groß, also q mal l durch 2, und greift im Schwerpunkt des Dreiecks an, ein Drittel der Länge von der hohen Seite entfernt.
+Eine gleichmäßige Streckenlast ersetzt du durch eine Kraft F = q · l. Sie greift in der Mitte der belasteten Länge an. Bei einer dreieckförmigen Last ist die Ersatzkraft halb so groß, also q · l / 2, und greift im Schwerpunkt des Dreiecks an, ein Drittel der Länge von der hohen Seite entfernt.
 Achtung, die Ersatzkraft der ganzen Last gilt für die Lagerkräfte. Für das Biegemoment an einer Schnittstelle nimmst du nur den Teil der Last, der auf einer Seite des Schnitts liegt.
 Baustein: Streckenlasten in Ersatzkräfte umwandeln und im Schwerpunkt einzeichnen.
 Baustein: Schräge Kräfte in x und y zerlegen.
@@ -175,7 +175,7 @@ Begriff: Reibungskraft | Die Kraft, die einer Bewegung entgegenwirkt, Formelzeic
 Begriff: Reibungszahl | Ein Kennwert der Werkstoffpaarung, Formelzeichen μ, ohne Einheit.
 Begriff: Haftreibung | Reibung, solange sich nichts bewegt. Sie ist größer als die Gleitreibung.
 Begriff: Selbsthemmung | Ein Körper rutscht von selbst nicht ab, zum Beispiel bei einem Gewinde oder einem Keil.
-Merksatz: Reibkraft ist mü mal Normalkraft. Anfahren kostet mehr als Weiterfahren.
+Merksatz: Reibkraft ist mü · Normalkraft. Anfahren kostet mehr als Weiterfahren.
 Prinzip: Die Reibungskraft hängt von der Normalkraft und von der Werkstoffpaarung ab, nicht von der Größe der Fläche. Die Reibungszahl μ steht in Tabellen, getrennt für Haftreibung und Gleitreibung, trocken und geschmiert. Es gilt: Haftreibung ist größer als Gleitreibung, und die ist größer als Rollreibung.
 Auf einer schiefen Ebene zerlegst du die Gewichtskraft: Die Hangabtriebskraft zieht den Körper die Ebene hinunter, die Normalkraft drückt ihn auf die Ebene. Ist der Tangens des Neigungswinkels kleiner oder gleich der Haftreibungszahl, bleibt der Körper liegen. Das ist Selbsthemmung.
 Baustein: Normalkraft bestimmen, auf der schiefen Ebene mit dem Kosinus.
@@ -199,7 +199,7 @@ Begriff: Biegemoment | Das Moment, das einen Balken an einer Stelle verbiegt, Fo
 Begriff: Widerstandsmoment | Ein Querschnittswert, der angibt, wie gut ein Profil gegen Biegung wirkt, Formelzeichen W, Einheit mm³.
 Begriff: Biegespannung | Die größte Spannung in der Randfaser durch Biegung, Formelzeichen σ_b.
 Begriff: Neutrale Faser | Die Mittellinie, die bei Biegung weder gezogen noch gedrückt wird.
-Merksatz: Biegespannung ist Biegemoment durch Widerstandsmoment. Hochkant hält mehr.
+Merksatz: Biegespannung ist Biegemoment / Widerstandsmoment. Hochkant hält mehr.
 Prinzip: Bei Biegung wird eine Seite des Balkens gezogen, die andere gedrückt. In der Mitte, der neutralen Faser, ist die Spannung null, am Rand ist sie am größten.
 Die Biegespannung berechnest du mit σ_b = M_b / W. Beim Rechteck ist W = b · h² / 6, wobei h die Höhe in Biegerichtung ist. Weil h im Quadrat steht, hält ein hochkant gestelltes Profil viel mehr. Darum sind Träger als I-Profil gebaut.
 Das größte Biegemoment liegt beim einseitig eingespannten Träger an der Einspannung. Beim Balken auf zwei Stützen mit einer Last in der Mitte liegt es unter der Last und ist F · l / 4.

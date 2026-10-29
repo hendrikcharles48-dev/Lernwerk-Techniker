@@ -177,8 +177,19 @@ function emptyContent(tid) {
   return empty(tr ? 'Der Stoff steckt im Trainer.' : 'Noch kein Inhalt.', tr ? 'Öffne ihn oben. Über Einfügen kannst du Prinzip, Karten und Aufgaben ergänzen.' : 'Lass dir das Thema im Claude-Chat erklären und füge den Lernwerk-Block über Einfügen ein.');
 }
 export function formelCard(fo) {
-  return `<div class="card formel">${fo.name ? `<div class="card-k">${esc(fo.name)}</div>` : ''}<div class="fml-main">${fml(fo.formel)}</div>${fo.umgestellt.length ? `<div class="fml-alt">${fo.umgestellt.map(u => `<div>${fml(u)}</div>`).join('')}</div>` : ''}</div>`;
+  return `<div class="card formel">${fo.name ? `<div class="card-k">${esc(fo.name)}</div>` : ''}<div class="fml-main">${fml(fo.formel)}</div>${fo.aufbau ? `<div class="fml-aufbau"><b>Aufbau.</b> ${rich(fo.aufbau)}</div>` : ''}${fo.umgestellt.length ? `<div class="fml-alt">${fo.umgestellt.map(u => `<div>${fml(u)}</div>`).join('')}</div>` : ''}</div>`;
 }
+// Welche Formeln des Themas gehören zu dieser Aufgabe? Ihre Größen müssen im Ansatz oder in den Rechnungen vorkommen.
+export function passendeFormeln(T, a) {
+  const text = [a.ansatz ? a.ansatz.richtig : '', a.rechnung || '', ...a.schritte.map(x => (x.ergebnis && x.ergebnis.text) || '')].join(' ');
+  const ids = new Set((text.match(/[A-Za-zΑ-Ωα-ωµûϑΔ][A-Za-z0-9_Α-Ωα-ωµûϑ]*/g) || []).map(keyOf));
+  return T.formeln.filter(f => f.aufbau).map(f => {
+    let v;
+    try { v = [...varNames(parseEq(f.formel)).keys()]; } catch (e) { return null; }
+    return v.length ? { f, s: v.filter(x => ids.has(x)).length / v.length } : null;
+  }).filter(x => x && x.s >= 0.6).sort((x, y) => y.s - x.s).slice(0, 2).map(x => x.f);
+}
+export const aufbauHTML = fs => (fs.length ? `<div class="fb info aufbau-box"><b>So ist die Formel aufgebaut.</b>${fs.map(f => `<div class="ab-z">${fml(f.formel)}<span>${rich(f.aufbau)}</span></div>`).join('')}</div>` : '');
 export function itemHTML(i) {
   if (i.art === 'umstellen') return fml(i.u.formel) + ' nach ' + nameHTML(i.u.nach);
   return rich(itemTitle(i));
@@ -380,6 +391,7 @@ function runAufgabe(el, item, ctx, meta) {
   let tipOpen = false, solOpen = false, fb = null;
   // Ansatz zuerst: erkennen, begründen, am Ende das Ergebnis prüfen
   const T0 = { ansatz: A.ansatz, warum: A.warum, kontrolle: A.kontrolle, signal: A.signal };
+  const aufbau = aufbauHTML(passendeFormeln(topicT, item.aufgabe));
   let phase = T0.ansatz && !ctx.twinOf ? 'ansatz' : 'steps';
   let opts = null, picked = null, ansatzFirst = null, note = '', kontrolleFirst = null;
   const result = () => (shown ? 'falsch' : used ? 'hilfe' : 'richtig');
@@ -424,7 +436,7 @@ function runAufgabe(el, item, ctx, meta) {
       return;
     }
     if (level === 1 && i === 0 && !done.length) h += `<p class="muted small lvl-hint">Geführt: Die Tipps sind schon offen. Mit jeder sicheren Lösung wird die Hilfe weniger.</p>`;
-    h += note + `<div class="step-box"><div class="step-n">${level === 1 ? 'Geführt · ' : ''}Schritt ${i + 1} von ${steps.length}</div><div class="step-q">${rich(s.was || 'Nächster Schritt')}</div>`;
+    h += note + (level < 3 || used ? aufbau : '') + `<div class="step-box"><div class="step-n">${level === 1 ? 'Geführt · ' : ''}Schritt ${i + 1} von ${steps.length}</div><div class="step-q">${rich(s.was || 'Nächster Schritt')}</div>`;
     if (s.typ === 'gleichung') {
       const names = [...varNames(parseEqSafe(s.text)).values()];
       h += fmlInput(names, 'Gleichung, zum Beispiel ' + (names[0] || 'x') + ' = …');

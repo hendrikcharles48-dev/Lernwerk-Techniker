@@ -13,7 +13,7 @@ const KEYS = {
   baustein: 'baustein', bausteine: 'baustein', loesungsbaustein: 'baustein',
   schnellweg: 'schnellweg', schnellwege: 'schnellweg',
   fehler: 'fehler', typischerfehler: 'fehler',
-  formel: 'formel', formeln: 'formel',
+  formel: 'formel', formeln: 'formel', aufbau: 'aufbau', formelaufbau: 'aufbau',
   karte: 'karte', karten: 'karte',
   aufgabe: 'aufgabe', aufgaben: 'aufgabe',
   gegeben: 'gegeben', gesucht: 'gesucht',
@@ -193,6 +193,12 @@ export function parseBlocks(text) {
         for (const u of o.umgestellt) { try { parseEq(u); } catch (e) { warn(i, 'Die Umstellung „' + u + '“ kann ich nicht lesen.'); } }
         cur.formeln.push(o); field = null; break;
       }
+      // Aufbau: kurz erklären, warum die Formel davor so zusammengesetzt ist
+      case 'aufbau': {
+        const fo = cur.formeln[cur.formeln.length - 1];
+        if (!fo) { warn(i, 'Aufbau gehört direkt unter eine Formel-Zeile.'); break; }
+        fo.aufbau = val; setField(fo, 'aufbau'); break;
+      }
       case 'karte': {
         const [f, ...a] = pipes(val);
         const o = { frage: f, antwort: a.join(' | ') };
@@ -350,6 +356,7 @@ export function mergeTopic(base, add) {
         const old = seen.get(key);
         if (k === 'begriffe' && !old.erklaerung && x.erklaerung) old.erklaerung = x.erklaerung;
         if (k === 'formeln') for (const u of x.umgestellt) if (!old.umgestellt.some(o => norm(o) === norm(u))) old.umgestellt.push(u);
+        if (k === 'formeln' && x.aufbau && !old.aufbau) old.aufbau = x.aufbau;
         continue;
       }
       seen.set(key, x); out[k].push(x); added++;
@@ -374,7 +381,7 @@ export function exportBlock(t, termine = []) {
   t.bausteine.forEach(b => L.push(lineOut('Baustein', b)));
   t.schnellwege.forEach(s => L.push(lineOut('Schnellweg', s)));
   t.fehler.forEach(f => L.push(lineOut('Fehler', f.fehler + ' | ' + f.achtung)));
-  t.formeln.forEach(f => L.push('Formel: ' + (f.name || '') + ' | ' + f.formel + (f.umgestellt.length ? ' | ' + f.umgestellt.join('; ') : '')));
+  t.formeln.forEach(f => { L.push('Formel: ' + (f.name || '') + ' | ' + f.formel + (f.umgestellt.length ? ' | ' + f.umgestellt.join('; ') : '')); if (f.aufbau) L.push('Aufbau: ' + f.aufbau); });
   t.karten.forEach(k => L.push(lineOut('Karte', k.frage + ' | ' + k.antwort)));
   t.aufgaben.forEach(a => {
     L.push(lineOut('Aufgabe', a.text));
@@ -417,6 +424,7 @@ Baustein: ein Lösungsbaustein pro Zeile
 Schnellweg:
 Fehler: typischer Fehler | worauf ich achten muss
 Formel: Name | Formel | umgestellt nach den anderen Größen
+Aufbau: Warum die Formel so aussieht, in ein bis zwei Sätzen
 Karte: kurze Frage | kurze Antwort
 Aufgabe: Aufgabentext
 Gegeben:

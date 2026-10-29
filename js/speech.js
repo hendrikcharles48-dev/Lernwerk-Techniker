@@ -14,11 +14,35 @@ if (canSpeak()) {
   try { speechSynthesis.addEventListener('voiceschanged', () => { voice = pickVoice(); }); } catch (e) { /* alt */ }
 }
 
+// Rechenzeichen stehen im Text als Zeichen. Zum Vorlesen werden sie zu Wörtern.
+const HOCH = { '⁰': '0', '¹': '1', '²': '2', '³': '3', '⁴': '4', '⁵': '5', '⁶': '6', '⁷': '7', '⁸': '8', '⁹': '9', 'ⁿ': 'n' };
+export function sprechbar(text) {
+  return String(text)
+    .replace(/([0-9A-Za-zΩ)])⁻([⁰¹²³⁴⁵⁶⁷⁸⁹ⁿ]+)/g, (m, a, h) => a + ' hoch minus ' + [...h].map(c => HOCH[c]).join(''))
+    .replace(/([⁰¹²³⁴⁵⁶⁷⁸⁹ⁿ]+)/g, h => ' hoch ' + [...h].map(c => HOCH[c]).join('') + ' ')
+    .replace(/√\s?/g, ' Wurzel aus ')
+    .replace(/\s*·\s*/g, ' mal ')
+    .replace(/\s*\^\s*/g, ' hoch ')
+    .replace(/(\S)\/(\S)/g, '$1 pro $2')
+    .replace(/\s+\/\s+/g, ' durch ')
+    .replace(/\s+=\s+/g, ' gleich ')
+    .replace(/\s+≈\s+/g, ' ungefähr ')
+    .replace(/\s+\+\s+/g, ' plus ')
+    .replace(/(^|\s)[−-](?=\s?[0-9A-Za-zα-ωΑ-Ω(])/g, '$1minus ')
+    .replace(/\s+−\s+/g, ' minus ')
+    .replace(/\s?%/g, ' Prozent')
+    .replace(/\s?°C/g, ' Grad Celsius')
+    .replace(/°/g, ' Grad')
+    .replace(/π/g, ' Pi ')
+    .replace(/Ω/g, ' Ohm')
+    .replace(/[()]/g, ' ')
+    .replace(/\s{2,}/g, ' ');
+}
 // Spricht einen Text. Promise wird erfüllt, wenn fertig oder abgebrochen.
 export function speak(text, rate = 1) {
   return new Promise(resolve => {
     if (!canSpeak() || !text) return resolve(false);
-    const u = new SpeechSynthesisUtterance(String(text));
+    const u = new SpeechSynthesisUtterance(sprechbar(text));
     u.lang = 'de-DE';
     if (voice) u.voice = voice;
     u.rate = rate;
