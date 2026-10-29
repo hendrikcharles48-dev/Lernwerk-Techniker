@@ -19,6 +19,11 @@ export function applyTheme(t) {
   if (m) m.setAttribute('content', dark ? '#000000' : '#F2F2F7');
 }
 
+function notenSub() {
+  const g = st.S.exams.filter(e => e.note != null || e.prozent != null);
+  const n = st.nacharbeitThemen().size;
+  return g.length ? plural(g.length, 'Arbeit', 'Arbeiten') + ' eingetragen' + (n ? ', ' + plural(n, 'Thema', 'Themen') + ' zum Nacharbeiten' : '') : 'Noten und Themen der Klassenarbeiten';
+}
 export function mehrPage() {
   return {
     title: 'Mehr',
@@ -28,6 +33,7 @@ export function mehrPage() {
       b.innerHTML = list([
         row({ a: 'unterricht', icon: 'check', color: '#0A84FF', title: 'Im Unterricht', sub: nAkt ? plural(nAkt, 'Thema', 'Themen') + ' angewählt' : 'Noch keine Themen angewählt' })
       ]) + list([
+        row({ a: 'noten', icon: 'exam', color: '#FFD60A', title: 'Noten', sub: notenSub() }),
         row({ a: 'termine', icon: 'calendar', color: '#FF453A', title: 'Termine', sub: ex ? 'Nächste Arbeit: ' + ex.fach + ', ' + dayShort(ex.datum) : 'Klassenarbeiten eintragen' }),
         row({ a: 'probe', icon: 'exam', color: '#FF9F0A', title: 'Probeklausur' }),
         row({ a: 'hoer', icon: 'ear', color: '#30D158', title: 'Hörmodus', sub: 'Karten und Lernzettel vorlesen, zum Beispiel im Auto' }),
@@ -44,7 +50,7 @@ export function mehrPage() {
         row({ a: 'info', icon: 'info', color: '#8E8E93', title: 'Über Lernwerk' })
       ]) + hinweisTabellenbuch();
       on(b, {
-        unterricht: () => push(unterrichtPage()), termine: () => push(terminePage()), probe: () => push(probePage()), hoer: () => push(hoerPage()), erklaer: () => push(erklaerPage()),
+        unterricht: () => push(unterrichtPage()), noten: () => push(notenPage()), termine: () => push(terminePage()), probe: () => push(probePage()), hoer: () => push(hoerPage()), erklaer: () => push(erklaerPage()),
         lexikon: () => push(lexikonPage()), formeln: () => push(formelPage()), suche: () => push(suchePage()),
         lehrplan: () => push(lehrplanPage()), backup: () => push(datensicherung()), theme: () => push(themePage()),
         remind: () => push(erinnerungPage()), info: () => push(infoPage())
@@ -116,6 +122,7 @@ export function termineDetail(id) {
       const d = daysBetween(today, e.datum);
       const tops = (e.themaIds || []).map(t => st.thema(t)).filter(Boolean);
       let h = `<div class="card count" style="--fc:${f ? f.farbe : 'var(--accent)'}"><div class="count-n">${d < 0 ? 'Vorbei' : d === 0 ? 'Heute' : d === 1 ? 'Morgen' : 'In ' + d + ' Tagen'}</div><div class="count-t">${esc(e.fach)}</div><div class="muted">${esc(dayLong(e.datum))}</div>${e.themen ? `<div class="muted">${esc(e.themen)}</div>` : ''}</div>`;
+      if (d < 0) h += `<div class="btn-row"><button class="btn filled" data-a="note">${icon('exam')} ${e.note != null || e.prozent != null ? 'Note ansehen: ' + [e.note != null ? fmtNote(e.note) : '', e.prozent != null ? fmtNum(e.prozent, 1) + ' %' : ''].filter(Boolean).join(', ') : 'Note eintragen'}</button></div>`;
       if (tops.length) h += `<div class="sec-h">Dein Stand</div>` + list(tops.map(t => { const p = topicProgress(t.thema.id); return row({ a: 'topic', d: t.thema.id, title: t.thema.name, html: progress(p || 0, f ? f.farbe : null), detail: Math.round((p || 0) * 100) + ' %' }); }));
       else h += `<div class="fb info">Wähl die Themen der Arbeit aus (oben rechts bearbeiten). Dann zieht Lernwerk sie in Heute vor und plant rückwärts.</div>`;
       h += `<div class="btn-row"><button class="btn filled" data-a="ueben">${icon('bolt')} Themen der Arbeit üben</button><button class="btn" data-a="probe">${icon('exam')} Probeklausur</button><button class="btn" data-a="hoer">${icon('ear')} Hörmodus</button></div>`;
@@ -131,6 +138,7 @@ export function termineDetail(id) {
       b.innerHTML = h;
       on(b, {
         topic: tid => push(topicPage(tid)),
+        note: () => notenEditor(e),
         ueben: () => { const q = st.buildQueue(1200, { tids: tops.map(t => t.thema.id), exam: e, mitFehlern: true, maxNeu: 12 }); runSession(q.items.length ? q.items : sortForPractice(tops.flatMap(t => st.topicItems(t.thema.id))).slice(0, 12), 'Arbeit: ' + e.fach, { onClose: () => refreshTop() }); },
         probe: () => push(probePage(e)),
         hoer: () => push(hoerPage({ exam: e }))
@@ -678,4 +686,103 @@ export function unterrichtPage() {
       });
     }
   };
+}
+
+/* ===== Noten: Ergebnisse der Klassenarbeiten ===== */
+const fmtNote = n => (n == null ? '' : String(Math.round(n * 10) / 10).replace('.', ','));
+const BEW = [['gut', 'Gut'], ['mittel', 'Mittel'], ['schlecht', 'Schlecht']];
+export function notenPage() {
+  return {
+    title: 'Noten',
+    actions: [{ label: 'Neu', icon: 'plus', onClick: () => notenEditor({}) }],
+    render(b) {
+      const today = dayStr();
+      const graded = st.S.exams.filter(e => e.note != null || e.prozent != null).sort((a, c) => (a.datum > c.datum ? -1 : 1));
+      const offen = st.S.exams.filter(e => e.note == null && e.prozent == null && e.datum < today).sort((a, c) => (a.datum > c.datum ? -1 : 1));
+      let h = `<div class="btn-row"><button class="btn filled" data-a="neu">${icon('plus')} Note eintragen</button></div>`;
+      if (offen.length) h += `<div class="sec-h">Note fehlt noch</div>` + list(offen.map(e => { const f = st.fach(e.fachId); return row({ a: 'ed', d: e.id, dot: f ? f.farbe : '#888', title: e.fach, sub: dayLong(e.datum), detail: 'eintragen' }); }));
+      if (graded.length) {
+        // Schnitt je Fach
+        const by = new Map();
+        for (const e of graded) if (e.note != null) { const k = e.fachId || e.fach; const x = by.get(k) || { fach: e.fach, f: st.fach(e.fachId), n: [] }; x.n.push(e.note); by.set(k, x); }
+        if (by.size) h += `<div class="sec-h">Schnitt je Fach</div>` + list([...by.values()].map(x => row({ dot: x.f ? x.f.farbe : '#888', title: x.fach, sub: plural(x.n.length, 'Arbeit', 'Arbeiten'), detail: fmtNote(x.n.reduce((s, v) => s + v, 0) / x.n.length) })));
+        h += `<div class="sec-h">Alle Arbeiten</div>` + list(graded.map(e => {
+          const f = st.fach(e.fachId);
+          const schwach = (e.themaIds || []).filter(t => ['mittel', 'schlecht'].includes(st.themaErgebnis(e, t))).length;
+          return row({ a: 'ed', d: e.id, dot: f ? f.farbe : '#888', title: e.fach, sub: dayLong(e.datum) + ((e.themaIds || []).length ? ' · ' + plural(e.themaIds.length, 'Thema', 'Themen') : '') + (schwach ? ', ' + schwach + ' zum Nacharbeiten' : ''), detail: [e.note != null ? 'Note ' + fmtNote(e.note) : '', e.prozent != null ? fmtNum(e.prozent, 1) + ' %' : ''].filter(Boolean).join(' · ') });
+        }));
+      } else if (!offen.length) h += empty('Noch keine Note eingetragen.', 'Trag nach jeder Arbeit Note, Prozent und die Themen ein. Themen, die nicht gut liefen, zieht Lernwerk danach beim Lernen vor.');
+      const nach = st.nacharbeitThemen(today);
+      if (nach.size) h += `<div class="sec-h">Zum Nacharbeiten</div>` + list([...nach].map(([tid, v]) => row({ a: 'topic', d: tid, title: st.thema(tid).thema.name, sub: (v.bewertung === 'schlecht' ? 'Lief schlecht' : 'Lief mittel') + ' in ' + v.exam.fach + ', ' + dayShort(v.exam.datum) }))) + `<div class="btn-row"><button class="btn filled" data-a="nach">${icon('bolt')} Jetzt nacharbeiten</button></div>`;
+      h += `<div class="sec-f">So wirkt es aufs Lernen: Themen, die in einer Arbeit schlecht liefen, kommen bei Alles wiederholen zuerst, mittel gelaufene direkt danach. Aus beiden kommen auch neue Karten dazu, selbst wenn sie nicht im Unterricht angewählt sind. Ohne eigene Bewertung zählt das Gesamtergebnis: ab 81 Prozent gut, ab 60 Prozent mittel, darunter schlecht. Das gilt 120 Tage nach der Arbeit oder bis eine neuere Arbeit das Thema gut bewertet. Deine Noten bleiben nur auf diesem Gerät und in deiner Datensicherung.</div>`;
+      b.innerHTML = h;
+      on(b, {
+        neu: () => notenEditor({}),
+        ed: id => { const e = st.S.exams.find(x => x.id === id); if (e) notenEditor(e); },
+        topic: tid => push(topicPage(tid)),
+        nach: () => {
+          const tids = [...nach.keys()];
+          const q = st.buildQueue(1200, { tids, mitFehlern: true, maxNeu: 12 });
+          runSession(q.items.length ? q.items : sortForPractice(tids.flatMap(t => st.topicItems(t))).slice(0, 12), 'Nacharbeiten', { onClose: () => refreshTop() });
+        }
+      });
+    }
+  };
+}
+export function notenEditor(e0) {
+  const e = Object.assign({ fachId: '', datum: dayStr(), themaIds: [], ergebnis: {}, note: null, prozent: null, notiz: '' }, JSON.parse(JSON.stringify(e0)));
+  e.ergebnis = e.ergebnis || {};
+  const num = v => { const x = parseFloat(String(v).replace(',', '.')); return isFinite(x) ? x : null; };
+  const hint = p => { const n = st.noteAusProzent(p); return n ? 'Nach dem IHK-Schlüssel wären ' + fmtNum(p, 1) + ' Prozent etwa die Note ' + n + '. Achtung, deine Schule kann einen anderen Schlüssel haben.' : ''; };
+  openSheet({
+    title: e0.id ? 'Note bearbeiten' : 'Note eintragen', full: true,
+    render(b, api) {
+      const draw = () => {
+        const f = st.fach(e.fachId);
+        b.innerHTML = `<div class="form">
+          <label class="fld"><span>Fach</span><select data-k="fach"><option value="">Fach wählen</option>${st.faecher().map(x => `<option value="${x.id}" ${x.id === e.fachId ? 'selected' : ''}>${esc(x.name)}</option>`).join('')}</select></label>
+          <label class="fld"><span>Datum der Arbeit</span><input type="date" data-k="datum" value="${esc(e.datum)}"></label>
+          <label class="fld"><span>Note, zum Beispiel 2 oder 2,3</span><input type="text" inputmode="decimal" data-k="note" value="${esc(fmtNote(e.note))}"></label>
+          <label class="fld"><span>Prozent</span><input type="text" inputmode="decimal" data-k="prozent" value="${e.prozent != null ? esc(fmtNum(e.prozent, 1)) : ''}"></label>
+          <div class="sec-f" data-k="vorschlag">${hint(e.prozent)}</div>
+          ${f ? `<div class="sec-h">Welche Themen kamen dran?</div>${list(f.themen.map(t => row({ title: t.name, right: `<label class="switch"><input type="checkbox" data-t="${t.id}" ${e.themaIds.includes(t.id) ? 'checked' : ''}><span></span></label>`, html: e.themaIds.includes(t.id) ? seg('b:' + t.id, BEW, e.ergebnis[t.id] || st.themaErgebnis({ prozent: e.prozent, note: e.note }, t.id) || '') : '' })))}
+            <div class="sec-f">Bei jedem Thema wählst du, wie es lief. Ohne Auswahl zählt das Gesamtergebnis.</div>` : ''}
+          <label class="fld"><span>Notiz (optional)</span><input type="text" data-k="notiz" value="${esc(e.notiz || '')}" placeholder="Zum Beispiel: Zeit hat nicht gereicht"></label>
+          <button class="btn filled" data-a="save">Speichern</button>${e0.id ? `<button class="btn danger" data-a="del">${icon('trash')} Arbeit löschen</button>` : ''}</div>`;
+        $('[data-k="fach"]', b).onchange = ev => { grab(); e.fachId = ev.target.value; e.themaIds = []; e.ergebnis = {}; draw(); };
+        $('[data-k="prozent"]', b).oninput = ev => { $('[data-k="vorschlag"]', b).textContent = hint(num(ev.target.value)); };
+        $$('[data-t]', b).forEach(c => c.onchange = () => { grab(); const s = new Set(e.themaIds); c.checked ? s.add(c.dataset.t) : s.delete(c.dataset.t); e.themaIds = [...s]; draw(); });
+      };
+      const grab = () => {
+        const v = k => { const el = $('[data-k="' + k + '"]', b); return el ? el.value : null; };
+        if (v('datum') != null) e.datum = v('datum');
+        if (v('note') != null) e.note = num(v('note'));
+        if (v('prozent') != null) e.prozent = num(v('prozent'));
+        if (v('notiz') != null) e.notiz = v('notiz');
+      };
+      draw();
+      on(b, {
+        save: async () => {
+          grab();
+          if (!e.fachId) { toast('Bitte ein Fach wählen.'); return; }
+          if (!e.datum) { toast('Bitte das Datum wählen.'); return; }
+          if (e.note == null && e.prozent == null) { toast('Trag eine Note oder die Prozent ein.'); return; }
+          if (e.note != null && (e.note < 1 || e.note > 6)) { toast('Die Note muss zwischen 1 und 6 liegen.'); return; }
+          if (e.prozent != null && (e.prozent < 0 || e.prozent > 100)) { toast('Prozent müssen zwischen 0 und 100 liegen.'); return; }
+          const f = st.fach(e.fachId);
+          const erg = {};
+          for (const t of e.themaIds) if (e.ergebnis[t]) erg[t] = e.ergebnis[t];
+          await st.addExam({ id: e0.id, fachId: e.fachId, fach: f.name, datum: e.datum, themen: e0.themen || '', themaIds: e.themaIds, note: e.note, prozent: e.prozent, ergebnis: erg, notiz: e.notiz });
+          api.close(); toast('Note gespeichert. Schwache Themen ziehe ich beim Lernen vor.'); refreshTop();
+        },
+        del: async () => { if (await confirmBox('Diese Arbeit mit Note löschen?', 'Löschen', true)) { await st.deleteExam(e0.id); api.close(); refreshTop(); } }
+      });
+      b.addEventListener('click', ev => {
+        const btn = ev.target.closest('[data-seg] button');
+        if (!btn) return;
+        const k = btn.closest('[data-seg]').dataset.seg;
+        if (k.startsWith('b:')) e.ergebnis[k.slice(2)] = btn.dataset.v;
+      });
+    }
+  });
 }

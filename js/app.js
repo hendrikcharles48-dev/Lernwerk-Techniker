@@ -4,11 +4,11 @@ import { parseBlocks, summary, TEMPLATE } from './parser.js';
 import * as st from './store.js';
 import { $, $$, icon, row, list, seg, sw, empty, on, push, initTabs, showTab, tab, openSheet, toast, copyText, readClipboard, progress, ring, fachIcon, confirmBox, refreshAll, refreshTop, initEdgeSwipe, hinweisTabellenbuch } from './ui.js';
 import { topicPage, runSession, sortForPractice, fachProgress, topicProgress, openTrainer, askClaude, shrinkImage, noteReader, firstLine, itemTitle } from './engine.js';
-import { mehrPage, unterrichtPage, termineDetail, termEditor, datensicherung, applyTheme } from './extra.js';
+import { mehrPage, unterrichtPage, notenPage, termineDetail, termEditor, datensicherung, applyTheme } from './extra.js';
 import { prefs } from './db.js';
 import { canSpeak, readAloud } from './speech.js';
 
-export const VERSION = '1.9.2';
+export const VERSION = '1.10.0';
 
 /* ===== Heute ===== */
 // Freundliche, wechselnde Sätze für den Start. Ohne Druck.
@@ -50,6 +50,9 @@ const heute = {
     const qu = unterrichtQueue(), qa = allesQueue();
     h += `<button class="five" data-a="lernU">${icon('bolt')}<span><b>Unterricht</b><small>${aktTids().length ? 'Nur was gerade im Unterricht dran ist. ' + (qu.items.length ? plural(qu.items.length, 'Übung', 'Übungen') + ' offen.' : 'Nichts fällig, du kannst trotzdem üben.') : 'Noch keine Themen angewählt. Tippe hier.'}</small></span></button>`;
     h += `<button class="mixbtn" data-a="lernA">${icon('mix')}<span><b>Alles wiederholen</b><small>Alles, was schon dran war, gemischt. ${qa.faellig ? plural(qa.faellig, 'Übung', 'Übungen') + ' fällig.' : 'Gerade nichts fällig, du übst trotzdem gemischt.'}</small></span></button>`;
+    // Aus den Noten: Themen, die in einer Arbeit nicht gut liefen
+    const nachT = st.nacharbeitThemen(today);
+    if (nachT.size) h += `<button class="card unt-card" data-a="noten"><span class="unt-h">${icon('exam')}<b>Aus deinen Arbeiten nacharbeiten</b><span class="muted">${plural(nachT.size, 'Thema', 'Themen')}</span>${icon('chev', 'chev')}</span><span class="tc-tags">${[...nachT].slice(0, 6).map(([tid, v]) => `<span class="tag ${v.bewertung === 'schlecht' ? 'bad' : ''}">${esc(st.thema(tid).thema.name)}</span>`).join('')}</span><span class="muted small">Diese Themen ziehe ich bei Alles wiederholen vor.</span></button>`;
     // Meine Trainer: alle Trainer mit einem Tipp erreichbar, fällige zuerst
     const trs = [], seen = new Set();
     for (const f of st.faecher()) for (const t of f.themen) for (const x of t.trainer || []) {
@@ -93,6 +96,7 @@ const heute = {
       newexam: () => termEditor({}),
       lernU: () => lernenUnterricht(),
       trmix: () => trainerGemischt(),
+      noten: () => push(notenPage()),
       trainer: d => { const i = d.indexOf('|'); openTrainer(d.slice(0, i), d.slice(i + 1)); },
       lernA: () => lernenAlles(),
       unterricht: () => push(unterrichtPage()),
@@ -108,7 +112,8 @@ const aktTids = () => st.kvGet('aktuell', []).filter(id => st.thema(id));
 // Themen, die schon dran waren: angewählt oder schon einmal geübt
 function gelernteTids() {
   const akt = new Set(aktTids());
-  return st.allTids().filter(t => akt.has(t) || st.card('t:' + t) || st.topicItems(t).some(i => st.card(i.id)));
+  const nach = st.nacharbeitThemen();
+  return st.allTids().filter(t => akt.has(t) || nach.has(t) || st.card('t:' + t) || st.topicItems(t).some(i => st.card(i.id)));
 }
 // Rechenaufgaben verschiedener Themen im Wechsel, zuerst die mit Ansatz-Frage
 function mixAufgaben(tids, n) {
@@ -122,7 +127,8 @@ function mixAufgaben(tids, n) {
   return out;
 }
 export function unterrichtQueue() { const t = aktTids(); return t.length ? st.buildQueue(900, { tids: t, mitFehlern: true }) : { items: [], sekunden: 0 }; }
-export function allesQueue() { return st.buildQueue(900, { maxNeu: 0 }); }
+// Neue Karten nur aus Themen, die in einer Arbeit nicht gut liefen
+export function allesQueue() { return st.buildQueue(900, { maxNeu: st.nacharbeitThemen().size ? 6 : 0 }); }
 export function lernenUnterricht() {
   const tids = aktTids();
   if (!tids.length) { toast('Wähl zuerst aus, was gerade im Unterricht dran ist.'); push(unterrichtPage()); return; }

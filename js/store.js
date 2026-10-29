@@ -241,7 +241,7 @@ export async function recordCard(item, ergebnis) {
 
 /* ===== Heute dran ===== */
 export function nextExam(today = dayStr()) {
-  return S.exams.filter(e => e.datum >= today).sort((a, b) => (a.datum < b.datum ? -1 : 1))[0] || null;
+  return S.exams.filter(e => e.datum >= today && e.note == null && e.prozent == null).sort((a, b) => (a.datum < b.datum ? -1 : 1))[0] || null;
 }
 export function allTids() { return S.plan.faecher.flatMap(f => f.themen.map(t => t.id)); }
 
@@ -251,14 +251,15 @@ export function buildQueue(maxSec = 900, opt = {}) {
   const exT = new Set(ex ? ex.themaIds || [] : []);
   const dEx = ex ? daysBetween(today, ex.datum) : null;
   const akt = new Set(kvGet('aktuell', []));
+  const nach = nacharbeitThemen(today);
   const tids = opt.tids || allTids();
   const pool = [];
   for (const tid of tids) for (const it of topicItems(tid)) pool.push(it);
   if (!opt.tids || opt.mitFehlern) for (const e of S.errors) if (!e.erledigt && (!opt.tids || opt.tids.includes(e.tid))) pool.push(errorItem(e));
-  const prio = it => (exT.has(it.tid) ? 0 : akt.has(it.tid) ? 1 : 2);
+  const prio = it => (exT.has(it.tid) ? 0 : (nach.get(it.tid) || {}).bewertung === 'schlecht' ? 1 : akt.has(it.tid) ? 2 : nach.has(it.tid) ? 3 : 4);
   const due = pool.filter(it => isDue(S.cards.get(it.id), today, exT.has(it.tid) ? dEx : null))
     .sort((a, b) => prio(a) - prio(b) || (S.cards.get(a.id).faellig < S.cards.get(b.id).faellig ? -1 : 1));
-  const neu = pool.filter(it => !S.cards.get(it.id) && it.art !== 'fehler' && (exT.has(it.tid) || akt.has(it.tid) || opt.tids))
+  const neu = pool.filter(it => !S.cards.get(it.id) && it.art !== 'fehler' && (exT.has(it.tid) || akt.has(it.tid) || nach.has(it.tid) || opt.tids))
     .sort((a, b) => prio(a) - prio(b));
   const out = [];
   let sec = 0;
@@ -288,12 +289,38 @@ export async function addExam(x) {
   let f = x.fachId ? fach(x.fachId) : findFach(x.fach);
   if (!f && x.fach) f = await addFach(x.fach);
   const e = { id: x.id || uid(), fachId: f ? f.id : '', fach: f ? f.name : x.fach, datum: toDay(x.datum) || x.datum, themen: x.themen || '', themaIds: x.themaIds || matchThemen(f, x.themen) };
+  // Ergebnis der Arbeit: Note, Prozent und wie es je Thema lief (gut, mittel, schlecht)
+  for (const k of ['note', 'prozent', 'ergebnis', 'notiz']) if (x[k] != null && x[k] !== '') e[k] = x[k];
   const dup = S.exams.find(o => o.id !== e.id && o.fachId === e.fachId && o.datum === e.datum);
   if (dup) e.id = dup.id;
   S.exams = S.exams.filter(o => o.id !== e.id).concat(e);
   await db.put('exams', e);
   changed('exams');
   return e;
+}
+// Note nach dem IHK-Schlüssel aus Prozent, nur als Vorschlag
+export function noteAusProzent(p) {
+  if (p == null || !isFinite(p)) return null;
+  return p >= 92 ? 1 : p >= 81 ? 2 : p >= 67 ? 3 : p >= 50 ? 4 : p >= 30 ? 5 : 6;
+}
+// Wie lief ein Thema in der Arbeit? Ohne eigene Angabe zählt das Gesamtergebnis
+export function themaErgebnis(e, tid) {
+  if (e.ergebnis && e.ergebnis[tid]) return e.ergebnis[tid];
+  const p = e.prozent != null ? e.prozent : e.note != null ? { 1: 95, 2: 85, 3: 72, 4: 58, 5: 40, 6: 15 }[Math.round(e.note)] : null;
+  if (p == null) return null;
+  return p >= 81 ? 'gut' : p >= 60 ? 'mittel' : 'schlecht';
+}
+// Themen zum Nacharbeiten: In der letzten benoteten Arbeit mittel oder schlecht, nicht älter als 120 Tage
+export function nacharbeitThemen(today = dayStr()) {
+  const out = new Map();
+  const graded = S.exams.filter(e => (e.note != null || e.prozent != null) && e.datum <= today && daysBetween(e.datum, today) <= 120)
+    .sort((a, b) => (a.datum < b.datum ? 1 : -1));
+  for (const e of graded) for (const tid of e.themaIds || []) {
+    if (out.has(tid) || !thema(tid)) continue;
+    out.set(tid, { bewertung: themaErgebnis(e, tid), exam: e });
+  }
+  for (const [tid, v] of out) if (v.bewertung !== 'mittel' && v.bewertung !== 'schlecht') out.delete(tid);
+  return out;
 }
 export async function deleteExam(id) { S.exams = S.exams.filter(e => e.id !== id); await db.del('exams', id); changed('exams'); }
 
