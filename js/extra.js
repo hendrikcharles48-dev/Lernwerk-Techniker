@@ -421,7 +421,7 @@ export function hoerPage(opt = {}) {
         const out = [];
         for (const t of tidsQuelle()) {
           for (const it of st.topicItems(t)) if (it.art === 'karte' || it.art === 'begriff') out.push({ q: it.frage, a: it.antwort, sq: speakable(it.frage), sa: speakable(it.antwort), item: it, stelle: hoer.kartenStelle(t, it.frage) });
-          if (formeln) st.topic(t).formeln.forEach(fo => out.push({ q: 'Wie lautet die Formel ' + (fo.name ? 'für ' + fo.name : '') + '?', a: fo.formel, sa: speakFml(fo.formel) + (fo.umgestellt.length ? '. Umgestellt: ' + fo.umgestellt.map(speakFml).join('. ') : '') }));
+          if (formeln) st.topic(t).formeln.forEach(fo => { const q = 'Wie lautet die Formel ' + (fo.name ? 'für ' + fo.name : '') + '?'; out.push({ q, a: fo.formel, sa: speakFml(fo.formel) + (fo.umgestellt.length ? '. Umgestellt: ' + fo.umgestellt.map(speakFml).join('. ') : ''), stelle: hoer.kartenStelle(t, q) }); });
         }
         return sortForPractice(out.map((x, k) => Object.assign(x, { id: x.item ? x.item.id : 'h' + k }))).slice(0, 40);
       };
@@ -532,12 +532,13 @@ export function hoerPage(opt = {}) {
   function stimmeHTML() {
     const vs = deVoices();
     const opts = w => `<option value="">Automatisch</option>` + vs.map(v => `<option value="${esc(v.name)}" ${prefs.get('stimme' + w, '') === v.name ? 'selected' : ''}>${esc(v.name)}</option>`).join('');
-    return `<details class="disc"><summary>${icon('mic')} Systemstimme einstellen</summary><div class="prose">
-      <p>Die Folgen haben eigene, natürliche Stimmen. Die Systemstimme liest nur eigene Inhalte und Lernzettel.</p>
-      ${vs.length ? `<label class="fld"><span>Lena</span><select data-k="stA">${opts('A')}</select></label><button class="btn small" data-a="probe" data-d="A">Probe hören</button>
-      <label class="fld"><span>Tom</span><select data-k="stB">${opts('B')}</select></label><button class="btn small" data-a="probe" data-d="B">Probe hören</button>
+    return `<details class="disc"><summary>${icon('mic')} Stimmen</summary><div class="prose">
+      <p><b>Lena und Tom sind eingebaut.</b> Für die Folgen und das Abfragen musst du nichts herunterladen und nichts einstellen.</p>
+      <p>Nur deine eigenen Lernzettel und selbst eingefügte Themen liest die Stimme des iPhones. Die kannst du hier wählen.</p>
+      ${vs.length ? `<label class="fld"><span>Stimme für Lena</span><select data-k="stA">${opts('A')}</select></label><button class="btn small" data-a="probe" data-d="A">Probe hören</button>
+      <label class="fld"><span>Stimme für Tom</span><select data-k="stB">${opts('B')}</select></label><button class="btn small" data-a="probe" data-d="B">Probe hören</button>
       <div class="sec-h">Tempo</div><div class="chips">${[0.85, 1, 1.15, 1.3].map(r => `<button class="tchip sm ${(prefs.get('sysTempo', 1)) === r ? 'on' : ''}" data-a="systempo" data-d="${r}">${String(r).replace('.', ',')}×</button>`).join('')}</div>` : '<p>Dieser Browser zeigt keine deutschen Stimmen.</p>'}
-      <p><b>Bessere Stimme auf dem iPhone:</b> Einstellungen, Bedienungshilfen, Gesprochene Inhalte, Stimmen, Deutsch. Dort eine Stimme mit „Erweitert“ oder „Premium“ laden, zum Beispiel Anna. Danach Lernwerk neu öffnen und hier auswählen.</p></div></details>`;
+      <p class="muted small">Achtung: Safari gibt Web-Apps nicht immer alle Stimmen des iPhones frei. Stimmen, die du unter Bedienungshilfen lädst, tauchen hier deshalb manchmal nicht auf.</p></div></details>`;
   }
 }
 // Lernzettel als Gespräch: Zeilen mit Lena oder Tom bekommen je ihre Stimme

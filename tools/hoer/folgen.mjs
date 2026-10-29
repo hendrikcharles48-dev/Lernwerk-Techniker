@@ -4,6 +4,8 @@ import crypto from 'node:crypto';
 import { parseBlocks, mergeTopic } from '../../js/parser.js';
 import { norm } from '../../js/util.js';
 import { folge } from '../../js/podcast.js';
+import { sprechbar } from '../../js/speech.js';
+import { speakFml } from '../../js/formula.js';
 
 export function alleFolgen() {
   const root = new URL('../../', import.meta.url);
@@ -26,7 +28,13 @@ export function alleFolgen() {
     const segs = folge(t);
     if (segs.length < 6) continue;
     const hash = crypto.createHash('sha1').update(JSON.stringify(segs.map(s => [s.wer, s.say, s.pause]))).digest('hex').slice(0, 12);
-    out.push({ tid, fach, thema: t.thema, hash, segs });
+    // Alle Karten, Begriffe und Formeln für das Abfragen, mit denselben Fragen wie im Hörmodus
+    const karten = [];
+    for (const k of t.karten) karten.push({ q: k.frage, a: k.antwort, sq: sprechbar(k.frage), sa: sprechbar(k.antwort) });
+    for (const b of t.begriffe) if (b.erklaerung) { const q = 'Was bedeutet „' + b.begriff + '“?'; karten.push({ q, a: b.erklaerung, sq: sprechbar(q), sa: sprechbar(b.erklaerung) }); }
+    for (const fo of t.formeln) { const q = 'Wie lautet die Formel ' + (fo.name ? 'für ' + fo.name : '') + '?'; karten.push({ q, a: fo.formel, sq: sprechbar(q), sa: sprechbar(speakFml(fo.formel) + (fo.umgestellt.length ? '. Umgestellt: ' + fo.umgestellt.map(speakFml).join('. ') : '')) }); }
+    const khash = crypto.createHash('sha1').update(JSON.stringify(karten.map(k => [k.sq, k.sa]))).digest('hex').slice(0, 12);
+    out.push({ tid, fach, thema: t.thema, hash, segs, karten, khash });
   }
   return out;
 }

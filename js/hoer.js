@@ -173,13 +173,14 @@ function systemWeiter() { if (P.sys) systemNeu(); }
 function stopSystem() { if (P.sys) { P.sys.token++; P.sys = null; stopSpeaking(); } }
 
 /* ===== Abfragen mit der natürlichen Stimme: nur ein Ausschnitt einer Folge ===== */
-// Sucht Frage und Antwort einer Karte in der Folge ihres Themas
+// Sucht Frage und Antwort einer Karte: erst in der Kartendatei des Themas, dann in der Folge
 export function kartenStelle(tid, frage) {
   const info = infoSync(tid); if (!info) return null;
-  const f = satz(frage);
-  const k = info.segs.findIndex(x => x[3] === 'frage' && x[4] === f);
-  if (k < 0 || !info.segs[k + 1] || info.segs[k + 1][3] !== 'antwort') return null;
-  return { datei: info.datei, frage: info.segs[k], antwort: info.segs[k + 1] };
+  const finde = (segs, text) => { const k = segs.findIndex(x => x[3] === 'frage' && x[4] === text); return k >= 0 && segs[k + 1] && segs[k + 1][3] === 'antwort' ? k : -1; };
+  if (info.karten) { const k = finde(info.karten.segs, frage); if (k >= 0) return { datei: info.karten.datei, frage: info.karten.segs[k], antwort: info.karten.segs[k + 1] }; }
+  if (!info.segs) return null;
+  const k = finde(info.segs, satz(frage));
+  return k >= 0 ? { datei: info.datei, frage: info.segs[k], antwort: info.segs[k + 1] } : null;
 }
 // Spielt einen Ausschnitt und meldet sich am Ende. Bricht ab, wenn etwas anderes startet.
 export function ausschnitt(datei, start, end) {
@@ -207,8 +208,8 @@ export async function offlineLaden(tids, fortschritt) {
   let n = 0;
   for (const tid of tids) {
     const info = ix.folgen[tid];
-    if (info && !(await c.match(new URL('audio/' + info.datei, location.href).href))) { try { await c.add('audio/' + info.datei); } catch (e) { /* weiter */ } }
+    for (const d of info ? [info.datei, info.karten && info.karten.datei].filter(Boolean) : []) if (!(await c.match(new URL('audio/' + d, location.href).href))) { try { await c.add('audio/' + d); } catch (e) { /* weiter */ } }
     fortschritt && fortschritt(++n, tids.length);
   }
 }
-export const groesseMB = tids => Math.round(tids.reduce((s, t) => s + ((infoSync(t) || {}).dauer || 0), 0) * 4 / 1024);
+export const groesseMB = tids => Math.round(tids.reduce((s, t) => { const i = infoSync(t) || {}; return s + (i.dauer || 0) + ((i.karten || {}).dauer || 0); }, 0) * 4 / 1024);

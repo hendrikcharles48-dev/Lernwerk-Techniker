@@ -105,7 +105,7 @@ function renderTab(el, tab, tid, T, items, f) {
     T.merksaetze.forEach(m => { h += `<div class="card merk" style="--fc:${color}"><div class="card-k">Merksatz</div><p>${esc(m)}</p></div>`; });
     if (T.prinzip.length) h += `<div class="sec-h">So funktioniert es</div><div class="card prose">${T.prinzip.map(p => markdown(p)).join('')}</div>`;
     if (T.notizen.length) h += `<div class="sec-h">Notizen</div>` + list(T.notizen.map(n => row({ title: n.schluessel, sub: n.text })));
-    if (!nichts) h += `<div class="btn-row"><button class="btn" data-a="folge">${icon('ear')} Als Folge hören</button>${canSpeak() ? `<button class="btn" data-a="vorlesen">Prinzip vorlesen</button>` : ''}</div>`;
+    if (!nichts) h += `<div class="btn-row"><button class="btn" data-a="folge">${icon('ear')} Als Folge hören</button></div>`;
     if (T.quellen.length) h += `<p class="src">Quelle: ${T.quellen.map(esc).join(' ')}</p>`;
   }
   if (tab === 'bausteine') {
