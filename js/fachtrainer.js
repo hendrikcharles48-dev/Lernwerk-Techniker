@@ -290,7 +290,14 @@ function runAufgabe(it, o) {
     } else {
       const c = checkNumber(v, s.wert, s.einheit);
       if (c.status === 'ok') return accept(esc(showValue(c.value, s.einheit)), true);
-      r = { msg: c.msg, fehlerart: c.fehlerart, empty: c.status !== 'wrong' };
+      // Schon weiter gerechnet: späteren Schritt anerkennen, Zwischenschritte ergänzen
+      if (c.status === 'wrong') for (let j = i + 1; j < steps.length; j++) {
+        const sj = steps[j];
+        if (sj.typ !== 'zahl' || checkNumber(v, sj.wert, sj.einheit).status !== 'ok') continue;
+        while (i < j) { done.push({ was: steps[i].was, html: solText(steps[i]) + ' <span class="mut">(übersprungen)</span>' }); if (tries === 0) first++; i++; }
+        return accept(esc(showValue(sj.wert, sj.einheit)) + ' <span class="mut">(du warst schon weiter)</span>', true);
+      }
+      r = { msg: c.msg + (c.status === 'wrong' && i < steps.length - 1 ? ' Gefragt ist hier nur der Zwischenschritt: ' + s.was + '.' : ''), fehlerart: c.fehlerart, empty: c.status !== 'wrong' };
     }
     if (!r.empty) {
       tries++; used = true;

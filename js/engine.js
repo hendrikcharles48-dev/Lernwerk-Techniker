@@ -501,7 +501,8 @@ function runAufgabe(el, item, ctx, meta) {
     const s = steps[i];
     done.push({ n: i + 1, was: s.was, html });
     if (ok && tries === 0) first++;
-    i++; tries = 0; tipOpen = level === 1; solOpen = false; fb = null; note = '';
+    i++; tries = 0; tipOpen = level === 1; solOpen = false; fb = null;
+    if (!/du warst schon weiter/.test(note)) note = '';
     draw();
   }
   function check() {
@@ -518,7 +519,15 @@ function runAufgabe(el, item, ctx, meta) {
     } else {
       const c = checkNumber(v, s.wert, s.einheit);
       if (c.status === 'ok') return accept(esc(showValue(c.value, s.einheit)) + (c.msg ? ' <span class="muted">' + esc(c.msg) + '</span>' : ''), true);
-      r = { msg: c.msg, fehlerart: c.fehlerart, empty: c.status !== 'wrong' };
+      // Schon weiter gerechnet? Ein richtiger Wert eines späteren Schritts zählt, die Schritte dazwischen werden ergänzt.
+      if (c.status === 'wrong') for (let j = i + 1; j < steps.length; j++) {
+        const sj = steps[j];
+        if (sj.typ !== 'zahl' || checkNumber(v, sj.wert, sj.einheit).status !== 'ok') continue;
+        while (i < j) { done.push({ n: i + 1, was: steps[i].was, html: solText(steps[i]) + ' <span class="muted">(von dir übersprungen)</span>' }); if (tries === 0) first++; i++; }
+        note = `<div class="fb good"><b>Richtig, du warst schon weiter.</b> Das ist schon das Ergebnis von „${rich(sj.was)}“. Die Schritte dazwischen habe ich ergänzt.</div>`;
+        return accept(esc(showValue(sj.wert, sj.einheit)), true);
+      }
+      r = { msg: c.msg + (c.status === 'wrong' && steps.length > 1 && i < steps.length - 1 ? ' Gefragt ist hier nur der Zwischenschritt: ' + s.was + '.' : ''), fehlerart: c.fehlerart, empty: c.status !== 'wrong' };
     }
     if (!r.empty) {
       tries++; used = true;

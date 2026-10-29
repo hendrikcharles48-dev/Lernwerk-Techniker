@@ -559,3 +559,4 @@ body.sheet-open #readbar { bottom: calc(var(--sab) + 14px); }
 .stk-l { min-width: 0; }
 .merk-line { font-weight: 600; margin: 8px 0; }
 .zst .seg { margin: 0; }
+.zu-btn { display: block; margin: 6px auto 2px; border: 0; background: none; color: var(--label2); font-size: 13px; font-weight: 600; padding: 8px 12px; }

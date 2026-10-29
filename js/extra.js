@@ -649,6 +649,8 @@ function infoPage() {
 
 /* ===== Im Unterricht: Zustand aller Themen auf einen Blick ===== */
 const unterrichtOffen = new Set();
+// Nach dem Umschalten bleibt das angetippte Thema an derselben Stelle auf dem Bildschirm
+let unterrichtAnker = null;
 export function unterrichtPage() {
   return {
     title: 'Im Unterricht',
@@ -670,22 +672,42 @@ export function unterrichtPage() {
         if (!f.themen.length) continue;
         const n = f.themen.filter(t => st.zustand(t.id) === 'aktuell').length, d = f.themen.filter(t => st.zustand(t.id) === 'fertig').length;
         h += `<details class="disc unt" data-f="${esc(f.id)}" ${unterrichtOffen.has(f.id) ? 'open' : ''}><summary><span class="row-dot" style="background:${f.farbe}"></span>${esc(f.name)}<span class="unt-n">${[n ? n + ' im Unterricht' : '', d ? d + ' fertig' : ''].filter(Boolean).join(', ') || f.themen.length + ' Themen'}</span></summary>`
-          + list(f.themen.map(t => tRow(f, t, false))) + `</details>`;
+          + list(f.themen.map(t => tRow(f, t, false))) + `<button class="zu-btn" data-a="zu" data-d="${esc(f.id)}">${esc(f.kurz || f.name)} zuklappen</button></details>`;
       }
+      const sc = b.closest('.page-scroll');
+      const y = sc ? sc.scrollTop : 0;
       b.innerHTML = h;
+      if (sc) {
+        sc.scrollTop = y;
+        if (unterrichtAnker) {
+          const el = b.querySelector(`details[data-f="${unterrichtAnker.f}"] .zst[data-t="${unterrichtAnker.tid}"]`) || b.querySelector(`.zst[data-t="${unterrichtAnker.tid}"]`);
+          if (el) sc.scrollTop += el.getBoundingClientRect().top - unterrichtAnker.top;
+          unterrichtAnker = null;
+        }
+      }
       if (!b._untToggle) {
         b._untToggle = true;
         b.addEventListener('toggle', e => { const d = e.target.closest && e.target.closest('details[data-f]'); if (d) d.open ? unterrichtOffen.add(d.dataset.f) : unterrichtOffen.delete(d.dataset.f); }, true);
         b.addEventListener('click', e => {
           const btn = e.target.closest('.zst [data-seg] button');
           if (!btn) return;
-          const tid = btn.closest('.zst').dataset.t, v = btn.dataset.v;
+          const z = btn.closest('.zst'), tid = z.dataset.t, v = btn.dataset.v;
           if (st.zustand(tid) === v) return;
+          const d = z.closest('details[data-f]');
+          unterrichtAnker = { tid, f: d ? d.dataset.f : '', top: z.getBoundingClientRect().top };
           st.setZustand(tid, v);
           toast({ kommt: 'Kommt noch.', aktuell: 'Im Unterricht.', fertig: 'Abgeschlossen.' }[v]);
         });
       }
       on(b, {
+        zu: fid => {
+          const d = b.querySelector(`details[data-f="${fid}"]`);
+          if (!d) return;
+          d.open = false;
+          unterrichtOffen.delete(fid);
+          const sc = b.closest('.page-scroll'), r = d.getBoundingClientRect();
+          if (sc && r.top < 60) sc.scrollTop += r.top - 100;
+        },
         vorschlag: async () => { for (const t of vorschlag) await st.setZustand(t, 'fertig'); toast('Abgeschlossen.'); },
         alleab: async () => {
           if (!(await confirmBox('Alle Themen im Unterricht als abgeschlossen markieren? Sie kommen dann bei Alles wiederholen dran.', 'Abschließen'))) return;
