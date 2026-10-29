@@ -152,5 +152,11 @@ ok(checkNumber('2,5·10^(3)', 2500, 'N').status === 'ok' && checkNumber('√(2)'
 ok(checkNumber('12 - 20', -8, '').status === 'ok' && checkNumber('12,5 mA', 0.0125, 'A').status === 'ok', 'Rechnung und Einheit bleiben lesbar');
 ok(checkNumber('12 N/mm²', 12, 'N/mm²').status === 'ok', 'Einheit mit Bruchstrich');
 
+{
+  const r = parseBlocks('=== LERNWERK ===\nFach: Mathematik\nThema: T\nAufgabe: Rechne {a} · 2.\nSchritt: Produkt | a * 2 | | Nimm {a} mal 2.\nVariable: a | 1 | 5 | 1\nRechnung: a * 2\n=== ENDE ===');
+  const st = r.themen[0].aufgaben[0].schritte[0];
+  ok(st.tipp === 'Nimm {a} mal 2.' && st.einheit === '', 'Schritt mit Tipp als viertem Feld', st);
+}
+
 console.log(`\n${pass} bestanden, ${fail} fehlgeschlagen`);
 process.exit(fail ? 1 : 0);

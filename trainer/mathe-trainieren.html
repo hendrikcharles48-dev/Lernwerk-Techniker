@@ -993,45 +993,45 @@ const BLATT = [
     { k: 'text', h: 'Drei Glieder, Aufgabe 56 bis 60', b: `<p>${M('(a + b + c)²')}: alle drei zum Quadrat, dazu zweimal jedes Paar: ${M('a² + b² + c² + 2ab + 2ac + 2bc')}.</p><p>Bei Minus gilt für jedes Paar: Vorzeichen mal Vorzeichen. Steht vor b ein Minus und vor c ein Plus, wird ${M('2bc')} minus.</p>` },
     { k: 'text', h: 'Gemischte Aufgaben, 68 und 72 bis 80', b: `<p>Formel auflösen und das Ergebnis in Klammern lassen, wenn ein Minus davor steht. Erst dann die Klammer auflösen.</p><p>${M('(x − 1)(x + 1) − (x + 1)²')} wird zu ${M('(x² − 1) − (x² + 2x + 1)')}.</p><p>Vertauschte Reihenfolge stört nicht: ${M('2 + x')} ist dasselbe wie ${M('x + 2')}.</p>` },
   ],
-  vor: ['Welche Formel? Plus, Minus oder Plus-Minus-Paar.', 'a und b bestimmen, mit der Zahl davor: in (4s − 3r)² ist a = 4s und b = 3r.', 'a², 2ab und b² einzeln ausrechnen.', 'Mit dem richtigen Vorzeichen zusammensetzen.'],
+  vor: ['Welche Formel? Plus, Minus oder Plus-Minus-Paar.', 'a und b bestimmen, mit der Zahl davor: in (4s − 3r)² ist a = 4s und b = 3r.', 'a², 2ab und b² einzeln ausrechnen.', 'Mit dem richtigen Vorzeichen zusammensetzen.', 'Stehen mehrere Teile da: jede Formel einzeln auflösen und das Ergebnis in Klammern schreiben. Ein Minus vor der Klammer dreht alles darin um. Zum Schluss gleiche Sorten sammeln, also alle x², alle x und alle Zahlen, und jede Sorte einzeln zusammenrechnen.'],
   kurz: 'Die Mitte im Kopf: 2 mal vordere Zahl mal hintere Zahl. Bei (6x − 1)² ist das 2 · 6 · 1 = 12, also −12x. Beim Plus-Minus-Paar gar nicht ausmultiplizieren: (3m − 4)(3m + 4) ist sofort 9m² − 16.',
   hilfe: 'Hoch 2 mit der Taste ² eingeben. Eine Bruchzahl vor Buchstaben in Klammern, zum Beispiel (1/16)u².',
   tasks: [
-    { n: '46', raw: '(m+n)^2', ans: 'm^2+2mn+n^2' },
-    { n: '47', raw: '(n-1)^2', ans: 'n^2-2n+1' },
-    { n: '48', raw: '(a+4)^2', ans: 'a^2+8a+16' },
-    { n: '49', raw: '(r+1)^2', ans: 'r^2+2r+1' },
-    { n: '50', raw: '(a-c)^2', ans: 'a^2-2ac+c^2' },
-    { n: '51', raw: '(1-4x)^2', ans: '1-8x+16x^2' },
-    { n: '52', raw: '(4s-3r)^2', ans: '16s^2-24rs+9r^2' },
-    { n: '53', raw: '(5x-1)^2', ans: '25x^2-10x+1' },
-    { n: '54', raw: '(3x+0.5y)^2', ans: '9x^2+3xy+0.25y^2' },
-    { n: '55', raw: '(0.25u-2v)^2', ans: '0.0625u^2-uv+4v^2', note: 'Auf dem Blatt steht u²/16. Das ist dasselbe wie 0,0625u².' },
-    { n: '56', raw: '(a-b+c)^2', ans: 'a^2+b^2+c^2-2ab+2ac-2bc', tip: 'Drei Glieder: alle drei zum Quadrat, dann zweimal jedes Paar mit Vorzeichen mal Vorzeichen.' },
-    { n: '57', raw: '(a+b+c)^2', ans: 'a^2+b^2+c^2+2ab+2ac+2bc' },
+    { n: '46', raw: '(m+n)^2', ans: 'm^2+2mn+n^2', tip: 'Plus in der Klammer und hoch 2, also die 1. Formel. a ist m, b ist n. Rechne a², dann 2 · a · b, dann b² und schreib alles mit Plus hintereinander.' },
+    { n: '47', raw: '(n-1)^2', ans: 'n^2-2n+1', tip: 'Minus in der Klammer und hoch 2, also die 2. Formel. a ist n, b ist 1. Rechne n², dann 2 · n · 1 mit Minus davor, dann 1² mit Plus.' },
+    { n: '48', raw: '(a+4)^2', ans: 'a^2+8a+16', tip: '1. Formel. a ist a, b ist 4. Die Mitte ist 2 · a · 4. Hinten steht 4².' },
+    { n: '49', raw: '(r+1)^2', ans: 'r^2+2r+1', tip: '1. Formel. a ist r, b ist 1. Schreib auch 2 · r · 1 und 1² hin, die 1 darf nicht verschwinden.' },
+    { n: '50', raw: '(a-c)^2', ans: 'a^2-2ac+c^2', tip: '2. Formel. a ist a, b ist c. Die Mitte ist 2 · a · c mit Minus, hinten c² mit Plus.' },
+    { n: '51', raw: '(1-4x)^2', ans: '1-8x+16x^2', tip: '2. Formel. a ist 1, b ist 4x. Bei b² wird die 4 mit quadriert: (4x)² ist 4² · x².' },
+    { n: '52', raw: '(4s-3r)^2', ans: '16s^2-24rs+9r^2', tip: '2. Formel. a ist 4s, b ist 3r. Bei a² und b² Zahl und Buchstabe quadrieren. Die Mitte: 2 · 4 · 3, dahinter r und s.' },
+    { n: '53', raw: '(5x-1)^2', ans: '25x^2-10x+1', tip: '2. Formel. a ist 5x, b ist 1. (5x)² heißt 5² · x². Die Mitte ist 2 · 5x · 1.' },
+    { n: '54', raw: '(3x+0.5y)^2', ans: '9x^2+3xy+0.25y^2', tip: '1. Formel. a ist 3x, b ist 0,5y. Rechne 3², 2 · 3 · 0,5 und 0,5². Kommazahlen darfst du mit dem Rechner rechnen.' },
+    { n: '55', raw: '(0.25u-2v)^2', ans: '0.0625u^2-uv+4v^2', note: 'Auf dem Blatt steht u²/16. Das ist dasselbe wie 0,0625u².', tip: '2. Formel. a ist 0,25u, b ist 2v. Rechne 0,25², 2 · 0,25 · 2 und 2². Die Mitte wird eine 1, dann schreibst du nur uv.' },
+    { n: '56', raw: '(a-b+c)^2', ans: 'a^2+b^2+c^2-2ab+2ac-2bc', tip: 'Drei Glieder: a, −b und c. Erst alle drei zum Quadrat, das ist immer plus. Dann zweimal jedes Paar, Vorzeichen mal Vorzeichen: a mit −b gibt minus, a mit c gibt plus, −b mit c gibt minus.' },
+    { n: '57', raw: '(a+b+c)^2', ans: 'a^2+b^2+c^2+2ab+2ac+2bc', tip: 'Drei Glieder: a, b und c. Erst alle drei zum Quadrat. Dann zweimal jedes Paar: 2ab, 2ac und 2bc. Hier ist alles plus.' },
     { n: '58', raw: '(a-b-c)^2', ans: 'a^2+b^2+c^2-2ab-2ac+2bc', tip: 'Paar b und c: minus mal minus gibt plus.' },
-    { n: '59', raw: '(a-b-1)^2', ans: 'a^2+b^2-2ab-2a+2b+1' },
-    { n: '60', raw: '(p+2-q)^2', ans: 'p^2+q^2+4p-2pq-4q+4' },
-    { n: '61', raw: '(2.5x-0.7y)^2', ans: '6.25x^2-3.5xy+0.49y^2' },
-    { n: '62', raw: '(1.3a+2.6b)^2', ans: '1.69a^2+6.76ab+6.76b^2' },
-    { n: '63', raw: '(0.2a-0.1b)^2', ans: '0.04a^2-0.04ab+0.01b^2' },
-    { n: '64', raw: '(a-3)(a+3)', ans: 'a^2-9' },
-    { n: '65', raw: '(1+y)(1-y)', ans: '1-y^2' },
-    { n: '66', raw: '(3x+2y)(3x-2y)', ans: '9x^2-4y^2' },
-    { n: '67', raw: '(4m-5)(4m+5)', ans: '16m^2-25' },
+    { n: '59', raw: '(a-b-1)^2', ans: 'a^2+b^2-2ab-2a+2b+1', tip: 'Drei Glieder: a, −b und −1. Alle Quadrate sind plus. Dann jedes Paar zweimal, Vorzeichen mal Vorzeichen: a mit −b gibt minus, a mit −1 gibt minus, −b mit −1 gibt plus.' },
+    { n: '60', raw: '(p+2-q)^2', ans: 'p^2+q^2+4p-2pq-4q+4', tip: 'Drei Glieder: p, +2 und −q. Alle Quadrate sind plus. Paare zweimal nehmen: p mit 2 ist plus, p mit −q ist minus, 2 mit −q ist minus.' },
+    { n: '61', raw: '(2.5x-0.7y)^2', ans: '6.25x^2-3.5xy+0.49y^2', tip: '2. Formel. a ist 2,5x, b ist 0,7y. Rechne 2,5², 2 · 2,5 · 0,7 und 0,7² mit dem Rechner, die Buchstaben schreibst du dahinter.' },
+    { n: '62', raw: '(1.3a+2.6b)^2', ans: '1.69a^2+6.76ab+6.76b^2', tip: '1. Formel. a ist 1,3a, b ist 2,6b. Rechne 1,3², 2 · 1,3 · 2,6 und 2,6² mit dem Rechner.' },
+    { n: '63', raw: '(0.2a-0.1b)^2', ans: '0.04a^2-0.04ab+0.01b^2', tip: '2. Formel. a ist 0,2a, b ist 0,1b. Rechne 0,2², 2 · 0,2 · 0,1 und 0,1². Achte auf die Nullen hinter dem Komma.' },
+    { n: '64', raw: '(a-3)(a+3)', ans: 'a^2-9', tip: 'Zwei Klammern mit gleichen Gliedern, einmal Plus, einmal Minus: die 3. Formel. Nur a² − b², es gibt keine Mitte.' },
+    { n: '65', raw: '(1+y)(1-y)', ans: '1-y^2', tip: '3. Formel. a ist 1, b ist y. Das Ergebnis hat nur zwei Glieder.' },
+    { n: '66', raw: '(3x+2y)(3x-2y)', ans: '9x^2-4y^2', tip: '3. Formel. a ist 3x, b ist 2y. Beide quadrieren, dazwischen minus.' },
+    { n: '67', raw: '(4m-5)(4m+5)', ans: '16m^2-25', tip: '3. Formel. Dass Minus vor Plus kommt, ist egal. a ist 4m, b ist 5.' },
     { n: '68', raw: '2(a-b)(2a+2b)', ans: '4a^2-4b^2', tip: 'Aus (2a + 2b) die 2 ausklammern: 2(a + b). Dann steht da 2 · 2 · (a − b)(a + b).' },
-    { n: '69', raw: '(x-2)(2+x)', ans: 'x^2-4' },
-    { n: '70', raw: '(5x-2y)(5x+2y)', ans: '25x^2-4y^2' },
-    { n: '71', raw: '(1.3-x)(x+1.3)', ans: '1.69-x^2' },
+    { n: '69', raw: '(x-2)(2+x)', ans: 'x^2-4', tip: '2 + x ist dasselbe wie x + 2. Also die 3. Formel mit a gleich x und b gleich 2.' },
+    { n: '70', raw: '(5x-2y)(5x+2y)', ans: '25x^2-4y^2', tip: '3. Formel. a ist 5x, b ist 2y.' },
+    { n: '71', raw: '(1.3-x)(x+1.3)', ans: '1.69-x^2', tip: 'x + 1,3 ist dasselbe wie 1,3 + x. Also die 3. Formel mit a gleich 1,3 und b gleich x.' },
     { n: '72', raw: '(-2-x)(x+2)(-1)', ans: 'x^2+4x+4', tip: '(−2 − x) mal (−1) ist (2 + x). Was steht dann da?' },
-    { n: '73', raw: '(a-2b)(2b+a)', ans: 'a^2-4b^2' },
+    { n: '73', raw: '(a-2b)(2b+a)', ans: 'a^2-4b^2', tip: '2b + a ist dasselbe wie a + 2b. Also die 3. Formel mit a gleich a und b gleich 2b. Denk an (2b)² = 4b².' },
     { n: '74', raw: '(3x-2y)(-2y+3x)', ans: '9x^2-12xy+4y^2', tip: 'Schau genau: −2y + 3x ist dasselbe wie 3x − 2y.' },
     { n: '75', raw: '(1-a+b)(1+a+b)', ans: 'b^2-a^2+2b+1', tip: 'Fass 1 + b als ein Stück zusammen: ((1 + b) − a)((1 + b) + a). Plus-Minus-Paar.' },
-    { n: '76', raw: '(a-b)^2-(a+2b)^2', ans: '-6ab-3b^2' },
-    { n: '77', raw: '(x-1)(x+1)-(x+1)^2', ans: '-2x-2' },
-    { n: '78', raw: '(p-5q)^2-10pq+(p+5q)^2', ans: '2p^2-10pq+50q^2' },
-    { n: '79', raw: '(x-1)(y+1)-xy+2x-5(y-1)', ans: '3x-6y+4' },
-    { n: '80', raw: '(0.9x-0.3)(0.3-0.9x)+9(0.3x+0.1)^2', ans: '1.08x', tip: '(0,3 − 0,9x) ist −(0,9x − 0,3). Der erste Teil ist also minus eine zweite binomische Formel.' },
+    { n: '76', raw: '(a-b)^2-(a+2b)^2', ans: '-6ab-3b^2', tip: 'So gehst du vor:\nVorne (a − b)² mit der 2. Formel auflösen.\nHinten (a + 2b)² mit der 1. Formel auflösen und das Ergebnis in Klammern lassen, weil ein Minus davor steht.\nDas Minus vor der Klammer dreht jedes Vorzeichen in der Klammer um.\nGleiche Sorten sammeln: a² mit a², ab mit ab, b² mit b². Jede Sorte einzeln zusammenrechnen.' },
+    { n: '77', raw: '(x-1)(x+1)-(x+1)^2', ans: '-2x-2', tip: 'So gehst du vor:\nVorne die 3. Formel: (x − 1)(x + 1) wird x² − 1.\nHinten die 1. Formel, Ergebnis in Klammern: (x² + 2x + 1).\nDas Minus vor der Klammer dreht alles um.\nGleiche Sorten sammeln: x² mit x², x mit x, Zahlen mit Zahlen.' },
+    { n: '78', raw: '(p-5q)^2-10pq+(p+5q)^2', ans: '2p^2-10pq+50q^2', tip: 'So gehst du vor:\nVorne (p − 5q)² mit der 2. Formel, hinten (p + 5q)² mit der 1. Formel auflösen. Beide Ergebnisse in Klammern schreiben.\nVor der zweiten Klammer steht Plus, da ändert sich nichts.\nGleiche Sorten sammeln: alle p², alle pq, alle q². Das −10pq in der Mitte der Aufgabe nicht vergessen.' },
+    { n: '79', raw: '(x-1)(y+1)-xy+2x-5(y-1)', ans: '3x-6y+4', tip: 'Hier steckt keine binomische Formel drin.\n(x − 1)(y + 1) jeder mit jedem malnehmen, das gibt 4 Glieder.\n−5(y − 1): die −5 mit beiden Gliedern malnehmen, mit Vorzeichen.\nGleiche Sorten sammeln: xy, x, y und Zahlen.' },
+    { n: '80', raw: '(0.9x-0.3)(0.3-0.9x)+9(0.3x+0.1)^2', ans: '1.08x', tip: 'So gehst du vor:\n(0,3 − 0,9x) ist −(0,9x − 0,3). Der erste Teil ist also −(0,9x − 0,3)², eine 2. Formel mit Minus davor.\nHinten erst (0,3x + 0,1)² mit der 1. Formel auflösen, dann alles mal 9.\nVorne die Klammer mit dem Minus auflösen, das dreht alles um.\nGleiche Sorten sammeln: x² mit x², x mit x, Zahlen mit Zahlen. Viel hebt sich weg.' },
   ] },
 
 { id: 'faktor', sheet: 'terme', title: 'Zerlegung in Faktoren', range: 'Aufgabe 1 bis 48', level: 'voll', form: 'fac', prompt: 'Zerlege in Faktoren, also ausklammern.',
@@ -1432,8 +1432,11 @@ const GEN2 = {
       const k = Math.random() < 0.4 ? r(2, 3) : 1;
       return { prompt: 'Löse auf und fasse zusammen.', raw: `${k > 1 ? k : ''}(${s})^2`, ans: ptoStr(pscale(pmul(B, B), k)), form: 'simp', tip: 'Drei Glieder: alle drei zum Quadrat, dazu zweimal jedes Paar. Das Vorzeichen eines Paares ist Vorzeichen mal Vorzeichen.' };
     }
+    // Tipp in Klartext: welche Formel, was ist a und b, was danach passiert
+    const dz = x => x.replace(/\./g, ',').replace(/\^2/g, '²').replace(/-/g, ' − ').replace(/\+/g, ' + ').replace(/\( /g, '(');
+    const FNAME = { plus: 'die 1. Formel', minus: 'die 2. Formel', pm: 'die 3. Formel' };
     for (;;) {
-      const n = kind === 'one' ? 1 : hard ? r(2, 3) : 2; let raw = '', p = new Map();
+      const n = kind === 'one' ? 1 : hard ? r(2, 3) : 2; let raw = '', p = new Map(); const how = [];
       for (let j = 0; j < n; j++) {
         const u = { c: pick(cs.filter(c => c >= 1)), v: V[0] }, w = term(Math.random() < 0.3);
         const f = pick(['plus', 'minus', 'pm']), k = Math.random() < 0.3 ? r(2, 4) : 1;
@@ -1443,9 +1446,11 @@ const GEN2 = {
         else { s = `(${ts(u)}${f === 'plus' ? '+' : '-'}${ts(w)})^2`; const B = padd(U, Wp, f === 'plus' ? 1 : -1); q = pmul(B, B); }
         const neg = j > 0 && Math.random() < 0.55;
         raw += (neg ? '-' : (j ? '+' : '')) + (k > 1 ? k : '') + s; p = padd(p, pscale(q, k), neg ? -1 : 1);
+        how.push(`${n > 1 ? (j + 1) + '. ' : ''}${dz(s)} ist ${FNAME[f]} mit a = ${dz(ts(u))} und b = ${dz(ts(w))}. ${f === 'pm' ? 'Rechne a² − b².' : 'Rechne a², 2 · a · b und b² einzeln.'}${k > 1 ? ` Danach das ganze Ergebnis mal ${k}.` : ''}${neg ? ' Davor steht ein Minus: Ergebnis in Klammern lassen, beim Auflösen dreht sich jedes Vorzeichen um.' : ''}`);
       }
       if (p.size < 2) continue;
-      return { prompt: 'Löse mit den binomischen Formeln auf und fasse zusammen.', raw, ans: ptoStr(p), form: 'simp', tip: 'Jede Formel einzeln auflösen und das Ergebnis in Klammern lassen. Steht ein Minus davor, dreht es beim Auflösen der Klammer alles um. Erst dann zusammenfassen.' };
+      if (n > 1) how.push(`Zum Schluss gleiche Sorten sammeln: alle ${V[0]}² zusammen, alle ${V[0]}${V[1]} zusammen, alle ${V[1]}² zusammen, dann alle mit nur einem Buchstaben und alle Zahlen. Jede Sorte einzeln zusammenrechnen.`);
+      return { prompt: 'Löse mit den binomischen Formeln auf und fasse zusammen.', raw, ans: ptoStr(p), form: 'simp', tip: how.join('<br>') };
     }
   },
 
@@ -2750,6 +2755,11 @@ function keysFor(t) {
 }
 const keyBtn = k => `<button class="key" data-key="${k}" tabindex="-1" aria-label="${k === '⌫' ? 'Löschen' : k}">${k}</button>`;
 
+// Tipp mit Zeilenumbrüchen: erste Zeile als Satz, der Rest als nummerierte Schritte
+function tipList(tip) {
+  const [head, ...rest] = tip.split('\n');
+  return `<p style="font-weight:600">${head}</p>` + (rest.length ? `<ol class="steps" style="margin-top:6px">${rest.map(x => `<li>${x}</li>`).join('')}</ol>` : '');
+}
 function renderW() {
   document.body.style.overflow = 'hidden'; KC.caret = null;
   const sh = $('#sheet'), s = SEC[W.sec], t = s.tasks[W.i], k = tKey(s, t), st = wst(k);
@@ -2790,7 +2800,7 @@ function renderW() {
   } else {
     h += `<div style="margin-top:14px">${W.i < s.tasks.length - 1 ? '<button class="btn" data-wnext>Nächste Aufgabe</button>' : '<button class="btn" data-wclose>Abschnitt fertig</button>'}</div><div class="btnrow"><button class="btn ${W.reveal ? 'sec2' : 'plain'}" data-wreveal>${s.sheet === 'mengen' ? 'Lösung' : 'Mit dem Blatt vergleichen'}</button><button class="btn plain" data-wclear>Neu rechnen</button></div>`;
   }
-  if (W.tip) h += `<div class="sec">Tipp</div><div class="group pad">${t.tip ? `<p style="font-weight:600">${t.tip}</p>` : ''}<ol class="steps"${t.tip ? ' style="margin-top:6px"' : ''}>${s.vor.map(x => `<li>${x}</li>`).join('')}</ol></div>`;
+  if (W.tip) h += `<div class="sec" id="wtipbox">Tipp</div><div class="group pad">${t.tip ? `<div class="kind">Bei dieser Aufgabe</div>${tipList(t.tip)}<div class="kind" style="margin-top:12px">Der Weg allgemein</div>` : ''}<ol class="steps"${t.tip ? ' style="margin-top:6px"' : ''}>${s.vor.map(x => `<li>${x}</li>`).join('')}</ol></div>`;
   if (W.reveal) h += `<div class="sec">${s.sheet === 'mengen' ? 'Lösung' : 'Lösung vom Blatt'}</div><div class="group pad"><div class="expr" style="font-size:22px">${ansHTML(t)}</div>${t.note ? `<p class="muted" style="font-size:15px;margin-top:6px">${t.note}</p>` : ''}</div>`;
   sh.innerHTML = h + '</div>';
   const inp = $('#inp');
@@ -2837,7 +2847,7 @@ function wClick(d) {
   if ('wnext' in d) { openTask(W.sec, W.i + 1); return true; }
   if ('wcheck' in d) { wCheck(); return true; }
   if ('wvcheck' in d) { wvCheck(); return true; }
-  if ('wtip' in d) { W.tip = !W.tip; renderW(); return true; }
+  if ('wtip' in d) { W.tip = !W.tip; renderW(); if (W.tip) { const tp = $('#wtipbox'); if (tp) tp.scrollIntoView({ block: 'start', behavior: 'smooth' }); } return true; }
   if ('wreveal' in d) { W.reveal = !W.reveal; renderW(); return true; }
   if ('wundo' in d) {
     const st = JSON.parse(JSON.stringify(wst(k))); st.lines.pop(); st.done = false; st.vdone = false;
@@ -2944,7 +2954,7 @@ function renderX() {
   else {
     h += `<div class="btnrow"><button class="btn ${X.tip ? 'sec2' : 'plain'}" data-xtip>Tipp</button><button class="btn ${X.reveal ? 'sec2' : 'plain'}" data-xreveal>Lösung</button><button class="btn plain" data-xskip>Andere</button></div>`;
   }
-  if (X.tip) h += `<div class="sec">Tipp</div><div class="group pad"><p>${t.tip}</p></div>`;
+  if (X.tip) h += `<div class="sec" id="xtipbox">Tipp</div><div class="group pad"><p>${t.tip}</p></div>`;
   if (X.reveal) h += `<div class="sec">Lösung</div><div class="group pad"><div class="expr" style="font-size:22px">${ansHTML(t)}</div></div>`;
   sh.innerHTML = h + '</div>';
   if ($('#inp')) updPreview();
@@ -2987,7 +2997,7 @@ function xClick(d) {
   if ('xskip' in d) { if (X.lines.length || X.reveal) xCount(false); xNew(); renderX(); $('#sheet').scrollTop = 0; return true; }
   if ('xcheck' in d) { xCheck(); return true; }
   if ('xvcheck' in d) { xvCheck(); return true; }
-  if ('xtip' in d) { X.tip = !X.tip; renderX(); return true; }
+  if ('xtip' in d) { X.tip = !X.tip; renderX(); if (X.tip) { const tp = $('#xtipbox'); if (tp) tp.scrollIntoView({ block: 'start', behavior: 'smooth' }); } return true; }
   if ('xreveal' in d) { X.reveal = !X.reveal; renderX(); return true; }
   if (d.xmc !== undefined) { X.picked = +d.xmc; xCount(X.picked === X.task.correct); renderX(); return true; }
   return false;

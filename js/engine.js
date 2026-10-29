@@ -308,7 +308,7 @@ export function instantiate(a) {
   const fill = s => String(s || '').replace(/\{([^}]+)\}/g, (m, n) => (keyOf(n.trim()) in vals ? fmtNum(vals[keyOf(n.trim())]) : m));
   const steps = a.schritte.map(s => {
     const e = s.ergebnis;
-    const o = { was: fill(s.was), einheit: s.einheit, typ: 'plan' };
+    const o = { was: fill(s.was), einheit: s.einheit, tipp: fill(s.tipp), typ: 'plan' };
     if (!e) return o;
     if (e.typ === 'gleichung') { o.typ = 'gleichung'; o.text = e.text; }
     else if (e.typ === 'ausdruck') { const v = calc(e.text, vals); if (v != null) { o.typ = 'zahl'; o.wert = v; o.rechnung = e.text; } }
@@ -395,11 +395,11 @@ function runAufgabe(el, item, ctx, meta) {
   let phase = T0.ansatz && !ctx.twinOf ? 'ansatz' : 'steps';
   let opts = null, picked = null, ansatzFirst = null, note = '', kontrolleFirst = null;
   const result = () => (shown ? 'falsch' : used ? 'hilfe' : 'richtig');
-  // Hilfe wird weniger: geführt mit offenen Tipps, mit Schritten, frei nur mit Endergebnis
+  // Hilfe wird weniger: geführt mit Schritten und Rechenweg im Tipp, dann nur Schritte, frei nur mit Endergebnis.
+  // Der Tipp bleibt immer zu, bis man auf Tipp drückt.
   const target = [...steps].reverse().find(s => s.typ === 'zahl' || s.typ === 'gleichung');
   const level = ctx.twinOf ? 3 : (ctx.level || st.aufgabenStufe(item.tid));
   let mode = level === 3 && target ? 'frei' : 'schritte', freiOk = false;
-  if (level === 1) { used = true; tipOpen = true; }
 
   function draw() {
     const s = steps[i];
@@ -435,7 +435,7 @@ function runAufgabe(el, item, ctx, meta) {
       if (fi) fi.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); checkFrei(); } });
       return;
     }
-    if (level === 1 && i === 0 && !done.length) h += `<p class="muted small lvl-hint">Geführt: Die Tipps sind schon offen. Mit jeder sicheren Lösung wird die Hilfe weniger.</p>`;
+    if (level === 1 && i === 0 && !done.length) h += `<p class="muted small lvl-hint">Geführt: Kommst du nicht weiter, drück auf Tipp. Dort steht, wie du an den Schritt herangehst.</p>`;
     h += note + (level < 3 || used ? aufbau : '') + `<div class="step-box"><div class="step-n">${level === 1 ? 'Geführt · ' : ''}Schritt ${i + 1} von ${steps.length}</div><div class="step-q">${rich(s.was || 'Nächster Schritt')}</div>`;
     if (s.typ === 'gleichung') {
       const names = [...varNames(parseEqSafe(s.text)).values()];
@@ -445,7 +445,7 @@ function runAufgabe(el, item, ctx, meta) {
     h += `<div class="act">${s.typ === 'plan' ? `<button class="btn filled" data-a="plan">Erledigt</button>` : `<button class="btn filled" data-a="check">Prüfen</button>`}
       <button class="btn" data-a="tip">${tipOpen ? 'Tipp zu' : 'Tipp'}</button><button class="btn" data-a="sol">${solOpen ? 'Lösung zu' : 'Lösung'}</button></div>`;
     if (fb) h += fb;
-    if (tipOpen) h += `<div class="fb info"><b>Tipp.</b> ${tipText()}</div>`;
+    if (tipOpen) h += `<div class="fb info tipbox"><b>Tipp.</b> ${tipText()}</div>`;
     if (solOpen) h += `<div class="fb info"><b>Lösung.</b> ${solText(s)}<div class="btn-row"><button class="btn" data-a="take">Übernehmen und weiter</button></div></div>`;
     h += '</div>';
     el.innerHTML = h;
@@ -498,11 +498,18 @@ function runAufgabe(el, item, ctx, meta) {
   }
   function tipText() {
     const cur = steps[i];
-    // Geführt: die Rechnung mit eingesetzten Zahlen vorgeben, ausrechnen musst du selbst
-    if (level === 1 && cur && cur.rechnung) return 'Setz ein: ' + fmlWith(cur.rechnung, A.vals) + (A.tipps.length ? '<br>' + A.tipps.map(esc).join(' ') : '');
-    if (A.tipps.length) return A.tipps.map(esc).join(' ');
-    const f = topicT.formeln.slice(0, 3).map(x => fml(x.formel)).join(', ');
-    return topicT.bausteine.length ? 'Arbeitsplan: ' + esc(topicT.bausteine[Math.min(i, topicT.bausteine.length - 1)]) + (f ? ' Passende Formeln: ' + f : '') : (f ? 'Passende Formeln: ' + f : 'Was ist gegeben, was ist gesucht, und welche Regel verbindet beides?');
+    const parts = [];
+    // So gehst du heran: erst der Tipp zum Schritt, sonst der Arbeitsplan des Themas
+    if (cur && cur.tipp) parts.push('<b>So gehst du heran:</b> ' + rich(cur.tipp));
+    else if (topicT.bausteine.length && !A.tipps.length) parts.push('<b>So gehst du heran:</b> ' + esc(topicT.bausteine[Math.min(i, topicT.bausteine.length - 1)]));
+    if (A.tipps.length) parts.push(A.tipps.map(esc).join(' '));
+    // Die Rechnung mit eingesetzten Zahlen, ausrechnen musst du selbst
+    if (cur && cur.rechnung && level < 3) parts.push('<b>Setz ein:</b> ' + fmlWith(cur.rechnung, A.vals));
+    if (!parts.length) {
+      const f = topicT.formeln.slice(0, 3).map(x => fml(x.formel)).join(', ');
+      parts.push(f ? 'Passende Formeln: ' + f : 'Was ist gegeben, was ist gesucht, und welche Regel verbindet beides?');
+    }
+    return parts.join('<br>');
   }
   function solText(s) {
     if (s.typ === 'gleichung') return fml(s.text);
@@ -513,7 +520,7 @@ function runAufgabe(el, item, ctx, meta) {
     const s = steps[i];
     done.push({ n: i + 1, was: s.was, html });
     if (ok && tries === 0) first++;
-    i++; tries = 0; tipOpen = level === 1; solOpen = false; fb = null;
+    i++; tries = 0; tipOpen = false; solOpen = false; fb = null;
     if (!/du warst schon weiter/.test(note)) note = '';
     draw();
   }
@@ -553,7 +560,7 @@ function runAufgabe(el, item, ctx, meta) {
   on(el, {
     check, pick, checkFrei, plan: () => accept('erledigt', true),
     schritte: () => { mode = 'schritte'; used = true; fb = null; draw(); },
-    tip: () => { tipOpen = !tipOpen; if (tipOpen) used = true; draw(); },
+    tip: () => { tipOpen = !tipOpen; if (tipOpen) used = true; draw(); if (tipOpen) { const tb = $('.tipbox', el); if (tb) tb.scrollIntoView({ block: 'nearest', behavior: 'smooth' }); } },
     sol: () => { solOpen = !solOpen; draw(); },
     take: () => { shown = true; const s = steps[i]; accept(solText(s) + ' <span class="muted">(Lösung angesehen)</span>', false); },
     claude: d => askClaude(d),

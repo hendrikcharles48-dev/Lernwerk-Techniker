@@ -42,7 +42,7 @@ for (const file of files) {
         for (const q of [a.ansatz, a.warum, a.kontrolle]) if (q) { const L = q.falsch.map(x => x.length); if (q.richtig.length > Math.max(...L) * 1.35 + 6 || q.richtig.length > Math.min(...L) * 2.2 + 10) { console.log('RICHTIGE ANTWORT AUFFÄLLIG LANG', t.thema, '|', q.richtig); bad++; } }
         // Platzhalter müssen Variablen sein
         const names = new Set(a.variablen.map(v => keyOf(v.name)));
-        for (const m of (a.text + a.gegeben.join(' ') + a.tipps.join(' ') + a.schritte.map(x => x.was).join(' ') + [a.ansatz, a.warum, a.kontrolle].filter(Boolean).flatMap(q => [q.frage || '', q.richtig, ...q.falsch]).join(' ') + (a.signal || '')).matchAll(/\{([^}]+)\}/g)) if (!names.has(keyOf(m[1]))) { console.log('PLATZHALTER OHNE VARIABLE', m[1], '|', kurz); bad++; }
+        for (const m of (a.text + a.gegeben.join(' ') + a.tipps.join(' ') + a.schritte.map(x => x.was + ' ' + (x.tipp || '')).join(' ') + [a.ansatz, a.warum, a.kontrolle].filter(Boolean).flatMap(q => [q.frage || '', q.richtig, ...q.falsch]).join(' ') + (a.signal || '')).matchAll(/\{([^}]+)\}/g)) if (!names.has(keyOf(m[1]))) { console.log('PLATZHALTER OHNE VARIABLE', m[1], '|', kurz); bad++; }
         // Zufallswerte: Rechnung und alle Schritte müssen gültige Zahlen liefern
         if (a.variablen.length && a.rechnung) {
           for (let k = 0; k < 40; k++) {

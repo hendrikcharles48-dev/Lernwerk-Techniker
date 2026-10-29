@@ -216,8 +216,8 @@ export function parseBlocks(text) {
       }
       case 'schritt': {
         const t = ensureTask(i);
-        const [was, erg, einheit] = pipes(val);
-        const s = { was: was || '', ergebnis: readValue(erg), einheit: einheit || '' };
+        const [was, erg, einheit, tipp] = pipes(val);
+        const s = { was: was || '', ergebnis: readValue(erg), einheit: einheit || '', tipp: tipp || '' };
         if (!erg) warn(i, 'Schritt ohne Ergebnis. Ich zeige ihn als Planungsschritt ohne Prüfung.');
         if (s.ergebnis && s.ergebnis.einheit && !s.einheit) s.einheit = s.ergebnis.einheit;
         t.schritte.push(s); field = null; break;
@@ -388,7 +388,7 @@ export function exportBlock(t, termine = []) {
     a.gegeben.forEach(g => L.push(lineOut('Gegeben', g)));
     a.gesucht.forEach(g => L.push(lineOut('Gesucht', g)));
     a.tipps.forEach(g => L.push(lineOut('Tipp', g)));
-    a.schritte.forEach(s => L.push('Schritt: ' + s.was + ' | ' + fmtVal(s.ergebnis) + (s.einheit ? ' | ' + s.einheit : '')));
+    a.schritte.forEach(s => L.push('Schritt: ' + s.was + ' | ' + fmtVal(s.ergebnis) + (s.einheit || s.tipp ? ' | ' + s.einheit : '') + (s.tipp ? ' | ' + s.tipp : '')));
     if (a.ergebnis) L.push('Ergebnis: ' + fmtVal(a.ergebnis.wert) + (a.ergebnis.einheit ? ' | ' + a.ergebnis.einheit : ''));
     a.variablen.forEach(v => L.push('Variable: ' + v.name + ' | ' + v.von + ' | ' + v.bis + ' | ' + v.schritt));
     if (a.rechnung) L.push('Rechnung: ' + a.rechnung);

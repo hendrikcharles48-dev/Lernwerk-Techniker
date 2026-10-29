@@ -73,7 +73,7 @@ Aufgabe: Aufgabentext, Platzhalter wie {C} werden mit Zufallswerten gefüllt
 Gegeben: C = {C} µF
 Gesucht: Q
 Tipp: optionaler Tipp
-Schritt: was berechnet wird | Ergebnis | Einheit
+Schritt: was berechnet wird | Ergebnis | Einheit | So gehst du heran (optional, steht nur im Tipp)
 Ergebnis: Zahl | Einheit
 Variable: Name | von | bis | Schrittweite
 Rechnung: Formel mit den Variablennamen

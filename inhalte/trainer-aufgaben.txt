@@ -188,10 +188,10 @@ Ansatz: a² + 2ab + b² | a² + b²; a² + ab + b²; a² − 2ab + b²
 Signal: Eine Summe steht in Klammern hoch 2.
 Warum: Weil beim Ausmultiplizieren zweimal ab entsteht | Weil man nur die Quadrate addiert; Weil das Minus aus der Klammer kommt
 Kontrolle: Ist das Ergebnis größer als a² + b²? | Ja, um 2ab | Nein, es ist gleich groß; Nein, es ist kleiner
-Schritt: a² | (10 * a)^2 | 
-Schritt: 2ab | 2 * 10 * a * b | 
-Schritt: b² | b^2 | 
-Schritt: Ergebnis | (10 * a)^2 + 2 * 10 * a * b + b^2 | 
+Schritt: a² | (10 * a)^2 | | a ist die erste Zahl in der Klammer, also {a}0. Rechne sie mal sich selbst: {a}0 · {a}0. Tipp im Kopf: {a} · {a} und dann zwei Nullen dran.
+Schritt: 2ab | 2 * 10 * a * b | | Das ist die Mitte. Nimm 2 · erste Zahl · zweite Zahl, also 2 · {a}0 · {b}.
+Schritt: b² | b^2 | | b ist die zweite Zahl in der Klammer, also {b}. Rechne {b} · {b}.
+Schritt: Ergebnis | (10 * a)^2 + 2 * 10 * a * b + b^2 | | Jetzt nur noch zusammenzählen. Schau oben auf deine drei Zahlen: a² + 2ab + b². Erst die zwei großen Zahlen addieren, dann die kleine dazu.
 Variable: a | 2 | 9 | 1
 Variable: b | 1 | 9 | 1
 Rechnung: (10 * a + b)^2
@@ -203,10 +203,10 @@ Ansatz: a² − 2ab + b² | a² + 2ab + b²; a² − b²; a² − 2ab − b²
 Signal: Eine Differenz steht in Klammern hoch 2.
 Warum: Weil minus mal minus bei b² plus ergibt | Weil b² immer abgezogen wird; Weil das Mittelglied wegfällt
 Kontrolle: Ist das Ergebnis kleiner als a²? | Ja, weil 2ab größer als b² ist | Nein, es ist größer als a²; Nein, es ist genau a²
-Schritt: a² | (10 * a)^2 | 
-Schritt: 2ab | 2 * 10 * a * b | 
-Schritt: b² | b^2 | 
-Schritt: Ergebnis | (10 * a)^2 - 2 * 10 * a * b + b^2 | 
+Schritt: a² | (10 * a)^2 | | a ist die erste Zahl in der Klammer, also {a}0. Rechne {a}0 · {a}0. Das Minus in der Klammer spielt hier noch keine Rolle.
+Schritt: 2ab | 2 * 10 * a * b | | Das ist die Mitte. Rechne 2 · {a}0 · {b}, erst einmal ohne Vorzeichen. Das Minus kommt erst im Ergebnis.
+Schritt: b² | b^2 | | Rechne {b} · {b}. Ein Quadrat ist nie negativ.
+Schritt: Ergebnis | (10 * a)^2 - 2 * 10 * a * b + b^2 | | Jetzt zusammensetzen: a² − 2ab + b². Nimm die erste Zahl von oben, zieh die Mitte ab und zähl dann b² wieder dazu. Minus in der Klammer heißt Minus in der Mitte, hinten immer Plus.
 Variable: a | 2 | 9 | 1
 Variable: b | 1 | 9 | 1
 Rechnung: (10 * a - b)^2
@@ -218,9 +218,9 @@ Ansatz: a² − b² | a² + b²; a² − 2ab + b²; (a − b)²
 Signal: Summe und Differenz derselben zwei Zahlen werden malgenommen.
 Warum: Weil sich die Mittelglieder gegenseitig aufheben | Weil sich die Quadrate aufheben; Weil das Mittelglied doppelt zählt
 Kontrolle: Ist das Ergebnis knapp unter a²? | Ja, genau um b² darunter | Nein, um 2ab darüber; Nein, genau gleich a²
-Schritt: a² | (10 * a)^2 | 
-Schritt: b² | b^2 | 
-Schritt: Ergebnis | (10 * a)^2 - b^2 | 
+Schritt: a² | (10 * a)^2 | | Beide Klammern haben vorne {a}0. Rechne {a}0 · {a}0.
+Schritt: b² | b^2 | | Beide Klammern haben hinten {b}. Rechne {b} · {b}.
+Schritt: Ergebnis | (10 * a)^2 - b^2 | | Bei der dritten Formel gibt es keine Mitte. Rechne nur a² − b², also die große Zahl minus die kleine.
 Variable: a | 2 | 9 | 1
 Variable: b | 1 | 9 | 1
 Rechnung: (10 * a)^2 - b^2
