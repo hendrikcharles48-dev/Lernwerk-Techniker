@@ -8,6 +8,7 @@ import { $, $$, icon, row, list, seg, sw, empty, on, push, pop, openSheet, toast
 import { topicPage, runSession, runItem, ZUSTAENDE, staerkeHTML, sortForPractice, topicProgress, formelCard, askClaude, noteReader, openTrainer, itemTitle, rich } from './engine.js';
 import { speak, stopSpeaking, canSpeak, keepAwake, pause, readAloud, stopReading, deVoices } from './speech.js';
 import * as hoer from './hoer.js';
+import * as sk from './skizzen.js';
 import { folge, dauerSchaetzung, DENKPAUSE } from './podcast.js';
 import { prefs } from './db.js';
 
@@ -403,6 +404,9 @@ export function hoerPage(opt = {}) {
         $('.fp-zeit', b).textContent = z.dauer ? MIN(z.zeit) + ' / ' + MIN(z.dauer) : '';
         $$('[data-a="tempo"]', b).forEach(x => x.classList.toggle('on', +x.dataset.d === z.rate));
         $$('.ep', b).forEach(x => x.classList.toggle('now', x.dataset.d === z.tid));
+        // Skizze zum Thema, solange die Folge läuft
+        const skb = $('.fp-sk', b);
+        if (skb && skb.dataset.tid !== (z.tid || '')) { skb.dataset.tid = z.tid || ''; skb.innerHTML = z.tid ? sk.html(z.tid, true) : ''; sk.fuellen(skb); }
       };
       off = hoer.subscribe(live);
       live();
@@ -502,7 +506,7 @@ export function hoerPage(opt = {}) {
       const sub = [th.fach.name, MIN(info ? info.dauer : dauerSchaetzung(segs)) + ' Min', info && !eigen ? '' : 'Systemstimme', g[t] ? 'gehört' : ''].filter(Boolean).join(' · ');
       return row({ a: 'ep', d: t, cls: 'ep', title: th.thema.name, sub, icon: g[t] ? 'check' : 'ear', color: g[t] ? '#30D158' : '#0A84FF' });
     }).filter(Boolean);
-    let h = `<div class="fplayer"><div class="fp-f muted small"></div><div class="fp-t"></div><div class="fp-z"></div>
+    let h = `<div class="fplayer"><div class="fp-f muted small"></div><div class="fp-t"></div><div class="fp-z"></div><div class="fp-sk"></div>
       <input type="range" data-k="pos" min="0" max="1" step="1" value="0" aria-label="Position"><div class="fp-zeit muted small"></div>
       <div class="pl-btns"><button class="pl-b" data-a="fprev" aria-label="Vorheriger Teil">${icon('prev')}</button><button class="pl-b" data-a="fback" aria-label="15 Sekunden zurück">${icon('back15')}</button><button class="pl-b big" data-a="fplay" aria-label="Start oder Pause">${icon('play')}</button><button class="pl-b" data-a="ffwd" aria-label="15 Sekunden vor">${icon('fwd15')}</button><button class="pl-b" data-a="fnext" aria-label="Nächster Teil">${icon('next')}</button></div>
       <div class="chips fp-tempo">${[0.8, 1, 1.2, 1.5].map(r => `<button class="tchip sm" data-a="tempo" data-d="${r}">${String(r).replace('.', ',')}×</button>`).join('')}</div></div>`;

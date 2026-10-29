@@ -6,9 +6,10 @@ import { $, $$, icon, row, list, seg, sw, empty, on, push, initTabs, showTab, ta
 import { topicPage, runSession, sortForPractice, fachProgress, topicProgress, openTrainer, askClaude, shrinkImage, noteReader, firstLine, itemTitle } from './engine.js';
 import { mehrPage, unterrichtPage, termineDetail, termEditor, datensicherung, applyTheme, hoerPage } from './extra.js';
 import { prefs } from './db.js';
+import { laden as skizzenLaden } from './skizzen.js';
 import { canSpeak, readAloud } from './speech.js';
 
-export const VERSION = '1.14.3';
+export const VERSION = '1.15.0';
 
 /* ===== Heute ===== */
 // Freundliche, wechselnde Sätze für den Start. Ohne Druck.
@@ -579,6 +580,7 @@ async function boot() {
   applyTheme(prefs.get('theme', 'auto'));
   document.body.addEventListener('touchstart', () => {}, { passive: true });
   try { await st.init(); } catch (e) { console.error(e); document.getElementById('boot').textContent = 'Lernwerk konnte nicht starten: ' + e.message; return; }
+  await skizzenLaden();
   document.getElementById('boot').remove();
   window.__lw = { showTab, VERSION };
   initTabs({ heute, faecher: faecherRoot, plus: einfuegen, fehler: fehlerbuch, mehr: mehrPage() });

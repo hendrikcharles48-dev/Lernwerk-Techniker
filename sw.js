@@ -1,12 +1,12 @@
 // Service Worker: Offline-Nutzung und automatische Updates.
 // Bei jeder Änderung VERSION erhöhen (gleicher Wert wie in js/app.js).
 // Die neue Version installiert sich beim nächsten Öffnen von selbst.
-const VERSION = '1.14.3';
+const VERSION = '1.15.0';
 const CACHE = 'lernwerk-' + VERSION;
 const FILES = [
   './', 'index.html', 'manifest.webmanifest', 'css/app.css', 'lehrplan.json', 'lernwerk-bridge.js',
   'js/app.js', 'js/extra.js', 'js/engine.js', 'js/store.js', 'js/db.js', 'js/ui.js', 'js/parser.js',
-  'js/formula.js', 'js/check.js', 'js/srs.js', 'js/speech.js', 'js/podcast.js', 'js/hoer.js', 'js/util.js', 'js/mathedit.js',
+  'js/formula.js', 'js/check.js', 'js/srs.js', 'js/speech.js', 'js/podcast.js', 'js/hoer.js', 'js/skizzen.js', 'js/util.js', 'js/mathedit.js',
   'inhalte/index.json', 'inhalte/faecher.json', 'inhalte/formeln-umstellen.txt', 'inhalte/terme.txt',
   'inhalte/mathe-grundlagen.txt', 'inhalte/mathe-aufbau.txt', 'inhalte/elektro-grundlagen.txt', 'inhalte/elektro-aufbau.txt', 'inhalte/mechanik-grundlagen.txt', 'inhalte/mechanik-aufbau.txt', 'inhalte/fertigung-wirtschaft.txt', 'inhalte/steuerung-aufbau.txt', 'inhalte/module-aufbau.txt', 'inhalte/maschinenelemente.txt', 'inhalte/vertiefung.txt', 'inhalte/leiterwiderstand.txt', 'inhalte/personal-beschaffung.txt', 'inhalte/trainer-aufgaben.txt',
   'inhalte/einfuehrung/mathematik.txt', 'inhalte/einfuehrung/elektrotechnik.txt', 'inhalte/einfuehrung/mechanik.txt',
@@ -18,7 +18,9 @@ const FILES = [
   'trainer/et-rueckrechnen-lernblatt.html', 'trainer/toleranzen.html', 'trainer/toleranzen-it-ablesen.html',
   'trainer/toleranzen-passungen-lernblatt.html', 'trainer/solidworks-kuerzel.html', 'trainer/werkstoffe-eisen-kohlenstoff.html',
   'trainer/fachtrainer.css', 'js/fachtrainer.js', 'trainer/festigkeit-trainer.html', 'trainer/maschinenelemente-trainer.html',
-  'trainer/elektro-trainer.html', 'trainer/steuerung-trainer.html', 'trainer/leiterwiderstand-trainer.html'
+  'trainer/elektro-trainer.html', 'trainer/steuerung-trainer.html', 'trainer/leiterwiderstand-trainer.html',
+  // Skizzen
+  'inhalte/bilder/index.json', 'inhalte/bilder/auto-4-20ma.svg', 'inhalte/bilder/auto-regelkreis.svg', 'inhalte/bilder/et-drehstrom.svg', 'inhalte/bilder/et-gemischt.svg', 'inhalte/bilder/et-kirchhoff.svg', 'inhalte/bilder/et-kondensator-laden.svg', 'inhalte/bilder/et-leiter.svg', 'inhalte/bilder/et-ohm.svg', 'inhalte/bilder/et-reihe-parallel.svg', 'inhalte/bilder/et-spannungsteiler.svg', 'inhalte/bilder/et-spule-einschalten.svg', 'inhalte/bilder/et-wechselstrom.svg', 'inhalte/bilder/et-wirkungsgrad.svg', 'inhalte/bilder/m6-bedarfsschema.svg', 'inhalte/bilder/m7-ishikawa.svg', 'inhalte/bilder/m7-pdca.svg', 'inhalte/bilder/m7-prozessfaehigkeit.svg', 'inhalte/bilder/m8-abc.svg', 'inhalte/bilder/m8-andler.svg', 'inhalte/bilder/m8-drei-saeulen.svg', 'inhalte/bilder/m8-gewinnschwelle.svg', 'inhalte/bilder/m8-organigramme.svg', 'inhalte/bilder/m8-strukturbaum.svg', 'inhalte/bilder/ma-ableitung.svg', 'inhalte/bilder/ma-binom.svg', 'inhalte/bilder/ma-dreieck.svg', 'inhalte/bilder/ma-gerade.svg', 'inhalte/bilder/ma-lgs.svg', 'inhalte/bilder/ma-mengen.svg', 'inhalte/bilder/ma-parabel.svg', 'inhalte/bilder/ma-wachstum.svg', 'inhalte/bilder/me-bolzen.svg', 'inhalte/bilder/me-passfeder.svg', 'inhalte/bilder/me-riementrieb.svg', 'inhalte/bilder/me-schraube.svg', 'inhalte/bilder/me-waelzlager.svg', 'inhalte/bilder/me-zahnraeder.svg', 'inhalte/bilder/pm-dual.svg', 'inhalte/bilder/pm-gantt.svg', 'inhalte/bilder/st-grafcet.svg', 'inhalte/bilder/st-logik.svg', 'inhalte/bilder/st-selbsthaltung.svg', 'inhalte/bilder/st-wegeventil.svg', 'inhalte/bilder/st-zylinder.svg', 'inhalte/bilder/tm-abscherung.svg', 'inhalte/bilder/tm-biegung.svg', 'inhalte/bilder/tm-hebel.svg', 'inhalte/bilder/tm-kraft-zerlegen.svg', 'inhalte/bilder/tm-lager.svg', 'inhalte/bilder/tm-schiefe-ebene.svg', 'inhalte/bilder/tm-streckenlast.svg', 'inhalte/bilder/tm-torsion.svg', 'inhalte/bilder/tm-zug.svg', 'inhalte/bilder/tol-passungen.svg', 'inhalte/bilder/tol-rahmen.svg', 'inhalte/bilder/ws-eisen-kohlenstoff.svg', 'inhalte/bilder/ws-haerten.svg', 'inhalte/bilder/ws-zugversuch.svg'
 ];
 
 self.addEventListener('install', e => {

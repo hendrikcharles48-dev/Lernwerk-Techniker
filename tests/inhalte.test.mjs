@@ -71,6 +71,21 @@ for (const file of files) {
   console.log(String(file).split('/').pop(), r.themen.length, 'Themen');
 }
 for (const f of L.faecher) for (const t of f.themen) if (!covered.has(t.id)) { console.log('THEMA OHNE EINFÜHRUNG', t.id); bad++; }
+// Skizzen: Thema muss es geben, Datei muss da sein, Bildunterschrift vorlesbar
+{
+  const bi = JSON.parse(fs.readFileSync(new URL('../inhalte/bilder/index.json', import.meta.url), 'utf8'));
+  const ids = new Set(L.faecher.flatMap(f => f.themen.map(t => t.id)));
+  for (const [tid, liste] of Object.entries(bi)) {
+    if (!ids.has(tid)) { console.log('SKIZZE OHNE THEMA', tid); bad++; }
+    for (const x of liste) {
+      const svg = new URL('../inhalte/bilder/' + x.datei, import.meta.url);
+      if (!fs.existsSync(svg)) { console.log('SKIZZE FEHLT', x.datei); bad++; continue; }
+      if (!/^<svg[\s>]/.test(fs.readFileSync(svg, 'utf8'))) { console.log('SKIZZE KEIN SVG', x.datei); bad++; }
+      for (const w of ['→', 'z. B.', 'bzw.', 'usw.', 'ca.']) if (x.text.includes(w)) { console.log('SKIZZE VORLESEN', x.datei, w); bad++; }
+      if (/geteilt durch|\d mal \d|\bhoch \d/.test(x.text)) { console.log('SKIZZE ZEICHEN STATT WORT', x.datei); bad++; }
+    }
+  }
+}
 // Hörmodus: veraltete oder fehlende Podcast-Folgen nur als Hinweis melden, die App fällt dann auf die Systemstimme zurück
 {
   const { alleFolgen } = await import('../tools/hoer/folgen.mjs');

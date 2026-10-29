@@ -1,0 +1,348 @@
+{
+ "tm-zentrales-kraeftesystem": [
+  {
+   "datei": "tm-kraft-zerlegen.svg",
+   "text": "Eine schräge Kraft F wird in zwei Teile zerlegt: F_x = F · cos α waagerecht und F_y = F · sin α senkrecht. Zusammen ergeben sie wieder F, nach Pythagoras F = √(F_x² + F_y²)."
+  }
+ ],
+ "tm-momente": [
+  {
+   "datei": "tm-hebel.svg",
+   "text": "Moment am Hebel: Die Kraft F wirkt im Abstand l vom Drehpunkt. M = F · l. Es zählt nur der senkrechte Abstand zwischen Wirklinie und Drehpunkt."
+  }
+ ],
+ "tm-lagerkraefte": [
+  {
+   "datei": "tm-lager.svg",
+   "text": "Balken auf zwei Lagern: Das Festlager A nimmt eine waagerechte und eine senkrechte Kraft auf, das Loslager B nur eine senkrechte. Mit ΣM um A = 0 bekommst du F_B = F · a / (a + b)."
+  }
+ ],
+ "tm-allgemeines-kraeftesystem-und-streckenla": [
+  {
+   "datei": "tm-streckenlast.svg",
+   "text": "Streckenlast: Die Last q ist auf die Länge l verteilt. Für die Rechnung ersetzt du sie durch eine Kraft F_q = q · l in der Mitte der belasteten Länge."
+  }
+ ],
+ "tm-reibung": [
+  {
+   "datei": "tm-schiefe-ebene.svg",
+   "text": "Klotz auf der schiefen Ebene: Die Gewichtskraft F_G teilt sich in die Normalkraft F_N = F_G · cos α und den Hangabtrieb F_H = F_G · sin α. Die Reibung F_R = μ · F_N wirkt gegen die Bewegung."
+  }
+ ],
+ "tm-festigkeitslehre-zug-druck-flaechenpress": [
+  {
+   "datei": "tm-zug.svg",
+   "text": "Zugstab: Die Kraft F zieht an beiden Enden. Im Schnitt verteilt sie sich auf die Fläche A. Die Zugspannung ist σ = F / A, in N/mm²."
+  },
+  {
+   "datei": "tm-abscherung.svg",
+   "text": "Abscherung: Zwei Bleche ziehen in entgegengesetzte Richtungen. Der Bolzen wird in der Fuge abgeschert. Die Scherspannung ist τ_a = F / A, bei einer Scherfläche ist A = π · d² / 4."
+  }
+ ],
+ "tm-biegung": [
+  {
+   "datei": "tm-biegung.svg",
+   "text": "Biegung: Der Träger biegt sich unter F durch. Oben wird er gedehnt, das ist Zug, unten gestaucht, das ist Druck. In der Mitte liegt die neutrale Faser ohne Spannung. Am Rand ist die Spannung am größten, σ_b = M_b / W."
+  }
+ ],
+ "tm-torsion": [
+  {
+   "datei": "tm-torsion.svg",
+   "text": "Torsion: Zwei gleich große, entgegengesetzte Momente M_t verdrehen die Welle. Eine gerade Linie auf der Oberfläche wird schräg. Die Spannung τ_t = M_t / W_p ist außen am größten, in der Mitte null."
+  }
+ ],
+ "tm-me-schrauben": [
+  {
+   "datei": "me-schraube.svg",
+   "text": "Schraubenverbindung: Die Vorspannkraft F_V presst die Bauteile zusammen. Querkräfte F_Q überträgt die Reibung zwischen den Blechen, nicht der Schaft. Deshalb braucht es genug Vorspannung."
+  }
+ ],
+ "tm-me-bolzen-stifte": [
+  {
+   "datei": "me-bolzen.svg",
+   "text": "Bolzen in einer Gabel: Die Lasche zieht in der Mitte, die Gabel hält außen. Der Bolzen wird an zwei Flächen abgeschert, das ist zweischnittig. Jede Fläche trägt die Hälfte: τ_a = F / (2 · A)."
+  }
+ ],
+ "tm-me-passfeder": [
+  {
+   "datei": "me-passfeder.svg",
+   "text": "Passfeder im Querschnitt: Sie sitzt zur Hälfte in der Nut der Welle und zur Hälfte in der Nut der Nabe. So überträgt sie das Drehmoment formschlüssig. Gerechnet wird mit der Flächenpressung an der Seitenfläche."
+  }
+ ],
+ "tm-me-waelzlager": [
+  {
+   "datei": "me-waelzlager.svg",
+   "text": "Rillenkugellager: Zwischen Innenring und Außenring rollen Kugeln. Es trägt vor allem radiale Kräfte F_r. Die Lebensdauer ist L_10 = (C / P)ᵖ mit p = 3 bei Kugellagern."
+  }
+ ],
+ "tm-me-zahnraeder": [
+  {
+   "datei": "me-zahnraeder.svg",
+   "text": "Zwei Zahnräder greifen ineinander: Die Teilkreise berühren sich. Die Drehrichtung kehrt sich um. Übersetzung i = d₂ / d₁ = n₁ / n₂, Achsabstand a = (d₁ + d₂) / 2."
+  }
+ ],
+ "tm-me-riementrieb": [
+  {
+   "datei": "me-riementrieb.svg",
+   "text": "Riementrieb: Die kleine Scheibe treibt. Der Riemen ist auf der ziehenden Seite stärker gespannt, das ist das Lasttrum mit F₁. Die andere Seite ist das Leertrum mit F₂. Die Umfangskraft ist F_u = F₁ − F₂."
+  }
+ ],
+ "et-ohmsches-gesetz": [
+  {
+   "datei": "et-ohm.svg",
+   "text": "Einfacher Stromkreis: Die Quelle treibt den Strom I durch den Widerstand R. An R fällt die Spannung U ab. Das ohmsche Gesetz: U = R · I, also I = U / R."
+  }
+ ],
+ "et-leiterwiderstand": [
+  {
+   "datei": "et-leiter.svg",
+   "text": "Ein Draht mit Länge l und Querschnitt A: Je länger, desto größer der Widerstand. Je dicker, desto kleiner. R = ρ · l / A, mit ρ vom Werkstoff."
+  }
+ ],
+ "et-reihen-und-parallelschaltung": [
+  {
+   "datei": "et-reihe-parallel.svg",
+   "text": "Links in Reihe: Der Strom geht nacheinander durch beide Widerstände, R = R₁ + R₂. Rechts parallel: Jeder Widerstand liegt an derselben Spannung, 1 / R = 1 / R₁ + 1 / R₂."
+  }
+ ],
+ "et-gemischte-schaltungen": [
+  {
+   "datei": "et-gemischt.svg",
+   "text": "Gemischte Schaltung: R₂ und R₃ sind parallel, das ist die Gruppe. Erst die Gruppe ausrechnen, R₂₃ = R₂ · R₃ / (R₂ + R₃). Dann kommt R₁ in Reihe dazu."
+  }
+ ],
+ "et-kirchhoffsche-regeln": [
+  {
+   "datei": "et-kirchhoff.svg",
+   "text": "Links ein Knoten: Was hineinfließt, fließt auch heraus, I₁ = I₂ + I₃. Rechts eine Masche: Einmal im Kreis herum ist die Summe der Spannungen null, also U = U₁ + U₂."
+  }
+ ],
+ "et-belasteter-spannungsteiler": [
+  {
+   "datei": "et-spannungsteiler.svg",
+   "text": "Belasteter Spannungsteiler: Die Last R_L hängt parallel an R₂. Dadurch wird der untere Teil kleiner und U₂ sinkt. Rechne erst R₂ parallel R_L, dann U₂ = U · R₂L / (R₁ + R₂L)."
+  }
+ ],
+ "et-kondensator": [
+  {
+   "datei": "et-kondensator-laden.svg",
+   "text": "Kondensator laden: Die Spannung u_C steigt erst schnell, dann immer langsamer. Nach einer Zeitkonstante τ = R · C sind 63 % erreicht, nach 5 τ gilt er als voll."
+  }
+ ],
+ "et-spule-und-induktion": [
+  {
+   "datei": "et-spule-einschalten.svg",
+   "text": "Spule einschalten: Der Strom i_L steigt nicht sofort, die Spule bremst die Änderung. Nach τ = L / R sind 63 % des Endstroms erreicht, nach 5 τ ist er fast ganz da."
+  }
+ ],
+ "et-wechselstrom": [
+  {
+   "datei": "et-wechselstrom.svg",
+   "text": "Wechselspannung: Sie schwingt zwischen +û und −û. Eine Schwingung dauert die Periode T, die Frequenz ist f = 1 / T, bei uns 50 Hz. Der Effektivwert U_eff = û / √2 wirkt wie eine gleich große Gleichspannung."
+  }
+ ],
+ "et-drehstrom": [
+  {
+   "datei": "et-drehstrom.svg",
+   "text": "Drehstrom: Drei Wechselspannungen L1, L2 und L3, jeweils um 120° versetzt. Zwischen zwei Außenleitern liegen 400 V, gegen den Neutralleiter 230 V, das ist 400 V / √3."
+  }
+ ],
+ "et-leistung-arbeit-wirkungsgrad": [
+  {
+   "datei": "et-wirkungsgrad.svg",
+   "text": "Energiefluss: Vorne geht die Leistung P_zu hinein, hinten kommt die nutzbare P_ab heraus. Der Rest wird zu Wärme. Wirkungsgrad η = P_ab / P_zu."
+  }
+ ],
+ "auto-messtechnik": [
+  {
+   "datei": "auto-4-20ma.svg",
+   "text": "Das 4 bis 20 mA Signal: 4 mA heißt Anfang des Messbereichs, 20 mA heißt Ende. Dazwischen ist es eine Gerade. Messwert = (I − 4) / 16 · Spanne + Anfangswert. Unter 4 mA ist etwas kaputt."
+  }
+ ],
+ "auto-regelungstechnik": [
+  {
+   "datei": "auto-regelkreis.svg",
+   "text": "Regelkreis: Der Regler vergleicht den Sollwert w mit dem Istwert x. Aus der Regeldifferenz e = w − x macht er die Stellgröße y. Die Strecke reagiert, x wird wieder gemessen, und der Kreis schließt sich."
+  }
+ ],
+ "ma-mengenlehre": [
+  {
+   "datei": "ma-mengen.svg",
+   "text": "Zwei Mengen A und B: Die Mitte, wo sich beide Kreise überlappen, ist die Schnittmenge A ∩ B. Beide Kreise zusammen sind die Vereinigung A ∪ B. A ohne die Mitte ist A \\ B."
+  }
+ ],
+ "ma-binomische-formeln": [
+  {
+   "datei": "ma-binom.svg",
+   "text": "Ein Quadrat mit der Seite a + b: Darin stecken ein großes Quadrat a², ein kleines b² und zwei gleiche Streifen a · b. Deshalb ist (a + b)² = a² + 2ab + b² und nicht nur a² + b²."
+  }
+ ],
+ "ma-lineare-gleichungssysteme": [
+  {
+   "datei": "ma-lgs.svg",
+   "text": "Zwei Gleichungen sind zwei Geraden. Die Lösung des Gleichungssystems ist der Schnittpunkt, dort passen x und y in beide Gleichungen. Parallele Geraden haben keine Lösung."
+  }
+ ],
+ "ma-quadratische-gleichungen": [
+  {
+   "datei": "ma-parabel.svg",
+   "text": "Die Lösungen einer quadratischen Gleichung sind die Nullstellen der Parabel, hier x₁ und x₂. Die pq-Formel x = −p/2 ± √((p/2)² − q) findet beide. Ist der Wert unter der Wurzel negativ, berührt die Parabel die x-Achse nicht."
+  }
+ ],
+ "ma-trigonometrie": [
+  {
+   "datei": "ma-dreieck.svg",
+   "text": "Rechtwinkliges Dreieck vom Winkel α aus gesehen: Die Hypotenuse liegt gegenüber dem rechten Winkel. Die Gegenkathete liegt gegenüber von α, die Ankathete liegt an α. sin α = G / H, cos α = A / H, tan α = G / A."
+  }
+ ],
+ "ma-funktionen": [
+  {
+   "datei": "ma-gerade.svg",
+   "text": "Eine Gerade y = m · x + b: b ist der Punkt, an dem sie die y-Achse schneidet. Die Steigung m sagt, wie viel y wächst, wenn x um 1 wächst. Am Steigungsdreieck: m = Δy / Δx."
+  }
+ ],
+ "ma-differentialrechnung": [
+  {
+   "datei": "ma-ableitung.svg",
+   "text": "Die Ableitung f'(x₀) ist die Steigung der Kurve an der Stelle x₀. Man sieht sie als Tangente, die die Kurve dort nur berührt. Wo f'(x) = 0 ist, liegt ein Hoch- oder Tiefpunkt."
+  }
+ ],
+ "ma-logarithmen": [
+  {
+   "datei": "ma-wachstum.svg",
+   "text": "Wachstum mit 5 % pro Jahr: Der Betrag verdoppelt sich etwa alle 14 Jahre, nach 28 Jahren ist er vierfach. Die Zeit steht im Exponenten, deshalb brauchst du den Logarithmus: t = lg(K / K₀) / lg q."
+  }
+ ],
+ "tol-passungen-grenzmasse-spiel-uebermass": [
+  {
+   "datei": "tol-passungen.svg",
+   "text": "Toleranzfelder zur Nulllinie: Die Bohrung H beginnt genau auf der Nulllinie. Liegt die Welle ganz darunter, gibt es immer Spiel. Überlappen sich die Felder, ist es eine Übergangspassung. Liegt die Welle ganz über der Bohrung, gibt es immer Übermaß."
+  }
+ ],
+ "tol-form-und-lagetoleranzen-lesen": [
+  {
+   "datei": "tol-rahmen.svg",
+   "text": "Toleranzrahmen von links nach rechts lesen: Erst das Symbol für die Eigenschaft, hier Rechtwinkligkeit. Dann der Toleranzwert in mm. Dann der Bezug, hier die Fläche A."
+  }
+ ],
+ "ws-eisen-kohlenstoff-diagramm": [
+  {
+   "datei": "ws-eisen-kohlenstoff.svg",
+   "text": "Stahlteil des Eisen-Kohlenstoff-Diagramms: Oberhalb der Linie G S E ist der Stahl Austenit. Die Linie P S K bei 723 °C ist die Perlitlinie. S liegt bei 0,8 % Kohlenstoff. Achtung: Neuere Bücher nennen 727 °C und 2,11 % statt 723 °C und 2,06 %."
+  }
+ ],
+ "ws-waermebehandlung": [
+  {
+   "datei": "ws-haerten.svg",
+   "text": "Härten und Anlassen: Erwärmen bis etwa 30 bis 50 K über die Linie G S, halten, dann schnell abschrecken. Danach wieder erwärmen und anlassen, das nimmt Sprödigkeit. Beides zusammen heißt Vergüten."
+  }
+ ],
+ "ws-werkstoffpruefung": [
+  {
+   "datei": "ws-zugversuch.svg",
+   "text": "Spannungs-Dehnungs-Diagramm aus dem Zugversuch: Zuerst eine Gerade, dort gilt σ = E · ε und die Probe federt zurück. Bei R_e beginnt das Fließen. R_m ist die höchste Spannung, danach schnürt die Probe ein und bricht."
+  }
+ ],
+ "st-wegeventile-und-schaltzeichen": [
+  {
+   "datei": "st-wegeventil.svg",
+   "text": "3/2-Wegeventil: Drei Anschlüsse und zwei Stellungen. Angeschlossen wird an das Feld der Ruhestellung, hier rechts: 2 geht zur Entlüftung 3, die Druckluft 1 ist gesperrt. Drückt man den Taster, gilt das linke Feld: 1 geht nach 2."
+  }
+ ],
+ "st-pneumatik-direkte-und-indirekte-ansteuer": [
+  {
+   "datei": "st-zylinder.svg",
+   "text": "Doppeltwirkender Zylinder: Kommt Druckluft auf die Kolbenseite, fährt die Kolbenstange aus. Kommt sie auf die andere Seite, fährt sie wieder ein. Die Gegenseite muss dabei entlüftet werden."
+  }
+ ],
+ "st-elektropneumatik-mit-relais-und-selbstha": [
+  {
+   "datei": "st-selbsthaltung.svg",
+   "text": "Selbsthaltung: Ein kurzer Druck auf S1 schaltet die Spule K1 ein. Der Kontakt K1 parallel zu S1 schließt und hält den Strom, auch wenn S1 losgelassen wird. Erst der Öffner S0 unterbricht und schaltet aus."
+  }
+ ],
+ "st-logik-und-wahrheitstabelle": [
+  {
+   "datei": "st-logik.svg",
+   "text": "Links UND: Der Ausgang y ist nur 1, wenn a und b beide 1 sind. Rechts ODER: y ist 1, sobald mindestens ein Eingang 1 ist. Die Wahrheitstabelle zeigt alle Fälle."
+  }
+ ],
+ "st-grafcet-nach-din-en-60848-und-schrittket": [
+  {
+   "datei": "st-grafcet.svg",
+   "text": "GRAFCET als Schrittkette: Der doppelte Kasten ist der Anfangsschritt. Ein Querstrich ist eine Weiterschaltbedingung. Rechts neben einem Schritt steht seine Aktion. Es geht erst weiter, wenn der Schritt aktiv ist und die Bedingung erfüllt."
+  }
+ ],
+ "pm-gantt-meilensteine-kritischer-pfad": [
+  {
+   "datei": "pm-gantt.svg",
+   "text": "Gantt-Diagramm: Jeder Balken ist ein Vorgang über die Zeit. Rot ist der kritische Pfad: Verzögert sich einer davon, verschiebt sich das ganze Projekt. Blaue Vorgänge haben Puffer. Die Raute ist ein Meilenstein."
+  }
+ ],
+ "pm-zahlensysteme": [
+  {
+   "datei": "pm-dual.svg",
+   "text": "Dualzahl 10110110: Jede Stelle hat einen Wert, von rechts 2⁰ = 1, 2¹ = 2, 2² = 4 und so weiter. Zähl die Werte zusammen, wo eine 1 steht: 128 + 32 + 16 + 4 + 2 = 182."
+  }
+ ],
+ "m7-iso-9001-und-pdca": [
+  {
+   "datei": "m7-pdca.svg",
+   "text": "PDCA-Kreis: Plan heißt planen, Do heißt ausprobieren, Check heißt prüfen, ob es geklappt hat, Act heißt das Gute zum Standard machen. Dann beginnt der Kreis von vorn."
+  }
+ ],
+ "m7-q-werkzeuge": [
+  {
+   "datei": "m7-ishikawa.svg",
+   "text": "Ishikawa-Diagramm wie eine Fischgräte: Rechts steht der Fehler. Auf den Gräten sammelst du mögliche Ursachen, sortiert nach Mensch, Maschine, Material, Methode, Milieu und Messung."
+  }
+ ],
+ "m7-maschinen-und-prozessfaehigkeit": [
+  {
+   "datei": "m7-prozessfaehigkeit.svg",
+   "text": "Prozessfähigkeit: Die Glockenkurve zeigt, wie die Maße streuen. Sie muss gut zwischen die Grenzen UGW und OGW passen. C_pk teilt den kürzeren Abstand vom Mittelwert μ zur Grenze durch 3 σ. Ab 1,33 gilt der Prozess meist als fähig."
+  }
+ ],
+ "m8-abc-xyz-analyse": [
+  {
+   "datei": "m8-abc.svg",
+   "text": "ABC-Kurve: Wenige A-Teile, rund 20 % der Menge, machen rund 80 % des Werts aus. B-Teile bringen bis 95 %, die vielen C-Teile nur den Rest. Achtung: Die Grenzen sind Richtwerte, manche Aufgaben nehmen 70, 20 und 10 %."
+  }
+ ],
+ "m8-optimale-bestellmenge": [
+  {
+   "datei": "m8-andler.svg",
+   "text": "Kosten über der Bestellmenge: Die Bestellkosten fallen, weil man seltener bestellt. Die Lagerkosten steigen, weil mehr im Lager liegt. Die Summe hat ein Minimum bei x_opt, genau dort, wo sich beide Kurven schneiden."
+  }
+ ],
+ "m8-kostenrechnung-und-kalkulation": [
+  {
+   "datei": "m8-gewinnschwelle.svg",
+   "text": "Gewinnschwelle: Die Kosten beginnen mit den Fixkosten und steigen mit jedem Stück. Der Erlös beginnt bei null. Wo sich beide schneiden, ist die Gewinnschwelle x = K_f / (p − k_v). Rechts davon macht man Gewinn."
+  }
+ ],
+ "m8-aufbauorganisation": [
+  {
+   "datei": "m8-organigramme.svg",
+   "text": "Drei Formen der Aufbauorganisation: Im Einliniensystem hat jede Stelle genau einen Chef. Im Stabliniensystem hängt ein Stab seitlich an der Linie und berät nur. In der Matrix kreuzen sich Funktionen und Sparten, jede Stelle hat zwei Chefs."
+  }
+ ],
+ "m8-materialbedarfsermittlung": [
+  {
+   "datei": "m8-strukturbaum.svg",
+   "text": "Erzeugnisstrukturbaum des Zylinders: Ganz oben das fertige Produkt. Darunter die Teile mit ihrer Menge. Die Zahl gilt je Teil darüber: 2 Deckel mit je 4 Schrauben sind 8 Schrauben pro Zylinder."
+  }
+ ],
+ "m8-nachhaltigkeit-drei-saeulen-modell-effiz": [
+  {
+   "datei": "m8-drei-saeulen.svg",
+   "text": "Drei-Säulen-Modell: Nachhaltigkeit ruht auf Ökologie, Ökonomie und Sozialem. Eine Maßnahme ist erst nachhaltig, wenn sie alle drei Säulen beachtet, also Umwelt, Geld und Menschen."
+  }
+ ],
+ "m6-personalplanung": [
+  {
+   "datei": "m6-bedarfsschema.svg",
+   "text": "Schema für den Nettopersonalbedarf von oben nach unten: Soll minus Ist, dann Neubedarf dazu und Minderbedarf weg. Zugänge schließen die Lücke, Abgänge vergrößern sie. Positiv heißt, es fehlen Leute."
+  }
+ ]
+}

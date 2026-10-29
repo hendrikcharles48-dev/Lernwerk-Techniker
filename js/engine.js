@@ -7,6 +7,7 @@ import { $, $$, icon, row, list, seg, sw, empty, on, push, openSheet, toast, cop
 import { speak, stopSpeaking, canSpeak, readAloud, stopReading } from './speech.js';
 import { INTERVALS } from './srs.js';
 import { prefs } from './db.js';
+import * as sk from './skizzen.js';
 import { editorHTML, attachEditor } from './mathedit.js';
 
 /* ===== Frag Claude ===== */
@@ -101,11 +102,12 @@ function renderTab(el, tab, tid, T, items, f) {
     const nichts = !T.anker.length && !T.begriffe.length && !T.merksaetze.length && !T.prinzip.length && !T.notizen.length;
     if (nichts) h += emptyContent(tid);
     T.anker.forEach(a => { h += `<div class="card anchor"><div class="card-k">Bild aus deiner Welt</div><p>${esc(a)}</p></div>`; });
+    if (sk.fuer(tid).length) h += `<div class="sec-h">Skizze</div>` + sk.html(tid);
     if (T.begriffe.length) h += `<div class="sec-h">Fachbegriffe</div>` + list(T.begriffe.map(b => row({ titleHTML: `<b>${esc(b.begriff)}</b>`, sub: b.erklaerung })));
     T.merksaetze.forEach(m => { h += `<div class="card merk" style="--fc:${color}"><div class="card-k">Merksatz</div><p>${esc(m)}</p></div>`; });
     if (T.prinzip.length) h += `<div class="sec-h">So funktioniert es</div><div class="card prose">${T.prinzip.map(p => markdown(p)).join('')}</div>`;
     if (T.notizen.length) h += `<div class="sec-h">Notizen</div>` + list(T.notizen.map(n => row({ title: n.schluessel, sub: n.text })));
-    if (!nichts) h += `<div class="btn-row"><button class="btn" data-a="folge">${icon('ear')} Als Folge hören</button></div>`;
+    if (!nichts) h += `<div class="btn-row"><button class="btn" data-a="folge">${icon('ear')} Als Folge hören</button><button class="btn" data-a="bild">${icon('claude')} Mit Bild erklären lassen</button></div>`;
     if (T.quellen.length) h += `<p class="src">Quelle: ${T.quellen.map(esc).join(' ')}</p>`;
   }
   if (tab === 'bausteine') {
@@ -148,6 +150,7 @@ function renderTab(el, tab, tid, T, items, f) {
   }
   if (tab === 'prinzip' || tab === 'bausteine' || tab === 'schnellweg') h += hinweisTabellenbuch();
   el.innerHTML = h;
+  sk.fuellen(el);
   if (tab === 'fotos') loadThumbs(el);
   on(el, {
       item: id => { const it = st.topicItems(tid).find(i => i.id === id); if (it) runSession([it], itemTitle(it), { single: true }); },
@@ -159,6 +162,7 @@ function renderTab(el, tab, tid, T, items, f) {
       photo: id => photoViewer(id),
       trainer: d => openTrainer(tid, d),
       // Podcast-Folge zum Thema: Lena fragt, Tom erklärt. Der Hörmodus zeigt den Player.
+      bild: () => askClaude(`Ich lerne in Lernwerk ${T.fach}, Thema ${T.thema}. Erklär mir das Prinzip mit einer genauen Skizze oder einem interaktiven Bild: beschrifte alle Größen mit Einheit, zeig Kraft- oder Stromrichtungen und erkläre in einfachen Sätzen, was man im Bild sieht. Nimm ein Beispiel aus der Werkstatt.`),
       folge: async () => { const [h, x] = await Promise.all([import('./hoer.js'), import('./extra.js')]); await h.spielen([tid]); push(x.hoerPage()); },
       vorlesen: () => { const txt = [...T.anker, ...T.merksaetze.map(m => 'Merksatz: ' + m), ...T.prinzip.map(plainText)].join('. '); readAloud(txt, T.thema); }
   });
