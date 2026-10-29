@@ -8,7 +8,7 @@ import { mehrPage, unterrichtPage, termineDetail, termEditor, datensicherung, ap
 import { prefs } from './db.js';
 import { canSpeak, readAloud } from './speech.js';
 
-export const VERSION = '1.11.0';
+export const VERSION = '1.11.1';
 
 /* ===== Heute ===== */
 // Freundliche, wechselnde Sätze für den Start. Ohne Druck.
@@ -112,6 +112,17 @@ function gelernteTids() {
   const fertig = new Set(st.abgeschlosseneTids());
   return st.allTids().filter(t => akt.has(t) || fertig.has(t) || nach.has(t) || st.card('t:' + t) || st.topicItems(t).some(i => st.card(i.id)));
 }
+// Mindestens die Hälfte zum Mitrechnen: Rechen- und Umstellaufgaben, die du Schritt für Schritt löst
+const zumRechnen = it => it.art === 'aufgabe' || it.art === 'umstellen';
+// Eine Runde hat etwa 12 Übungen: 6 zum Mitrechnen, 6 andere. Fällige Übungen gehen vor.
+export function mitRechnen(items, tids, n = 12) {
+  const halb = n / 2;
+  const rechnen = items.filter(zumRechnen).slice(0, halb);
+  const ids = new Set(items.map(i => i.id));
+  if (rechnen.length < halb) rechnen.push(...mixAufgaben(tids, halb).filter(i => !ids.has(i.id)).slice(0, halb - rechnen.length));
+  const rest = items.filter(i => !zumRechnen(i)).slice(0, n - rechnen.length);
+  return shuffle([...rechnen, ...rest]);
+}
 // Rechenaufgaben verschiedener Themen im Wechsel, zuerst die mit Ansatz-Frage
 function mixAufgaben(tids, n) {
   const pick = (lists, out) => { for (let r = 0; out.length < n && lists.some(l => l.length); r++) for (const l of lists) if (l.length && out.length < n) out.push(l.shift()); };
@@ -130,6 +141,7 @@ export function lernenUnterricht() {
   const tids = aktTids();
   if (!tids.length) { toast('Wähl zuerst aus, was gerade im Unterricht dran ist.'); push(unterrichtPage()); return; }
   let items = unterrichtQueue().items;
+  items = mitRechnen(items, tids);
   if (!items.length) {
     items = sortForPractice(tids.flatMap(t => st.topicItems(t))).slice(0, 12);
     if (items.length) toast('Gerade ist nichts fällig. Ich nehme Übungen aus deinen Unterrichtsthemen.');
@@ -159,6 +171,10 @@ export function lernenAlles() {
   const take = (it, out) => { if (used.has(it.id)) return; used.add(it.id); out.push(it); };
   const pickFor = (ts, n, mitLosen) => {
     const set = new Set(ts), out = [];
+    // Erst die Hälfte zum Mitrechnen: fällige Rechenaufgaben, dann neue
+    const halb = Math.ceil(n / 2), rechnen = () => out.filter(zumRechnen).length;
+    for (const it of due) if (rechnen() < halb && zumRechnen(it) && set.has(it.tid)) take(it, out);
+    for (const it of mixAufgaben(ts, halb)) if (rechnen() < halb) take(it, out);
     for (const it of due) if (out.length < n && (set.has(it.tid) || (mitLosen && it.art === 'fehler' && !st.thema(it.tid)))) take(it, out);
     for (const it of mixAufgaben(ts, n)) if (out.length < n) take(it, out);
     for (const it of sortForPractice(ts.flatMap(t => st.topicItems(t)))) { if (out.length >= n) break; take(it, out); }

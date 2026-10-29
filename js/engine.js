@@ -1,5 +1,5 @@
 // Trainer-Engine: Themenseite und alle Übungsarten. Eingebaute und eingefügte Inhalte laufen hier gleich.
-import { esc, fmtNum, markdown, plainText, shuffle, dayStr, dayShort } from './util.js';
+import { esc, fmtNum, markdown, plainText, shuffle, dayStr, dayShort, norm } from './util.js';
 import { fml, fmlWith, nameHTML, parseEq, keyOf, calc, checkSolved, checkStep, varNames, speakFml } from './formula.js';
 import { checkNumber, showValue } from './check.js';
 import * as st from './store.js';
@@ -743,7 +743,35 @@ function runReihenfolge(el, item, ctx, meta) {
 function rateButtons() {
   return `<div class="rate"><button class="btn rate-no" data-a="rate" data-d="falsch">Nicht gewusst</button><button class="btn rate-mid" data-a="rate" data-d="hilfe">Mit Mühe</button><button class="btn rate-ok" data-a="rate" data-d="richtig">Gewusst</button></div>`;
 }
+// Karte als Auswahl: die richtige Antwort unter Antworten anderer Karten desselben Themas finden.
+// Gibt es zu wenige andere Antworten, oder willst du lieber aufdecken, wird es eine Klappkarte.
 function runKarte(el, item, ctx, meta) {
+  const andere = [...new Set(st.topicItems(item.tid).filter(i => (i.art === 'karte' || i.art === 'begriff') && i.antwort && i.frage !== item.frage && norm(i.antwort) !== norm(item.antwort)).map(i => i.antwort))];
+  if (andere.length < 3 || ctx.exam) return runKarteFlip(el, item, ctx, meta);
+  const L = item.antwort.length;
+  const falsch = shuffle(andere.sort((a, b) => Math.abs(a.length - L) - Math.abs(b.length - L)).slice(0, 6)).slice(0, 3);
+  const opts = shuffle([item.antwort, ...falsch]);
+  const show = o => (looksLikeFormula(o) ? fml(o) : esc(o));
+  let tries = 0, solved = false;
+  const picked = new Set();
+  function draw() {
+    el.innerHTML = ctxLine(meta) + `<div class="ex-task">${esc(item.frage)}</div><div class="mc">${opts.map((o, k) => `<button class="mc-o ${picked.has(k) ? (o === item.antwort ? 'ok' : 'no') : solved && o === item.antwort ? 'ok' : ''}" data-a="pick" data-d="${k}">${show(o)}</button>`).join('')}</div>
+      ${solved ? `<div class="btn-col"><button class="btn filled" data-a="fertig">${ctx.nextLabel || 'Weiter'}</button></div>` : `<div class="act"><button class="btn" data-a="flip">Lieber aufdecken</button></div>`}`;
+  }
+  on(el, {
+    pick: k => {
+      if (solved) return;
+      picked.add(+k);
+      if (opts[+k] === item.antwort) solved = true;
+      else { tries++; if (tries === 1 && item.art !== 'begriff') logError(meta, item, { aufgabe: item.frage, eingabe: opts[+k], richtig: item.antwort, fehlerart: 'Fachbegriff verwechselt' }); }
+      draw();
+    },
+    flip: () => runKarteFlip(el, item, ctx, meta),
+    fertig: () => ctx.onDone(tries === 0 ? 'richtig' : tries === 1 ? 'hilfe' : 'falsch')
+  });
+  draw();
+}
+function runKarteFlip(el, item, ctx, meta) {
   let open = false;
   function draw() {
     el.innerHTML = ctxLine(meta) + `<button class="flash ${open ? 'open' : ''}" data-a="flip"><div class="flash-q">${esc(item.frage)}</div>${open ? `<div class="flash-a">${looksLikeFormula(item.antwort) ? fml(item.antwort) : esc(item.antwort)}</div>` : '<div class="flash-hint">Antippen zum Aufdecken</div>'}</button>${open ? rateButtons() : ''}`;
