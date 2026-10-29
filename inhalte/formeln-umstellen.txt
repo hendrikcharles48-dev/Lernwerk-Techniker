@@ -173,7 +173,7 @@ Gegeben: I = {I} mA
 Gesucht: Widerstand R in Ω
 Ansatz: U = R · I nach R umstellen | P = U · I nach P umstellen; R_ges = R1 + R2 addieren; P = I² · R nach R umstellen
 Signal: Spannung und Strom eines Bauteils sind gegeben, der Widerstand ist gesucht.
-Kontrolle: Liegt der Widerstand im Bereich von Kiloohm? | Ja, Volt durch Milliampere ergibt Kiloohm | Nein, Volt durch Milliampere ergibt wenige Ohm; Nein, Volt durch Milliampere ergibt Megaohm
+Kontrolle: Liegt der Widerstand bei einigen Hundert Ohm bis einigen Kiloohm? | Ja, Volt durch Milliampere ergibt Kiloohm | Nein, Volt durch Milliampere ergibt wenige Ohm; Nein, Volt durch Milliampere ergibt Megaohm
 Schritt: Formel U = R · I nach R umstellen | R = U / I
 Schritt: Strom in Ampere umrechnen | I / 1000 | A
 Schritt: Widerstand ausrechnen | U / (I / 1000) | Ω

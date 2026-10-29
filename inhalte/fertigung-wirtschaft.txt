@@ -258,7 +258,7 @@ Kontrolle: Ist Cpk kleiner als Cp, wenn der Prozess schief liegt? | Ja, die Lage
 Tipp: Abstand nach oben ist T minus m, nach unten ist m.
 Schritt: Abstand zur unteren Grenze | m | mm
 Schritt: Abstand zur oberen Grenze | T - m | mm
-Schritt: Cpk mit dem kleineren Abstand | m / (3 * s)
+Schritt: Cpk gleich kleinerer Abstand durch 3 σ, hier liegt m näher an der Grenze | m / (3 * s)
 Variable: U | 10 | 50 | 5
 Variable: T | 0,06 | 0,1 | 0,01
 Variable: m | 0,01 | 0,025 | 0,005

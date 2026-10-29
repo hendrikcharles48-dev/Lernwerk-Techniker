@@ -158,7 +158,7 @@ Gesucht: Jahre t
 Ansatz: t = lg(N / N0) / lg(1 + p / 100) | t = (N − N0) / p; t = N / (N0 · p); t = lg(N − N0) / lg(p)
 Signal: Ein fester Prozentsatz pro Jahr, also Malnehmen pro Schritt. Die Zeit sitzt im Exponenten.
 Warum: Weil jedes Jahr mit demselben Faktor malgenommen wird | Weil jedes Jahr derselbe Betrag in Euro dazukommt; Weil man Prozent immer nur durch 100 teilt
-Kontrolle: Passt die Faustregel 70 durch p, wenn sich der Betrag ungefähr verdoppelt? | Ja, sie gibt etwa dieselbe Jahreszahl | Nein, sie gibt das Zehnfache; Die Faustregel gilt nur für Kredite
+Kontrolle: Probe: Ergibt der Startbetrag mal Wachstumsfaktor hoch deine Jahre wieder etwa den Zielbetrag? | Ja, dann stimmt die Rechnung | Nein, das ergibt immer das Doppelte; Nein, die Probe geht nur mit Zinsen
 Schritt: Wachstumsfaktor | 1 + p / 100
 Schritt: Verhältnis Ziel durch Start | N / N0
 Schritt: Jahre ausrechnen | lg(N / N0) / lg(1 + p / 100) | Jahre
@@ -265,7 +265,7 @@ Warum: Weil am Maximum die Ableitung der Fläche null ist | Weil der Umfang imme
 Kontrolle: Welche Form kommt heraus? | Ein Quadrat mit gleich langen Seiten | Ein sehr langes, schmales Rechteck; Ein Rechteck mit Seiten eins zu zwei
 Tipp: Die zweite Seite ist U halbe minus a. Die Fläche ist a mal U halbe minus a.
 Schritt: Halber Umfang | U / 2 | m
-Schritt: Ableitung U halbe minus 2a null setzen: Seitenlänge | U / 4 | m
+Schritt: Fläche A = a · (U / 2 − a) nach a ableiten und null setzen: U / 2 − 2a = 0, also a | U / 4 | m
 Variable: U | 20 | 120 | 4
 Rechnung: U / 4
 Quelle: Differentialrechnung für ganzrationale Funktionen aus dem Mathematikunterricht der Fachschule.

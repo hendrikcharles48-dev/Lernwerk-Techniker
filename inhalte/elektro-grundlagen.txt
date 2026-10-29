@@ -43,7 +43,7 @@ Gesucht: Widerstand R in Ω
 Ansatz: R = U / I | R = I / U; P = U · I; R = R1 + R2
 Signal: Ein einzelnes Bauteil, Spannung und Strom sind gegeben, der Widerstand ist gesucht.
 Warum: Weil das Ohmsche Gesetz genau U, R und I verbindet | Weil Sensoren immer in Reihe liegen; Weil die Leistung gesucht ist
-Kontrolle: Liegt das Ergebnis eher bei Hunderten bis Tausenden Ohm? | Ja, Volt durch Milliampere ergibt Kiloohm | Nein, es müssen wenige Ohm sein; Nein, es müssen Millionen Ohm sein
+Kontrolle: Liegt der Widerstand bei einigen Hundert Ohm bis einigen Kiloohm? | Ja, Volt durch Milliampere ergibt Kiloohm | Nein, es müssen wenige Ohm sein; Nein, es müssen Millionen Ohm sein
 Schritt: Formel U = R · I nach R umstellen | R = U / I
 Schritt: Strom in Ampere umrechnen | I / 1000 | A
 Schritt: Widerstand ausrechnen | U / (I / 1000) | Ω

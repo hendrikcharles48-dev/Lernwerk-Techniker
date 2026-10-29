@@ -227,7 +227,7 @@ Gesucht: Lagerkraft F_B in kN
 Ansatz: F_B · l = F · a | F_B = F / 2; F_B · l = F · (l − a); F_B · a = F · l
 Signal: Ein Träger auf zwei Lagern mit einer Last. Gesucht ist eine Lagerkraft, und die Abstände sind gegeben.
 Warum: Weil F_A dann durch den Drehpunkt geht und wegfällt | Weil Lager B immer die Hälfte trägt; Weil man immer um den Lastpunkt dreht
-Kontrolle: Ist F_B kleiner als die Last? | Ja, die Last verteilt sich auf zwei Lager | Nein, sie ist größer; Sie ist immer genau gleich
+Kontrolle: Ist F_B kleiner als die Last? | Ja, weil die Last zwischen den Lagern steht | Nein, F_B ist immer größer als die Last; Nein, F_B ist immer genau gleich der Last
 Schritt: Momentensumme um A nach F_B umstellen | F_B = F · a / l
 Schritt: F_B ausrechnen | F * a / l | kN
 Variable: l | 3 | 8 | 0,5
@@ -322,11 +322,11 @@ Gesucht: Zugspannung σ in N/mm²
 Ansatz: σ = F / (π · d² / 4) | τ = F / (2 · π · d² / 4); p = F / (d · l); σ = F / (π · d)
 Signal: Die Kraft zieht in Längsrichtung am Stab. Der Stab wird auseinandergezogen.
 Warum: Weil bei Zug der ganze Querschnitt die Kraft trägt | Weil Rundstäbe immer auf Abscherung rechnen; Weil die Länge des Stabs die Fläche ist
-Kontrolle: Ist die Spannung für Stahl plausibel, also eher im Bereich bis einige hundert N/mm²? | Ja, das passt zu den Streckgrenzen von Baustahl | Nein, sie muss bei einigen Tausend liegen; Die Größenordnung kann man nicht prüfen
+Kontrolle: Wie ändert sich die Spannung, wenn der Durchmesser doppelt so groß ist? | Sie wird ein Viertel so groß | Sie wird halb so groß; Sie bleibt gleich groß
 Schritt: Querschnitt ausrechnen | pi * d^2 / 4 | mm²
 Schritt: Kraft in Newton umrechnen | F * 1000 | N
 Schritt: Zugspannung ausrechnen | F * 1000 / (pi * d^2 / 4) | N/mm²
-Variable: d | 8 | 30 | 2
+Variable: d | 12 | 30 | 2
 Variable: F | 5 | 40 | 1
 Rechnung: F * 1000 / (pi * d^2 / 4)
 Aufgabe: Ein Bolzen mit d = {d} mm hält eine Lasche in einer Gabel. Die Kraft ist F = {F} kN. Wie groß ist die Scherspannung im Bolzen?

@@ -180,7 +180,7 @@ Karte: Wie heißt das Zeichen für UND im Schaltsymbol? | Das Zeichen &.
 Karte: Wie heißt das Zeichen für XOR im Schaltsymbol? | Gleich 1.
 Auswahl: Eine Presse fährt, wenn beide Hände auf den Tastern liegen und die Schutztür zu ist. Welche Verknüpfung? | UND aus drei Signalen | ODER aus drei Signalen; XOR aus drei Signalen; NICHT der Schutztür | Alle drei Bedingungen müssen gleichzeitig erfüllt sein.
 Auswahl: Eine Lampe soll leuchten, wenn mindestens eine von drei Türen offen ist. Welche Verknüpfung? | ODER | UND; XOR; NAND | Eine offene Tür reicht.
-Auswahl: Ein Förderband darf nur laufen, wenn der Not-Halt nicht gedrückt ist. Wie fragst du den Not-Halt als Öffner ab? | Direkt als Schließerkontakt | Mit einem NICHT davor; Gar nicht; Als ODER mit Start | Der Öffner liefert im Normalfall schon 1. Eine zweite Negation würde die Anlage sperren.
+Auswahl: Der Not-Halt ist als Öffner am SPS-Eingang angeschlossen. Wie fragst du ihn ab, damit das Band nur ohne gedrückten Not-Halt läuft? | Direkt auf 1 abfragen | Mit einem NICHT davor; Gar nicht abfragen; Als ODER mit Start | Der Öffner ist im Ruhezustand geschlossen, der Eingang ist also 1, solange niemand drückt. Im KOP nimmst du dafür das Schließer-Symbol. Achtung, der echte Not-Halt muss zusätzlich fest verdrahtet über Sicherheitstechnik abschalten, nicht nur über das Programm.
 Reihenfolge: Logikaufgabe lösen | Signalwörter markieren; Eingänge und Ausgang benennen; Wahrheitstabelle anlegen; Ausgänge eintragen; Funktion aufstellen; In FUP umsetzen
 Aufgabe: Eine Steuerung hat {n} Eingänge. Wie viele Zeilen hat die vollständige Wahrheitstabelle?
 Gegeben: Anzahl Eingänge n = {n}

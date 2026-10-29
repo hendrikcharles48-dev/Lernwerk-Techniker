@@ -233,27 +233,27 @@ Schritt: Umfangskraft | 2 * M * 1000 / d | N
 Variable: d | 20 | 60 | 2
 Variable: M | 50 | 600 | 10
 Rechnung: 2 * M * 1000 / d
-Aufgabe: Eine Welle mit d = {d} mm überträgt M = {M} Nm über eine Passfeder. Die tragende Höhe in der Nabe ist h_t = {h} mm, die tragende Länge l_t = {l} mm. Wie groß ist die Flächenpressung?
+Aufgabe: Eine Welle mit d = {d} mm überträgt M = {M} Nm über eine Passfeder. Die tragende Höhe in der Nabe ist h_t = {h_t} mm, die tragende Länge l_t = {l_t} mm. Wie groß ist die Flächenpressung?
 Gegeben: d = {d} mm
 Gegeben: M = {M} Nm
-Gegeben: h_t = {h} mm
-Gegeben: l_t = {l} mm
+Gegeben: h_t = {h_t} mm
+Gegeben: l_t = {l_t} mm
 Gesucht: Flächenpressung p in N/mm²
 Ansatz: F_u = 2 · M / d, dann p = F_u / (h_t · l_t) | F_u = M / d, dann p = F_u / (h_t · l_t); F_u = 2 · M / d, dann p = F_u / (d · l_t); F_u = 2 · M / d, dann p = F_u · h_t · l_t
 Signal: Passfeder, Moment und tragende Maße sind gegeben, gesucht ist die Pressung.
 Warum: Weil die Umfangskraft seitlich auf die Passfeder drückt | Weil die Passfeder auf Biegung bricht; Weil die Passfeder auf Zug belastet wird
 Kontrolle: Was hilft am einfachsten, wenn p zu groß ist? | Eine längere Passfeder | Eine kürzere Passfeder; Ein kleinerer Wellendurchmesser
 Schritt: Umfangskraft | 2 * M * 1000 / d | N
-Schritt: Flächenpressung | 2 * M * 1000 / d / (h * l) | N/mm²
+Schritt: Flächenpressung | 2 * M * 1000 / d / (h_t * l_t) | N/mm²
 Variable: d | 25 | 50 | 5
 Variable: M | 50 | 300 | 10
-Variable: h | 3 | 5 | 0,5
-Variable: l | 20 | 60 | 5
-Rechnung: 2 * M * 1000 / d / (h * l)
-Aufgabe: Eine Welle mit d = {d} mm soll M = {M} Nm übertragen. Die tragende Höhe ist h_t = {h} mm, die zulässige Pressung p_zul = {pz} N/mm². Welche tragende Länge braucht die Passfeder?
+Variable: h_t | 3 | 5 | 0,5
+Variable: l_t | 20 | 60 | 5
+Rechnung: 2 * M * 1000 / d / (h_t * l_t)
+Aufgabe: Eine Welle mit d = {d} mm soll M = {M} Nm übertragen. Die tragende Höhe ist h_t = {h_t} mm, die zulässige Pressung p_zul = {pz} N/mm². Welche tragende Länge braucht die Passfeder?
 Gegeben: d = {d} mm
 Gegeben: M = {M} Nm
-Gegeben: h_t = {h} mm
+Gegeben: h_t = {h_t} mm
 Gegeben: p_zul = {pz} N/mm²
 Gesucht: Tragende Länge l_t in mm
 Ansatz: F_u = 2 · M / d, dann l_t = F_u / (p_zul · h_t) | F_u = 2 · M / d, dann l_t = F_u · p_zul / h_t; F_u = M / d, dann l_t = F_u / (p_zul · h_t); F_u = 2 · M / d, dann l_t = p_zul / (F_u · h_t)
@@ -261,12 +261,12 @@ Signal: Die zulässige Pressung ist vorgegeben, gesucht ist eine Länge.
 Warum: Weil die Fläche groß genug für p_zul sein muss | Weil die Länge immer gleich dem Durchmesser ist; Weil die Länge aus der Höhe allein folgt
 Kontrolle: Welche Gesamtlänge hat eine rundstirnige Passfeder dann? | Tragende Länge plus Breite | Tragende Länge minus Breite; Genau die tragende Länge
 Schritt: Umfangskraft | 2 * M * 1000 / d | N
-Schritt: Tragende Länge | 2 * M * 1000 / d / (pz * h) | mm
+Schritt: Tragende Länge | 2 * M * 1000 / d / (pz * h_t) | mm
 Variable: d | 25 | 50 | 5
 Variable: M | 50 | 300 | 10
-Variable: h | 3 | 5 | 0,5
+Variable: h_t | 3 | 5 | 0,5
 Variable: pz | 60 | 120 | 10
-Rechnung: 2 * M * 1000 / d / (pz * h)
+Rechnung: 2 * M * 1000 / d / (pz * h_t)
 Quelle: Selbst formuliert. Vereinfachte Rechnung wie im Unterricht üblich. Genaue Maße und Tragfaktoren stehen in der Tabelle zur DIN 6885 und im Roloff/Matek.
 === ENDE ===
 

@@ -456,7 +456,7 @@ Baustein: Strangspannung bestimmen: Stern Leiterspannung durch Wurzel 3, Dreieck
 Baustein: Leistung mit Wurzel 3 mal U mal I mal cos φ.
 Baustein: Bei Motoren: Abgegebene Leistung vom Typenschild, aufgenommene über den Wirkungsgrad.
 Schnellweg: Wurzel aus 3 ist ungefähr 1,73. Bei 400 V ist Wurzel 3 mal U etwa 693 V.
-Schnellweg: Stromschätzung für Motoren an 400 V: etwa 2 Ampere pro Kilowatt.
+Schnellweg: Stromschätzung für Motoren an 400 V: etwa 2 Ampere pro Kilowatt. Das ist nur eine Näherung, sie hängt von cos φ und Wirkungsgrad ab.
 Fehler: Faktor Wurzel 3 vergessen | Bei Drehstrom mit Leiterwerten gehört Wurzel aus 3 in die Leistungsformel.
 Fehler: Strang- und Leiterspannung verwechselt | Im Stern liegen am Strang nur 230 V, nicht 400 V.
 Fehler: cos φ vergessen | Bei Motoren ist cos φ meist zwischen 0,7 und 0,9 und gehört in die Wirkleistung.
@@ -483,7 +483,7 @@ Gesucht: Wirkleistung P in kW
 Ansatz: P = √3 · U · I · cos φ | P = U · I · cos φ; P = 3 · U · I · cos φ; P = √3 · U · I
 Signal: Drehstrom, Leiterspannung, Leiterstrom und Leistungsfaktor sind gegeben.
 Warum: Weil bei Drehstrom mit Leiterwerten der Faktor Wurzel 3 dazugehört | Weil Drehstrom wie Wechselstrom gerechnet wird; Weil man bei drei Leitern immer mal drei nimmt
-Kontrolle: Passt die Faustregel von etwa 2 Ampere pro Kilowatt? | Ja, ungefähr die halbe Stromzahl in Kilowatt | Nein, es müssen viel mehr Kilowatt sein; Nein, Ampere und Kilowatt sind gleich
+Kontrolle: Passt grob die Faustregel von etwa 2 Ampere pro Kilowatt? | Ja, als grobe Näherung je nach cos φ | Nein, es müssen viel mehr Kilowatt sein; Nein, Ampere und Kilowatt sind gleich
 Schritt: Wurzel 3 mal 400 V | sqrt(3) * 400 | V
 Schritt: Wirkleistung in Watt | sqrt(3) * 400 * I * c | W
 Schritt: Wirkleistung in Kilowatt | sqrt(3) * 400 * I * c / 1000 | kW
