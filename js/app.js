@@ -4,11 +4,11 @@ import { parseBlocks, summary, TEMPLATE } from './parser.js';
 import * as st from './store.js';
 import { $, $$, icon, row, list, seg, sw, empty, on, push, initTabs, showTab, tab, openSheet, toast, copyText, readClipboard, progress, ring, fachIcon, confirmBox, refreshAll, refreshTop, initEdgeSwipe, hinweisTabellenbuch } from './ui.js';
 import { topicPage, runSession, sortForPractice, fachProgress, topicProgress, openTrainer, askClaude, shrinkImage, noteReader, firstLine, itemTitle } from './engine.js';
-import { mehrPage, unterrichtPage, notenPage, termineDetail, termEditor, datensicherung, applyTheme } from './extra.js';
+import { mehrPage, unterrichtPage, termineDetail, termEditor, datensicherung, applyTheme } from './extra.js';
 import { prefs } from './db.js';
 import { canSpeak, readAloud } from './speech.js';
 
-export const VERSION = '1.10.1';
+export const VERSION = '1.10.2';
 
 /* ===== Heute ===== */
 // Freundliche, wechselnde Sätze für den Start. Ohne Druck.
@@ -50,9 +50,6 @@ const heute = {
     const qu = unterrichtQueue(), qa = allesQueue();
     h += `<button class="five" data-a="lernU">${icon('bolt')}<span><b>Unterricht</b><small>${aktTids().length ? 'Nur was gerade im Unterricht dran ist. ' + (qu.items.length ? plural(qu.items.length, 'Übung', 'Übungen') + ' offen.' : 'Nichts fällig, du kannst trotzdem üben.') : 'Noch keine Themen angewählt. Tippe hier.'}</small></span></button>`;
     h += `<button class="mixbtn" data-a="lernA">${icon('mix')}<span><b>Alles wiederholen</b><small>Alles, was schon dran war, gemischt. ${qa.faellig ? plural(qa.faellig, 'Übung', 'Übungen') + ' fällig.' : 'Gerade nichts fällig, du übst trotzdem gemischt.'}</small></span></button>`;
-    // Aus den Noten: Themen, die in einer Arbeit nicht gut liefen
-    const nachT = st.nacharbeitThemen(today);
-    if (nachT.size) h += `<button class="card unt-card" data-a="noten"><span class="unt-h">${icon('exam')}<b>Aus deinen Arbeiten nacharbeiten</b><span class="muted">${plural(nachT.size, 'Thema', 'Themen')}</span>${icon('chev', 'chev')}</span><span class="tc-tags">${[...nachT].slice(0, 6).map(([tid, v]) => `<span class="tag ${v.bewertung === 'schlecht' ? 'bad' : ''}">${esc(st.thema(tid).thema.name)}</span>`).join('')}</span><span class="muted small">Diese Themen ziehe ich bei Alles wiederholen vor.</span></button>`;
     // Meine Trainer: alle Trainer mit einem Tipp erreichbar, fällige zuerst
     const trs = [], seen = new Set();
     for (const f of st.faecher()) for (const t of f.themen) for (const x of t.trainer || []) {
@@ -96,7 +93,6 @@ const heute = {
       newexam: () => termEditor({}),
       lernU: () => lernenUnterricht(),
       trmix: () => trainerGemischt(),
-      noten: () => push(notenPage()),
       trainer: d => { const i = d.indexOf('|'); openTrainer(d.slice(0, i), d.slice(i + 1)); },
       lernA: () => lernenAlles(),
       unterricht: () => push(unterrichtPage()),

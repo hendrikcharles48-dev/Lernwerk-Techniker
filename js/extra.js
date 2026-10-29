@@ -20,9 +20,8 @@ export function applyTheme(t) {
 }
 
 function notenSub() {
-  const g = st.S.exams.filter(e => e.note != null || e.prozent != null);
-  const n = st.nacharbeitThemen().size;
-  return g.length ? plural(g.length, 'Arbeit', 'Arbeiten') + ' eingetragen' + (n ? ', ' + plural(n, 'Thema', 'Themen') + ' zum Nacharbeiten' : '') : 'Noten und Themen der Klassenarbeiten';
+  const g = st.S.exams.filter(e => e.note != null || e.prozent != null).length;
+  return g ? plural(g, 'Klausur', 'Klausuren') + ' eingetragen' : 'Noten der Klausuren';
 }
 export function mehrPage() {
   return {
@@ -138,7 +137,7 @@ export function termineDetail(id) {
       b.innerHTML = h;
       on(b, {
         topic: tid => push(topicPage(tid)),
-        note: () => notenEditor(e),
+        note: () => push(klausurPage(e.id)),
         ueben: () => { const q = st.buildQueue(1200, { tids: tops.map(t => t.thema.id), exam: e, mitFehlern: true, maxNeu: 12 }); runSession(q.items.length ? q.items : sortForPractice(tops.flatMap(t => st.topicItems(t.thema.id))).slice(0, 12), 'Arbeit: ' + e.fach, { onClose: () => refreshTop() }); },
         probe: () => push(probePage(e)),
         hoer: () => push(hoerPage({ exam: e }))
@@ -697,38 +696,44 @@ export function notenPage() {
     actions: [{ label: 'Neu', icon: 'plus', onClick: () => notenEditor({}) }],
     render(b) {
       const today = dayStr();
-      const graded = st.S.exams.filter(e => e.note != null || e.prozent != null).sort((a, c) => (a.datum > c.datum ? -1 : 1));
-      const offen = st.S.exams.filter(e => e.note == null && e.prozent == null && e.datum < today).sort((a, c) => (a.datum > c.datum ? -1 : 1));
-      const ks = st.notenSchluessel();
+      // Alle Klausuren: benotete und vergangene Termine ohne Note
+      const ks = st.S.exams.filter(e => e.note != null || e.prozent != null || e.datum < today).sort((a, c) => (a.datum > c.datum ? -1 : 1));
+      const by = new Map();
+      for (const e of ks) { const n = e.note != null ? e.note : st.noteAusProzent(e.prozent); if (n == null) continue; const k = e.fachId || e.fach; const x = by.get(k) || { fach: (st.fach(e.fachId) || {}).kurz || e.fach, n: [] }; x.n.push(n); by.set(k, x); }
       let h = `<div class="btn-row"><button class="btn filled" data-a="neu">${icon('plus')} Note eintragen</button></div>`;
-      h += list([row({ a: 'schl', icon: 'list', color: '#8E8E93', title: 'Notenschlüssel', sub: ks.map((g, i) => (i + 1) + ' ab ' + g).join(', ') + ', darunter 6' + (ks.join() === st.IHK_SCHLUESSEL.join() ? ' · IHK' : ' · eigener') })]);
-      if (offen.length) h += `<div class="sec-h">Note fehlt noch</div>` + list(offen.map(e => { const f = st.fach(e.fachId); return row({ a: 'ed', d: e.id, dot: f ? f.farbe : '#888', title: e.fach, sub: dayLong(e.datum), detail: 'eintragen' }); }));
-      if (graded.length) {
-        // Schnitt je Fach
-        const by = new Map();
-        for (const e of graded) if (e.note != null) { const k = e.fachId || e.fach; const x = by.get(k) || { fach: e.fach, f: st.fach(e.fachId), n: [] }; x.n.push(e.note); by.set(k, x); }
-        if (by.size) h += `<div class="sec-h">Schnitt je Fach</div>` + list([...by.values()].map(x => row({ dot: x.f ? x.f.farbe : '#888', title: x.fach, sub: plural(x.n.length, 'Arbeit', 'Arbeiten'), detail: fmtNote(x.n.reduce((s, v) => s + v, 0) / x.n.length) })));
-        h += `<div class="sec-h">Alle Arbeiten</div>` + list(graded.map(e => {
-          const f = st.fach(e.fachId);
-          const schwach = (e.themaIds || []).filter(t => ['mittel', 'schlecht'].includes(st.themaErgebnis(e, t))).length;
-          return row({ a: 'ed', d: e.id, dot: f ? f.farbe : '#888', title: e.fach, sub: dayLong(e.datum) + ((e.themaIds || []).length ? ' · ' + plural(e.themaIds.length, 'Thema', 'Themen') : '') + (schwach ? ', ' + schwach + ' zum Nacharbeiten' : ''), detail: [e.note != null ? 'Note ' + fmtNote(e.note) : '', e.prozent != null ? fmtNum(e.prozent, 1) + ' %' : ''].filter(Boolean).join(' · ') });
-        }));
-      } else if (!offen.length) h += empty('Noch keine Note eingetragen.', 'Trag nach jeder Arbeit Note, Prozent und die Themen ein. Themen, die nicht gut liefen, zieht Lernwerk danach beim Lernen vor.');
-      const nach = st.nacharbeitThemen(today);
-      if (nach.size) h += `<div class="sec-h">Zum Nacharbeiten</div>` + list([...nach].map(([tid, v]) => row({ a: 'topic', d: tid, title: st.thema(tid).thema.name, sub: (v.bewertung === 'schlecht' ? 'Lief schlecht' : 'Lief mittel') + ' in ' + v.exam.fach + ', ' + dayShort(v.exam.datum) }))) + `<div class="btn-row"><button class="btn filled" data-a="nach">${icon('bolt')} Jetzt nacharbeiten</button></div>`;
-      h += `<div class="sec-f">So wirkt es aufs Lernen: Themen, die in einer Arbeit schlecht liefen, kommen bei Alles wiederholen zuerst, mittel gelaufene direkt danach. Aus beiden kommen auch neue Karten dazu, selbst wenn sie nicht im Unterricht angewählt sind. Ohne eigene Bewertung zählt das Gesamtergebnis: Note 1 und 2 gut, Note 3 mittel, ab Note 4 schlecht. Das gilt 120 Tage nach der Arbeit oder bis eine neuere Arbeit das Thema gut bewertet. Deine Noten bleiben nur auf diesem Gerät und in deiner Datensicherung.</div>`;
+      if (by.size) h += `<p class="schnitt">Schnitt: ${[...by.values()].map(x => esc(x.fach) + ' ' + fmtNote(x.n.reduce((s, v) => s + v, 0) / x.n.length)).join(' · ')}</p>`;
+      h += ks.length ? list(ks.map(e => {
+        const f = st.fach(e.fachId);
+        const hat = e.note != null || e.prozent != null;
+        return row({ a: 'kl', d: e.id, dot: f ? f.farbe : '#888', title: e.fach, sub: dayLong(e.datum), detail: hat ? [e.note != null ? fmtNote(e.note) : '', e.prozent != null ? fmtNum(e.prozent, 1) + ' %' : ''].filter(Boolean).join(' · ') : 'Note fehlt' });
+      })) : empty('Noch keine Klausur eingetragen.', 'Tippe auf Note eintragen.');
+      const k = st.notenSchluessel();
+      h += `<button class="schl-link" data-a="schl">Notenschlüssel: ${k.map((g, i) => (i + 1) + ' ab ' + g).join(', ')}</button>`;
       b.innerHTML = h;
-      on(b, {
-        neu: () => notenEditor({}),
-        schl: () => schluesselEditor(),
-        ed: id => { const e = st.S.exams.find(x => x.id === id); if (e) notenEditor(e); },
-        topic: tid => push(topicPage(tid)),
-        nach: () => {
-          const tids = [...nach.keys()];
-          const q = st.buildQueue(1200, { tids, mitFehlern: true, maxNeu: 12 });
-          runSession(q.items.length ? q.items : sortForPractice(tids.flatMap(t => st.topicItems(t))).slice(0, 12), 'Nacharbeiten', { onClose: () => refreshTop() });
-        }
-      });
+      on(b, { neu: () => notenEditor({}), schl: () => schluesselEditor(), kl: id => push(klausurPage(id)) });
+    }
+  };
+}
+// Eine Klausur: Note, Prozent und erst hier die Themen
+export function klausurPage(id) {
+  return {
+    title: 'Klausur',
+    actions: [{ label: 'Bearbeiten', icon: 'edit', onClick: () => { const e = st.S.exams.find(x => x.id === id); if (e) notenEditor(e); } }],
+    render(b) {
+      const e = st.S.exams.find(x => x.id === id);
+      if (!e) { b.innerHTML = empty('Diese Klausur gibt es nicht mehr.'); return; }
+      const f = st.fach(e.fachId);
+      const hat = e.note != null || e.prozent != null;
+      const b2 = e.prozent != null ? st.bisZurBesserenNote(e.prozent) : null;
+      let h = `<div class="card count" style="--fc:${f ? f.farbe : 'var(--accent)'}"><div class="count-t">${esc(e.fach)}</div><div class="muted">${esc(dayLong(e.datum))}</div>
+        <div class="kl-note ${hat ? '' : 'leer'}">${hat ? (e.note != null ? 'Note ' + fmtNote(e.note) : '') + (e.prozent != null ? '<small>' + fmtNum(e.prozent, 1) + ' %</small>' : '') : 'Note fehlt noch'}</div>
+        ${b2 ? `<div class="muted small">Bis zur ${b2.note} haben ${esc(fmtNum(b2.fehlt, 1))} Prozent gefehlt.</div>` : ''}${e.notiz ? `<div class="muted">${esc(e.notiz)}</div>` : ''}</div>`;
+      if (!hat) h += `<div class="btn-row"><button class="btn filled" data-a="ed">${icon('exam')} Note eintragen</button></div>`;
+      const tops = (e.themaIds || []).map(t => st.thema(t)).filter(Boolean);
+      const lab = { gut: 'Lief gut', mittel: 'Lief mittel', schlecht: 'Lief schlecht' };
+      h += `<div class="sec-h">Themen der Klausur</div>` + (tops.length ? list(tops.map(t => { const r = hat ? st.themaErgebnis(e, t.thema.id) : null; return row({ a: 'topic', d: t.thema.id, title: t.thema.name, sub: r ? lab[r] : '', detail: r === 'schlecht' ? '●' : '' }); })) : `<div class="sec-f">Noch keine Themen ausgewählt. Tippe oben auf Bearbeiten.</div>`);
+      b.innerHTML = h;
+      on(b, { ed: () => notenEditor(e), topic: tid => push(topicPage(tid)) });
     }
   };
 }
@@ -802,9 +807,9 @@ export function notenEditor(e0) {
           const erg = {};
           for (const t of e.themaIds) if (e.ergebnis[t]) erg[t] = e.ergebnis[t];
           await st.addExam({ id: e0.id, fachId: e.fachId, fach: f.name, datum: e.datum, themen: e0.themen || '', themaIds: e.themaIds, note: e.note, prozent: e.prozent, ergebnis: erg, notiz: e.notiz });
-          api.close(); toast('Note gespeichert. Schwache Themen ziehe ich beim Lernen vor.'); refreshTop();
+          api.close(); toast('Note gespeichert.'); refreshTop();
         },
-        del: async () => { if (await confirmBox('Diese Arbeit mit Note löschen?', 'Löschen', true)) { await st.deleteExam(e0.id); api.close(); refreshTop(); } }
+        del: async () => { if (await confirmBox('Diese Klausur löschen?', 'Löschen', true)) { await st.deleteExam(e0.id); api.close(); pop(); } }
       });
       b.addEventListener('click', ev => {
         const btn = ev.target.closest('[data-seg] button');

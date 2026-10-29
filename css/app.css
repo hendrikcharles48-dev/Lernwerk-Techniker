@@ -545,3 +545,8 @@ body.sheet-open #readbar { bottom: calc(var(--sab) + 14px); }
 .tr-tile.tr-all { grid-column: 1 / -1; min-height: 0; flex-direction: row; flex-wrap: wrap; align-items: center; column-gap: 10px; --fc: #5E5CE6; }
 .tr-tile.tr-all small { flex-basis: 100%; }
 .tag.bad { background: var(--bad-bg); color: var(--red); font-weight: 600; }
+.schnitt { font-size: 13px; color: var(--label2); margin: 2px 4px 10px; }
+.schl-link { display: block; border: 0; background: none; color: var(--label3); font-size: 12px; margin: 14px 4px; padding: 6px 0; text-align: left; }
+.kl-note { font-size: 34px; font-weight: 800; margin-top: 8px; display: flex; align-items: baseline; gap: 10px; }
+.kl-note small { font-size: 18px; font-weight: 600; color: var(--label2); }
+.kl-note.leer { font-size: 17px; font-weight: 600; color: var(--label2); }
