@@ -43,10 +43,21 @@ export async function init() {
   S.plan = plan;
 
   await loadBuiltin();
+  await unterrichtVorgabe();
   if (!kvGet('ersterStart')) await kvSet('ersterStart', dayStr());
   await ingestInbox();
   db.requestPersist();
   S.ready = true;
+}
+
+// Themen, die laut lehrplan.json gerade neu im Unterricht sind, einmalig auf „Im Unterricht“ setzen.
+// Nur bei bisherigen Nutzern und nur einmal je Thema, damit eigene Einstellungen danach bleiben.
+async function unterrichtVorgabe() {
+  const done = new Set(kvGet('unterrichtVorgabe', []));
+  const neu = S.base.faecher.flatMap(f => f.themen).filter(t => t.unterricht && !done.has(t.id) && thema(t.id)).map(t => t.id);
+  if (!neu.length) return;
+  if (kvGet('ersterStart')) for (const tid of neu) if (zustand(tid) === 'kommt') await setZustand(tid, 'aktuell');
+  await kvSet('unterrichtVorgabe', [...done, ...neu]);
 }
 
 // Neue Themen aus einer neueren lehrplan.json übernehmen, eigene Änderungen behalten

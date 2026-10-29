@@ -1,0 +1,668 @@
+=== LERNWERK ===
+Fach: Führung und Personal
+Thema: Personalplanung und Personalbedarf
+Anker: Vor der Saison plant ein Baseballtrainer seinen Kader. Wie viele Spieler brauche ich? Das ist die Menge. Brauche ich einen Pitcher oder einen Catcher? Das ist die Qualität. Genauso plant ein Betrieb sein Personal.
+Anker: In der Werkstatt kommt ein Großauftrag. Der Meister rechnet: So viele Stunden Arbeit fallen an, so viele Stunden schafft ein Kollege im Jahr. Arbeit / Stunden pro Kopf ergibt die Zahl der Leute.
+Begriff: Personalplanung | Die Planung, wie viele Mitarbeiter mit welchen Fähigkeiten wann und wo gebraucht werden.
+Begriff: Quantitativer Personalbedarf | Die Anzahl der Mitarbeiter, die gebraucht werden.
+Begriff: Qualitativer Personalbedarf | Die Kenntnisse und Fähigkeiten, die diese Mitarbeiter haben müssen.
+Begriff: Unterdeckung | Es gibt weniger Mitarbeiter als nötig. Personal muss beschafft werden.
+Begriff: Überdeckung | Es gibt mehr Mitarbeiter als nötig. Personal muss umgesetzt oder abgebaut werden.
+Begriff: Neubedarf | Zusätzliche Stellen, zum Beispiel für eine neue Anlage oder ein neues Marktgebiet.
+Begriff: Minderbedarf | Stellen, die wegfallen, zum Beispiel weil eine Arbeit automatisiert wird.
+Begriff: Zugänge | Mitarbeiter, die sicher dazukommen: Rückkehr aus Mutterschutz oder Elternzeit, übernommene Auszubildende, Versetzungen in die Abteilung.
+Begriff: Abgänge | Mitarbeiter, die sicher gehen: Mutterschutz, Elternzeit, Rente, Kündigung und Sonstiges.
+Begriff: Kennzahlenmethode | Man rechnet mit der Leistung pro Mitarbeiter aus dem Vorjahr, zum Beispiel Lieferpositionen pro Kopf.
+Begriff: Anforderungsprofil | Die Liste der Kenntnisse, die eine Stelle verlangt: Schule, Ausbildung, Weiterbildung, Fach-, Methoden- und Sozialkompetenz.
+Begriff: Stellenbeschreibung | Sie beschreibt Ziel, Aufgaben, Befugnisse und Einordnung einer Stelle im Unternehmen.
+Merksatz: Quantitativ heißt wie viele, qualitativ heißt welche.
+Merksatz: Mitarbeiterbedarf = Jahresstunden / (Arbeitswochen · Wochenstunden).
+Merksatz: Soll − Ist ergibt die Unterdeckung oder die Überdeckung.
+Merksatz: Zugänge senken den Bedarf, Abgänge erhöhen ihn.
+Merksatz: Aufgabenanalyse, dann Anforderungsprofil, dann Stellenbeschreibung.
+Prinzip: Ein Betrieb braucht zur richtigen Zeit die richtigen Leute in der richtigen Zahl am richtigen Ort. Das ist die Aufgabe der Personalplanung. Sie beantwortet zwei Fragen. Wie viele Mitarbeiter brauche ich? Das ist der quantitative Bedarf. Was müssen diese Mitarbeiter können? Das ist der qualitative Bedarf.
+
+Danach geht es weiter: Personal beschaffen, auswählen, einstellen und führen.
+
+Den quantitativen Bedarf rechnest du über die Arbeitszeit. Erst bestimmst du, wie viele Stunden Arbeit im nächsten Jahr anfallen. Steigt die Produktion um 15 %, steigen auch die Stunden um 15 %. Dann teilst du durch die Stunden, die ein Mitarbeiter im Jahr leistet, also Arbeitswochen · Wochenstunden.
+
+Ein zweiter Weg ist die Kennzahlenmethode. Zehn Leute haben im Lager 60000 Positionen geschafft, also 6000 pro Kopf. Kommen 72000 Positionen, braucht man 72000 / 6000 = 12 Leute.
+
+Danach kommt das Schema für den Nettobedarf. Soll − Ist zeigt die Lücke heute. Neubedarf kommt dazu, Minderbedarf geht ab. Wer sicher neu dazukommt, schließt einen Teil der Lücke. Wer sicher geht, reißt eine neue Lücke. Am Ende weißt du, wie viele Leute du beschaffen oder abbauen musst.
+
+Den qualitativen Bedarf bestimmst du in drei Schritten. Erst zerlegst du die Arbeit in Aufgaben. Daraus ergibt sich das Anforderungsprofil. Am Ende steht die Stellenbeschreibung.
+
+Zahlen allein reichen nicht. Prognosen können falsch sein, Mehrarbeit oder Leiharbeit fangen Spitzen ab, und Krankheit, Kündigungen und Zugänge mitten im Jahr verändern die Lage.
+Baustein: Stunden des laufenden Jahres nehmen und mit der Steigerung hochrechnen.
+Baustein: Jahresleistung eines Mitarbeiters bilden: Arbeitswochen · Wochenstunden.
+Baustein: Stunden / Jahresleistung pro Kopf ergibt den Mitarbeiterbedarf.
+Baustein: Soll − Ist, dann + Neubedarf − Minderbedarf, dann − Zugänge + Abgänge.
+Baustein: Für jede Stelle Aufgaben, Anforderungen und Stellenbeschreibung festhalten.
+Schnellweg: Steigerung in % sofort als Faktor nehmen: 15 % mehr heißt · 1,15.
+Schnellweg: Ein Ergebnis wie 78,2 Mitarbeiter heißt 79 Stellen, oder du fängst den Rest mit Mehrarbeit oder Teilzeit ab. Auf dem Arbeitsblatt steht 78,2 als Rechenergebnis.
+Schnellweg: Achtung, das Arbeitsblatt zeigt zwei Reihenfolgen. Im Pfeilbild steht die quantitative Planung zuerst. Auf den nummerierten Karten ist die qualitative Planung Nummer 1 und die quantitative Nummer 2. Frag im Unterricht nach, welche Reihenfolge in der Klausur gilt.
+Schnellweg: Achtung, im Bedarfsschema auf dem Arbeitsblatt steht für die Fertigung handschriftlich „11 oder 12“. Rechne das Schema selbst noch einmal nach.
+Fehler: Die alten Stunden durch die neue Wochenarbeitszeit geteilt | Erst die Stunden mit der Produktionssteigerung hochrechnen, dann teilen.
+Fehler: Zugänge addiert | Wer dazukommt, schließt die Lücke. Zugänge werden abgezogen.
+Fehler: Abgänge abgezogen | Wer geht, hinterlässt eine Lücke. Abgänge werden addiert.
+Fehler: Nur die Anzahl geplant | Ohne qualitative Planung hast du genug Leute, aber vielleicht nicht die richtigen.
+Formel: Mitarbeiterbedarf | MA = h_J / (W · h_W) | h_J = MA · W · h_W; W = h_J / (MA · h_W); h_W = h_J / (MA · W)
+Aufbau: Oben steht die Arbeit eines ganzen Jahres in Stunden. Unten steht, was ein Mitarbeiter im Jahr leistet: Arbeitswochen · Wochenstunden. Arbeit / Leistung pro Kopf ergibt die Zahl der Köpfe.
+Formel: Stunden mit Steigerung | h_J = h_0 · (1 + s / 100) | h_0 = h_J / (1 + s / 100)
+Aufbau: Die 1 steht für die bisherigen Stunden, also 100 %. Dazu kommt die Steigerung s in %. Deshalb · (1 + s / 100).
+Formel: Leistung pro Mitarbeiter | L = Q_0 / MA_0 | Q_0 = L · MA_0; MA_0 = Q_0 / L
+Aufbau: Die Arbeitsmenge des Vorjahres wird auf die Köpfe verteilt. Das ist die Kennzahl, was einer schafft.
+Formel: Bedarf nach Kennzahl | MA = Q / L | Q = MA · L; L = Q / MA
+Aufbau: Die neue Arbeitsmenge / Leistung pro Kopf ergibt, wie viele Köpfe die Menge schaffen.
+Formel: Nettopersonalbedarf | N = S − I + NB − MB − Z + A | S = N + I − NB + MB + Z − A
+Aufbau: S − I ist die Lücke heute. Neubedarf NB vergrößert sie, Minderbedarf MB verkleinert sie. Zugänge Z schließen die Lücke, deshalb minus. Abgänge A reißen eine neue Lücke, deshalb plus. Ist N positiv, fehlen Leute. Ist N negativ, sind es zu viele.
+Karte: Was fragt die quantitative Personalplanung? | Wie viele Mitarbeiter gebraucht werden.
+Karte: Was fragt die qualitative Personalplanung? | Welche Kenntnisse und Fähigkeiten die Mitarbeiter haben müssen.
+Karte: Wie lautet die Formel für den Mitarbeiterbedarf? | Benötigte Stunden pro Jahr / (Arbeitswochen · Wochenstunden).
+Karte: Was bedeutet Unterdeckung? | Es gibt weniger Mitarbeiter als nötig.
+Karte: Was bedeutet Überdeckung? | Es gibt mehr Mitarbeiter als nötig.
+Karte: Nenne drei Zugänge im Bedarfsschema. | Rückkehr aus Elternzeit, Übernahme von Auszubildenden, Versetzung in die Abteilung.
+Karte: Nenne drei Abgänge im Bedarfsschema. | Rente, Kündigung, Beginn von Mutterschutz oder Elternzeit.
+Karte: Werden Zugänge im Schema addiert oder abgezogen? | Abgezogen, weil sie die Lücke schließen.
+Karte: 10 Mitarbeiter schaffen 60000 Positionen. Wie viele braucht man für 72000? | 12 Mitarbeiter.
+Karte: Welche drei Schritte hat die qualitative Bedarfsplanung? | Aufgabenanalyse, Anforderungsprofil, Stellenbeschreibung.
+Karte: Welche Kompetenzen stehen in einem Anforderungsprofil? | Fachkompetenz, Methodenkompetenz und Sozialkompetenz.
+Karte: Was steht in einer Stellenbeschreibung? | Ziel der Stelle, Aufgaben, Befugnisse, Vorgesetzte und Vertretung.
+Karte: Welche Dinge musst du neben der Rechnung beachten? | Prognosen, Mehrarbeit, Leiharbeit, ungeplante Ausfälle und Zu- und Abgänge im laufenden Jahr.
+Auswahl: Die Produktion steigt um 15 %. Womit rechnest du die Stunden hoch? | Mit · 1,15 | Mit · 0,15; Mit + 15; Mit / 1,15 | 100 % alte Stunden + 15 % sind 115 %, also der Faktor 1,15.
+Auswahl: Ein Kollege geht im nächsten Jahr in Rente. Was passiert im Bedarfsschema? | Der Bedarf steigt um eins | Der Bedarf sinkt um eins; Nichts, Rente zählt nicht; Das Soll sinkt um eins | Ein Abgang reißt eine Lücke, deshalb wird er addiert.
+Auswahl: Welche Kompetenz zeigt sich darin, dass jemand gut im Team arbeitet? | Sozialkompetenz | Fachkompetenz; Methodenkompetenz; Schulbildung | Umgang mit Menschen ist Sozialkompetenz.
+Reihenfolge: Ablauf der Personalarbeit nach dem Pfeilbild | Quantitative Planung; Qualitative Planung; Personal akquirieren; Personal auswählen; Personal einstellen; Personal führen
+Reihenfolge: Schema für den Nettopersonalbedarf | Soll − Ist ergibt Deckung I; Plus Neubedarf, minus Minderbedarf ergibt II; Minus Zugänge; Plus Abgänge ergibt den Nettobedarf
+Aufgabe: In der Fertigung wurden im laufenden Jahr {h0} Mitarbeiterstunden gebraucht. Die Produktion soll um {s} % steigen. Im kommenden Jahr wird {W} Wochen mit je {hW} Stunden gearbeitet. Wie viele Mitarbeiter werden gebraucht?
+Gegeben: h_0 = {h0} h, Steigerung {s} %
+Gegeben: W = {W} Wochen, h_W = {hW} h pro Woche
+Gesucht: Mitarbeiterbedarf MA
+Ansatz: Stunden · (1 + s / 100), dann / (W · h_W) | Stunden / (W · h_W), dann + s; Stunden / W, dann · h_W; Stunden · s / (W · h_W)
+Signal: Stunden des Vorjahres, eine Steigerung in % und die Arbeitszeit pro Kopf.
+Warum: Weil erst die neue Arbeitsmenge feststehen muss | Weil die Steigerung nur die Wochen betrifft; Weil man die Steigerung am Ende addiert
+Kontrolle: Wie gehst du mit einem Ergebnis wie 78,2 Mitarbeitern um? | Aufrunden oder den Rest mit Mehrarbeit abfangen | Abrunden, Bruchteile zählen nicht; Weglassen, das ist ein Rechenfehler
+Tipp: Eine Steigerung um {s} % heißt · (1 + {s} / 100).
+Schritt: Stunden im kommenden Jahr | h0 * (1 + s / 100) | h
+Schritt: Mitarbeiterbedarf | h0 * (1 + s / 100) / (W * hW) | Mitarbeiter
+Variable: h0 | 90000 | 140000 | 1000
+Variable: s | 5 | 20 | 1
+Variable: W | 44 | 47 | 1
+Variable: hW | 35 | 40 | 1
+Rechnung: h0 * (1 + s / 100) / (W * hW)
+Aufgabe: Im Lager haben {MA0} Mitarbeiter im letzten Jahr {Q0} Lieferpositionen bearbeitet. Im kommenden Jahr werden {Q} Positionen erwartet. Wie viele Mitarbeiter braucht das Lager?
+Gegeben: MA_0 = {MA0} Mitarbeiter, Q_0 = {Q0} Positionen
+Gegeben: Q = {Q} Positionen
+Gesucht: Mitarbeiterbedarf MA
+Ansatz: Neue Menge / (alte Menge / alte Köpfe) | Neue Menge / alte Menge · 100; Neue Menge − alte Menge; Alte Menge / neue Menge · Köpfe
+Signal: Eine Arbeitsmenge und eine Kopfzahl aus dem Vorjahr. Das ist die Kennzahlenmethode.
+Warum: Weil die Leistung pro Kopf gleich bleiben soll | Weil die Kopfzahl immer gleich bleibt; Weil die Menge keine Rolle spielt
+Kontrolle: Mehr Positionen bei gleicher Leistung pro Kopf, was folgt? | Es werden mehr Mitarbeiter gebraucht | Es werden weniger gebraucht; Die Zahl bleibt gleich
+Schritt: Leistung pro Mitarbeiter | Q0 / MA0 | Positionen
+Schritt: Mitarbeiterbedarf | Q / (Q0 / MA0) | Mitarbeiter
+Variable: MA0 | 8 | 12 | 1
+Variable: Q0 | 48000 | 72000 | 2000
+Variable: Q | 60000 | 90000 | 2000
+Rechnung: Q / (Q0 / MA0)
+Aufgabe: Eine Abteilung braucht {Soll} Stellen und hat {Ist} Mitarbeiter. Durch eine neue Anlage kommen {NB} Stellen dazu. Im Jahr kehren {Zu} Mitarbeiter aus der Elternzeit zurück, und {Ab} Mitarbeiter gehen in Rente. Wie groß ist der Nettopersonalbedarf?
+Gegeben: Soll = {Soll}, Ist = {Ist}
+Gegeben: Neubedarf = {NB}, Zugänge = {Zu}, Abgänge = {Ab}
+Gesucht: Nettopersonalbedarf N
+Ansatz: Soll − Ist + Neubedarf − Zugänge + Abgänge | Soll − Ist + Neubedarf + Zugänge − Abgänge; Soll + Ist + Neubedarf − Zugänge; Soll − Ist − Neubedarf − Abgänge
+Signal: Soll, Ist und eine Liste von Personen, die kommen oder gehen.
+Warum: Weil Zugänge eine Lücke schließen und Abgänge eine öffnen | Weil Zugänge eine Lücke öffnen und Abgänge sie schließen; Weil Zu- und Abgänge immer addiert werden
+Kontrolle: Was bedeutet ein positives Ergebnis? | Es fehlen Mitarbeiter, also Unterdeckung | Es sind zu viele, also Überdeckung; Alles ist genau richtig besetzt
+Schritt: Deckung I | Soll - Ist | Mitarbeiter
+Schritt: Deckung II mit Neubedarf | Soll - Ist + NB | Mitarbeiter
+Schritt: Nettopersonalbedarf | Soll - Ist + NB - Zu + Ab | Mitarbeiter
+Variable: Soll | 60 | 90 | 1
+Variable: Ist | 55 | 85 | 1
+Variable: NB | 0 | 6 | 1
+Variable: Zu | 0 | 4 | 1
+Variable: Ab | 0 | 5 | 1
+Rechnung: Soll - Ist + NB - Zu + Ab
+Quelle: Arbeitsblätter Modul 6, Personalplanung, Technikakademie. Achtung: Die Reihenfolge von quantitativer und qualitativer Planung ist auf dem Blatt unterschiedlich dargestellt.
+=== ENDE ===
+
+=== LERNWERK ===
+Fach: Führung und Personal
+Thema: Entgelt und Arbeitsbewertung
+Anker: Beim Baseball bekommt der Stamm-Pitcher mehr Geld als der Ersatzspieler. Im Betrieb zählt aber nicht, wer jemand ist, sondern was die Stelle verlangt: Wie viel Wissen, wie viel Verantwortung, wie schwer die Arbeit ist. Danach richtet sich das Entgelt.
+Anker: An der Fräse misst ein Zeitnehmer, wie lange das Rüsten dauert und wie lange ein Teil braucht. Daraus wird die Vorgabezeit für den Auftrag. Das ist eine Arbeitszeitstudie nach REFA.
+Begriff: Arbeitsbewertung | Man bewertet die Schwierigkeit einer Stelle, nicht die Leistung der Person. Daraus folgt die Lohngruppe oder Entgeltgruppe.
+Begriff: Summarische Arbeitsbewertung | Die Stelle wird als Ganzes beurteilt und mit anderen verglichen, zum Beispiel im Rangfolgeverfahren oder mit Lohngruppen und Gehaltsgruppen.
+Begriff: Analytische Arbeitsbewertung | Die Stelle wird in einzelne Anforderungen zerlegt. Jede Anforderung bekommt Punkte, die Summe ergibt die Gruppe.
+Begriff: Genfer Schema | Vier Anforderungsarten für die analytische Bewertung: Fachkönnen, Anstrengung, Verantwortung und Umwelteinflüsse.
+Begriff: Stufenwertzahlverfahren | Analytisches Verfahren. Für jede Anforderung gibt es Stufen mit festen Punktwerten.
+Begriff: ERA | Das Entgeltrahmenabkommen der Metall- und Elektroindustrie. Arbeiter und Angestellte werden nach dem gleichen Punktesystem eingruppiert.
+Begriff: REFA | Ein Verband für Arbeitsgestaltung. Er hat Methoden für Arbeitsablaufstudien, Arbeitszeitstudien und Arbeitswertstudien entwickelt.
+Begriff: Rüstzeit | Die Zeit, um den Arbeitsplatz für einen Auftrag vorzubereiten. Sie besteht aus Rüstgrundzeit, Rüsterholungszeit und Rüstverteilzeit.
+Begriff: Ausführungszeit | Die Zeit für die eigentliche Arbeit an allen Teilen. Sie ist Menge · Zeit je Einheit.
+Begriff: Verteilzeit | Zeit für Dinge, die unregelmäßig anfallen, zum Beispiel eine Rückfrage oder ein kurzer Ausfall.
+Merksatz: Bewertet wird die Stelle, nicht die Person.
+Merksatz: Summarisch heißt im Ganzen, analytisch heißt zerlegt in Merkmale.
+Merksatz: Auftragszeit = Rüstzeit + Menge · Zeit je Einheit.
+Merksatz: Grundzeit + Erholungszeit + Verteilzeit, beim Rüsten und beim Ausführen.
+Merksatz: ERA: Punkte zusammenzählen, dann in der Tabelle die Entgeltgruppe ablesen.
+Prinzip: Gerechtes Entgelt heißt: Gleiche Anforderungen bekommen das gleiche Geld. Deshalb bewertet man die Stelle und nicht die Person. Wie gut jemand seine Arbeit macht, regelt später die Leistungszulage.
+
+Es gibt zwei Wege. Bei der summarischen Bewertung schaust du dir die Stelle als Ganzes an. Entweder stellst du alle Stellen in eine Rangfolge, oder du ordnest sie in fertige Gruppen ein, zum Beispiel Gehaltsgruppe 1 bis 7. Das geht schnell, ist aber ungenau.
+
+Bei der analytischen Bewertung zerlegst du die Stelle in Anforderungen. Das Genfer Schema nennt vier: Fachkönnen, Anstrengung, Verantwortung und Umwelteinflüsse. Jede Anforderung bekommt nach Stufen Punkte. Die Summe der Punkte ergibt die Gruppe. So arbeitet auch das ERA: Fachkenntnisse, Berufserfahrung, Handlungsspielraum, Kooperation und Mitarbeiterführung geben Punkte, und die Punktsumme fällt in eine Entgeltgruppe.
+
+Für Akkord und Planung braucht man Vorgabezeiten. REFA zerlegt die Arbeit in Rüsten und Ausführen. Gerüstet wird einmal pro Auftrag. Die Zeit je Einheit fällt für jedes Teil an. Zu jeder Grundzeit kommen Erholungszeit und Verteilzeit dazu.
+Baustein: Klären, ob summarisch oder analytisch gefragt ist.
+Baustein: Bei ERA für jedes Merkmal die passende Stufe und ihre Punkte suchen.
+Baustein: Punkte addieren und die Entgeltgruppe in der Tabelle ablesen.
+Baustein: Bei Zeiten: Rüstzeit einmal, Zeit je Einheit · Menge, dann addieren.
+Baustein: Minuten am Ende in Stunden umrechnen, falls gefragt.
+Schnellweg: Gruppenleiter auf dem Arbeitsblatt: 58 + 12 + 30 + 10 + 5 = 115 Punkte, das ist Entgeltgruppe 12.
+Schnellweg: Mechaniker auf dem Arbeitsblatt: 58 + 6 + 18 + 4 + 0 = 86 Punkte, das ist Entgeltgruppe 9.
+Schnellweg: Achtung, die Punktwerte und Gruppengrenzen im ERA sind je nach Tarifgebiet verschieden. Nimm in der Klausur immer die Tabelle aus der Aufgabe.
+Fehler: Die Leistung der Person bewertet | Die Arbeitsbewertung bewertet die Anforderungen der Stelle.
+Fehler: Rüstzeit für jedes Teil gerechnet | Gerüstet wird einmal pro Auftrag.
+Fehler: Summarisch und analytisch vertauscht | Summarisch ist die Stelle im Ganzen, analytisch ist zerlegt in Merkmale mit Punkten.
+Formel: Auftragszeit | T = t_r + m · t_e | t_r = T − m · t_e; m = (T − t_r) / t_e; t_e = (T − t_r) / m
+Aufbau: Gerüstet wird einmal pro Auftrag, deshalb steht t_r allein. Die Zeit je Einheit t_e fällt für jedes Teil an, deshalb · m.
+Formel: Rüstzeit | t_r = t_rg + t_rer + t_rv | t_rg = t_r − t_rer − t_rv
+Aufbau: Zur reinen Rüstgrundzeit kommen die Pausen zur Erholung und die Verteilzeit für Unregelmäßiges. Alles zusammen ist die Rüstzeit.
+Formel: Zeit je Einheit | t_e = t_g + t_er + t_v | t_g = t_e − t_er − t_v
+Aufbau: Genau wie beim Rüsten: Grundzeit plus Erholungszeit plus Verteilzeit, diesmal für ein Teil.
+Formel: Punktsumme im ERA | P = P_F + P_B + P_H + P_K + P_M | P_F = P − P_B − P_H − P_K − P_M
+Aufbau: Jedes Merkmal bringt eigene Punkte: Fachkenntnisse, Berufserfahrung, Handlungsspielraum, Kooperation und Mitarbeiterführung. Die Summe zeigt, wie anspruchsvoll die Stelle ist.
+Karte: Was wird bei der Arbeitsbewertung bewertet? | Die Anforderungen der Stelle, nicht die Person.
+Karte: Was ist die summarische Arbeitsbewertung? | Die Stelle wird als Ganzes beurteilt und in eine Rangfolge oder Gruppe eingeordnet.
+Karte: Was ist die analytische Arbeitsbewertung? | Die Stelle wird in Anforderungen zerlegt, jede bekommt Punkte.
+Karte: Nenne die vier Anforderungsarten des Genfer Schemas. | Fachkönnen, Anstrengung, Verantwortung, Umwelteinflüsse.
+Karte: Wofür steht ERA? | Für das Entgeltrahmenabkommen der Metall- und Elektroindustrie.
+Karte: Welche fünf Merkmale bewertet das ERA auf dem Arbeitsblatt? | Fachkenntnisse, Berufserfahrung, Handlungsspielraum, Kooperation, Mitarbeiterführung.
+Karte: Welche drei Studien kennt REFA? | Arbeitsablaufstudien, Arbeitszeitstudien, Arbeitswertstudien.
+Karte: Woraus besteht die Rüstzeit? | Aus Rüstgrundzeit, Rüsterholungszeit und Rüstverteilzeit.
+Karte: Wie berechnest du die Auftragszeit? | Rüstzeit + Menge · Zeit je Einheit.
+Karte: Ein Mechaniker hat 58 + 6 + 18 + 4 + 0 Punkte. Welche Entgeltgruppe? | 86 Punkte, Entgeltgruppe 9.
+Karte: Welche Punktspanne hat Entgeltgruppe 12 auf dem Arbeitsblatt? | 113 bis 128 Punkte.
+Karte: Welche Punktspanne hat Entgeltgruppe 9 auf dem Arbeitsblatt? | 78 bis 88 Punkte.
+Auswahl: Eine Firma ordnet alle Stellen nur nach dem Gesamteindruck in eine Rangfolge. Welches Verfahren ist das? | Summarisch | Analytisch; Stufenwertzahlverfahren; Arbeitszeitstudie | Die Stelle wird im Ganzen beurteilt.
+Auswahl: Wie oft fällt die Rüstzeit bei einem Auftrag mit 200 Teilen an? | Einmal | 200 Mal; Zweimal; Gar nicht | Gerüstet wird einmal pro Auftrag.
+Reihenfolge: Eingruppierung im ERA | Stelle beschreiben; Für jedes Merkmal die Stufe wählen; Punkte addieren; Entgeltgruppe in der Tabelle ablesen
+Aufgabe: Für einen Fräsauftrag mit {m} Teilen beträgt die Rüstzeit {tr} Minuten und die Zeit je Einheit {te} Minuten. Wie groß ist die Auftragszeit in Stunden?
+Gegeben: t_r = {tr} min, t_e = {te} min
+Gegeben: m = {m} Teile
+Gesucht: Auftragszeit T in h
+Ansatz: T = t_r + m · t_e, dann / 60 | T = m · (t_r + t_e), dann / 60; T = t_r · m + t_e, dann / 60; T = t_r + t_e, dann · m · 60
+Signal: Eine Rüstzeit, eine Zeit je Teil und eine Stückzahl.
+Warum: Weil gerüstet wird einmal, gefräst wird jedes Teil | Weil gerüstet wird für jedes Teil neu; Weil die Rüstzeit schon in t_e steckt
+Kontrolle: Wird die Rüstzeit mit der Stückzahl malgenommen? | Nein, sie zählt nur einmal | Ja, für jedes Teil; Ja, aber nur zur Hälfte
+Schritt: Auftragszeit in Minuten | tr + m * te | min
+Schritt: Umrechnung in Stunden | (tr + m * te) / 60 | h
+Variable: tr | 20 | 90 | 5
+Variable: te | 2 | 15 | 0,5
+Variable: m | 20 | 200 | 10
+Rechnung: (tr + m * te) / 60
+Aufgabe: Ein Gruppenleiter bekommt im ERA diese Punkte: Fachkenntnisse 58, Berufserfahrung 12, Handlungsspielraum 30, Kooperation 10, Mitarbeiterführung 5. Entgeltgruppe 9 umfasst 78 bis 88 Punkte, Entgeltgruppe 12 umfasst 113 bis 128 Punkte. In welche Entgeltgruppe fällt die Stelle?
+Gegeben: Punkte 58, 12, 30, 10 und 5
+Gegeben: Entgeltgruppe 9 hat 78 bis 88 Punkte, Entgeltgruppe 12 hat 113 bis 128 Punkte
+Gesucht: Entgeltgruppe
+Ansatz: Alle Punkte addieren und die Summe in der Tabelle suchen | Den höchsten Einzelwert in der Tabelle suchen; Den Durchschnitt der Punkte nehmen; Nur Fachkenntnisse in der Tabelle suchen
+Signal: Punkte für mehrere Merkmale und eine Tabelle mit Punktspannen.
+Warum: Weil die Summe aller Merkmale die Stelle beschreibt | Weil nur das wichtigste Merkmal zählt; Weil der Durchschnitt fairer ist
+Kontrolle: Liegt die Summe in einer Spanne der Tabelle? | Ja, sonst ist die Summe falsch | Nein, das ist egal; Nur bei Angestellten
+Schritt: Punktsumme | 58 + 12 + 30 + 10 + 5 | Punkte
+Schritt: Entgeltgruppe aus der Tabelle | 12 | Entgeltgruppe
+Rechnung: 12
+Quelle: Arbeitsblätter Modul 6, Entgeltfestlegung, Technikakademie. Achtung: Die ERA-Punktwerte gelten für das Arbeitsblatt. Andere Tarifgebiete haben andere Tabellen.
+=== ENDE ===
+
+=== LERNWERK ===
+Fach: Führung und Personal
+Thema: Personalbeschaffung und Betriebsrat
+Anker: Fehlt im Team ein Spieler, holt der Trainer erst einen aus der eigenen Jugend. Der kennt das System schon. Reicht das nicht, kauft er einen von außen. Der bringt neue Ideen, kostet aber mehr und braucht Zeit. Das ist interne und externe Beschaffung.
+Anker: Bevor in deiner Firma jemand neu an die Fräse kommt, muss der Betriebsrat gefragt werden. Er schaut, ob alles fair läuft. Ohne seine Zustimmung darf der Chef nicht einfach einstellen.
+Begriff: Interne Personalbeschaffung | Eine Stelle wird mit jemandem aus dem eigenen Unternehmen besetzt, durch Versetzung, Beförderung, Übernahme von Auszubildenden oder Mehrarbeit.
+Begriff: Externe Personalbeschaffung | Eine Stelle wird mit jemandem von außen besetzt, über Stellenanzeigen, Jobbörsen, die Agentur für Arbeit, Personalberater oder Zeitarbeit.
+Begriff: Innerbetriebliche Stellenausschreibung | Die Stelle wird zuerst im Betrieb bekannt gemacht, am Schwarzen Brett oder im Intranet.
+Begriff: E-Recruiting | Personalsuche über das Internet: Karriereseite, Jobbörsen, Online-Bewerbung.
+Begriff: Active Sourcing | Das Unternehmen sucht selbst nach passenden Leuten und spricht sie direkt an, zum Beispiel in Berufsnetzwerken.
+Begriff: Betriebsrat | Die gewählte Vertretung der Arbeitnehmer im Betrieb. Seine Rechte stehen im Betriebsverfassungsgesetz.
+Begriff: Paragraf 92 BetrVG | Der Arbeitgeber muss den Betriebsrat über die Personalplanung unterrichten und mit ihm beraten. Der Betriebsrat darf Vorschläge machen.
+Begriff: Paragraf 93 BetrVG | Der Betriebsrat kann verlangen, dass Stellen vorher im Betrieb ausgeschrieben werden.
+Begriff: Paragraf 99 BetrVG | In Unternehmen mit mehr als 20 wahlberechtigten Arbeitnehmern braucht der Arbeitgeber die Zustimmung des Betriebsrats für Einstellung, Eingruppierung, Umgruppierung und Versetzung.
+Merksatz: Intern ist schnell und günstig, extern bringt Auswahl und neue Ideen.
+Merksatz: Personalplanung: Betriebsrat unterrichten und beraten, Paragraf 92.
+Merksatz: Interne Ausschreibung kann der Betriebsrat verlangen, Paragraf 93.
+Merksatz: Einstellen, Eingruppieren, Umgruppieren, Versetzen: Zustimmung nach Paragraf 99.
+Merksatz: Der Betriebsrat hat eine Woche Zeit. Schweigt er, gilt die Zustimmung als erteilt.
+Prinzip: Ist der Bedarf klar, muss das Personal beschafft werden. Zuerst schaut man im eigenen Haus. Ein interner Bewerber kennt den Betrieb, die Kollegen und die Abläufe. Er ist schnell eingearbeitet, die Suche kostet wenig, und ein Aufstieg motiviert auch die anderen. Dafür reißt seine Versetzung eine neue Lücke, die Auswahl ist klein, und manchmal fehlt der frische Blick von außen. Das nennt man Betriebsblindheit.
+
+Externe Bewerber bringen neue Ideen und Erfahrung aus anderen Firmen mit, und die Auswahl ist groß. Dafür kostet die Suche Geld und Zeit, die Einarbeitung dauert länger, und man kennt die Person noch nicht. Interne Kollegen können enttäuscht sein, wenn sie übergangen werden.
+
+Heute läuft vieles über das Internet. Beim E-Recruiting bewirbt man sich online. Beim Active Sourcing sucht die Firma selbst und spricht Fachkräfte direkt an.
+
+Bei allem redet der Betriebsrat mit. Über die Personalplanung muss er unterrichtet werden, nach Paragraf 92. Er kann verlangen, dass Stellen erst intern ausgeschrieben werden, nach Paragraf 93. Und bei jeder Einstellung, Eingruppierung, Umgruppierung und Versetzung muss er zustimmen, nach Paragraf 99, wenn das Unternehmen mehr als 20 wahlberechtigte Arbeitnehmer hat. Er kann innerhalb einer Woche schriftlich mit Gründen widersprechen. Tut er das nicht, gilt die Zustimmung als erteilt. Widerspricht er, kann der Arbeitgeber beim Arbeitsgericht beantragen, die Zustimmung zu ersetzen.
+Baustein: Erst intern prüfen: Versetzung, Beförderung, Auszubildende, Mehrarbeit.
+Baustein: Dann extern: Anzeige, Jobbörse, Agentur für Arbeit, Personalberater, Zeitarbeit.
+Baustein: Vorteile und Nachteile immer paarweise nennen.
+Baustein: Betriebsrat einbinden: Paragraf 92, 93 und 99.
+Baustein: Fristen beachten: eine Woche für den Widerspruch.
+Schnellweg: 92 planen, 93 ausschreiben, 99 zustimmen.
+Schnellweg: Bei einer Fallaufgabe immer sagen, welcher Weg passt und warum, nicht nur alle aufzählen.
+Fehler: Gedacht, der Betriebsrat entscheidet über die Personalplanung | Bei der Personalplanung wird er nur unterrichtet und beraten. Zustimmen muss er bei der einzelnen Einstellung.
+Fehler: Interne Beschaffung als kostenlos gesehen | Die alte Stelle wird frei und muss wieder besetzt werden.
+Fehler: Gedacht, der Betriebsrat kann eine Einstellung für immer verhindern | Das Arbeitsgericht kann seine Zustimmung ersetzen.
+Karte: Nenne drei Wege der internen Personalbeschaffung. | Versetzung, Beförderung, Übernahme von Auszubildenden.
+Karte: Nenne drei Wege der externen Personalbeschaffung. | Stellenanzeige, Agentur für Arbeit, Personalberater.
+Karte: Nenne zwei Vorteile der internen Beschaffung. | Der Bewerber kennt den Betrieb, und die Suche ist günstig und schnell.
+Karte: Nenne zwei Nachteile der internen Beschaffung. | Die alte Stelle wird frei, und es droht Betriebsblindheit.
+Karte: Nenne zwei Vorteile der externen Beschaffung. | Große Auswahl und neue Ideen von außen.
+Karte: Nenne zwei Nachteile der externen Beschaffung. | Höhere Kosten und längere Einarbeitung.
+Karte: Was ist Active Sourcing? | Die Firma sucht selbst nach Fachkräften und spricht sie direkt an.
+Karte: Was regelt Paragraf 92 BetrVG? | Unterrichtung und Beratung des Betriebsrats bei der Personalplanung.
+Karte: Was regelt Paragraf 93 BetrVG? | Der Betriebsrat kann eine innerbetriebliche Stellenausschreibung verlangen.
+Karte: Wobei muss der Betriebsrat nach Paragraf 99 zustimmen? | Bei Einstellung, Eingruppierung, Umgruppierung und Versetzung.
+Karte: Ab welcher Größe gilt Paragraf 99? | In Unternehmen mit mehr als 20 wahlberechtigten Arbeitnehmern.
+Karte: Wie lange hat der Betriebsrat Zeit zu widersprechen? | Eine Woche, schriftlich und mit Gründen.
+Karte: Was passiert, wenn der Betriebsrat in der Frist schweigt? | Die Zustimmung gilt als erteilt.
+Karte: Wer kann die Zustimmung des Betriebsrats ersetzen? | Das Arbeitsgericht.
+Auswahl: Der Betriebsrat sagt nach einer Woche nichts zu einer Einstellung. Was gilt? | Die Zustimmung gilt als erteilt | Die Einstellung ist abgelehnt; Die Frist verlängert sich; Das Arbeitsgericht entscheidet | Schweigen in der Wochenfrist gilt nach Paragraf 99 als Zustimmung.
+Auswahl: Welcher Nachteil gehört zur externen Beschaffung? | Längere Einarbeitung | Betriebsblindheit; Lücke an der alten Stelle; Kleine Auswahl | Ein Externer muss den Betrieb erst kennenlernen.
+Auswahl: Was kann der Betriebsrat nach Paragraf 93 verlangen? | Eine interne Ausschreibung | Eine höhere Entgeltgruppe; Eine Kündigung; Eine Gehaltserhöhung | Paragraf 93 regelt die innerbetriebliche Stellenausschreibung.
+Reihenfolge: Von der Lücke zum neuen Kollegen | Bedarf planen; Stelle intern oder extern ausschreiben; Bewerber auswählen; Zustimmung des Betriebsrats einholen; Einstellen und einarbeiten
+Quelle: Arbeitsblätter Modul 6, Wege der Personalbeschaffung, Technikakademie. Betriebsverfassungsgesetz Paragraf 92, 93 und 99.
+=== ENDE ===
+
+=== LERNWERK ===
+Fach: Ökonomie und Nachhaltigkeit
+Thema: Aufbauorganisation
+Anker: Ein Baseballteam hat einen Manager, darunter Trainer für Pitcher, Schlagmänner und Feldspieler. Jeder Spieler weiß, wer ihm sagt, was er tun soll. Diese Ordnung, wer wem unterstellt ist, ist die Aufbauorganisation.
+Anker: In deiner Werkstatt gibt es Meister, Vorarbeiter und Facharbeiter. Wer welche Aufgaben hat und wer wem Anweisungen gibt, steht im Organigramm. Wie die Arbeit an der Fräse Schritt für Schritt abläuft, ist dagegen die Ablauforganisation.
+Begriff: Aufbauorganisation | Die feste Struktur eines Unternehmens: Stellen, Abteilungen und wer wem unterstellt ist.
+Begriff: Ablauforganisation | Die Regelung der Arbeitsabläufe: was in welcher Reihenfolge, wann und wo gemacht wird.
+Begriff: Stelle | Die kleinste Einheit der Organisation. Sie bündelt Aufgaben für eine Person.
+Begriff: Instanz | Eine Stelle mit Weisungsbefugnis, also eine Führungsstelle.
+Begriff: Organigramm | Die grafische Darstellung der Aufbauorganisation.
+Begriff: Einliniensystem | Jede Stelle hat genau einen Vorgesetzten. Anweisungen laufen auf einer Linie von oben nach unten.
+Begriff: Mehrliniensystem | Eine Stelle kann mehreren Vorgesetzten unterstellt sein, und es gibt Querverbindungen.
+Begriff: Stabliniensystem | Ein Einliniensystem mit Stäben. Stäbe sind Fachleute, die beraten, aber keine Weisungen geben.
+Begriff: Funktionale Organisation | Die zweite Ebene ist nach Tätigkeiten gegliedert: Einkauf, Produktion, Vertrieb, Finanzen.
+Begriff: Divisionale Organisation | Die zweite Ebene ist nach Sparten gegliedert: nach Produkten, Regionen oder Projekten. Auch Spartenorganisation genannt.
+Begriff: Matrixorganisation | Ein Mehrliniensystem. Funktionsbereiche und Geschäftsbereiche kreuzen sich, an den Schnittpunkten sitzen die Stellen.
+Merksatz: Aufbau ist wer mit wem, Ablauf ist was wann.
+Merksatz: Einlinie heißt ein Chef, Mehrlinie heißt mehrere Chefs.
+Merksatz: Der Stab berät, die Linie entscheidet.
+Merksatz: Funktional nach Tätigkeit, divisional nach Produkt oder Region.
+Merksatz: Matrix ist funktional und divisional zugleich.
+Prinzip: Jedes Unternehmen muss seine Arbeit verteilen. Die Aufbauorganisation legt fest, welche Stellen es gibt und wer wem Anweisungen gibt. Die Ablauforganisation legt fest, wie die Arbeit zeitlich und räumlich abläuft. Beides gehört zusammen wie Gerüst und Bewegung.
+
+Beim Einliniensystem hat jeder genau einen Chef. Das ist klar und übersichtlich. Der Nachteil sind lange Dienstwege, weil alles über die Linie laufen muss, und die oberen Chefs werden schnell überlastet.
+
+Das Stabliniensystem hängt an die Linie Stäbe, zum Beispiel für IT, Recht oder Controlling. Die Stäbe liefern Wissen für bessere Entscheidungen, dürfen aber nichts anordnen. So bleibt die klare Linie erhalten, und die Chefs werden entlastet.
+
+Beim Mehrliniensystem kann eine Stelle mehreren Vorgesetzten unterstellt sein. Die Wege sind kurz, und Fachleute geben direkt Anweisungen. Dafür ist oft nicht klar, wer verantwortlich ist, und es kommt zu Kompetenzkonflikten.
+
+Auf der zweiten Ebene entscheidet sich die Form. Funktional heißt: Abteilungen nach Tätigkeit, zum Beispiel Vertrieb, Finanzen, Produktion. Divisional heißt: Sparten nach Produkt oder Region, zum Beispiel Deutschland, Amerika, Asien. Die Matrix verbindet beides. Ein Team gehört gleichzeitig zu einem Funktionsbereich und zu einem Geschäftsbereich.
+
+Die Ziele sind ein logischer Aufbau der Wertschöpfungskette, bessere Prozesse, gute Abstimmung zwischen den Bereichen, geringe Ausgaben und ein hoher Gewinn.
+Baustein: Erst klären: Struktur oder Ablauf?
+Baustein: Bei Linien zählen: Wie viele Vorgesetzte hat eine Stelle?
+Baustein: Bei der Form auf die zweite Ebene schauen: Tätigkeit oder Produkt und Region?
+Baustein: Vorteile und Nachteile der Form gegen die Lage im Betrieb abwägen.
+Schnellweg: Kreuzen sich im Organigramm waagerechte und senkrechte Linien, ist es eine Matrix.
+Schnellweg: Hängt ein Kasten seitlich an der Linie, ist es ein Stab.
+Fehler: Stab als Vorgesetzten gesehen | Ein Stab berät nur. Weisungen gibt die Linie.
+Fehler: Funktional und divisional vertauscht | Funktional nach Tätigkeiten, divisional nach Produkten, Regionen oder Projekten.
+Fehler: Matrix als Einliniensystem bezeichnet | In der Matrix hat ein Team zwei Vorgesetzte, also ist es ein Mehrliniensystem.
+Karte: Was regelt die Aufbauorganisation? | Welche Stellen es gibt und wer wem unterstellt ist.
+Karte: Was regelt die Ablauforganisation? | Wie die Arbeit zeitlich und räumlich abläuft.
+Karte: Was ist eine Instanz? | Eine Stelle mit Weisungsbefugnis.
+Karte: Was kennzeichnet das Einliniensystem? | Jede Stelle hat genau einen Vorgesetzten.
+Karte: Nenne einen Vorteil und einen Nachteil des Einliniensystems. | Klare Zuständigkeit, aber lange Dienstwege.
+Karte: Was dürfen Stäbe, und was dürfen sie nicht? | Sie beraten und liefern Informationen, geben aber keine Weisungen.
+Karte: Nenne einen Vorteil und einen Nachteil des Mehrliniensystems. | Kurze Wege, aber Kompetenzkonflikte.
+Karte: Wonach ist die funktionale Organisation gegliedert? | Nach Tätigkeiten wie Einkauf, Produktion, Vertrieb.
+Karte: Wonach ist die divisionale Organisation gegliedert? | Nach Produkten, Regionen oder Projekten.
+Karte: Was ist ein Vorteil der divisionalen Organisation? | Jede Sparte ist nah am Markt und kann schnell reagieren.
+Karte: Was ist ein Nachteil der divisionalen Organisation? | Viele Aufgaben gibt es in jeder Sparte doppelt.
+Karte: Was ist das Ziel der Matrixorganisation? | Die Vorteile von funktionaler und divisionaler Form verbinden und Synergien nutzen.
+Karte: Nenne drei Ziele der Aufbauorganisation. | Logische Wertschöpfungskette, bessere Prozesse, bessere Abstimmung zwischen den Bereichen.
+Auswahl: Ein Unternehmen gliedert die zweite Ebene in Deutschland, Amerika und Asien. Welche Form ist das? | Divisional | Funktional; Matrix; Stablinie | Gegliedert wird nach Regionen, also nach Sparten.
+Auswahl: Eine IT-Abteilung berät die Geschäftsleitung, gibt aber keine Weisungen. Was ist sie? | Ein Stab | Eine Instanz; Eine Sparte; Ein Funktionsbereich | Beratung ohne Weisung ist die Aufgabe eines Stabs.
+Auswahl: Ein Team gehört zur Produktion und zugleich zum Geschäftsbereich Notebooks. Welche Form ist das? | Matrix | Einliniensystem; Funktional; Stablinie | Funktion und Geschäftsbereich kreuzen sich.
+Reihenfolge: Ein Organigramm von oben nach unten | Unternehmensführung; Zweite Ebene nach Funktion oder Sparte; Dritte Ebene mit Abteilungen; Stellen der Mitarbeiter
+Quelle: Arbeitsblätter Modul 8, Aufbauorganisation, Technikakademie.
+=== ENDE ===
+
+=== LERNWERK ===
+Fach: Ökonomie und Nachhaltigkeit
+Thema: Materialbedarfsermittlung
+Anker: Für einen Trainingsplan rechnest du: 5 Einheiten pro Woche, jede braucht 2 Shakes. Also 10 Shakes. Ein paar gehen daneben, also nimmst du etwas mehr. Was noch im Schrank steht, ziehst du ab. Den Rest kaufst du ein. Genau so rechnet der Einkauf.
+Anker: Für 5000 Pneumatikzylinder liest du die Stückliste: Jeder Zylinder hat 2 Deckel, jeder Deckel 4 Schrauben. Das sind 8 Schrauben pro Zylinder. Was davon schon im Lager liegt, musst du nicht mehr bestellen.
+Begriff: Rohstoffe | Hauptbestandteil des Produkts, zum Beispiel Aluminium für das Zylinderrohr.
+Begriff: Hilfsstoffe | Nebenbestandteil des Produkts, zum Beispiel Kleber, Lack oder Schraubensicherung.
+Begriff: Betriebsstoffe | Sie gehen nicht ins Produkt, werden aber für die Herstellung gebraucht, zum Beispiel Strom, Kühlschmierstoff und Schmierfett.
+Begriff: Primärrohstoff und Sekundärrohstoff | Primär kommt direkt aus der Natur, zum Beispiel Erz oder Erdöl. Sekundär wird durch Recycling gewonnen, zum Beispiel Stahlschrott oder Altglas.
+Begriff: Primärbedarf | Der Bedarf an fertigen Erzeugnissen und Handelswaren aus dem Produktionsprogramm.
+Begriff: Sekundärbedarf | Der Bedarf an Baugruppen, Einzelteilen und Rohstoffen für den Primärbedarf. Er folgt aus der Stückliste.
+Begriff: Tertiärbedarf | Der Bedarf an Hilfsstoffen und Betriebsstoffen.
+Begriff: Zusatzbedarf | Ein Aufschlag für Ausschuss und Ersatzteile, meist in % vom Sekundärbedarf.
+Begriff: Bruttosekundärbedarf | Sekundärbedarf + Zusatzbedarf.
+Begriff: Nettosekundärbedarf | Was wirklich bestellt werden muss: Brutto − Lager − offene Bestellungen + Reservierungen.
+Begriff: Bestellrückstand | Bestellungen, die schon aufgegeben, aber noch nicht geliefert sind.
+Begriff: Stückliste | Die Liste aller Teile eines Erzeugnisses mit Menge. Der Erzeugnisstrukturbaum zeigt dazu die Ebenen.
+Merksatz: Primär ist das fertige Produkt, sekundär sind seine Teile, tertiär sind Hilfs- und Betriebsstoffe.
+Merksatz: Sekundärbedarf = Primärbedarf · Menge je Stück.
+Merksatz: Brutto = Sekundärbedarf + Zusatzbedarf.
+Merksatz: Netto = Brutto − Lager − offene Bestellungen + Reservierungen.
+Merksatz: Reserviert ist verplant, also wird es wieder addiert.
+Prinzip: Bevor produziert wird, muss der Einkauf wissen, was er bestellen soll. Das rechnest du von oben nach unten. Ganz oben steht der Primärbedarf, also wie viele fertige Produkte gebaut werden. Die Stückliste sagt, welche Teile in einem Produkt stecken. Primärbedarf · Menge je Stück ergibt den Sekundärbedarf.
+
+Achte auf die Ebenen im Erzeugnisstrukturbaum. Hat ein Zylinder 2 Deckel und jeder Deckel 4 Schrauben, braucht ein Zylinder 2 · 4 = 8 Schrauben.
+
+Bei der Montage gehen Teile kaputt, und Ersatzteile werden gebraucht. Deshalb kommt ein Zusatzbedarf in % dazu. Das ergibt den Bruttosekundärbedarf.
+
+Dann ziehst du ab, was schon da ist oder schon kommt: den verfügbaren Lagerbestand und die offenen Bestellungen. Was im Lager schon für andere Aufträge reserviert ist, darfst du nicht verbrauchen. Deshalb wird es wieder addiert. Soll am Ende der Periode ein Sicherheitsbestand übrig sein, kommt auch der dazu. Das Ergebnis ist der Nettosekundärbedarf. Genau diese Menge bestellt der Einkauf.
+
+Die Werkstoffe teilst du in drei Gruppen. Rohstoffe sind der Hauptbestandteil, wie Aluminium. Hilfsstoffe sind Nebenbestandteile, wie Kleber oder Lack. Betriebsstoffe stecken nicht im Produkt, werden aber gebraucht, wie Strom oder Kühlschmierstoff.
+Baustein: Primärbedarf aus dem Produktionsprogramm nehmen.
+Baustein: Menge je Stück aus der Stückliste holen, über alle Ebenen malnehmen.
+Baustein: Zusatzbedarf in % aufschlagen.
+Baustein: Lager und offene Bestellungen abziehen.
+Baustein: Reservierungen und Sicherheitsbestand addieren.
+Schnellweg: Zusatzbedarf 2 % heißt Sekundärbedarf · 1,02.
+Schnellweg: Lösung zum Zylinder: Schrauben 40000 + 800 − 1000 + 500 = 40300 Stück. Gehäuse 5000 − 500 − 2000 = 2500 Stück. Kolbeneinheiten 5000 − 1500 = 3500 Stück.
+Schnellweg: Achtung beim Grill: Als Primärbedarf zählt das Produktionsprogramm mit 1500 Grills und 750 Gestellen, nicht die Absatzmenge von 1600.
+Schnellweg: Achtung bei Schrauben und Dichtungen: Auf dem Arbeitsblatt stehen sie bei den Hilfsstoffen. Viele Bücher nennen fertig gekaufte Teile Kaufteile oder Fremdbauteile. Nimm die Einteilung aus deinem Unterricht.
+Fehler: Nur eine Ebene der Stückliste genommen | 2 Deckel mit je 4 Schrauben sind 8 Schrauben pro Zylinder, nicht 4.
+Fehler: Reservierungen abgezogen | Reservierte Teile gehören einem anderen Auftrag. Sie werden addiert.
+Fehler: Offene Bestellungen vergessen | Was schon bestellt ist, kommt noch. Es wird abgezogen.
+Fehler: Zusatzbedarf auf den Nettobedarf gerechnet | Der Zusatzbedarf kommt auf den Sekundärbedarf, vor dem Abzug des Lagers.
+Formel: Sekundärbedarf | S = P · n | P = S / n; n = S / P
+Aufbau: Jedes fertige Produkt braucht n Teile. Bei P Produkten sind es P · n Teile.
+Formel: Bruttosekundärbedarf | B = S · (1 + z / 100) | S = B / (1 + z / 100)
+Aufbau: Die 1 steht für den Sekundärbedarf selbst, also 100 %. Dazu kommt der Zusatzbedarf z in %. Deshalb · (1 + z / 100).
+Formel: Nettosekundärbedarf | N = B − L − O + R + SB | B = N + L + O − R − SB
+Aufbau: Was im Lager L liegt und was schon bestellt ist O, muss man nicht mehr kaufen, deshalb minus. Reserviertes R gehört anderen Aufträgen, und der Sicherheitsbestand SB soll übrig bleiben. Beides muss zusätzlich da sein, deshalb plus.
+Karte: Was ist der Primärbedarf? | Der Bedarf an fertigen Erzeugnissen und Handelswaren.
+Karte: Was ist der Sekundärbedarf? | Der Bedarf an Baugruppen, Einzelteilen und Rohstoffen für die Erzeugnisse.
+Karte: Was ist der Tertiärbedarf? | Der Bedarf an Hilfsstoffen und Betriebsstoffen.
+Karte: Woher kommt die Menge je Stück? | Aus der Stückliste.
+Karte: Was ist der Unterschied zwischen Rohstoff und Hilfsstoff? | Der Rohstoff ist Hauptbestandteil, der Hilfsstoff Nebenbestandteil des Produkts.
+Karte: Nenne zwei Betriebsstoffe in der Fertigung. | Strom und Kühlschmierstoff.
+Karte: Wie kommst du vom Sekundärbedarf zum Bruttosekundärbedarf? | Zusatzbedarf für Ausschuss und Ersatzteile addieren.
+Karte: Wird der Lagerbestand addiert oder abgezogen? | Abgezogen.
+Karte: Werden Reservierungen addiert oder abgezogen? | Addiert, weil sie für andere Aufträge verplant sind.
+Karte: Was ist ein Bestellrückstand? | Eine Bestellung, die aufgegeben, aber noch nicht geliefert ist.
+Karte: Ein Zylinder hat 2 Deckel mit je 4 Schrauben. Wie viele Schrauben für 5000 Zylinder? | 40000 Schrauben.
+Karte: Was ist ein Sekundärrohstoff? | Ein Rohstoff aus Recycling, zum Beispiel Stahlschrott.
+Auswahl: Was ist Kühlschmierstoff an der Fräse? | Ein Betriebsstoff | Ein Rohstoff; Ein Hilfsstoff; Ein Primärbedarf | Er wird gebraucht, steckt aber nicht im fertigen Teil.
+Auswahl: 500 Schrauben sind für einen anderen Auftrag reserviert. Was machst du damit? | Zum Nettobedarf addieren | Vom Nettobedarf abziehen; Ignorieren; Nur zur Hälfte abziehen | Die Schrauben sind verplant und stehen dir nicht zur Verfügung.
+Reihenfolge: Bedarfsermittlungsschema | Sekundärbedarf; Plus Zusatzbedarf ergibt Bruttosekundärbedarf; Minus Lagerbestand; Minus offene Bestellungen; Plus Reservierungen ergibt Nettosekundärbedarf
+Aufgabe: Es sollen {P} Pneumatikzylinder gebaut werden. Jeder Zylinder braucht 8 Schrauben. Für Ausschuss kommen {z} % Zusatzbedarf dazu. Im Lager liegen {L} Schrauben, davon sind {R} für einen anderen Auftrag reserviert. Wie viele Schrauben müssen bestellt werden?
+Gegeben: P = {P} Zylinder, 8 Schrauben je Zylinder
+Gegeben: Zusatzbedarf {z} %, Lager {L} Stück, Reservierung {R} Stück
+Gesucht: Nettosekundärbedarf in Stück
+Ansatz: P · 8 · (1 + z / 100) − Lager + Reservierung | P · 8 − Lager − Reservierung; P · 8 · z − Lager + Reservierung; (P − Lager) · 8 + Reservierung
+Signal: Ein Produktionsprogramm, eine Stückliste, ein Zuschlag in % und Lagerangaben.
+Warum: Weil reservierte Schrauben schon verplant sind | Weil reservierte Schrauben doppelt zählen; Weil das Lager immer addiert wird
+Kontrolle: Ist der Nettobedarf größer als der Sekundärbedarf minus Lager? | Ja, wegen Zusatz und Reservierung | Nein, er ist immer kleiner; Nein, beide sind gleich
+Schritt: Sekundärbedarf | P * 8 | Stück
+Schritt: Bruttosekundärbedarf | P * 8 * (1 + z / 100) | Stück
+Schritt: Nettosekundärbedarf | P * 8 * (1 + z / 100) - L + R | Stück
+Variable: P | 2000 | 6000 | 500
+Variable: z | 1 | 5 | 1
+Variable: L | 600 | 2000 | 100
+Variable: R | 100 | 500 | 100
+Rechnung: P * 8 * (1 + z / 100) - L + R
+Aufgabe: Ein Hersteller baut {G} fahrbare Gestelle für Grillgeräte, jedes mit 4 Rädern. Für Ersatzteile kommen {z} % Zusatzbedarf dazu. Im Lager sind {L} Räder. Am Ende des Jahres sollen {SB} Räder als Sicherheitsbestand übrig sein. Wie viele Räder müssen beschafft werden?
+Gegeben: G = {G} Gestelle, 4 Räder je Gestell
+Gegeben: Zusatzbedarf {z} %, Lager {L} Stück, Sicherheitsbestand {SB} Stück
+Gesucht: Nettobedarf an Rädern
+Ansatz: G · 4 · (1 + z / 100) − Lager + Sicherheitsbestand | G · 4 − Lager − Sicherheitsbestand; G · (1 + z / 100) − Lager + Sicherheitsbestand; G · 4 · z / 100 − Lager + Sicherheitsbestand
+Signal: Gestelle mit fester Räderzahl, ein Zuschlag und ein Bestand, der am Ende übrig sein soll.
+Warum: Weil der Sicherheitsbestand am Ende noch da sein muss | Weil der Sicherheitsbestand schon verbraucht ist; Weil man ihn vom Lager doppelt abzieht
+Kontrolle: Wird der Zusatzbedarf vor oder nach dem Lagerabzug gerechnet? | Vorher, auf den Sekundärbedarf | Nachher, auf den Nettobedarf; Gar nicht, er ist schon drin
+Schritt: Sekundärbedarf | G * 4 | Stück
+Schritt: Bruttobedarf | G * 4 * (1 + z / 100) | Stück
+Schritt: Nettobedarf | G * 4 * (1 + z / 100) - L + SB | Stück
+Variable: G | 500 | 1000 | 50
+Variable: z | 5 | 15 | 5
+Variable: L | 100 | 400 | 50
+Variable: SB | 100 | 300 | 20
+Rechnung: G * 4 * (1 + z / 100) - L + SB
+Quelle: Arbeitsblätter Modul 8, Beschaffungsmengen planen, Technikakademie. Achtung: Die Einteilung von Normteilen als Hilfsstoff oder Kaufteil ist nicht in allen Büchern gleich.
+=== ENDE ===
+
+=== LERNWERK ===
+Fach: Ökonomie und Nachhaltigkeit
+Thema: ABC- und XYZ-Analyse
+Anker: In deinem Werkzeugschrank liegen ein teurer Messtaster und hundert billige Schrauben. Auf den Messtaster passt du genau auf, die Schrauben kaufst du in großen Packungen. So denkt die ABC-Analyse: Wenige Teile machen den meisten Wert aus.
+Anker: Beim Krafttraining brauchst du jeden Tag Protein, das ist gut planbar. Ein neues Paar Schuhe brauchst du nur ab und zu und nicht vorhersehbar. Das ist die XYZ-Analyse: Wie gleichmäßig wird etwas verbraucht?
+Begriff: ABC-Analyse | Teile werden nach ihrem Anteil am Gesamtwert in drei Gruppen geteilt: A ist wertvoll, B ist mittel, C ist geringwertig.
+Begriff: Verbrauchswert | Jahresverbrauch in Stück · Preis je Stück.
+Begriff: Wertanteil | Der Verbrauchswert eines Teils in % vom Gesamtwert aller Teile.
+Begriff: Kumulierter Anteil | Die laufende Summe der Wertanteile, vom wertvollsten Teil abwärts.
+Begriff: A-Güter | Rund 80 % des Werts bei nur rund 20 % der Menge.
+Begriff: B-Güter | Rund 15 % des Werts bei rund 30 % der Menge.
+Begriff: C-Güter | Rund 5 % des Werts bei rund 50 % der Menge.
+Begriff: XYZ-Analyse | Teile werden nach der Vorhersagegenauigkeit ihres Verbrauchs eingeteilt.
+Begriff: X-Güter | Gleichmäßiger Verbrauch, gut planbar.
+Begriff: Y-Güter | Schwankender Verbrauch, weniger gut planbar.
+Begriff: Z-Güter | Sehr unregelmäßiger Verbrauch, kaum planbar.
+Begriff: Just in Time | Das Material kommt erst kurz bevor es gebraucht wird. Das spart Lager und Kapitalbindung.
+Merksatz: Verbrauchswert = Menge · Preis.
+Merksatz: Wertanteil = Verbrauchswert / Gesamtwert · 100.
+Merksatz: Nach Wert sortieren, dann kumulieren, dann die Grenzen ziehen.
+Merksatz: A heißt genau planen, C heißt einfach halten.
+Merksatz: AX-Güter sind wertvoll und gut planbar, ideal für Just in Time.
+Prinzip: Ein Einkauf hat nicht genug Zeit, um jedes Teil gleich genau zu planen. Die ABC-Analyse zeigt, wo sich der Aufwand lohnt. Du rechnest für jedes Teil den Verbrauchswert aus, also Menge · Preis. Dann teilst du jeden Wert durch die Summe aller Werte und bekommst den Wertanteil in %.
+
+Jetzt sortierst du die Teile nach dem Wert, das teuerste zuerst. Du zählst die Anteile nacheinander zusammen. Das ist der kumulierte Anteil. Bis rund 80 % sind es A-Güter, bis rund 95 % B-Güter, der Rest sind C-Güter. Meist sind die A-Güter nur wenige Teile. Das zeigt die typische Kurve: Sie steigt am Anfang steil an.
+
+A-Güter planst du genau. Du vergleichst Preise, verhandelst, bestellst möglichst Just in Time, prüfst die Qualität beim Wareneingang genau und schließt vielleicht langfristige Verträge. C-Güter bestellst du selten in großen Mengen, prüfst nur Stichproben und automatisierst die Bestellung, weil der Aufwand sonst teurer wird als das Teil.
+
+Die XYZ-Analyse schaut auf die Planbarkeit. X-Güter werden gleichmäßig verbraucht, Z-Güter ganz unregelmäßig. Zusammen mit ABC ergibt sich eine Matrix. AX-, AY- und BX-Güter haben das größte Sparpotenzial, weil sie wertvoll und gut planbar sind.
+
+Die ABC-Analyse geht auch für Kunden nach Umsatz, für Mitarbeiter, für Projekte und für Maschinen nach ihrer Bedeutung für die Produktion.
+Baustein: Verbrauchswert für jedes Teil: Menge · Preis.
+Baustein: Gesamtwert bilden und jeden Wertanteil in % ausrechnen.
+Baustein: Nach Wert sortieren und kumulieren.
+Baustein: Grenzen ziehen, meist bei 80 % und 95 %.
+Baustein: Für jede Gruppe Maßnahmen nennen.
+Schnellweg: Lösung zum Arbeitsblatt: M2 mit 32,21 %, M8 mit 30,06 % und M6 mit 20,13 % sind zusammen 82,40 %, also A.
+Schnellweg: Achtung, die Grenzen sind nicht fest. Das Arbeitsblatt nennt 80 %, 15 % und 5 %, die Übungsaufgabe 70 %, 20 % und 10 %. Nimm die Werte aus der Aufgabe.
+Schnellweg: Achtung bei der Kundenaufgabe: 90000 / 235000 · 100 = 38,30 %. Auf dem Blatt steht 39,3 %. Deshalb kommt dort am Ende 101 % heraus. Richtig sind kumuliert 38,30 %, 63,83 % und 80,85 % für die Kunden 5, 2 und 1.
+Fehler: Nach Menge statt nach Wert sortiert | Die ABC-Analyse sortiert nach dem Verbrauchswert.
+Fehler: Ohne Sortieren kumuliert | Erst sortieren, dann zusammenzählen, sonst stimmen die Gruppen nicht.
+Fehler: C-Güter als unwichtig weggelassen | Fehlt eine billige Schraube, steht die Montage trotzdem. C-Güter werden einfach, aber sicher beschafft.
+Fehler: ABC und XYZ verwechselt | ABC fragt nach dem Wert, XYZ nach der Planbarkeit.
+Formel: Verbrauchswert | V = m · p | m = V / p; p = V / m
+Aufbau: Jedes Stück kostet p. Bei m Stück im Jahr fließen m · p Euro in dieses Teil.
+Formel: Wertanteil | a = V / V_ges · 100 | V = a · V_ges / 100; V_ges = V · 100 / a
+Aufbau: V / V_ges ist der Teil vom Ganzen als Bruch. · 100 macht daraus %.
+Karte: Wonach teilt die ABC-Analyse ein? | Nach dem Anteil am Gesamtwert.
+Karte: Wonach teilt die XYZ-Analyse ein? | Nach der Vorhersagegenauigkeit des Verbrauchs.
+Karte: Wie berechnest du den Verbrauchswert? | Jahresverbrauch in Stück · Preis je Stück.
+Karte: Welchen Wertanteil und Mengenanteil haben A-Güter typisch? | Rund 80 % vom Wert bei rund 20 % der Menge.
+Karte: Welchen Wertanteil und Mengenanteil haben C-Güter typisch? | Rund 5 % vom Wert bei rund 50 % der Menge.
+Karte: Nenne drei Maßnahmen für A-Güter. | Genaue Planung, Preisvergleich und Verhandlung, Just in Time.
+Karte: Nenne drei Maßnahmen für C-Güter. | Große Mengen selten bestellen, Stichproben prüfen, Bestellung automatisieren.
+Karte: Was ist ein X-Gut? | Ein Teil mit gleichmäßigem, gut planbarem Verbrauch.
+Karte: Was ist ein Z-Gut? | Ein Teil mit sehr unregelmäßigem, kaum planbarem Verbrauch.
+Karte: Welche Güter haben das größte Sparpotenzial? | AX-, AY- und BX-Güter.
+Karte: Wofür kann man die ABC-Analyse noch nutzen? | Für Kunden, Mitarbeiter, Projekte und Maschinen.
+Karte: Warum ändern sich ABC-Gruppen über die Jahre? | Weil Preise und Mengen schwanken und sich der Gesamtwert ändert.
+Karte: Was ist Kapitalbindung? | Geld, das im Lager steckt und nicht für anderes arbeiten kann.
+Auswahl: 80 % der Artikel sind C-Güter mit 15 % vom Wert. Was ist die beste Strategie? | Bestellprozesse automatisieren | Den Großteil der Arbeit in C-Güter stecken; C-Güter nicht mehr verwalten; C-Güter einzeln verhandeln | Viele billige Teile machen viel Arbeit. Automatik spart diesen Aufwand.
+Auswahl: Bei A-Gütern ist trotz häufiger Bestellung viel Kapital gebunden. Was hilft am besten? | Just in Time | Seltener bestellen; Bestand der C-Güter senken; Nichts, das ist unvermeidbar | Material kommt erst kurz vor dem Verbrauch, so liegt weniger im Lager.
+Auswahl: A-Güter werden wegen Lieferengpässen viel teurer. Was ist sinnvoll? | Weitere Lieferanten für A-Güter suchen | B-Güter aus dem Lager entfernen; Nur bei B- und C-Gütern verhandeln; A-Güter gar nicht mehr lagern | Mehrere Lieferanten senken Risiko und Preis.
+Reihenfolge: Ablauf der ABC-Analyse | Verbrauchswert je Teil berechnen; Gesamtwert bilden; Wertanteil in % berechnen; Nach Wert sortieren; Kumulieren; Grenzen für A, B und C ziehen
+Aufgabe: Ein Kaufteil wird {m} Mal im Jahr zu je {p} Euro gebraucht. Der Verbrauchswert aller Teile beträgt {Vges} Euro. Wie groß ist der Wertanteil dieses Teils?
+Gegeben: m = {m} Stück, p = {p} Euro
+Gegeben: V_ges = {Vges} Euro
+Gesucht: Wertanteil a in %
+Ansatz: Erst Menge · Preis, dann / Gesamtwert · 100 | Menge / Gesamtwert · 100; Preis / Gesamtwert · 100; Gesamtwert / (Menge · Preis)
+Signal: Menge, Preis und ein Gesamtwert. Gefragt ist ein Anteil in %.
+Warum: Weil der Wert zählt, nicht nur die Stückzahl | Weil nur der Stückpreis zählt; Weil die Menge allein den Anteil zeigt
+Kontrolle: Kann ein Wertanteil größer als 100 % sein? | Nein, nie mehr als das Ganze | Ja, bei teuren Teilen; Ja, bei großen Mengen
+Schritt: Verbrauchswert | m * p | Euro
+Schritt: Wertanteil | m * p / Vges * 100 | %
+Variable: m | 500 | 3000 | 100
+Variable: p | 2 | 100 | 2
+Variable: Vges | 400000 | 600000 | 10000
+Rechnung: m * p / Vges * 100
+Aufgabe: Ein Kunde bringt 90000 Euro Umsatz. Alle Kunden zusammen bringen 235000 Euro. Welchen Anteil am Umsatz hat dieser Kunde?
+Gegeben: Umsatz des Kunden 90000 Euro
+Gegeben: Gesamtumsatz 235000 Euro
+Gesucht: Umsatzanteil in %
+Ansatz: Kundenumsatz / Gesamtumsatz · 100 | Gesamtumsatz / Kundenumsatz · 100; Kundenumsatz · Gesamtumsatz / 100; Kundenumsatz / 100
+Signal: Ein Teilwert und ein Gesamtwert. Das ist eine Kunden-ABC-Analyse.
+Warum: Weil der Anteil der Teil vom Ganzen ist | Weil das Ganze durch den Teil geteilt wird; Weil man die Werte malnimmt
+Kontrolle: Ergeben alle Kundenanteile zusammen genau 100 %? | Ja, bis auf Rundung | Nein, immer mehr als 100 %; Nein, immer weniger als 100 %
+Schritt: Umsatzanteil | 90000 / 235000 * 100 | %
+Rechnung: 90000 / 235000 * 100
+Quelle: Arbeitsblätter Modul 8, ABC-Analyse und Übungsaufgaben, Technikakademie. Achtung: Auf dem Übungsblatt zur Kundenbewertung ist der Anteil von Kunde 5 falsch gerundet.
+=== ENDE ===
+
+=== LERNWERK ===
+Fach: Ökonomie und Nachhaltigkeit
+Thema: Optimale Bestellmenge
+Anker: Holst du dein Protein jede Woche einzeln, zahlst du jedes Mal Versand. Kaufst du einen Jahresvorrat, steht der Schrank voll und dein Geld steckt im Pulver. Irgendwo dazwischen ist es am günstigsten. Das ist die optimale Bestellmenge.
+Anker: Das Lager will wenig Bestand, keine toten Teile und geringe Kosten. Der Einkauf will große Mengen, Rabatte und wenig Bestellarbeit. Die Fertigung will, dass nie etwas fehlt. Die optimale Bestellmenge sucht den Ausgleich.
+Begriff: Optimale Bestellmenge | Die Bestellmenge, bei der die Summe aus Bestellkosten und Lagerhaltungskosten im Jahr am kleinsten ist.
+Begriff: Bestellkosten | Kosten je Bestellvorgang, unabhängig von der Menge: Arbeitszeit, Prüfung, Versand, Buchung.
+Begriff: Lagerhaltungskosten | Kosten für Lagerraum, Personal, Versicherung, Schwund und vor allem die Kapitalbindung.
+Begriff: Lagerhaltungskostensatz | Die Lagerkosten in % vom durchschnittlich gelagerten Wert. Er ist Lagerkosten / Lagerwert · 100.
+Begriff: Durchschnittlicher Lagerbestand | Im einfachen Modell die halbe Bestellmenge, weil der Bestand gleichmäßig von x auf 0 sinkt.
+Begriff: Andlersche Formel | Die Formel für die optimale Bestellmenge nach Andler.
+Begriff: Kapitalbindung | Das Geld, das in den Lagerteilen steckt und nicht für Zinsen, Investitionen oder Gewinn arbeiten kann.
+Begriff: Mengenrabatt | Ein günstigerer Preis ab einer Mindestbestellmenge. Ihn berücksichtigt die einfache Andlersche Formel nicht.
+Merksatz: Große Mengen heißt wenig Bestellkosten, aber hohe Lagerkosten.
+Merksatz: Durchschnittlicher Lagerbestand = Bestellmenge / 2.
+Merksatz: x_opt = √(200 · Jahresbedarf · Bestellkosten / (Preis · Lagerkostensatz in %)).
+Merksatz: Im Optimum sind Bestellkosten und Lagerkosten gleich hoch.
+Merksatz: Bei Rabatt die Gesamtkosten der Varianten vergleichen.
+Prinzip: Jede Bestellung kostet Geld, egal wie groß sie ist. Wer selten viel bestellt, spart Bestellkosten. Dafür liegt mehr im Lager, und das kostet: Platz, Personal, Versicherung, Schwund und Zinsen für das gebundene Geld. Wer oft wenig bestellt, hat ein leeres Lager, zahlt aber oft die Bestellkosten.
+
+Im einfachen Modell kommt eine Lieferung mit x Stück. Der Bestand sinkt gleichmäßig bis 0, dann kommt die nächste. Im Mittel liegt also x / 2 im Lager. Die Lagerkosten sind x / 2 · Preis · Lagerkostensatz. Die Bestellkosten sind Jahresbedarf / x · Kosten je Bestellung.
+
+Trägt man beide Kurven auf, fallen die Bestellkosten und die Lagerkosten steigen. Die Summe hat ein Minimum. Genau dort sind beide gleich hoch. Andler hat daraus eine Formel gemacht: x_opt = √(200 · M · K_B / (P · p)). M ist der Jahresbedarf, K_B sind die Kosten je Bestellung, P ist der Preis je Stück und p der Lagerkostensatz in %.
+
+Den Lagerkostensatz bekommst du oft vom Controlling. Kostet das Lager 1 Millionen Euro im Jahr bei 20 Millionen Euro Lagerwert, sind das 1 / 20 · 100 = 5 %. Die Bestellkosten können eine halbe Arbeitsstunde zu 60 Euro sein, also 30 Euro.
+
+Die Formel ist ein Modell. Sie nimmt an, dass Bedarf, Preise und Bestellkosten fest sind, dass der Verbrauch gleichmäßig ist, dass sofort geliefert wird, dass es keine Fehlmengen gibt und das Lager groß genug ist. In der Praxis musst du zusätzlich an Lieferzeiten, Lieferengpässe, Mindestmengen, Rabatte, Lagerplatz, Sicherheitsbestand, Verderb, Saisonschwankungen und die Liquidität denken.
+
+Auch die Umwelt hängt daran. Viele kleine Bestellungen heißen viele Lkw-Fahrten. Ein Lkw stößt pro Tonnenkilometer rund 103 g Treibhausgase aus, die Güterbahn rund 19 g und das Binnenschiff rund 32 g. Bündeln, volle Ladungen und die Bahn senken die Belastung.
+Baustein: Jahresbedarf, Preis, Bestellkosten und Lagerkostensatz sammeln.
+Baustein: Bestellkosten aus der Arbeitszeit bestimmen, falls nötig.
+Baustein: Lagerkostensatz aus Lagerkosten / Lagerwert · 100 bestimmen, falls nötig.
+Baustein: In die Andlersche Formel einsetzen.
+Baustein: Anzahl der Bestellungen, Bestellkosten und Lagerkosten zur Kontrolle ausrechnen.
+Schnellweg: Kontrolle im Optimum: Bestellkosten pro Jahr und Lagerkosten pro Jahr müssen gleich sein.
+Schnellweg: Achtung, es gibt zwei Schreibweisen. Mit dem Satz in % steht 200 in der Formel: √(200 · M · K_B / (P · p)). Mit den Lagerkosten je Stück h = P · p / 100 steht 2 in der Formel: √(2 · M · K_B / h). Beide ergeben dasselbe.
+Schnellweg: Lösung zum Arbeitsblatt Zylindergehäuse: √(200 · 100000 · 30 / (2 · 5)) = 7745,97, also rund 7746 Stück.
+Fehler: Den Lagerkostensatz als 0,05 in die 200er-Formel gesetzt | In der Formel mit 200 steht der Satz als Zahl in %, also 5.
+Fehler: Den ganzen Bestand statt der Hälfte für die Lagerkosten genommen | Im Mittel liegt nur die halbe Bestellmenge im Lager.
+Fehler: Bei Mengenrabatt nur die Andlersche Formel gerechnet | Die Formel kennt keinen Rabatt. Man muss die Gesamtkosten mit Materialkosten vergleichen.
+Fehler: Die Wurzel vergessen | Ohne Wurzel kommt eine riesige Zahl heraus, weit über dem Jahresbedarf.
+Formel: Optimale Bestellmenge nach Andler | x_opt = √(200 · M · K_B / (P · p)) | M = x_opt² · P · p / (200 · K_B); K_B = x_opt² · P · p / (200 · M); P = 200 · M · K_B / (x_opt² · p)
+Aufbau: Oben unter der Wurzel steht, was das Bestellen treibt: Jahresbedarf · Kosten je Bestellung. Unten steht, was das Lagern eines Stücks kostet: Preis · Lagerkostensatz. Die 200 ist 2 · 100. Die 2 kommt vom halben Lagerbestand, die 100 vom Satz in %. Die Wurzel entsteht, weil die Bestellkosten mit 1 / x fallen und die Lagerkosten mit x steigen. Gleich werden sie bei x² = 200 · M · K_B / (P · p).
+Formel: Lagerkosten je Stück und Jahr | h = P · p / 100 | P = h · 100 / p; p = h · 100 / P
+Aufbau: Ein Stück im Lager kostet seinen Preis P mal den Lagerkostensatz in %. / 100 macht aus % einen Anteil.
+Formel: Andler mit Lagerkosten je Stück | x_opt = √(2 · M · K_B / h) | M = x_opt² · h / (2 · K_B); h = 2 · M · K_B / x_opt²
+Aufbau: Das ist dieselbe Formel. Die 100 steckt schon in h, deshalb bleibt nur die 2 vom halben Lagerbestand.
+Formel: Lagerhaltungskostensatz | p = K_L / W · 100 | K_L = p · W / 100; W = K_L · 100 / p
+Aufbau: Die Lagerkosten im Jahr werden durch den Wert der gelagerten Güter geteilt. · 100 macht daraus %.
+Formel: Bestellkosten pro Jahr | K_BJ = M / x · K_B | x = M · K_B / K_BJ
+Aufbau: M / x ist die Zahl der Bestellungen im Jahr. Jede Bestellung kostet K_B.
+Formel: Lagerhaltungskosten pro Jahr | K_LJ = x / 2 · h | x = 2 · K_LJ / h; h = 2 · K_LJ / x
+Aufbau: Im Mittel liegt x / 2 im Lager. Jedes Stück kostet h im Jahr.
+Karte: Was ist die optimale Bestellmenge? | Die Menge, bei der Bestellkosten + Lagerkosten im Jahr am kleinsten sind.
+Karte: Welche zwei Kostenarten werden gegeneinander abgewogen? | Bestellkosten und Lagerhaltungskosten.
+Karte: Warum sinken die Bestellkosten bei großen Mengen? | Weil man seltener bestellt.
+Karte: Warum steigen die Lagerkosten bei großen Mengen? | Weil im Mittel mehr im Lager liegt und mehr Kapital gebunden ist.
+Karte: Warum ist der durchschnittliche Lagerbestand x / 2? | Der Bestand sinkt gleichmäßig von x auf 0. Der Mittelwert ist x / 2.
+Karte: Wie lautet die Andlersche Formel mit dem Satz in %? | x_opt = √(200 · Jahresbedarf · Bestellkosten / (Preis · Lagerkostensatz)).
+Karte: Was gilt im Optimum für Bestellkosten und Lagerkosten? | Sie sind gleich hoch.
+Karte: Lagerkosten 1 Millionen Euro, Lagerwert 20 Millionen Euro. Lagerkostensatz? | 5 %.
+Karte: Nenne vier Annahmen der Andlerschen Formel. | Fester Bedarf, gleichmäßiger Verbrauch, feste Preise ohne Rabatt, sofortige Lieferung.
+Karte: Nenne vier Dinge, die du neben den Kosten beachten musst. | Lieferzeit, Lagerplatz, Sicherheitsbestand, Liquidität.
+Karte: Was passiert mit x_opt, wenn die Bestellkosten sinken? | Die optimale Menge sinkt, man bestellt öfter in kleinen Mengen.
+Karte: Was passiert mit x_opt, wenn der Lagerkostensatz steigt? | Die optimale Menge sinkt.
+Karte: Was passiert mit x_opt, wenn der Jahresbedarf steigt? | Die optimale Menge steigt, aber nur mit der Wurzel.
+Karte: Wie viel Treibhausgas stößt ein Lkw pro Tonnenkilometer aus, im Vergleich zur Bahn? | Rund 103 g gegen rund 19 g bei der Güterbahn.
+Karte: Wie kann ein Betrieb die Umweltbelastung durch Transporte senken? | Lieferungen bündeln, volle Ladungen, Bahn oder Schiff nutzen.
+Auswahl: Durch ein neues ERP-System sinken die Bestellkosten von 280 Euro auf 90 Euro. Was passiert mit der optimalen Bestellmenge? | Sie sinkt um rund 43 % | Sie steigt um rund 43 %; Sie sinkt um rund 68 %; Sie bleibt gleich | x_opt hängt an der Wurzel aus K_B: √(90 / 280) = 0,567, also rund 43 % weniger.
+Auswahl: Ab 1000 Stück gibt es Rabatt. Wie entscheidest du? | Gesamtkosten beider Varianten vergleichen | Immer die Andlersche Menge bestellen; Immer die größte Menge bestellen; Den Rabatt ignorieren | Der Rabatt senkt die Materialkosten, die in der Formel nicht vorkommen.
+Auswahl: Die Geschäftsführung will Andler im ERP fest einstellen und nichts mehr prüfen. Was sagst du? | Als Vorschlag gut, aber Lieferzeit und Rabatte zusätzlich prüfen | Perfekt, das ist immer die beste Lösung; Schlecht, die Formel ist falsch; Egal, Bestellmengen spielen keine Rolle | Die Formel ist ein Modell mit Annahmen, die nicht immer stimmen.
+Reihenfolge: Optimale Bestellmenge bestimmen | Daten sammeln; Lagerkostensatz und Bestellkosten bestimmen; In die Andlersche Formel einsetzen; Sinnvoll runden; Mit Lieferzeit, Lagerplatz und Rabatten abgleichen
+Aufgabe: Ein Betrieb braucht im Jahr {M} Kugellager zu je {P} Euro. Jede Bestellung kostet {KB} Euro. Der Lagerhaltungskostensatz beträgt {p} %. Wie groß ist die optimale Bestellmenge?
+Gegeben: M = {M} Stück, P = {P} Euro
+Gegeben: K_B = {KB} Euro, p = {p} %
+Gesucht: Optimale Bestellmenge x_opt in Stück
+Ansatz: x_opt = √(200 · M · K_B / (P · p)) | x_opt = 200 · M · K_B / (P · p); x_opt = √(200 · P · p / (M · K_B)); x_opt = √(M · K_B / (200 · P · p))
+Signal: Jahresbedarf, Preis, Kosten je Bestellung und ein Lagerkostensatz in %.
+Warum: Weil das Minimum dort liegt, wo Bestell- und Lagerkosten gleich sind | Weil man immer den ganzen Jahresbedarf auf einmal bestellt; Weil die Lagerkosten mit der Menge fallen
+Kontrolle: Ist x_opt kleiner als der Jahresbedarf? | Ja, sonst bestellt man nur einmal im Jahr | Nein, x_opt ist immer größer; Das kann man nicht sagen
+Tipp: Erst h = P · p / 100 ausrechnen, dann √(2 · M · K_B / h).
+Schritt: Lagerkosten je Stück | P * p / 100 | Euro
+Schritt: Optimale Bestellmenge | sqrt(2 * M * KB / (P * p / 100)) | Stück
+Variable: M | 2000 | 20000 | 400
+Variable: P | 10 | 120 | 5
+Variable: KB | 30 | 300 | 10
+Variable: p | 5 | 20 | 0,5
+Rechnung: sqrt(200 * M * KB / (P * p))
+Aufgabe: Ein Betrieb braucht {M} Getriebemotoren im Jahr und bestellt jeweils {x} Stück. Jede Bestellung kostet {KB} Euro. Wie hoch sind die Bestellkosten im Jahr?
+Gegeben: M = {M} Stück, x = {x} Stück
+Gegeben: K_B = {KB} Euro je Bestellung
+Gesucht: Bestellkosten pro Jahr in Euro
+Ansatz: Jahresbedarf / Bestellmenge · Kosten je Bestellung | Bestellmenge / Jahresbedarf · Kosten je Bestellung; Jahresbedarf · Bestellmenge · Kosten je Bestellung; Bestellmenge / 2 · Kosten je Bestellung
+Signal: Jahresbedarf, eine feste Bestellmenge und Kosten je Bestellung.
+Warum: Weil M / x die Zahl der Bestellungen ist | Weil x / M die Zahl der Bestellungen ist; Weil x / 2 der Lagerbestand ist
+Kontrolle: Was passiert mit den Bestellkosten, wenn x größer wird? | Sie sinken, weil man seltener bestellt | Sie steigen, weil man mehr bestellt; Sie bleiben gleich
+Schritt: Anzahl der Bestellungen | M / x | Bestellungen
+Schritt: Bestellkosten pro Jahr | M / x * KB | Euro
+Variable: M | 1200 | 2400 | 100
+Variable: x | 50 | 200 | 10
+Variable: KB | 50 | 300 | 10
+Rechnung: M / x * KB
+Aufgabe: Ein Betrieb bestellt jeweils {x} Hydraulikventile zu je {P} Euro. Der Lagerhaltungskostensatz beträgt {p} %. Wie hoch sind die Lagerhaltungskosten im Jahr?
+Gegeben: x = {x} Stück, P = {P} Euro
+Gegeben: p = {p} %
+Gesucht: Lagerhaltungskosten pro Jahr in Euro
+Ansatz: x / 2 · P · p / 100 | x · P · p / 100; x / 2 · P · p; x / 2 · p / 100
+Signal: Bestellmenge, Preis und ein Lagerkostensatz in %.
+Warum: Weil im Mittel nur die halbe Menge im Lager liegt | Weil immer die volle Menge im Lager liegt; Weil der Satz schon die Hälfte enthält
+Kontrolle: Wird der Satz von 15 % als 15 oder als 0,15 genommen? | Als 0,15, also p / 100 | Als 15, ohne Umrechnung; Als 1,15, also mit Aufschlag
+Schritt: Durchschnittlicher Lagerbestand | x / 2 | Stück
+Schritt: Lagerkosten je Stück | P * p / 100 | Euro
+Schritt: Lagerhaltungskosten pro Jahr | x / 2 * P * p / 100 | Euro
+Variable: x | 200 | 1200 | 50
+Variable: P | 50 | 150 | 2
+Variable: p | 10 | 20 | 1
+Rechnung: x / 2 * P * p / 100
+Aufgabe: Das Lager verursacht im Jahr {KL} Millionen Euro Kosten. Der Wert der gelagerten Güter beträgt {W} Millionen Euro. Wie hoch ist der Lagerhaltungskostensatz?
+Gegeben: K_L = {KL} Millionen Euro
+Gegeben: W = {W} Millionen Euro
+Gesucht: Lagerhaltungskostensatz p in %
+Ansatz: Lagerkosten / Lagerwert · 100 | Lagerwert / Lagerkosten · 100; Lagerkosten · Lagerwert / 100; Lagerkosten − Lagerwert
+Signal: Lagerkosten im Jahr und ein Lagerwert. Gefragt ist ein Satz in %.
+Warum: Weil der Satz die Kosten im Verhältnis zum Wert zeigt | Weil der Satz den Wert im Verhältnis zu den Kosten zeigt; Weil man die Kosten vom Wert abzieht
+Kontrolle: Liegt ein üblicher Lagerkostensatz eher bei 5 bis 25 % oder bei 500 %? | Bei 5 bis 25 % | Bei 500 %; Bei genau 100 %
+Schritt: Lagerhaltungskostensatz | KL / W * 100 | %
+Variable: KL | 0,5 | 3 | 0,1
+Variable: W | 10 | 40 | 1
+Rechnung: KL / W * 100
+Aufgabe: Ein Betrieb braucht im Jahr 4000 Hydraulikventile. Ab 1000 Stück je Bestellung kostet ein Ventil 116 Euro statt 120 Euro. Jede Bestellung kostet 200 Euro, der Lagerhaltungskostensatz beträgt 15 %. Wie hoch sind die Gesamtkosten im Jahr, wenn jeweils 1000 Stück bestellt werden?
+Gegeben: M = 4000 Stück, x = 1000 Stück, P = 116 Euro
+Gegeben: K_B = 200 Euro, p = 15 %
+Gesucht: Gesamtkosten pro Jahr in Euro
+Ansatz: Materialkosten + Bestellkosten + Lagerkosten | Nur Bestellkosten + Lagerkosten; Materialkosten − Rabatt; Nur die Andlersche Formel
+Signal: Ein Mengenrabatt. Dann reicht die Andlersche Formel nicht, man vergleicht die Gesamtkosten.
+Warum: Weil der Rabatt die Materialkosten senkt | Weil der Rabatt die Bestellkosten erhöht; Weil die Lagerkosten mit Rabatt wegfallen
+Kontrolle: Ohne Rabatt kostet die Andler-Variante 485366,56 Euro. Welche ist günstiger? | Die Variante mit 1000 Stück | Die Andler-Variante; Beide kosten gleich viel
+Schritt: Materialkosten | 4000 * 116 | Euro
+Schritt: Bestellkosten pro Jahr | 4000 / 1000 * 200 | Euro
+Schritt: Lagerhaltungskosten pro Jahr | 1000 / 2 * 116 * 15 / 100 | Euro
+Schritt: Gesamtkosten pro Jahr | 4000 * 116 + 4000 / 1000 * 200 + 1000 / 2 * 116 * 15 / 100 | Euro
+Rechnung: 4000 * 116 + 4000 / 1000 * 200 + 1000 / 2 * 116 * 15 / 100
+Quelle: Arbeitsblätter Modul 8, Die optimale Bestellmenge planen und Übungsaufgaben, Technikakademie. Emissionswerte aus dem Text Güterverkehr in Deutschland, Umwelt im Unterricht.
+=== ENDE ===

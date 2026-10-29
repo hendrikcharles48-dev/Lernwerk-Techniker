@@ -1,5 +1,5 @@
 {
- "version": 4,
+ "version": 5,
  "schule": "Technikakademie Northeim (BBS III des Landkreises Northeim), zweijährige Fachschule Technik, Maschinentechnik, Schwerpunkt Automatisierungstechnik",
  "module": [
   {
@@ -919,6 +919,21 @@
     {
      "id": "m6-konflikte-und-feedback",
      "name": "Konflikte und Feedback"
+    },
+    {
+     "id": "m6-personalplanung",
+     "name": "Personalplanung und Personalbedarf",
+     "unterricht": true
+    },
+    {
+     "id": "m6-entgelt-arbeitsbewertung",
+     "name": "Entgelt und Arbeitsbewertung",
+     "unterricht": true
+    },
+    {
+     "id": "m6-personalbeschaffung",
+     "name": "Personalbeschaffung und Betriebsrat",
+     "unterricht": true
     }
    ]
   },
@@ -985,6 +1000,26 @@
     {
      "id": "m8-gruendung-und-rechtsformen",
      "name": "Gründung und Rechtsformen"
+    },
+    {
+     "id": "m8-aufbauorganisation",
+     "name": "Aufbauorganisation",
+     "unterricht": true
+    },
+    {
+     "id": "m8-materialbedarfsermittlung",
+     "name": "Materialbedarfsermittlung",
+     "unterricht": true
+    },
+    {
+     "id": "m8-abc-xyz-analyse",
+     "name": "ABC- und XYZ-Analyse",
+     "unterricht": true
+    },
+    {
+     "id": "m8-optimale-bestellmenge",
+     "name": "Optimale Bestellmenge",
+     "unterricht": true
     }
    ]
   },
