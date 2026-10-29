@@ -565,3 +565,22 @@ body.sheet-open #readbar { bottom: calc(var(--sab) + 14px); }
 .aufbau-box .ab-z { margin-top: 6px; }
 .aufbau-box .ab-z .fml { display: inline-flex; margin-right: 8px; font-weight: 600; }
 .aufbau-box .ab-z span { display: block; margin-top: 2px; }
+
+/* Hörmodus: Folgen-Player */
+.tchip { border: 0; background: var(--fill); color: var(--label); font: inherit; font-size: 14px; font-weight: 600; padding: 7px 13px; border-radius: 18px; min-height: 36px; }
+.tchip.on { background: var(--accent); color: #fff; }
+.fplayer { background: var(--bg2); border-radius: 20px; padding: 18px 16px 14px; margin: 6px 0 14px; display: none; }
+.fplayer.on { display: block; }
+.fp-t { font-size: 20px; font-weight: 700; margin-top: 2px; }
+.fp-z { font-size: 17px; line-height: 1.45; min-height: 74px; margin: 12px 0 10px; color: var(--label); }
+.fp-z b { color: var(--accent); }
+.fplayer input[type=range] { width: 100%; accent-color: var(--accent); }
+.fp-zeit { text-align: right; }
+.fplayer .pl-btns { gap: 10px; margin-top: 10px; }
+.fplayer .pl-b { width: 52px; height: 52px; }
+.fplayer .pl-b.big { width: 72px; height: 72px; }
+.fplayer .pl-b .ic { width: 26px; height: 26px; }
+.fp-tempo { justify-content: center; margin: 12px 0 0; }
+.ep.now .row-t { color: var(--accent); }
+.pl-r { display: flex; justify-content: center; gap: 10px; margin-top: 14px; }
+.pl-r[hidden] { display: none; }

@@ -6,6 +6,10 @@
 - Ablauf bei jeder Änderung: Tests laufen lassen, committen, auf den Arbeitszweig und auf `main` pushen (`git push origin HEAD:main`).
 - Bei jeder Änderung `VERSION` in `sw.js` und `js/app.js` erhöhen, beide gleich. Nur dann kommt das Update auf dem iPhone an. Die App lädt die neue Version beim nächsten Öffnen von selbst.
 
+## Hörmodus-Audio
+- Nach Änderungen an Inhalten die Podcast-Folgen neu erzeugen: `node tools/hoer/skript.mjs` und `python3 tools/hoer/erzeugen.py` (braucht `pip install piper-tts` und ffmpeg, baut nur geänderte Folgen). Der Inhalte-Test meldet veraltete Folgen als Hinweis.
+- Audio nur für eingebaute, öffentliche Inhalte. Lernzettel und eigene Inhalte nie als Audio ins Repository.
+
 ## Tests vor jedem Push
 - `node tests/parser.test.mjs`
 - `node tests/inhalte.test.mjs` (prüft auch, dass beide VERSION-Werte gleich sind und alle Offline-Dateien existieren)

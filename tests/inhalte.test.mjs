@@ -71,6 +71,15 @@ for (const file of files) {
   console.log(String(file).split('/').pop(), r.themen.length, 'Themen');
 }
 for (const f of L.faecher) for (const t of f.themen) if (!covered.has(t.id)) { console.log('THEMA OHNE EINFÜHRUNG', t.id); bad++; }
+// Hörmodus: veraltete oder fehlende Podcast-Folgen nur als Hinweis melden, die App fällt dann auf die Systemstimme zurück
+{
+  const { alleFolgen } = await import('../tools/hoer/folgen.mjs');
+  const ap = new URL('../audio/folgen.json', import.meta.url);
+  const audio = fs.existsSync(ap) ? JSON.parse(fs.readFileSync(ap, 'utf8')).folgen : {};
+  const alt = alleFolgen().filter(f => !audio[f.tid] || audio[f.tid].hash !== f.hash);
+  for (const f of Object.values(audio)) if (!fs.existsSync(new URL('../audio/' + f.datei, import.meta.url))) { console.log('AUDIO FEHLT', f.datei); bad++; }
+  if (alt.length) console.log('HINWEIS Hörmodus:', alt.length, 'Folgen ohne aktuelle Audiodatei. Neu erzeugen mit node tools/hoer/skript.mjs und python3 tools/hoer/erzeugen.py');
+}
 // Versionsnummer muss in sw.js und js/app.js gleich sein, sonst kommt kein Update an
 const swV = /const VERSION = '([^']+)'/.exec(fs.readFileSync(new URL('../sw.js', import.meta.url), 'utf8'))[1];
 const appV = /export const VERSION = '([^']+)'/.exec(fs.readFileSync(new URL('../js/app.js', import.meta.url), 'utf8'))[1];

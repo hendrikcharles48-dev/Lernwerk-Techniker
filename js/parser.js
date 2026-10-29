@@ -26,6 +26,8 @@ const KEYS = {
   // Erweiterungen für eingebaute Trainer
   umstellen: 'umstellen', umformung: 'umformung', auswahl: 'auswahl', reihenfolge: 'reihenfolge', quelle: 'quelle',
   // Ansatz zuerst: Aufgabe erkennen, begründen, Ergebnis prüfen
+  // Hörmodus: eigenes Podcast-Skript, eine Person erklärt der anderen
+  podcast: 'podcast',
   ansatz: 'ansatz', signal: 'signal', erkennen: 'signal', warum: 'warum', begruendung: 'warum', kontrolle: 'kontrolle', probe: 'kontrolle'
 };
 const keyNorm = s => String(s).toLowerCase().replace(/ä/g, 'ae').replace(/ö/g, 'oe').replace(/ü/g, 'ue').replace(/ß/g, 'ss').replace(/[^a-z]/g, '');
@@ -37,10 +39,10 @@ export function emptyTopic(fach = '', thema = '') {
   return {
     fach, thema, modul: '',
     anker: [], begriffe: [], merksaetze: [], prinzip: [], bausteine: [], schnellwege: [], fehler: [],
-    formeln: [], karten: [], aufgaben: [], umstellen: [], auswahl: [], reihenfolgen: [], quellen: [], notizen: []
+    formeln: [], karten: [], aufgaben: [], umstellen: [], auswahl: [], reihenfolgen: [], podcast: [], quellen: [], notizen: []
   };
 }
-const LISTS = ['anker', 'begriffe', 'merksaetze', 'prinzip', 'bausteine', 'schnellwege', 'fehler', 'formeln', 'karten', 'aufgaben', 'umstellen', 'auswahl', 'reihenfolgen', 'quellen', 'notizen'];
+const LISTS = ['anker', 'begriffe', 'merksaetze', 'prinzip', 'bausteine', 'schnellwege', 'fehler', 'formeln', 'karten', 'aufgaben', 'umstellen', 'auswahl', 'reihenfolgen', 'podcast', 'quellen', 'notizen'];
 export const hasContent = t => LISTS.some(k => t[k] && t[k].length);
 
 // Für die Schlüsselerkennung: Markdown-Reste vorne entfernen
@@ -295,6 +297,14 @@ export function parseBlocks(text) {
         if (s.length < 2) { err(i, 'Reihenfolge bitte so schreiben: Titel | Schritt 1; Schritt 2; Schritt 3.'); break; }
         cur.reihenfolgen.push({ titel, schritte: s }); field = null; break;
       }
+      case 'podcast': {
+        // Podcast: Lena | Text  oder  Podcast: Tom | Text. Tom erklärt, Lena fragt.
+        const [wer, ...rest] = pipes(val);
+        const text = rest.join(' | ');
+        if (!text) { err(i, 'Podcast bitte so schreiben: Lena | Text oder Tom | Text.'); break; }
+        const o = { wer: /^(b|tom|erkl)/i.test(wer) ? 'B' : 'A', text };
+        cur.podcast.push(o); setField(o, 'text'); break;
+      }
       case '?': {
         const o = { schluessel: rawKey, text: val };
         cur.notizen.push(o); setField(o, 'text');
@@ -340,7 +350,7 @@ const KEYFN = {
   anker: s => norm(s), merksaetze: s => norm(s), prinzip: s => norm(s), bausteine: s => norm(s), schnellwege: s => norm(s), quellen: s => norm(s),
   begriffe: b => norm(b.begriff), fehler: f => norm(f.fehler), formeln: f => norm(f.formel), karten: k => norm(k.frage),
   aufgaben: a => norm(a.text + a.gegeben.join('')), umstellen: u => norm(u.formel + '|' + u.nach), auswahl: a => norm(a.frage),
-  reihenfolgen: r => norm(r.titel), notizen: n => norm(n.schluessel + n.text)
+  reihenfolgen: r => norm(r.titel), podcast: p => norm(p.wer + p.text), notizen: n => norm(n.schluessel + n.text)
 };
 export function mergeTopic(base, add) {
   const out = emptyTopic(base.fach || add.fach, base.thema || add.thema);
@@ -404,6 +414,7 @@ export function exportBlock(t, termine = []) {
   });
   t.auswahl.forEach(a => L.push('Auswahl: ' + a.frage + ' | ' + a.richtig + ' | ' + a.falsch.join('; ') + (a.erklaerung ? ' | ' + a.erklaerung : '')));
   t.reihenfolgen.forEach(r => L.push('Reihenfolge: ' + r.titel + ' | ' + r.schritte.join('; ')));
+  (t.podcast || []).forEach(p => L.push('Podcast: ' + (p.wer === 'B' ? 'Tom' : 'Lena') + ' | ' + p.text));
   t.quellen.forEach(q => L.push(lineOut('Quelle', q)));
   t.notizen.forEach(n => L.push(lineOut(n.schluessel, n.text)));
   termine.forEach(x => L.push('Termin: ' + x.fach + ' | ' + x.datum + ' | ' + (x.themen || '')));

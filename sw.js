@@ -1,12 +1,12 @@
 // Service Worker: Offline-Nutzung und automatische Updates.
 // Bei jeder Änderung VERSION erhöhen (gleicher Wert wie in js/app.js).
 // Die neue Version installiert sich beim nächsten Öffnen von selbst.
-const VERSION = '1.13.3';
+const VERSION = '1.14.0';
 const CACHE = 'lernwerk-' + VERSION;
 const FILES = [
   './', 'index.html', 'manifest.webmanifest', 'css/app.css', 'lehrplan.json', 'lernwerk-bridge.js',
   'js/app.js', 'js/extra.js', 'js/engine.js', 'js/store.js', 'js/db.js', 'js/ui.js', 'js/parser.js',
-  'js/formula.js', 'js/check.js', 'js/srs.js', 'js/speech.js', 'js/util.js', 'js/mathedit.js',
+  'js/formula.js', 'js/check.js', 'js/srs.js', 'js/speech.js', 'js/podcast.js', 'js/hoer.js', 'js/util.js', 'js/mathedit.js',
   'inhalte/index.json', 'inhalte/faecher.json', 'inhalte/formeln-umstellen.txt', 'inhalte/terme.txt',
   'inhalte/mathe-grundlagen.txt', 'inhalte/mathe-aufbau.txt', 'inhalte/elektro-grundlagen.txt', 'inhalte/elektro-aufbau.txt', 'inhalte/mechanik-grundlagen.txt', 'inhalte/mechanik-aufbau.txt', 'inhalte/fertigung-wirtschaft.txt', 'inhalte/steuerung-aufbau.txt', 'inhalte/module-aufbau.txt', 'inhalte/maschinenelemente.txt', 'inhalte/vertiefung.txt', 'inhalte/leiterwiderstand.txt', 'inhalte/personal-beschaffung.txt', 'inhalte/trainer-aufgaben.txt',
   'inhalte/einfuehrung/mathematik.txt', 'inhalte/einfuehrung/elektrotechnik.txt', 'inhalte/einfuehrung/mechanik.txt',
@@ -29,10 +29,34 @@ self.addEventListener('activate', e => {
 });
 self.addEventListener('message', e => { if (e.data === 'skipWaiting') self.skipWaiting(); });
 
+// Podcast-Folgen: eigener Cache, der Updates überlebt. Offline gespeichert wird nur, was man im Hörmodus lädt.
+// Safari spielt Audio nur mit Teilantworten (206), deshalb wird die Range aus dem Cache geschnitten.
+const AUDIO = 'hoer-audio';
+async function audioAntwort(req) {
+  const c = await caches.open(AUDIO);
+  const hit = await c.match(req.url);
+  if (!hit) return fetch(req);
+  const range = req.headers.get('range');
+  if (!range) return hit;
+  const buf = await hit.arrayBuffer();
+  const m = /bytes=(\d*)-(\d*)/.exec(range) || [];
+  const start = m[1] ? +m[1] : 0, end = m[2] ? Math.min(+m[2], buf.byteLength - 1) : buf.byteLength - 1;
+  return new Response(buf.slice(start, end + 1), { status: 206, headers: {
+    'Content-Type': hit.headers.get('Content-Type') || 'audio/mp4', 'Content-Range': `bytes ${start}-${end}/${buf.byteLength}`,
+    'Content-Length': String(end - start + 1), 'Accept-Ranges': 'bytes' } });
+}
+
 // Erst Cache, dann Netz. Seiten ohne Treffer fallen auf index.html zurück.
 self.addEventListener('fetch', e => {
   const req = e.request;
   if (req.method !== 'GET' || new URL(req.url).origin !== location.origin) return;
+  const path = new URL(req.url).pathname;
+  if (/\/audio\/[^/]+\.m4a$/.test(path)) { e.respondWith(audioAntwort(req)); return; }
+  // Liste der Folgen: erst Netz, damit neue Folgen ankommen, sonst Cache
+  if (/\/audio\/folgen\.json$/.test(path)) {
+    e.respondWith(caches.open(AUDIO).then(async c => { try { const r = await fetch(req, { cache: 'no-cache' }); if (r.ok) c.put(req.url, r.clone()); return r; } catch (err) { return (await c.match(req.url)) || Response.error(); } }));
+    return;
+  }
   e.respondWith(caches.open(CACHE).then(async c => {
     const hit = await c.match(req, { ignoreSearch: true });
     if (hit) return hit;

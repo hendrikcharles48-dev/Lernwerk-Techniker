@@ -158,5 +158,12 @@ ok(checkNumber('12 N/mm²', 12, 'N/mm²').status === 'ok', 'Einheit mit Bruchstr
   ok(st.tipp === 'Nimm {a} mal 2.' && st.einheit === '', 'Schritt mit Tipp als viertem Feld', st);
 }
 
+{
+  const r = parseBlocks('=== LERNWERK ===\nFach: Mathematik\nThema: T\nPodcast: Lena | Tom, was ist das?\nPodcast: Tom | Das ist | ein Test.\n=== ENDE ===');
+  const pc = r.themen[0].podcast;
+  ok(pc.length === 2 && pc[0].wer === 'A' && pc[1].wer === 'B' && pc[1].text === 'Das ist | ein Test.', 'Podcast-Zeilen mit Lena und Tom', pc);
+  ok(/Podcast: Tom \| Das ist/.test(exportBlock(r.themen[0])), 'Podcast-Zeilen im Export');
+}
+
 console.log(`\n${pass} bestanden, ${fail} fehlgeschlagen`);
 process.exit(fail ? 1 : 0);

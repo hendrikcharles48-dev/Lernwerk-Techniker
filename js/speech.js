@@ -1,6 +1,6 @@
 // Vorlesen mit der Web Speech API und Bildschirm wach halten.
 let voice = null;
-export const canSpeak = () => 'speechSynthesis' in self && 'SpeechSynthesisUtterance' in self;
+export const canSpeak = () => typeof self !== 'undefined' && 'speechSynthesis' in self && 'SpeechSynthesisUtterance' in self;
 
 function pickVoice() {
   if (!canSpeak()) return null;
@@ -16,10 +16,29 @@ if (canSpeak()) {
 
 // Rechenzeichen stehen im Text als Zeichen. Zum Vorlesen werden sie zu Wörtern.
 const HOCH = { '⁰': '0', '¹': '1', '²': '2', '³': '3', '⁴': '4', '⁵': '5', '⁶': '6', '⁷': '7', '⁸': '8', '⁹': '9', 'ⁿ': 'n', 'ˣ': 'x', 'ᵖ': 'p', 'ᵗ': 't', 'ᵐ': 'm' };
+// Einheiten hinter einer Zahl ausschreiben, die längeren zuerst. Ein einzelnes m bleibt, das ist oft der Modul.
+const EINHEIT = [
+  ['N/mm²', 'Newton pro Quadratmillimeter'], ['m/s²', 'Meter pro Sekundenquadrat'], ['g/tkm', 'Gramm pro Tonnenkilometer'],
+  ['mm²', 'Quadratmillimeter'], ['cm²', 'Quadratzentimeter'], ['m²', 'Quadratmeter'], ['mm³', 'Kubikmillimeter'], ['cm³', 'Kubikzentimeter'], ['m³', 'Kubikmeter'],
+  ['kNm', 'Kilonewtonmeter'], ['Nmm', 'Newtonmillimeter'], ['Nm', 'Newtonmeter'], ['kN', 'Kilonewton'], ['MPa', 'Megapascal'],
+  ['m/min', 'Meter pro Minute'], ['m/s', 'Meter pro Sekunde'], ['1/min', 'pro Minute'], ['km/h', 'Kilometer pro Stunde'],
+  ['µm', 'Mikrometer'], ['mm', 'Millimeter'], ['cm', 'Zentimeter'], ['km', 'Kilometer'],
+  ['kWh', 'Kilowattstunden'], ['kW', 'Kilowatt'], ['mA', 'Milliampere'], ['kΩ', 'Kiloohm'], ['MΩ', 'Megaohm'], ['mH', 'Millihenry'], ['µF', 'Mikrofarad'], ['nF', 'Nanofarad'],
+  ['Hz', 'Hertz'], ['kg', 'Kilogramm'], ['tkm', 'Tonnenkilometer'], ['min', 'Minuten'], ['bar', 'bar'], ['°C', 'Grad Celsius'],
+  ['N', 'Newton'], ['W', 'Watt'], ['V', 'Volt'], ['A', 'Ampere'], ['h', 'Stunden'], ['s', 'Sekunden'], ['g', 'Gramm'], ['K', 'Kelvin'], ['€', 'Euro']
+];
+const EINHEIT_RE = new RegExp('(\\d)\\s?(' + EINHEIT.map(e => e[0].replace(/[.*+?^${}()|[\]\\\/]/g, '\\$&')).join('|') + ')(?![A-Za-zÄÖÜäöüßµΩ²³/])', 'g');
+const EINHEIT_MAP = Object.fromEntries(EINHEIT);
+const GRIECH = { σ: 'Sigma', ς: 'Sigma', τ: 'Tau', ε: 'Epsilon', η: 'Eta', α: 'Alpha', β: 'Beta', γ: 'Gamma', ρ: 'Rho', κ: 'Kappa', φ: 'Phi', ω: 'Omega', λ: 'Lambda', ϑ: 'Theta', Δ: 'Delta', Σ: 'Summe', μ: 'My' };
 export function sprechbar(text) {
   return String(text)
+    .replace(EINHEIT_RE, (m, d, u) => d + ' ' + EINHEIT_MAP[u])
+    // Einheiten ohne Zahl davor, zum Beispiel in Ω · mm² / m
+    .replace(/(^|[\s(·/])(mm²|cm²|mm³|cm³|N\/mm²|µm|mm)(?![A-Za-zÄÖÜäöüß²³])/g, (m, v, u) => v + EINHEIT_MAP[u])
+    .replace(/(Ohm|Ω|Quadratmillimeter)\s*\/\s*m\b/g, '$1 pro Meter')
+    .replace(/(\d) m (?=[A-ZÄÖÜ][a-zäöü])/g, '$1 Meter ')
     .replace(/([0-9A-Za-zΩ)])⁻([⁰¹²³⁴⁵⁶⁷⁸⁹ⁿˣᵖᵗᵐ]+)/g, (m, a, h) => a + ' hoch minus ' + [...h].map(c => HOCH[c]).join(''))
-    .replace(/([⁰¹²³⁴⁵⁶⁷⁸⁹ⁿˣᵖᵗᵐ]+)/g, h => ' hoch ' + [...h].map(c => HOCH[c]).join('') + ' ')
+    .replace(/([⁰¹²³⁴⁵⁶⁷⁸⁹ⁿˣᵖᵗᵐ]+)/g, h => h === '²' ? ' Quadrat ' : ' hoch ' + [...h].map(c => HOCH[c]).join('') + ' ')
     .replace(/\s*±\s*/g, ' plus minus ')
     .replace(/\s*≠\s*/g, ' ungleich ')
     .replace(/√\s?/g, ' Wurzel aus ')
@@ -38,17 +57,28 @@ export function sprechbar(text) {
     .replace(/°/g, ' Grad')
     .replace(/π/g, ' Pi ')
     .replace(/Ω/g, ' Ohm')
+    .replace(/[σςτεηαβγρκφωλϑΔΣμ]/g, c => ' ' + GRIECH[c] + ' ')
+    .replace(/_/g, ' ')
     .replace(/[()]/g, ' ')
-    .replace(/\s{2,}/g, ' ');
+    .replace(/\s{2,}/g, ' ')
+    .replace(/\s+([.,:;!?])/g, '$1')
+    .trim();
 }
+// Deutsche Systemstimmen und die eigene Wahl. Die Wahl liegt im Browser, wie die anderen Einstellungen.
+export const deVoices = () => (canSpeak() ? speechSynthesis.getVoices().filter(v => /^de(-|_|$)/i.test(v.lang)) : []);
+const wahl = k => { try { const v = localStorage.getItem('lernwerk:' + k); return v ? JSON.parse(v) : ''; } catch (e) { return ''; } };
+const byName = n => (n ? deVoices().find(v => v.name === n) : null);
+// Systemstimme für Lena (A) oder Tom (B). Ohne Wahl die beste gefundene Stimme.
+export const voiceFor = wer => byName(wahl(wer === 'A' ? 'stimmeA' : 'stimmeB')) || voice;
 // Spricht einen Text. Promise wird erfüllt, wenn fertig oder abgebrochen.
-export function speak(text, rate = 1) {
+export function speak(text, rate = 1, wer = 'B') {
   return new Promise(resolve => {
     if (!canSpeak() || !text) return resolve(false);
     const u = new SpeechSynthesisUtterance(sprechbar(text));
     u.lang = 'de-DE';
-    if (voice) u.voice = voice;
-    u.rate = rate;
+    const v = voiceFor(wer);
+    if (v) u.voice = v;
+    u.rate = rate * (+wahl('sysTempo') || 1);
     let done = false;
     const fin = ok => { if (!done) { done = true; resolve(ok); } };
     u.onend = () => fin(true);
@@ -69,7 +99,7 @@ export async function keepAwake(on) {
   } catch (e) { /* nicht erlaubt */ }
   return false;
 }
-document.addEventListener('visibilitychange', () => { if (lock && document.visibilityState === 'visible') keepAwake(true); });
+if (typeof document !== 'undefined') document.addEventListener('visibilitychange', () => { if (lock && document.visibilityState === 'visible') keepAwake(true); });
 
 /* ===== Vorlesen mit Leiste: Pause, Zurück, Stopp ===== */
 let rd = null;

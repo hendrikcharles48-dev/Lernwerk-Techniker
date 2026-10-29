@@ -105,7 +105,7 @@ function renderTab(el, tab, tid, T, items, f) {
     T.merksaetze.forEach(m => { h += `<div class="card merk" style="--fc:${color}"><div class="card-k">Merksatz</div><p>${esc(m)}</p></div>`; });
     if (T.prinzip.length) h += `<div class="sec-h">So funktioniert es</div><div class="card prose">${T.prinzip.map(p => markdown(p)).join('')}</div>`;
     if (T.notizen.length) h += `<div class="sec-h">Notizen</div>` + list(T.notizen.map(n => row({ title: n.schluessel, sub: n.text })));
-    if (!nichts && canSpeak()) h += `<div class="btn-row"><button class="btn" data-a="vorlesen">${icon('ear')} Prinzip vorlesen</button></div>`;
+    if (!nichts) h += `<div class="btn-row"><button class="btn" data-a="folge">${icon('ear')} Als Folge hören</button>${canSpeak() ? `<button class="btn" data-a="vorlesen">Prinzip vorlesen</button>` : ''}</div>`;
     if (T.quellen.length) h += `<p class="src">Quelle: ${T.quellen.map(esc).join(' ')}</p>`;
   }
   if (tab === 'bausteine') {
@@ -158,6 +158,8 @@ function renderTab(el, tab, tid, T, items, f) {
       note: id => noteReader(id),
       photo: id => photoViewer(id),
       trainer: d => openTrainer(tid, d),
+      // Podcast-Folge zum Thema: Lena fragt, Tom erklärt. Der Hörmodus zeigt den Player.
+      folge: async () => { const [h, x] = await Promise.all([import('./hoer.js'), import('./extra.js')]); await h.spielen([tid]); push(x.hoerPage()); },
       vorlesen: () => { const txt = [...T.anker, ...T.merksaetze.map(m => 'Merksatz: ' + m), ...T.prinzip.map(plainText)].join('. '); readAloud(txt, T.thema); }
   });
   if (!el._fileBound) {

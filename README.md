@@ -96,6 +96,24 @@ Reihenfolge: Titel | Schritt 1; Schritt 2; Schritt 3
 Quelle: …
 ```
 
+## Hörmodus und Podcast-Folgen
+
+Im Hörmodus gibt es zu jedem Thema eine Folge: Lena fragt, Tom erklärt. Vor jeder Antwort ist eine Denkpause zum laut Antworten.
+
+- Die Folge wird aus dem Thema gebaut (`js/podcast.js`): Anker, Prinzip, Begriffe, Formeln mit Aufbau, Merksätze, fünf Fragen, Fehler, Schnellweg.
+- Eigenes Skript im Block, dann gilt es statt der automatischen Folge:
+  ```
+  Podcast: Lena | Tom, was ist eigentlich ein Moment?
+  Podcast: Tom | Stell dir einen Schraubenschlüssel vor …
+  ```
+- Für eingebaute Themen gibt es Audiodateien mit natürlichen Stimmen (Piper, frei nutzbar) unter `audio/`. Eigene Inhalte und Lernzettel liest die Systemstimme, sie bleiben auf dem Gerät.
+- Nach Änderungen an Inhalten die Audios neu erzeugen. Es werden nur geänderte Folgen gebaut:
+  ```
+  pip install piper-tts      # einmalig, dazu ffmpeg
+  node tools/hoer/skript.mjs
+  python3 tools/hoer/erzeugen.py
+  ```
+
 ## Ein Thema als Inhaltsdatei anlegen
 
 1. Datei unter `inhalte/` anlegen, zum Beispiel `inhalte/elektrische-leistung.txt`, im Lernwerk-Block-Format.
