@@ -325,7 +325,6 @@ Ansatz: L_10 = (C / P)^3 | L_10 = (C / P)^(10 / 3); L_10 = (P / C)^3; L_10 = 3 �
 Signal: Kugellager, Tragzahl und Belastung sind gegeben, gefragt ist die Lebensdauer.
 Warum: Weil der Exponent beim Kugellager 3 ist | Weil der Exponent beim Kugellager 10 Drittel ist; Weil Lebensdauer und Last gleich wachsen
 Kontrolle: Was passiert bei halber Last? | Die Lebensdauer wird achtmal so groß | Die Lebensdauer wird doppelt so groß; Die Lebensdauer bleibt gleich
-Schritt: Verhältnis C durch P | C / P |
 Schritt: Lebensdauer | (C / P)^3 | Mio. Umdrehungen
 Variable: C | 10 | 40 | 1
 Variable: P | 1 | 6 | 0,5
@@ -353,7 +352,6 @@ Ansatz: L_10 = (C / P)^(10 / 3) | L_10 = (C / P)^3; L_10 = (P / C)^(10 / 3); L_1
 Signal: Diesmal ist es ein Rollenlager.
 Warum: Weil Rollen eine Linie berühren und der Exponent 10 Drittel ist | Weil Rollen einen Punkt berühren und der Exponent 3 ist; Weil Rollenlager gar keine Lebensdauer haben
 Kontrolle: Ist das Ergebnis größer als mit dem Exponenten 3? | Ja, wenn C größer als P ist | Nein, es ist immer kleiner; Es ist immer genau gleich
-Schritt: Verhältnis C durch P | C / P |
 Schritt: Lebensdauer | (C / P)^(10 / 3) | Mio. Umdrehungen
 Variable: C | 20 | 80 | 2
 Variable: P | 2 | 10 | 1
@@ -511,7 +509,6 @@ Ansatz: v = π · d · n / 60000 | v = π · d · n / 1000; v = d · n / 60000; 
 Signal: Durchmesser in mm und Drehzahl pro Minute sind gegeben, gefragt ist m/s.
 Warum: Weil mm durch 1000 und Minuten durch 60 geteilt werden | Weil nur die Millimeter umgerechnet werden; Weil der Umfang nicht gebraucht wird
 Kontrolle: Liegt v für einen Keilriemen in einem sinnvollen Bereich? | Ja, meist zwischen 5 und 30 m/s | Ja, meist um 1000 m/s; Ja, meist unter 0,1 m/s
-Schritt: Umfang in mm | pi * d | mm
 Schritt: Riemengeschwindigkeit | pi * d * n / 60000 | m/s
 Variable: d | 80 | 400 | 10
 Variable: n | 700 | 2900 | 100

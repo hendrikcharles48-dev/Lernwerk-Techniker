@@ -56,6 +56,9 @@ for (const file of files) {
             if (k === 0 && last && Math.abs(calc(last, vals) - r) > 1e-9 * Math.max(1, Math.abs(r))) { console.log('LETZTER SCHRITT UNGLEICH RECHNUNG', kurz); bad++; }
           }
         }
+        // Jeder Schritt soll eine Formel anwenden oder umrechnen, kein bloßes Rechen-Zwischenstück
+        // In Mathe gehören solche Teilschritte zum Verfahren, zum Beispiel beim Logarithmus
+        if (t.fach !== 'Mathematik') for (const st of a.schritte) if (/^(Produkt|Summe der Widerstände|Verhältnis|Faktor|Halbe|Anteil von)|zum Quadrat$/.test(st.was)) { console.log('SCHRITT OHNE FORMEL', t.thema, '|', st.was); bad++; }
         for (const st of a.schritte) if (st.ergebnis && st.ergebnis.typ === 'gleichung') { try { parseEq(st.ergebnis.text); } catch (e) { console.log('SCHRITT-GLEICHUNG unlesbar', st.ergebnis.text); bad++; } }
       }
     }

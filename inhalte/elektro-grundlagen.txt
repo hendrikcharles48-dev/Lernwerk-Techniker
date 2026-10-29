@@ -147,7 +147,6 @@ Ansatz: Produkt durch Summe | Widerstände addieren; Widerstände abziehen; Mitt
 Signal: Die Widerstände liegen nebeneinander an denselben zwei Punkten.
 Warum: Weil jeder Zweig ein zusätzlicher Weg für den Strom ist | Weil der Strom durch beide nacheinander fließt; Weil man Widerstände immer addiert
 Kontrolle: Ist dein Ergebnis kleiner als der kleinere Widerstand? | Ja, das muss parallel so sein | Nein, es liegt zwischen beiden; Nein, es ist größer als beide
-Schritt: Produkt der Widerstände | R1 * R2
 Schritt: Ersatzwiderstand ausrechnen | R1 * R2 / (R1 + R2) | Ω
 Variable: R1 | 20 | 300 | 10
 Variable: R2 | 20 | 300 | 10
@@ -176,7 +175,6 @@ Ansatz: U2 = U · R2 / (R1 + R2) | U2 = U / 2; U2 = U · R1 / (R1 + R2); U2 = U 
 Signal: Zwei Widerstände in Reihe, gesucht ist die Spannung an einem davon, und es hängt nichts daran.
 Warum: Weil sich die Spannung in der Reihe im Verhältnis der Widerstände aufteilt | Weil in der Reihe jeder Widerstand die volle Spannung bekommt; Weil sich die Spannung bei zwei Widerständen immer halbiert
 Kontrolle: Ist U2 größer als die halbe Spannung, wenn R2 größer als R1 ist? | Ja, am größeren Widerstand fällt mehr ab | Nein, es ist immer genau die Hälfte; Nein, am größeren Widerstand fällt weniger ab
-Schritt: Anteil von R2 am Gesamtwiderstand | R2 / (R1 + R2)
 Schritt: Spannung an R2 ausrechnen | U * R2 / (R1 + R2) | V
 Variable: R1 | 1 | 10 | 1
 Variable: R2 | 1 | 10 | 1
@@ -242,7 +240,6 @@ Ansatz: P = U² / R | P = U · I; P = I² · R; P = U / R
 Signal: Gegeben sind Spannung und Widerstand, der Strom ist nicht bekannt.
 Warum: Weil U und R gegeben sind und der Strom fehlt | Weil Heizwiderstände immer mit dieser Formel rechnen; Weil der Strom bei Heizungen null ist
 Kontrolle: Was passiert bei halber Spannung mit der Leistung? | Sie wird ein Viertel, weil U im Quadrat steht | Sie wird die Hälfte, weil U im Zähler steht; Sie bleibt gleich, weil R gleich bleibt
-Schritt: Spannung zum Quadrat | 230^2 | V²
 Schritt: Leistung ausrechnen | 230^2 / R | W
 Variable: R | 20 | 200 | 5
 Rechnung: 230^2 / R

@@ -122,7 +122,6 @@ Ansatz: R_w = R_k · (1 + α · Δϑ) | R_w = R_k · α · Δϑ; R_w = R_k + α 
 Signal: Ein Widerstand bei 20 °C und eine Erwärmung sind gegeben.
 Warum: Weil der Widerstand von Metall mit der Wärme steigt | Weil der Widerstand mit der Wärme sinkt; Weil die Temperatur keine Rolle spielt
 Kontrolle: Ist R_w größer als R_k? | Ja, warmes Kupfer hat mehr Widerstand | Nein, er wird kleiner; Nein, beide sind gleich
-Schritt: Faktor | 1 + 0.0039 * dt |
 Schritt: Warmwiderstand | R * (1 + 0.0039 * dt) | Ω
 Variable: R | 1 | 50 | 0,5
 Variable: dt | 10 | 100 | 5
