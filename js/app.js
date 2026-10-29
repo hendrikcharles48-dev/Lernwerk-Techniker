@@ -4,11 +4,11 @@ import { parseBlocks, summary, TEMPLATE } from './parser.js';
 import * as st from './store.js';
 import { $, $$, icon, row, list, seg, sw, empty, on, push, initTabs, showTab, tab, openSheet, toast, copyText, readClipboard, progress, ring, fachIcon, confirmBox, refreshAll, refreshTop, initEdgeSwipe, hinweisTabellenbuch } from './ui.js';
 import { topicPage, runSession, sortForPractice, fachProgress, topicProgress, openTrainer, askClaude, shrinkImage, noteReader, firstLine, itemTitle } from './engine.js';
-import { mehrPage, unterrichtPage, termineDetail, termEditor, datensicherung, applyTheme } from './extra.js';
+import { mehrPage, unterrichtPage, termineDetail, termEditor, datensicherung, applyTheme, hoerPage } from './extra.js';
 import { prefs } from './db.js';
 import { canSpeak, readAloud } from './speech.js';
 
-export const VERSION = '1.14.0';
+export const VERSION = '1.14.1';
 
 /* ===== Heute ===== */
 // Freundliche, wechselnde Sätze für den Start. Ohne Druck.
@@ -49,19 +49,9 @@ const heute = {
       ${offen ? `<div class="tc-tags">${[...by].slice(0, 5).map(([k, n]) => `<span class="tag">${esc(k)} <b>${n}</b></span>`).join('')}</div>` : ''}</div>`;
     const qu = unterrichtQueue(), qa = allesQueue();
     h += `<button class="five" data-a="lernU">${icon('bolt')}<span><b>Unterricht</b><small>${aktTids().length ? 'Nur was gerade im Unterricht dran ist. ' + (qu.items.length ? plural(qu.items.length, 'Übung', 'Übungen') + ' offen.' : 'Nichts fällig, du kannst trotzdem üben.') : 'Noch keine Themen angewählt. Tippe hier.'}</small></span></button>`;
-    h += `<button class="mixbtn" data-a="lernA">${icon('mix')}<span><b>Alles wiederholen</b><small>Alles, was abgeschlossen ist oder schon dran war. Schwache Themen kommen öfter.${qa.faellig ? ' ' + plural(qa.faellig, 'Übung', 'Übungen') + ' fällig.' : ''}</small></span></button>`;
-    // Meine Trainer: alle Trainer mit einem Tipp erreichbar, fällige zuerst
-    const trs = [], seen = new Set();
-    for (const f of st.faecher()) for (const t of f.themen) for (const x of t.trainer || []) {
-      if (seen.has(x.datei)) continue;
-      seen.add(x.datei);
-      const c = st.card('t:' + t.id);
-      trs.push({ f, t, x, due: !!(c && c.faellig <= today) });
-    }
-    trs.sort((a, b) => b.due - a.due);
-    if (trs.length) h += `<div class="sec-h">Meine Trainer</div><div class="tr-grid"><button class="tr-tile tr-all" data-a="trmix"><span class="tr-ic">${icon('mix')}</span><b>Alle Trainer gemischt</b><small>Aufgaben aus allen Trainern durcheinander, ohne Themenhinweis</small></button>${trs.map(({ f, t, x, due }) => `<button class="tr-tile" data-a="trainer" data-d="${esc(t.id + '|' + x.datei)}" style="--fc:${f.farbe}"><span class="tr-ic">${icon(fachIcon(f))}</span><b>${esc(x.titel)}</b><small>${esc(f.kurz || f.name)}${due ? ' · fällig' : ''}</small></button>`).join('')}</div>`;
     const aktT = st.kvGet('aktuell', []).map(id => st.thema(id)).filter(Boolean);
     h += `<button class="card unt-card" data-a="unterricht"><span class="unt-h">${icon('check')}<b>Im Unterricht</b><span class="muted">${aktT.length ? plural(aktT.length, 'Thema', 'Themen') : 'nichts angewählt'}</span>${icon('chev', 'chev')}</span>${aktT.length ? `<span class="tc-tags">${aktT.slice(0, 6).map(({ fach: f, thema: t }) => `<span class="tag" style="--fc:${f.farbe}">${esc(t.name)}</span>`).join('')}${aktT.length > 6 ? `<span class="tag">und ${aktT.length - 6} weitere</span>` : ''}</span>` : `<span class="muted">Tippe hier und schalte ein, was gerade dran ist.</span>`}</button>`;
+    h += `<button class="mixbtn" data-a="lernA">${icon('mix')}<span><b>Alles wiederholen</b><small>Alles, was abgeschlossen ist oder schon dran war. Schwache Themen kommen öfter.${qa.faellig ? ' ' + plural(qa.faellig, 'Übung', 'Übungen') + ' fällig.' : ''}</small></span></button>`;
     const ex = st.nextExam(today);
     if (ex) {
       const d = daysBetween(today, ex.datum);
@@ -79,6 +69,20 @@ const heute = {
       const t = st.thema(p.tid);
       h += `<div class="sec-h">Weiter, wo du warst</div>` + list([row({ a: 'weiter', icon: fachIcon(t.fach), color: t.fach.farbe, title: t.thema.name, sub: t.fach.name + (p.art === 'trainer' ? ' · Trainer' : '') })]);
     }
+    // Ordner: Trainer nach Fach sortiert, dazu der Hörmodus. Ein Tipp öffnet den Ordner.
+    const ordner = new Map();
+    const seen = new Set();
+    for (const f of st.faecher()) for (const t of f.themen) for (const x of t.trainer || []) {
+      if (seen.has(x.datei)) continue;
+      seen.add(x.datei);
+      const c = st.card('t:' + t.id);
+      if (!ordner.has(f.id)) ordner.set(f.id, { f, n: 0, due: 0 });
+      const o = ordner.get(f.id); o.n++; if (c && c.faellig <= today) o.due++;
+    }
+    h += `<div class="sec-h">Ordner</div><div class="tr-grid">`;
+    if (ordner.size) h += `<button class="tr-tile tr-all" data-a="trmix"><span class="tr-ic">${icon('mix')}</span><b>Alle Trainer gemischt</b><small>Aufgaben aus allen Trainern durcheinander, ohne Themenhinweis</small></button>`;
+    h += [...ordner.values()].map(({ f, n, due }) => `<button class="tr-tile" data-a="ordner" data-d="${esc(f.id)}" style="--fc:${f.farbe}"><span class="tr-ic">${icon(fachIcon(f))}</span><b>${esc(f.kurz && f.kurz.length > 3 ? f.kurz : f.name)}</b><small>${plural(n, 'Trainer', 'Trainer')}${due ? ' · ' + due + ' fällig' : ''}</small></button>`).join('');
+    h += `<button class="tr-tile" data-a="hoer" style="--fc:#30D158"><span class="tr-ic">${icon('ear')}</span><b>Hörmodus</b><small>Folgen und Abfragen</small></button></div>`;
     const w = st.weekStats();
     const mon = new Date(); mon.setHours(0, 0, 0, 0); mon.setDate(mon.getDate() - ((mon.getDay() + 6) % 7));
     const aq = st.ansatzQuote(mon.getTime());
@@ -94,6 +98,8 @@ const heute = {
       lernU: () => lernenUnterricht(),
       trmix: () => trainerGemischt(),
       trainer: d => { const i = d.indexOf('|'); openTrainer(d.slice(0, i), d.slice(i + 1)); },
+      ordner: fid => push(trainerOrdner(fid)),
+      hoer: () => push(hoerPage()),
       lernA: () => lernenAlles(),
       unterricht: () => push(unterrichtPage()),
       topic: tid => push(topicPage(tid)),
@@ -101,6 +107,26 @@ const heute = {
     });
   }
 };
+const kurzListe = n => n.length > 3 ? n.slice(0, 3).join(', ') + ' und ' + (n.length - 3) + ' weitere' : n.join(', ');
+// Ordner eines Fachs: alle Trainer dieses Fachs, fällige zuerst
+function trainerOrdner(fid) {
+  return {
+    title: (st.fach(fid) || { name: 'Trainer' }).name,
+    render(b) {
+      const f = st.fach(fid), today = dayStr();
+      const by = new Map();
+      for (const t of (f ? f.themen : [])) for (const x of t.trainer || []) {
+        if (!by.has(x.datei)) by.set(x.datei, { x, t, namen: [], due: false });
+        const o = by.get(x.datei), c = st.card('t:' + t.id);
+        o.namen.push(t.name); if (c && c.faellig <= today) o.due = true;
+      }
+      const rows = [...by.values()].map(o => ({ due: o.due, html: row({ a: 'trainer', d: o.t.id + '|' + o.x.datei, icon: fachIcon(f), color: f.farbe, title: o.x.titel, sub: (o.due ? 'fällig · ' : '') + kurzListe(o.namen.map(n => n.replace(/^[^:]{3,30}:\s*/, ''))) }) }));
+      rows.sort((a, c) => c.due - a.due);
+      b.innerHTML = rows.length ? list(rows.map(r => r.html)) : empty('In diesem Fach gibt es keine Trainer.');
+      on(b, { trainer: d => { const i = d.indexOf('|'); openTrainer(d.slice(0, i), d.slice(i + 1)); } });
+    }
+  };
+}
 // Zwei Wege zum Lernen auf der Startseite:
 // Unterricht: nur die Themen, die gerade im Unterricht dran sind.
 // Alles: alles, was schon einmal dran war, gemischt und ohne Themenhinweis.
