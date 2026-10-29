@@ -427,7 +427,7 @@ const GEN = {
       { q: 'Was ist das neutrale Element der Multiplikation?', o: ['1', '0', '−1'], a: 0, why: 'Mal 1 ändert nichts, wie Vorschub-Override auf 100 Prozent.' },
       { q: 'Wo steht der Dividend im Bruch?', o: ['Im Zähler, oben', 'Im Nenner, unten', 'Vor dem Bruch'], a: 0, why: 'Dividend oben im Zähler, Divisor unten im Nenner.' },
       { q: 'Gilt a − b = b − a?', o: ['Nein', 'Ja', 'Nur wenn a > b'], a: 0, why: 'Bei Minus darf man nicht tauschen: 7 − 2 = 5, aber 2 − 7 = −5.' },
-      { q: 'Was ergibt 4 · 7 · 25 am schnellsten?', o: ['700', '725', '7000'], a: 0, why: 'Tauschen: 4 · 25 = 100, dann mal 7 = 700.' },
+      { q: 'Was ergibt 4 · 7 · 25 am schnellsten?', o: ['700', '725', '7000'], a: 0, why: 'Tauschen: 4 · 25 = 100, dann · 7 = 700.' },
     ];
     const b = pick(bank);
     const order = shuffle([0, 1, 2]);
@@ -517,7 +517,7 @@ const GEN = {
     return {
       type: 'expr', form: 'simplified', prompt: 'Multipliziere die Klammer aus.', show: P(show), raw: show, ans,
       steps: [
-        `${P(monoA(k, 'x'))} mal ${P(monoA(m, 'x'))} = ${P(monoA(k * m, 'x^2'))}, denn x mal x ist x²`,
+        `${P(monoA(k, 'x'))} mal ${P(monoA(m, 'x'))} = ${P(monoA(k * m, 'x^2'))}, denn x · x ist x²`,
         `${P(monoA(k, 'x'))} mal ${par(n)} = ${P(monoA(k * n, 'x'))}`,
         `Ergebnis: ${P(ans)}`]
     };
@@ -640,7 +640,7 @@ function checkAnswer(task, input) {
   if (task.form === 'factored' && !isFactored(input)) return { status: 'almost', msg: 'Gleichwertig, aber gesucht ist die Klammerform.' };
   if (task.form === 'gcf') {
     const m = normalize(input).match(/^([+-]?[^()+\-]*)\((.+)\)$/);
-    if (!m) return { status: 'almost', msg: 'Gleichwertig, aber gesucht ist die Form Faktor mal Klammer.' };
+    if (!m) return { status: 'almost', msg: 'Gleichwertig, aber gesucht ist die Form Faktor · Klammer.' };
     let pre = m[1].replace(/\*$/, ''); if (pre === '' || pre === '+') pre = '1'; if (pre === '-') pre = '-1';
     try {
       const pa = parse(pre), g = parse(task.gcf);
@@ -809,13 +809,13 @@ const SVG_VENN = `<svg viewBox="0 0 300 100" width="100%" style="max-width:360px
 <g fill="none" stroke="var(--label2)" stroke-width="1.5"><circle cx="38" cy="40" r="26"/><circle cx="62" cy="40" r="26"/><circle cx="138" cy="40" r="26"/><circle cx="162" cy="40" r="26"/><circle cx="238" cy="40" r="26"/><circle cx="262" cy="40" r="26"/></g>
 <g font-size="13" font-family="-apple-system,system-ui,sans-serif" fill="var(--label)" text-anchor="middle"><text x="50" y="90">A ∩ B</text><text x="150" y="90">A ∪ B</text><text x="250" y="90">A \\ B</text></g>
 </svg>`;
-const SVG_IV = `<svg viewBox="0 0 300 64" width="100%" style="max-width:360px;display:block;margin:8px 0 2px" role="img" aria-label="Zahlenstrahl für das Intervall von minus 3 bis 2">
+const SVG_IV = `<svg viewBox="0 0 300 64" width="100%" style="max-width:360px;display:block;margin:8px 0 2px" role="img" aria-label="Zahlenstrahl für das Intervall von −3 bis 2">
 <line x1="10" y1="26" x2="290" y2="26" stroke="var(--label3)" stroke-width="2"/>
 ${[-4, -3, -2, -1, 0, 1, 2, 3].map((v, i) => `<line x1="${30 + i * 34}" y1="20" x2="${30 + i * 34}" y2="32" stroke="var(--label3)" stroke-width="1.5"/><text x="${30 + i * 34}" y="52" font-size="13" text-anchor="middle" fill="var(--label2)" font-family="-apple-system,system-ui,sans-serif">${v < 0 ? '−' + (-v) : v}</text>`).join('')}
 <line x1="64" y1="26" x2="234" y2="26" stroke="var(--accent)" stroke-width="5" stroke-linecap="round"/>
 <circle cx="64" cy="26" r="6" fill="var(--accent)"/><circle cx="234" cy="26" r="6" fill="var(--card)" stroke="var(--accent)" stroke-width="2.5"/>
 </svg>`;
-const SVG_BINOM = `<svg viewBox="0 0 210 210" width="200" style="display:block;margin:6px 0 2px" role="img" aria-label="Quadrat mit Seite a plus b, aufgeteilt in a Quadrat, zweimal a mal b und b Quadrat">
+const SVG_BINOM = `<svg viewBox="0 0 210 210" width="200" style="display:block;margin:6px 0 2px" role="img" aria-label="Quadrat mit Seite a + b, aufgeteilt in a Quadrat, zweimal a · b und b Quadrat">
 <rect x="20" y="20" width="120" height="120" fill="var(--accentSoft)" stroke="var(--accent)" stroke-width="1.5"/>
 <rect x="140" y="20" width="60" height="120" fill="var(--orangeSoft)" stroke="var(--orange)" stroke-width="1.5"/>
 <rect x="20" y="140" width="120" height="60" fill="var(--orangeSoft)" stroke="var(--orange)" stroke-width="1.5"/>
@@ -862,7 +862,7 @@ const BLATT = [
     { n: 'c1', lab: 'c', given: 1, prompt: 'Bestimme die Menge.', show: M('(A ∪ B) ∩ C'), type: 'set', ans: [3, 5, 8], tip: 'Die Klammer A ∪ B hast du schon als E ausgerechnet. Jetzt nur noch E ∩ C.' },
     { n: 'c2', lab: 'c', given: 1, prompt: 'Bestimme die Menge.', show: M('C \\ (A ∩ B)'), type: 'set', ans: [-10, 8, 9, 12], tip: 'A ∩ B ist deine Menge D. Wirf aus C alles raus, was in D liegt.' },
     { n: '2a', prompt: 'Gib die Menge aufzählend an.', show: M('A = {x | x ∈ ℤ ∧ x² ≤ 5,5}'), type: 'set', ans: [-2, -1, 0, 1, 2], tip: 'Probier ganze Zahlen ab 0 nach oben und nach unten. Minuszahlen nicht vergessen: (−2)² ist auch 4.' },
-    { n: '2b', prompt: 'Gib die Menge aufzählend an.', show: M('B = {n | n ∈ ℕ ∧ n ist Teiler von 12}'), type: 'set', ans: [1, 2, 3, 4, 6, 12], tip: 'Teiler heißt: 12 geteilt durch die Zahl geht glatt auf. Die 12 selbst zählt auch.' },
+    { n: '2b', prompt: 'Gib die Menge aufzählend an.', show: M('B = {n | n ∈ ℕ ∧ n ist Teiler von 12}'), type: 'set', ans: [1, 2, 3, 4, 6, 12], tip: 'Teiler heißt: 12 / die Zahl geht glatt auf. Die 12 selbst zählt auch.' },
     { n: '2c', prompt: 'Gib die Menge aufzählend an.', show: M(']2; 5[ &nbsp; mit G = ℤ'), type: 'set', ans: [3, 4] },
     { n: '2d', prompt: 'Gib die Menge aufzählend an.', show: M(']−1; 3] &nbsp; mit G = ℤ'), type: 'set', ans: [0, 1, 2, 3] },
     { n: '2e', prompt: 'Gib die Menge aufzählend an.', show: M(']−3; 3[ &nbsp; mit G = ℤ'), type: 'set', ans: [-2, -1, 0, 1, 2] },
@@ -900,21 +900,21 @@ const BLATT = [
   ] },
 
 { id: 'mult', sheet: 'terme', title: 'Multiplikation', range: 'Aufgabe 1 bis 20', level: 'kurz', form: 'simp', prompt: 'Multipliziere und vereinfache.',
-  remind: ['Erst alle Zahlen zusammenrechnen, dann die Buchstaben alphabetisch anhängen, Brüche ganz am Schluss.', 'Minus zählen: gerade Anzahl gibt plus, ungerade gibt minus.', 'Ab Aufgabe 13: Punkt vor Strich. Jedes Produkt einzeln, dann zusammenfassen.', 'Gemischte Zahl umwandeln: Ganze mal Nenner plus Zähler.'],
+  remind: ['Erst alle Zahlen zusammenrechnen, dann die Buchstaben alphabetisch anhängen, Brüche ganz am Schluss.', 'Minus zählen: gerade Anzahl gibt plus, ungerade gibt minus.', 'Ab Aufgabe 13: Punkt vor Strich. Jedes Produkt einzeln, dann zusammenfassen.', 'Gemischte Zahl umwandeln: Ganze · Nenner + Zähler.'],
   lesson: [
     { k: 'bild', b: '<p>Wie eine Stückliste sortieren: erst alle Zahlen auf einen Haufen, dann alle Buchstaben alphabetisch dahinter.</p>' },
     { k: 'begriff', h: 'Produkt und Faktoren', b: `<p>Ein <b>Produkt</b> ist eine Mal-Rechnung. Die einzelnen Teile heißen <b>Faktoren</b>. Beim Mal darfst du tauschen, das ist das Kommutativgesetz. Deshalb darfst du alles umsortieren.</p>` },
     { k: 'merk', b: 'Kommutativ, Reihenfolge relativ. Minus zählen: gerade Anzahl gibt plus, ungerade gibt minus.' },
-    { k: 'text', h: 'Gemischte Zahlen', b: `<p>${MX(3, 1, 4)} heißt 3 Ganze und ein Viertel. Umwandeln: Ganze mal Nenner plus Zähler, also ${M('3 · 4 + 1 = 13')}. Ergibt ${F(13, 4)}.</p>` },
+    { k: 'text', h: 'Gemischte Zahlen', b: `<p>${MX(3, 1, 4)} heißt 3 Ganze und ein Viertel. Umwandeln: Ganze · Nenner + Zähler, also ${M('3 · 4 + 1 = 13')}. Ergibt ${F(13, 4)}.</p>` },
     { k: 'text', h: 'Kommazahlen', b: '<p>Bei Kommazahlen darfst du den Taschenrechner nehmen. Das Vorzeichen klärst du vorher im Kopf, dann tippst du nur noch Zahlen ohne Minus.</p>' },
   ],
   vor: ['Minuszeichen zählen und das Vorzeichen festlegen.', 'Alle Zahlen ohne Minus malnehmen, gern mit dem Rechner.', 'Buchstaben alphabetisch dahinter, gleiche Buchstaben als Potenz.', 'Steht Plus oder Minus dazwischen: erst jedes Produkt einzeln, dann gleiche Buchstaben zusammenfassen.'],
-  kurz: 'Erst nach Paaren suchen, die glatt werden. Ein Bruch und sein Kehrwert ergeben 1, zum Beispiel 3/4 mal 4/3. Brüche ganz am Schluss, oft kürzen die sich fast komplett weg.',
-  hilfe: 'Eine Bruchzahl vor Buchstaben in Klammern setzen, zum Beispiel (13/3)a. Ohne Klammer liest die App 13/3a als 13 geteilt durch 3a.',
+  kurz: 'Erst nach Paaren suchen, die glatt werden. Ein Bruch und sein Kehrwert ergeben 1, zum Beispiel 3/4 · 4/3. Brüche ganz am Schluss, oft kürzen die sich fast komplett weg.',
+  hilfe: 'Eine Bruchzahl vor Buchstaben in Klammern setzen, zum Beispiel (13/3)a. Ohne Klammer liest die App 13/3a als 13 / 3a.',
   tasks: [
     { n: '1', raw: '3a*5c*2b', ans: '30abc' },
     { n: '2', raw: '3ab*11*7c', ans: '231abc' },
-    { n: '3', raw: '4ab*5m*(1/3)n', show: P('4ab*5m') + op('·') + F(1, 3) + M('n'), ans: '(20/3)abmn', tip: 'Den Bruch einfach als 1 geteilt durch 3 mitnehmen: erst 4 · 5 = 20, dann durch 3.' },
+    { n: '3', raw: '4ab*5m*(1/3)n', show: P('4ab*5m') + op('·') + F(1, 3) + M('n'), ans: '(20/3)abmn', tip: 'Den Bruch einfach als 1 / 3 mitnehmen: erst 4 · 5 = 20, dann durch 3.' },
     { n: '4', raw: '7.5ab*2c', ans: '15abc' },
     { n: '5', raw: '3*2.5a+7.5a', ans: '15a' },
     { n: '6', raw: '2.4a*0.4x-1.5x*2a', ans: '-2.04ax' },
@@ -935,20 +935,20 @@ const BLATT = [
       ans: '0.5157ac', tip: 'Gemischte Zahlen zuerst umwandeln: 2 1/3 = 7/3 und 3 1/4 = 13/4. Gerundet auf 4 Stellen reicht.' },
     { n: '20', raw: '(5/3)x(-4.5y)(-1.5)(-3)(2/15)+7.4xy(-24/7)(-7/2)(1/12)',
       show: MX(1, 2, 3) + M('x(−4,5y)(−1,5)(−3)') + F(2, 15) + M(' + 7,4xy(−') + MX(3, 3, 7) + M(')(−') + F(7, 2) + M(')') + F(1, 12),
-      ans: '2.9xy', tip: 'Im zweiten Teil: 3 3/7 = 24/7. Schau, was 24/7 mal 7/2 mal 1/12 ergibt, bevor du den Rechner nimmst.' },
+      ans: '2.9xy', tip: 'Im zweiten Teil: 3 3/7 = 24/7. Schau, was 24/7 · 7/2 · 1/12 ergibt, bevor du den Rechner nimmst.' },
   ] },
 
 { id: 'summen', sheet: 'terme', title: 'Multiplikation mit Summentermen', range: 'Aufgabe 21 bis 45', level: 'kurz', form: 'simp', prompt: 'Multipliziere aus und fasse zusammen.',
-  remind: ['Paketbote bringt Butterbrötchen, jeder in der Klammer kriegt eins.', 'Klammer mal Klammer: jeder mit jedem.', 'Minus vor dem Faktor: jedes Vorzeichen in der Klammer dreht sich.'],
+  remind: ['Paketbote bringt Butterbrötchen, jeder in der Klammer kriegt eins.', 'Klammer · Klammer: jeder mit jedem.', 'Minus vor dem Faktor: jedes Vorzeichen in der Klammer dreht sich.'],
   lesson: [
     { k: 'bild', b: '<p>Der Paketbote vor der Klammer bringt Butterbrötchen. Jeder in der Klammer kriegt eins, keiner wird vergessen.</p>' },
     { k: 'begriff', h: 'Distributivgesetz', b: `<p>Distributiv heißt verteilen. ${M('a · (b + c) = a · b + a · c')}. Das nennt man <b>ausmultiplizieren</b>.</p>` },
     { k: 'merk', b: 'Paketbote bringt Butterbrötchen, jeder in der Klammer kriegt eins.' },
-    { k: 'text', h: 'Klammer mal Klammer', b: `<p>Zwei Werkzeuge an zwei Werkstoffen testen sind vier Versuche. Jedes Glied der ersten Klammer trifft jedes Glied der zweiten.</p><p>${M('(x + 3)(x − 5)')}: ${M('x · x = x²')}, ${M('x · (−5) = −5x')}, ${M('3 · x = 3x')}, ${M('3 · (−5) = −15')}. Zusammen ${M('x² − 2x − 15')}.</p>` },
+    { k: 'text', h: 'Klammer · Klammer', b: `<p>Zwei Werkzeuge an zwei Werkstoffen testen sind vier Versuche. Jedes Glied der ersten Klammer trifft jedes Glied der zweiten.</p><p>${M('(x + 3)(x − 5)')}: ${M('x · x = x²')}, ${M('x · (−5) = −5x')}, ${M('3 · x = 3x')}, ${M('3 · (−5) = −15')}. Zusammen ${M('x² − 2x − 15')}.</p>` },
     { k: 'merk', b: 'Jeder mit jedem, dann zusammenfassen.' },
   ],
-  vor: ['Faktor vor der Klammer an jedes Glied in der Klammer verteilen.', 'Klammer mal Klammer: erstes Glied links mal jedes rechts, dann zweites Glied links mal jedes rechts.', 'Vorzeichen bei jedem Produkt einzeln: minus mal minus gibt plus.', 'Gleiche Buchstaben zusammenfassen.'],
-  kurz: 'Vorher Produkte abzählen: 2 Glieder mal 3 Glieder sind 6 Produkte. Hast du am Ende weniger, fehlt eins. Ist der Faktor negativ, dreh zuerst alle Vorzeichen in der Klammer um und rechne dann nur noch ohne Minus.',
+  vor: ['Faktor vor der Klammer an jedes Glied in der Klammer verteilen.', 'Klammer · Klammer: erstes Glied links · jedes rechts, dann zweites Glied links · jedes rechts.', 'Vorzeichen bei jedem Produkt einzeln: minus mal minus gibt plus.', 'Gleiche Buchstaben zusammenfassen.'],
+  kurz: 'Vorher Produkte abzählen: 2 Glieder · 3 Glieder sind 6 Produkte. Hast du am Ende weniger, fehlt eins. Ist der Faktor negativ, dreh zuerst alle Vorzeichen in der Klammer um und rechne dann nur noch ohne Minus.',
   hilfe: 'Eine Bruchzahl vor Buchstaben in Klammern setzen, zum Beispiel (13/3)a.',
   tasks: [
     { n: '21', raw: '5(a-b)', ans: '5a-5b' },
@@ -959,7 +959,7 @@ const BLATT = [
     { n: '26', raw: '6a(7c-3b-0.5)', ans: '42ac-18ab-3a' },
     { n: '27', raw: '(13/3)(3b-a)', show: MX(4, 1, 3) + M('(3b − a)'), ans: '13b-(13/3)a', tip: 'Erst umwandeln: 4 1/3 = 13/3.' },
     { n: '28', raw: '(-2ab)(7y-5x)', ans: '10abx-14aby' },
-    { n: '29', raw: '(-x)(4y+a-3)(-1)', ans: '4xy+ax-3x', tip: 'Zwei Minus vorne: (−x) mal (−1) ist einfach x.' },
+    { n: '29', raw: '(-x)(4y+a-3)(-1)', ans: '4xy+ax-3x', tip: 'Zwei Minus vorne: (−x) · (−1) ist einfach x.' },
     { n: '30', raw: '4(y-x)+5x', ans: 'x+4y' },
     { n: '31', raw: '3a(4a-7b)-5b(b-4a)', ans: '12a^2-ab-5b^2' },
     { n: '32', raw: '4a^2+3b(b-a)+6b(b-9a)', ans: '4a^2-57ab+9b^2' },
@@ -973,32 +973,32 @@ const BLATT = [
     { n: '40', raw: '(3a-b)(2x-y)', ans: '6ax-3ay-2bx+by' },
     { n: '41', raw: '(a-b)(2x-3y)', ans: '2ax-3ay-2bx+3by' },
     { n: '42', raw: '(m+n)(a-b+2c)', ans: 'am-bm+2cm+an-bn+2cn' },
-    { n: '43', raw: '(m-c+n)(2-x)(-2)', ans: '2mx+2nx-2cx-4m+4c-4n', tip: 'Erst die einfachste Mal-Rechnung: (2 − x) mal (−2) gibt −4 + 2x. Dann mit der ersten Klammer.' },
-    { n: '44', raw: '(a-b+c)(x+y-1)', ans: 'ax+ay-a-bx-by+b+cx+cy-c', tip: '3 mal 3 Glieder sind 9 Produkte. Zähl am Ende nach.' },
-    { n: '45', raw: '3ax(1-c)(4-3d)', ans: '12ax-12acx-9adx+9acdx', tip: 'Erst (1 − c)(4 − 3d) jeder mit jedem, dann alles mal 3ax.' },
+    { n: '43', raw: '(m-c+n)(2-x)(-2)', ans: '2mx+2nx-2cx-4m+4c-4n', tip: 'Erst die einfachste Mal-Rechnung: (2 − x) · (−2) gibt −4 + 2x. Dann mit der ersten Klammer.' },
+    { n: '44', raw: '(a-b+c)(x+y-1)', ans: 'ax+ay-a-bx-by+b+cx+cy-c', tip: '3 · 3 Glieder sind 9 Produkte. Zähl am Ende nach.' },
+    { n: '45', raw: '3ax(1-c)(4-3d)', ans: '12ax-12acx-9adx+9acdx', tip: 'Erst (1 − c)(4 − 3d) jeder mit jedem, dann alles · 3ax.' },
   ] },
 
 { id: 'binom', sheet: 'terme', title: 'Binomische Formeln', range: 'Aufgabe 46 bis 80', level: 'voll', form: 'simp', prompt: 'Löse auf und fasse zusammen.',
   lesson: [
-    { k: 'bild', b: `${SVG_BINOM}<p>Eine quadratische Platte mit Seite a + b. Säg sie auf: ein großes Quadrat a mal a, ein kleines b mal b und zwei gleiche Streifen a mal b. Zusammen ${M('a² + 2ab + b²')}. Daher kommt die Mitte.</p>` },
+    { k: 'bild', b: `${SVG_BINOM}<p>Eine quadratische Platte mit Seite a + b. Säg sie auf: ein großes Quadrat a · a, ein kleines b · b und zwei gleiche Streifen a · b. Zusammen ${M('a² + 2ab + b²')}. Daher kommt die Mitte.</p>` },
     { k: 'begriff', h: 'Binom', b: `<p>Bi heißt zwei, wie beim Bicycle mit zwei Rädern. Ein <b>Binom</b> ist eine Klammer mit zwei Gliedern, zum Beispiel ${M('(a + b)')}. Hoch 2 heißt: die Klammer mal sich selbst, ${M('(a + b) · (a + b)')}. Die binomischen Formeln sind Abkürzungen dafür.</p>` },
     { k: 'begriff', h: 'Erste binomische Formel', b: `<p class="expr" style="font-size:20px">${M('(a + b)² = a² + 2ab + b²')}</p>` },
-    { k: 'merk', b: 'Erster zum Quadrat, zweimal Erster mal Zweiter, Zweiter zum Quadrat.' },
+    { k: 'merk', b: 'Erster zum Quadrat, zweimal Erster · Zweiter, Zweiter zum Quadrat.' },
     { k: 'begriff', h: 'Zweite binomische Formel', b: `<p class="expr" style="font-size:20px">${M('(a − b)² = a² − 2ab + b²')}</p><p>Nur die Mitte wird minus. Hinten steht immer plus, denn ein Quadrat ist nie negativ: ${M('(−b)² = b²')}.</p>` },
     { k: 'merk', b: 'Minus in der Klammer, Minus in der Mitte, hinten immer plus.' },
     { k: 'begriff', h: 'Dritte binomische Formel', b: `<p class="expr" style="font-size:20px">${M('(a + b)(a − b) = a² − b²')}</p><p>Die Mitte fällt weg, weil ${M('+ab')} und ${M('−ab')} sich gegenseitig aufheben.</p>` },
     { k: 'merk', b: 'Plus-Minus-Paar: Mitte weg, Minus bleibt.' },
     { k: 'text', h: 'Fehler Nummer eins', b: `<p>${M('(a + b)²')} ist nicht ${M('a² + b²')}. Mit Zahlen: ${M('(3 + 4)² = 49')}, aber ${M('3² + 4² = 25')}. Die fehlenden 24 sind genau ${M('2 · 3 · 4')}, die Mitte.</p>` },
     { k: 'bsp', h: 'Beispiel', b: `<p>${M('(3x + 2)²')}, erste Formel. a ist ${M('3x')}, b ist ${M('2')}.</p><p>${M('a² = (3x)² = 9x²')}. Die 3 wird mit quadriert!</p><p>${M('2ab = 2 · 3x · 2 = 12x')}</p><p>${M('b² = 4')}</p><p>Ergebnis ${M('9x² + 12x + 4')}</p>` },
-    { k: 'text', h: 'Drei Glieder, Aufgabe 56 bis 60', b: `<p>${M('(a + b + c)²')}: alle drei zum Quadrat, dazu zweimal jedes Paar: ${M('a² + b² + c² + 2ab + 2ac + 2bc')}.</p><p>Bei Minus gilt für jedes Paar: Vorzeichen mal Vorzeichen. Steht vor b ein Minus und vor c ein Plus, wird ${M('2bc')} minus.</p>` },
+    { k: 'text', h: 'Drei Glieder, Aufgabe 56 bis 60', b: `<p>${M('(a + b + c)²')}: alle drei zum Quadrat, dazu zweimal jedes Paar: ${M('a² + b² + c² + 2ab + 2ac + 2bc')}.</p><p>Bei Minus gilt für jedes Paar: Vorzeichen · Vorzeichen. Steht vor b ein Minus und vor c ein Plus, wird ${M('2bc')} minus.</p>` },
     { k: 'text', h: 'Gemischte Aufgaben, 68 und 72 bis 80', b: `<p>Formel auflösen und das Ergebnis in Klammern lassen, wenn ein Minus davor steht. Erst dann die Klammer auflösen.</p><p>${M('(x − 1)(x + 1) − (x + 1)²')} wird zu ${M('(x² − 1) − (x² + 2x + 1)')}.</p><p>Vertauschte Reihenfolge stört nicht: ${M('2 + x')} ist dasselbe wie ${M('x + 2')}.</p>` },
   ],
   vor: ['Welche Formel? Plus, Minus oder Plus-Minus-Paar.', 'a und b bestimmen, mit der Zahl davor: in (4s − 3r)² ist a = 4s und b = 3r.', 'a², 2ab und b² einzeln ausrechnen.', 'Mit dem richtigen Vorzeichen zusammensetzen.', 'Stehen mehrere Teile da: jede Formel einzeln auflösen und das Ergebnis in Klammern schreiben. Ein Minus vor der Klammer dreht alles darin um. Zum Schluss gleiche Sorten sammeln, also alle x², alle x und alle Zahlen, und jede Sorte einzeln zusammenrechnen.'],
-  kurz: 'Die Mitte im Kopf: 2 mal vordere Zahl mal hintere Zahl. Bei (6x − 1)² ist das 2 · 6 · 1 = 12, also −12x. Beim Plus-Minus-Paar gar nicht ausmultiplizieren: (3m − 4)(3m + 4) ist sofort 9m² − 16.',
+  kurz: 'Die Mitte im Kopf: 2 · vordere Zahl · hintere Zahl. Bei (6x − 1)² ist das 2 · 6 · 1 = 12, also −12x. Beim Plus-Minus-Paar gar nicht ausmultiplizieren: (3m − 4)(3m + 4) ist sofort 9m² − 16.',
   hilfe: 'Hoch 2 mit der Taste ² eingeben. Eine Bruchzahl vor Buchstaben in Klammern, zum Beispiel (1/16)u².',
   tasks: [
-    { n: '46', raw: '(m+n)^2', ans: 'm^2+2mn+n^2', tip: 'Plus in der Klammer und hoch 2, also die 1. Formel. a ist m, b ist n. Rechne a², dann 2 · a · b, dann b² und schreib alles mit Plus hintereinander.' },
-    { n: '47', raw: '(n-1)^2', ans: 'n^2-2n+1', tip: 'Minus in der Klammer und hoch 2, also die 2. Formel. a ist n, b ist 1. Rechne n², dann 2 · n · 1 mit Minus davor, dann 1² mit Plus.' },
+    { n: '46', raw: '(m+n)^2', ans: 'm^2+2mn+n^2', tip: 'Plus in der Klammer und ², also die 1. Formel. a ist m, b ist n. Rechne a², dann 2 · a · b, dann b² und schreib alles mit Plus hintereinander.' },
+    { n: '47', raw: '(n-1)^2', ans: 'n^2-2n+1', tip: 'Minus in der Klammer und ², also die 2. Formel. a ist n, b ist 1. Rechne n², dann 2 · n · 1 mit Minus davor, dann 1² mit Plus.' },
     { n: '48', raw: '(a+4)^2', ans: 'a^2+8a+16', tip: '1. Formel. a ist a, b ist 4. Die Mitte ist 2 · a · 4. Hinten steht 4².' },
     { n: '49', raw: '(r+1)^2', ans: 'r^2+2r+1', tip: '1. Formel. a ist r, b ist 1. Schreib auch 2 · r · 1 und 1² hin, die 1 darf nicht verschwinden.' },
     { n: '50', raw: '(a-c)^2', ans: 'a^2-2ac+c^2', tip: '2. Formel. a ist a, b ist c. Die Mitte ist 2 · a · c mit Minus, hinten c² mit Plus.' },
@@ -1007,10 +1007,10 @@ const BLATT = [
     { n: '53', raw: '(5x-1)^2', ans: '25x^2-10x+1', tip: '2. Formel. a ist 5x, b ist 1. (5x)² heißt 5² · x². Die Mitte ist 2 · 5x · 1.' },
     { n: '54', raw: '(3x+0.5y)^2', ans: '9x^2+3xy+0.25y^2', tip: '1. Formel. a ist 3x, b ist 0,5y. Rechne 3², 2 · 3 · 0,5 und 0,5². Kommazahlen darfst du mit dem Rechner rechnen.' },
     { n: '55', raw: '(0.25u-2v)^2', ans: '0.0625u^2-uv+4v^2', note: 'Auf dem Blatt steht u²/16. Das ist dasselbe wie 0,0625u².', tip: '2. Formel. a ist 0,25u, b ist 2v. Rechne 0,25², 2 · 0,25 · 2 und 2². Die Mitte wird eine 1, dann schreibst du nur uv.' },
-    { n: '56', raw: '(a-b+c)^2', ans: 'a^2+b^2+c^2-2ab+2ac-2bc', tip: 'Drei Glieder: a, −b und c. Erst alle drei zum Quadrat, das ist immer plus. Dann zweimal jedes Paar, Vorzeichen mal Vorzeichen: a mit −b gibt minus, a mit c gibt plus, −b mit c gibt minus.' },
+    { n: '56', raw: '(a-b+c)^2', ans: 'a^2+b^2+c^2-2ab+2ac-2bc', tip: 'Drei Glieder: a, −b und c. Erst alle drei zum Quadrat, das ist immer plus. Dann zweimal jedes Paar, Vorzeichen · Vorzeichen: a mit −b gibt minus, a mit c gibt plus, −b mit c gibt minus.' },
     { n: '57', raw: '(a+b+c)^2', ans: 'a^2+b^2+c^2+2ab+2ac+2bc', tip: 'Drei Glieder: a, b und c. Erst alle drei zum Quadrat. Dann zweimal jedes Paar: 2ab, 2ac und 2bc. Hier ist alles plus.' },
     { n: '58', raw: '(a-b-c)^2', ans: 'a^2+b^2+c^2-2ab-2ac+2bc', tip: 'Paar b und c: minus mal minus gibt plus.' },
-    { n: '59', raw: '(a-b-1)^2', ans: 'a^2+b^2-2ab-2a+2b+1', tip: 'Drei Glieder: a, −b und −1. Alle Quadrate sind plus. Dann jedes Paar zweimal, Vorzeichen mal Vorzeichen: a mit −b gibt minus, a mit −1 gibt minus, −b mit −1 gibt plus.' },
+    { n: '59', raw: '(a-b-1)^2', ans: 'a^2+b^2-2ab-2a+2b+1', tip: 'Drei Glieder: a, −b und −1. Alle Quadrate sind plus. Dann jedes Paar zweimal, Vorzeichen · Vorzeichen: a mit −b gibt minus, a mit −1 gibt minus, −b mit −1 gibt plus.' },
     { n: '60', raw: '(p+2-q)^2', ans: 'p^2+q^2+4p-2pq-4q+4', tip: 'Drei Glieder: p, +2 und −q. Alle Quadrate sind plus. Paare zweimal nehmen: p mit 2 ist plus, p mit −q ist minus, 2 mit −q ist minus.' },
     { n: '61', raw: '(2.5x-0.7y)^2', ans: '6.25x^2-3.5xy+0.49y^2', tip: '2. Formel. a ist 2,5x, b ist 0,7y. Rechne 2,5², 2 · 2,5 · 0,7 und 0,7² mit dem Rechner, die Buchstaben schreibst du dahinter.' },
     { n: '62', raw: '(1.3a+2.6b)^2', ans: '1.69a^2+6.76ab+6.76b^2', tip: '1. Formel. a ist 1,3a, b ist 2,6b. Rechne 1,3², 2 · 1,3 · 2,6 und 2,6² mit dem Rechner.' },
@@ -1023,7 +1023,7 @@ const BLATT = [
     { n: '69', raw: '(x-2)(2+x)', ans: 'x^2-4', tip: '2 + x ist dasselbe wie x + 2. Also die 3. Formel mit a gleich x und b gleich 2.' },
     { n: '70', raw: '(5x-2y)(5x+2y)', ans: '25x^2-4y^2', tip: '3. Formel. a ist 5x, b ist 2y.' },
     { n: '71', raw: '(1.3-x)(x+1.3)', ans: '1.69-x^2', tip: 'x + 1,3 ist dasselbe wie 1,3 + x. Also die 3. Formel mit a gleich 1,3 und b gleich x.' },
-    { n: '72', raw: '(-2-x)(x+2)(-1)', ans: 'x^2+4x+4', tip: '(−2 − x) mal (−1) ist (2 + x). Was steht dann da?' },
+    { n: '72', raw: '(-2-x)(x+2)(-1)', ans: 'x^2+4x+4', tip: '(−2 − x) · (−1) ist (2 + x). Was steht dann da?' },
     { n: '73', raw: '(a-2b)(2b+a)', ans: 'a^2-4b^2', tip: '2b + a ist dasselbe wie a + 2b. Also die 3. Formel mit a gleich a und b gleich 2b. Denk an (2b)² = 4b².' },
     { n: '74', raw: '(3x-2y)(-2y+3x)', ans: '9x^2-12xy+4y^2', tip: 'Schau genau: −2y + 3x ist dasselbe wie 3x − 2y.' },
     { n: '75', raw: '(1-a+b)(1+a+b)', ans: 'b^2-a^2+2b+1', tip: 'Fass 1 + b als ein Stück zusammen: ((1 + b) − a)((1 + b) + a). Plus-Minus-Paar.' },
@@ -1031,7 +1031,7 @@ const BLATT = [
     { n: '77', raw: '(x-1)(x+1)-(x+1)^2', ans: '-2x-2', tip: 'So gehst du vor:\nVorne die 3. Formel: (x − 1)(x + 1) wird x² − 1.\nHinten die 1. Formel, Ergebnis in Klammern: (x² + 2x + 1).\nDas Minus vor der Klammer dreht alles um.\nGleiche Sorten sammeln: x² mit x², x mit x, Zahlen mit Zahlen.' },
     { n: '78', raw: '(p-5q)^2-10pq+(p+5q)^2', ans: '2p^2-10pq+50q^2', tip: 'So gehst du vor:\nVorne (p − 5q)² mit der 2. Formel, hinten (p + 5q)² mit der 1. Formel auflösen. Beide Ergebnisse in Klammern schreiben.\nVor der zweiten Klammer steht Plus, da ändert sich nichts.\nGleiche Sorten sammeln: alle p², alle pq, alle q². Das −10pq in der Mitte der Aufgabe nicht vergessen.' },
     { n: '79', raw: '(x-1)(y+1)-xy+2x-5(y-1)', ans: '3x-6y+4', tip: 'Hier steckt keine binomische Formel drin.\n(x − 1)(y + 1) jeder mit jedem malnehmen, das gibt 4 Glieder.\n−5(y − 1): die −5 mit beiden Gliedern malnehmen, mit Vorzeichen.\nGleiche Sorten sammeln: xy, x, y und Zahlen.' },
-    { n: '80', raw: '(0.9x-0.3)(0.3-0.9x)+9(0.3x+0.1)^2', ans: '1.08x', tip: 'So gehst du vor:\n(0,3 − 0,9x) ist −(0,9x − 0,3). Der erste Teil ist also −(0,9x − 0,3)², eine 2. Formel mit Minus davor.\nHinten erst (0,3x + 0,1)² mit der 1. Formel auflösen, dann alles mal 9.\nVorne die Klammer mit dem Minus auflösen, das dreht alles um.\nGleiche Sorten sammeln: x² mit x², x mit x, Zahlen mit Zahlen. Viel hebt sich weg.' },
+    { n: '80', raw: '(0.9x-0.3)(0.3-0.9x)+9(0.3x+0.1)^2', ans: '1.08x', tip: 'So gehst du vor:\n(0,3 − 0,9x) ist −(0,9x − 0,3). Der erste Teil ist also −(0,9x − 0,3)², eine 2. Formel mit Minus davor.\nHinten erst (0,3x + 0,1)² mit der 1. Formel auflösen, dann alles · 9.\nVorne die Klammer mit dem Minus auflösen, das dreht alles um.\nGleiche Sorten sammeln: x² mit x², x mit x, Zahlen mit Zahlen. Viel hebt sich weg.' },
   ] },
 
 { id: 'faktor', sheet: 'terme', title: 'Zerlegung in Faktoren', range: 'Aufgabe 1 bis 48', level: 'voll', form: 'fac', prompt: 'Zerlege in Faktoren, also ausklammern.',
@@ -1114,7 +1114,7 @@ const BLATT = [
     { k: 'begriff', h: 'Hauptnenner, Weg 1 aus deiner Mitschrift', b: `<p>${F(1, 9)}${op('+')}${F(1, 30)}${op('+')}${F(1, 24)}</p><p>Alle Nenner malnehmen: ${M('9 · 30 · 24 = 6480')}. Jeden Bruch mit den beiden anderen Nennern erweitern. Klappt immer, aber die Zahlen werden riesig, und am Ende musst du viel kürzen: ${F(1206, 6480)}${op('=')}${F(67, 360)}.</p>` },
     { k: 'begriff', h: 'Hauptnenner, Weg 2 mit Primfaktoren', b: `<p>Zerleg jeden Nenner in seine kleinsten Bausteine, die <b>Primfaktoren</b>. Dann nimmst du jeden Baustein so oft, wie er in einem Nenner höchstens vorkommt.</p>${PF_TABLE}<p>Der Fachbegriff dafür ist <b>kgV</b>, kleinstes gemeinsames Vielfaches: die kleinste Zahl, in die alle Nenner reinpassen.</p>` },
     { k: 'merk', b: 'Wie Einkaufen für mehrere Rezepte: Von jeder Zutat kaufst du so viel, wie das Rezept braucht, das am meisten davon will. Nicht alles zusammenzählen.' },
-    { k: 'bsp', h: 'Erweitern auf 360', b: `<p>Erweiterungsfaktor ist Hauptnenner geteilt durch den alten Nenner.</p><p>${M('360 : 9 = 40')}, also ${F(1, 9)}${op('=')}${F(40, 360)}</p><p>${M('360 : 30 = 12')}, also ${F(1, 30)}${op('=')}${F(12, 360)}</p><p>${M('360 : 24 = 15')}, also ${F(1, 24)}${op('=')}${F(15, 360)}</p><p>Zähler zusammen: ${M('40 + 12 + 15 = 67')}. Ergebnis ${F(67, 360)}, genau wie in deiner Mitschrift.</p>` },
+    { k: 'bsp', h: 'Erweitern auf 360', b: `<p>Erweiterungsfaktor ist Hauptnenner / den alten Nenner.</p><p>${M('360 : 9 = 40')}, also ${F(1, 9)}${op('=')}${F(40, 360)}</p><p>${M('360 : 30 = 12')}, also ${F(1, 30)}${op('=')}${F(12, 360)}</p><p>${M('360 : 24 = 15')}, also ${F(1, 24)}${op('=')}${F(15, 360)}</p><p>Zähler zusammen: ${M('40 + 12 + 15 = 67')}. Ergebnis ${F(67, 360)}, genau wie in deiner Mitschrift.</p>` },
     { k: 'begriff', h: 'Mit Buchstaben', b: `<p>Gleiches Prinzip. Die Bausteine sind jetzt Faktoren wie ${M('(x + 1)')} oder ${M('(x − 1)')}.</p><p>In deiner Mitschrift: ${M('x² − 1 = (x + 1)(x − 1)')}, die dritte binomische Formel rückwärts. Darin stecken ${M('x + 1')} und ${M('x − 1')} schon drin. Also ist der Hauptnenner ${M('(x + 1)(x − 1)')}.</p>` },
     { k: 'text', h: 'So zerlegst du Nenner', b: `<p>Ausklammern: ${M('3x + 3y = 3(x + y)')}</p><p>Binomisch rückwärts: ${M('p² − q² = (p + q)(p − q)')} und ${M('x² + 2xy + y² = (x + y)²')}</p><p>Erst wenn alle Nenner zerlegt sind, siehst du den Hauptnenner.</p>` },
     { k: 'merk', b: 'Minus vor einem Bruch: den Zähler in Klammern setzen. Minus dreht alles um.' },
@@ -1136,8 +1136,8 @@ const BLATT = [
 { id: 'bruchmal', sheet: 'terme', title: 'Bruchterme mal und geteilt', range: 'Aufgabe a bis h', level: 'voll', form: 'frac', prompt: 'Vereinfache so weit wie möglich.',
   lesson: [
     { k: 'bild', h: 'Mal ist einfacher als Plus', b: `<p>Beim Malnehmen brauchst du keinen Hauptnenner. Die Hälfte von einem Drittel ist ein Sechstel: ${F(1, 2)}${op('·')}${F(1, 3)}${op('=')}${F(1, 6)}</p>` },
-    { k: 'merk', b: 'Zähler mal Zähler, Nenner mal Nenner.' },
-    { k: 'begriff', h: 'Kehrwert und Geteilt', b: `<p><b>Kehrwert</b> heißt: den Bruch umdrehen, oben wird unten. Wie ein Werkstück umspannen.</p><p>Durch einen Bruch teilst du, indem du mit seinem Kehrwert malnimmst. ${F(3, 4)}${op(':')}${F(1, 2)}${op('=')}${F(3, 4)}${op('·')}${F(2, 1)}${op('=')}${F(3, 2)}</p><p>Geteilt durch eine Zahl ist mal ihren Kehrwert: ${M(': (−2)')} ist ${M('·')} ${F(1, '(−2)')}.</p>` },
+    { k: 'merk', b: 'Zähler · Zähler, Nenner · Nenner.' },
+    { k: 'begriff', h: 'Kehrwert und Geteilt', b: `<p><b>Kehrwert</b> heißt: den Bruch umdrehen, oben wird unten. Wie ein Werkstück umspannen.</p><p>Durch einen Bruch teilst du, indem du mit seinem Kehrwert malnimmst. ${F(3, 4)}${op(':')}${F(1, 2)}${op('=')}${F(3, 4)}${op('·')}${F(2, 1)}${op('=')}${F(3, 2)}</p><p>Geteilt durch eine Zahl ist · ihren Kehrwert: ${M(': (−2)')} ist ${M('·')} ${F(1, '(−2)')}.</p>` },
     { k: 'merk', b: 'Durch einen Bruch teilen: umdrehen und mal nehmen.' },
     { k: 'begriff', h: 'Kürzen nur aus Produkten', b: `<p>Kürzen darfst du nur Faktoren, also Teile, die mit Mal verbunden sind. Deshalb zerlegst du Zähler und Nenner vorher: ausklammern oder binomische Formeln rückwärts.</p>` },
     { k: 'merk', b: 'Aus Summen kürzen nur die Dummen.' },
@@ -1145,7 +1145,7 @@ const BLATT = [
     { k: 'text', h: 'Vorzeichen-Dreher', b: `<p>${M('n − m')} und ${M('m − n')} sind gleich groß, nur das Vorzeichen ist anders: ${M('n − m = −(m − n)')}. Darum kürzen sich ${M('(x − n)')} und ${M('(n − x)')} gegeneinander, und es bleibt ${M('−1')} übrig.</p>` },
     { k: 'text', h: 'Doppelbrüche, f und h', b: `<p>Steht in einer Klammer noch Plus oder Minus mit Brüchen, wie ${M('(')}${F(1, 'x')}${op('−')}${F(1, 'y')}${M(')')}, machst du daraus zuerst einen einzigen Bruch mit Hauptnenner. Danach ganz normal mal oder geteilt.</p>` },
   ],
-  vor: ['Alles zerlegen, was geht: ausklammern, binomische Formeln rückwärts.', 'Geteilt durch einen Bruch in mal Kehrwert umbauen.', 'Alles auf einen Bruchstrich: oben alle Zähler, unten alle Nenner, nur mit Mal verbunden.', 'Gleiche Faktoren oben und unten kürzen, auf Vorzeichen-Dreher achten.', 'Was übrig bleibt, malnehmen.'],
+  vor: ['Alles zerlegen, was geht: ausklammern, binomische Formeln rückwärts.', 'Geteilt durch einen Bruch in · Kehrwert umbauen.', 'Alles auf einen Bruchstrich: oben alle Zähler, unten alle Nenner, nur mit Mal verbunden.', 'Gleiche Faktoren oben und unten kürzen, auf Vorzeichen-Dreher achten.', 'Was übrig bleibt, malnehmen.'],
   kurz: 'Nie zuerst ausmultiplizieren. Erst zerlegen und kürzen, dann bleibt fast nichts übrig. Die Zahlen rechnest du ganz zum Schluss zusammen, zur Not mit dem Rechner.',
   hilfe: 'Brüche mit / eingeben und Zähler und Nenner in Klammern setzen, zum Beispiel (y−x)/(x+y). Geteilt geht auch mit dem Doppelpunkt.',
   tasks: [
@@ -1154,7 +1154,7 @@ const BLATT = [
     { n: 'c', raw: '(c-1)/(x-n)*(n-x)/(2c-2)/(-2)', ans: '1/4', show: F('c − 1', 'x − n') + op('·') + F('n − x', '2c − 2') + op(':') + M('(−2)'), tip: '2c − 2 = 2(c − 1). Und (n − x) gegen (x − n) ist ein Vorzeichen-Dreher.' },
     { n: 'd', raw: '(4d^2+e^2-4ed)/(-(2d-e)^2)*1/(d-2e)', ans: '1/(2e-d)', show: F('4d² + e² − 4ed', '−(2d − e)²') + op('·') + F(1, 'd − 2e'), tip: 'Der Zähler ist eine binomische Formel. Sortier ihn: 4d² − 4ed + e².' },
     { n: 'e', raw: '(m+n)/(2a)*ax/(n-m)*2/(n^2-m^2)', ans: 'x/(n-m)^2', show: F('m + n', '2a') + op('·') + F('ax', 'n − m') + op('·') + F(2, 'n² − m²'), tip: 'n² − m² = (n + m)(n − m).' },
-    { n: 'f', raw: '(1/x-1/y)/((x+y)/(xy))', ans: '(y-x)/(x+y)', show: M('(') + F(1, 'x') + op('−') + F(1, 'y') + M(')') + op(':') + F('x + y', 'xy'), tip: 'Erst die Klammer: Hauptnenner xy. Dann durch den zweiten Bruch teilen, also mal Kehrwert.' },
+    { n: 'f', raw: '(1/x-1/y)/((x+y)/(xy))', ans: '(y-x)/(x+y)', show: M('(') + F(1, 'x') + op('−') + F(1, 'y') + M(')') + op(':') + F('x + y', 'xy'), tip: 'Erst die Klammer: Hauptnenner xy. Dann durch den zweiten Bruch teilen, also · Kehrwert.' },
     { n: 'g', raw: '(ab-ax)/(2b-2a)*2x/a*(a-b)/x', ans: 'x-b', show: F('ab − ax', '2b − 2a') + op('·') + F('2x', 'a') + op('·') + F('a − b', 'x'), tip: 'Oben a ausklammern, unten 2. Dann (b − a) gegen (a − b), Vorzeichen-Dreher.' },
     { n: 'h', raw: '((1/a)^2-(1/b)^2)*1/(1/a-1/b)', ans: '(a+b)/(ab)', show: M('((') + F(1, 'a') + M(')² − (') + F(1, 'b') + M(')²)') + op('·') + F(1, F(1, 'a') + op('−') + F(1, 'b')), tip: 'Die erste Klammer ist ein Plus-Minus-Paar rückwärts: (1/a + 1/b)(1/a − 1/b).' },
   ] },
@@ -1227,7 +1227,7 @@ const GEN2 = {
   begriffe() {
     const bank = [
       ['Wie heißt das Ergebnis von a · b?', ['Produkt', 'Summe', 'Quotient'], 'Mal ergibt ein Produkt. Die Teile davon heißen Faktoren.'],
-      ['Wie heißen die Teile einer Plus-Rechnung?', ['Summanden', 'Faktoren', 'Quotienten'], 'Summand plus Summand ergibt die Summe.'],
+      ['Wie heißen die Teile einer Plus-Rechnung?', ['Summanden', 'Faktoren', 'Quotienten'], 'Summand + Summand ergibt die Summe.'],
       ['Wie heißt das Ergebnis von a : b?', ['Quotient', 'Differenz', 'Produkt'], 'Geteilt ergibt den Quotienten.'],
       ['Wie heißt das Ergebnis von a − b?', ['Differenz', 'Summe', 'Quotient'], 'Minus ergibt die Differenz, wie der Unterschied zwischen Ist- und Sollmaß.'],
       ['Welches Gesetz zeigt a · (b + c) = ab + ac?', ['Distributivgesetz', 'Kommutativgesetz', 'Assoziativgesetz'], 'Paketbote bringt Butterbrötchen, jeder in der Klammer kriegt eins. Verteilen heißt distributiv.'],
@@ -1421,7 +1421,7 @@ const GEN2 = {
         if (f === 'pm') { fac = `(${ts(u)}+${ts(w)})(${ts(u)}-${ts(w)})`; P = pmul(padd(U, Wp), padd(U, Wp, -1)); }
         else { fac = `(${ts(u)}${f === 'plus' ? '+' : '-'}${ts(w)})^2`; const B = padd(U, Wp, f === 'plus' ? 1 : -1); P = pmul(B, B); }
         P = pscale(P, k);
-        return { prompt: 'Schreib als Produkt, binomische Formel rückwärts.', raw: ptoStr(P), ans: (k > 1 ? k : '') + fac, form: 'fac', tip: 'Erst eine gemeinsame Zahl ausklammern, falls es eine gibt. Dann: Zwei Glieder mit Minus dazwischen sind die dritte Formel. Drei Glieder: vorne und hinten die Wurzel ziehen und prüfen, ob die Mitte 2 mal das eine mal das andere ist.' };
+        return { prompt: 'Schreib als Produkt, binomische Formel rückwärts.', raw: ptoStr(P), ans: (k > 1 ? k : '') + fac, form: 'fac', tip: 'Erst eine gemeinsame Zahl ausklammern, falls es eine gibt. Dann: Zwei Glieder mit Minus dazwischen sind die dritte Formel. Drei Glieder: vorne und hinten die Wurzel ziehen und prüfen, ob die Mitte 2 · das eine · das andere ist.' };
       }
     }
     if (kind === 'tri') {
@@ -1430,7 +1430,7 @@ const GEN2 = {
       const s = ts3.map((t, i) => (sg[i] < 0 ? '-' : (i ? '+' : '')) + monoS(t.c, t.v)).join('');
       const B = ts3.reduce((p, t, i) => padd(p, lin(t.c, t.v), sg[i]), new Map());
       const k = Math.random() < 0.4 ? r(2, 3) : 1;
-      return { prompt: 'Löse auf und fasse zusammen.', raw: `${k > 1 ? k : ''}(${s})^2`, ans: ptoStr(pscale(pmul(B, B), k)), form: 'simp', tip: 'Drei Glieder: alle drei zum Quadrat, dazu zweimal jedes Paar. Das Vorzeichen eines Paares ist Vorzeichen mal Vorzeichen.' };
+      return { prompt: 'Löse auf und fasse zusammen.', raw: `${k > 1 ? k : ''}(${s})^2`, ans: ptoStr(pscale(pmul(B, B), k)), form: 'simp', tip: 'Drei Glieder: alle drei zum Quadrat, dazu zweimal jedes Paar. Das Vorzeichen eines Paares ist Vorzeichen · Vorzeichen.' };
     }
     // Tipp in Klartext: welche Formel, was ist a und b, was danach passiert
     const dz = x => x.replace(/\./g, ',').replace(/\^2/g, '²').replace(/-/g, ' − ').replace(/\+/g, ' + ').replace(/\( /g, '(');
@@ -1571,7 +1571,7 @@ const GEN2 = {
       const show = disp.map(x => (x.op === '/' ? op(':') : x.op ? op('·') : '') + F(sH(ustr(x.nu, v)), sH(ustr(x.de, v)))).join('');
       const zl = [];
       disp.forEach((x, i) => [['nu', x.nu], ['de', x.de]].forEach(([w, poly]) => { const d = fr[i][w]; if (deg(d) + (d.k > 1 ? 1 : 0) > 1 || (deg(d) === 1 && d.k > 1)) { const s = ustr(poly, v); const z = (poly[poly.length - 1] < 0 ? '-' : '') + dfStr(d, v); if (s.replace(/[()]/g, '') !== z.replace(/[()]/g, '')) zl.push(`${sH(s)}${op('=')}${sH(z)}`); } }));
-      return { prompt: 'Vereinfache so weit wie möglich.', raw, show, ans, form: 'frac', tip: (zl.length ? `Erst zerlegen: ${zl.join(', ')}. ` : '') + 'Geteilt durch einen Bruch ist mal Kehrwert. Dann alles auf einen Bruchstrich und gleiche Klammern oben und unten kürzen.' };
+      return { prompt: 'Vereinfache so weit wie möglich.', raw, show, ans, form: 'frac', tip: (zl.length ? `Erst zerlegen: ${zl.join(', ')}. ` : '') + 'Geteilt durch einen Bruch ist · Kehrwert. Dann alles auf einen Bruchstrich und gleiche Klammern oben und unten kürzen.' };
     }
     return GEN2.bruchmal(false);
   },
@@ -1706,12 +1706,12 @@ const BGEN = {
       else wrong.push({ s: sgnT(ptoStr(lin(A[1][0] + B[1][0], ''))), why: 'Die beiden Zahlen werden malgenommen, nicht addiert.' });
       const res = termList(p);
       if (!res.length) continue;
-      const steps = [mkBuild({ title: kind === 'mk' ? 'Ausmultiplizieren' : 'Jeder mit jedem', explain: kind === 'mk' ? 'Der Paketbote vor der Klammer bringt jedem in der Klammer ein Butterbrötchen. Nimm den Faktor vorne mal jedes Glied in der Klammer, mit Vorzeichen.' : 'Jeder mit jedem: das erste Glied links mal beide rechts, dann das zweite Glied links mal beide rechts. Das gibt 4 Bausteine, wie zwei Werkzeuge an zwei Werkstoffen testen.', correct: prods, extra: wrong, after: 'Alle Produkte sind da.' })];
+      const steps = [mkBuild({ title: kind === 'mk' ? 'Ausmultiplizieren' : 'Jeder mit jedem', explain: kind === 'mk' ? 'Der Paketbote vor der Klammer bringt jedem in der Klammer ein Butterbrötchen. Nimm den Faktor vorne · jedes Glied in der Klammer, mit Vorzeichen.' : 'Jeder mit jedem: das erste Glied links · beide rechts, dann das zweite Glied links · beide rechts. Das gibt 4 Bausteine, wie zwei Werkzeuge an zwei Werkstoffen testen.', correct: prods, extra: wrong, after: 'Alle Produkte sind da.' })];
       if (res.length < prods.length) {
         const k = [...p.keys()].find(kk => pdeg(kk) === 1) || [...p.keys()][0];
         steps.push(mkBuild({ title: 'Zusammenfassen', explain: 'Jetzt Gleiches zu Gleichem. Nur Glieder mit genau denselben Buchstaben darfst du zusammenrechnen.', correct: res, extra: [{ s: sgnT(ptoStr(new Map([[k, p.get(k) + (Math.random() < 0.5 ? 2 : -2)]]))), why: 'Rechne die gleichartigen Glieder nochmal mit Vorzeichen zusammen.' }], after: 'Fertig.' }));
       }
-      return { topic: 'summen', show: P(show), steps, merk: 'Paketbote bringt Butterbrötchen, jeder in der Klammer kriegt eins.', kurz: 'Vorher abzählen: 2 mal 2 Glieder sind 4 Produkte. Dann weißt du, ob dir eins fehlt.' };
+      return { topic: 'summen', show: P(show), steps, merk: 'Paketbote bringt Butterbrötchen, jeder in der Klammer kriegt eins.', kurz: 'Vorher abzählen: 2 · 2 Glieder sind 4 Produkte. Dann weißt du, ob dir eins fehlt.' };
     }
   },
 
@@ -1727,15 +1727,15 @@ const BGEN = {
     const extra = [];
     if (c1 > 1) extra.push({ s: sgnT(ptoStr(lin(c1, V[0] ? V[0] + '' : ''))).replace(V[0], V[0] + '^2'), why: `Die Zahl vor dem ${V[0]} wird mit quadriert: (${a})² = ${ptoStr(pmul(A, A)).replace('^2', '²')}.` });
     if (f === 'pm') extra.push({ s: sgnT(ptoStr(pscale(pmul(A, Bp), 2))), why: 'Beim Plus-Minus-Paar fällt die Mitte weg.' }, { s: b2, why: 'Bei der dritten Formel steht hinten ein Minus.' });
-    else extra.push({ s: sgnT(ptoStr(pscale(pmul(A, Bp), f === 'plus' ? 1 : -1))), why: 'Die Mitte ist 2 mal a mal b. Die 2 nicht vergessen.' }, { s: flip(b2), why: 'Hinten steht immer plus, denn ein Quadrat ist nie negativ.' });
+    else extra.push({ s: sgnT(ptoStr(pscale(pmul(A, Bp), f === 'plus' ? 1 : -1))), why: 'Die Mitte ist 2 · a · b. Die 2 nicht vergessen.' }, { s: flip(b2), why: 'Hinten steht immer plus, denn ein Quadrat ist nie negativ.' });
     const FN = { plus: '1. Formel: (a + b)²', minus: '2. Formel: (a − b)²', pm: '3. Formel: (a + b)(a − b)' };
-    const FW = { plus: 'In der Klammer steht ein Plus und hoch 2.', minus: 'In der Klammer steht ein Minus und hoch 2.', pm: 'Zwei Klammern, gleiche Glieder, einmal Plus und einmal Minus.' };
+    const FW = { plus: 'In der Klammer steht ein Plus und ².', minus: 'In der Klammer steht ein Minus und ².', pm: 'Zwei Klammern, gleiche Glieder, einmal Plus und einmal Minus.' };
     const steps = [
       mkPick({ title: 'Welche Formel?', explain: 'Bi heißt zwei: ein Binom ist eine Klammer mit zwei Gliedern. Hoch 2 heißt mal sich selbst. Schau, ob Plus, Minus oder ein Plus-Minus-Paar dasteht.', q: 'Welche binomische Formel passt?', right: { h: FN[f], after: FW[f] }, wrong: Object.keys(FN).filter(k => k !== f).map(k => ({ h: FN[k], why: FW[k].replace('In der Klammer steht', 'Dafür müsste in der Klammer stehen').replace('Zwei Klammern', 'Dafür bräuchtest du zwei Klammern') })) }),
       mkPick({ title: 'a und b finden', explain: 'a ist das erste Glied, b das zweite, jeweils mit der Zahl davor, aber ohne das Rechenzeichen dazwischen.', q: 'Was ist a und was ist b?', right: { h: `a = ${sH(a)}, b = ${sH(b)}`, after: 'Genau.' }, wrong: [c1 > 1 ? { h: `a = ${V[0]}, b = ${sH(b)}`, why: `Die Zahl gehört zu a dazu: a ist ${a}.` } : { h: `a = ${V[0]}², b = ${sH(b)}`, why: 'a ist das, was in der Klammer steht, noch ohne Quadrat.' }, { h: `a = ${sH(a)}, b = −${sH(b)}`, why: 'Das Rechenzeichen gehört nicht zu b. Es entscheidet nur, welche Formel es ist.' }] }),
-      mkBuild({ title: f === 'pm' ? 'a² und b²' : 'a², 2ab und b²', explain: f === 'pm' ? `Plus-Minus-Paar: Mitte weg, Minus bleibt. Also a² − b².` : `Erster zum Quadrat, zweimal Erster mal Zweiter, Zweiter zum Quadrat.${f === 'minus' ? ' Minus in der Klammer, Minus in der Mitte, hinten immer plus.' : ''}`, correct, extra, after: 'Fertig.' }),
+      mkBuild({ title: f === 'pm' ? 'a² und b²' : 'a², 2ab und b²', explain: f === 'pm' ? `Plus-Minus-Paar: Mitte weg, Minus bleibt. Also a² − b².` : `Erster zum Quadrat, zweimal Erster · Zweiter, Zweiter zum Quadrat.${f === 'minus' ? ' Minus in der Klammer, Minus in der Mitte, hinten immer plus.' : ''}`, correct, extra, after: 'Fertig.' }),
     ];
-    return { topic: 'binom', show: P(show), steps, merk: f === 'pm' ? 'Plus-Minus-Paar: Mitte weg, Minus bleibt.' : f === 'minus' ? 'Minus in der Klammer, Minus in der Mitte, hinten immer plus.' : 'Erster zum Quadrat, zweimal Erster mal Zweiter, Zweiter zum Quadrat.', kurz: 'Die Mitte im Kopf: 2 mal vordere Zahl mal hintere Zahl.' };
+    return { topic: 'binom', show: P(show), steps, merk: f === 'pm' ? 'Plus-Minus-Paar: Mitte weg, Minus bleibt.' : f === 'minus' ? 'Minus in der Klammer, Minus in der Mitte, hinten immer plus.' : 'Erster zum Quadrat, zweimal Erster · Zweiter, Zweiter zum Quadrat.', kurz: 'Die Mitte im Kopf: 2 · vordere Zahl · hintere Zahl.' };
   },
 
   faktor(norm) {
@@ -1786,7 +1786,7 @@ const BGEN = {
       const g = gcd(Z, K), dS = (kk) => (kk === 1 ? '' : kk) + v, opS = sg < 0 ? '−' : '+';
       const steps = [
         mkPick({ title: 'Hauptnenner', explain: `Mit Buchstaben genauso wie mit Zahlen. In beiden Nennern steckt ${v}. Dazu brauchst du die kleinste Zahl, in die ${k1} und ${k2} passen.`, q: 'Welcher Hauptnenner?', right: { h: M(dS(K)), after: 'Genau.' }, wrong: [{ h: M(dS(k1 * k2) + (k1 * k2 === K ? '²' : '')), why: k1 * k2 === K ? `${v} brauchst du nur einmal, beide Nenner haben ja nur ein ${v}.` : `Geht, aber ${K} reicht schon.` }, { h: M(dS(k1 + k2)), why: 'Nenner werden nie addiert.' }, { h: M(dS(K) + '²'), why: `${v} brauchst du nur einmal, beide Nenner haben ja nur ein ${v}.` }] }),
-        mkPick({ title: 'Erweitern', explain: 'Was fehlt jedem Nenner zum Hauptnenner? Damit oben und unten malnehmen.', q: `Womit erweiterst du ${F(String(n1), dS(k1))} und ${F(String(n2), dS(k2))}?`, right: { h: M(`mit ${e1} und mit ${e2}`), after: `${F(String(n1 * e1), dS(K))}${op(opS)}${F(String(n2 * e2), dS(K))}` }, wrong: [{ h: M(`mit ${e2} und mit ${e1}`), why: 'Vertauscht. Rechne für jeden Bruch: Hauptnenner geteilt durch seinen Nenner.' }, { h: M(`mit ${k2} und mit ${k1}`), why: `Das ergäbe unten ${k1 * k2}${v}, nicht ${dS(K)}.` }] }),
+        mkPick({ title: 'Erweitern', explain: 'Was fehlt jedem Nenner zum Hauptnenner? Damit oben und unten malnehmen.', q: `Womit erweiterst du ${F(String(n1), dS(k1))} und ${F(String(n2), dS(k2))}?`, right: { h: M(`mit ${e1} und mit ${e2}`), after: `${F(String(n1 * e1), dS(K))}${op(opS)}${F(String(n2 * e2), dS(K))}` }, wrong: [{ h: M(`mit ${e2} und mit ${e1}`), why: 'Vertauscht. Rechne für jeden Bruch: Hauptnenner / seinen Nenner.' }, { h: M(`mit ${k2} und mit ${k1}`), why: `Das ergäbe unten ${k1 * k2}${v}, nicht ${dS(K)}.` }] }),
         mkPick({ title: 'Zusammenrechnen', explain: 'Gleicher Nenner: oben rechnen, unten bleibt alles.', q: 'Ergebnis?', right: { h: F(String(Z / g), dS(K / g)), after: g > 1 ? `Schon gekürzt: ${Z} und ${K} gingen durch ${g}.` : 'Fertig.' }, wrong: [{ h: F(String(n1 + n2), dS(k1 + k2)), why: 'Nenner werden nie addiert.' }, ...(g > 1 ? [{ h: F(String(Z), dS(K)), why: `Stimmt, ist aber noch nicht gekürzt. ${Z} und ${K} gehen beide durch ${g}.` }] : [{ h: F(String(Z), dS(2 * K)), why: 'Der Nenner bleibt gleich.' }])] }),
       ];
       return { topic: 'bruchplus', show: F(String(n1), dS(k1)) + op(opS) + F(String(n2), dS(k2)), steps, merk: 'Oben zählen, unten gleichmachen.', kurz: 'Den Buchstaben im Nenner brauchst du nur so oft, wie er in einem Nenner höchstens vorkommt.' };
@@ -1808,7 +1808,7 @@ const BGEN = {
       const fA = F(pv(a, norm ? 1 : 0), String(b)), fB = F(String(c), pv(d, norm ? 2 : 0));
       if (div) steps.push(mkPick({ title: 'Kehrwert', explain: 'Durch einen Bruch teilst du, indem du mit seinem Kehrwert malnimmst. Kehrwert heißt umdrehen, oben wird unten, wie ein Werkstück umspannen.', q: `Was ist der Kehrwert von ${fB}?`, right: { h: F(pv(d, norm ? 2 : 0), String(c)), after: `Aus ${op(':')} wird ${op('·')} und der zweite Bruch steht auf dem Kopf.` }, wrong: [{ h: fB, why: 'Das ist noch der Bruch selbst. Umdrehen!' }, { h: M('−') + fB, why: 'Kehrwert heißt umdrehen, nicht Vorzeichen ändern.' }] }));
       const top = norm ? (div ? `${a * d}${v}³` : `${a * c}${v}`) : String(N), bot = norm ? (div ? `${b * c}` : `${b * d}${v}²`) : String(D);
-      steps.push(mkPick({ title: 'Malnehmen', explain: 'Zähler mal Zähler, Nenner mal Nenner. Einen Hauptnenner brauchst du beim Malnehmen nicht.', q: 'Was kommt raus, noch ohne Kürzen?', right: { h: F(top, bot), after: 'Genau.' }, wrong: [{ h: F(norm ? `${a + c2}${v}` : String(a + c2), norm ? `${b + d2}` : String(b + d2)), why: 'Beim Malnehmen wird nicht addiert.' }, { h: F(norm ? `${a * d2}` : String(a * d2), norm ? `${b * c2}` : String(b * c2)), why: 'Über Kreuz wird nur beim Teilen gerechnet, und dann über den Kehrwert.' }] }));
+      steps.push(mkPick({ title: 'Malnehmen', explain: 'Zähler · Zähler, Nenner · Nenner. Einen Hauptnenner brauchst du beim Malnehmen nicht.', q: 'Was kommt raus, noch ohne Kürzen?', right: { h: F(top, bot), after: 'Genau.' }, wrong: [{ h: F(norm ? `${a + c2}${v}` : String(a + c2), norm ? `${b + d2}` : String(b + d2)), why: 'Beim Malnehmen wird nicht addiert.' }, { h: F(norm ? `${a * d2}` : String(a * d2), norm ? `${b * c2}` : String(b * c2)), why: 'Über Kreuz wird nur beim Teilen gerechnet, und dann über den Kehrwert.' }] }));
       let resH, wrongK;
       if (norm) {
         const eN = div ? 3 : 1, eD = div ? 0 : 2, e = eN - eD;
@@ -1818,7 +1818,7 @@ const BGEN = {
         wrongK = F(String(N / g) + (eN ? v + (eN > 1 ? '³' : '') : ''), String(D / g) + (eD ? v + '²' : ''));
       } else { resH = D / g === 1 ? M(String(N / g)) : fracH(N / g, D / g); wrongK = fracH(N / g, D); }
       steps.push(mkPick({ title: 'Kürzen', explain: norm ? (div ? `Oben und unten durch dieselbe Zahl teilen. Hier geht beides durch ${g}. Unten steht kein ${v}, also bleibt oben ${v}³ stehen.` : `Oben und unten durch dieselbe Zahl teilen, hier durch ${g}. Gleiche Buchstaben kürzen sich gegeneinander: ${v} oben gegen ${v}² unten lässt unten ein ${v} übrig.`) : `Oben und unten durch dieselbe Zahl teilen. Hier geht beides durch ${g}.`, q: 'So weit wie möglich gekürzt?', right: { h: resH, after: 'Fertig.' }, wrong: [{ h: wrongK, why: norm ? 'Die Zahlen stimmen, aber die Buchstaben kannst du noch gegeneinander kürzen.' : 'Unten musst du auch teilen.' }, { h: F(top, bot), why: `Die Zahlen gehen noch beide durch ${g}.` }] }));
-      return { topic: 'bruchmal', show: fA + op(div ? ':' : '·') + fB, steps, merk: div ? 'Durch einen Bruch teilen: umdrehen und mal nehmen.' : 'Zähler mal Zähler, Nenner mal Nenner.', kurz: 'Vor dem Malnehmen schon über Kreuz kürzen, dann bleiben die Zahlen klein.' };
+      return { topic: 'bruchmal', show: fA + op(div ? ':' : '·') + fB, steps, merk: div ? 'Durch einen Bruch teilen: umdrehen und mal nehmen.' : 'Zähler · Zähler, Nenner · Nenner.', kurz: 'Vor dem Malnehmen schon über Kreuz kürzen, dann bleiben die Zahlen klein.' };
     }
   },
 };
@@ -1893,9 +1893,9 @@ const BHARD = {
       const res = termList(p); if (res.length >= prods.length) continue;
       const k = [...p.keys()].find(kk => kk.length > 2 && !kk.includes('2')) || [...p.keys()][0];
       return { topic: 'summen', show: P(`(${s(A)})(${s(B)})`), steps: [
-        mkBuild({ title: 'Jeder mit jedem', explain: 'Zwei Glieder links, drei rechts: das gibt 6 Produkte. Erst das erste Glied links mal alle drei rechts, dann das zweite. Buchstaben verschiedener Sorte bleiben einfach nebeneinander stehen.', correct: prods, extra: wrong, after: 'Alle 6 Produkte sind da.' }),
+        mkBuild({ title: 'Jeder mit jedem', explain: 'Zwei Glieder links, drei rechts: das gibt 6 Produkte. Erst das erste Glied links · alle drei rechts, dann das zweite. Buchstaben verschiedener Sorte bleiben einfach nebeneinander stehen.', correct: prods, extra: wrong, after: 'Alle 6 Produkte sind da.' }),
         mkBuild({ title: 'Zusammenfassen', explain: `Nur Glieder mit genau denselben Buchstaben zusammenrechnen. ${u}${w} und ${w}${u} sind dasselbe.`, correct: res, extra: [{ s: sgnT(ptoStr(new Map([[k, p.get(k) + 2]]))), why: 'Rechne die gleichartigen Glieder nochmal mit Vorzeichen zusammen.' }], after: 'Fertig.' }),
-      ], merk: 'Jeder mit jedem, dann Gleiches zu Gleichem.', kurz: 'Erst abzählen: 2 mal 3 sind 6 Produkte. Dann siehst du sofort, ob eins fehlt.' };
+      ], merk: 'Jeder mit jedem, dann Gleiches zu Gleichem.', kurz: 'Erst abzählen: 2 · 3 sind 6 Produkte. Dann siehst du sofort, ob eins fehlt.' };
     }
   },
 
@@ -1911,13 +1911,13 @@ const BHARD = {
     if (c1 > 1) extra.push({ s: sgnT(ptoStr(mono(c1, exAdd(exOf(aL), exOf(aL))))), why: `Die Zahl wird mit quadriert: (${a})² = ${ptoStr(pmul(A, A))}.`.replace(/\^2/g, '²') });
     if (aL.length > 1) extra.push({ s: sgnT(ptoStr(mono(c1 * c1, { ...exOf(aL), [aL[0]]: 2 }))), why: `Jeder Buchstabe in a wird quadriert, nicht nur der erste.` });
     if (f === 'pm') extra.push({ s: sgnT(ptoStr(pscale(pmul(A, Bp), 2))), why: 'Beim Plus-Minus-Paar fällt die Mitte weg.' });
-    else extra.push({ s: sgnT(ptoStr(pscale(pmul(A, Bp), f === 'plus' ? 1 : -1))), why: 'Die Mitte ist 2 mal a mal b. Die 2 nicht vergessen.' }, { s: flip(b2), why: 'Hinten steht immer plus.' });
+    else extra.push({ s: sgnT(ptoStr(pscale(pmul(A, Bp), f === 'plus' ? 1 : -1))), why: 'Die Mitte ist 2 · a · b. Die 2 nicht vergessen.' }, { s: flip(b2), why: 'Hinten steht immer plus.' });
     const FN = { plus: '1. Formel: (a + b)²', minus: '2. Formel: (a − b)²', pm: '3. Formel: (a + b)(a − b)' };
     return { topic: 'binom', show: P(show), steps: [
       mkPick({ title: 'Welche Formel?', explain: 'Auch mit mehreren Buchstaben bleibt es dieselbe Formel. Schau nur auf das Rechenzeichen und ob hoch 2 oder zwei Klammern dastehen.', q: 'Welche binomische Formel passt?', right: { h: FN[f], after: 'Genau.' }, wrong: Object.keys(FN).filter(k => k !== f).map(k => ({ h: FN[k], why: 'Schau auf das Rechenzeichen in der Klammer und darauf, ob hoch 2 oder zwei Klammern dastehen.' })) }),
       mkPick({ title: 'a und b finden', explain: 'a ist das ganze erste Glied mit allen Buchstaben und der Zahl davor, b das ganze zweite.', q: 'Was ist a und was ist b?', right: { h: `a = ${sH(a)}, b = ${sH(b)}`, after: 'Genau.' }, wrong: [{ h: `a = ${aL[0]}, b = ${sH(b)}`, why: `a ist das ganze erste Glied: ${a}.` }, { h: `a = ${sH(a)}, b = −${sH(b)}`, why: 'Das Rechenzeichen gehört nicht zu b.' }] }),
-      mkBuild({ title: f === 'pm' ? 'a² und b²' : 'a², 2ab und b²', explain: `Beim Quadrieren wird jede Zahl und jeder Buchstabe im Glied quadriert: (${a})² = ${ptoStr(pmul(A, A))}.`.replace(/\^2/g, '²') + (f === 'pm' ? ' Mitte weg, Minus bleibt.' : ' Die Mitte ist 2 mal a mal b.'), correct, extra, after: 'Fertig.' }),
-    ], merk: f === 'pm' ? 'Plus-Minus-Paar: Mitte weg, Minus bleibt.' : 'Erster zum Quadrat, zweimal Erster mal Zweiter, Zweiter zum Quadrat.', kurz: 'Quadrat eines Glieds: Zahl quadrieren und bei jedem Buchstaben die Hochzahl verdoppeln.' };
+      mkBuild({ title: f === 'pm' ? 'a² und b²' : 'a², 2ab und b²', explain: `Beim Quadrieren wird jede Zahl und jeder Buchstabe im Glied quadriert: (${a})² = ${ptoStr(pmul(A, A))}.`.replace(/\^2/g, '²') + (f === 'pm' ? ' Mitte weg, Minus bleibt.' : ' Die Mitte ist 2 · a · b.'), correct, extra, after: 'Fertig.' }),
+    ], merk: f === 'pm' ? 'Plus-Minus-Paar: Mitte weg, Minus bleibt.' : 'Erster zum Quadrat, zweimal Erster · Zweiter, Zweiter zum Quadrat.', kurz: 'Quadrat eines Glieds: Zahl quadrieren und bei jedem Buchstaben die Hochzahl verdoppeln.' };
   },
 
   faktor() {
@@ -1993,10 +1993,10 @@ const BHARD = {
       const steps = [];
       if (div) steps.push(mkPick({ title: 'Kehrwert', explain: 'Durch einen Bruch teilen: umdrehen und mal nehmen.', q: 'Was ist der Kehrwert des zweiten Bruchs?', right: { h: F(fH(f2.dk, f2.dx), fH(f2.nk, f2.nx)), after: 'Aus geteilt wird mal.' }, wrong: [{ h: F(fH(f2.nk, f2.nx), fH(f2.dk, f2.dx)), why: 'Das ist noch der Bruch selbst. Umdrehen!' }] }));
       const resN = Nk / g, resD = Dk / g;
-      steps.push(mkPick({ title: 'Malnehmen', explain: 'Zähler mal Zähler, Nenner mal Nenner. Gleiche Buchstaben: Hochzahlen addieren, a² · a = a³.', q: 'Was kommt raus, noch ohne Kürzen?', right: { h: F(fH(Nk, Nx), fH(Dk, Dx)), after: 'Genau.' }, wrong: [{ h: F(fH(f1.nk + s2.nk, Nx), fH(f1.dk + s2.dk, Dx)), why: 'Die Zahlen werden malgenommen, nicht addiert.' }, { h: F(fH(Nk, Nx), fH(Dk, {})), why: 'Unten fehlen die Buchstaben.' }] }));
+      steps.push(mkPick({ title: 'Malnehmen', explain: 'Zähler · Zähler, Nenner · Nenner. Gleiche Buchstaben: Hochzahlen addieren, a² · a = a³.', q: 'Was kommt raus, noch ohne Kürzen?', right: { h: F(fH(Nk, Nx), fH(Dk, Dx)), after: 'Genau.' }, wrong: [{ h: F(fH(f1.nk + s2.nk, Nx), fH(f1.dk + s2.dk, Dx)), why: 'Die Zahlen werden malgenommen, nicht addiert.' }, { h: F(fH(Nk, Nx), fH(Dk, {})), why: 'Unten fehlen die Buchstaben.' }] }));
       const rightH = (resD === 1 && !Object.keys(rD).length) ? fH(resN, rN) : F(Object.keys(rN).length || resN !== 1 ? fH(resN, rN) : M('1'), fH(resD, rD));
-      steps.push(mkPick({ title: 'Kürzen', explain: `Zahlen: oben und unten durch ${g}. Buchstaben: Hochzahl oben minus Hochzahl unten. Was übrig bleibt, steht dort, wo die größere Hochzahl war.`, q: 'So weit wie möglich gekürzt?', right: { h: rightH, after: 'Fertig.' }, wrong: [{ h: F(fH(resN, Nx), fH(resD, Dx)), why: 'Die Zahlen stimmen, aber die Buchstaben kannst du noch gegeneinander kürzen.' }, { h: F(fH(Nk, rN), fH(Dk, rD)), why: `Die Buchstaben stimmen, aber die Zahlen gehen noch durch ${g}.` }] }));
-      return { topic: 'bruchmal', show, steps, merk: 'Mal: Zähler mal Zähler, Nenner mal Nenner. Geteilt: umdrehen und mal nehmen.', kurz: 'Schon vor dem Malnehmen über Kreuz kürzen, dann bleiben Zahlen und Hochzahlen klein.' };
+      steps.push(mkPick({ title: 'Kürzen', explain: `Zahlen: oben und unten durch ${g}. Buchstaben: Hochzahl oben − Hochzahl unten. Was übrig bleibt, steht dort, wo die größere Hochzahl war.`, q: 'So weit wie möglich gekürzt?', right: { h: rightH, after: 'Fertig.' }, wrong: [{ h: F(fH(resN, Nx), fH(resD, Dx)), why: 'Die Zahlen stimmen, aber die Buchstaben kannst du noch gegeneinander kürzen.' }, { h: F(fH(Nk, rN), fH(Dk, rD)), why: `Die Buchstaben stimmen, aber die Zahlen gehen noch durch ${g}.` }] }));
+      return { topic: 'bruchmal', show, steps, merk: 'Mal: Zähler · Zähler, Nenner · Nenner. Geteilt: umdrehen und mal nehmen.', kurz: 'Schon vor dem Malnehmen über Kreuz kürzen, dann bleiben Zahlen und Hochzahlen klein.' };
     }
   },
 };
@@ -2132,7 +2132,7 @@ function bruchTermMal(hard) {
     if (dv) wrongO.push({ h: oneH(Nw, Dw), why: 'Da fehlt der Kehrwert. Der Bruch hinter dem Geteilt muss umgedreht werden.' });
     else wrongO.push({ h: oneH({ k: N.k, f: {} }, D), why: 'Oben fehlen Klammern. Alle Zähler kommen nach oben, mit allen Bausteinen.' });
     wrongO.push({ h: oneH(D, N), why: 'Oben und unten sind vertauscht. Zähler bleiben oben, Nenner unten.' });
-    steps.push(mkPick({ title: 'Auf einen Bruchstrich', explain: 'Zähler mal Zähler, Nenner mal Nenner. Einen Hauptnenner brauchst du beim Malnehmen nicht. Noch nicht ausmultiplizieren, die Bausteine sollen sichtbar bleiben.', q: 'Wie sieht es auf einem Bruchstrich aus?', right: { h: oneH(N, D), after: 'Jetzt siehst du, was oben und unten gleich ist.' }, wrong: wrongO }));
+    steps.push(mkPick({ title: 'Auf einen Bruchstrich', explain: 'Zähler · Zähler, Nenner · Nenner. Einen Hauptnenner brauchst du beim Malnehmen nicht. Noch nicht ausmultiplizieren, die Bausteine sollen sichtbar bleiben.', q: 'Wie sieht es auf einem Bruchstrich aus?', right: { h: oneH(N, D), after: 'Jetzt siehst du, was oben und unten gleich ist.' }, wrong: wrongO }));
     const wrongK = [];
     const onlyNum = { k: Nr.k, f: N.f }, onlyNumD = { k: Dr.k, f: D.f };
     if (g > 1 && dStr(onlyNum, v) + dStr(onlyNumD, v) !== nS + dS) wrongK.push({ h: oneH(onlyNum, onlyNumD), why: 'Die Zahlen sind gekürzt, aber gleiche Klammern oben und unten kannst du auch noch streichen.' });
@@ -2141,7 +2141,7 @@ function bruchTermMal(hard) {
     steps.push(mkPick({ title: 'Kürzen', explain: `Gleiche Klammern oben und unten streichen, das ist erlaubt, weil sie Faktoren sind. Die Zahlen teilst du durch ihren ggT${g > 1 ? `, hier ${g}` : ''}. Was übrig bleibt, ist das Ergebnis.`, q: 'So weit wie möglich gekürzt?', right: { h: sH(ans), after: 'Fertig.' }, wrong: wrongK }));
     const zl = [], seenZ = new Set();
     fr.flatMap(x => [x.nu, x.de]).filter(needsZer).sort((a, b) => dDeg(b) - dDeg(a)).forEach(d => { const kk = dExp(d, v); if (seenZ.has(kk) || seenZ.size >= 2) return; seenZ.add(kk); zl.push(d); });
-    return { meta: { v, zer: zl, N, D, dv }, topic: 'bruchmal', show, raw, ans, finalH: sH(ans), steps, merk: 'Erst zerlegen, dann kürzen. Mal: Zähler mal Zähler, Nenner mal Nenner. Geteilt: umdrehen und mal nehmen.', kurz: 'Nie zuerst ausmultiplizieren. Erst zerlegen und kürzen, dann bleibt fast nichts übrig.' };
+    return { meta: { v, zer: zl, N, D, dv }, topic: 'bruchmal', show, raw, ans, finalH: sH(ans), steps, merk: 'Erst zerlegen, dann kürzen. Mal: Zähler · Zähler, Nenner · Nenner. Geteilt: umdrehen und mal nehmen.', kurz: 'Nie zuerst ausmultiplizieren. Erst zerlegen und kürzen, dann bleibt fast nichts übrig.' };
   }
   return null;
 }
@@ -2182,7 +2182,7 @@ const TOPICS = [
     begriff:'Termwert berechnen. Du ersetzt jeden Buchstaben durch seine Zahl und rechnest Punkt vor Strich.',
     merk:'Negative Zahl? Immer in Klammern einsetzen.',
     kurz:'Erst schauen, ob sich der Term vereinfachen lässt, dann einsetzen. Weniger Rechenschritte, weniger Fehler.',
-    ex:{ show:'<span class="m">3x² − 2xy</span> für <span class="m">x = −2</span>, <span class="m">y = 3</span>', steps:['Einsetzen mit Klammern: <span class="m">3 · (−2)² − 2 · (−2) · 3</span>', '(−2)² = 4, also 3 · 4 = 12', '2 · (−2) · 3 = −12, und minus minus 12 gibt plus 12', 'Ergebnis: 12 + 12 = 24'] } },
+    ex:{ show:'<span class="m">3x² − 2xy</span> für <span class="m">x = −2</span>, <span class="m">y = 3</span>', steps:['Einsetzen mit Klammern: <span class="m">3 · (−2)² − 2 · (−2) · 3</span>', '(−2)² = 4, also 3 · 4 = 12', '2 · (−2) · 3 = −12, und −(−12) = +12', 'Ergebnis: 12 + 12 = 24'] } },
   { id:'produkte', title:'Produkte multiplizieren', sheet:'Aufgabe 1 bis 3, 12, 17',
     yt:'Terme multiplizieren Produkte vereinfachen',
     bild:'Wie eine Stückliste sortieren: erst alle Zahlen auf einen Haufen, dann alle Buchstaben alphabetisch dahinter.',
@@ -2190,15 +2190,15 @@ const TOPICS = [
     merk:'Minus zählen: gerade Anzahl gibt plus, ungerade gibt minus.',
     kurz:'Vorzeichen einmal am Anfang klären, danach nur noch mit Zahlen ohne Minus rechnen.',
     ex:{ show:'<span class="m">2x · 5y · (−7az) · (−2)</span>', steps:['Minuszeichen: zwei, also plus', 'Zahlen: 2 · 5 · 7 · 2 = 140', 'Buchstaben alphabetisch: a, x, y, z', 'Ergebnis: <span class="m">140axyz</span>'] } },
-  { id:'faktor', title:'Klammer mal Faktor', sheet:'Aufgabe 21, 22, 26, 35',
+  { id:'faktor', title:'Klammer · Faktor', sheet:'Aufgabe 21, 22, 26, 35',
     yt:'Ausmultiplizieren Klammer mit negativer Zahl',
     bild:'Wie eine Korrektur, die für jedes Teil im Magazin gilt: Der Faktor vor der Klammer trifft jedes einzelne Glied in der Klammer.',
     begriff:'Ausmultiplizieren. Das ist das Distributivgesetz in Aktion.',
     merk:'Der Faktor besucht jeden in der Klammer.',
     kurz:'Ist der Faktor negativ, dreh zuerst alle Vorzeichen in der Klammer um und rechne dann nur noch mit den Beträgen.',
-    ex:{ show:'<span class="m">−3a · (2b − 4c)</span>', steps:['−3a mal 2b = <span class="m">−6ab</span>', '−3a mal (−4c) = <span class="m">+12ac</span>, minus mal minus gibt plus', 'Ergebnis: <span class="m">−6ab + 12ac</span>'] } },
-  { id:'kk', title:'Klammer mal Klammer', sheet:'Grundlage für die binomischen Formeln',
-    yt:'Klammer mal Klammer ausmultiplizieren',
+    ex:{ show:'<span class="m">−3a · (2b − 4c)</span>', steps:['−3a · 2b = <span class="m">−6ab</span>', '−3a · (−4c) = <span class="m">+12ac</span>, minus mal minus gibt plus', 'Ergebnis: <span class="m">−6ab + 12ac</span>'] } },
+  { id:'kk', title:'Klammer · Klammer', sheet:'Grundlage für die binomischen Formeln',
+    yt:'Klammer · Klammer ausmultiplizieren',
     bild:'Zwei Werkzeuge an zwei Werkstoffen testen sind vier Versuche. Jedes Glied der ersten Klammer trifft jedes Glied der zweiten.',
     begriff:'Ausmultiplizieren zweier Summen, danach zusammenfassen.',
     merk:'Jeder mit jedem, dann zusammenfassen.',
@@ -2206,10 +2206,10 @@ const TOPICS = [
     ex:{ show:'<span class="m">(x + 3)(x − 5)</span>', steps:['x · x = <span class="m">x²</span>, x · (−5) = <span class="m">−5x</span>', '3 · x = <span class="m">3x</span>, 3 · (−5) = <span class="m">−15</span>', 'x-Glieder zusammen: −5x + 3x = <span class="m">−2x</span>', 'Ergebnis: <span class="m">x² − 2x − 15</span>'] } },
   { id:'binom', title:'Binomische Formeln', sheet:'Ab Aufgabe 46',
     yt:'binomische Formeln Grundlagen',
-    bild:'Eine quadratische Platte mit Seitenlänge a + b besteht aus einem großen Quadrat a², einem kleinen Quadrat b² und zwei gleichen Streifen a mal b. Daher kommt das 2ab.',
+    bild:'Eine quadratische Platte mit Seitenlänge a + b besteht aus einem großen Quadrat a², einem kleinen Quadrat b² und zwei gleichen Streifen a · b. Daher kommt das 2ab.',
     begriff:'Erste: (a + b)² = a² + 2ab + b². Zweite: (a − b)² = a² − 2ab + b². Dritte: (a + b)(a − b) = a² − b².',
-    merk:'Erster zum Quadrat, zweimal Erster mal Zweiter, Zweiter zum Quadrat.',
-    kurz:'Rückwärts erkennst du sie so: vorne und hinten ein Quadrat, dann prüfen, ob die Mitte 2 mal vordere Wurzel mal hintere Wurzel ist.',
+    merk:'Erster zum Quadrat, zweimal Erster · Zweiter, Zweiter zum Quadrat.',
+    kurz:'Rückwärts erkennst du sie so: vorne und hinten ein Quadrat, dann prüfen, ob die Mitte 2 · vordere Wurzel · hintere Wurzel ist.',
     ex:{ show:'<span class="m">(3x + 2)²</span>', steps:['Erste binomische Formel, a = 3x und b = 2', 'a² = <span class="m">9x²</span>', '2ab = 2 · 3x · 2 = <span class="m">12x</span>', 'b² = 4, Ergebnis: <span class="m">9x² + 12x + 4</span>'] } },
   { id:'ausklammern', title:'Ausklammern', sheet:'Teil vor den Bruchtermen',
     yt:'Ausklammern gemeinsamer Faktor Terme',
@@ -2224,7 +2224,7 @@ const TOPICS = [
     begriff:'Kürzen heißt oben und unten durch dasselbe teilen. Beim Addieren brauchst du einen gemeinsamen Nenner, den Hauptnenner.',
     merk:'Aus Summen kürzen nur die Dummen. Gekürzt wird nur, was mit Mal verbunden ist.',
     kurz:'Hauptnenner ist die kleinste Zahl, in die beide Nenner passen. Dann nur noch die Zähler mit dem passenden Faktor erweitern.',
-    ex:{ show:'<span class="frac"><span>3</span><span>4x</span></span><span class="m"> + </span><span class="frac"><span>5</span><span>6x</span></span>', steps:['Hauptnenner: kgV(4, 6) = 12, also 12x', 'Erster Bruch mal 3: <span class="frac"><span>9</span><span>12x</span></span>, zweiter mal 2: <span class="frac"><span>10</span><span>12x</span></span>', 'Zähler addieren: 9 + 10 = 19', 'Ergebnis: <span class="frac"><span>19</span><span>12x</span></span>'] } },
+    ex:{ show:'<span class="frac"><span>3</span><span>4x</span></span><span class="m"> + </span><span class="frac"><span>5</span><span>6x</span></span>', steps:['Hauptnenner: kgV(4, 6) = 12, also 12x', 'Erster Bruch · 3: <span class="frac"><span>9</span><span>12x</span></span>, zweiter · 2: <span class="frac"><span>10</span><span>12x</span></span>', 'Zähler addieren: 9 + 10 = 19', 'Ergebnis: <span class="frac"><span>19</span><span>12x</span></span>'] } },
 ];
 const T = Object.fromEntries(TOPICS.map((t, i) => [t.id, Object.assign(t, { n: i + 1 })]));
 const LEVELS = ['Neu', 'Angefangen', 'Wackelt noch', 'Hält', 'Sitzt', 'Sitzt fest'];
@@ -2817,7 +2817,7 @@ function wCheck() {
   W.input = v;
   if (r.st === 'err') { W.fb = r.msg; renderW(); return; }
   W.fb = null;
-  if (r.st === 'no' && /\d\/\d+[a-z]/.test(normalize(v))) r.msg += ' Achtung: Eine Zahl wie 13/3a liest die App als 13 geteilt durch 3a. Für 13/3 mal a schreib (13/3)a.';
+  if (r.st === 'no' && /\d\/\d+[a-z]/.test(normalize(v))) r.msg += ' Achtung: Eine Zahl wie 13/3a liest die App als 13 / 3a. Für 13/3 · a schreib (13/3)a.';
   st.lines.push({ s: v, st: r.st, msg: r.msg || '' });
   if (st.lines.length > 14) st.lines.shift();
   if (r.st === 'done') { st.done = true; W.input = ''; }
@@ -2968,7 +2968,7 @@ function xCheck() {
   X.input = v;
   if (r.st === 'err') { X.fb = r.msg; renderX(); return; }
   X.fb = null;
-  if (r.st === 'no') { X.err = true; if (/\d\/\d+[a-z]/.test(normalize(v))) r.msg += ' Achtung: 13/3a liest die App als 13 geteilt durch 3a. Für 13/3 mal a schreib (13/3)a.'; }
+  if (r.st === 'no') { X.err = true; if (/\d\/\d+[a-z]/.test(normalize(v))) r.msg += ' Achtung: 13/3a liest die App als 13 / 3a. Für 13/3 · a schreib (13/3)a.'; }
   X.lines.push({ s: v, st: r.st, msg: r.msg || '' });
   if (r.st === 'done') { X.done = true; X.input = ''; if (!t.val) xCount(!X.err && !X.reveal); }
   renderX();
@@ -3146,7 +3146,7 @@ function prSteps(t) {
   const m = t.meta, v = m.v, st = [];
   m.zer.forEach(d => st.push({
     title: t.kind === 'plus' ? 'Nenner zerlegen' : 'Zerlegen', q: `Zerleg ${sH(dExp(d, v))} in eine Mal-Rechnung.`, tip: zerExplain(d, v), done: `${sH(dExp(d, v))} = ${sH(dStr(d, v))}`,
-    check: s => !eqS(s, dExp(d, v)) ? 'Ausmultipliziert kommt da nicht dasselbe raus. Mach die Probe: Klammer mal Klammer.' : (factorCheck(s).ok ? null : 'Stimmt vom Wert, ist aber noch nicht ganz zerlegt. ' + factorCheck(s).why)
+    check: s => !eqS(s, dExp(d, v)) ? 'Ausmultipliziert kommt da nicht dasselbe raus. Mach die Probe: Klammer · Klammer.' : (factorCheck(s).ok ? null : 'Stimmt vom Wert, ist aber noch nicht ganz zerlegt. ' + factorCheck(s).why)
   }));
   if (t.kind === 'plus') {
     const fs = m.fr.map((x, i) => `Nenner ${i + 1}: ${sH(dStr(x.d, v))}`).join('<br>');
@@ -3159,7 +3159,7 @@ function prSteps(t) {
     if (m.dv) st.push({ title: 'Kehrwert', q: `Hinter dem Geteilt steht ${F(sH(dExp(m.dv.nu, v)), sH(dExp(m.dv.de, v)))}. Wie heißt der Kehrwert?`, tip: 'Kehrwert heißt umdrehen: oben wird unten, unten wird oben. Dann wird aus geteilt mal.', done: `Kehrwert ${F(sH(dExp(m.dv.de, v)), sH(dExp(m.dv.nu, v)))}`,
       check: s => eqS(s, `(${dExp(m.dv.de, v)})/(${dExp(m.dv.nu, v)})`) ? null : 'Das ist nicht der umgedrehte Bruch. Oben und unten tauschen.' });
     st.push({ title: 'Auf einen Bruchstrich', q: 'Schreib alles auf einen Bruchstrich, mit den zerlegten Teilen. Noch nicht kürzen.', tip: 'Alle Zähler nach oben, alle Nenner nach unten, nur mit Mal verbunden. Nimm die zerlegten Formen, dann siehst du gleich, was sich kürzt.', done: F(sH(dStr(m.N, v)), sH(dStr(m.D, v))),
-      check: s => eqS(s, `(${dStr(m.N, v)})/(${dStr(m.D, v)})`) ? null : 'Das passt noch nicht. Zähler mal Zähler, Nenner mal Nenner, und beim Geteilt den Kehrwert nehmen.' });
+      check: s => eqS(s, `(${dStr(m.N, v)})/(${dStr(m.D, v)})`) ? null : 'Das passt noch nicht. Zähler · Zähler, Nenner · Nenner, und beim Geteilt den Kehrwert nehmen.' });
   }
   let fz = '';
   if (t.kind === 'plus' && m.num0.length === 2) { const gg = gcd(m.num0[0], m.num0[1]) * Math.sign(m.num0[1]); const inn = [m.num0[0] / gg, m.num0[1] / gg]; if (inn[1] === 1) fz = (gg === 1 ? '' : gg === -1 ? '-' : gg) + fStr(inn[0], v); }

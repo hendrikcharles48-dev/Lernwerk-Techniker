@@ -305,7 +305,10 @@ export function instantiate(a) {
       if (r != null && isFinite(r) && r !== 0) break;
     }
   }
-  const fill = s => String(s || '').replace(/\{([^}]+)\}/g, (m, n) => (keyOf(n.trim()) in vals ? fmtNum(vals[keyOf(n.trim())]) : m));
+  // Nach dem Einsetzen wird aus 10^3 eine echte Hochzahl 10³
+  const SUP = { 0: '⁰', 1: '¹', 2: '²', 3: '³', 4: '⁴', 5: '⁵', 6: '⁶', 7: '⁷', 8: '⁸', 9: '⁹', '-': '⁻', '−': '⁻' };
+  const fill = s => String(s || '').replace(/\{([^}]+)\}/g, (m, n) => (keyOf(n.trim()) in vals ? fmtNum(vals[keyOf(n.trim())]) : m))
+    .replace(/\^([−-]?\d+)(?![\d,])/g, (m, e) => [...e].map(c => SUP[c]).join(''));
   const steps = a.schritte.map(s => {
     const e = s.ergebnis;
     const o = { was: fill(s.was), einheit: s.einheit, tipp: fill(s.tipp), typ: 'plan' };

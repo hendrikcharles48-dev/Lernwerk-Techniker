@@ -99,7 +99,7 @@ In Schaltzeichen nach IEC 60617 steht im Kasten das Zeichen & für UND, ≥1 fü
 Mit den Regeln von De Morgan kannst du umformen: NICHT von A UND B ist dasselbe wie NICHT A ODER NICHT B.
 Aus einer Wahrheitstabelle bekommst du die Schaltung, indem du alle Zeilen mit Ausgang 1 nimmst, jede als UND der Eingänge schreibst und alle diese UND-Glieder mit ODER verbindest.
 Baustein: Eingänge und Ausgang benennen.
-Baustein: Zeilenanzahl festlegen: 2 hoch Anzahl der Eingänge.
+Baustein: Zeilenanzahl festlegen: 2ⁿ, n ist die Anzahl der Eingänge.
 Baustein: Eingänge wie beim Binärzählen eintragen.
 Baustein: Für jede Zeile den Ausgang bestimmen.
 Baustein: Aus den Zeilen mit 1 die Funktion aufstellen und wenn möglich vereinfachen.

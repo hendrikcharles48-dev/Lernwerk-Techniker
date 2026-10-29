@@ -13,7 +13,7 @@ Baustein: Gegeben und gesucht mit Einheiten aufschreiben.
 Baustein: Alle Werte in V, A und Ω umrechnen.
 Baustein: Formel U = R · I nach der gesuchten Größe umstellen.
 Baustein: Einsetzen, ausrechnen, Einheit dazuschreiben.
-Schnellweg: Volt geteilt durch Kiloohm ergibt direkt Milliampere. 12 V / 4 kΩ sind 3 mA.
+Schnellweg: Volt / Kiloohm ergibt direkt Milliampere. 12 V / 4 kΩ sind 3 mA.
 Fehler: mA als A eingesetzt | 20 mA sind 0,02 A.
 Formel: Ohmsches Gesetz | U = R · I | R = U / I; I = U / R
 Formel: Leitwert | G = 1 / R | R = 1 / G
@@ -107,15 +107,15 @@ Baustein: Spannungsfälle an den Reihenwiderständen.
 Baustein: Restspannung mit der Maschenregel.
 Baustein: Teilströme mit dem ohmschen Gesetz, Probe mit der Knotenregel.
 Schnellweg: Für die Probe reicht oft eine Zeile: Teilströme addieren und mit dem Gesamtstrom vergleichen.
-Fehler: Größen verschiedener Bauteile gemischt | Die Spannung an R2 geteilt durch R3 ergibt keinen sinnvollen Strom.
+Fehler: Größen verschiedener Bauteile gemischt | Die Spannung an R2 / R3 ergibt keinen sinnvollen Strom.
 Karte: Welche drei Größen müssen beim ohmschen Gesetz zusammenpassen? | U, R und I desselben Bauteils oder derselben Gruppe.
-Karte: Wie bekommst du die Spannung an einer Parallelgruppe? | Gesamtspannung minus die Spannungsfälle der Reihenwiderstände.
+Karte: Wie bekommst du die Spannung an einer Parallelgruppe? | Gesamtspannung − die Spannungsfälle der Reihenwiderstände.
 === ENDE ===
 
 === LERNWERK ===
 Fach: Elektrotechnik
 Thema: Leistung, Arbeit, Wirkungsgrad
-Anker: Beim Krafttraining ist die Arbeit das Gewicht mal die Strecke, die Leistung ist, wie schnell du das schaffst. Wer dieselbe Hantel schneller bewegt, bringt mehr Leistung.
+Anker: Beim Krafttraining ist die Arbeit das Gewicht · die Strecke, die Leistung ist, wie schnell du das schaffst. Wer dieselbe Hantel schneller bewegt, bringt mehr Leistung.
 Begriff: Elektrische Leistung | Wie viel Energie pro Sekunde umgesetzt wird, Formelzeichen P, Einheit Watt (W).
 Begriff: Elektrische Arbeit | Die umgesetzte Energie, Formelzeichen W, Einheit Joule oder Wattsekunde, im Alltag Kilowattstunde (kWh).
 Begriff: Wirkungsgrad | Das Verhältnis von abgegebener zu aufgenommener Leistung, Formelzeichen η, immer kleiner als 1.
@@ -152,11 +152,11 @@ Begriff: Analoger Sensor | Ein Sensor, der einen Wert stufenlos ausgibt, zum Bei
 Begriff: Induktiver Sensor | Erkennt nur Metall ohne Berührung über ein magnetisches Wechselfeld.
 Begriff: Kapazitiver Sensor | Erkennt fast alle Stoffe, auch Kunststoff, Holz und Flüssigkeiten.
 Begriff: Optischer Sensor | Erkennt Gegenstände mit Licht, als Lichtschranke oder als Lichttaster.
-Begriff: PNP-Ausgang | Positiv schaltend: Der Ausgang schaltet plus 24 Volt auf das Signal. In Europa üblich.
+Begriff: PNP-Ausgang | Positiv schaltend: Der Ausgang schaltet + 24 Volt auf das Signal. In Europa üblich.
 Begriff: NPN-Ausgang | Negativ schaltend: Der Ausgang schaltet das Signal gegen 0 Volt.
 Merksatz: Induktiv sieht nur Metall, kapazitiv sieht fast alles, optisch sieht, was Licht unterbricht oder zurückwirft.
 Prinzip: Sensoren übersetzen eine physikalische Größe in ein elektrisches Signal für die Steuerung. Bei binären Sensoren unterscheidest du Schließer, die bei Erkennung einschalten, und Öffner, die bei Erkennung ausschalten.
-Dreileiter-Sensoren haben nach Norm die Aderfarben braun für plus 24 Volt, blau für 0 Volt und schwarz für den Schaltausgang. Weiß ist oft ein zweiter Ausgang. Ob PNP oder NPN, steht im Datenblatt. Er muss zum Eingang der SPS passen.
+Dreileiter-Sensoren haben nach Norm die Aderfarben braun für +24 Volt, blau für 0 Volt und schwarz für den Schaltausgang. Weiß ist oft ein zweiter Ausgang. Ob PNP oder NPN, steht im Datenblatt. Er muss zum Eingang der SPS passen.
 Analoge Sensoren mit 4 bis 20 mA haben einen Vorteil: Fließen 0 mA, weiß die Steuerung, dass ein Draht gebrochen ist.
 Der Schaltabstand eines induktiven Sensors gilt für Stahl. Bei Aluminium oder Kupfer ist er kleiner, das steht als Korrekturfaktor im Datenblatt.
 Baustein: Was soll erkannt werden: Metall, beliebiger Stoff, Position, Füllstand oder ein Messwert?
@@ -167,7 +167,7 @@ Baustein: Schaltabstand und Material im Datenblatt prüfen.
 Fehler: NPN-Sensor an PNP-Eingang | Der Eingang bekommt dann kein passendes Signal. Typ und Eingang müssen zusammenpassen.
 Karte: Welche Stoffe erkennt ein induktiver Sensor? | Nur Metalle.
 Karte: Aderfarben beim Dreileiter-Sensor? | Braun plus, blau 0 Volt, schwarz Signal.
-Karte: Was heißt PNP? | Positiv schaltend: Der Ausgang liefert plus 24 Volt.
+Karte: Was heißt PNP? | Positiv schaltend: Der Ausgang liefert + 24 Volt.
 Karte: Warum 4 bis 20 mA statt 0 bis 20 mA? | Bei 0 mA erkennt die Steuerung einen Drahtbruch.
 Karte: Womit erkennt man die Endlage eines Pneumatikzylinders? | Mit einem Magnetsensor, auch Zylinderschalter, der den Magneten im Kolben erkennt.
 === ENDE ===
@@ -267,7 +267,7 @@ Begriff: Effektivwert | Der Wert, der dieselbe Wärme erzeugt wie eine gleich gr
 Begriff: Phasenverschiebung | Der zeitliche Versatz zwischen Spannung und Strom, als Winkel φ.
 Begriff: Blindwiderstand | Der Widerstand von Spule oder Kondensator bei Wechselstrom, abhängig von der Frequenz.
 Merksatz: Beim Kondensator eilt der Strom vor, bei Induktivitäten tut er sich verspäten.
-Prinzip: Die Netzspannung ist sinusförmig. Der Effektivwert ist der Scheitelwert geteilt durch die √2. Bei 230 Volt Effektivwert ist der Scheitelwert also etwa 325 Volt.
+Prinzip: Die Netzspannung ist sinusförmig. Der Effektivwert ist der Scheitelwert / die √2. Bei 230 Volt Effektivwert ist der Scheitelwert also etwa 325 Volt.
 Spule und Kondensator haben bei Wechselstrom einen Blindwiderstand. Der der Spule steigt mit der Frequenz, der des Kondensators sinkt mit der Frequenz.
 Bei Spulen und Kondensatoren sind Strom und Spannung zeitlich verschoben. Darum gibt es drei Leistungen: Die Wirkleistung P in Watt ist das, was wirklich Arbeit macht. Die Blindleistung Q in var pendelt hin und her. Die Scheinleistung S in VA ist das, was das Netz liefern muss. Der Leistungsfaktor cos φ sagt, wie viel davon Wirkleistung ist.
 Baustein: Werte zuordnen: Effektivwert oder Scheitelwert?
@@ -305,7 +305,7 @@ Beim Stern-Dreieck-Anlauf startet ein Motor in Stern und wird dann auf Dreieck u
 Die Drehrichtung eines Drehstrommotors änderst du, indem du zwei Außenleiter tauschst.
 Baustein: Schaltung erkennen: Stern oder Dreieck?
 Baustein: Spannungen zuordnen: Was liegt am Strang, was zwischen den Leitern?
-Baustein: Ströme zuordnen: Im Stern ist Leiterstrom = Strangstrom, im Dreieck ist der Leiterstrom √3 mal so groß.
+Baustein: Ströme zuordnen: Im Stern ist Leiterstrom = Strangstrom, im Dreieck ist der Leiterstrom √3-mal so groß.
 Baustein: Leistung mit √3 · U · I · cos φ berechnen.
 Fehler: √3 doppelt verwendet | In der Leistungsformel mit Leiterspannung und Leiterstrom steht √3 genau einmal.
 Formel: Leiterspannung | U = √3 · U_str | U_str = U / √3

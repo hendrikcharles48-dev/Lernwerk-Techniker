@@ -17,7 +17,7 @@ Baustein: Tabelle anlegen: Kraft, Winkel, F_x, F_y.
 Baustein: Spalten addieren.
 Baustein: Betrag mit Pythagoras, Winkel mit Arcustangens, Quadrant prüfen.
 Schnellweg: Kräfte, die genau waagerecht oder senkrecht liegen, musst du nicht zerlegen. Sie stehen nur in einer Spalte.
-Fehler: Quadrant vergessen | Der Taschenrechner liefert beim Arcustangens nur Winkel zwischen minus 90 und plus 90°. Prüf die Vorzeichen von x und y.
+Fehler: Quadrant vergessen | Der Taschenrechner liefert beim Arcustangens nur Winkel zwischen −90° und +90°. Prüf die Vorzeichen von x und y.
 Formel: Kraftkomponente x | F_x = F · cos(α) | F = F_x / cos(α)
 Formel: Kraftkomponente y | F_y = F · sin(α) | F = F_y / sin(α)
 Formel: Resultierende aus Komponenten | F_R = √(F_x² + F_y²) | F_x = √(F_R² − F_y²); F_y = √(F_R² − F_x²)
@@ -34,7 +34,7 @@ Begriff: Drehmoment | Die Drehwirkung einer Kraft, Kraft · Hebelarm, Einheit Ne
 Begriff: Hebelarm | Der senkrechte Abstand zwischen Drehpunkt und Wirkungslinie der Kraft.
 Begriff: Drehsinn | Die Richtung der Drehung, linksdrehend oder rechtsdrehend.
 Begriff: Kräftepaar | Zwei gleich große, entgegengesetzte Kräfte mit Abstand. Sie erzeugen nur ein Moment und keine Verschiebung.
-Merksatz: Moment ist Kraft mal senkrechter Abstand.
+Merksatz: Moment ist Kraft · senkrechter Abstand.
 Prinzip: Ein Moment entsteht, wenn eine Kraft nicht durch den Drehpunkt geht. Der Hebelarm ist immer der senkrechte Abstand zur Wirkungslinie, nicht die Länge eines Bauteils.
 Vor dem Rechnen legst du fest, welcher Drehsinn positiv ist. Oft nimmt man linksdrehend als positiv. Im Gleichgewicht ist die Summe aller Momente um jeden beliebigen Punkt null. Das heißt auch: Die linksdrehenden Momente sind so groß wie die rechtsdrehenden.
 Kluger Trick: Wählst du den Drehpunkt dort, wo eine unbekannte Kraft angreift, fällt sie aus der Momentengleichung heraus, weil ihr Hebelarm null ist.
@@ -118,10 +118,10 @@ Begriff: Flächenpressung | Druck zwischen zwei sich berührenden Flächen, Form
 Begriff: Abscherspannung | Spannung quer zur Fläche, die ein Bauteil abschert, Formelzeichen τ.
 Begriff: Elastizitätsmodul | Steifigkeit eines Werkstoffs, Formelzeichen E. Für Stahl etwa 210 000 N/mm².
 Merksatz: Spannung ist Kraft / Fläche. Die Frage ist immer: welche Fläche?
-Prinzip: Bei Zug und Druck ist die Fläche der Querschnitt senkrecht zur Kraft. Die Spannung muss kleiner oder gleich der zulässigen Spannung sein. Die zulässige Spannung ist der Werkstoffkennwert geteilt durch die Sicherheitszahl. Bei zähen Stählen nimmt man die Streckgrenze R_e.
-Bei der Flächenpressung zählt die gedrückte Fläche. Bei einem Bolzen in einer Bohrung nimmt man die projizierte Fläche: Durchmesser mal tragende Länge.
+Prinzip: Bei Zug und Druck ist die Fläche der Querschnitt senkrecht zur Kraft. Die Spannung muss kleiner oder gleich der zulässigen Spannung sein. Die zulässige Spannung ist der Werkstoffkennwert / die Sicherheitszahl. Bei zähen Stählen nimmt man die Streckgrenze R_e.
+Bei der Flächenpressung zählt die gedrückte Fläche. Bei einem Bolzen in einer Bohrung nimmt man die projizierte Fläche: Durchmesser · tragende Länge.
 Beim Abscheren ist die Fläche die Schnittfläche quer zum Bolzen. Hat ein Bolzen zwei Schnittflächen wie in einer Gabel, teilt sich die Kraft auf beide auf.
-Im elastischen Bereich gilt das Hookesche Gesetz: Spannung ist E-Modul mal Dehnung.
+Im elastischen Bereich gilt das Hookesche Gesetz: Spannung ist E-Modul · Dehnung.
 Baustein: Beanspruchungsart erkennen: Zug, Druck, Flächenpressung oder Abscheren.
 Baustein: Die richtige Fläche bestimmen.
 Baustein: Kraft in N, Fläche in mm², dann kommt N/mm² heraus.

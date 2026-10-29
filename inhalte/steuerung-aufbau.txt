@@ -104,7 +104,7 @@ Gesucht: Kolbenkraft F in N
 Ansatz: F = p · π · D² / 4 mit p in N/mm² | F = p · π · D² / 4 mit p in bar; F = p · π · D mit p in N/mm²; F = p · π · (D² − d²) / 4
 Signal: Der Zylinder fährt aus, also wirkt die volle Kolbenfläche.
 Warum: Weil beim Ausfahren die ganze Kolbenfläche wirkt | Weil beim Ausfahren nur die Ringfläche wirkt; Weil die Kraft nur vom Druck abhängt, nicht von der Fläche
-Kontrolle: Ist bei 6 bar und D = 50 mm eine Kraft um 1200 N plausibel? | Ja, 0,6 mal etwa 1960 mm² | Nein, es müssen 12 000 N sein; Nein, es müssen 120 N sein
+Kontrolle: Ist bei 6 bar und D = 50 mm eine Kraft um 1200 N plausibel? | Ja, 0,6 · rund 1960 mm² | Nein, es müssen 12 000 N sein; Nein, es müssen 120 N sein
 Schritt: Druck in N pro mm² | p / 10 | N/mm²
 Schritt: Kolbenfläche | pi * D^2 / 4 | mm²
 Schritt: Kolbenkraft | p / 10 * pi * D^2 / 4 | N

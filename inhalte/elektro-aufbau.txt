@@ -28,7 +28,7 @@ Formel: Spannung an der Parallelgruppe | U_p = U − I · R1 | I = (U − U_p) /
 Aufbau: I · R1 ist die Spannung, die an R1 abfällt. Was von U übrig bleibt, liegt an der Parallelgruppe, deshalb −.
 Karte: Wie gehst du beim Zusammenfassen vor? | Von innen nach außen, Gruppe für Gruppe.
 Karte: Wie gehst du beim Zurückrechnen vor? | Von außen nach innen, mit dem Gesamtstrom beginnen.
-Karte: Welche Spannung liegt an einer Parallelgruppe hinter einem Reihenwiderstand? | Die Gesamtspannung minus die Spannung am Reihenwiderstand.
+Karte: Welche Spannung liegt an einer Parallelgruppe hinter einem Reihenwiderstand? | Die Gesamtspannung − die Spannung am Reihenwiderstand.
 Karte: Was fließt durch einen Widerstand, der in Reihe vor der ganzen Schaltung liegt? | Der Gesamtstrom.
 Karte: Warum zeichnet man nach jedem Schritt neu? | Damit man sieht, welche Gruppe schon ersetzt ist.
 Karte: 100 Ω in Reihe zu zwei parallelen 200 Ω. Gesamtwiderstand? | 200 Ω.
@@ -43,10 +43,10 @@ Gegeben: R1 = {R1} Ω in Reihe
 Gegeben: R2 = {R2} Ω parallel zu R3 = {R3} Ω
 Gegeben: U = {U} V
 Gesucht: Gesamtstrom I in A
-Ansatz: Erst R2 parallel R3, dann plus R1 | Erst R1 + R2, dann parallel R3; Alle drei Widerstände addieren; Alle drei Widerstände parallel
+Ansatz: Erst R2 parallel R3, dann + R1 | Erst R1 + R2, dann parallel R3; Alle drei Widerstände addieren; Alle drei Widerstände parallel
 Signal: R2 und R3 hängen an denselben zwei Knoten, R1 liegt davor im einzigen Weg.
 Warum: Weil die Parallelgruppe die innerste Gruppe ist | Weil R1 als erster Widerstand immer zuerst kommt; Weil man in gemischten Schaltungen alles addiert
-Kontrolle: Liegt der Gesamtwiderstand zwischen R1 und R1 plus dem kleineren Widerstand der Gruppe? | Ja, die Gruppe ist kleiner als ihr kleinster Widerstand | Nein, er ist größer als alle zusammen; Nein, er ist kleiner als R1
+Kontrolle: Liegt der Gesamtwiderstand zwischen R1 und R1 + dem kleineren Widerstand der Gruppe? | Ja, die Gruppe ist kleiner als ihr kleinster Widerstand | Nein, er ist größer als alle zusammen; Nein, er ist kleiner als R1
 Schritt: Ersatzwiderstand der Parallelgruppe | R2 * R3 / (R2 + R3) | Ω
 Schritt: Gesamtwiderstand | R1 + R2 * R3 / (R2 + R3) | Ω
 Schritt: Gesamtstrom | U / (R1 + R2 * R3 / (R2 + R3)) | A
@@ -113,8 +113,8 @@ Baustein: Zählpfeile für Ströme und Spannungen festlegen.
 Baustein: Knotenregel: zufließend gleich abfließend aufschreiben.
 Baustein: Maschenregel: Umlaufrichtung wählen, Spannungen mit Vorzeichen addieren, Summe gleich null.
 Baustein: Nach der Unbekannten auflösen und negative Ergebnisse als Gegenrichtung deuten.
-Schnellweg: Fehlender Teilstrom: Gesamtstrom minus die bekannten Teilströme.
-Schnellweg: Fehlende Teilspannung in einer Reihe: Quellenspannung minus die bekannten Teilspannungen.
+Schnellweg: Fehlender Teilstrom: Gesamtstrom − die bekannten Teilströme.
+Schnellweg: Fehlende Teilspannung in einer Reihe: Quellenspannung − die bekannten Teilspannungen.
 Fehler: Vorzeichen in der Masche vergessen | Spannungen gegen die Umlaufrichtung bekommen ein Minus.
 Fehler: Negativen Strom für falsch gehalten | Ein negatives Ergebnis heißt nur, dass der Strom gegen den Pfeil fließt.
 Fehler: Strom am Knoten addiert statt abgezogen | Zufließende und abfließende Ströme auf verschiedene Seiten schreiben.
@@ -264,7 +264,7 @@ Begriff: Kondensator | Ein Bauteil, das elektrische Ladung zwischen zwei Platten
 Begriff: Kapazität C | Wie viel Ladung der Kondensator pro Volt speichert. Einheit Farad, F.
 Begriff: Ladung Q | Die gespeicherte Elektrizitätsmenge. Einheit Coulomb, C, gleich Amperesekunde.
 Begriff: Zeitkonstante τ | R · C. Nach einer Zeitkonstante ist der Kondensator zu etwa 63 % geladen.
-Begriff: Gespeicherte Energie | Die Energie im elektrischen Feld, ein halb mal C mal U².
+Begriff: Gespeicherte Energie | Die Energie im elektrischen Feld, 1/2 · C · U².
 Merksatz: Q = C · U.
 Merksatz: Tau = R · C. Nach fünf Tau ist er praktisch voll oder leer.
 Merksatz: Kondensatoren parallel: Kapazitäten addieren. In Reihe: wie Widerstände parallel.
@@ -277,7 +277,7 @@ Bei der Zusammenschaltung ist es genau umgekehrt wie bei Widerständen. Parallel
 Baustein: Gegeben und gesucht notieren und Vorsätze umrechnen: Mikro, Nano, Piko.
 Baustein: Gesucht ist Ladung oder Kapazität? Q = C · U.
 Baustein: Gesucht ist eine Zeit beim Laden? τ = R · C, nach 5 τ praktisch voll.
-Baustein: Gesucht ist Energie? W = ein halb mal C mal U².
+Baustein: Gesucht ist Energie? W = 1/2 · C · U².
 Baustein: Mehrere Kondensatoren? Parallel addieren, in Reihe Produkt / Summe.
 Schnellweg: Kiloohm · Mikrofarad ergibt Millisekunden.
 Schnellweg: Zwei gleiche Kondensatoren in Reihe ergeben die halbe Kapazität.
@@ -289,7 +289,7 @@ Aufbau: C sagt, wie viel Ladung pro Volt hineinpasst. Mehr Spannung heißt mehr 
 Formel: Zeitkonstante | τ = R · C | R = τ / C; C = τ / R
 Aufbau: Großer Widerstand bremst den Ladestrom, große Kapazität braucht mehr Ladung. Beides macht das Laden langsamer, deshalb ·.
 Formel: Energie im Kondensator | W = C · U² / 2 | C = 2 · W / U²; U = √(2 · W / C)
-Aufbau: Beim Laden steigt die Spannung von 0 auf U, im Mittel also U / 2. Energie ist Ladung C · U mal mittlere Spannung U / 2.
+Aufbau: Beim Laden steigt die Spannung von 0 auf U, im Mittel also U / 2. Energie ist Ladung C · U · mittlere Spannung U / 2.
 Formel: Zwei Kondensatoren in Reihe | C_ges = C1 · C2 / (C1 + C2) | C2 = C_ges · C1 / (C1 − C_ges)
 Aufbau: In Reihe wirken Kondensatoren wie ein dickerer Abstand der Platten. Die Gesamtkapazität wird kleiner, gerechnet wie Widerstände parallel: Produkt / Summe.
 Karte: Wie lautet die Grundformel des Kondensators? | Q = C · U.
@@ -301,7 +301,7 @@ Karte: Wie addierst du parallele Kondensatoren? | Einfach addieren.
 Karte: Wie rechnest du zwei Kondensatoren in Reihe? | Produkt / Summe.
 Karte: Wie viel Farad sind 47 µF? | 0,000047 F.
 Karte: Was ergibt Kiloohm · Mikrofarad? | Millisekunden.
-Karte: Wie groß ist die gespeicherte Energie? | Ein halb mal C mal U².
+Karte: Wie groß ist die gespeicherte Energie? | 1/2 · C · U².
 Karte: Wann fließt beim Laden der größte Strom? | Ganz am Anfang.
 Auswahl: Zwei Kondensatoren liegen parallel. Wie bekommst du die Gesamtkapazität? | Addieren | Produkt / Summe; Abziehen; Den größeren nehmen
 Auswahl: R = 10 kΩ, C = 100 µF. Wie groß ist τ? | 1 s | 0,1 s; 10 s; 1 ms
@@ -323,7 +323,7 @@ Aufgabe: Ein Kondensator C = {C} µF wird über R = {R} kΩ geladen. Nach welche
 Gegeben: C = {C} µF
 Gegeben: R = {R} kΩ
 Gesucht: Ladezeit t in s
-Ansatz: τ = R · C, dann mal 5 | τ = R · C, dann fertig; Q = C · U, dann mal 5; τ = R / C, dann mal 5
+Ansatz: τ = R · C, dann · 5 | τ = R · C, dann fertig; Q = C · U, dann · 5; τ = R / C, dann · 5
 Signal: Ein Kondensator wird über einen Widerstand geladen. Gefragt ist, wann er voll ist.
 Warum: Weil ein Kondensator nach fünf Zeitkonstanten praktisch voll ist | Weil er nach einer Zeitkonstante voll ist; Weil die Ladezeit nur von der Spannung abhängt
 Kontrolle: Was ergibt Kiloohm · Mikrofarad? | Millisekunden | Sekunden; Mikrosekunden
@@ -350,7 +350,7 @@ Quelle: Grundlagen der Elektrotechnik, Kondensator und RC-Glied.
 === LERNWERK ===
 Fach: Elektrotechnik
 Thema: Wechselstrom
-Anker: Die Säge in der Werkstatt fährt hin und her. Ihre Geschwindigkeit ist mal groß, mal null, mal in die andere Richtung. Wechselstrom macht dasselbe: 50 mal pro Sekunde einmal hin und zurück.
+Anker: Die Säge in der Werkstatt fährt hin und her. Ihre Geschwindigkeit ist mal groß, mal null, mal in die andere Richtung. Wechselstrom macht dasselbe: 50-mal pro Sekunde einmal hin und zurück.
 Anker: Beim Rudern ist die Kraft nicht gleichmäßig. Für die Wirkung zählt ein gleichwertiger Durchschnitt. Beim Wechselstrom ist das der Effektivwert: die Gleichspannung, die dieselbe Wärme macht.
 Begriff: Wechselspannung | Eine Spannung, die periodisch ihre Richtung wechselt, im Netz sinusförmig.
 Begriff: Frequenz f | Wie viele Perioden pro Sekunde ablaufen. Einheit Hertz, Hz. Im Netz 50 Hz.
@@ -377,7 +377,7 @@ Baustein: Phasenverschiebung und Leistungsfaktor aus cos φ = R / Z.
 Schnellweg: Bei 50 Hz ist 2 π f ungefähr 314.
 Schnellweg: Periodendauer bei 50 Hz: 20 Millisekunden.
 Fehler: Scheitelwert und Effektivwert verwechselt | Netzspannung 230 V ist der Effektivwert. Der Scheitelwert ist 230 · √2.
-Fehler: R und X einfach addiert | Sie stehen rechtwinklig aufeinander. Z ist die Wurzel aus R² + X².
+Fehler: R und X einfach addiert | Sie stehen rechtwinklig aufeinander. Z = √(R² + X²).
 Fehler: Mikrofarad und Millihenry nicht umgerechnet | In die Formeln gehören Farad und Henry.
 Formel: Effektivwert | U = û / √2 | û = U · √2
 Aufbau: Der Effektivwert ist die Gleichspannung mit derselben Wärmewirkung. Beim Sinus ist das der Scheitelwert / √2, etwa 0,707 · û.
@@ -397,7 +397,7 @@ Karte: Wie rechnest du vom Scheitelwert zum Effektivwert? | Durch √2 teilen.
 Karte: Wie groß ist der Scheitelwert der Netzspannung? | Etwa 325 V.
 Karte: Was passiert mit X_L bei höherer Frequenz? | Er wird größer.
 Karte: Was passiert mit X_C bei höherer Frequenz? | Er wird kleiner.
-Karte: Wie rechnest du den Scheinwiderstand aus R und X? | Wurzel aus R² + X².
+Karte: Wie rechnest du den Scheinwiderstand aus R und X? | √(R² + X²).
 Karte: Was gibt cos φ an? | Den Anteil der Wirkleistung an der Scheinleistung, R / Z.
 Karte: Wofür steht der Effektivwert? | Für die Gleichspannung mit derselben Wärmewirkung.
 Karte: In welcher Einheit wird die Induktivität angegeben? | In Henry.
@@ -501,7 +501,7 @@ Gegeben: cos φ = {c}
 Gesucht: Wirkleistung P in kW
 Ansatz: P = √3 · U · I · cos φ | P = U · I · cos φ; P = 3 · U · I · cos φ; P = √3 · U · I
 Signal: Drehstrom, Leiterspannung, Leiterstrom und Leistungsfaktor sind gegeben.
-Warum: Weil bei Drehstrom mit Leiterwerten der Faktor √3 dazugehört | Weil Drehstrom wie Wechselstrom gerechnet wird; Weil man bei drei Leitern immer mal drei nimmt
+Warum: Weil bei Drehstrom mit Leiterwerten der Faktor √3 dazugehört | Weil Drehstrom wie Wechselstrom gerechnet wird; Weil man bei drei Leitern immer · 3 rechnet
 Kontrolle: Passt grob die Faustregel von etwa 2 Ampere pro Kilowatt? | Ja, als grobe Näherung je nach cos φ | Nein, es müssen viel mehr Kilowatt sein; Nein, Ampere und Kilowatt sind gleich
 Schritt: √3 · 400 V | sqrt(3) * 400 | V
 Schritt: Wirkleistung in Watt | sqrt(3) * 400 * I * c | W

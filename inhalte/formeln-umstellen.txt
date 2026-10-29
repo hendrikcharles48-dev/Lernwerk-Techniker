@@ -6,7 +6,7 @@ Anker: Ein Werkstück ausspannen: Erst kommen die Spanneisen ab, dann die Unterl
 Begriff: Gleichung | Zwei Terme, die durch ein Gleichheitszeichen verbunden sind und gleich viel wert sind.
 Begriff: Variable | Ein Buchstabe, der für eine Größe steht, deren Wert sich ändern kann.
 Begriff: Äquivalenzumformung | Eine Umformung, die du auf beiden Seiten gleich machst, sodass die Gleichung wahr bleibt.
-Begriff: Umkehroperation | Die Rechenart, die eine andere rückgängig macht, zum Beispiel geteilt für mal oder Wurzel für hoch zwei.
+Begriff: Umkehroperation | Die Rechenart, die eine andere rückgängig macht, zum Beispiel / für · oder √ für ².
 Begriff: Formel umstellen | Eine Formel so umformen, dass die gesuchte Größe allein auf einer Seite steht.
 Begriff: Freistellen | Die gesuchte Größe steht ganz allein auf einer Seite des Gleichheitszeichens.
 Begriff: Kehrwert | Ein Bruch, der auf den Kopf gestellt wird. Der Kehrwert von 2 ist ein Halb.
@@ -15,7 +15,7 @@ Merksatz: Von außen nach innen: erst plus und minus weg, dann mal und geteilt, 
 Merksatz: Jede Rechenart hat ihr Gegenstück: plus und minus, mal und geteilt, Quadrat und Wurzel.
 Prinzip: Eine Gleichung ist wie eine Waage im Gleichgewicht. Du darfst alles mit ihr machen, solange du es auf beiden Seiten gleich machst. Dann bleibt sie im Gleichgewicht, und die Lösung ändert sich nicht.
 
-Beim Umstellen willst du eine bestimmte Größe allein auf eine Seite bekommen. Dafür schaust du zuerst, was an ihr dranhängt. Steht etwas mit plus oder minus daneben, nimmst du das zuerst weg. Ist sie mit etwas malgenommen oder durch etwas geteilt, kommt das als Nächstes. Ist sie hoch zwei genommen, ziehst du zum Schluss die Wurzel.
+Beim Umstellen willst du eine bestimmte Größe allein auf eine Seite bekommen. Dafür schaust du zuerst, was an ihr dranhängt. Steht etwas mit plus oder minus daneben, nimmst du das zuerst weg. Ist sie mit etwas malgenommen oder durch etwas geteilt, kommt das als Nächstes. Steht sie mit ² da, ziehst du zum Schluss die Wurzel.
 
 Jeder Schritt bekommt eine eigene Zeile. So siehst du immer, was du gemacht hast, und findest einen Fehler schnell wieder.
 
@@ -28,13 +28,13 @@ Baustein: Tausch die Seiten, sodass die gesuchte Größe links steht.
 Baustein: Mach die Probe: Setz einfache Zahlen ein und prüfe, ob beide Seiten gleich sind.
 Baustein: Erst jetzt Zahlen mit Einheiten einsetzen und ausrechnen.
 Schnellweg: Ein Faktor wechselt die Seite und wird dabei zum Teiler. Ein Teiler wechselt die Seite und wird zum Faktor. Ein Summand wechselt die Seite und ändert sein Vorzeichen. Das ist die Kurzform dafür, auf beiden Seiten dasselbe zu tun.
-Schnellweg: Formeldreieck für reine Produkte wie U = R · I: Halte die gesuchte Größe zu, der Rest zeigt die Lösung. Oben geteilt durch unten, oder unten mal unten. Das klappt nur, wenn in der Formel ausschließlich mal und geteilt vorkommen.
+Schnellweg: Formeldreieck für reine Produkte wie U = R · I: Halte die gesuchte Größe zu, der Rest zeigt die Lösung. Oben / unten, oder unten · unten. Das klappt nur, wenn in der Formel ausschließlich mal und geteilt vorkommen.
 Schnellweg: Über Kreuz: Bei a / b = c / d gilt a · d = b · c. Damit schaffst du beide Nenner in einem Schritt weg.
-Schnellweg: Drehzahl an der Fräse als Faustformel: n ist ungefähr 318 · v c geteilt durch d, weil 1000 geteilt durch Pi ungefähr 318 ist. Dabei steht d in Millimeter und v c in Meter pro Minute.
+Schnellweg: Drehzahl an der Fräse als Faustformel: n ist ungefähr 318 · v c / d, weil 1000 / Pi ungefähr 318 ist. Dabei steht d in Millimeter und v c in Meter pro Minute.
 Fehler: Nur einen Summanden geteilt | Steht auf einer Seite eine Summe, musst du die ganze Seite teilen. Setz eine Klammer um die Summe.
 Fehler: Vorzeichen beim Rüberbringen vergessen | Aus plus wird minus, aus minus wird plus.
 Fehler: Mal und geteilt verwechselt | Was auf der einen Seite mal steht, kommt auf der anderen Seite geteilt an.
-Fehler: Wurzel nur aus einem Teil gezogen | Die Wurzel gilt für die ganze Seite. Die Wurzel aus a + b ist nicht die Wurzel aus a plus die Wurzel aus b.
+Fehler: Wurzel nur aus einem Teil gezogen | Die Wurzel gilt für die ganze Seite. √(a + b) ist nicht √a + √b.
 Fehler: Einheiten nicht umgerechnet | Erst umstellen, dann alles in passende Einheiten umrechnen, zum Beispiel Milliampere in Ampere.
 Formel: Ohmsches Gesetz | U = R · I | R = U / I; I = U / R
 Aufbau: Der Widerstand bremst den Strom. Für mehr Strom durch denselben Widerstand braucht man mehr Spannung, deshalb ·.
@@ -70,7 +70,7 @@ Formel: Gerade | y = m · x + b | x = (y − b) / m; m = (y − b) / x; b = y �
 Aufbau: b ist der Startwert bei x = 0. Pro Schritt in x kommt die Steigung m dazu, deshalb m · x + b.
 Karte: Was ist eine Äquivalenzumformung? | Eine Umformung, die du auf beiden Seiten gleich machst, damit die Gleichung wahr bleibt.
 Karte: Was ist das Gegenstück zu mal? | Geteilt.
-Karte: Was ist das Gegenstück zu hoch zwei? | Die Wurzel ziehen.
+Karte: Was ist das Gegenstück zu ²? | Die Wurzel ziehen.
 Karte: In welcher Reihenfolge baust du beim Umstellen ab? | Von außen nach innen: erst plus und minus, dann mal und geteilt, zum Schluss Hoch und Wurzel.
 Karte: U = R · I nach R umgestellt? | R = U / I
 Karte: P = U · I nach I umgestellt? | I = P / U
@@ -99,11 +99,11 @@ Tipp: A steht im Nenner. Hol es zuerst nach oben, indem du mit A malnimmst.
 Umstellen: y = m · x + b | x | x = (y − b) / m
 Umformung: Auf beiden Seiten b abziehen | y − b = m · x | Beide Seiten durch m teilen; Auf beiden Seiten b addieren; Beide Seiten mal m nehmen
 Umformung: Beide Seiten durch m teilen | (y − b) / m = x | Beide Seiten mal m nehmen; Nur y durch m teilen; Auf beiden Seiten m abziehen
-Tipp: Von außen nach innen: Das plus b ist am weitesten außen.
+Tipp: Von außen nach innen: Das + b ist am weitesten außen.
 Umstellen: P = I² · R | I | I = √(P / R)
 Umformung: Beide Seiten durch R teilen | P / R = I² | Beide Seiten mal R nehmen; Die Wurzel ziehen; Auf beiden Seiten R abziehen
 Umformung: Auf beiden Seiten die Wurzel ziehen | √(P / R) = I | Beide Seiten quadrieren; Beide Seiten durch 2 teilen; Nur aus P die Wurzel ziehen
-Tipp: Hoch zwei kommt zum Schluss weg, vorher das mal R.
+Tipp: Hoch zwei kommt zum Schluss weg, vorher das · R.
 Umstellen: P = U² / R | R | R = U² / P
 Umformung: Beide Seiten mal R nehmen | P · R = U² | Beide Seiten durch R teilen; Die Wurzel ziehen; Auf beiden Seiten R addieren
 Umformung: Beide Seiten durch P teilen | R = U² / P | Beide Seiten mal P nehmen; Die Wurzel ziehen; Auf beiden Seiten P abziehen
@@ -125,7 +125,7 @@ Umformung: Beide Seiten mal (R1 + R2) nehmen | U2 · (R1 + R2) = U · R2 | Beide
 Umformung: Beide Seiten durch R2 teilen | U2 · (R1 + R2) / R2 = U | Beide Seiten mal R2 nehmen; Auf beiden Seiten R2 abziehen; Beide Seiten durch U2 teilen
 Auswahl: Du willst U = R · I nach I umstellen. Was machst du? | Beide Seiten durch R teilen | Beide Seiten mal R nehmen; Auf beiden Seiten R abziehen; Beide Seiten durch U teilen
 Auswahl: 3 · x + 5 = 20: Was ist der geschickteste erste Schritt? | Auf beiden Seiten 5 abziehen | Nur die 3 durch 3 teilen; Auf beiden Seiten 5 addieren; Beide Seiten mit 3 malnehmen
-Auswahl: Was ist das Gegenstück zu hoch zwei? | Die Wurzel ziehen | Durch 2 teilen; Mal 2 nehmen; Hoch minus eins nehmen
+Auswahl: Was ist das Gegenstück zu ²? | Die Wurzel ziehen | Durch 2 teilen; Mal 2 nehmen; Hoch −1 nehmen
 Auswahl: Welche Umstellung von σ = F / A nach A ist richtig? | A = F / σ | A = σ · F; A = σ / F; A = F − σ
 Auswahl: Warum wird beim Umstellen von außen nach innen gearbeitet? | Weil die Rechenarten in umgekehrter Reihenfolge rückgängig gemacht werden | Weil es schneller geht; Weil Plus immer zuerst kommt; Weil man sonst durch null teilt
 Reihenfolge: A = π · d² / 4 nach d umstellen | Beide Seiten mal 4 nehmen; Beide Seiten durch π teilen; Auf beiden Seiten die Wurzel ziehen; Seiten tauschen, sodass d links steht
@@ -134,10 +134,10 @@ Aufgabe: Löse die Gleichung {a} · x + {b} = {c} nach x auf.
 Gegeben: {a} · x + {b} = {c}
 Gesucht: x
 Ansatz: Erst {b} abziehen, dann durch {a} teilen | Nur x durch {a} teilen, dann {b} abziehen; Erst mal {a} nehmen, dann {b} abziehen; Erst {b} addieren, dann durch {a} teilen
-Signal: Am x hängt außen ein plus {b} und innen ein mal {a}.
+Signal: Am x hängt außen ein + {b} und innen ein · {a}.
 Warum: Weil man in umgekehrter Reihenfolge abbaut, wie die Gleichung aufgebaut ist | Weil man beim Umstellen immer zuerst durch die Zahl vor x teilt; Weil plus und minus beim Umstellen keine Rolle spielen
 Kontrolle: Probe: Setzt du dein x ein, kommt links {c} heraus? | Ja, dann stimmt die Lösung | Nein, die Probe macht man nicht; Es reicht, wenn x positiv ist
-Tipp: Von außen nach innen: Erst das plus {b} wegschaffen, dann das mal {a}.
+Tipp: Von außen nach innen: Erst das + {b} wegschaffen, dann das · {a}.
 Schritt: Auf beiden Seiten {b} abziehen. Was steht danach rechts? | c - b
 Schritt: Beide Seiten durch {a} teilen. Wie groß ist x? | (c - b) / a
 Variable: a | 2 | 9 | 1
@@ -148,9 +148,9 @@ Aufgabe: Löse die Gleichung {a} · (x − {b}) = {c} nach x auf.
 Gegeben: {a} · (x − {b}) = {c}
 Gesucht: x
 Ansatz: Erst durch {a} teilen, dann {b} addieren | Erst {b} abziehen, dann durch {a} teilen; Nur x durch {a} teilen, dann {b} addieren; Erst {b} addieren, dann mal {a} nehmen
-Signal: Die ganze Klammer ist mit {a} malgenommen. Das mal {a} steht außen.
-Warum: Weil das mal {a} außen um die ganze Klammer herum steht | Weil man Klammern beim Umstellen immer zuerst weglässt; Weil das minus {b} in der Klammer zuerst wegmuss
-Kontrolle: Probe: x minus {b} mal {a} ergibt {c}? | Ja, dann stimmt es | Nein, die Probe geht bei Klammern nicht; Nur wenn x eine ganze Zahl ist
+Signal: Die ganze Klammer ist mit {a} malgenommen. Das · {a} steht außen.
+Warum: Weil das · {a} außen um die ganze Klammer herum steht | Weil man Klammern beim Umstellen immer zuerst weglässt; Weil das − {b} in der Klammer zuerst wegmuss
+Kontrolle: Probe: (x − {b}) · {a} ergibt {c}? | Ja, dann stimmt es | Nein, die Probe geht bei Klammern nicht; Nur wenn x eine ganze Zahl ist
 Tipp: Die Klammer ist mit {a} malgenommen. Teile zuerst beide Seiten durch {a}, dann ist die Klammer allein.
 Schritt: Beide Seiten durch {a} teilen. Was steht danach rechts? | c / a
 Schritt: Auf beiden Seiten {b} addieren. Wie groß ist x? | c / a + b

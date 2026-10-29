@@ -5,8 +5,8 @@ Anker: Du kennst das von der Fräse: Kein Teil kommt exakt auf das Nennmaß. Die
 Begriff: Nennmaß | Das Maß in der Zeichnung, auf das sich die Abmaße beziehen.
 Begriff: Oberes Abmaß | Wie weit das Maß nach oben abweichen darf, bei Bohrungen ES, bei Wellen es.
 Begriff: Unteres Abmaß | Wie weit das Maß nach unten abweichen darf, bei Bohrungen EI, bei Wellen ei.
-Begriff: Höchstmaß | Nennmaß plus oberes Abmaß.
-Begriff: Mindestmaß | Nennmaß plus unteres Abmaß.
+Begriff: Höchstmaß | Nennmaß + oberes Abmaß.
+Begriff: Mindestmaß | Nennmaß + unteres Abmaß.
 Begriff: Toleranz | Höchstmaß − Mindestmaß, immer positiv.
 Begriff: Allgemeintoleranz | Toleranz für alle Maße ohne eigene Angabe, nach ISO 2768-1 in den Klassen f, m, c und v.
 Merksatz: Große Buchstaben für Bohrungen, kleine für Wellen.
@@ -59,7 +59,7 @@ Begriff: Spielpassung | Es entsteht immer Spiel.
 Begriff: Übergangspassung | Je nach Istmaßen entsteht Spiel oder Übermaß.
 Begriff: Übermaßpassung | Es entsteht immer Übermaß.
 Begriff: Einheitsbohrung | Alle Bohrungen bekommen H, die Passung wird über die Welle gewählt.
-Merksatz: Höchstspiel ist größte Bohrung minus kleinste Welle. Mindestspiel ist kleinste Bohrung minus größte Welle.
+Merksatz: Höchstspiel ist größte Bohrung − kleinste Welle. Mindestspiel ist kleinste Bohrung − größte Welle.
 Prinzip: Für eine Passung brauchst du die Grenzmaße von Bohrung und Welle. Das Höchstspiel entsteht, wenn die Bohrung am größten und die Welle am kleinsten ist. Das Mindestspiel entsteht, wenn die Bohrung am kleinsten und die Welle am größten ist.
 Kommt beim Spiel ein negativer Wert heraus, ist es Übermaß. Sind beide Werte positiv, ist es eine Spielpassung. Sind beide negativ, eine Übermaßpassung. Ist einer positiv und einer negativ, eine Übergangspassung.
 Im System Einheitsbohrung sind typische Beispiele: H7/g6 Spielpassung, H7/k6 Übergangspassung, H7/s6 Übermaßpassung.
@@ -227,13 +227,13 @@ Merksatz: S und E nach Verwendung, C nach Kohlenstoff, Zahl mit Faktor bei Legie
 Prinzip: Es gibt zwei Gruppen von Kurznamen.
 Gruppe 1 nach Verwendung: S steht für Stahlbau, E für Maschinenbau. Die Zahl dahinter ist die Mindeststreckgrenze in N/mm². S235JR heißt: Stahlbau, 235 N/mm² Streckgrenze, JR heißt 27 Joule Kerbschlagarbeit bei Raumtemperatur.
 Gruppe 2 nach chemischer Zusammensetzung: Bei unlegierten Stählen steht C und dann der Kohlenstoffgehalt · 100. C45 hat also 0,45 % Kohlenstoff.
-Bei niedriglegierten Stählen steht vorne der Kohlenstoff · 100, dann die Elemente und ihre Gehalte mal einem Faktor. Der Faktor ist 4 für Chrom, Kobalt, Mangan, Nickel, Silizium und Wolfram, 10 für Aluminium, Kupfer, Molybdän, Titan, Vanadium und weitere, 100 für Cer, Stickstoff, Phosphor und Schwefel, 1000 für Bor. 42CrMo4 hat also 0,42 % Kohlenstoff und etwa 1 % Chrom, Molybdän nur in kleinen Mengen.
+Bei niedriglegierten Stählen steht vorne der Kohlenstoff · 100, dann die Elemente und ihre Gehalte · einem Faktor. Der Faktor ist 4 für Chrom, Kobalt, Mangan, Nickel, Silizium und Wolfram, 10 für Aluminium, Kupfer, Molybdän, Titan, Vanadium und weitere, 100 für Cer, Stickstoff, Phosphor und Schwefel, 1000 für Bor. 42CrMo4 hat also 0,42 % Kohlenstoff und etwa 1 % Chrom, Molybdän nur in kleinen Mengen.
 Bei hochlegierten Stählen steht ein X vorne, dann der Kohlenstoff · 100, und die Legierungsgehalte stehen ohne Faktor in %. X5CrNi18-10 hat 0,05 % Kohlenstoff, 18 % Chrom und 10 % Nickel.
 Baustein: Ersten Buchstaben ansehen: S, E, C, X oder eine Zahl?
 Baustein: Gruppe bestimmen: Verwendung oder Zusammensetzung.
 Baustein: Zahlen mit dem richtigen Faktor zurückrechnen.
 Baustein: Zusatzsymbole am Ende deuten, zum Beispiel JR oder J2 für die Kerbschlagarbeit.
-Fehler: Faktor bei hochlegiertem Stahl angewendet | Hinter dem X stehen die Prozente direkt, nur der Kohlenstoff ist mal 100.
+Fehler: Faktor bei hochlegiertem Stahl angewendet | Hinter dem X stehen die Prozente direkt, nur beim Kohlenstoff steht der Gehalt · 100.
 Karte: Was bedeutet S235JR? | Stahlbau, Mindeststreckgrenze 235 N/mm², 27 J Kerbschlagarbeit bei Raumtemperatur.
 Karte: Kohlenstoffgehalt von C45? | 0,45 %.
 Karte: Was bedeutet 42CrMo4? | 0,42 % C, etwa 1 % Chrom, etwas Molybdän.

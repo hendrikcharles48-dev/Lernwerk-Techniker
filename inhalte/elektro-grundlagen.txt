@@ -103,7 +103,7 @@ Baustein: Ersatzwiderstand ausrechnen: Reihe addieren, parallel Produkt / Summe 
 Baustein: Gesamtstrom mit dem Ohmschen Gesetz aus Gesamtspannung und Ersatzwiderstand.
 Baustein: Zurückrechnen: In der Reihe Teilspannungen mit dem gemeinsamen Strom, parallel Teilströme mit der gemeinsamen Spannung.
 Schnellweg: Zwei gleiche Widerstände parallel ergeben den halben Wert.
-Schnellweg: Spannungsteiler: Teilspannung = Gesamtspannung mal eigener Widerstand / Summe der Widerstände.
+Schnellweg: Spannungsteiler: Teilspannung = Gesamtspannung · eigener Widerstand / Summe der Widerstände.
 Fehler: Parallele Widerstände einfach addiert | Parallel werden die Leitwerte addiert, nicht die Widerstände.
 Fehler: Bei Parallelschaltung die Spannung aufgeteilt | Parallel liegt an jedem Zweig die volle Spannung.
 Fehler: Kehrwert am Ende vergessen | Bei 1 / R_ges = 1 / R1 + 1 / R2 musst du am Schluss den Kehrwert nehmen.
@@ -197,7 +197,7 @@ Anker: Ein Spindelmotor wird warm. Diese Wärme ist Energie, die nicht am Werkze
 Begriff: Elektrische Leistung P | Wie viel Energie pro Sekunde umgesetzt wird. Einheit Watt, W.
 Begriff: Elektrische Arbeit W | Die gesamte umgesetzte Energie, Leistung · Zeit. Einheit Wattsekunde oder Kilowattstunde.
 Begriff: Kilowattstunde | Die Arbeit, die 1 kW in einer Stunde umsetzt. Danach rechnet der Stromversorger ab.
-Begriff: Wirkungsgrad η | Abgegebene Leistung geteilt durch aufgenommene Leistung. Er ist immer kleiner als 1.
+Begriff: Wirkungsgrad η | Abgegebene Leistung / aufgenommene Leistung. Er ist immer kleiner als 1.
 Begriff: Verlustleistung | Der Teil der aufgenommenen Leistung, der als Wärme verloren geht.
 Merksatz: P = U · I. Kennst du nur einen der beiden, nimm den Widerstand dazu.
 Merksatz: Arbeit ist Leistung · Zeit.
@@ -259,7 +259,7 @@ Gegeben: P = {P} kW
 Gegeben: t = {t} h
 Gegeben: Preis 0,30 Euro pro kWh
 Gesucht: Kosten in Euro
-Ansatz: W = P · t, dann mal Preis | P = U · I, dann mal Preis; P durch t, dann mal Preis; η mal P, dann mal Preis
+Ansatz: W = P · t, dann · Preis | P = U · I, dann · Preis; P durch t, dann · Preis; η · P, dann · Preis
 Signal: Eine Leistung, eine Laufzeit und ein Preis pro Kilowattstunde. Gesucht sind Energiekosten.
 Warum: Weil der Preis für die verbrauchte Energie gilt | Weil der Preis nur von der Leistung abhängt; Weil die Laufzeit beim Preis keine Rolle spielt
 Kontrolle: In welchen Einheiten setzt du ein? | Kilowatt und Stunden | Watt und Sekunden; Kilowatt und Minuten

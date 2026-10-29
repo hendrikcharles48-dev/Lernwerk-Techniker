@@ -73,7 +73,7 @@ Auswahl: Die Produktion steigt um 15 %. Womit rechnest du die Stunden hoch? | Mi
 Auswahl: Ein Kollege geht im nächsten Jahr in Rente. Was passiert im Bedarfsschema? | Der Bedarf steigt um eins | Der Bedarf sinkt um eins; Nichts, Rente zählt nicht; Das Soll sinkt um eins | Ein Abgang reißt eine Lücke, deshalb wird er addiert.
 Auswahl: Welche Kompetenz zeigt sich darin, dass jemand gut im Team arbeitet? | Sozialkompetenz | Fachkompetenz; Methodenkompetenz; Schulbildung | Umgang mit Menschen ist Sozialkompetenz.
 Reihenfolge: Ablauf der Personalarbeit nach dem Pfeilbild | Quantitative Planung; Qualitative Planung; Personal akquirieren; Personal auswählen; Personal einstellen; Personal führen
-Reihenfolge: Schema für den Nettopersonalbedarf | Soll − Ist ergibt Deckung I; Plus Neubedarf, minus Minderbedarf ergibt II; Minus Zugänge; Plus Abgänge ergibt den Nettobedarf
+Reihenfolge: Schema für den Nettopersonalbedarf | Soll − Ist ergibt Deckung I; + Neubedarf − Minderbedarf ergibt II; − Zugänge; + Abgänge ergibt den Nettobedarf
 Aufgabe: In der Fertigung wurden im laufenden Jahr {h0} Mitarbeiterstunden gebraucht. Die Produktion soll um {s} % steigen. Im kommenden Jahr wird {W} Wochen mit je {hW} Stunden gearbeitet. Wie viele Mitarbeiter werden gebraucht?
 Gegeben: h_0 = {h0} h, Steigerung {s} %
 Gegeben: W = {W} Wochen, h_W = {hW} h pro Woche
@@ -167,7 +167,7 @@ Aufbau: Gerüstet wird einmal pro Auftrag, deshalb steht t_r allein. Die Zeit je
 Formel: Rüstzeit | t_r = t_rg + t_rer + t_rv | t_rg = t_r − t_rer − t_rv
 Aufbau: Zur reinen Rüstgrundzeit kommen die Pausen zur Erholung und die Verteilzeit für Unregelmäßiges. Alles zusammen ist die Rüstzeit.
 Formel: Zeit je Einheit | t_e = t_g + t_er + t_v | t_g = t_e − t_er − t_v
-Aufbau: Genau wie beim Rüsten: Grundzeit plus Erholungszeit plus Verteilzeit, diesmal für ein Teil.
+Aufbau: Genau wie beim Rüsten: Grundzeit + Erholungszeit + Verteilzeit, diesmal für ein Teil.
 Formel: Punktsumme im ERA | P = P_F + P_B + P_H + P_K + P_M | P_F = P − P_B − P_H − P_K − P_M
 Aufbau: Jedes Merkmal bringt eigene Punkte: Fachkenntnisse, Berufserfahrung, Handlungsspielraum, Kooperation und Mitarbeiterführung. Die Summe zeigt, wie anspruchsvoll die Stelle ist.
 Karte: Was wird bei der Arbeitsbewertung bewertet? | Die Anforderungen der Stelle, nicht die Person.
@@ -403,7 +403,7 @@ Gesucht: Nettosekundärbedarf in Stück
 Ansatz: P · 8 · (1 + z / 100) − Lager + Reservierung | P · 8 − Lager − Reservierung; P · 8 · z − Lager + Reservierung; (P − Lager) · 8 + Reservierung
 Signal: Ein Produktionsprogramm, eine Stückliste, ein Zuschlag in % und Lagerangaben.
 Warum: Weil reservierte Schrauben schon verplant sind | Weil reservierte Schrauben doppelt zählen; Weil das Lager immer addiert wird
-Kontrolle: Ist der Nettobedarf größer als der Sekundärbedarf minus Lager? | Ja, wegen Zusatz und Reservierung | Nein, er ist immer kleiner; Nein, beide sind gleich
+Kontrolle: Ist der Nettobedarf größer als der Sekundärbedarf − Lager? | Ja, wegen Zusatz und Reservierung | Nein, er ist immer kleiner; Nein, beide sind gleich
 Schritt: Sekundärbedarf | P * 8 | Stück
 Schritt: Bruttosekundärbedarf | P * 8 * (1 + z / 100) | Stück
 Schritt: Nettosekundärbedarf | P * 8 * (1 + z / 100) - L + R | Stück
@@ -566,7 +566,7 @@ Fehler: Die Wurzel vergessen | Ohne Wurzel kommt eine riesige Zahl heraus, weit 
 Formel: Optimale Bestellmenge nach Andler | x_opt = √(200 · M · K_B / (P · p)) | M = x_opt² · P · p / (200 · K_B); K_B = x_opt² · P · p / (200 · M); P = 200 · M · K_B / (x_opt² · p)
 Aufbau: Oben unter der Wurzel steht, was das Bestellen treibt: Jahresbedarf · Kosten je Bestellung. Unten steht, was das Lagern eines Stücks kostet: Preis · Lagerkostensatz. Die 200 ist 2 · 100. Die 2 kommt vom halben Lagerbestand, die 100 vom Satz in %. Die Wurzel entsteht, weil die Bestellkosten mit 1 / x fallen und die Lagerkosten mit x steigen. Gleich werden sie bei x² = 200 · M · K_B / (P · p).
 Formel: Lagerkosten je Stück und Jahr | h = P · p / 100 | P = h · 100 / p; p = h · 100 / P
-Aufbau: Ein Stück im Lager kostet seinen Preis P mal den Lagerkostensatz in %. / 100 macht aus % einen Anteil.
+Aufbau: Ein Stück im Lager kostet seinen Preis P · den Lagerkostensatz in %. / 100 macht aus % einen Anteil.
 Formel: Andler mit Lagerkosten je Stück | x_opt = √(2 · M · K_B / h) | M = x_opt² · h / (2 · K_B); h = 2 · M · K_B / x_opt²
 Aufbau: Das ist dieselbe Formel. Die 100 steckt schon in h, deshalb bleibt nur die 2 vom halben Lagerbestand.
 Formel: Lagerhaltungskostensatz | p = K_L / W · 100 | K_L = p · W / 100; W = K_L · 100 / p
@@ -590,7 +590,7 @@ Karte: Was passiert mit x_opt, wenn der Lagerkostensatz steigt? | Die optimale M
 Karte: Was passiert mit x_opt, wenn der Jahresbedarf steigt? | Die optimale Menge steigt, aber nur mit der Wurzel.
 Karte: Wie viel Treibhausgas stößt ein Lkw pro Tonnenkilometer aus, im Vergleich zur Bahn? | Rund 103 g gegen rund 19 g bei der Güterbahn.
 Karte: Wie kann ein Betrieb die Umweltbelastung durch Transporte senken? | Lieferungen bündeln, volle Ladungen, Bahn oder Schiff nutzen.
-Auswahl: Durch ein neues ERP-System sinken die Bestellkosten von 280 Euro auf 90 Euro. Was passiert mit der optimalen Bestellmenge? | Sie sinkt um rund 43 % | Sie steigt um rund 43 %; Sie sinkt um rund 68 %; Sie bleibt gleich | x_opt hängt an der Wurzel aus K_B: √(90 / 280) = 0,567, also rund 43 % weniger.
+Auswahl: Durch ein neues ERP-System sinken die Bestellkosten von 280 Euro auf 90 Euro. Was passiert mit der optimalen Bestellmenge? | Sie sinkt um rund 43 % | Sie steigt um rund 43 %; Sie sinkt um rund 68 %; Sie bleibt gleich | x_opt hängt an √K_B: √(90 / 280) = 0,567, also rund 43 % weniger.
 Auswahl: Ab 1000 Stück gibt es Rabatt. Wie entscheidest du? | Gesamtkosten beider Varianten vergleichen | Immer die Andlersche Menge bestellen; Immer die größte Menge bestellen; Den Rabatt ignorieren | Der Rabatt senkt die Materialkosten, die in der Formel nicht vorkommen.
 Auswahl: Die Geschäftsführung will Andler im ERP fest einstellen und nichts mehr prüfen. Was sagst du? | Als Vorschlag gut, aber Lieferzeit und Rabatte zusätzlich prüfen | Perfekt, das ist immer die beste Lösung; Schlecht, die Formel ist falsch; Egal, Bestellmengen spielen keine Rolle | Die Formel ist ein Modell mit Annahmen, die nicht immer stimmen.
 Reihenfolge: Optimale Bestellmenge bestimmen | Daten sammeln; Lagerkostensatz und Bestellkosten bestimmen; In die Andlersche Formel einsetzen; Sinnvoll runden; Mit Lieferzeit, Lagerplatz und Rabatten abgleichen

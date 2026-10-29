@@ -66,7 +66,7 @@ Formel: Spätester Anfang | SAZ = SEZ − D | SEZ = SAZ + D
 Formel: Gesamtpuffer | GP = SAZ − FAZ | SAZ = GP + FAZ; FAZ = SAZ − GP
 Karte: Wie lang ist ein Meilenstein? | Er hat keine Dauer.
 Karte: Was ist der kritische Pfad? | Die Kette der Vorgänge ohne Puffer.
-Karte: Wie berechnet man den Gesamtpuffer? | Spätester Anfang minus frühester Anfang.
+Karte: Wie berechnet man den Gesamtpuffer? | Spätester Anfang − frühester Anfang.
 === ENDE ===
 
 === LERNWERK ===
@@ -460,12 +460,12 @@ Begriff: Fixe Kosten | Kosten, die unabhängig von der Stückzahl anfallen, zum 
 Begriff: Variable Kosten | Kosten, die mit der Stückzahl steigen, zum Beispiel Material.
 Begriff: Einzelkosten | Kosten, die einem Produkt direkt zugeordnet werden können.
 Begriff: Gemeinkosten | Kosten, die nur über Zuschläge verteilt werden können, zum Beispiel Verwaltung.
-Begriff: Deckungsbeitrag | Verkaufspreis minus variable Kosten pro Stück.
+Begriff: Deckungsbeitrag | Verkaufspreis − variable Kosten pro Stück.
 Begriff: Gewinnschwelle | Die Stückzahl, ab der alle Kosten gedeckt sind, auch Break-even-Point.
 Merksatz: Welche Kosten, wo entstanden, wofür verwendet: Kostenarten, Kostenstellen, Kostenträger.
 Prinzip: Die Kostenrechnung hat drei Stufen. Die Kostenartenrechnung fragt, welche Kosten entstanden sind. Die Kostenstellenrechnung verteilt sie auf die Bereiche, in denen sie entstanden sind, mit dem Betriebsabrechnungsbogen. Die Kostenträgerrechnung ordnet sie den Produkten zu.
 Bei der Zuschlagskalkulation addierst du schrittweise: Materialeinzelkosten + Materialgemeinkosten ergeben die Materialkosten. Fertigungslöhne + Fertigungsgemeinkosten ergeben die Fertigungskosten. Beides zusammen sind die Herstellkosten. Dazu kommen Verwaltungsgemeinkosten und Vertriebsgemeinkosten, das ergibt die Selbstkosten. Mit dem Gewinnzuschlag kommst du zum Verkaufspreis.
-Der Deckungsbeitrag zeigt, wie viel jedes verkaufte Teil zur Deckung der Fixkosten beiträgt. Die Gewinnschwelle sind die Fixkosten geteilt durch den Deckungsbeitrag pro Stück.
+Der Deckungsbeitrag zeigt, wie viel jedes verkaufte Teil zur Deckung der Fixkosten beiträgt. Die Gewinnschwelle sind die Fixkosten / den Deckungsbeitrag pro Stück.
 Baustein: Kosten in fix und variabel, Einzel- und Gemeinkosten trennen.
 Baustein: Zuschlagssätze aus dem Betriebsabrechnungsbogen nehmen.
 Baustein: Kalkulationsschema Zeile für Zeile durchrechnen.
@@ -474,9 +474,9 @@ Fehler: Gemeinkostenzuschlag auf die falsche Basis | Die Materialgemeinkosten be
 Formel: Gesamtkosten | K = K_f + k_v · x | x = (K − K_f) / k_v; K_f = K − k_v · x
 Formel: Deckungsbeitrag pro Stück | db = p − k_v | p = db + k_v; k_v = p − db
 Formel: Gewinnschwelle | x_BE = K_f / (p − k_v) | K_f = x_BE · (p − k_v)
-Karte: Was ist der Deckungsbeitrag pro Stück? | Verkaufspreis minus variable Stückkosten.
+Karte: Was ist der Deckungsbeitrag pro Stück? | Verkaufspreis − variable Stückkosten.
 Karte: Herstellkosten setzen sich zusammen aus? | Materialkosten und Fertigungskosten.
-Karte: Wie berechnet man die Gewinnschwelle? | Fixkosten geteilt durch Deckungsbeitrag pro Stück.
+Karte: Wie berechnet man die Gewinnschwelle? | Fixkosten / Deckungsbeitrag pro Stück.
 === ENDE ===
 
 === LERNWERK ===
@@ -505,7 +505,7 @@ Formel: Liquidität 1. Grades | L1 = FM / KV · 100 | FM = L1 · KV / 100
 Karte: Was steht auf der Aktivseite? | Das Vermögen: Anlagevermögen und Umlaufvermögen.
 Karte: Was steht auf der Passivseite? | Das Kapital: Eigenkapital und Fremdkapital.
 Karte: Was sagt die goldene Bilanzregel? | Langfristiges Vermögen wird langfristig finanziert.
-Karte: Liquidität 1. Grades? | Flüssige Mittel durch kurzfristige Verbindlichkeiten mal 100.
+Karte: Liquidität 1. Grades? | Flüssige Mittel / kurzfristige Verbindlichkeiten · 100.
 === ENDE ===
 
 === LERNWERK ===

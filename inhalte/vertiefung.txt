@@ -20,7 +20,7 @@ Bei Wechselstrom ändert sich der Strom ständig. Deshalb wehrt sich die Spule d
 Der Transformator nutzt die Induktion: Die erste Spule erzeugt ein wechselndes Magnetfeld im Eisenkern. Es induziert in der zweiten Spule eine Spannung. Hat die zweite Spule weniger Windungen, ist die Spannung kleiner und der Strom größer. So macht das Netzteil im Schaltschrank aus 230 V die Steuerspannung, die dann noch gleichgerichtet wird.
 Baustein: Klären, ob Gleichstrom mit Schaltvorgang oder Wechselstrom vorliegt.
 Baustein: Bei Wechselstrom X_L = 2 π f L, L in Henry.
-Baustein: Beim Schalten τ = L / R und mal fünf für die Einschaltzeit.
+Baustein: Beim Schalten τ = L / R, dann · 5 für die Einschaltzeit.
 Baustein: Beim Transformator Windungszahlen ins Verhältnis setzen.
 Baustein: Einheiten prüfen, mH in H umrechnen.
 Schnellweg: mH / Ω ergibt direkt ms. So sparst du dir die Umrechnung bei τ.
@@ -95,13 +95,13 @@ Anker: An der Anlage zeigt das Display 4,8 bar, aber der Drucksensor schickt nur
 Begriff: Normsignal | Genormtes analoges Signal für Sensoren. Häufig sind 4 bis 20 mA und 0 bis 10 V.
 Begriff: Live Zero | Das Signal 4 bis 20 mA beginnt nicht bei null. So erkennt man einen Drahtbruch, denn dann fließen 0 mA.
 Begriff: Messbereich | Von welchem bis zu welchem Wert der Sensor misst. Der Endwert heißt Messbereichsendwert.
-Begriff: Absolute Messabweichung | Angezeigter Wert minus richtiger Wert.
-Begriff: Relative Messabweichung | Absolute Abweichung geteilt durch den richtigen Wert, meist in %.
+Begriff: Absolute Messabweichung | Angezeigter Wert − richtiger Wert.
+Begriff: Relative Messabweichung | Absolute Abweichung / den richtigen Wert, meist in %.
 Begriff: Genauigkeitsklasse | Bei analogen Messgeräten die größte erlaubte Abweichung in % vom Messbereichsendwert.
 Begriff: Auflösung | Der kleinste Schritt, den ein Messgerät oder ein Analogeingang unterscheiden kann.
 Merksatz: 4 mA ist der Anfang, 20 mA das Ende, dazwischen liegen 16 mA.
-Merksatz: Messwert = Strom − 4, durch 16, mal Messspanne.
-Merksatz: Klasse · Endwert durch 100 gibt die größte Abweichung.
+Merksatz: Messwert = (Strom − 4) / 16 · Messspanne.
+Merksatz: Klasse · Endwert / 100 gibt die größte Abweichung.
 Merksatz: Im oberen Drittel des Messbereichs messen.
 Prinzip: Sensoren in der Automatisierung schicken ihren Messwert meist als Normsignal. Beim Stromsignal 4 bis 20 mA steht 4 mA für den Anfang des Messbereichs und 20 mA für das Ende. Weil der Anfang nicht null ist, merkt die SPS sofort, wenn das Kabel unterbrochen ist. Ein Strom stört sich außerdem kaum an langen Leitungen.
 
@@ -111,17 +111,17 @@ Jedes Messgerät hat Abweichungen. Bei analogen Zeigerinstrumenten gibt die Gena
 
 Ein Analogeingang der SPS teilt das Signal in Stufen. Ein 12-Bit-Eingang hat 4096 Stufen. Die Auflösung ist der Messbereich durch die Anzahl der Stufen.
 Baustein: Signalart und Messbereich aus dem Datenblatt holen.
-Baustein: Bei 4 bis 20 mA: Strom − 4, durch 16, mal Spanne, plus Anfangswert.
+Baustein: Bei 4 bis 20 mA: (Strom − 4) / 16 · Spanne + Anfangswert.
 Baustein: Abweichung absolut ausrechnen, dann relativ zum richtigen Wert.
-Baustein: Bei Zeigerinstrumenten Klasse · Endwert durch 100.
+Baustein: Bei Zeigerinstrumenten Klasse · Endwert / 100.
 Baustein: Ergebnis mit der geforderten Genauigkeit vergleichen.
 Schnellweg: 12 mA ist bei 4 bis 20 mA immer genau die Mitte des Messbereichs.
-Schnellweg: Achtung bei der Auflösung: Manche Bücher teilen durch 2ⁿ, andere durch 2ⁿ minus 1. Der Unterschied ist sehr klein.
+Schnellweg: Achtung bei der Auflösung: Manche Bücher teilen durch 2ⁿ, andere durch 2ⁿ − 1. Der Unterschied ist sehr klein.
 Fehler: Bei 4 bis 20 mA durch 20 geteilt | Die Spanne des Signals ist 16 mA, weil es bei 4 beginnt.
 Fehler: Relative Abweichung auf den angezeigten Wert bezogen | Bezugswert ist der richtige Wert.
 Fehler: Genauigkeitsklasse auf den Messwert bezogen | Die Klasse bezieht sich auf den Messbereichsendwert.
 Formel: Messwert aus 4 bis 20 mA | x = (I − 4) / 16 · S | I = x · 16 / S + 4; S = 16 · x / (I − 4)
-Aufbau: Das Signal beginnt bei 4 mA, deshalb − 4. Die Spanne von 4 bis 20 mA ist 16 mA, deshalb / 16. Der Anteil mal der Messspanne S ergibt den Wert.
+Aufbau: Das Signal beginnt bei 4 mA, deshalb − 4. Die Spanne von 4 bis 20 mA ist 16 mA, deshalb / 16. Der Anteil · der Messspanne S ergibt den Wert.
 Formel: Relative Messabweichung | f = (x_a − x_r) / x_r · 100 | x_a = x_r · (1 + f / 100)
 Aufbau: Erst die Abweichung angezeigt − richtig. Dann als Anteil vom richtigen Wert, · 100 macht daraus %.
 Formel: Größte Abweichung nach Klasse | F = k · M / 100 | k = 100 · F / M; M = 100 · F / k
@@ -129,11 +129,11 @@ Aufbau: Die Klasse k ist die erlaubte Abweichung in % vom Messbereichsendwert M.
 Karte: Wofür steht 4 mA beim Normsignal 4 bis 20 mA? | Für den Anfang des Messbereichs.
 Karte: Warum beginnt das Signal bei 4 mA und nicht bei 0? | Damit ein Drahtbruch erkannt wird. Dann fließen 0 mA.
 Karte: Welcher Messwert gehört zu 12 mA? | Genau die Mitte des Messbereichs.
-Karte: Wie rechnest du 4 bis 20 mA in den Messwert um? | Strom − 4, durch 16, mal Messspanne, plus Anfangswert.
+Karte: Wie rechnest du 4 bis 20 mA in den Messwert um? | (Strom − 4) / 16 · Messspanne + Anfangswert.
 Karte: Worauf bezieht sich die Genauigkeitsklasse? | Auf den Messbereichsendwert.
 Karte: Warum soll man im oberen Drittel messen? | Weil die absolute Abweichung fest ist und die relative Abweichung dort klein bleibt.
 Karte: Wie viele Stufen hat ein 12-Bit-Analogeingang? | 4096.
-Karte: Wie rechnest du die relative Messabweichung? | Angezeigt minus richtig, durch richtig, mal 100.
+Karte: Wie rechnest du die relative Messabweichung? | (Angezeigt − richtig) / richtig · 100.
 Karte: Warum ist ein Stromsignal bei langen Leitungen gut? | Der Strom ist in einer Reihenschaltung überall gleich, der Leitungswiderstand verfälscht ihn kaum.
 Karte: Wie wird ein Strommessgerät angeschlossen? | In Reihe zum Verbraucher.
 Karte: Wie wird ein Spannungsmessgerät angeschlossen? | Parallel zum Bauteil.
@@ -198,7 +198,7 @@ Prinzip: Der Regler vergleicht ständig Sollwert und Istwert. Die Regeldifferenz
 
 Der P-Regler rechnet einfach K_P · Regeldifferenz. In der Praxis kommt oft noch ein fester Arbeitspunkt dazu, in den Aufgaben hier rechnen wir ohne. Er reagiert sofort. Aber sobald die Abweichung null wäre, gäbe er nichts mehr aus. Deshalb pendelt sich der Istwert knapp neben dem Sollwert ein. Diese bleibende Regeldifferenz beseitigt erst ein I-Anteil, der die Abweichung über die Zeit aufsummiert.
 
-Der Zweipunktregler kennt nur ein und aus. Damit er nicht ständig klappert, hat er eine Schaltdifferenz. Ist sie symmetrisch um den Sollwert gelegt, schaltet er bei Sollwert minus halbe Schaltdifferenz ein und bei Sollwert plus halbe Schaltdifferenz aus. Achtung: Manche Regler legen die Schaltdifferenz nur auf eine Seite des Sollwerts. Schau ins Datenblatt oder in die Aufgabe.
+Der Zweipunktregler kennt nur ein und aus. Damit er nicht ständig klappert, hat er eine Schaltdifferenz. Ist sie symmetrisch um den Sollwert gelegt, schaltet er bei Sollwert − halbe Schaltdifferenz ein und bei Sollwert + halbe Schaltdifferenz aus. Achtung: Manche Regler legen die Schaltdifferenz nur auf eine Seite des Sollwerts. Schau ins Datenblatt oder in die Aufgabe.
 Baustein: Sollwert, Istwert und Stellgröße benennen.
 Baustein: Regeldifferenz = Sollwert − Istwert, Vorzeichen beachten.
 Baustein: P-Regler: Stellgröße = K_P · Regeldifferenz.
@@ -267,7 +267,7 @@ Schritt: Einschalttemperatur | w - h / 2 | °C
 Variable: w | 18 | 90 | 1
 Variable: h | 1 | 6 | 1
 Rechnung: w - h / 2
-Quelle: Selbst formuliert. Begriffe nach DIN IEC 60050-351. Achtung: Ältere Bücher schreiben die Regeldifferenz als x_d gleich w minus x.
+Quelle: Selbst formuliert. Begriffe nach DIN IEC 60050-351. Achtung: Ältere Bücher schreiben die Regeldifferenz als x_d = w − x.
 === ENDE ===
 
 === LERNWERK ===
@@ -280,7 +280,7 @@ Begriff: Reedkontakt | Sensor am Zylinder. Ein Magnet im Kolben schließt den Ko
 Begriff: Induktiver Sensor | Erkennt Metall ohne Berührung.
 Begriff: Kapazitiver Sensor | Erkennt fast alle Stoffe, auch Kunststoff und Flüssigkeit durch eine Behälterwand.
 Begriff: Verriegelung | Zwei Funktionen dürfen nie gleichzeitig laufen. Ein Öffner des einen Relais liegt im Strompfad des anderen.
-Begriff: Strompfad | Eine senkrechte Linie im Stromlaufplan von plus 24 V nach 0 V. Die Strompfade werden nummeriert.
+Begriff: Strompfad | Eine senkrechte Linie im Stromlaufplan von +24 V nach 0 V. Die Strompfade werden nummeriert.
 Merksatz: Taster, Relais, Kontakt, Spule, Ventil, Zylinder. So läuft das Signal.
 Merksatz: Monostabil vergisst, bistabil merkt sich die Stellung.
 Merksatz: Gegenseitige Verriegelung: Öffner von K2 vor K1, Öffner von K1 vor K2.
@@ -441,7 +441,7 @@ Kontrolle: Ab welchem Kohlenstoffgehalt ist ein Stahl gut direkt härtbar? | Ab 
 Schritt: Kohlenstoffgehalt | k / 100 | %
 Variable: k | 10 | 60 | 5
 Rechnung: k / 100
-Quelle: Selbst formuliert. Temperaturen nur als Richtwerte, für deinen Stahl gilt das Tabellenbuch. Achtung: Die Grenze für die Härtbarkeit wird in Büchern zwischen 0,2 und 0,35 Prozent Kohlenstoff angegeben.
+Quelle: Selbst formuliert. Temperaturen nur als Richtwerte, für deinen Stahl gilt das Tabellenbuch. Achtung: Die Grenze für die Härtbarkeit wird in Büchern zwischen 0,2 und 0,35 % Kohlenstoff angegeben.
 === ENDE ===
 
 === LERNWERK ===
@@ -457,9 +457,9 @@ Begriff: Vickershärte HV | Härte aus der Diagonale des Eindrucks einer Diamant
 Begriff: Brinellhärte HBW | Härte aus dem Durchmesser des Eindrucks einer Hartmetallkugel.
 Merksatz: Zugfestigkeit = Höchstkraft / Anfangsquerschnitt.
 Merksatz: Im elastischen Bereich gilt σ = E · ε.
-Merksatz: Vickers: 0,1891 · Kraft / Diagonale zum Quadrat.
+Merksatz: Vickers: 0,1891 · Kraft / Diagonale².
 Merksatz: Großer Eindruck heißt weicher Werkstoff.
-Prinzip: Im Zugversuch zeichnet die Maschine Kraft und Verlängerung auf. Teilt man die Kraft durch den Anfangsquerschnitt, bekommt man die Spannung. Am Anfang steigt sie gerade an, das ist der elastische Bereich. Hier gilt das Hookesche Gesetz: Spannung gleich E-Modul mal Dehnung. Nimmt man die Last weg, geht die Probe ganz zurück.
+Prinzip: Im Zugversuch zeichnet die Maschine Kraft und Verlängerung auf. Teilt man die Kraft durch den Anfangsquerschnitt, bekommt man die Spannung. Am Anfang steigt sie gerade an, das ist der elastische Bereich. Hier gilt das Hookesche Gesetz: Spannung = E-Modul · Dehnung. Nimmt man die Last weg, geht die Probe ganz zurück.
 
 Danach beginnt das Fließen, die Probe verformt sich bleibend. Die höchste Spannung ist die Zugfestigkeit. Danach schnürt sich die Probe ein und reißt. Legt man die Bruchstücke zusammen und misst die Länge, bekommt man die Bruchdehnung. Sie zeigt, wie verformbar der Werkstoff ist.
 
@@ -483,7 +483,7 @@ Formel: Hookesches Gesetz | σ = E · ε | E = σ / ε; ε = σ / E
 Aufbau: Im elastischen Bereich ist die Spannung proportional zur Dehnung. E sagt, wie steif der Werkstoff ist, deshalb ·.
 Karte: Wie bekommst du die Zugfestigkeit? | Höchstkraft / Anfangsquerschnitt.
 Karte: Wie groß ist der E-Modul von Stahl? | Etwa 210000 N/mm².
-Karte: Was gilt im elastischen Bereich? | Spannung gleich E-Modul mal Dehnung, und die Probe federt ganz zurück.
+Karte: Was gilt im elastischen Bereich? | Spannung = E-Modul · Dehnung, und die Probe federt ganz zurück.
 Karte: Was ist ein kurzer Proportionalstab? | Eine Probe mit L_0 = 5 · d_0.
 Karte: Worauf bezieht sich die Bruchdehnung? | Auf die Anfangsmesslänge L_0.
 Karte: Was misst man bei Vickers? | Die beiden Diagonalen des Eindrucks.

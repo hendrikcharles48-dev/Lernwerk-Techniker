@@ -20,6 +20,7 @@
 - Erst das Prinzip mit einem Bild aus seiner Welt (Fräse, Werkstatt, Krafttraining, Baseball), dann Fachbegriff, Merksatz, Bausteine, Schnellweg.
 - Texte vorlesbar: ganze Sätze, keine Pfeile, keine Abkürzungen wie „z. B.“.
 - Rechenzeichen, Prozent, Grad und Hochzahlen als Zeichen schreiben (·, /, +, −, =, %, °, ²), nicht als Wort. Die Vorlesefunktion spricht sie aus. Bei Punkt vor Strich Klammern setzen.
+- Das gilt überall, auch für Hochzahlen (10³, 2ˣ, xⁿ⁻¹), Vorzeichen (−5, +24 V), Wurzeln (√(a + b)) und Gleichheit (=). In Aufgaben mit Platzhalter als 10^{m} schreiben, die App macht daraus eine Hochzahl. Der Test meldet Rechenwörter mit „ZEICHEN STATT WORT“.
 - Jede Formel bekommt darunter eine Zeile „Aufbau:“, die kurz erklärt, warum sie so zusammengesetzt ist.
 - Jeder Rechenschritt wendet eine Formel an oder rechnet eine Einheit um, keine bloßen Rechen-Zwischenstücke.
 - Fakten sorgfältig prüfen. Bei Widersprüchen beide Angaben nennen und mit „Achtung“ markieren.

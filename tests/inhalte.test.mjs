@@ -65,6 +65,8 @@ for (const file of files) {
     // Pfeile und Abkürzungen vermeiden (vorlesbar)
     const all = JSON.stringify(t);
     for (const bad2 of ['→', '=>', 'z. B.', 'z.B.', 'bzw.', 'usw.', 'ca.', 'd. h.']) if (all.includes(bad2)) { console.log('VORLESEN', t.thema, bad2); bad++; }
+    // Rechenzeichen, Hochzahlen und Vorzeichen als Zeichen, nicht als Wort
+    for (const re of [/\bhoch (\d|zwei|drei|null|\{)/, /geteilt durch/, /\d mal \d/, /zum Quadrat/, /\b(plus|minus) \d/, /\d (plus|minus) /, /Wurzel aus [A-Za-z]_?\w*²/]) { const m = all.match(re); if (m) { console.log('ZEICHEN STATT WORT', t.thema, '|', all.slice(Math.max(0, m.index - 30), m.index + 30)); bad++; } }
   }
   console.log(String(file).split('/').pop(), r.themen.length, 'Themen');
 }

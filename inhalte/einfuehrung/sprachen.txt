@@ -117,7 +117,7 @@ Anker: Ein Arbeitsplan an der Fräse ist eine Prozessbeschreibung: Erst spannen,
 Begriff: Passive voice | Das Passiv, in Prozessbeschreibungen sehr häufig, weil die Handlung wichtiger ist als die Person.
 Begriff: Sequencing words | Wörter für die Reihenfolge: first, then, next, after that, finally.
 Begriff: Imperative | Die Befehlsform für Anleitungen, zum Beispiel Close the door.
-Merksatz: First, then, next, after that, finally. Und im Passiv: is plus dritte Form.
+Merksatz: First, then, next, after that, finally. Und im Passiv: is + dritte Form.
 Prinzip: Für eine Prozessbeschreibung nimmst du meist das Simple Present im Passiv: The workpiece is clamped. The tool is changed. Das Passiv bildest du mit is oder are und der dritten Verbform.
 Die Reihenfolge machst du mit Signalwörtern klar: First, the workpiece is cleaned. Then it is clamped in the vice. After that, the zero point is set. Finally, the part is measured.
 Für Bedienungsanleitungen nimmst du die Befehlsform ohne Subjekt: Press the start button. Wait until the spindle stops.

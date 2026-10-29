@@ -23,7 +23,7 @@ Baustein: Achsen festlegen und für jeden Winkel klären, ob er zur x-Achse oder
 Baustein: Jede Kraft in x-Anteil und y-Anteil zerlegen, mit Vorzeichen.
 Baustein: Summe in x und Summe in y aufstellen.
 Baustein: Gleichgewicht: Summen gleich null setzen und nach der Unbekannten auflösen. Resultierende: Pythagoras und Arkustangens.
-Schnellweg: Zwei symmetrische Seile mit Winkel β zur Senkrechten: Seilkraft gleich Last geteilt durch 2 · Kosinus β.
+Schnellweg: Zwei symmetrische Seile mit Winkel β zur Senkrechten: Seilkraft = Last / (2 · cos β).
 Schnellweg: Bei 90° zwischen zwei Kräften ist die Resultierende einfach Pythagoras.
 Fehler: Sinus und Kosinus vertauscht | Schau, von welcher Achse der Winkel gemessen ist. Die Komponente am Winkel bekommt den Kosinus.
 Fehler: Vorzeichen vergessen | Kräfte nach links oder unten bekommen ein Minus, wenn die Achsen nach rechts und oben zeigen.
@@ -41,7 +41,7 @@ Karte: Was heißt zentrales Kräftesystem? | Alle Kräfte greifen in einem Punkt
 Karte: Wie lauten die Gleichgewichtsbedingungen im zentralen Kräftesystem? | Summe der x-Kräfte null und Summe der y-Kräfte null.
 Karte: Winkel zur x-Achse gegeben: Wie bekommst du den x-Anteil? | Kraft · Kosinus des Winkels.
 Karte: Winkel zur x-Achse gegeben: Wie bekommst du den y-Anteil? | Kraft · Sinus des Winkels.
-Karte: Wie bekommst du die Resultierende aus F_x und F_y? | Wurzel aus F_x² + F_y².
+Karte: Wie bekommst du die Resultierende aus F_x und F_y? | √(F_x² + F_y²).
 Karte: Wie bekommst du die Richtung der Resultierenden? | Arkustangens von F_y / F_x.
 Karte: Was passiert mit der Seilkraft, wenn das Seil flacher hängt? | Sie wird größer.
 Karte: Was ist der erste Schritt bei jeder Statikaufgabe? | Den Körper freimachen.
@@ -118,7 +118,7 @@ Baustein: Drehsinn festlegen, zum Beispiel linksdrehend positiv.
 Baustein: Alle Momente mit Vorzeichen aufschreiben und die Summe gleich null setzen.
 Baustein: Nach der Unbekannten umstellen und die Einheiten prüfen: Newton · Meter gibt Newtonmeter.
 Schnellweg: Schräge Kraft am Hebel: Moment = F · l · Sinus des Winkels zwischen Hebel und Kraft.
-Schnellweg: Millimeter durch 1000 ergibt Meter. 250 mm Hebel sind 0,25 m.
+Schnellweg: Millimeter / 1000 = Meter. 250 mm Hebel sind 0,25 m.
 Fehler: Länge in Millimeter eingesetzt | Für Newtonmeter muss der Hebelarm in Meter stehen.
 Fehler: Schräge Länge statt senkrechtem Abstand | Der Hebelarm ist der kürzeste Abstand zur Wirkungslinie, nicht die Länge des Bauteils.
 Fehler: Drehsinn vergessen | Momente in entgegengesetzte Richtungen haben verschiedene Vorzeichen.
@@ -127,7 +127,7 @@ Aufbau: Ein Moment ist Drehwirkung. Mehr Kraft oder ein längerer Hebel drehen s
 Formel: Hebelgesetz | F1 · l1 = F2 · l2 | F2 = F1 · l1 / l2; l2 = F1 · l1 / F2
 Aufbau: Im Gleichgewicht ist das linksdrehende Moment so groß wie das rechtsdrehende. Jede Seite ist Kraft · Hebel.
 Formel: Moment einer schrägen Kraft | M = F · l · sin(α) | F = M / (l · sin(α))
-Aufbau: Nur der Anteil der Kraft, der senkrecht zum Hebel steht, dreht. Das ist F · sin α, mal den Hebel l.
+Aufbau: Nur der Anteil der Kraft, der senkrecht zum Hebel steht, dreht. Das ist F · sin α, dann · Hebel l.
 Karte: Wie berechnest du ein Moment? | Kraft · Hebelarm.
 Karte: In welcher Einheit wird das Moment angegeben? | In Newtonmeter, Nm.
 Karte: Was ist der Hebelarm? | Der senkrechte Abstand der Wirkungslinie zum Drehpunkt.
@@ -271,18 +271,18 @@ Fach: Technische Mechanik
 Thema: Festigkeitslehre: Zug, Druck, Flächenpressung, Abscherung
 Anker: Ein Gummiband am Kabelzug: Je dünner es ist, desto stärker wird es bei gleicher Kraft gedehnt. Entscheidend ist nicht die Kraft allein, sondern die Kraft pro Fläche. Das ist die Spannung.
 Anker: Ein Bolzen in einer Gabel: Er kann an zwei Stellen abgeschert werden, er kann sich in die Bohrung drücken, und die Lasche kann reißen. Für jede Gefahr gibt es eine eigene Rechnung. Die Kunst ist, die richtige Gefahr zu erkennen.
-Begriff: Spannung | Kraft geteilt durch die Fläche, die sie trägt. Einheit N/mm².
+Begriff: Spannung | Kraft / die Fläche, die sie trägt. Einheit N/mm².
 Begriff: Zugspannung σ | Die Kraft zieht das Bauteil auseinander, die tragende Fläche ist der Querschnitt.
 Begriff: Druckspannung | Die Kraft drückt das Bauteil zusammen, gerechnet wie Zug mit dem Querschnitt.
-Begriff: Flächenpressung p | Der Druck an der Berührfläche zweier Bauteile. Beim Bolzen ist das die projizierte Fläche Durchmesser mal tragende Länge.
+Begriff: Flächenpressung p | Der Druck an der Berührfläche zweier Bauteile. Beim Bolzen ist das die projizierte Fläche Durchmesser · tragende Länge.
 Begriff: Abscherung τ | Zwei Bauteile wollen aneinander vorbeigleiten und schneiden den Bolzen quer ab. Tragend ist der Bolzenquerschnitt, so oft wie Scherflächen da sind.
 Begriff: Schnittigkeit | Die Anzahl der Scherflächen. Ein Bolzen in einer Gabel ist zweischnittig.
 Begriff: Zulässige Spannung | Die Spannung, die ein Bauteil höchstens haben darf. Sie enthält schon eine Sicherheit.
-Begriff: Sicherheit | Grenzspannung des Werkstoffs geteilt durch die vorhandene Spannung, zum Beispiel Streckgrenze durch Zugspannung.
+Begriff: Sicherheit | Grenzspannung des Werkstoffs / die vorhandene Spannung, zum Beispiel Streckgrenze durch Zugspannung.
 Merksatz: Spannung = Kraft durch tragende Fläche. Die Frage ist immer: Welche Fläche trägt?
 Merksatz: Zug und Druck: Querschnitt senkrecht zur Kraft.
 Merksatz: Abscherung: Bolzenquerschnitt · Anzahl der Scherflächen.
-Merksatz: Flächenpressung am Bolzen: Durchmesser mal tragende Länge.
+Merksatz: Flächenpressung am Bolzen: Durchmesser · tragende Länge.
 Merksatz: Sicherheit ist Grenzwert durch vorhandenen Wert und muss größer als 1 sein.
 Prinzip: In der Festigkeitslehre geht es fast immer um dieselbe Formel: Spannung = Kraft / Fläche. Was sich ändert, ist die Fläche. Deshalb ist der wichtigste Schritt, die Belastungsart zu erkennen.
 
@@ -290,7 +290,7 @@ Zieht oder drückt die Kraft in Längsrichtung des Bauteils, trägt der Querschn
 
 Schiebt die Kraft zwei Bauteile quer aneinander vorbei, wird der Bolzen abgeschert. Die tragende Fläche ist sein Querschnitt. Hat der Bolzen zwei Scherflächen, wie in einer Gabel, zählt der Querschnitt doppelt.
 
-Drückt ein Bolzen gegen die Bohrungswand, entsteht Flächenpressung. Man rechnet mit der projizierten Fläche, also Durchmesser mal tragende Länge, nicht mit dem halben Umfang.
+Drückt ein Bolzen gegen die Bohrungswand, entsteht Flächenpressung. Man rechnet mit der projizierten Fläche, also Durchmesser · tragende Länge, nicht mit dem halben Umfang.
 
 Zum Schluss vergleichst du die Spannung mit dem zulässigen Wert. Ist sie kleiner, hält das Bauteil.
 Baustein: Belastungsart erkennen: Zug, Druck, Abscherung oder Flächenpressung.
@@ -316,8 +316,8 @@ Formel: Sicherheit gegen Fließen | ν = R_e / σ | σ = R_e / ν; R_e = ν · �
 Aufbau: Die Sicherheit sagt, wie oft die vorhandene Spannung in die Streckgrenze passt. Deshalb Grenze / vorhanden.
 Karte: Wie lautet die Grundformel der Spannung? | Kraft durch tragende Fläche.
 Karte: Welche Fläche trägt bei Zug? | Der Querschnitt senkrecht zur Kraft.
-Karte: Welche Fläche trägt bei Abscherung? | Der Bolzenquerschnitt mal der Anzahl der Scherflächen.
-Karte: Welche Fläche nimmst du für die Flächenpressung am Bolzen? | Die projizierte Fläche, Durchmesser mal tragende Länge.
+Karte: Welche Fläche trägt bei Abscherung? | Der Bolzenquerschnitt · der Anzahl der Scherflächen.
+Karte: Welche Fläche nimmst du für die Flächenpressung am Bolzen? | Die projizierte Fläche, Durchmesser · tragende Länge.
 Karte: Wie viele Scherflächen hat ein Bolzen in einer Gabel? | Zwei, er ist zweischnittig.
 Karte: Was ist 1 N/mm² in MPa? | 1 MPa.
 Karte: Wie rechnest du die Sicherheit aus? | Grenzspannung, zum Beispiel Streckgrenze, durch vorhandene Spannung.
@@ -365,7 +365,7 @@ Gegeben: s = {s} mm
 Gesucht: Flächenpressung p in N/mm²
 Ansatz: p = F / (d · s) | p = F / (π · d² / 4); p = F / (π · d · s / 2); τ = F / (2 · A)
 Signal: Der Bolzen drückt gegen die Bohrungswand der Lasche. Gefragt ist der Druck an dieser Berührfläche.
-Warum: Weil man bei Bolzen mit Durchmesser mal tragender Länge rechnet | Weil die tragende Fläche der Bolzenquerschnitt ist; Weil die Fläche bei Druck keine Rolle spielt
+Warum: Weil man bei Bolzen mit Durchmesser · tragender Länge rechnet | Weil die tragende Fläche der Bolzenquerschnitt ist; Weil die Fläche bei Druck keine Rolle spielt
 Kontrolle: Wird die Flächenpressung kleiner, wenn die Lasche dicker ist? | Ja, die tragende Fläche wird größer | Nein, sie wird größer; Die Dicke spielt keine Rolle
 Schritt: Projizierte Fläche ausrechnen | d * s | mm²
 Schritt: Flächenpressung ausrechnen | F * 1000 / (d * s) | N/mm²

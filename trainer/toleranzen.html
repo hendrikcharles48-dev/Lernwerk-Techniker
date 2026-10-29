@@ -948,8 +948,8 @@ table.tbl { border-collapse: separate; border-spacing: 0; font-size: 14px; font-
     if (l === 'js') {
       fundSide = 'sym';
       upper = half; lower = -half; fund = half;
-      s3 = `${letter} bedeutet: Das Toleranzfeld liegt symmetrisch zur Nulllinie, halb darüber und halb darunter. Ein Grundabmaß aus der Tabelle brauchst du nicht. Beide Abmaße sind halb so groß wie der IT-Wert: ${u(it)} µm geteilt durch 2 = ${u(it / 2)} µm.`;
-      if (half !== it / 2) s3 += ` Bei IT7 bis IT11 rundet die Norm einen ungeraden IT-Wert auf die nächste gerade Zahl ab, damit ganze Mikrometer herauskommen: ${u(it - 1)} µm geteilt durch 2 = <b>${u(half)} µm</b>. So steht es auch in den Tabellenbüchern.`;
+      s3 = `${letter} bedeutet: Das Toleranzfeld liegt symmetrisch zur Nulllinie, halb darüber und halb darunter. Ein Grundabmaß aus der Tabelle brauchst du nicht. Beide Abmaße sind halb so groß wie der IT-Wert: ${u(it)} µm / 2 = ${u(it / 2)} µm.`;
+      if (half !== it / 2) s3 += ` Bei IT7 bis IT11 rundet die Norm einen ungeraden IT-Wert auf die nächste gerade Zahl ab, damit ganze Mikrometer herauskommen: ${u(it - 1)} µm / 2 = <b>${u(half)} µm</b>. So steht es auch in den Tabellenbüchern.`;
       s4 = `Oberes Abmaß <b>+${u(half)} µm</b>, unteres Abmaß <b>−${u(half)} µm</b>.`;
     } else if (!isHole && (l === 'h' || T.SHAFT_UPPER_LETTERS.includes(l))) {
       fundSide = 'upper';
@@ -1081,8 +1081,8 @@ table.tbl { border-collapse: separate; border-spacing: 0; font-size: 14px; font-
     const steps = [
       { t: `Bohrung ${f(N)} ${H.cls}`, h: `Oberes Abmaß ${T.umS(H.upper)} µm, unteres Abmaß ${T.umS(H.lower)} µm. Höchstmaß <b>${mm(H.max)} mm</b>, Mindestmaß <b>${mm(H.min)} mm</b>. Den ausführlichen Weg siehst du, wenn du ${H.cls} einzeln rechnest.` },
       { t: `Welle ${f(N)} ${S.cls}`, h: `Oberes Abmaß ${T.umS(S.upper)} µm, unteres Abmaß ${T.umS(S.lower)} µm. Höchstmaß <b>${mm(S.max)} mm</b>, Mindestmaß <b>${mm(S.min)} mm</b>.` },
-      { t: 'Größte Bohrung minus kleinste Welle', h: `${mm(H.max)} mm − ${mm(S.min)} mm = <b>${T.mmS(d1)} mm</b>. ${d1 > 0 ? 'Positiv heißt: Hier bleibt Spiel.' : d1 < 0 ? 'Negativ heißt: Selbst hier ist die Welle größer, es gibt Übermaß.' : 'Null heißt: Die Teile sind hier genau gleich groß.'}` },
-      { t: 'Kleinste Bohrung minus größte Welle', h: `${mm(H.min)} mm − ${mm(S.max)} mm = <b>${T.mmS(d2)} mm</b>. ${d2 > 0 ? 'Positiv heißt: Auch hier bleibt Spiel.' : d2 < 0 ? 'Negativ heißt: Hier ist die Welle größer als die Bohrung, es gibt Übermaß.' : 'Null heißt: Die Teile sind hier genau gleich groß.'}` }
+      { t: 'Größte Bohrung − kleinste Welle', h: `${mm(H.max)} mm − ${mm(S.min)} mm = <b>${T.mmS(d1)} mm</b>. ${d1 > 0 ? 'Positiv heißt: Hier bleibt Spiel.' : d1 < 0 ? 'Negativ heißt: Selbst hier ist die Welle größer, es gibt Übermaß.' : 'Null heißt: Die Teile sind hier genau gleich groß.'}` },
+      { t: 'Kleinste Bohrung − größte Welle', h: `${mm(H.min)} mm − ${mm(S.max)} mm = <b>${T.mmS(d2)} mm</b>. ${d2 > 0 ? 'Positiv heißt: Auch hier bleibt Spiel.' : d2 < 0 ? 'Negativ heißt: Hier ist die Welle größer als die Bohrung, es gibt Übermaß.' : 'Null heißt: Die Teile sind hier genau gleich groß.'}` }
     ];
     let a, b, la, lb, verdict;
     if (type === 'spiel') {
@@ -1097,7 +1097,7 @@ table.tbl { border-collapse: separate; border-spacing: 0; font-size: 14px; font-
     }
     steps.push({ t: 'Passungsart bestimmen', h: verdict });
     const pt = r6(H.it + S.it);
-    steps.push({ t: 'Passtoleranz', h: `So stark kann das Spiel zwischen zwei Paarungen schwanken: IT-Wert der Bohrung plus IT-Wert der Welle: ${T.um(H.it)} µm + ${T.um(S.it)} µm = ${T.um(pt)} µm, also ${mm(pt / 1000)} mm.` });
+    steps.push({ t: 'Passtoleranz', h: `So stark kann das Spiel zwischen zwei Paarungen schwanken: IT-Wert der Bohrung + IT-Wert der Welle: ${T.um(H.it)} µm + ${T.um(S.it)} µm = ${T.um(pt)} µm, also ${mm(pt / 1000)} mm.` });
 
     return { ok: true, N, H, S, maxC, minC, type, system, equiv, la, a, lb, b, steps, passTol: pt };
   };
@@ -1225,7 +1225,7 @@ table.tbl { border-collapse: separate; border-spacing: 0; font-size: 14px; font-
       maxA = nm + min; minA = nm - min;
       steps.push({ t: 'Größt- und Kleinstwinkel', h: `Größtwinkel: ${T.dm(nm)} + ${min} Minuten = <b>${T.dm(maxA)}</b><br>Kleinstwinkel: ${T.dm(nm)} − ${min} Minuten = <b>${T.dm(minA)}</b>${min >= 60 || nm % 60 < min ? '<br>Denk beim Rechnen daran: 60 Minuten sind 1 Grad.' : ''}` });
     }
-    steps.push({ t: 'Was das am Werkstück heißt', h: `Am Ende des ${T.fmt(L)} mm langen Schenkels darf die Kante dadurch etwa <b>${T.fmt(off, 2, 3)} mm</b> seitlich abweichen. Das ist die Schenkellänge mal Tangens von ${T.fmt(dec, 0, 3)}°. So kannst du den Winkel auch mit Messuhr oder Höhenmessgerät prüfen.` });
+    steps.push({ t: 'Was das am Werkstück heißt', h: `Am Ende des ${T.fmt(L)} mm langen Schenkels darf die Kante dadurch etwa <b>${T.fmt(off, 2, 3)} mm</b> seitlich abweichen. Das ist die Schenkellänge · Tangens von ${T.fmt(dec, 0, 3)}°. So kannst du den Winkel auch mit Messuhr oder Höhenmessgerät prüfen.` });
     return { ok: true, L, cls, min, dec, text, off, maxA, minA, rangeText: rt, steps };
   };
 
@@ -1368,7 +1368,7 @@ table.tbl { border-collapse: separate; border-spacing: 0; font-size: 14px; font-
     const max = r6(N + dev), min = r6(N - dev);
     const steps = [
       { t: 'Angabe lesen', h: `Die Zeichnung verlangt eine allgemeine Profiltoleranz von <b>${T.fmt(t)} mm</b>. Das ist die Breite der Zone, in der jede Fläche ohne eigene Angabe liegen muss.` },
-      { t: 'Zone halbieren', h: `Die Zone liegt mittig um die Sollfläche aus Zeichnung oder CAD-Modell: ${T.fmt(t)} mm geteilt durch 2 = <b>${T.fmt(half)} mm</b> nach jeder Seite.` }
+      { t: 'Zone halbieren', h: `Die Zone liegt mittig um die Sollfläche aus Zeichnung oder CAD-Modell: ${T.fmt(t)} mm / 2 = <b>${T.fmt(half)} mm</b> nach jeder Seite.` }
     ];
     if (mode === 'zwischen') {
       steps.push({ t: 'Zwei Flächen ohne Bezug', h: `Beide Flächen dürfen je ${T.fmt(half)} mm wandern, im ungünstigsten Fall in entgegengesetzte Richtungen. Der Abstand zwischen ihnen kann sich also um ${T.fmt(half)} mm + ${T.fmt(half)} mm = <b>${T.fmt(dev)} mm</b> ändern. Das ist eine Abschätzung für den ungünstigsten Fall. Ist der Abstand ein Größenmaß wie eine Wanddicke und steht eine allgemeine Größenmaßtoleranz auf der Zeichnung, gilt für das Maß selbst diese.` });
@@ -2432,7 +2432,7 @@ table.tbl { border-collapse: separate; border-spacing: 0; font-size: 14px; font-
           table(['Nennmaß in mm', 'IT3', 'IT4', 'IT5', 'IT6', 'IT7', 'IT8'], dRows, 'Zuschlag (Delta) für Bohrungen') +
           `<div class="tbl-note"><p><b>Bohrungen A bis H:</b> Das untere Abmaß ist das obere Abmaß der gleichnamigen Welle mit umgedrehtem Vorzeichen. Beispiel F bei 18 bis 30 mm: Welle f hat −20 µm, Bohrung F hat +20 µm.</p>
           <p><b>Bohrung J:</b> eigene Tabelle oben, nur IT6 bis IT8.</p>
-          <p><b>Bohrungen K, M, N bis IT8 sowie P bis ZC bis IT7:</b> Das obere Abmaß ist das Grundabmaß der gleichnamigen Welle mit umgedrehtem Vorzeichen plus Zuschlag. Bei K nimmst du den Wert von k aus der Spalte IT4 bis IT7.</p>
+          <p><b>Bohrungen K, M, N bis IT8 sowie P bis ZC bis IT7:</b> Das obere Abmaß ist das Grundabmaß der gleichnamigen Welle mit umgedrehtem Vorzeichen + Zuschlag. Bei K nimmst du den Wert von k aus der Spalte IT4 bis IT7.</p>
           <p><b>Darüber:</b> K ab IT9 oben 0. M ab IT9 wie Welle m mit umgedrehtem Vorzeichen. N ab IT9 oben 0, bis 3 mm −4 µm. P bis ZC ab IT8 ohne Zuschlag. Sonderfall M6 über 250 bis 315 mm: oben −9 µm.</p>
           <p><b>js und JS:</b> halber IT-Wert nach oben und unten. Bei IT7 bis IT11 wird ein ungerader IT-Wert vorher auf die nächste gerade Zahl abgerundet.</p></div>`;
       }

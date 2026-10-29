@@ -1,7 +1,7 @@
 === LERNWERK ===
 Fach: Technische Mechanik
 Thema: Zentrales Kräftesystem
-Karte: Mit welcher Probe prüfst du eine Zerlegung? | Wurzel aus F_x² + F_y² muss wieder F ergeben.
+Karte: Mit welcher Probe prüfst du eine Zerlegung? | √(F_x² + F_y²) muss wieder F ergeben.
 Karte: Welches Vorzeichen hat F_x bei einem Winkel von 120°? | Minus, die Kraft zeigt nach links.
 Karte: Welches Vorzeichen hat F_y bei einem Winkel von 300°? | Minus, die Kraft zeigt nach unten.
 Karte: Wie bekommst du die Gleichgewichtskraft aus der Resultierenden? | Gleicher Betrag, entgegengesetzte Richtung.
@@ -185,7 +185,7 @@ Gegeben: a = {a}0
 Gegeben: b = {b}
 Gesucht: Ergebnis
 Ansatz: a² + 2ab + b² | a² + b²; a² + ab + b²; a² − 2ab + b²
-Signal: Eine Summe steht in Klammern hoch 2.
+Signal: Eine Summe steht in Klammern mit ².
 Warum: Weil beim Ausmultiplizieren zweimal ab entsteht | Weil man nur die Quadrate addiert; Weil das Minus aus der Klammer kommt
 Kontrolle: Ist das Ergebnis größer als a² + b²? | Ja, um 2ab | Nein, es ist gleich groß; Nein, es ist kleiner
 Schritt: a² | (10 * a)^2 | | a ist die erste Zahl in der Klammer, also {a}0. Rechne sie mal sich selbst: {a}0 · {a}0. Tipp im Kopf: {a} · {a} und dann zwei Nullen dran.
@@ -200,8 +200,8 @@ Gegeben: a = {a}0
 Gegeben: b = {b}
 Gesucht: Ergebnis
 Ansatz: a² − 2ab + b² | a² + 2ab + b²; a² − b²; a² − 2ab − b²
-Signal: Eine Differenz steht in Klammern hoch 2.
-Warum: Weil minus mal minus bei b² plus ergibt | Weil b² immer abgezogen wird; Weil das Mittelglied wegfällt
+Signal: Eine Differenz steht in Klammern mit ².
+Warum: Weil Minus mal Minus bei b² Plus ergibt | Weil b² immer abgezogen wird; Weil das Mittelglied wegfällt
 Kontrolle: Ist das Ergebnis kleiner als a²? | Ja, weil 2ab größer als b² ist | Nein, es ist größer als a²; Nein, es ist genau a²
 Schritt: a² | (10 * a)^2 | | a ist die erste Zahl in der Klammer, also {a}0. Rechne {a}0 · {a}0. Das Minus in der Klammer spielt hier noch keine Rolle.
 Schritt: 2ab | 2 * 10 * a * b | | Das ist die Mitte. Rechne 2 · {a}0 · {b}, erst einmal ohne Vorzeichen. Das Minus kommt erst im Ergebnis.

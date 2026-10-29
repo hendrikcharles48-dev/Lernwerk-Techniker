@@ -159,7 +159,7 @@ Aufgabe: Ein Fehler hat B = {B}, A = {A} und E = {E}. Eine zusätzliche Messung 
 Gegeben: B = {B}, A = {A}, E = {E}
 Gegeben: neues E = {E2}
 Gesucht: Senkung der RPZ
-Ansatz: Alte RPZ minus neue RPZ | Nur E minus neues E; Neue RPZ minus alte RPZ; Alte RPZ durch neues E
+Ansatz: Alte RPZ − neue RPZ | Nur E − neues E; Neue RPZ − alte RPZ; Alte RPZ durch neues E
 Signal: Eine Maßnahme ändert eine Bewertung, gefragt ist die Wirkung auf die RPZ.
 Warum: Weil die Wirkung der Unterschied der beiden Produkte ist | Weil sich nur E ändert und B und A egal sind; Weil die RPZ durch Messungen steigt
 Kontrolle: Ändern sich B und A durch die Messung? | Nein, nur E wird besser | Ja, B und A sinken; Ja, nur B sinkt
@@ -241,7 +241,7 @@ Aufgabe: Strang A dauert {a} Tage, Strang B dauert {b} Tage. Beide laufen parall
 Gegeben: Strang A: {a} Tage
 Gegeben: Strang B: {b} Tage
 Gesucht: Gesamtpuffer von B in Tagen
-Ansatz: Längerer Strang minus kürzerer Strang | Summe beider Stränge; Kürzerer Strang minus längerer Strang; Länge des kürzeren Strangs
+Ansatz: Längerer Strang − kürzerer Strang | Summe beider Stränge; Kürzerer Strang − längerer Strang; Länge des kürzeren Strangs
 Signal: Zwei parallele Wege zwischen denselben Punkten, einer ist kürzer.
 Warum: Weil sich der kürzere Strang um den Unterschied verschieben darf | Weil der Puffer immer die halbe Dauer ist; Weil der kürzere Strang auf dem kritischen Pfad liegt
 Kontrolle: Hat Strang A einen Puffer? | Nein, er ist kritisch | Ja, denselben wie B; Ja, halb so viel wie B
@@ -261,9 +261,9 @@ Begriff: Binärsystem | Zahlensystem mit der Basis 2 und den Ziffern 0 und 1.
 Begriff: Hexadezimalsystem | Zahlensystem mit der Basis 16 und den Ziffern 0 bis 9 und A bis F.
 Begriff: Bit | Eine binäre Stelle, 0 oder 1.
 Begriff: Byte | Acht Bit.
-Begriff: Stellenwert | Der Wert einer Stelle: Basis hoch Position, von rechts bei 0 beginnend.
+Begriff: Stellenwert | Der Wert einer Stelle: Basis^Position, von rechts bei 0 beginnend.
 Merksatz: Mit n Bit gibt es 2ⁿ Werte.
-Merksatz: Die größte Zahl mit n Bit ist 2ⁿ minus 1.
+Merksatz: Die größte Zahl mit n Bit ist 2ⁿ − 1.
 Merksatz: Eine Hex-Ziffer steht für genau 4 Bit.
 Merksatz: Binär nach dezimal: Stellenwerte der Einsen addieren.
 Prinzip: Jedes Zahlensystem funktioniert gleich. Jede Stelle hat einen Wert, der eine Potenz der Basis ist. Im Dezimalsystem sind das 1, 10, 100. Im Binärsystem 1, 2, 4, 8, 16 und so weiter. Eine Binärzahl rechnest du in eine Dezimalzahl um, indem du die Stellenwerte addierst, an denen eine 1 steht.
@@ -272,7 +272,7 @@ Hexadezimal ist eine Kurzschrift für Binär. Vier Bit ergeben 16 Möglichkeiten
 
 In der Steuerungstechnik brauchst du das bei Adressen, Analogwerten und Statusbits.
 Baustein: Basis des Zahlensystems erkennen.
-Baustein: Stellenwerte von rechts aufschreiben: Basis hoch 0, hoch 1, hoch 2.
+Baustein: Stellenwerte von rechts aufschreiben: Basis⁰, Basis¹, Basis².
 Baustein: Nach dezimal: Ziffer · Stellenwert, alles addieren.
 Baustein: Von dezimal: fortlaufend durch die Basis teilen und die Reste von unten lesen.
 Baustein: Zwischen binär und hex in Vierergruppen umrechnen.
@@ -309,7 +309,7 @@ Rechnung: 2^n
 Aufgabe: Ein Zähler hat {n} Bit. Bis zu welcher Zahl kann er höchstens zählen, wenn er bei 0 beginnt?
 Gegeben: {n} Bit, Beginn bei 0
 Gesucht: größte darstellbare Zahl
-Ansatz: 2ⁿ minus 1 | 2ⁿ; 2ⁿ plus 1; n mal 2 − 1
+Ansatz: 2ⁿ − 1 | 2ⁿ; 2ⁿ + 1; n · 2 − 1
 Signal: Gefragt ist der höchste Wert, nicht die Anzahl der Werte.
 Warum: Weil die Null einen der Werte belegt | Weil die größte Zahl immer 2ⁿ ist; Weil ein Bit für das Vorzeichen fehlt
 Kontrolle: Was ist die größte Zahl mit 8 Bit? | 255 | 256; 128
@@ -331,7 +331,7 @@ Begriff: Niedriglegierter Stahl | Kohlenstoff · 100, dann die Elemente, dann de
 Begriff: Hochlegierter Stahl X | X, Kohlenstoff · 100, Elemente und deren Gehalte direkt in %. Mindestens ein Element hat 5 % oder mehr.
 Begriff: Legierungsfaktor | 4 für Cr, Co, Mn, Ni, Si, W. 10 für Al, Cu, Mo, Ti, V und andere. 100 für C, N, P, S. 1000 für B.
 Merksatz: Vorne steht der Kohlenstoff in Hundertstel %.
-Merksatz: Niedriglegiert: Zahl hinten durch den Faktor teilen. Chrom, Nickel, Mangan durch 4, Molybdän und Vanadium durch 10.
+Merksatz: Niedriglegiert: Zahl hinten durch den Faktor teilen. Chrom, Nickel, Mangan / 4, Molybdän und Vanadium / 10.
 Merksatz: Mit X vorne: hochlegiert, Zahlen hinten direkt in %.
 Merksatz: S und E: Zahl ist die Mindeststreckgrenze.
 Prinzip: Ein Stahlname ist eine verschlüsselte Rezeptur. Zuerst schaust du auf den Anfang. Steht dort S oder E, ist es ein Stahl nach Verwendung, und die Zahl ist die Mindeststreckgrenze. Steht dort C, ist es ein unlegierter Stahl, und die Zahl ist der Kohlenstoffgehalt · 100.

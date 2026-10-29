@@ -5,7 +5,7 @@ Anker: Der Eilgang an der Fräse fährt mit gleichbleibender Geschwindigkeit. Pr
 Anker: Beim Training legst du jede Woche 2,5 kg auf. Start bei 60 kg. Das Gewicht ist eine lineare Funktion der Wochen: 60 + 2,5 · Wochen. Die 60 ist der Startwert, die 2,5 die Steigung.
 Begriff: Funktion | Eine Zuordnung, die jedem x genau ein y zuordnet.
 Begriff: Lineare Funktion | Eine Funktion der Form y = m · x + b. Ihr Graph ist eine Gerade.
-Begriff: Steigung m | Um wie viel y wächst, wenn x um 1 wächst. Höhenunterschied geteilt durch Längenunterschied.
+Begriff: Steigung m | Um wie viel y wächst, wenn x um 1 wächst. Höhenunterschied / Längenunterschied.
 Begriff: y-Achsenabschnitt b | Der y-Wert bei x gleich null. Dort schneidet die Gerade die y-Achse.
 Begriff: Nullstelle | Der x-Wert, bei dem y gleich null ist. Dort schneidet der Graph die x-Achse.
 Begriff: Schnittpunkt | Der Punkt, den zwei Graphen gemeinsam haben. Man findet ihn durch Gleichsetzen.
@@ -16,11 +16,11 @@ Merksatz: Positive Steigung steigt, negative fällt, null ist waagerecht.
 Merksatz: Zwei Punkte reichen für eine Gerade.
 Prinzip: Eine lineare Funktion beschreibt einen gleichmäßigen Zusammenhang. Pro Schritt in x kommt immer derselbe Betrag zu y dazu. Dieser Betrag ist die Steigung.
 
-Kennst du zwei Punkte, rechnest du die Steigung aus: den Unterschied der y-Werte geteilt durch den Unterschied der x-Werte. Danach setzt du einen Punkt in y = m · x + b ein und bekommst b.
+Kennst du zwei Punkte, rechnest du die Steigung aus: den Unterschied der y-Werte / den Unterschied der x-Werte. Danach setzt du einen Punkt in y = m · x + b ein und bekommst b.
 
 Für besondere Punkte gibt es feste Wege. Die Nullstelle findest du, indem du y gleich null setzt und nach x auflöst. Einen Schnittpunkt zweier Geraden findest du, indem du beide Funktionen gleichsetzt. Das ist dasselbe wie beim Gleichsetzungsverfahren.
 Baustein: Prüf, was gegeben ist: zwei Punkte, ein Punkt und die Steigung, oder die fertige Funktion.
-Baustein: Steigung bestimmen: y2 minus y1 geteilt durch x2 − x1.
+Baustein: Steigung bestimmen: (y2 − y1) / (x2 − x1).
 Baustein: b bestimmen: einen Punkt in y = m · x + b einsetzen und nach b umstellen.
 Baustein: Gesucht ist ein besonderer Punkt? Nullstelle: y null setzen. Schnittpunkt: gleichsetzen.
 Baustein: Ergebnis mit einer Skizze prüfen.
@@ -46,7 +46,7 @@ Karte: Steigung durch die Punkte (1 | 2) und (3 | 8)? | 3, denn 6 / 2.
 Karte: Nullstelle von y = 2x − 6? | x = 3.
 Karte: Was ist ein Steigungsdreieck? | Ein Dreieck an der Geraden, an dem man Höhen- und Längenunterschied abliest.
 Auswahl: Gegeben sind zwei Punkte. Was rechnest du zuerst? | Die Steigung | Die Nullstelle; Den Schnittpunkt; Die Fläche
-Auswahl: Wo schneidet y = 3x + 4 die y-Achse? | Bei 4 | Bei 3; Bei minus 4 durch 3; Bei 7
+Auswahl: Wo schneidet y = 3x + 4 die y-Achse? | Bei 4 | Bei 3; Bei −4 / 3; Bei 7
 Reihenfolge: Geradengleichung aus zwei Punkten | Steigung aus den Differenzen; Einen Punkt einsetzen; Nach b umstellen; Gleichung aufschreiben; Mit dem zweiten Punkt prüfen
 Aufgabe: Eine Gerade geht durch die Punkte P1 ({x1} | {y1}) und P2 ({x2} | {y2}). Wie groß ist ihre Steigung?
 Gegeben: P1 ({x1} | {y1})
@@ -75,7 +75,7 @@ Schritt: 0 = {m} · x − {b} nach x auflösen | b / m
 Variable: m | 2 | 8 | 1
 Variable: b | 3 | 30 | 1
 Rechnung: b / m
-Aufgabe: Ein Auftrag kostet bei Firma A {bA} Euro Anfahrt plus {mA} Euro pro Stunde, bei Firma B {bB} Euro Anfahrt plus {mB} Euro pro Stunde. Nach wie vielen Stunden sind beide gleich teuer?
+Aufgabe: Ein Auftrag kostet bei Firma A {bA} Euro Anfahrt + {mA} Euro pro Stunde, bei Firma B {bB} Euro Anfahrt + {mB} Euro pro Stunde. Nach wie vielen Stunden sind beide gleich teuer?
 Gegeben: Firma A: y = {mA} · x + {bA}
 Gegeben: Firma B: y = {mB} · x + {bB}
 Gesucht: Stunden x am Schnittpunkt
@@ -106,13 +106,13 @@ Begriff: Exponentialgleichung | Eine Gleichung, in der die Unbekannte im Exponen
 Begriff: Wachstumsfaktor | Die Zahl, mit der ein Wert pro Schritt malgenommen wird. 5 % Wachstum ist der Faktor 1,05.
 Merksatz: Steht x im Exponenten, nimm auf beiden Seiten den Logarithmus.
 Merksatz: Der Logarithmus holt den Exponenten als Faktor nach vorne.
-Merksatz: x = lg von b geteilt durch lg von a, wenn a hoch x = b ist.
-Merksatz: Bei e hoch x nimmst du den ln, dann bleibt x direkt stehen.
+Merksatz: x = lg b / lg a, wenn aˣ = b ist.
+Merksatz: Bei eˣ nimmst du den ln, dann bleibt x direkt stehen.
 Prinzip: Potenzen und Logarithmen sind Gegenspieler, so wie mal und geteilt. Die Potenz rechnet von der Hochzahl zum Ergebnis, der Logarithmus rechnet vom Ergebnis zurück zur Hochzahl.
 
-Das wichtigste Gesetz ist: Der Logarithmus einer Potenz ist der Exponent mal dem Logarithmus der Basis. Damit wird aus einer Gleichung wie 1,05 hoch x = 2 eine normale Gleichung: x · lg 1,05 = lg 2. Dann teilst du nur noch.
+Das wichtigste Gesetz ist: Der Logarithmus einer Potenz ist der Exponent · dem Logarithmus der Basis. Damit wird aus einer Gleichung wie 1,05ˣ = 2 eine normale Gleichung: x · lg 1,05 = lg 2. Dann teilst du nur noch.
 
-Bei Lade- und Entladevorgängen steht meistens e hoch etwas da. Dann nimmst du den natürlichen Logarithmus, weil ln von e hoch x einfach x ist.
+Bei Lade- und Entladevorgängen steht meistens eine e-Potenz da. Dann nimmst du den natürlichen Logarithmus, weil ln(eˣ) = x ist.
 Baustein: Prüf, ob die Unbekannte im Exponenten steht. Nur dann brauchst du den Logarithmus.
 Baustein: Bring die Potenz allein auf eine Seite: Faktoren davor wegteilen.
 Baustein: Nimm auf beiden Seiten den Logarithmus: lg bei Basis 10 oder beliebiger Basis, ln bei Basis e.
@@ -121,36 +121,36 @@ Baustein: Probe: x in die Ausgangsgleichung einsetzen.
 Schnellweg: Verdopplungszeit bei p % Wachstum: ungefähr 70 / p. Bei 5 % etwa 14 Schritte.
 Schnellweg: Kondensator: Nach 5 Zeitkonstanten ist er praktisch voll oder leer.
 Fehler: Logarithmus nur auf eine Seite angewendet | Wie jede Umformung gilt sie für beide Seiten.
-Fehler: Faktor vor der Potenz nicht weggeteilt | Bei 3 · 2 hoch x = 48 zuerst durch 3 teilen, dann den Logarithmus nehmen.
+Fehler: Faktor vor der Potenz nicht weggeteilt | Bei 3 · 2ˣ = 48 zuerst durch 3 teilen, dann den Logarithmus nehmen.
 Fehler: lg und ln gemischt | Auf beiden Seiten denselben Logarithmus nehmen.
 Fehler: % als Faktor falsch | 5 % Wachstum ist der Faktor 1,05, nicht 0,05 und nicht 5.
 Formel: Exponentialgleichung | a^x = b | x = lg(b) / lg(a)
 Aufbau: Gesucht ist die Hochzahl. Die holt man mit dem Logarithmus herunter: x = lg(b) / lg(a).
 Formel: Wachstum | N = N0 · q^t | t = lg(N / N0) / lg(q); N0 = N / q^t
-Aufbau: Jedes Jahr wird mit dem Wachstumsfaktor q malgenommen, nach t Jahren also t-mal. Deshalb q hoch t.
+Aufbau: Jedes Jahr wird mit dem Wachstumsfaktor q malgenommen, nach t Jahren also t-mal. Deshalb qᵗ.
 Formel: Entladung mit e-Funktion | u = U0 · e^(−t / τ) | t = −τ · ln(u / U0)
 Aufbau: Beim Entladen sinkt die Spannung in jeder Zeitkonstante auf etwa 37 %. Das beschreibt die e-Funktion, das Minus steht für das Abnehmen.
 Karte: Was ist lg 1000? | 3.
 Karte: Was ist lg 1? | 0.
 Karte: Wann brauchst du einen Logarithmus? | Wenn die Unbekannte im Exponenten steht.
-Karte: Wie lautet das wichtigste Logarithmusgesetz? | lg von a hoch x ist x · lg a.
-Karte: Wie löst du 2 hoch x = 16? | x = lg 16 / lg 2, also 4.
+Karte: Wie lautet das wichtigste Logarithmusgesetz? | lg(aˣ) = x · lg a.
+Karte: Wie löst du 2ˣ = 16? | x = lg 16 / lg 2, also 4.
 Karte: Welchen Wachstumsfaktor haben 8 % Zuwachs? | 1,08.
 Karte: Welchen Faktor haben 20 % Abnahme? | 0,8.
 Karte: Was ist ln von e⁵? | 5.
 Karte: Welche Taste ist lg auf dem Taschenrechner? | log.
-Karte: Was machst du bei 4 · 3 hoch x = 108 zuerst? | Durch 4 teilen.
-Karte: Faustregel für die Verdopplungszeit? | 70 geteilt durch den Prozentsatz.
+Karte: Was machst du bei 4 · 3ˣ = 108 zuerst? | Durch 4 teilen.
+Karte: Faustregel für die Verdopplungszeit? | 70 / den Prozentsatz.
 Auswahl: 5 · 2^x = 80. Was ist der erste Schritt? | Durch 5 teilen | Logarithmus von 5 nehmen; Durch 2 teilen; Wurzel ziehen
 Auswahl: Welcher Logarithmus passt zu e^x? | ln | lg; log zur Basis 2; Keiner
 Reihenfolge: Exponentialgleichung lösen | Potenz allein stellen; Logarithmus auf beiden Seiten; Exponent nach vorne holen; Nach x auflösen; Probe
-Aufgabe: Löse {a} hoch x = {b}. Wie groß ist x?
-Gegeben: {a} hoch x = {b}
+Aufgabe: Löse {a}ˣ = {b}. Wie groß ist x?
+Gegeben: {a}ˣ = {b}
 Gesucht: x
-Ansatz: x = lg({b}) / lg({a}) | x = {b} / {a}; x = lg({b} / {a}); x = √{b} durch {a}
+Ansatz: x = lg({b}) / lg({a}) | x = {b} / {a}; x = lg({b} / {a}); x = √{b} / {a}
 Signal: Die Unbekannte steht im Exponenten.
 Warum: Weil der Logarithmus den Exponenten als Faktor nach vorne holt | Weil man Potenzen immer durch die Basis teilt; Weil x im Exponenten einfach weggelassen wird
-Kontrolle: Probe: Ergibt {a} hoch dein x wieder {b}? | Ja, dann stimmt es | Nein, es muss {a} mal x ergeben; Die Probe geht mit Logarithmen nicht
+Kontrolle: Probe: Ergibt {a} mit deinem x als Hochzahl wieder {b}? | Ja, dann stimmt es | Nein, es muss {a} · x ergeben; Die Probe geht mit Logarithmen nicht
 Schritt: Logarithmus von b | lg(b)
 Schritt: x ausrechnen | lg(b) / lg(a)
 Variable: a | 2 | 9 | 1
@@ -164,7 +164,7 @@ Gesucht: Jahre t
 Ansatz: t = lg(N / N0) / lg(1 + p / 100) | t = (N − N0) / p; t = N / (N0 · p); t = lg(N − N0) / lg(p)
 Signal: Ein fester Prozentsatz pro Jahr, also Malnehmen pro Schritt. Die Zeit sitzt im Exponenten.
 Warum: Weil jedes Jahr mit demselben Faktor malgenommen wird | Weil jedes Jahr derselbe Betrag in Euro dazukommt; Weil man % immer nur durch 100 teilt
-Kontrolle: Probe: Ergibt der Startbetrag · Wachstumsfaktor hoch deine Jahre wieder etwa den Zielbetrag? | Ja, dann stimmt die Rechnung | Nein, das ergibt immer das Doppelte; Nein, die Probe geht nur mit Zinsen
+Kontrolle: Probe: Ergibt der Startbetrag · Wachstumsfaktor^Jahre wieder etwa den Zielbetrag? | Ja, dann stimmt die Rechnung | Nein, das ergibt immer das Doppelte; Nein, die Probe geht nur mit Zinsen
 Schritt: Wachstumsfaktor | 1 + p / 100
 Schritt: Verhältnis Ziel durch Start | N / N0
 Schritt: Jahre ausrechnen | lg(N / N0) / lg(1 + p / 100) | Jahre
@@ -196,19 +196,19 @@ Thema: Differentialrechnung
 Anker: Der Tacho zeigt nicht, wie weit du gefahren bist, sondern wie schnell sich der Weg gerade ändert. Genau das ist die Ableitung: die Änderung in diesem Moment.
 Anker: Beim Kniebeugen bist du am tiefsten Punkt einen Moment lang in Ruhe, bevor es wieder hochgeht. An diesem Umkehrpunkt ist die Geschwindigkeit null. Bei einer Kurve heißt das: Am höchsten oder tiefsten Punkt ist die Steigung null.
 Begriff: Ableitung | Eine Funktion, die für jedes x die Steigung der Ausgangsfunktion angibt. Man schreibt f Strich.
-Begriff: Potenzregel | Die Ableitung von xⁿ ist n mal xⁿ minus 1.
+Begriff: Potenzregel | Die Ableitung von xⁿ ist n · xⁿ⁻¹.
 Begriff: Faktorregel | Ein Zahlenfaktor bleibt beim Ableiten stehen.
 Begriff: Summenregel | Eine Summe wird gliedweise abgeleitet.
 Begriff: Extremstelle | Eine Stelle mit einem Hochpunkt oder Tiefpunkt. Dort ist die erste Ableitung null.
 Begriff: Tangente | Eine Gerade, die die Kurve in einem Punkt berührt und dort dieselbe Steigung hat.
 Begriff: Zweite Ableitung | Die Ableitung der Ableitung. Ist sie positiv, liegt ein Tiefpunkt vor, ist sie negativ, ein Hochpunkt.
-Merksatz: Hochzahl nach vorne, Hochzahl minus eins.
+Merksatz: Hochzahl nach vorne, Hochzahl − 1.
 Merksatz: Eine Zahl allein fällt beim Ableiten weg.
 Merksatz: Extremwert: Ableitung gleich null setzen.
 Merksatz: Steigung an einer Stelle: Stelle in die Ableitung einsetzen.
 Prinzip: Die Ableitung sagt, wie steil eine Kurve an jeder Stelle ist. Bei einer Geraden ist die Steigung überall gleich. Bei einer Kurve ändert sie sich, deshalb ist die Ableitung selbst wieder eine Funktion.
 
-Für Polynome brauchst du vor allem die Potenzregel. Aus 3 x² wird 3 · 2 mal x¹, also 6x. Aus 5x wird 5. Eine Zahl ohne x fällt weg, weil sie die Kurve nur verschiebt, aber nicht steiler macht.
+Für Polynome brauchst du vor allem die Potenzregel. Aus 3 x² wird 3 · 2 · x¹, also 6x. Aus 5x wird 5. Eine Zahl ohne x fällt weg, weil sie die Kurve nur verschiebt, aber nicht steiler macht.
 
 Damit löst du zwei typische Aufgaben. Erstens: Wie steil ist die Kurve an einer Stelle? Dann setzt du die Stelle in die Ableitung ein. Zweitens: Wo liegt der höchste oder tiefste Punkt? Dann setzt du die Ableitung gleich null, denn dort ist die Kurve kurz waagerecht.
 Baustein: Funktion als Summe von Potenzen von x schreiben.
@@ -216,7 +216,7 @@ Baustein: Jedes Glied mit der Potenzregel ableiten, Zahlen ohne x fallen weg.
 Baustein: Gesucht ist eine Steigung? Stelle in die Ableitung einsetzen.
 Baustein: Gesucht ist ein Hoch- oder Tiefpunkt? Ableitung null setzen und nach x lösen.
 Baustein: Mit der zweiten Ableitung prüfen, ob Hoch- oder Tiefpunkt, und den y-Wert in der Ausgangsfunktion ausrechnen.
-Schnellweg: Bei einer Parabel a x² + b x + c liegt der Scheitel bei x = −b durch 2a.
+Schnellweg: Bei einer Parabel a x² + b x + c liegt der Scheitel bei x = −b / (2a).
 Schnellweg: Ist a positiv, ist der Scheitel ein Tiefpunkt, ist a negativ, ein Hochpunkt.
 Fehler: Hochzahl nicht verringert | Aus x³ wird 3 x², nicht 3 x³.
 Fehler: Konstante abgeleitet stehen gelassen | Eine Zahl ohne x wird beim Ableiten null.
@@ -226,7 +226,7 @@ Formel: Scheitelstelle einer Parabel | x_s = −b / (2 · a) | b = −2 · a · 
 Aufbau: Am Scheitel ist die Steigung null. Die Ableitung von a · x² + b · x ist 2 · a · x + b. Null gesetzt und umgestellt ergibt −b / (2 · a).
 Formel: Tangente | y = m · x + n | n = y − m · x
 Aufbau: n ist der Startwert bei x = 0. Pro Schritt in x kommt die Steigung m dazu.
-Karte: Wie lautet die Potenzregel? | Ableitung von xⁿ ist n mal xⁿ minus 1.
+Karte: Wie lautet die Potenzregel? | Ableitung von xⁿ ist n · xⁿ⁻¹.
 Karte: Was ist die Ableitung von 4x³? | 12x².
 Karte: Was ist die Ableitung von 7x? | 7.
 Karte: Was ist die Ableitung von 15? | 0.
@@ -267,11 +267,11 @@ Rechnung: b / (2 * a)
 Aufgabe: Aus {U} m Zaun soll ein rechteckiges Lager mit möglichst großer Fläche gebaut werden. Wie lang ist eine Seite?
 Gegeben: Umfang {U} m
 Gesucht: Seitenlänge a in m für die größte Fläche
-Ansatz: Fläche als Funktion von a, ableiten, null setzen | Umfang durch 2 teilen, fertig; Fläche = Umfang setzen und lösen; Seite = Wurzel aus dem Umfang
+Ansatz: Fläche als Funktion von a, ableiten, null setzen | Umfang durch 2 teilen, fertig; Fläche = Umfang setzen und lösen; Seite = √Umfang, das ist schon die Lösung
 Signal: Gesucht ist ein Maximum, also ein Extremwert einer Fläche.
 Warum: Weil am Maximum die Ableitung der Fläche null ist | Weil der Umfang immer gleich der Fläche ist; Weil die längste Seite die größte Fläche ergibt
 Kontrolle: Welche Form kommt heraus? | Ein Quadrat mit gleich langen Seiten | Ein sehr langes, schmales Rechteck; Ein Rechteck mit Seiten eins zu zwei
-Tipp: Die zweite Seite ist U halbe minus a. Die Fläche ist a · U halbe minus a.
+Tipp: Die zweite Seite ist U / 2 − a. Die Fläche ist a · (U / 2 − a).
 Schritt: Halber Umfang | U / 2 | m
 Schritt: Fläche A = a · (U / 2 − a) nach a ableiten und null setzen: U / 2 − 2a = 0, also a | U / 4 | m
 Variable: U | 20 | 120 | 4

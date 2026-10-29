@@ -15,14 +15,17 @@ if (canSpeak()) {
 }
 
 // Rechenzeichen stehen im Text als Zeichen. Zum Vorlesen werden sie zu Wörtern.
-const HOCH = { '⁰': '0', '¹': '1', '²': '2', '³': '3', '⁴': '4', '⁵': '5', '⁶': '6', '⁷': '7', '⁸': '8', '⁹': '9', 'ⁿ': 'n' };
+const HOCH = { '⁰': '0', '¹': '1', '²': '2', '³': '3', '⁴': '4', '⁵': '5', '⁶': '6', '⁷': '7', '⁸': '8', '⁹': '9', 'ⁿ': 'n', 'ˣ': 'x', 'ᵖ': 'p', 'ᵗ': 't', 'ᵐ': 'm' };
 export function sprechbar(text) {
   return String(text)
-    .replace(/([0-9A-Za-zΩ)])⁻([⁰¹²³⁴⁵⁶⁷⁸⁹ⁿ]+)/g, (m, a, h) => a + ' hoch minus ' + [...h].map(c => HOCH[c]).join(''))
-    .replace(/([⁰¹²³⁴⁵⁶⁷⁸⁹ⁿ]+)/g, h => ' hoch ' + [...h].map(c => HOCH[c]).join('') + ' ')
+    .replace(/([0-9A-Za-zΩ)])⁻([⁰¹²³⁴⁵⁶⁷⁸⁹ⁿˣᵖᵗᵐ]+)/g, (m, a, h) => a + ' hoch minus ' + [...h].map(c => HOCH[c]).join(''))
+    .replace(/([⁰¹²³⁴⁵⁶⁷⁸⁹ⁿˣᵖᵗᵐ]+)/g, h => ' hoch ' + [...h].map(c => HOCH[c]).join('') + ' ')
+    .replace(/\s*±\s*/g, ' plus minus ')
+    .replace(/\s*≠\s*/g, ' ungleich ')
     .replace(/√\s?/g, ' Wurzel aus ')
     .replace(/\s*·\s*/g, ' mal ')
     .replace(/\s*\^\s*/g, ' hoch ')
+    .replace(/(\S)\/(\d)/g, '$1 durch $2')
     .replace(/(\S)\/(\S)/g, '$1 pro $2')
     .replace(/\s+\/\s+/g, ' durch ')
     .replace(/\s+=\s+/g, ' gleich ')

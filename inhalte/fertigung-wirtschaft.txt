@@ -5,40 +5,40 @@ Anker: Ein Fräserschaft im Spannfutter: Ist die Bohrung etwas größer als der 
 Begriff: Nennmaß N | Das Maß, auf das sich die Abmaße beziehen, zum Beispiel 30 mm.
 Begriff: Oberes Abmaß | Wie weit das Höchstmaß über dem Nennmaß liegt. Bei Bohrungen ES, bei Wellen es.
 Begriff: Unteres Abmaß | Wie weit das Mindestmaß über dem Nennmaß liegt. Bei Bohrungen EI, bei Wellen ei.
-Begriff: Höchstmaß und Mindestmaß | Nennmaß plus oberes Abmaß und Nennmaß plus unteres Abmaß.
+Begriff: Höchstmaß und Mindestmaß | Nennmaß + oberes Abmaß und Nennmaß + unteres Abmaß.
 Begriff: Spiel | Die Bohrung ist größer als die Welle. Der Unterschied ist positiv.
 Begriff: Übermaß | Die Welle ist größer als die Bohrung. Der Unterschied ist negativ.
 Begriff: Spielpassung | Es gibt in jedem Fall Spiel.
 Begriff: Übergangspassung | Je nach Istmaßen gibt es Spiel oder Übermaß.
 Begriff: Übermaßpassung | Es gibt in jedem Fall Übermaß. Man fügt mit Presse oder Wärme.
 Merksatz: Großbuchstabe Bohrung, Kleinbuchstabe Welle.
-Merksatz: Höchstspiel: größte Bohrung minus kleinste Welle.
-Merksatz: Mindestspiel: kleinste Bohrung minus größte Welle.
+Merksatz: Höchstspiel: größte Bohrung − kleinste Welle.
+Merksatz: Mindestspiel: kleinste Bohrung − größte Welle.
 Merksatz: Mindestspiel positiv: Spielpassung. Höchstspiel negativ: Übermaßpassung. Dazwischen: Übergang.
 Prinzip: Bei einer Passung kommen eine Bohrung und eine Welle zusammen. Beide haben Toleranzen, also liegen ihre Istmaße irgendwo zwischen Mindestmaß und Höchstmaß. Um zu wissen, wie sie zusammenpassen, schaust du dir die ungünstigsten Fälle an.
 
 Der lockerste Fall ist die größte Bohrung mit der kleinsten Welle. Das ergibt das Höchstspiel. Der festeste Fall ist die kleinste Bohrung mit der größten Welle. Das ergibt das Mindestspiel. Ist auch das Mindestspiel noch positiv, gibt es immer Spiel. Ist schon das Höchstspiel negativ, gibt es immer Übermaß. Liegt die Null dazwischen, ist es eine Übergangspassung.
 
-Mit Abmaßen geht es schneller: Höchstspiel gleich ES minus ei, Mindestspiel = EI minus es. Abmaße stehen meist in Mikrometer, das Nennmaß in Millimeter.
+Mit Abmaßen geht es schneller: Höchstspiel = ES − ei, Mindestspiel = EI − es. Abmaße stehen meist in Mikrometer, das Nennmaß in Millimeter.
 Baustein: Bohrung und Welle anhand von Groß- und Kleinbuchstaben unterscheiden.
 Baustein: Abmaße aus Tabelle oder Zeichnung ablesen, mit Vorzeichen.
-Baustein: Grenzmaße ausrechnen: Nennmaß + Abmaß, Mikrometer durch 1000 für Millimeter.
-Baustein: Höchstspiel ES minus ei, Mindestspiel EI minus es.
+Baustein: Grenzmaße ausrechnen: Nennmaß + Abmaß, Mikrometer / 1000 ergibt Millimeter.
+Baustein: Höchstspiel ES − ei, Mindestspiel EI − es.
 Baustein: Passungsart bestimmen: Vorzeichen von Höchst- und Mindestspiel.
-Schnellweg: Bei Einheitsbohrung H ist EI gleich null. Dann ist das Mindestspiel einfach minus es.
+Schnellweg: Bei Einheitsbohrung H ist EI gleich null. Dann ist das Mindestspiel einfach −es.
 Schnellweg: Für die Passungsart reicht ein Blick: Liegt die Welle ganz unter der Nulllinie, ist es Spiel bei H.
-Fehler: Vorzeichen der Abmaße verloren | Minus mal minus: ES minus ei mit negativem ei wird zu einer Addition.
+Fehler: Vorzeichen der Abmaße verloren | Minus mal Minus: ES − ei mit negativem ei wird zu einer Addition.
 Fehler: Mikrometer und Millimeter gemischt | Abmaße stehen in µm. Für Grenzmaße durch 1000 teilen.
 Fehler: Höchst- und Mindestspiel vertauscht | Höchstspiel: größte Bohrung, kleinste Welle. Mindestspiel: kleinste Bohrung, größte Welle.
 Formel: Höchstmaß | G_o = N + ES / 1000 | ES = (G_o − N) · 1000
-Aufbau: Das Höchstmaß ist das Nennmaß plus das obere Abmaß. Das Abmaß steht in µm, deshalb / 1000 für mm.
+Aufbau: Das Höchstmaß ist das Nennmaß + das obere Abmaß. Das Abmaß steht in µm, deshalb / 1000 für mm.
 Formel: Höchstspiel | P_SH = ES − ei | ES = P_SH + ei; ei = ES − P_SH
-Aufbau: Größtes Spiel: größte Bohrung minus kleinste Welle. Die Nennmaße heben sich auf, es bleiben die Abmaße ES − ei.
+Aufbau: Größtes Spiel: größte Bohrung − kleinste Welle. Die Nennmaße heben sich auf, es bleiben die Abmaße ES − ei.
 Formel: Mindestspiel | P_SM = EI − es | EI = P_SM + es; es = EI − P_SM
-Aufbau: Kleinstes Spiel: kleinste Bohrung minus größte Welle. Es bleiben die Abmaße EI − es.
+Aufbau: Kleinstes Spiel: kleinste Bohrung − größte Welle. Es bleiben die Abmaße EI − es.
 Karte: Welche Buchstaben stehen für Bohrungen? | Großbuchstaben.
-Karte: Was ist das Höchstspiel? | Größte Bohrung minus kleinste Welle, ES minus ei.
-Karte: Was ist das Mindestspiel? | Kleinste Bohrung minus größte Welle, EI minus es.
+Karte: Was ist das Höchstspiel? | Größte Bohrung − kleinste Welle, ES − ei.
+Karte: Was ist das Mindestspiel? | Kleinste Bohrung − größte Welle, EI − es.
 Karte: Wann liegt eine Spielpassung vor? | Wenn auch das Mindestspiel positiv oder null ist.
 Karte: Wann liegt eine Übermaßpassung vor? | Wenn auch das Höchstspiel negativ oder null ist.
 Karte: Was ist eine Übergangspassung? | Je nach Istmaß Spiel oder Übermaß.
@@ -49,14 +49,14 @@ Karte: Welche Passung hat ein Schrumpffutter? | Eine Übermaßpassung.
 Karte: 30 H7 hat ES = +21 µm. Wie groß ist das Höchstmaß? | 30,021 mm.
 Auswahl: Mindestspiel +7 µm, Höchstspiel +41 µm. Welche Passung? | Spielpassung | Übergangspassung; Übermaßpassung; Keine Passung
 Auswahl: Mindestspiel −15 µm, Höchstspiel +10 µm. Welche Passung? | Übergangspassung | Spielpassung; Übermaßpassung; Keine Passung
-Reihenfolge: Passung auswerten | Bohrung und Welle erkennen; Abmaße ablesen; Höchstspiel ES minus ei; Mindestspiel EI minus es; Passungsart bestimmen
+Reihenfolge: Passung auswerten | Bohrung und Welle erkennen; Abmaße ablesen; Höchstspiel ES − ei; Mindestspiel EI − es; Passungsart bestimmen
 Aufgabe: Eine Bohrung hat das Nennmaß N = {N} mm und das obere Abmaß ES = +{ES} µm. Wie groß ist ihr Höchstmaß?
 Gegeben: N = {N} mm
 Gegeben: ES = +{ES} µm
 Gesucht: Höchstmaß in mm
 Ansatz: N + ES / 1000 | N + ES ohne Umrechnung; N − ES / 1000; N · ES / 1000
 Signal: Nennmaß in Millimeter und ein oberes Abmaß in Mikrometer.
-Warum: Weil Höchstmaß = Nennmaß plus oberes Abmaß ist | Weil man Abmaße vom Nennmaß abzieht; Weil Abmaße schon in Millimeter stehen
+Warum: Weil Höchstmaß = Nennmaß + oberes Abmaß ist | Weil man Abmaße vom Nennmaß abzieht; Weil Abmaße schon in Millimeter stehen
 Kontrolle: Liegt das Höchstmaß nur wenige Hundertstel über dem Nennmaß? | Ja, Abmaße sind klein | Nein, es liegt mehrere Millimeter darüber; Nein, es liegt darunter
 Schritt: Abmaß in mm | ES / 1000 | mm
 Schritt: Höchstmaß | N + ES / 1000 | mm
@@ -103,12 +103,12 @@ Begriff: Herstellkosten | Materialkosten + Fertigungskosten.
 Begriff: Selbstkosten | Herstellkosten + Verwaltungs- und Vertriebsgemeinkosten.
 Begriff: Fixe Kosten | Kosten, die unabhängig von der Menge anfallen.
 Begriff: Variable Kosten | Kosten, die mit jeder Einheit zusätzlich anfallen.
-Begriff: Deckungsbeitrag | Verkaufspreis minus variable Kosten pro Stück. Damit werden die fixen Kosten gedeckt.
+Begriff: Deckungsbeitrag | Verkaufspreis − variable Kosten pro Stück. Damit werden die fixen Kosten gedeckt.
 Begriff: Gewinnschwelle | Die Menge, bei der Erlös und Kosten gleich groß sind. Auch Break-even-Punkt.
 Merksatz: Material + Zuschlag, Fertigung + Zuschlag, zusammen Herstellkosten.
 Merksatz: Herstellkosten + Verwaltung und Vertrieb gibt die Selbstkosten.
 Merksatz: Gewinnschwelle gleich fixe Kosten durch Deckungsbeitrag pro Stück.
-Merksatz: Zuschlag in %: mal eins plus % durch 100.
+Merksatz: Zuschlag in %: · (1 + Zuschlag / 100).
 Prinzip: Ein Unternehmen muss wissen, was ein Produkt kostet, um einen Preis festzulegen. Manche Kosten lassen sich direkt zuordnen, wie das Material für ein Teil. Andere entstehen für alle Produkte gemeinsam, wie die Miete der Halle. Diese Gemeinkosten verteilt man mit Prozentzuschlägen auf die Einzelkosten.
 
 Das Kalkulationsschema läuft immer gleich: Materialeinzelkosten + Materialgemeinkosten, Fertigungslöhne + Fertigungsgemeinkosten. Beides zusammen sind die Herstellkosten. Darauf kommen die Verwaltungs- und Vertriebsgemeinkosten, dann hast du die Selbstkosten. Mit dem Gewinnzuschlag ergibt sich der Verkaufspreis ohne Skonto und Rabatt.
@@ -116,16 +116,16 @@ Das Kalkulationsschema läuft immer gleich: Materialeinzelkosten + Materialgemei
 Für Entscheidungen über Stückzahlen trennt man fixe und variable Kosten. Jedes verkaufte Stück bringt den Deckungsbeitrag. Teilt man die fixen Kosten durch diesen Beitrag, weiß man, ab welcher Menge Gewinn entsteht.
 Baustein: Einzelkosten und Gemeinkosten trennen.
 Baustein: Zuschläge in der richtigen Reihenfolge anwenden: Material, Fertigung, dann Verwaltung und Vertrieb.
-Baustein: % als Faktor: eins plus % durch 100.
+Baustein: % als Faktor: 1 + Prozentsatz / 100.
 Baustein: Für Mengenfragen fixe und variable Kosten trennen und den Deckungsbeitrag bilden.
 Baustein: Ergebnis plausibel prüfen: Der Preis muss über den Selbstkosten liegen.
-Schnellweg: Gewinnschwelle: fixe Kosten durch Preis minus variable Stückkosten.
+Schnellweg: Gewinnschwelle: fixe Kosten / (Preis − variable Stückkosten).
 Schnellweg: Aufschläge immer auf die vorherige Zwischensumme rechnen, nicht auf die Einzelkosten am Anfang.
 Fehler: Zuschlag auf die falsche Basis gerechnet | Materialgemeinkosten auf das Material, Fertigungsgemeinkosten auf den Fertigungslohn.
 Fehler: % als Zahl addiert | 20 % auf 500 Euro sind 100 Euro, nicht 20 Euro.
 Fehler: Fixe Kosten pro Stück als konstant angenommen | Fixe Kosten pro Stück sinken mit steigender Menge.
 Formel: Herstellkosten | HK = MEK · (1 + z_M / 100) + FEK · (1 + z_F / 100)
-Aufbau: Auf jede Einzelkostenart kommt ihr Gemeinkostenzuschlag in %. (1 + z / 100) heißt: 100 % Einzelkosten plus der Zuschlag. Material und Fertigung werden dann addiert.
+Aufbau: Auf jede Einzelkostenart kommt ihr Gemeinkostenzuschlag in %. (1 + z / 100) heißt: 100 % Einzelkosten + der Zuschlag. Material und Fertigung werden dann addiert.
 Formel: Selbstkosten | SK = HK · (1 + z_VV / 100) | HK = SK / (1 + z_VV / 100)
 Aufbau: Auf die Herstellkosten kommt der Zuschlag für Verwaltung und Vertrieb in %. Deshalb · (1 + Zuschlag / 100).
 Formel: Gewinnschwelle | x = K_f / (p − k_v) | K_f = x · (p − k_v); p = K_f / x + k_v
@@ -136,7 +136,7 @@ Karte: Was sind Einzelkosten? | Kosten, die einem Produkt direkt zugeordnet werd
 Karte: Was sind Gemeinkosten? | Kosten, die nicht direkt zuzuordnen sind und mit Zuschlägen verteilt werden.
 Karte: Woraus bestehen die Herstellkosten? | Aus Materialkosten und Fertigungskosten.
 Karte: Was kommt zu den Herstellkosten, um die Selbstkosten zu erhalten? | Die Verwaltungs- und Vertriebsgemeinkosten.
-Karte: Was ist der Deckungsbeitrag pro Stück? | Verkaufspreis minus variable Stückkosten.
+Karte: Was ist der Deckungsbeitrag pro Stück? | Verkaufspreis − variable Stückkosten.
 Karte: Wie berechnest du die Gewinnschwelle? | Fixe Kosten / Deckungsbeitrag pro Stück.
 Karte: Was passiert mit den fixen Kosten pro Stück bei höherer Menge? | Sie sinken.
 Karte: 400 Euro Material, 25 % Zuschlag. Materialkosten? | 500 Euro.
@@ -150,7 +150,7 @@ Aufgabe: Ein Frästeil hat Materialeinzelkosten von {M} Euro bei {zM} % Material
 Gegeben: MEK = {M} Euro, Zuschlag {zM} %
 Gegeben: FEK = {F} Euro, Zuschlag {zF} %
 Gesucht: Herstellkosten in Euro
-Ansatz: MEK und FEK je mit eigenem Zuschlag, dann addieren | MEK + FEK, dann einen Zuschlag; Nur MEK mit Zuschlag, FEK ohne; MEK + FEK plus beide Prozentzahlen
+Ansatz: MEK und FEK je mit eigenem Zuschlag, dann addieren | MEK + FEK, dann einen Zuschlag; Nur MEK mit Zuschlag, FEK ohne; MEK + FEK + beide Prozentzahlen als Euro
 Signal: Zwei Arten Einzelkosten, jede mit ihrem eigenen Gemeinkostenzuschlag.
 Warum: Weil jeder Zuschlag zu seiner eigenen Kostenbasis gehört | Weil man alle Zuschläge auf die Gesamtsumme rechnet; Weil % einfach als Euro addiert werden
 Kontrolle: Sind die Herstellkosten größer als MEK + FEK? | Ja, die Gemeinkosten kommen dazu | Nein, sie sind kleiner; Nein, sie sind gleich
@@ -198,14 +198,14 @@ Quelle: Grundzüge der Kosten- und Leistungsrechnung. Achtung: Das vollständige
 Fach: Qualitätsmanagement
 Thema: Maschinen- und Prozessfähigkeit
 Anker: Beim Bogenschießen oder Baseball-Pitching zählt nicht ein einzelner Treffer, sondern wie eng alle Würfe beieinander liegen und ob sie mittig im Ziel sind. Eng gestreut, aber am Rand, ist genauso schlecht wie mittig, aber weit gestreut. Genau das messen die Fähigkeitskennzahlen.
-Begriff: Toleranz T | Oberer Grenzwert minus unterer Grenzwert.
+Begriff: Toleranz T | Oberer Grenzwert − unterer Grenzwert.
 Begriff: Mittelwert µ | Der Durchschnitt der gemessenen Werte. Er zeigt, wo der Prozess liegt.
 Begriff: Standardabweichung σ | Ein Maß dafür, wie stark die Werte um den Mittelwert streuen.
-Begriff: Cp | Prozesspotenzial: Toleranz geteilt durch sechs Sigma. Es sagt, wie eng der Prozess streut, ohne die Lage zu beachten.
-Begriff: Cpk | Prozessfähigkeit mit Lage: kleinerer Abstand des Mittelwerts zu einem Grenzwert geteilt durch drei Sigma.
+Begriff: Cp | Prozesspotenzial: Toleranz / (6 σ). Es sagt, wie eng der Prozess streut, ohne die Lage zu beachten.
+Begriff: Cpk | Prozessfähigkeit mit Lage: kleinerer Abstand des Mittelwerts zu einem Grenzwert / (3 σ).
 Begriff: Cm und Cmk | Die gleichen Kennzahlen für die Maschinenfähigkeit, gemessen in kurzer Zeit nur an der Maschine.
 Merksatz: Cp ist Toleranz durch sechs Sigma.
-Merksatz: Cpk nimmt den kürzeren Weg zur Grenze, geteilt durch drei Sigma.
+Merksatz: Cpk nimmt den kürzeren Weg zur Grenze / (3 σ).
 Merksatz: Cpk ist nie größer als Cp. Gleich sind sie nur, wenn der Prozess genau mittig liegt.
 Merksatz: Üblich gefordert: Cpk mindestens 1,33 für Prozesse und Cmk mindestens 1,67 für Maschinen.
 Prinzip: Ein Prozess ist fähig, wenn er fast alle Teile innerhalb der Toleranz fertigt, und zwar dauerhaft. Dafür zählen zwei Dinge: Wie stark streuen die Teile, und liegt der Prozess in der Mitte der Toleranz?
@@ -214,7 +214,7 @@ Die Streuung beschreibt die Standardabweichung Sigma. Fast alle Werte liegen inn
 
 Cpk berücksichtigt zusätzlich die Lage. Man nimmt den kleineren Abstand vom Mittelwert zur oberen oder unteren Grenze und teilt ihn durch drei Sigma. Liegt der Prozess schief, ist Cpk kleiner als Cp. Dann hilft es oft schon, die Maschine auf Toleranzmitte zu korrigieren.
 Baustein: Grenzwerte, Mittelwert und Standardabweichung notieren.
-Baustein: Toleranz ausrechnen: oberer minus unterer Grenzwert.
+Baustein: Toleranz ausrechnen: oberer − unterer Grenzwert.
 Baustein: Cp = Toleranz durch sechs Sigma.
 Baustein: Abstände des Mittelwerts zu beiden Grenzen ausrechnen, den kleineren nehmen, durch drei Sigma teilen.
 Baustein: Mit der Forderung vergleichen und entscheiden: Lage korrigieren oder Streuung verringern.
@@ -226,11 +226,11 @@ Fehler: Einheiten gemischt | Grenzwerte, Mittelwert und Sigma in derselben Einhe
 Formel: Prozesspotenzial | C_p = (OGW − UGW) / (6 · σ) | σ = (OGW − UGW) / (6 · C_p)
 Aufbau: Oben steht die Breite der Toleranz. Unten steht die Breite der Streuung: ±3 σ, also 6 σ. Cp sagt, wie oft die Streuung in die Toleranz passt.
 Formel: Prozessfähigkeit obere Seite | C_po = (OGW − µ) / (3 · σ) | µ = OGW − 3 · σ · C_po
-Aufbau: Abstand vom Mittelwert zur oberen Grenze geteilt durch eine halbe Streubreite 3 σ. So sieht man, ob die obere Seite reicht.
+Aufbau: Abstand vom Mittelwert zur oberen Grenze / eine halbe Streubreite 3 σ. So sieht man, ob die obere Seite reicht.
 Formel: Prozessfähigkeit untere Seite | C_pu = (µ − UGW) / (3 · σ) | µ = UGW + 3 · σ · C_pu
-Aufbau: Abstand vom Mittelwert zur unteren Grenze geteilt durch eine halbe Streubreite 3 σ. Der kleinere von C_po und C_pu ist Cpk.
-Karte: Wie berechnest du Cp? | Toleranz geteilt durch sechs Sigma.
-Karte: Wie berechnest du Cpk? | Kleinerer Abstand des Mittelwerts zu einer Grenze geteilt durch drei Sigma.
+Aufbau: Abstand vom Mittelwert zur unteren Grenze / eine halbe Streubreite 3 σ. Der kleinere von C_po und C_pu ist Cpk.
+Karte: Wie berechnest du Cp? | Toleranz / (6 σ).
+Karte: Wie berechnest du Cpk? | Kleinerer Abstand des Mittelwerts zu einer Grenze / (3 σ).
 Karte: Kann Cpk größer als Cp sein? | Nein.
 Karte: Wann sind Cp und Cpk gleich? | Wenn der Prozess genau in der Toleranzmitte liegt.
 Karte: Was bedeutet Cp = 1? | Die Streuung von sechs Sigma passt genau in die Toleranz, ohne Reserve.
@@ -256,9 +256,9 @@ Schritt: Cp | T / (6 * s)
 Variable: T | 0,02 | 0,1 | 0,01
 Variable: s | 0,002 | 0,012 | 0,001
 Rechnung: T / (6 * s)
-Aufgabe: Ein Maß hat UGW = {U} mm und OGW = {U} mm plus {T} mm. Der Mittelwert liegt bei {U} mm plus {m} mm, σ = {s} mm. Wie groß ist Cpk?
+Aufgabe: Ein Maß hat UGW = {U} mm und OGW = {U} mm + {T} mm. Der Mittelwert liegt bei {U} mm + {m} mm, σ = {s} mm. Wie groß ist Cpk?
 Gegeben: UGW = {U} mm, Toleranz {T} mm
-Gegeben: Mittelwert µ = {U} mm plus {m} mm
+Gegeben: Mittelwert µ = {U} mm + {m} mm
 Gegeben: σ = {s} mm
 Gesucht: Cpk
 Ansatz: Kleineren Abstand zur Grenze / (3 · σ) | Größeren Abstand zur Grenze / (3 · σ); Ganze Toleranz / (6 · σ); Kleineren Abstand zur Grenze / (6 · σ)

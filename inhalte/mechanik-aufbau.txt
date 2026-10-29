@@ -13,16 +13,16 @@ Merksatz: Streckenlast · Länge gibt die Ersatzkraft, sie greift in der Mitte a
 Merksatz: Momentensumme um ein Lager, dann fällt dessen Kraft weg.
 Prinzip: Im allgemeinen Kräftesystem greifen Kräfte an verschiedenen Stellen an. Deshalb kann der Körper sich nicht nur verschieben, sondern auch drehen. Für das Gleichgewicht brauchst du drei Bedingungen: Kräfte in x, Kräfte in y und Momente.
 
-Eine verteilte Last wie das Eigengewicht eines Trägers oder Schüttgut nennt man Streckenlast. Für die Lagerkräfte ersetzt du sie durch eine einzelne Ersatzkraft. Diese ist so groß wie q mal die belastete Länge und greift im Schwerpunkt an. Bei gleichmäßiger Last ist das die Mitte der Länge.
+Eine verteilte Last wie das Eigengewicht eines Trägers oder Schüttgut nennt man Streckenlast. Für die Lagerkräfte ersetzt du sie durch eine einzelne Ersatzkraft. Diese ist so groß wie q · die belastete Länge und greift im Schwerpunkt an. Bei gleichmäßiger Last ist das die Mitte der Länge.
 
 Danach rechnest du genau wie mit Einzellasten: Momentensumme um ein Lager, dann Kräftesumme in y. Wichtig ist, dass du für die Ersatzkraft den Abstand vom Lager zur Mitte der Streckenlast nimmst.
 Baustein: Träger freimachen und alle Lasten einzeichnen.
-Baustein: Streckenlast durch Ersatzkraft q mal Länge in der Mitte der belasteten Länge ersetzen.
+Baustein: Streckenlast durch Ersatzkraft q · Länge in der Mitte der belasteten Länge ersetzen.
 Baustein: Momentensumme um Lager A aufstellen und F_B ausrechnen.
 Baustein: Kräftesumme in y aufstellen und F_A ausrechnen.
 Baustein: Probe mit einer zweiten Momentensumme um B.
 Schnellweg: Gleichmäßige Streckenlast über den ganzen Träger: Jedes Lager trägt die Hälfte von q · l.
-Fehler: Streckenlast nicht mit der Länge malgenommen | q ist eine Kraft pro Meter. Erst mal Länge ergibt eine Kraft.
+Fehler: Streckenlast nicht mit der Länge malgenommen | q ist eine Kraft pro Meter. Erst · Länge ergibt eine Kraft.
 Fehler: Ersatzkraft am falschen Punkt angesetzt | Die Ersatzkraft greift in der Mitte der belasteten Länge an, nicht am Ende.
 Fehler: Einheiten von q falsch | kN pro m · m ergibt kN.
 Formel: Ersatzkraft | F_q = q · l | q = F_q / l; l = F_q / q
@@ -30,7 +30,7 @@ Aufbau: q ist die Last pro Meter. Über die Länge l verteilt ergibt das die gan
 Formel: Lagerkraft bei Streckenlast über die ganze Länge | F_A = q · l / 2 | q = 2 · F_A / l
 Aufbau: Die Ersatzkraft q · l sitzt genau in der Mitte. Wegen der Symmetrie trägt jedes Lager die Hälfte.
 Karte: Wie viele Gleichgewichtsbedingungen gibt es im allgemeinen ebenen Kräftesystem? | Drei.
-Karte: Wie groß ist die Ersatzkraft einer Streckenlast? | q mal belastete Länge.
+Karte: Wie groß ist die Ersatzkraft einer Streckenlast? | q · belastete Länge.
 Karte: Wo greift die Ersatzkraft einer gleichmäßigen Streckenlast an? | In der Mitte der belasteten Länge.
 Karte: Welche Einheit hat eine Streckenlast? | N pro m oder kN pro m.
 Karte: Wie verteilt sich eine gleichmäßige Streckenlast über den ganzen Träger? | Jedes Lager trägt die Hälfte.
@@ -92,11 +92,11 @@ Quelle: Technische Mechanik, Statik, allgemeines Kräftesystem und Streckenlaste
 Fach: Technische Mechanik
 Thema: Biegung
 Anker: Ein Brett, das du über zwei Böcke legst und in der Mitte belastest, biegt sich durch. Oben wird es zusammengedrückt, unten auseinandergezogen. Stellst du dasselbe Brett hochkant, biegt es sich kaum noch. Die Form des Querschnitts entscheidet.
-Anker: Eine Hantelstange mit vielen Scheiben biegt sich in der Mitte. Ein dickerer Durchmesser hilft enorm, weil das Widerstandsmoment mit dem Durchmesser hoch drei wächst.
+Anker: Eine Hantelstange mit vielen Scheiben biegt sich in der Mitte. Ein dickerer Durchmesser hilft enorm, weil das Widerstandsmoment mit d³ wächst.
 Begriff: Biegung | Ein Bauteil wird durch Kräfte quer zur Längsachse gekrümmt.
 Begriff: Biegemoment M_b | Das Moment, das an einer Stelle des Trägers biegt. Am größten meist an der Einspannung oder in der Mitte.
 Begriff: Axiales Widerstandsmoment W | Eine Größe des Querschnitts, die angibt, wie gut er sich gegen Biegung wehrt. Einheit mm³.
-Begriff: Biegespannung σ_b | Biegemoment geteilt durch Widerstandsmoment. Am größten am Rand.
+Begriff: Biegespannung σ_b | Biegemoment / Widerstandsmoment. Am größten am Rand.
 Begriff: Kragträger | Ein Träger, der an einem Ende fest eingespannt ist und am anderen Ende frei herausragt.
 Begriff: Neutrale Faser | Die Mittellinie, die beim Biegen weder gedehnt noch gestaucht wird.
 Merksatz: Biegespannung = Biegemoment / Widerstandsmoment.
@@ -124,12 +124,12 @@ Aufbau: Wie Zug ist Biegung Kraft pro Fläche, nur mit Moment und Widerstandsmom
 Formel: Widerstandsmoment Rechteck | W = b · h² / 6 | b = 6 · W / h²; h = √(6 · W / b)
 Aufbau: Die Höhe zählt im Quadrat, weil Material weit weg von der Mitte am meisten gegen Biegen hilft. Deshalb trägt ein hochkant gestellter Balken mehr.
 Formel: Widerstandsmoment Kreis | W = π · d³ / 32 | d = (32 · W / π)^(1 / 3)
-Aufbau: Für den Vollkreis ergibt die Rechnung π · d³ / 32. d steht hoch 3, deshalb hilft ein etwas dickerer Durchmesser sehr viel.
+Aufbau: Für den Vollkreis ergibt die Rechnung π · d³ / 32. Weil d³ dasteht, hilft ein etwas dickerer Durchmesser sehr viel.
 Formel: Kragträger mit Endlast | M_b = F · l | F = M_b / l; l = M_b / F
 Aufbau: Beim Kragträger ist das größte Moment an der Einspannung. Dort wirkt die Kraft mit dem ganzen Hebel l.
 Formel: Träger auf zwei Stützen, Last in der Mitte | M_b = F · l / 4 | F = 4 · M_b / l
 Aufbau: Jedes Lager trägt F / 2. In der Mitte wirkt diese Lagerkraft mit dem Hebel l / 2: F / 2 · l / 2 = F · l / 4.
-Karte: Wie lautet die Formel für die Biegespannung? | Biegemoment geteilt durch Widerstandsmoment.
+Karte: Wie lautet die Formel für die Biegespannung? | Biegemoment / Widerstandsmoment.
 Karte: Wie groß ist W für einen Rechteckquerschnitt? | b · h² / 6.
 Karte: Wie groß ist W für einen Kreisquerschnitt? | π · d³ / 32.
 Karte: Wo ist das Biegemoment beim Kragträger am größten? | An der Einspannung.
@@ -199,7 +199,7 @@ Anker: Eine Antriebswelle an der Fräse überträgt das Drehmoment vom Motor zum
 Begriff: Torsion | Verdrehung eines Bauteils um seine Längsachse durch ein Drehmoment.
 Begriff: Torsionsmoment M_t | Das Drehmoment, das die Welle verdreht. Einheit Nm.
 Begriff: Polares Widerstandsmoment W_p | Wie gut ein Querschnitt sich gegen Verdrehen wehrt. Beim Vollkreis π d³ / 16.
-Begriff: Torsionsspannung τ_t | Torsionsmoment geteilt durch polares Widerstandsmoment.
+Begriff: Torsionsspannung τ_t | Torsionsmoment / polares Widerstandsmoment.
 Begriff: Drehzahl n | Umdrehungen pro Minute. Zusammen mit der Leistung bestimmt sie das Moment.
 Merksatz: Tau = Torsionsmoment durch polares Widerstandsmoment.
 Merksatz: Vollwelle: W_p = π d³ / 16. Doppelt so groß wie bei Biegung.
@@ -258,7 +258,7 @@ Gesucht: Torsionsspannung τ_t in N/mm²
 Ansatz: W_p = π · d³ / 16, M in Nmm, dann τ = M / W_p | W = π · d³ / 32, M in Nmm, dann teilen; W_p = π · d³ / 16, M in Nm, dann teilen; A = π · d² / 4, M in Nmm, dann teilen
 Signal: Die Welle wird durch ein Moment um ihre eigene Achse verdreht.
 Warum: Weil Torsion mit dem polaren Widerstandsmoment gerechnet wird | Weil Torsion wie Biegung mit 32 gerechnet wird; Weil bei Torsion die Fläche zählt
-Kontrolle: Ist die Spannung bei halbem Durchmesser achtmal so groß? | Ja, d steht hoch drei im Nenner | Nein, doppelt so groß; Nein, viermal so groß
+Kontrolle: Ist die Spannung bei halbem Durchmesser achtmal so groß? | Ja, d³ steht im Nenner | Nein, doppelt so groß; Nein, viermal so groß
 Schritt: Polares Widerstandsmoment | pi * d^3 / 16 | mm³
 Schritt: Moment in Nmm | M * 1000 | Nmm
 Schritt: Torsionsspannung | M * 1000 / (pi * d^3 / 16) | N/mm²

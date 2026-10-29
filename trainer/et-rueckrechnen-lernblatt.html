@@ -118,7 +118,7 @@ footer{padding:20px 4px 0;font-size:13px;color:var(--muted)}
 <tr><td>Gesamtstrom und einzelne Zweigströme, einer fehlt</td><td>Knotenregel</td></tr>
 <tr><td>Gesamtspannung und Teilspannungen, eine fehlt</td><td>Maschenregel</td></tr>
 <tr><td>an jedem Bauteil nur 1 Wert, du steckst fest</td><td>Kirchhoff holt dir den zweiten Wert, dann weiter mit Ohm</td></tr>
-<tr><td>Spannung an einer Parallelgruppe gesucht</td><td>Maschenregel: U minus alle Spannungen in der Hauptleitung</td></tr></table></div>
+<tr><td>Spannung an einer Parallelgruppe gesucht</td><td>Maschenregel: U − alle Spannungen in der Hauptleitung</td></tr></table></div>
 <div class="merk">Wenn Ohm hängt, frag Kirchhoff nach dem zweiten Wert.</div>
 </section>
 
@@ -127,7 +127,7 @@ footer{padding:20px 4px 0;font-size:13px;color:var(--muted)}
 <li><b>Zusammenfassen</b> bis R<sub>ges</sub>. Von innen nach außen: steckt in einem Zweig eine Reihe, erst den Zweig addieren, dann parallel rechnen.</li>
 <li><b>Gesamtstrom</b>: <span class="f">I<sub>ges</sub> = U / R<sub>ges</sub></span>.</li>
 <li>I<sub>ges</sub> fließt durch jeden Widerstand, der direkt in der Hauptleitung sitzt. Deren Spannung mit Ohm.</li>
-<li><b>Masche</b>: Spannung an der Parallelgruppe = U minus die Spannungen aus Schritt 3.</li>
+<li><b>Masche</b>: Spannung an der Parallelgruppe = U − die Spannungen aus Schritt 3.</li>
 <li>Jeder Zweig bekommt diese Spannung. <b>Zweigstrom</b> = U<sub>parallel</sub> / R<sub>Zweig</sub>. Im Zweig mit Reihe dann die Teilspannungen mit Ohm.</li>
 <li><b>Probe</b>: Zweigströme addiert muss I<sub>ges</sub> ergeben (Knoten).</li></ol>
 <div class="merk">Runter zusammenfassen, rauf zurückrechnen. Der Strom ist deine Leiter.</div>
@@ -166,7 +166,7 @@ footer{padding:20px 4px 0;font-size:13px;color:var(--muted)}
 <details><summary>Tipp</summary><div class="in"><p>Erst U<sub>1</sub> mit Ohm, dann die Masche für U<sub>2</sub>.</p></div></details>
 <details class="sol"><summary>Lösung</summary><div class="in"><p>Ohm an R<sub>1</sub>: <span class="f">U<sub>1</sub> = 10 · 2 = 20 V</span></p><p>Masche: <span class="f">U<sub>2</sub> = 48 − 20 = 28 V</span></p><p>Ohm an R<sub>2</sub>: <span class="f">R<sub>2</sub> = 28 / 2 = 14 Ω</span></p><div class="fast"><b>Schnellweg:</b> <span class="f">R<sub>ges</sub> = 48 / 2 = 24 Ω</span>, dann <span class="f">R<sub>2</sub> = 24 − 10 = 14 Ω</span>. Zwei Zeilen statt drei.</div></div></details></article><article class="task" data-id="A5"><header><span class="id">A5</span><span class="tt">Gemessene Spannung als Einstieg</span></header>
 <div class="body"><p>U = 36 V. R<sub>1</sub> (unbekannt) liegt in Reihe mit der Parallelgruppe aus R<sub>2</sub> = 8 Ω und R<sub>3</sub> = 12 Ω. An R<sub>1</sub> misst du 12 V. Berechne I<sub>2</sub>, I<sub>3</sub>, I<sub>ges</sub> und R<sub>1</sub>.</p><div class="fig" id="cA5"></div></div>
-<details><summary>Tipp</summary><div class="in"><p>Die Masche gibt dir die Spannung an der Parallelgruppe. Ab da ist alles Ohm plus Knoten.</p></div></details>
+<details><summary>Tipp</summary><div class="in"><p>Die Masche gibt dir die Spannung an der Parallelgruppe. Ab da ist alles Ohm + Knoten.</p></div></details>
 <details class="sol"><summary>Lösung</summary><div class="in"><p>Masche: <span class="f">U<sub>23</sub> = 36 − 12 = 24 V</span></p><p><span class="f">I<sub>2</sub> = 24 / 8 = 3 A</span>, <span class="f">I<sub>3</sub> = 24 / 12 = 2 A</span></p><p>Knoten: <span class="f">I<sub>ges</sub> = 3 + 2 = 5 A</span></p><p>Ohm an R<sub>1</sub>: <span class="f">R<sub>1</sub> = 12 / 5 = 2,4 Ω</span></p></div></details></article></section><section id="b"><h2>Teil B: Rückrechnen</h2><p>Immer die 6 Schritte. Schreib dir die Zwischenergebnisse sauber untereinander, dann findest du Fehler schneller.</p><article class="task" data-id="B1"><header><span class="id">B1</span><span class="tt">Einstieg</span></header>
 <div class="body"><p>U = 24 V, R<sub>1</sub> = 4 Ω in Reihe mit R<sub>2</sub> = 12 Ω parallel zu R<sub>3</sub> = 6 Ω. Berechne alle Ströme und Spannungen.</p><div class="fig" id="cB1"></div></div>
 <details><summary>Tipp</summary><div class="in"><p>Zwei parallel: Produkt durch Summe.</p></div></details>

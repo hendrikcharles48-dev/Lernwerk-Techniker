@@ -49,8 +49,8 @@ Prinzip: Die drei binomischen Formeln sind Abkürzungen für das Ausmultiplizier
 (a + b)² = a² + 2ab + b²
 (a − b)² = a² − 2ab + b²
 (a + b) · (a − b) = a² − b²
-Wichtig ist das Mittelglied 2ab. Wer es vergisst, rechnet falsch. Die dritte Formel hat kein Mittelglied, weil sich plus ab und minus ab gegenseitig aufheben.
-Baustein: Erkenne, welche Formel passt: plus, minus oder plus mal minus.
+Wichtig ist das Mittelglied 2ab. Wer es vergisst, rechnet falsch. Die dritte Formel hat kein Mittelglied, weil sich +ab und −ab gegenseitig aufheben.
+Baustein: Erkenne, welche Formel passt: (a + b)², (a − b)² oder (a + b) · (a − b).
 Baustein: Bestimme, was a und was b ist. Zahlen und Buchstaben gehören zusammen, zum Beispiel ist bei (3x + 2)² a = 3x.
 Baustein: Setz in die Formel ein und rechne jedes Glied einzeln aus.
 Schnellweg: Zur Probe eine einfache Zahl einsetzen, zum Beispiel x = 1. Beide Seiten müssen dasselbe ergeben.
@@ -134,7 +134,7 @@ Anker: Ein Kilonewton sind tausend Newton, ein Mikrometer ist ein Millionstel Me
 Begriff: Potenz | Kurzschreibweise für mehrfaches Malnehmen derselben Zahl, aⁿ heißt a n-mal mit sich selbst malgenommen.
 Begriff: Basis | Die Zahl, die malgenommen wird.
 Begriff: Exponent | Die Hochzahl, sie sagt, wie oft malgenommen wird.
-Begriff: Wurzel | Die Umkehrung des Potenzierens. Die n-te Wurzel aus a ist a hoch eins durch n.
+Begriff: Wurzel | Die Umkehrung des Potenzierens. Die n-te Wurzel aus a ist a^(1/n).
 Begriff: Zehnerpotenz | Eine Potenz mit der Basis 10, zum Beispiel 10³ = 1000.
 Merksatz: Gleiche Basis beim Malnehmen: Hochzahlen addieren. Beim Teilen: Hochzahlen abziehen.
 Prinzip: Die Potenzgesetze gelten nur bei gleicher Basis oder gleichem Exponenten:
@@ -146,28 +146,28 @@ Die Vorsätze für Einheiten sind Zehnerpotenzen: Giga 10^9, Mega 10^6, Kilo 10^
 Vorsicht bei Flächen und Volumen: 1 m sind 1000 mm, aber 1 m² sind 1000 · 1000, also 1 000 000 mm². Die Umrechnungszahl wird mitquadriert.
 Baustein: Alle Größen in Grundeinheiten oder in passende Zehnerpotenzen umschreiben.
 Baustein: Zahlen und Zehnerpotenzen getrennt rechnen.
-Baustein: Bei Flächen den Umrechnungsfaktor quadrieren, bei Volumen hoch drei nehmen.
+Baustein: Bei Flächen den Umrechnungsfaktor quadrieren, bei Volumen den Umrechnungsfaktor³ nehmen.
 Baustein: Ergebnis wieder mit einem passenden Vorsatz schreiben.
-Schnellweg: Bei der Umrechnung von mm² in m² rechnest du mal 10⁻⁶. Merk dir: Die Hochzahl wird bei Flächen verdoppelt, bei Volumen verdreifacht.
+Schnellweg: Bei der Umrechnung von mm² in m² rechnest du · 10⁻⁶. Merk dir: Die Hochzahl wird bei Flächen verdoppelt, bei Volumen verdreifacht.
 Fehler: Flächeneinheit wie Längeneinheit umgerechnet | 1 cm² sind 100 mm², nicht 10 mm².
 Fehler: Potenzen von Summen falsch | (a + b)² ist nicht a² + b².
 Karte: 10³ · 10⁻⁵ = ? | 10⁻²
 Karte: Wie viele mm² hat 1 m²? | 1 000 000 mm², also 10⁶ mm²
-Karte: Was ist a hoch null? | 1, für a ungleich null.
+Karte: Was ist a⁰? | 1, für a ≠ 0.
 Karte: Welche Zehnerpotenz steckt in Mikro? | 10⁻⁶
-Karte: Wie schreibt man die dritte Wurzel aus a als Potenz? | a hoch ein Drittel.
+Karte: Wie schreibt man die dritte Wurzel aus a als Potenz? | a^(1/3).
 === ENDE ===
 
 === LERNWERK ===
 Fach: Mathematik
 Thema: Quadratische Gleichungen
 Anker: Der Flug eines Baseballs ist eine Parabel. Die Frage, wann der Ball wieder auf dem Boden ist, führt auf eine quadratische Gleichung.
-Begriff: Quadratische Gleichung | Eine Gleichung, in der die Unbekannte höchstens hoch zwei vorkommt.
+Begriff: Quadratische Gleichung | Eine Gleichung, in der die Unbekannte höchstens als x² vorkommt.
 Begriff: Normalform | x² + p · x + q = 0, also mit der Zahl 1 vor dem x².
 Begriff: Diskriminante | Der Term unter der Wurzel in der Lösungsformel. Er entscheidet, wie viele Lösungen es gibt.
 Merksatz: Erst Normalform, dann pq-Formel. Unter der Wurzel negativ heißt keine Lösung.
 Prinzip: Eine quadratische Gleichung hat null, eine oder zwei Lösungen. Um sie zu lösen, bringst du alles auf eine Seite, sodass rechts null steht. Steht vor x² eine andere Zahl als 1, teilst du die ganze Gleichung durch diese Zahl. Dann hast du die Normalform.
-Die pq-Formel lautet: x = −p/2 plus oder minus die Wurzel aus (p/2)² − q.
+Die pq-Formel lautet: x = −p/2 ± √((p/2)² − q).
 Sonderfälle gehen schneller: Fehlt das Glied mit x, stellst du nach x² um und ziehst die Wurzel. Fehlt die Zahl q, klammerst du x aus, dann ist eine Lösung x = 0.
 Baustein: Alles auf eine Seite bringen, sodass auf der anderen null steht.
 Baustein: Prüfen, ob ein Sonderfall vorliegt: fehlt q oder fehlt das x-Glied?
@@ -221,12 +221,12 @@ Fach: Mathematik
 Thema: Funktionen
 Anker: Wie viel Strom fließt bei welcher Spannung, wie weit fährt der Tisch bei welchem Vorschub: Eine Funktion ordnet jedem Eingangswert genau einen Ausgangswert zu, wie eine Tabelle an der Maschine.
 Begriff: Funktion | Eine Zuordnung, die jedem x genau ein y zuordnet.
-Begriff: Steigung | Wie stark eine Gerade steigt: Änderung von y geteilt durch Änderung von x.
+Begriff: Steigung | Wie stark eine Gerade steigt: Änderung von y / Änderung von x.
 Begriff: y-Achsenabschnitt | Der Wert, bei dem die Gerade die y-Achse schneidet.
 Begriff: Nullstelle | Die Stelle x, an der der Funktionswert null ist.
 Begriff: Parabel | Der Graph einer quadratischen Funktion.
 Merksatz: m ist die Steigung, b ist der Start auf der y-Achse.
-Prinzip: Die lineare Funktion lautet f(x) = m · x + b. Ihr Graph ist eine Gerade. Die Steigung m bekommst du aus zwei Punkten: m ist Delta y geteilt durch Delta x, also (y2 − y1) / (x2 − x1).
+Prinzip: Die lineare Funktion lautet f(x) = m · x + b. Ihr Graph ist eine Gerade. Die Steigung m bekommst du aus zwei Punkten: m ist Delta y / Delta x, also (y2 − y1) / (x2 − x1).
 Die quadratische Funktion lautet f(x) = a · x² + b · x + c. Ihr Graph ist eine Parabel. Ist a positiv, ist sie nach oben geöffnet, ist a negativ, nach unten. Der höchste oder tiefste Punkt heißt Scheitelpunkt.
 Nullstellen findest du, indem du f(x) = 0 setzt und die Gleichung löst.
 Baustein: Funktionstyp erkennen: linear, quadratisch oder anders.
@@ -258,12 +258,12 @@ log(x^n) = n · log x
 Damit löst du Gleichungen, bei denen die Unbekannte im Exponenten steht, zum Beispiel bei Lade- und Entladekurven von Kondensatoren.
 Baustein: Gleichung so umstellen, dass die Potenz allein steht.
 Baustein: Auf beiden Seiten den Logarithmus nehmen.
-Baustein: Mit der Regel log(x hoch n) = n · log x den Exponenten nach vorne holen.
+Baustein: Mit der Regel log(xⁿ) = n · log x den Exponenten nach vorne holen.
 Baustein: Nach der Unbekannten auflösen.
 Fehler: log einer Summe aufgeteilt | log(x + y) ist nicht log x + log y.
 Karte: lg 100 = ? | 2
 Karte: log(x · y) = ? | log x + log y
-Karte: log(x hoch n) = ? | n · log x
+Karte: log(xⁿ) = ? | n · log x
 Karte: Welche Basis hat ln? | Die Eulersche Zahl e, ungefähr 2,718.
 === ENDE ===
 
@@ -274,8 +274,8 @@ Anker: Der Tacho im Auto zeigt, wie schnell sich der zurückgelegte Weg gerade �
 Begriff: Ableitung | Die Steigung einer Funktion an einer bestimmten Stelle, geschrieben f'(x).
 Begriff: Tangente | Die Gerade, die den Graphen in einem Punkt berührt und dort dieselbe Steigung hat.
 Begriff: Extremstelle | Eine Stelle mit einem Hochpunkt oder Tiefpunkt.
-Begriff: Potenzregel | Die Ableitung von xⁿ ist n mal xⁿ minus 1.
-Merksatz: Hochzahl nach vorne, Hochzahl minus eins.
+Begriff: Potenzregel | Die Ableitung von xⁿ ist n · xⁿ⁻¹.
+Merksatz: Hochzahl nach vorne, Hochzahl − 1.
 Prinzip: Die Ableitung f'(x) gibt an, wie steil eine Funktion an der Stelle x ist. Die wichtigsten Regeln:
 Die Potenzregel: aus x^n wird n · x^(n − 1).
 Die Faktorregel: Zahlen vor dem x bleiben stehen.
