@@ -224,6 +224,9 @@ const GREEK_NAME = {
 function splitName(name) {
   const s = String(name);
   if (s.includes('_')) { const i = s.indexOf('_'); return [s.slice(0, i), s.slice(i + 1).replace(/_/g, '')]; }
+  // Großbuchstaben mit Nummer wie MA0: die Nummer wird tiefgestellt
+  const caps = /^([A-Z]{2,})(\d+)$/.exec(s);
+  if (caps) return [caps[1], caps[2]];
   let base = s[0];
   let rest = s.slice(1);
   if (base === 'Δ' && rest) { base += rest[0]; rest = rest.slice(1); }

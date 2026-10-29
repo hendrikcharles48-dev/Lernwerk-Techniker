@@ -514,6 +514,16 @@ function runAufgabe(el, item, ctx, meta) {
     }
     return parts.join('<br>');
   }
+  // Welcher eingesetzte Wert mit falschem Vorzeichen ergibt genau die Eingabe?
+  function signFlip(expr, got) {
+    if (got == null || !isFinite(got)) return null;
+    for (const [k, x] of Object.entries(A.vals || {})) {
+      if (!x) continue;
+      const alt = calc(expr, Object.assign({}, A.vals, { [k]: -x }));
+      if (alt != null && Math.abs(alt - got) <= 1e-6 * Math.max(1, Math.abs(got)) && Math.abs(calc(expr, A.vals) - alt) > 1e-9) return x;
+    }
+    return null;
+  }
   function solText(s) {
     if (s.typ === 'gleichung') return fml(s.text);
     if (s.typ === 'zahl') return (s.rechnung ? fml(s.rechnung) + ' = ' + fmlWith(s.rechnung, A.vals) + ' = ' : '') + '<b>' + esc(showValue(s.wert, s.einheit)) + '</b>';
@@ -550,6 +560,9 @@ function runAufgabe(el, item, ctx, meta) {
         return accept(esc(showValue(sj.wert, sj.einheit)), true);
       }
       r = { msg: c.msg + (c.status === 'wrong' && steps.length > 1 && i < steps.length - 1 ? ' Gefragt ist hier nur der Zwischenschritt: ' + s.was + '.' : ''), fehlerart: c.fehlerart, empty: c.status !== 'wrong' };
+      // Nur ein Vorzeichen vertauscht? Dann genau das sagen. Die Form der Rechnung ist egal, es zählt der Wert.
+      const flip = c.status === 'wrong' && s.rechnung ? signFlip(s.rechnung, c.value) : null;
+      if (flip != null) r = { msg: `Fast. Deine Rechnung ist richtig aufgebaut, nur ein Vorzeichen stimmt nicht. Überleg bei der ${fmtNum(flip)}, ob sie dazukommt oder abgeht.`, fehlerart: 'Vorzeichen' };
     }
     if (!r.empty) {
       tries++; used = true;

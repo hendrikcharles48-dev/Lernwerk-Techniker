@@ -104,23 +104,23 @@ Variable: MA0 | 8 | 12 | 1
 Variable: Q0 | 48000 | 72000 | 2000
 Variable: Q | 60000 | 90000 | 2000
 Rechnung: Q / (Q0 / MA0)
-Aufgabe: Eine Abteilung braucht {Soll} Stellen und hat {Ist} Mitarbeiter. Durch eine neue Anlage kommen {NB} Stellen dazu. Im Jahr kehren {Zu} Mitarbeiter aus der Elternzeit zurück, und {Ab} Mitarbeiter gehen in Rente. Wie groß ist der Nettopersonalbedarf?
-Gegeben: Soll = {Soll}, Ist = {Ist}
+Aufgabe: Eine Abteilung braucht {S} Stellen und hat {I} Mitarbeiter. Durch eine neue Anlage kommen {NB} Stellen dazu. Im Jahr kehren {Zu} Mitarbeiter aus der Elternzeit zurück, und {Ab} Mitarbeiter gehen in Rente. Wie groß ist der Nettopersonalbedarf?
+Gegeben: Soll = {S}, Ist = {I}
 Gegeben: Neubedarf = {NB}, Zugänge = {Zu}, Abgänge = {Ab}
 Gesucht: Nettopersonalbedarf N
 Ansatz: Soll − Ist + Neubedarf − Zugänge + Abgänge | Soll − Ist + Neubedarf + Zugänge − Abgänge; Soll + Ist + Neubedarf − Zugänge; Soll − Ist − Neubedarf − Abgänge
 Signal: Soll, Ist und eine Liste von Personen, die kommen oder gehen.
 Warum: Weil Zugänge eine Lücke schließen und Abgänge eine öffnen | Weil Zugänge eine Lücke öffnen und Abgänge sie schließen; Weil Zu- und Abgänge immer addiert werden
 Kontrolle: Was bedeutet ein positives Ergebnis? | Es fehlen Mitarbeiter, also Unterdeckung | Es sind zu viele, also Überdeckung; Alles ist genau richtig besetzt
-Schritt: Deckung I | Soll - Ist | Mitarbeiter
-Schritt: Deckung II mit Neubedarf | Soll - Ist + NB | Mitarbeiter
-Schritt: Nettopersonalbedarf | Soll - Ist + NB - Zu + Ab | Mitarbeiter
-Variable: Soll | 60 | 90 | 1
-Variable: Ist | 55 | 85 | 1
-Variable: NB | 0 | 6 | 1
-Variable: Zu | 0 | 4 | 1
-Variable: Ab | 0 | 5 | 1
-Rechnung: Soll - Ist + NB - Zu + Ab
+Schritt: Deckung I | S - I | Mitarbeiter
+Schritt: Deckung II mit Neubedarf | S - I + NB | Mitarbeiter
+Schritt: Nettopersonalbedarf | S - I + NB - Zu + Ab | Mitarbeiter
+Variable: S | 60 | 90 | 1
+Variable: I | 55 | 85 | 1
+Variable: NB | 1 | 6 | 1
+Variable: Zu | 2 | 4 | 1
+Variable: Ab | 2 | 6 | 1
+Rechnung: S - I + NB - Zu + Ab
 Quelle: Arbeitsblätter Modul 6, Personalplanung, Technikakademie. Achtung: Die Reihenfolge von quantitativer und qualitativer Planung ist auf dem Blatt unterschiedlich dargestellt.
 === ENDE ===
 
