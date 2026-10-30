@@ -310,7 +310,7 @@ function runExam(items, minuten) {
   function show() {
     if (i >= items.length) fertig = true;
     info();
-    zettel.neu();
+    zettel.neu(items[i]);
     $('.bar i', sheet.body).style.width = Math.round(Math.min(i, items.length) / items.length * 100) + '%';
     const box = $('.sess-item', sheet.body);
     const fresh = box.cloneNode(false); box.replaceWith(fresh);

@@ -16,9 +16,11 @@ Alle Lerndaten, Fotos und eingefügten Inhalte bleiben auf dem Gerät (IndexedDB
 
 **Diagramme:** Woche (Übungen pro Tag), Stand im Fach und je Thema (neu, wackelt, sitzt), Anteil, der in jeder Stufe sitzt, Notenverlauf pro Fach, Fehler nach Art und pro Woche, Punkte nach Aufgabenart in der Probeklausur. Antippen zeigt den Wert. Eigene SVG-Diagramme in `js/diagramm.js`, ohne Bibliothek.
 
+**Trainer-Aufgaben:** Jede Runde von der Startseite (Unterricht, Alles wiederholen, Mini) enthält Rechenaufgaben aus Themen mit Trainer, mindestens eine, sonst mindestens die Hälfte der Rechenplätze. Diese Aufgaben sind unabhängig von den Stufen immer frei.
+
 **Stufen:** Jedes Thema hat drei Stufen: 1 Grundlagen (Begriffe, einfache Karten), 2 Zusammenhänge (Karten mit Warum und Wie, Formeln umstellen, Reihenfolge, Verwechslung, Zuordnen), 3 Anwenden (Aufgaben, Auswahlfälle). Eingebaute Inhalte ordnet die App selbst zu, im Block geht es mit `Stufe: 1`, `2` oder `3`. Abgefragt wird nur, was freigeschaltet ist. Neue Themen starten mit Stufe 1. „Hatten wir“ im Thema schaltet die nächste Stufe frei. Sitzt eine Stufe (70 Prozent ihrer Fragen mindestens auf Wiederhol-Stufe 3), schlägt die App die nächste vor, schaltet aber nie selbst frei. Eigene eingefügte Inhalte sind immer ganz frei. Themen, in denen vor dem Update schon gelernt wurde, behalten alle Stufen, in denen es Fortschritt gibt.
 
-**Schmierzettel:** Bei jeder Frage unter der Frage „Zettel“, er klappt darunter auf: tippen oder mit dem Finger zeichnen. Wird nicht geprüft, nicht gespeichert und bei der nächsten Frage geleert.
+**Schmierzettel:** Bei jeder Frage unter der Frage „Zettel“, er klappt darunter auf. Zu- und Aufklappen behält Text und Zeichnung, erst die nächste Frage leert ihn. Bei Rechenaufgaben steht darunter ein Taschenrechner (Komma oder Punkt, ·, /, ^, sqrt, sin in Grad): tippen oder mit dem Finger zeichnen. Wird nicht geprüft, nicht gespeichert und bei der nächsten Frage geleert.
 
 **Fächer:** Fächer aus dem Lehrplan mit Modul, Akzentfarbe und Fortschritt. Themen in drei Gruppen: aktuell im Unterricht (Schalter im Thema), vorhanden, kommt noch. Zweite Ansicht „Nach Modulen“. Ein Thema hat die Reiter Prinzip, Bausteine, Üben, Karten, Schnellweg, Lernzettel, Fotos. Bei alten Trainern gibt es einen großen Knopf, der den Trainer öffnet. Oben rechts: „Als Block kopieren“.
 

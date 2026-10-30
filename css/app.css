@@ -776,3 +776,10 @@ body.sheet-open #readbar { bottom: calc(var(--sab) + 14px); }
 .sa-b .ic { width: 18px; height: 18px; }
 .sa-hoch { transform: rotate(-90deg); } .sa-runter { transform: rotate(90deg); }
 .sa-row .switch { margin-left: 6px; }
+.schmier-ta[hidden], .schmier-cv[hidden] { display: none; }
+.rechner { margin-top: 10px; }
+.rechner-k { display: flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 600; color: var(--label2); margin: 0 0 6px; }
+.rechner-k .ic { width: 16px; height: 16px; }
+.rechner-in { background: var(--fill) !important; box-shadow: none !important; font-variant-numeric: tabular-nums; }
+.rechner-out { margin: 6px 4px 0; font-size: 17px; }
+.rechner-out b { font-size: 20px; }

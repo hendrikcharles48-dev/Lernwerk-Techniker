@@ -339,8 +339,10 @@ export function sichtbar(it, m = modus()) {
   if (!it.tid || it.art === 'fehler' || it.art === 'auffrischen') return true;
   if (m === 'alles') return true;
   if (m === 'schwer') { const c = S.cards.get(it.id); return it.stufe === 3 || !!(c && c.falsch >= 2); }
-  return it.eigen || it.stufe <= freigabe(it.tid);
+  // Rechenaufgaben aus Themen mit Trainer sind immer frei: Die hast du im Trainer schon gerechnet.
+  return it.eigen || it.stufe <= freigabe(it.tid) || (hatTrainer(it.tid) && (it.art === 'aufgabe' || it.art === 'umstellen'));
 }
+export const hatTrainer = tid => { const th = thema(tid); return !!(th && th.thema.trainer && th.thema.trainer.length); };
 // Nur die Übungen, die im gewählten Modus dran sind
 export const uebItems = (tid, m) => topicItems(tid).filter(it => sichtbar(it, m));
 // Sitzt die freigeschaltete Stufe? 70 % ihrer Fragen mindestens auf Wiederhol-Stufe 3 (4 Tage).

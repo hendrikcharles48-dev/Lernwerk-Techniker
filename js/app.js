@@ -11,7 +11,7 @@ import * as sicherung from './sicherung.js';
 import { laden as skizzenLaden } from './skizzen.js';
 import { canSpeak, readAloud } from './speech.js';
 
-export const VERSION = '1.18.0';
+export const VERSION = '1.18.1';
 
 /* ===== Heute ===== */
 // Kurze, wechselnde Sätze für den Start. Ohne Druck.
@@ -210,7 +210,7 @@ function gelernteTids() {
 }
 // Lernzeit: n Fragen, min Minuten (dann endet die Runde sauber), rechnen Anzahl Rechenaufgaben
 const ZEITEN = [['2', '2 Min'], ['5', '5 Min'], ['10', '10 Min'], ['20', '20 Min'], ['f10', '10 Fragen'], ['f20', '20 Fragen']];
-const MINI = { n: 5, min: 2, rechnen: 0 };
+const MINI = { n: 5, min: 2, rechnen: 1 };
 export function lernzeit() {
   const v = prefs.get('lernzeit', '10');
   const z = { 2: MINI, 5: { n: 8, min: 5, rechnen: 2 }, 10: { n: 12, min: 10, rechnen: 6 }, 20: { n: 24, min: 20, rechnen: 12 }, f10: { n: 10, rechnen: 5 }, f20: { n: 20, rechnen: 10 } }[v];
@@ -237,6 +237,37 @@ function mixAufgaben(tids, n) {
   pick(rest, out);
   return out;
 }
+/* ===== Trainer-Aufgaben gehören immer dazu =====
+ * Jede Runde von der Startseite enthält Rechenaufgaben aus Themen mit Trainer: mindestens eine,
+ * sonst mindestens die Hälfte der Rechenplätze. Erst aus den gewählten Themen, dann aus allen
+ * Trainer-Themen, die schon dran waren, und wenn es die noch nicht gibt, aus allen Trainer-Themen.
+ */
+function trainerGruppen(vorne = []) {
+  const alle = st.allTids().filter(t => st.hatTrainer(t));
+  const gelernt = new Set(gelernteTids());
+  const a = alle.filter(t => vorne.includes(t)), b = alle.filter(t => !vorne.includes(t) && gelernt.has(t));
+  return [a, b, alle.filter(t => !a.includes(t) && !b.includes(t))];
+}
+function mitTrainer(items, z, vorne) {
+  const need = Math.max(1, Math.ceil(z.rechnen / 2));
+  const istTr = i => zumRechnen(i) && st.hatTrainer(i.tid);
+  const ist = items.filter(istTr).length;
+  if (ist >= need) return items;
+  const ids = new Set(items.map(i => i.id));
+  // Der Reihe nach: gewählte Themen, schon gelernte Trainer-Themen, alle anderen Trainer-Themen
+  const neu = [];
+  for (const g of trainerGruppen(vorne)) {
+    if (ist + neu.length >= need) break;
+    for (const it of mixAufgaben(g, need)) if (!ids.has(it.id) && ist + neu.length < need) { ids.add(it.id); neu.push(it); }
+  }
+  const out = items.slice();
+  for (const it of neu) {
+    // Die Runde bleibt gleich lang: Für jede Trainer-Aufgabe fliegt eine andere Übung raus, zuerst keine Rechenaufgabe
+    if (out.length >= z.n) { let k = -1; for (let j = out.length - 1; j >= 0; j--) if (!istTr(out[j]) && !zumRechnen(out[j])) { k = j; break; } if (k < 0) for (let j = out.length - 1; j >= 0; j--) if (!istTr(out[j])) { k = j; break; } if (k >= 0) out.splice(k, 1); }
+    out.push(it);
+  }
+  return shuffle(out);
+}
 export function unterrichtQueue() { const t = aktTids(); return t.length ? st.buildQueue(900, { tids: t, mitFehlern: true }) : { items: [], sekunden: 0 }; }
 // Neue Karten nur aus Themen, die in einer Arbeit nicht gut liefen
 export function allesQueue() { return st.buildQueue(900, { maxNeu: st.nacharbeitThemen().size ? 6 : 0 }); }
@@ -244,7 +275,7 @@ export function lernenUnterricht(z = lernzeit()) {
   const tids = aktTids();
   if (!tids.length) { toast('Wähl zuerst aus, was gerade im Unterricht dran ist.'); push(unterrichtPage()); return; }
   let items = unterrichtQueue().items;
-  items = mitRechnen(items, tids, z.n, z.rechnen);
+  items = mitTrainer(mitRechnen(items, tids, z.n, z.rechnen), z, tids);
   if (!items.length) {
     items = sortForPractice(tids.flatMap(t => st.uebItems(t))).slice(0, z.n);
     if (items.length) toast('Gerade ist nichts fällig. Ich nehme Übungen aus deinen Unterrichtsthemen.');
@@ -300,7 +331,12 @@ export function lernenAlles(z = lernzeit()) {
     if (schwach.has(it.tid) && !done.has(it.tid)) { done.add(it.tid); const T = st.topic(it.tid); if (T.merksaetze.length || T.schnellwege.length) out.push({ id: 'auffrischen:' + it.tid, art: 'auffrischen', tid: it.tid }); }
   }
   if (!out.length) { toast('Gerade gibt es nichts zu wiederholen.'); return; }
-  runSession(out.slice(0, N + 3), 'Alles wiederholen', { blind: true, minutes: z.min, onClose: () => refreshTop() });
+  const runde = mitTrainer(out.filter(i => i.art !== 'auffrischen').slice(0, N), z, tids);
+  const auff = out.filter(i => i.art === 'auffrischen');
+  // Auffrischungen bleiben direkt hinter der ersten Übung ihres Themas
+  const fertig = [];
+  for (const it of runde) { fertig.push(it); const a = auff.find(x => x.tid === it.tid); if (a) { fertig.push(a); auff.splice(auff.indexOf(a), 1); } }
+  runSession(fertig, 'Alles wiederholen', { blind: true, minutes: z.min, onClose: () => refreshTop() });
 }
 
 /* ===== Fächer ===== */

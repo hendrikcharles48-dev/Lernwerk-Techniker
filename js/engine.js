@@ -974,14 +974,34 @@ export function schmierzettel(root) {
   box.className = 'schmier no-swipe';
   box.hidden = true;
   btn.after(box);
-  let art = 'tippen', cv = null;
-  function draw() {
+  // Pro Frage einmal aufbauen. Zu- und Aufklappen behält Text und Zeichnung, erst die nächste Frage leert.
+  let art = 'tippen', gebaut = false, mitRechner = false, gemalt = false;
+  function bauen() {
     box.innerHTML = `<div class="schmier-head">${seg('sart', [['tippen', 'Tippen'], ['zeichnen', 'Zeichnen']], art)}<button class="btn small" data-x="leer">Leeren</button></div>
-      ${art === 'tippen' ? '<textarea class="schmier-ta" rows="4" placeholder="Nebenrechnung, Stichworte … wird nicht gespeichert" autocapitalize="off" autocomplete="off" spellcheck="false"></textarea>' : '<canvas class="schmier-cv"></canvas>'}`;
-    $$('[data-seg] button', box).forEach(b => b.onclick = () => { art = b.dataset.v; draw(); });
-    $('[data-x="leer"]', box).onclick = leeren;
-    cv = $('.schmier-cv', box);
-    if (cv) malen(cv);
+      <textarea class="schmier-ta" rows="4" placeholder="Nebenrechnung, Stichworte … wird nicht gespeichert" autocapitalize="off" autocomplete="off" spellcheck="false"></textarea>
+      <canvas class="schmier-cv"></canvas>
+      ${mitRechner ? `<div class="rechner"><div class="rechner-k">${icon('formula')} Taschenrechner</div><input class="inp rechner-in" type="text" inputmode="text" placeholder="zum Beispiel 230 / (2 · 47) oder sqrt(3) · 400" autocapitalize="off" autocomplete="off" spellcheck="false"><div class="rechner-out muted">Rechnung eingeben, das Ergebnis steht hier.</div></div>` : ''}`;
+    $$('[data-seg] button', box).forEach(b => b.onclick = () => { art = b.dataset.v; zeigen(); });
+    $('[data-x="leer"]', box).onclick = () => { $('.schmier-ta', box).value = ''; const c = $('.schmier-cv', box); if (gemalt) { gemalt = false; malen(c); } };
+    const rin = $('.rechner-in', box);
+    if (rin) rin.oninput = () => rechnen(rin.value);
+    gebaut = true;
+    zeigen();
+  }
+  function zeigen() {
+    $$('[data-seg] button', box).forEach(b => b.classList.toggle('on', b.dataset.v === art));
+    const ta = $('.schmier-ta', box), c = $('.schmier-cv', box);
+    ta.hidden = art !== 'tippen'; c.hidden = art !== 'zeichnen';
+    // Die Zeichenfläche braucht ihre Breite, deshalb erst einrichten, wenn sie sichtbar ist
+    if (art === 'zeichnen' && !c.width_ok) { malen(c); c.width_ok = true; }
+  }
+  function rechnen(src) {
+    const out = $('.rechner-out', box);
+    const t = String(src).trim();
+    if (!t) { out.textContent = 'Rechnung eingeben, das Ergebnis steht hier.'; out.classList.add('muted'); return; }
+    const v = calc(t.replace(/(\d),(\d)/g, '$1.$2').replace(/[×x*]/g, '·').replace(/:/g, '/').replace(/,/g, '.'));
+    out.classList.toggle('muted', v == null);
+    out.innerHTML = v == null ? 'Das kann ich noch nicht ausrechnen.' : '= <b>' + esc(fmtNum(v, 6)) + '</b>';
   }
   function malen(c) {
     const r = window.devicePixelRatio || 1;
@@ -992,17 +1012,24 @@ export function schmierzettel(root) {
     g.strokeStyle = getComputedStyle(c).color;
     let zieht = false;
     const pos = e => { const b = c.getBoundingClientRect(); return [e.clientX - b.left, e.clientY - b.top]; };
-    c.onpointerdown = e => { zieht = true; c.setPointerCapture(e.pointerId); const [x, y] = pos(e); g.beginPath(); g.moveTo(x, y); g.lineTo(x + 0.1, y + 0.1); g.stroke(); };
+    c.onpointerdown = e => { zieht = true; gemalt = true; c.setPointerCapture(e.pointerId); const [x, y] = pos(e); g.beginPath(); g.moveTo(x, y); g.lineTo(x + 0.1, y + 0.1); g.stroke(); };
     c.onpointermove = e => { if (!zieht) return; const [x, y] = pos(e); g.lineTo(x, y); g.stroke(); };
     c.onpointerup = c.onpointercancel = () => { zieht = false; };
-    // Beim Zeichnen darf sich die Seite nicht mitbewegen
-    c.addEventListener('touchstart', e => e.preventDefault(), { passive: false });
-    c.addEventListener('touchmove', e => e.preventDefault(), { passive: false });
+    if (!c.touch_ok) {
+      c.touch_ok = true;
+      // Beim Zeichnen darf sich die Seite nicht mitbewegen
+      c.addEventListener('touchstart', e => e.preventDefault(), { passive: false });
+      c.addEventListener('touchmove', e => e.preventDefault(), { passive: false });
+    }
   }
-  function leeren() { if (box.hidden) return; draw(); }
-  btn.addEventListener('click', () => { box.hidden = !box.hidden; btn.classList.toggle('on', !box.hidden); if (!box.hidden) draw(); });
-  // Neue Frage: Zettel leeren und zuklappen
-  return { neu() { box.hidden = true; box.innerHTML = ''; btn.classList.remove('on'); } };
+  btn.addEventListener('click', () => {
+    if (!gebaut) bauen();
+    box.hidden = !box.hidden;
+    btn.classList.toggle('on', !box.hidden);
+    if (!box.hidden) zeigen();
+  });
+  // Neue Frage: Zettel leeren und zuklappen. Bei Rechenaufgaben gibt es den Taschenrechner dazu.
+  return { neu(item) { box.hidden = true; box.innerHTML = ''; gebaut = false; gemalt = false; btn.classList.remove('on'); mitRechner = !!item && (item.art === 'aufgabe' || item.art === 'umstellen'); } };
 }
 
 /* ===== Sitzung: mehrere Übungen nacheinander ===== */
@@ -1037,7 +1064,7 @@ export function runSession(items, title, opt = {}) {
     const bar = $('.bar i', sheet.body);
     if (bar) bar.style.width = Math.round(i / items.length * 100) + '%';
     const n = info(); if (n) n.textContent = items.length > 1 && i < items.length ? (i + 1) + ' von ' + items.length : '';
-    zettel.neu();
+    zettel.neu(items[i]);
     if (limit && Date.now() - start > limit && i > 0 && i < items.length) zeitUm = true;
     if (i >= items.length || zeitUm) return summary(box);
     const it = items[i];
