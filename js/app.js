@@ -2,15 +2,16 @@
 import { esc, dayStr, dayLong, daysBetween, plural, fmtNum, markdown, plainText, uid, shuffle } from './util.js';
 import { parseBlocks, summary, TEMPLATE } from './parser.js';
 import * as st from './store.js';
-import { $, $$, icon, row, list, seg, sw, empty, on, push, initTabs, showTab, tab, openSheet, toast, copyText, readClipboard, progress, ring, fachIcon, confirmBox, refreshAll, refreshTop, initEdgeSwipe, hinweisTabellenbuch } from './ui.js';
+import { $, $$, icon, row, list, seg, sw, empty, on, push, initTabs, showTab, tab, openSheet, toast, copyText, readClipboard, progress, ring, fachIcon, confirmBox, refreshAll, refreshTop, initEdgeSwipe, initTabSwipe, hinweisTabellenbuch } from './ui.js';
 import { topicPage, runSession, sortForPractice, fachProgress, topicProgress, openTrainer, askClaude, shrinkImage, noteReader, firstLine, itemTitle } from './engine.js';
 import { mehrPage, unterrichtPage, termineDetail, termEditor, datensicherung, applyTheme, hoerPage } from './extra.js';
 import { prefs } from './db.js';
+import { saeulen, stapel, standVon, balken } from './diagramm.js';
 import * as sicherung from './sicherung.js';
 import { laden as skizzenLaden } from './skizzen.js';
 import { canSpeak, readAloud } from './speech.js';
 
-export const VERSION = '1.16.0';
+export const VERSION = '1.17.0';
 
 /* ===== Heute ===== */
 // Freundliche, wechselnde Sätze für den Start. Ohne Druck.
@@ -39,26 +40,21 @@ const heute = {
     if (sicherung.aktiv() && sicherung.fehler()) h += `<button class="banner warn" data-a="backup">${icon('cloud')}<span><b>Sicherung klappt nicht.</b> ${esc(sicherung.fehler())}</span></button>`;
     else if (st.backupDue()) h += `<button class="banner warn" data-a="backup">${icon('save')}<span><b>Zeit für eine Sicherung.</b> Deine letzte Sicherung ist älter als 14 Tage. Tippe hier.</span></button>`;
     const qu = unterrichtQueue(), qa = allesQueue();
-    h += `<button class="five" data-a="lernU">${icon('bolt')}<span><b>Unterricht</b><small>${aktTids().length ? 'Nur was gerade im Unterricht dran ist. ' + (qu.items.length ? plural(qu.items.length, 'Übung', 'Übungen') + ' offen.' : 'Nichts fällig, du kannst trotzdem üben.') : 'Noch keine Themen angewählt. Tippe hier.'}</small></span></button>`;
-    h += `<button class="mixbtn" data-a="lernA">${icon('mix')}<span><b>Alles wiederholen</b><small>Alles, was abgeschlossen ist oder schon dran war. Schwache Themen kommen öfter.${qa.faellig ? ' ' + plural(qa.faellig, 'Übung', 'Übungen') + ' fällig.' : ''}</small></span></button>`;
-    // Lernzeit und Fragen vor dem Start wählen. Die letzte Wahl bleibt.
-    h += `<div class="lernwahl"><div class="lw-row"><span class="lw-l">Lernzeit</span>${seg('zeit', ZEITEN, prefs.get('lernzeit', '10'))}</div>
-      <div class="lw-row"><span class="lw-l">Fragen</span>${seg('modus', st.MODI, st.modus())}</div>
-      <button class="mini" data-a="mini">${icon('bolt')}<span><b>Mini</b> · 2 Minuten, etwa 5 Fragen</span></button></div>`;
-    // Heute: Ring mit erledigt und offen
+    // Heute: ein schmaler Fortschritt für den ganzen Tag. Was offen ist, steht direkt an den Lernknöpfen.
     const q = st.buildQueue(900);
     const erledigt = st.S.events.filter(e => e.zeit >= d0.getTime() && e.ok != null && e.art !== 'ansatz').length;
     const offen = q.items.length;
     const anteil = erledigt + offen ? erledigt / (erledigt + offen) : 1;
-    const by = new Map();
-    for (const it of q.items) { const k = it.art === 'fehler' ? 'Fehlerbuch' : (st.thema(it.tid) || { thema: { name: 'Sonstiges' } }).thema.name; by.set(k, (by.get(k) || 0) + 1); }
-    const ringIn = offen ? `<b>${offen}</b><small>offen</small>` : icon('check', 'ring-check');
-    h += `<div class="card today-card"><div class="tc-top">${ring(anteil, 76, offen ? 'var(--accent)' : 'var(--green)', ringIn)}<div class="tc-txt">
-      <div class="tc-t">${offen ? (erledigt ? 'Schon ' + plural(erledigt, 'Übung', 'Übungen') + ' geschafft' : 'Heute dran') : erledigt ? 'Alles geschafft für heute!' : 'Gerade nichts fällig'}</div>
-      <div class="tc-s">${offen ? 'Noch ' + plural(offen, 'Übung', 'Übungen') + ', etwa ' + Math.max(1, Math.round(q.sekunden / 60)) + ' Minuten.' : erledigt ? 'Stark. Was du heute geübt hast, kommt in ein paar Tagen wieder.' : 'Markiere ein Thema als „aktuell im Unterricht“, dann kommen neue Karten dazu.'}</div></div></div>
-      ${offen ? `<div class="tc-tags">${[...by].slice(0, 5).map(([k, n]) => `<span class="tag">${esc(k)} <b>${n}</b></span>`).join('')}</div>` : ''}</div>`;
+    h += `<div class="tagline">${ring(anteil, 34, offen ? 'var(--accent)' : 'var(--green)', offen ? '' : icon('check', 'ring-check'))}<span>${offen ? `<b>Heute:</b> ${erledigt ? erledigt + ' geschafft, ' : ''}noch ${plural(offen, 'Übung', 'Übungen')} offen` : erledigt ? `<b>Alles geschafft für heute!</b> ${plural(erledigt, 'Übung', 'Übungen')}.` : '<b>Heute:</b> gerade nichts fällig'}</span></div>`;
+    const minuten = x => Math.max(1, Math.round(x.sekunden / 60));
+    h += `<button class="five" data-a="lernU">${icon('bolt')}<span><b>Unterricht</b><small>${aktTids().length ? (qu.items.length ? plural(qu.items.length, 'Übung', 'Übungen') + ' offen · etwa ' + minuten(qu) + ' Min' : 'Nichts fällig, du kannst trotzdem üben.') : 'Noch keine Themen angewählt. Tippe hier.'}</small></span></button>`;
+    h += `<button class="mixbtn" data-a="lernA">${icon('mix')}<span><b>Alles wiederholen</b><small>${qa.faellig ? plural(qa.faellig, 'Übung', 'Übungen') + ' fällig · etwa ' + minuten(qa) + ' Min' : 'Nichts fällig. Alles, was schon dran war, schwache Themen öfter.'}</small></span></button>`;
+    // Lernzeit und Fragen vor dem Start wählen. Die letzte Wahl bleibt.
+    h += `<div class="lernwahl"><div class="lw-row"><span class="lw-l">Lernzeit</span>${seg('zeit', ZEITEN, prefs.get('lernzeit', '10'))}</div>
+      <div class="lw-row"><span class="lw-l">Fragen</span>${seg('modus', st.MODI, st.modus())}</div>
+      <button class="mini" data-a="mini">${icon('bolt')}<span><b>Mini</b> · 2 Minuten, etwa 5 Fragen</span></button></div>`;
     const aktT = st.kvGet('aktuell', []).map(id => st.thema(id)).filter(Boolean);
-    h += `<button class="card unt-card" data-a="unterricht"><span class="unt-h">${icon('check')}<b>Im Unterricht</b><span class="muted">${aktT.length ? plural(aktT.length, 'Thema', 'Themen') : 'nichts angewählt'}</span>${icon('chev', 'chev')}</span>${aktT.length ? `<span class="tc-tags">${aktT.slice(0, 6).map(({ fach: f, thema: t }) => `<span class="tag" style="--fc:${f.farbe}">${esc(t.name)}</span>`).join('')}${aktT.length > 6 ? `<span class="tag">und ${aktT.length - 6} weitere</span>` : ''}</span>` : `<span class="muted">Tippe hier und schalte ein, was gerade dran ist.</span>`}</button>`;
+    h += `<button class="unt-zeile" data-a="unterricht">${icon('check')}<b>Im Unterricht</b><span class="unt-tags">${aktT.length ? aktT.map(({ fach: f, thema: t }) => `<span class="tag" style="--fc:${f.farbe}">${esc(t.name)}</span>`).join('') : '<span class="muted">nichts angewählt, tippe hier</span>'}</span>${aktT.length ? `<span class="muted">${aktT.length}</span>` : ''}${icon('chev', 'chev')}</button>`;
     const ex = st.nextExam(today);
     if (ex) {
       const d = daysBetween(today, ex.datum);
@@ -69,11 +65,6 @@ const heute = {
         <div class="count-head"><span class="count-badge"><b>${d === 0 ? '!' : d}</b><small>${d === 0 ? 'heute' : d === 1 ? 'Tag' : 'Tage'}</small></span><span><div class="count-t">${esc(ex.fach)}</div><div class="muted">${esc(dayLong(ex.datum))}</div></span>${bereit != null ? `<span class="bereit">${ring(bereit / 100, 56, bereit >= 75 ? 'var(--green)' : bereit >= 45 ? 'var(--orange)' : 'var(--red)', `<b>${bereit}</b><small>%</small>`)}<small>vorbereitet</small></span>` : ''}</div>
         ${tops.length ? `<div class="count-tops">${tops.map(t => { const p = topicProgress(t.thema.id); return `<div class="ct"><span>${esc(t.thema.name)}</span>${progress(p || 0, f ? f.farbe : null)}</div>`; }).join('')}</div>` : ex.themen ? `<div class="muted">${esc(ex.themen)}</div>` : ''}
         <div class="count-more">Lernplan ansehen ${icon('chev', 'chev')}</div></button>`;
-    }
-    const p = st.place();
-    if (p && p.tid && st.thema(p.tid)) {
-      const t = st.thema(p.tid);
-      h += `<div class="sec-h">Weiter, wo du warst</div>` + list([row({ a: 'weiter', icon: fachIcon(t.fach), color: t.fach.farbe, title: t.thema.name, sub: t.fach.name + (p.art === 'trainer' ? ' · Trainer' : '') })]);
     }
     // Trainer und Hörmodus: je eine Kachel. Die Trainer liegen dahinter in Ordnern nach Fach.
     const tr = trainerOrdnerListe(today);
@@ -87,7 +78,7 @@ const heute = {
     const tage = ['Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa', 'So'];
     const heuteIdx = (new Date().getDay() + 6) % 7;
     const serie = st.lernSerie();
-    h += `<div class="sec-h">Diese Woche</div><div class="card week">${serie >= 2 ? `<div class="serie">${icon('flame')}<span><b>${serie} Tage</b> am Stück gelernt. Ein freier Tag pro Woche bricht die Serie nicht.</span></div>` : ''}<div class="week-days">${w.tage.map((n, i) => `<div class="wd ${n ? 'on' : ''} ${i === heuteIdx ? 'now' : ''}"><span>${n ? icon('check') : ''}</span><small>${tage[i]}</small></div>`).join('')}</div>
+    h += `<div class="sec-h">Diese Woche</div><div class="card week">${serie >= 2 ? `<div class="serie">${icon('flame')}<span><b>${serie} Tage</b> am Stück gelernt. Ein freier Tag pro Woche bricht die Serie nicht.</span></div>` : ''}${w.n ? saeulen(w.uebTage.map((n, i) => ({ label: tage[i], n, ok: w.okTage[i], aktiv: i === heuteIdx })), { titel: 'Übungen pro Tag', legende: [['dg-voll', 'beim ersten Mal gewusst'], ['dg-hell', 'mit Hilfe oder falsch']] }) : `<div class="week-days">${w.tage.map((n, i) => `<div class="wd ${n ? 'on' : ''} ${i === heuteIdx ? 'now' : ''}"><span>${n ? icon('check') : ''}</span><small>${tage[i]}</small></div>`).join('')}</div>`}
       <div class="muted">${w.n ? 'An ' + plural(w.aktiv, 'Tag', 'Tagen') + ' gelernt, ' + plural(w.n, 'Übung', 'Übungen') + ', davon ' + w.ok + ' beim ersten Mal gewusst.' : 'Noch nichts geübt diese Woche. Fünf Minuten reichen für den Anfang.'}</div>${aq.n ? `<div class="week-ansatz">${icon('target')}<span>Ansatz sofort erkannt: <b>${aq.ok} von ${aq.n}</b>. Das ist dein wichtigster Wert.</span></div>` : ''}</div>`;
     b.innerHTML = h;
     on(b, {
@@ -315,14 +306,17 @@ export function fachPage(fid) {
         const p = topicProgress(t.id);
         const nurIntro = st.status(t.id) === 'geplant' && st.isIntroOnly(t.id);
         if (nurIntro) bits.unshift('Einführung lesen');
-        return row({ a: 'topic', d: t.id, title: t.name, sub: bits.join(' · ') || 'noch leer', html: p != null && !nurIntro ? progress(p, f.farbe) : '' });
+        return row({ a: 'topic', d: t.id, title: t.name, sub: bits.join(' · ') || 'noch leer', html: items.length && !nurIntro ? stapel(standVon(items, st.card), { hoch: 7 }) : p != null && !nurIntro ? progress(p, f.farbe) : '' });
       };
+      // Stand des ganzen Fachs: neu, wackelt, sitzt
+      const fachItems = f.themen.filter(t => !(st.status(t.id) === 'geplant' && st.isIntroOnly(t.id))).flatMap(t => st.topicItems(t.id));
       let h = `<div class="chips"><span class="chip chip-ic" style="background:${f.farbe}">${icon(fachIcon(f))}${esc(f.kurz || f.name)}</span>${(f.module || []).map(m => `<span class="chip ghost">${esc(m === 'Ü' ? 'übergreifend' : m)}</span>`).join('')}${f.hinweis ? `<span class="chip ghost">${esc(f.hinweis)}</span>` : ''}</div>`;
       const intro = st.fachIntro(f.id);
       if (intro) {
         const parts = intro.split(/\n\s*\n/);
         h += `<div class="card intro" style="--fc:${f.farbe}"><div class="card-k">Worum es in diesem Fach geht</div><div class="prose">${markdown(parts[0])}</div>${parts.length > 1 ? `<details class="more"><summary>Weiterlesen</summary><div class="prose">${markdown(parts.slice(1).join('\n\n'))}</div></details>` : ''}${canSpeak() ? `<button class="btn small" data-a="introvor">${icon('ear')} Vorlesen</button>` : ''}</div>`;
       }
+      if (fachItems.some(i => st.card(i.id))) h += `<div class="sec-h">Stand im Fach</div><div class="card">${stapel(standVon(fachItems, st.card), { hoch: 12, legende: true })}<p class="muted small">Sitzt heißt: kommt erst in 4 oder mehr Tagen wieder.</p></div>`;
       if (g.aktuell.length) h += `<div class="sec-h">Aktuell im Unterricht</div>` + list(g.aktuell.map(tRow));
       if (g.abgeschlossen.length) h += `<div class="sec-h">Abgeschlossen</div>` + list(g.abgeschlossen.map(tRow));
       if (g.vorhanden.length) h += `<div class="sec-h">Vorhanden</div>` + list(g.vorhanden.map(tRow));
@@ -518,6 +512,12 @@ const fehlerbuch = {
       for (const e of offen) { if (!groups.has(e.fehlerart)) groups.set(e.fehlerart, []); groups.get(e.fehlerart).push(e); }
       const sorted = [...groups].sort((a, b) => b[1].length - a[1].length);
       if (sorted.length) h += `<div class="card pattern"><div class="card-k">Dein Muster</div><p>Häufigster Fehler: <b>${esc(sorted[0][0])}</b>, ${plural(sorted[0][1].length, 'Mal', 'Mal')}.${tipFor(sorted[0][0])}</p>${sorted[1] ? `<p class="muted small">Danach: ${sorted.slice(1, 3).map(([k, es]) => esc(k) + ' (' + es.length + ')').join(', ')}</p>` : ''}</div>`;
+      // Diagramme: wo die Fehler liegen und ob sie weniger werden
+      if (sorted.length > 1) h += `<div class="sec-h">Offene Fehler nach Art</div><div class="card">${balken(sorted.slice(0, 6).map(([k, es]) => ({ name: k, n: es.length, text: String(es.length) })))}</div>`;
+      const woche = 7 * 86400000, mo = new Date(); mo.setHours(0, 0, 0, 0); mo.setDate(mo.getDate() - ((mo.getDay() + 6) % 7));
+      const wochen = Array.from({ length: 8 }, (_, k) => { const von = mo.getTime() - (7 - k) * woche; return { von, bis: von + woche }; });
+      const proWoche = wochen.map((w, k) => ({ label: k === 7 ? 'jetzt' : 'KW ' + kw(new Date(w.von)), n: errs.filter(e => e.zeit >= w.von && e.zeit < w.bis).length, aktiv: k === 7 }));
+      if (errs.length >= 3 && proWoche.filter(x => x.n).length >= 2) h += `<div class="sec-h">Neue Fehler pro Woche</div><div class="card">${saeulen(proWoche, { titel: 'Neue Fehler pro Woche', hoch: 80 })}<p class="muted small">Werden die Säulen kleiner, wirkt das Üben.</p></div>`;
       for (const [art, es] of sorted) {
         h += `<div class="sec-h">${esc(art)} · ${es.length}</div>` + list(es.sort((a, b) => b.zeit - a.zeit).map(e => row({ a: 'err', d: e.id, title: e.aufgabe || '(ohne Aufgabentext)', sub: [e.thema || e.fach, new Date(e.zeit).toLocaleDateString('de-DE'), e.quelle === 'trainer' ? 'Trainer' : e.quelle === 'manuell' ? 'selbst eingetragen' : ''].filter(Boolean).join(' · ') })));
       }
@@ -534,6 +534,8 @@ const fehlerbuch = {
     });
   }
 };
+// Kalenderwoche nach ISO 8601
+function kw(d) { const t = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate())); const n = t.getUTCDay() || 7; t.setUTCDate(t.getUTCDate() + 4 - n); const j = new Date(Date.UTC(t.getUTCFullYear(), 0, 1)); return Math.ceil(((t - j) / 86400000 + 1) / 7); }
 function tipFor(art) {
   const t = {
     'Einheit (Faktor 1000)': ' Schreib vor dem Rechnen jede Größe in der Grundeinheit auf: A statt mA, N statt kN, m statt mm.',
@@ -617,6 +619,7 @@ async function boot() {
   $$('.tabbar [data-tab]').forEach(b => b.addEventListener('click', () => showTab(b.dataset.tab)));
   showTab('heute');
   initEdgeSwipe();
+  initTabSwipe();
   st.onChange(() => refreshAll());
   // Zurück aus einem alten Trainer: Thema wieder öffnen
   const ret = prefs.get('return', null);

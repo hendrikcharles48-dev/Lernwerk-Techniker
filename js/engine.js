@@ -105,7 +105,9 @@ function stufenHTML(tid, items) {
   if (!its.length) return '';
   const n = st.freigabe(tid);
   const anz = k => its.filter(i => i.stufe === k).length;
-  let h = `<div class="stufen">${[1, 2, 3].map(k => `<button class="stf ${k <= n ? 'on' : ''}" data-a="stufe" data-d="${k}"><b>${k <= n ? k : icon('lock')}</b><span>${st.STUFEN_NAMEN[k]}</span><small>${anz(k)}</small></button>`).join('')}</div>`;
+  // Kleiner Balken je Stufe: Anteil der Fragen, die schon sitzen
+  const sitzt = k => { const g = its.filter(i => i.stufe === k); return g.length ? g.filter(i => (st.card(i.id) || {}).stufe >= 3).length / g.length : 0; };
+  let h = `<div class="stufen">${[1, 2, 3].map(k => `<button class="stf ${k <= n ? 'on' : ''}" data-a="stufe" data-d="${k}" aria-label="Stufe ${k}, ${st.STUFEN_NAMEN[k]}, ${anz(k)} Fragen, ${Math.round(sitzt(k) * 100)} Prozent sitzen"><b>${k <= n ? k : icon('lock')}</b><span>${st.STUFEN_NAMEN[k]}</span><small>${anz(k) ? anz(k) + ' · ' + Math.round(sitzt(k) * 100) + ' % sitzen' : 'keine Fragen'}</small>${anz(k) ? `<i class="stf-bar"><i style="width:${Math.round(sitzt(k) * 100)}%"></i></i>` : ''}</button>`).join('')}</div>`;
   const hoechste = Math.max(...its.map(i => i.stufe));
   if (n < hoechste) h += (st.stufeSitzt(tid) ? `<div class="fb good stf-tipp"><b>Stufe ${n} sitzt.</b> Wenn ihr Stufe ${n + 1} im Unterricht hattet, schalte sie frei.</div>` : '') + `<button class="btn small stf-btn" data-a="hatten">${icon('check')} Hatten wir: Stufe ${n + 1} freischalten</button>`;
   return h;

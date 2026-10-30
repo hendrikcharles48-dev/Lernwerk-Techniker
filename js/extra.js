@@ -4,7 +4,7 @@ import { esc, dayStr, dayLong, dayShort, daysBetween, plural, plainText, norm, s
 import { fml, speakFml, varsOf, parseEq, keyOf } from './formula.js';
 import { lernplan } from './srs.js';
 import * as st from './store.js';
-import { $, $$, icon, row, list, seg, sw, empty, on, push, pop, openSheet, toast, copyText, progress, confirmBox, saveFile, refreshTop, hinweisTabellenbuch } from './ui.js';
+import { $, $$, icon, row, list, seg, sw, empty, on, push, pop, openSheet, toast, copyText, progress, confirmBox, saveFile, refreshTop, hinweisTabellenbuch, fachIcon } from './ui.js';
 import { topicPage, runSession, runItem, ZUSTAENDE, staerkeHTML, sortForPractice, topicProgress, formelCard, askClaude, noteReader, openTrainer, itemTitle, rich, schmierKnopf, schmierzettel } from './engine.js';
 import { speak, stopSpeaking, canSpeak, keepAwake, pause, readAloud, stopReading, deVoices } from './speech.js';
 import * as hoer from './hoer.js';
@@ -12,6 +12,7 @@ import * as sk from './skizzen.js';
 import { folge, dauerSchaetzung, DENKPAUSE } from './podcast.js';
 import { prefs } from './db.js';
 import * as gh from './sicherung.js';
+import { linie, balken } from './diagramm.js';
 
 export function applyTheme(t) {
   const r = document.documentElement;
@@ -343,6 +344,8 @@ function runExam(items, minuten) {
           ${r.it.kern.map((x, j) => `<label class="korr-k"><input type="checkbox" data-k="${k}" data-j="${j}" ${haken[k].has(j) ? 'checked' : ''}><span>${rich(x)}</span></label>`).join('')}
           ${r.it.art !== 'skizze' && r.inf.antwort ? `<button class="btn small" data-a="claude" data-d="${k}">${icon('claude')} An Claude zur Korrektur</button>` : ''}</div>`).join('');
       }
+      const nachArt = [['Rechnen', pRech, maxRech]].concat(['erklaeren', 'skizze', 'text'].map(a => { const rs = kern.map((r, k) => ({ r, k })).filter(x => x.r.it.art === a); return [ART_NAME[a], rs.reduce((s, x) => s + haken[x.k].size, 0), rs.reduce((s, x) => s + x.r.it.kern.length, 0)]; })).filter(x => x[2]);
+      if (nachArt.length > 1) h += `<div class="sec-h">Punkte nach Aufgabenart</div><div class="card">${balken(nachArt.map(([name, n, m]) => ({ name, n, max: m, text: n + ' von ' + m })))}</div>`;
       const by = new Map();
       for (const r of rech) { const key = r.it.tid; if (!by.has(key)) by.set(key, []); by.get(key).push(r); }
       if (by.size) h += `<div class="sec-h">Rechnen pro Thema</div>` + list([...by].map(([tid, rs]) => { const th = st.thema(tid); const n = rs.filter(r => r.erg === 'richtig').length; return row({ title: th ? th.thema.name : 'Thema', sub: th ? th.fach.name : '', detail: n + ' von ' + rs.length, html: progress(n / rs.length, n / rs.length >= 0.8 ? 'var(--green)' : n / rs.length >= 0.5 ? 'var(--orange)' : 'var(--red)') }); }));
@@ -881,71 +884,59 @@ function infoPage() {
 }
 
 /* ===== Im Unterricht: Zustand aller Themen auf einen Blick ===== */
-const unterrichtOffen = new Set();
-// Nach dem Umschalten bleibt das angetippte Thema an derselben Stelle auf dem Bildschirm
-let unterrichtAnker = null;
+/* ===== Im Unterricht: Fächer, darin alle Themen mit Status-Schalter =====
+ * Die Liste sortiert beim Umschalten nicht neu. Das Thema bleibt an seinem Platz.
+ */
+const zstText = { kommt: 'Kommt noch.', aktuell: 'Im Unterricht.', fertig: 'Abgeschlossen.' };
 export function unterrichtPage() {
   return {
     title: 'Im Unterricht',
     render(b) {
-      const zSeg = tid => `<div class="zst" data-t="${esc(tid)}">${seg('z', ZUSTAENDE, st.zustand(tid))}</div>`;
-      const art = tid => st.isIntroOnly(tid) ? 'Einführung' : st.hasTopicContent(tid) ? 'Mit Übungen' : st.status(tid) === 'geplant' ? 'Noch leer' : 'Eigene Inhalte';
-      const tRow = (f, t, mitFach) => row({ dot: mitFach ? f.farbe : null, title: t.name, sub: mitFach ? f.name : art(t.id), html: staerkeHTML(st.staerke(t.id), true) + zSeg(t.id) });
-      const alle = st.faecher().flatMap(f => f.themen.map(t => ({ f, t })));
-      const akt = alle.filter(x => st.zustand(x.t.id) === 'aktuell');
-      const fertig = alle.filter(x => st.zustand(x.t.id) === 'fertig');
       const vorschlag = st.abschliessenVorschlag();
       let h = `<p class="src">Im Unterricht kommt bei Unterricht dran. Abgeschlossen kommt bei Alles wiederholen dran, schwache Themen öfter.</p>`;
       if (vorschlag.length) h += `<div class="fb info"><b>Schon lange im Unterricht und zwei Wochen nicht geübt:</b> ${vorschlag.map(t => esc(st.thema(t).thema.name)).join(', ')}. Sind diese Themen abgeschlossen?<div class="btn-row"><button class="btn small" data-a="vorschlag">Ja, abschließen</button></div></div>`;
-      h += `<div class="sec-h">Gerade im Unterricht: ${akt.length}</div>`;
-      h += akt.length ? list(akt.map(x => tRow(x.f, x.t, true))) + `<button class="btn small" data-a="alleab">Alle abschließen</button>` : `<div class="sec-f">Noch nichts im Unterricht. Wähl unten bei den Fächern aus, was gerade dran ist.</div>`;
-      if (fertig.length) h += `<details class="disc unt" data-f="__fertig" ${unterrichtOffen.has('__fertig') ? 'open' : ''}><summary>Abgeschlossen<span class="unt-n">${fertig.length} Themen</span></summary>` + list(fertig.map(x => tRow(x.f, x.t, true))) + `</details>`;
-      h += `<div class="sec-h">Alle Themen nach Fach</div>`;
-      for (const f of st.faecher()) {
-        if (!f.themen.length) continue;
+      h += list(st.faecher().filter(f => f.themen.length).map(f => {
         const n = f.themen.filter(t => st.zustand(t.id) === 'aktuell').length, d = f.themen.filter(t => st.zustand(t.id) === 'fertig').length;
-        h += `<details class="disc unt" data-f="${esc(f.id)}" ${unterrichtOffen.has(f.id) ? 'open' : ''}><summary><span class="row-dot" style="background:${f.farbe}"></span>${esc(f.name)}<span class="unt-n">${[n ? n + ' im Unterricht' : '', d ? d + ' fertig' : ''].filter(Boolean).join(', ') || f.themen.length + ' Themen'}</span></summary>`
-          + list(f.themen.map(t => tRow(f, t, false))) + `<button class="zu-btn" data-a="zu" data-d="${esc(f.id)}">${esc(f.kurz || f.name)} zuklappen</button></details>`;
-      }
-      const sc = b.closest('.page-scroll');
-      const y = sc ? sc.scrollTop : 0;
+        return row({ a: 'fach', d: f.id, icon: fachIcon(f), color: f.farbe, title: f.name, sub: [n ? n + ' im Unterricht' : '', d ? d + ' fertig' : ''].filter(Boolean).join(', ') || plural(f.themen.length, 'Thema', 'Themen') });
+      }));
       b.innerHTML = h;
-      if (sc) {
-        sc.scrollTop = y;
-        if (unterrichtAnker) {
-          const el = b.querySelector(`details[data-f="${unterrichtAnker.f}"] .zst[data-t="${unterrichtAnker.tid}"]`) || b.querySelector(`.zst[data-t="${unterrichtAnker.tid}"]`);
-          if (el) sc.scrollTop += el.getBoundingClientRect().top - unterrichtAnker.top;
-          unterrichtAnker = null;
-        }
-      }
-      if (!b._untToggle) {
-        b._untToggle = true;
-        b.addEventListener('toggle', e => { const d = e.target.closest && e.target.closest('details[data-f]'); if (d) d.open ? unterrichtOffen.add(d.dataset.f) : unterrichtOffen.delete(d.dataset.f); }, true);
+      on(b, {
+        fach: fid => push(unterrichtFach(fid)),
+        vorschlag: async () => { for (const t of vorschlag) await st.setZustand(t, 'fertig'); toast('Abgeschlossen.'); }
+      });
+    }
+  };
+}
+function unterrichtFach(fid) {
+  return {
+    title: (st.fach(fid) || { name: 'Fach' }).name,
+    render(b) {
+      const f = st.fach(fid);
+      if (!f) { b.innerHTML = empty('Dieses Fach gibt es nicht mehr.'); return; }
+      const art = tid => st.isIntroOnly(tid) ? 'Einführung' : st.hasTopicContent(tid) ? 'Mit Übungen' : st.status(tid) === 'geplant' ? 'Noch leer' : 'Eigene Inhalte';
+      const sc = b.closest('.page-scroll'), y = sc ? sc.scrollTop : 0;
+      b.innerHTML = `<div class="list ut-list">${f.themen.map(t => `<div class="ut-row"><button class="ut-name" data-a="topic" data-d="${esc(t.id)}"><b>${esc(t.name)}</b><small>${esc(art(t.id))}</small></button>
+        <div class="zst ut-z" data-t="${esc(t.id)}">${seg('z', ZUSTAENDE, st.zustand(t.id))}</div></div>`).join('')}</div>`
+        + (f.themen.some(t => st.zustand(t.id) === 'aktuell') ? `<button class="btn small" data-a="alleab">Alle im Unterricht abschließen</button>` : '');
+      if (sc) sc.scrollTop = y;
+      if (!b._zst) {
+        b._zst = true;
         b.addEventListener('click', e => {
           const btn = e.target.closest('.zst [data-seg] button');
           if (!btn) return;
           const z = btn.closest('.zst'), tid = z.dataset.t, v = btn.dataset.v;
           if (st.zustand(tid) === v) return;
-          const d = z.closest('details[data-f]');
-          unterrichtAnker = { tid, f: d ? d.dataset.f : '', top: z.getBoundingClientRect().top };
           st.setZustand(tid, v);
-          toast({ kommt: 'Kommt noch.', aktuell: 'Im Unterricht.', fertig: 'Abgeschlossen.' }[v]);
+          toast(zstText[v]);
         });
       }
       on(b, {
-        zu: fid => {
-          const d = b.querySelector(`details[data-f="${fid}"]`);
-          if (!d) return;
-          d.open = false;
-          unterrichtOffen.delete(fid);
-          const sc = b.closest('.page-scroll'), r = d.getBoundingClientRect();
-          if (sc && r.top < 60) sc.scrollTop += r.top - 100;
-        },
-        vorschlag: async () => { for (const t of vorschlag) await st.setZustand(t, 'fertig'); toast('Abgeschlossen.'); },
+        topic: tid => push(topicPage(tid)),
         alleab: async () => {
-          if (!(await confirmBox('Alle Themen im Unterricht als abgeschlossen markieren? Sie kommen dann bei Alles wiederholen dran.', 'Abschließen'))) return;
-          for (const x of akt) await st.setZustand(x.t.id, 'fertig');
-          toast('Alle abgeschlossen.');
+          const akt = f.themen.filter(t => st.zustand(t.id) === 'aktuell');
+          if (!(await confirmBox('Alle ' + akt.length + ' Themen in ' + f.name + ' als abgeschlossen markieren? Sie kommen dann bei Alles wiederholen dran.', 'Abschließen'))) return;
+          for (const t of akt) await st.setZustand(t.id, 'fertig');
+          toast('Abgeschlossen.');
         }
       });
     }
@@ -967,6 +958,17 @@ export function notenPage() {
       for (const e of ks) { const n = e.note != null ? e.note : st.noteAusProzent(e.prozent); if (n == null) continue; const k = e.fachId || e.fach; const x = by.get(k) || { fach: (st.fach(e.fachId) || {}).kurz || e.fach, n: [] }; x.n.push(n); by.set(k, x); }
       let h = `<div class="btn-row"><button class="btn filled" data-a="neu">${icon('plus')} Note eintragen</button></div>`;
       if (by.size) h += `<p class="schnitt">Schnitt: ${[...by.values()].map(x => esc(x.fach) + ' ' + fmtNote(x.n.reduce((s, v) => s + v, 0) / x.n.length)).join(' · ')}</p>`;
+      // Verlauf der Noten pro Fach, 1 oben. Erst ab zwei Noten sinnvoll.
+      const serien = new Map();
+      for (const e of ks) {
+        const n = e.note != null ? e.note : st.noteAusProzent(e.prozent);
+        if (n == null) continue;
+        const k = e.fachId || e.fach, f = st.fach(e.fachId);
+        if (!serien.has(k)) serien.set(k, { name: f ? f.kurz || f.name : e.fach, farbe: f ? f.farbe : 'var(--label2)', punkte: [] });
+        serien.get(k).punkte.push({ x: e.datum, y: Math.max(1, Math.min(6, n)), tip: 'Note ' + fmtNote(n) });
+      }
+      const verlauf = linie([...serien.values()], { titel: 'Noten über die Zeit' });
+      if (verlauf) h += `<div class="sec-h">Verlauf</div><div class="card">${verlauf}<p class="muted small">Oben ist besser. Antippen zeigt die Note.</p></div>`;
       h += ks.length ? list(ks.map(e => {
         const f = st.fach(e.fachId);
         const hat = e.note != null || e.prozent != null;

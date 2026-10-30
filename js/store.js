@@ -539,15 +539,15 @@ export async function addEvent(x) {
 export function weekStats() {
   const now = new Date();
   const mon = new Date(now.getFullYear(), now.getMonth(), now.getDate() - ((now.getDay() + 6) % 7));
-  const tage = [0, 0, 0, 0, 0, 0, 0];
+  const tage = [0, 0, 0, 0, 0, 0, 0], uebTage = [0, 0, 0, 0, 0, 0, 0], okTage = [0, 0, 0, 0, 0, 0, 0];
   let n = 0, ok = 0;
   for (const e of S.events) {
     if (e.zeit < mon.getTime()) continue;
-    const d = new Date(e.zeit);
-    tage[(d.getDay() + 6) % 7]++;
-    if (e.ok != null && e.art !== 'ansatz') { n++; if (e.ok) ok++; }
+    const i = (new Date(e.zeit).getDay() + 6) % 7;
+    tage[i]++;
+    if (e.ok != null && e.art !== 'ansatz') { n++; uebTage[i]++; if (e.ok) { ok++; okTage[i]++; } }
   }
-  return { tage, n, ok, aktiv: tage.filter(Boolean).length };
+  return { tage, uebTage, okTage, n, ok, aktiv: tage.filter(Boolean).length };
 }
 // Hilfestufe für Rechenaufgaben eines Themas: 1 geführt, 2 mit Schritten, 3 frei.
 // Neu: geführt. Dreimal hintereinander ohne Hilfe: frei. Zuletzt zweimal falsch: wieder geführt.

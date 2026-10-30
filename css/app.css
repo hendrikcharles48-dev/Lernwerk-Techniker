@@ -673,3 +673,69 @@ body.sheet-open #readbar { bottom: calc(var(--sab) + 14px); }
 .korr-k { display: flex; gap: 10px; align-items: flex-start; padding: 8px 0; border-top: .5px solid var(--sep); font-size: 16px; }
 .korr-k input { width: 22px; height: 22px; flex: none; margin-top: 1px; accent-color: var(--green); }
 .korr .btn { margin-top: 8px; }
+
+/* ===== Im Unterricht: Themen eines Fachs mit Status-Schalter ===== */
+.ut-row { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; padding: 10px 12px 10px 14px; position: relative; }
+.ut-row + .ut-row::before { content: ""; position: absolute; top: 0; right: 0; left: 14px; height: .5px; background: var(--sep); }
+.ut-name { flex: 1 1 130px; min-width: 0; border: 0; background: none; padding: 4px 0; text-align: left; color: var(--label); }
+.ut-name b { display: block; font-size: 16px; font-weight: 600; }
+.ut-name small { display: block; font-size: 13px; color: var(--label2); }
+.ut-z { flex: 0 1 auto; margin: 0 0 0 auto !important; }
+.ut-z .seg button { flex: 0 0 auto; font-size: 12.5px; padding: 6px 9px; min-height: 36px; }
+/* Aktives Feld ganz leicht eingefärbt: grau, blau, grün */
+.zst .seg button.on[data-v="kommt"] { background: color-mix(in srgb, var(--label2) 16%, var(--bg2)); }
+.zst .seg button.on[data-v="aktuell"] { background: color-mix(in srgb, var(--accent) 18%, var(--bg2)); }
+.zst .seg button.on[data-v="fertig"] { background: color-mix(in srgb, var(--green) 20%, var(--bg2)); }
+
+/* ===== Wischen zwischen den Hauptbereichen ===== */
+@keyframes wischL { from { transform: translateX(28px); opacity: .4; } to { transform: none; opacity: 1; } }
+@keyframes wischR { from { transform: translateX(-28px); opacity: .4; } to { transform: none; opacity: 1; } }
+.tabscreen.wisch-l { animation: wischL .22s ease-out; }
+.tabscreen.wisch-r { animation: wischR .22s ease-out; }
+@media (prefers-reduced-motion: reduce) { .tabscreen.wisch-l, .tabscreen.wisch-r { animation: none; } }
+
+/* ===== Diagramme ===== */
+.dg { position: relative; margin: 6px 0 4px; }
+.dg svg { display: block; width: 100%; height: auto; overflow: visible; }
+.dg-stapel svg { border-radius: 3px; }
+.dg-s0 { fill: var(--fill2); background: var(--fill2); }
+.dg-s1 { fill: color-mix(in srgb, var(--accent) 45%, var(--bg2)); background: color-mix(in srgb, var(--accent) 45%, var(--bg2)); }
+.dg-s2 { fill: var(--accent); background: var(--accent); }
+.dg-voll { fill: var(--accent); background: var(--accent); }
+.dg-hell { fill: color-mix(in srgb, var(--accent) 32%, var(--bg2)); background: color-mix(in srgb, var(--accent) 32%, var(--bg2)); }
+.dg-achse { stroke: var(--sep); stroke-width: 1; }
+.dg-gitter { stroke: var(--sep); stroke-width: .6; stroke-dasharray: 2 3; }
+.dg-ziel { fill: transparent; cursor: pointer; }
+.dg-lbl { font-size: 10px; fill: var(--label2); text-anchor: middle; }
+.dg-y { text-anchor: end; }
+.dg-jetzt { fill: var(--label); font-weight: 700; }
+.dg-wert { font-size: 10px; fill: var(--label); text-anchor: middle; font-weight: 600; }
+.dg-linie { fill: none; stroke-width: 2; stroke-linejoin: round; stroke-linecap: round; }
+.dg-punkt { stroke: var(--bg2); stroke-width: 2; }
+.dg-leg { display: flex; flex-wrap: wrap; gap: 4px 12px; margin-top: 6px; font-size: 12.5px; color: var(--label2); }
+.dg-leg span { display: inline-flex; align-items: center; gap: 5px; }
+.dg-leg i { width: 10px; height: 10px; border-radius: 3px; display: inline-block; }
+.dg-tip { position: absolute; z-index: 3; background: var(--label); color: var(--bg2); font-size: 12.5px; font-weight: 600; padding: 4px 8px; border-radius: 7px; white-space: nowrap; pointer-events: none; }
+.dg-balken { display: flex; flex-direction: column; gap: 7px; }
+.dg-b { display: grid; grid-template-columns: minmax(0, 42%) 1fr auto; align-items: center; gap: 8px; font-size: 13.5px; }
+.dg-bn { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--label); }
+.dg-bw { height: 9px; background: var(--fill); border-radius: 4px; overflow: hidden; }
+.dg-bw i { display: block; height: 100%; background: var(--accent); border-radius: 4px; }
+.dg-bv { color: var(--label2); font-variant-numeric: tabular-nums; min-width: 2.5em; text-align: right; }
+.row .dg { margin: 6px 0 0; }
+.week .dg { margin: 2px 0 8px; }
+
+/* ===== Startseite: Tagesfortschritt und Unterrichtszeile ===== */
+.tagline { display: flex; align-items: center; gap: 10px; margin: 2px 0 10px; font-size: 15px; color: var(--label); }
+.tagline .ring { flex: none; }
+.tagline .ring-check { width: 16px; height: 16px; color: var(--green); }
+.unt-zeile { display: flex; align-items: center; gap: 8px; width: 100%; min-height: 48px; border: 0; border-radius: var(--r); background: var(--bg2); box-shadow: var(--shadow); padding: 8px 12px; margin: 0 0 14px; text-align: left; color: var(--label); font-size: 15px; }
+.unt-zeile > .ic:first-child { width: 18px; height: 18px; color: var(--accent); flex: none; }
+.unt-zeile b { flex: none; }
+.unt-tags { flex: 1; min-width: 0; display: flex; gap: 5px; overflow: hidden; white-space: nowrap; -webkit-mask-image: linear-gradient(90deg, #000 85%, transparent); mask-image: linear-gradient(90deg, #000 85%, transparent); }
+.unt-tags .tag { font-size: 12.5px; padding: 2px 8px; border-left: 3px solid var(--fc, var(--accent)); flex: none; }
+.unt-zeile .chev { width: 16px; height: 16px; color: var(--label3); flex: none; }
+.stf-bar { display: block; width: 80%; height: 4px; border-radius: 2px; background: rgba(0,0,0,.12); overflow: hidden; margin-top: 3px; }
+.stf.on .stf-bar { background: rgba(255,255,255,.35); }
+.stf-bar i { display: block; height: 100%; background: var(--accent); border-radius: 2px; }
+.stf.on .stf-bar i { background: #fff; }

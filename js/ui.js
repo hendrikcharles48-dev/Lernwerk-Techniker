@@ -237,6 +237,50 @@ export function refreshAll() {
 }
 export function refreshTop() { const s = stacks[currentTab]; render(s[s.length - 1]); }
 
+// Waagerecht wischen auf den fünf Hauptseiten: zum Nachbarbereich der unteren Leiste.
+// Nicht in Unterseiten, nicht bei offenen Fenstern (Lerneinheit) und nicht auf Elementen,
+// die selbst waagerecht wischen oder scrollen. Nur klar waagerechte Bewegungen zählen.
+const EIGENES_WISCHEN = 'input, textarea, select, canvas, [data-seg], .chips, .flash, .seg-scroll, .zuo, .mc, .tabbar, .noswipe';
+function scrolltWaagerecht(el) {
+  // Die Seite selbst scrollt senkrecht und zählt nicht
+  for (; el && el !== document.body && !el.classList.contains('page-scroll'); el = el.parentElement) {
+    if (el.scrollWidth > el.clientWidth + 2) { const o = getComputedStyle(el).overflowX; if (o === 'auto' || o === 'scroll') return true; }
+  }
+  return false;
+}
+export function initTabSwipe() {
+  let sx = 0, sy = 0, t0 = 0, aktiv = false;
+  document.addEventListener('touchstart', e => {
+    aktiv = false;
+    if (e.touches.length !== 1 || sheets.length || document.body.classList.contains('sheet-open')) return;
+    if (stacks[currentTab].length > 1) return;
+    const t = e.touches[0];
+    if (t.clientX < 24) return;
+    const ziel = e.target instanceof Element ? e.target : null;
+    if (!ziel || ziel.closest(EIGENES_WISCHEN) || scrolltWaagerecht(ziel)) return;
+    sx = t.clientX; sy = t.clientY; t0 = Date.now(); aktiv = true;
+  }, { passive: true });
+  document.addEventListener('touchmove', e => {
+    if (!aktiv) return;
+    const t = e.touches[0];
+    // Erst senkrecht bewegt: das ist Scrollen, kein Wischen
+    if (Math.abs(t.clientY - sy) > 24 && Math.abs(t.clientY - sy) > Math.abs(t.clientX - sx)) aktiv = false;
+  }, { passive: true });
+  document.addEventListener('touchend', e => {
+    if (!aktiv) return;
+    aktiv = false;
+    const t = e.changedTouches[0], dx = t.clientX - sx, dy = Math.abs(t.clientY - sy);
+    if (Math.abs(dx) < 60 || Math.abs(dx) < 2 * dy || Date.now() - t0 > 900) return;
+    const order = $$('.tabbar [data-tab]').map(b => b.dataset.tab);
+    const ziel = order[order.indexOf(currentTab) + (dx < 0 ? 1 : -1)];
+    if (!ziel) return;
+    showTab(ziel);
+    const scr = document.querySelector(`.tabscreen[data-tab="${ziel}"]`);
+    scr.classList.remove('wisch-l', 'wisch-r'); void scr.offsetWidth;
+    scr.classList.add(dx < 0 ? 'wisch-l' : 'wisch-r');
+  }, { passive: true });
+}
+
 // Wischen vom linken Rand: zurück
 export function initEdgeSwipe() {
   let sx = 0, sy = 0, active = false, page = null;
