@@ -11,7 +11,7 @@ import * as sicherung from './sicherung.js';
 import { laden as skizzenLaden } from './skizzen.js';
 import { canSpeak, readAloud } from './speech.js';
 
-export const VERSION = '1.17.0';
+export const VERSION = '1.17.1';
 
 /* ===== Heute ===== */
 // Freundliche, wechselnde Sätze für den Start. Ohne Druck.
@@ -30,6 +30,7 @@ function gruss() {
   const h = new Date().getHours();
   return h < 5 ? 'Noch wach?' : h < 11 ? 'Guten Morgen!' : h < 18 ? 'Moin!' : 'Guten Abend!';
 }
+let wahlOffen = null;
 const heute = {
   title: 'Heute',
   render(b) {
@@ -47,11 +48,22 @@ const heute = {
     const anteil = erledigt + offen ? erledigt / (erledigt + offen) : 1;
     h += `<div class="tagline">${ring(anteil, 34, offen ? 'var(--accent)' : 'var(--green)', offen ? '' : icon('check', 'ring-check'))}<span>${offen ? `<b>Heute:</b> ${erledigt ? erledigt + ' geschafft, ' : ''}noch ${plural(offen, 'Übung', 'Übungen')} offen` : erledigt ? `<b>Alles geschafft für heute!</b> ${plural(erledigt, 'Übung', 'Übungen')}.` : '<b>Heute:</b> gerade nichts fällig'}</span></div>`;
     const minuten = x => Math.max(1, Math.round(x.sekunden / 60));
-    h += `<button class="five" data-a="lernU">${icon('bolt')}<span><b>Unterricht</b><small>${aktTids().length ? (qu.items.length ? plural(qu.items.length, 'Übung', 'Übungen') + ' offen · etwa ' + minuten(qu) + ' Min' : 'Nichts fällig, du kannst trotzdem üben.') : 'Noch keine Themen angewählt. Tippe hier.'}</small></span></button>`;
-    h += `<button class="mixbtn" data-a="lernA">${icon('mix')}<span><b>Alles wiederholen</b><small>${qa.faellig ? plural(qa.faellig, 'Übung', 'Übungen') + ' fällig · etwa ' + minuten(qa) + ' Min' : 'Nichts fällig. Alles, was schon dran war, schwache Themen öfter.'}</small></span></button>`;
+    // Aus welchen Themen die offenen Übungen kommen, als kleine Schilder im Knopf
+    const themenTags = items => {
+      const by = new Map();
+      for (const it of items) { const k = it.art === 'fehler' ? 'Fehlerbuch' : (st.thema(it.tid) || { thema: { name: '' } }).thema.name; if (k) by.set(k, (by.get(k) || 0) + 1); }
+      const l = [...by].sort((a, c) => c[1] - a[1]);
+      return l.length ? `<span class="lern-tags">${l.slice(0, 3).map(([k, n]) => `<span>${esc(k)} ${n}</span>`).join('')}${l.length > 3 ? `<span>und ${l.length - 3} weitere</span>` : ''}</span>` : '';
+    };
+    h += `<button class="five" data-a="lernU">${icon('bolt')}<span><b>Unterricht</b><small>${aktTids().length ? (qu.items.length ? plural(qu.items.length, 'Übung', 'Übungen') + ' offen · etwa ' + minuten(qu) + ' Min' : 'Nichts fällig, du kannst trotzdem üben.') : 'Noch keine Themen angewählt. Tippe hier.'}</small>${themenTags(qu.items)}</span></button>`;
+    h += `<button class="mixbtn" data-a="lernA">${icon('mix')}<span><b>Alles wiederholen</b><small>${qa.faellig ? plural(qa.faellig, 'Übung', 'Übungen') + ' fällig · etwa ' + minuten(qa) + ' Min' : 'Nichts fällig. Alles, was schon dran war, schwache Themen öfter.'}</small>${qa.faellig ? themenTags(qa.items) : ''}</span></button>`;
     // Lernzeit und Fragen vor dem Start wählen. Die letzte Wahl bleibt.
-    h += `<div class="lernwahl"><div class="lw-row"><span class="lw-l">Lernzeit</span>${seg('zeit', ZEITEN, prefs.get('lernzeit', '10'))}</div>
-      <div class="lw-row"><span class="lw-l">Fragen</span>${seg('modus', st.MODI, st.modus())}</div>
+    // Zwei Knöpfe nebeneinander. Antippen klappt die Optionen auf, eine Wahl klappt sie wieder zu.
+    const zeitWert = prefs.get('lernzeit', '10'), zeitText = (ZEITEN.find(z => z[0] === zeitWert) || ZEITEN[2])[1];
+    const modusText = (st.MODI.find(m => m[0] === st.modus()) || st.MODI[0])[1];
+    const wk = (k, l, v) => `<button class="lw-k ${wahlOffen === k ? 'on' : ''}" data-a="wahl" data-d="${k}" aria-expanded="${wahlOffen === k}"><small>${l}</small><b>${esc(v)}</b>${icon('chev', 'lw-chev')}</button>`;
+    h += `<div class="lernwahl"><div class="lw-knoepfe">${wk('zeit', 'Lernzeit', zeitText)}${wk('modus', 'Fragen', modusText)}</div>
+      ${wahlOffen === 'zeit' ? `<div class="lw-row lw-opts">${seg('zeit', ZEITEN, zeitWert)}</div>` : wahlOffen === 'modus' ? `<div class="lw-row lw-opts">${seg('modus', st.MODI, st.modus())}</div>` : ''}
       <button class="mini" data-a="mini">${icon('bolt')}<span><b>Mini</b> · 2 Minuten, etwa 5 Fragen</span></button></div>`;
     const aktT = st.kvGet('aktuell', []).map(id => st.thema(id)).filter(Boolean);
     h += `<button class="unt-zeile" data-a="unterricht">${icon('check')}<b>Im Unterricht</b><span class="unt-tags">${aktT.length ? aktT.map(({ fach: f, thema: t }) => `<span class="tag" style="--fc:${f.farbe}">${esc(t.name)}</span>`).join('') : '<span class="muted">nichts angewählt, tippe hier</span>'}</span>${aktT.length ? `<span class="muted">${aktT.length}</span>` : ''}${icon('chev', 'chev')}</button>`;
@@ -87,8 +99,9 @@ const heute = {
       newexam: () => termEditor({}),
       lernU: () => lernenUnterricht(),
       mini: () => (aktTids().length ? lernenUnterricht(MINI) : lernenAlles(MINI)),
-      'seg:zeit': v => { prefs.set('lernzeit', v); toast(lernzeit().min ? 'Lernzeit: ' + v + ' Minuten.' : 'Runde mit ' + lernzeit().n + ' Fragen.'); },
-      'seg:modus': v => { st.setModus(v); },
+      wahl: k => { wahlOffen = wahlOffen === k ? null : k; this.render(b); },
+      'seg:zeit': v => { prefs.set('lernzeit', v); wahlOffen = null; this.render(b); },
+      'seg:modus': v => { wahlOffen = null; st.setModus(v); this.render(b); },
       trmix: () => trainerGemischt(),
       trainer: d => { const i = d.indexOf('|'); openTrainer(d.slice(0, i), d.slice(i + 1)); },
       trainerAlle: () => push(trainerSeite()),

@@ -739,3 +739,15 @@ body.sheet-open #readbar { bottom: calc(var(--sab) + 14px); }
 .stf.on .stf-bar { background: rgba(255,255,255,.35); }
 .stf-bar i { display: block; height: 100%; background: var(--accent); border-radius: 2px; }
 .stf.on .stf-bar i { background: #fff; }
+
+/* ===== Lernknöpfe: Themen und Wahlknöpfe ===== */
+.lern-tags { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 6px; }
+.lern-tags span { font-size: 12px; font-weight: 600; padding: 2px 8px; border-radius: 10px; background: rgba(255,255,255,.22); color: #fff; }
+.lw-knoepfe { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 8px; }
+.lw-k { position: relative; display: flex; flex-direction: column; align-items: flex-start; gap: 1px; min-height: 54px; border: 0; border-radius: 12px; background: var(--fill); padding: 8px 30px 8px 12px; text-align: left; color: var(--label); }
+.lw-k small { font-size: 12px; color: var(--label2); }
+.lw-k b { font-size: 16px; }
+.lw-k .lw-chev { position: absolute; right: 10px; top: 50%; width: 16px; height: 16px; margin-top: -8px; color: var(--label3); transform: rotate(90deg); transition: transform .2s; }
+.lw-k.on { box-shadow: 0 0 0 2px var(--accent) inset; }
+.lw-k.on .lw-chev { transform: rotate(-90deg); color: var(--accent); }
+.lw-opts { margin: 0 0 8px; }
