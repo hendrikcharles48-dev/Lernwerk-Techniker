@@ -294,7 +294,7 @@ function runExam(items, minuten) {
     title: 'Probeklausur', full: true,
     confirmClose: () => fertig || confirm('Probeklausur abbrechen?'),
     onClose: () => { clearInterval(tm); if (res.length) gh.anstossen(); },
-    render(body, api) { sheet = api; body.innerHTML = `<div class="sess-top">${progress(0)}<div class="sess-info"></div>${schmierKnopf()}</div><div class="sess-item"></div>`; zettel = schmierzettel(body); show(); }
+    render(body, api) { sheet = api; body.innerHTML = `<div class="sess-top">${progress(0)}<div class="sess-info"></div></div><div class="sess-item"></div><div class="schmier-zone">${schmierKnopf()}</div>`; zettel = schmierzettel(body); show(); }
   });
   function fmtT(ms) { const s = Math.max(0, Math.floor(ms / 1000)); return Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0'); }
   function info() {

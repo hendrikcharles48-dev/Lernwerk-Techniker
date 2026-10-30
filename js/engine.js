@@ -831,11 +831,34 @@ function rateButtons() {
 }
 // Karte als Auswahl: die richtige Antwort unter Antworten anderer Karten desselben Themas finden.
 // Gibt es zu wenige andere Antworten, oder willst du lieber aufdecken, wird es eine Klappkarte.
+// Falsche Antworten, die nicht sofort auffallen: gleiche Art (Begriff zu Begriff, Karte zu Karte),
+// gleiche Form (Formel zu Formel, Satz zu Satz) und ähnlich lang. Reicht das Thema nicht, kommen
+// passende Antworten aus anderen Themen desselben Fachs dazu.
+function falscheAntworten(item, n = 3) {
+  // Satz oder Formel: Ein Satz hat mindestens drei Wörter mit drei Buchstaben
+  const satz = t => (String(t).match(/[A-Za-zÄÖÜäöüß]{3,}/g) || []).length >= 3;
+  const form = satz(item.antwort), richtig = norm(item.antwort);
+  const passt = i => (i.art === 'karte' || i.art === 'begriff') && i.antwort && i.frage !== item.frage && norm(i.antwort) !== richtig && satz(i.antwort) === form;
+  const th = st.thema(item.tid);
+  const hier = st.topicItems(item.tid).filter(passt);
+  const fach = th ? th.fach.themen.filter(t => t.id !== item.tid).flatMap(t => st.topicItems(t.id)).filter(passt) : [];
+  const L = item.antwort.length;
+  const naehe = a => Math.abs(a.length - L) / Math.max(L, 20);
+  // Erst gleiche Art im Thema, dann andere Art im Thema, dann gleiche Art im Fach
+  const stufen = [hier.filter(i => i.art === item.art), hier.filter(i => i.art !== item.art), fach.filter(i => i.art === item.art)];
+  const out = [];
+  for (const g of stufen) {
+    const kand = [...new Set(g.map(i => i.antwort))].filter(a => !out.includes(a) && naehe(a) < 1.2).sort((a, b) => naehe(a) - naehe(b));
+    out.push(...shuffle(kand.slice(0, n + 2)).slice(0, n - out.length));
+    if (out.length >= n) break;
+  }
+  return out;
+}
 function runKarte(el, item, ctx, meta, pool) {
-  const andere = pool || [...new Set(st.topicItems(item.tid).filter(i => (i.art === 'karte' || i.art === 'begriff') && i.antwort && i.frage !== item.frage && norm(i.antwort) !== norm(item.antwort)).map(i => i.antwort))];
+  const andere = pool || falscheAntworten(item);
   if (andere.length < 3 || ctx.exam) return runKarteFlip(el, item, ctx, meta);
   const L = item.antwort.length;
-  const falsch = shuffle(andere.sort((a, b) => Math.abs(a.length - L) - Math.abs(b.length - L)).slice(0, 6)).slice(0, 3);
+  const falsch = pool ? shuffle(andere.sort((a, b) => Math.abs(a.length - L) - Math.abs(b.length - L)).slice(0, 6)).slice(0, 3) : andere;
   const opts = shuffle([item.antwort, ...falsch]);
   const show = o => (looksLikeFormula(o) ? fml(o) : esc(o));
   let tries = 0, solved = false;
@@ -948,9 +971,9 @@ export const schmierKnopf = () => `<button class="schmier-btn" data-schmier aria
 export function schmierzettel(root) {
   const btn = $('[data-schmier]', root);
   const box = document.createElement('div');
-  box.className = 'schmier';
+  box.className = 'schmier no-swipe';
   box.hidden = true;
-  btn.closest('.sess-top').after(box);
+  btn.after(box);
   let art = 'tippen', cv = null;
   function draw() {
     box.innerHTML = `<div class="schmier-head">${seg('sart', [['tippen', 'Tippen'], ['zeichnen', 'Zeichnen']], art)}<button class="btn small" data-x="leer">Leeren</button></div>
@@ -972,6 +995,9 @@ export function schmierzettel(root) {
     c.onpointerdown = e => { zieht = true; c.setPointerCapture(e.pointerId); const [x, y] = pos(e); g.beginPath(); g.moveTo(x, y); g.lineTo(x + 0.1, y + 0.1); g.stroke(); };
     c.onpointermove = e => { if (!zieht) return; const [x, y] = pos(e); g.lineTo(x, y); g.stroke(); };
     c.onpointerup = c.onpointercancel = () => { zieht = false; };
+    // Beim Zeichnen darf sich die Seite nicht mitbewegen
+    c.addEventListener('touchstart', e => e.preventDefault(), { passive: false });
+    c.addEventListener('touchmove', e => e.preventDefault(), { passive: false });
   }
   function leeren() { if (box.hidden) return; draw(); }
   btn.addEventListener('click', () => { box.hidden = !box.hidden; btn.classList.toggle('on', !box.hidden); if (!box.hidden) draw(); });
@@ -999,7 +1025,7 @@ export function runSession(items, title, opt = {}) {
     },
     render(body, api) {
       sheet = api;
-      body.innerHTML = `<div class="sess-top">${items.length > 1 ? progress(0) : ''}<div class="sess-info"></div>${schmierKnopf()}</div><div class="sess-item"></div>`;
+      body.innerHTML = `<div class="sess-top">${items.length > 1 ? progress(0) : ''}<div class="sess-info"></div></div><div class="sess-item"></div><div class="schmier-zone">${schmierKnopf()}</div>`;
       zettel = schmierzettel(body);
       show();
     }

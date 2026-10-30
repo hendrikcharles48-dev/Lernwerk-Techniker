@@ -355,7 +355,7 @@ export function openSheet(def) {
   el.addEventListener('touchstart', e => {
     const inBody = body.contains(e.target);
     if (inBody && body.scrollTop > 0) { y0 = null; return; }
-    if (e.target.closest('input, textarea, select, .no-swipe')) { y0 = null; return; }
+    if (e.target.closest('input, textarea, select, canvas, .no-swipe')) { y0 = null; return; }
     fromBody = inBody; y0 = e.touches[0].clientY; dy = 0;
   }, { passive: true });
   el.addEventListener('touchmove', e => {

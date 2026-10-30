@@ -636,10 +636,11 @@ body.sheet-open #readbar { bottom: calc(var(--sab) + 14px); }
 .modus .seg { margin-bottom: 12px; }
 
 /* ===== Schmierzettel ===== */
-.schmier-btn { position: absolute; right: 0; bottom: 2px; display: inline-flex; align-items: center; gap: 4px; min-height: 30px; padding: 4px 10px; border: 0; border-radius: 15px; background: var(--fill); color: var(--accent); font-size: 13px; font-weight: 600; }
-.schmier-btn .ic { width: 16px; height: 16px; }
+.schmier-zone { margin: 14px 0 0; }
+.schmier-btn { display: inline-flex; align-items: center; gap: 6px; min-height: 40px; padding: 6px 14px; border: 0; border-radius: 20px; background: var(--fill); color: var(--accent); font-size: 15px; font-weight: 600; }
+.schmier-btn .ic { width: 18px; height: 18px; }
 .schmier-btn.on { background: var(--accent); color: #fff; }
-.sess-info { padding: 0 76px; }
+.schmier { margin-top: 10px; }
 .sess-info.knapp { color: var(--red); font-weight: 600; }
 .schmier { background: var(--bg2); border-radius: var(--r); padding: 10px; margin: 0 0 12px; box-shadow: var(--shadow); }
 .schmier-head { display: flex; gap: 8px; align-items: center; margin-bottom: 8px; }
@@ -682,10 +683,14 @@ body.sheet-open #readbar { bottom: calc(var(--sab) + 14px); }
 .ut-name small { display: block; font-size: 13px; color: var(--label2); }
 .ut-z { flex: 0 1 auto; margin: 0 0 0 auto !important; }
 .ut-z .seg button { flex: 0 0 auto; font-size: 12.5px; padding: 6px 9px; min-height: 36px; }
-/* Aktives Feld ganz leicht eingefärbt: grau, blau, grün */
-.zst .seg button.on[data-v="kommt"] { background: color-mix(in srgb, var(--label2) 16%, var(--bg2)); }
-.zst .seg button.on[data-v="aktuell"] { background: color-mix(in srgb, var(--accent) 18%, var(--bg2)); }
-.zst .seg button.on[data-v="fertig"] { background: color-mix(in srgb, var(--green) 20%, var(--bg2)); }
+/* Status-Schalter: alle drei Felder farbig hinterlegt, das aktive kräftiger.
+   Kommt noch blau, Im Unterricht grün, Abgeschlossen rot. */
+.zst .seg button[data-v="kommt"] { --zc: var(--accent); }
+.zst .seg button[data-v="aktuell"] { --zc: var(--green); }
+.zst .seg button[data-v="fertig"] { --zc: var(--red); }
+.zst .seg button { background: color-mix(in srgb, var(--zc) 12%, transparent); color: color-mix(in srgb, var(--zc) 75%, var(--label)); }
+:root .zst .seg button.on[data-v], :root[data-theme="dark"] .zst .seg button.on[data-v], :root:not([data-theme="light"]) .zst .seg button.on[data-v] { background: color-mix(in srgb, var(--zc) 30%, var(--bg2)); color: var(--label); box-shadow: 0 0 0 1.5px var(--zc) inset; }
+.zst .seg { gap: 3px; }
 
 /* ===== Wischen zwischen den Hauptbereichen ===== */
 @keyframes wischL { from { transform: translateX(28px); opacity: .4; } to { transform: none; opacity: 1; } }
