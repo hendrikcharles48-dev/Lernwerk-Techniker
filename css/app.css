@@ -130,7 +130,7 @@ button.row:active { background: var(--fill); }
 .fld { display: flex; flex-direction: column; gap: 6px; margin: 0 0 14px; }
 .fld > span { font-size: 13px; color: var(--label2); margin-left: 4px; }
 .fld.inline { flex-direction: row; align-items: center; gap: 10px; }
-input[type="text"], input[type="search"], input[type="date"], select, textarea, .inp {
+input[type="text"], input[type="password"], input[type="search"], input[type="date"], select, textarea, .inp {
   width: 100%; font-size: 17px; padding: 11px 13px; border-radius: 11px; border: 0; background: var(--bg2); color: var(--label); min-height: 44px; -webkit-appearance: none; appearance: none; box-shadow: var(--shadow);
 }
 select { background-image: linear-gradient(45deg, transparent 50%, var(--label2) 50%), linear-gradient(135deg, var(--label2) 50%, transparent 50%); background-position: calc(100% - 18px) 50%, calc(100% - 13px) 50%; background-size: 5px 5px; background-repeat: no-repeat; padding-right: 32px; }
@@ -610,3 +610,66 @@ body.sheet-open #readbar { bottom: calc(var(--sab) + 14px); }
 .sheet .sk-box svg { max-height: 70vh; }
 .fp-sk .sk-fig { background: var(--bg); margin: 0 0 10px; }
 .fp-sk .sk-fig figcaption { display: none; }
+
+/* ===== Lernzeit und Fragen auf der Startseite ===== */
+.lernwahl { background: var(--bg2); border-radius: var(--r); padding: 10px 12px 12px; margin: 6px 0 14px; box-shadow: var(--shadow); }
+.lw-row { margin-bottom: 10px; }
+.lw-l { display: block; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: .03em; color: var(--label2); margin: 0 0 5px 4px; }
+.lw-row .seg { margin: 0; flex-wrap: wrap; }
+.lw-row .seg button { flex: 1 1 30%; padding: 6px 4px; font-size: 14px; min-height: 36px; }
+.mini { display: flex; align-items: center; gap: 8px; width: 100%; min-height: 44px; border: 0; border-radius: 12px; background: var(--fill); color: var(--accent); font-size: 15px; padding: 8px 12px; text-align: left; }
+.mini .ic { width: 20px; height: 20px; }
+.mini:active { transform: scale(.98); }
+.bereit { margin-left: auto; display: flex; flex-direction: column; align-items: center; gap: 2px; font-size: 11px; color: var(--label2); }
+.bereit .ring-in b { font-size: 16px; } .bereit .ring-in small { font-size: 10px; }
+.serie { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; font-size: 15px; }
+.serie .ic { width: 22px; height: 22px; color: var(--orange); flex: none; }
+
+/* ===== Stufen im Thema ===== */
+.stufen { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin: 10px 0 8px; }
+.stf { border: 0; border-radius: 12px; background: var(--fill); padding: 8px 6px; min-height: 58px; display: flex; flex-direction: column; align-items: center; gap: 2px; color: var(--label2); }
+.stf b { font-size: 17px; line-height: 1.2; } .stf b .ic { width: 16px; height: 16px; }
+.stf span { font-size: 12px; } .stf small { font-size: 11px; opacity: .7; }
+.stf.on { background: var(--fc, var(--accent)); color: #fff; }
+.stf-btn { width: 100%; margin: 0 0 4px; }
+.stf-tipp { margin: 0 0 8px; }
+.modus .seg { margin-bottom: 12px; }
+
+/* ===== Schmierzettel ===== */
+.schmier-btn { position: absolute; right: 0; bottom: 2px; display: inline-flex; align-items: center; gap: 4px; min-height: 30px; padding: 4px 10px; border: 0; border-radius: 15px; background: var(--fill); color: var(--accent); font-size: 13px; font-weight: 600; }
+.schmier-btn .ic { width: 16px; height: 16px; }
+.schmier-btn.on { background: var(--accent); color: #fff; }
+.sess-info { padding: 0 76px; }
+.sess-info.knapp { color: var(--red); font-weight: 600; }
+.schmier { background: var(--bg2); border-radius: var(--r); padding: 10px; margin: 0 0 12px; box-shadow: var(--shadow); }
+.schmier-head { display: flex; gap: 8px; align-items: center; margin-bottom: 8px; }
+.schmier-head .seg { flex: 1; margin: 0; }
+.schmier-ta { width: 100%; font-size: 16px; border: 0; border-radius: 10px; background: var(--fill); color: var(--label); padding: 10px; resize: vertical; }
+.schmier-cv { display: block; width: 100%; height: 220px; border-radius: 10px; background: var(--fill); color: var(--label); touch-action: none; }
+
+/* ===== Zuordnen ===== */
+.zuo { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 6px 0 10px; }
+.zuo-col { display: flex; flex-direction: column; gap: 8px; }
+.zuo-i { min-height: 50px; border: 0; border-radius: 12px; background: var(--bg2); padding: 10px; text-align: left; font-size: 15px; box-shadow: var(--shadow); color: var(--label); }
+.zuo-i.sel { box-shadow: 0 0 0 2.5px var(--accent); }
+.zuo-i.ok { background: var(--green); color: #fff; opacity: .85; }
+.zuo-i.no { background: var(--red); color: #fff; }
+
+/* ===== Einfügen ===== */
+.paste-big { display: flex; align-items: center; gap: 14px; width: 100%; border: 0; border-radius: 18px; padding: 18px; margin: 4px 0 14px; background: linear-gradient(135deg, var(--accent), #5E5CE6); color: #fff; text-align: left; box-shadow: 0 6px 18px rgba(0,122,255,.25); }
+.paste-big .ic { width: 32px; height: 32px; flex: none; }
+.paste-big b { display: block; font-size: 19px; } .paste-big small { display: block; font-size: 14px; opacity: .9; }
+.paste-big:active { transform: scale(.98); }
+.pv-check div { margin-top: 4px; }
+
+/* ===== Hörmodus im Auto ===== */
+.auto-card .chips { margin: 8px 0 10px; }
+.auto-card .card-k .ic { width: 18px; height: 18px; vertical-align: -3px; }
+
+/* ===== Probeklausur: Selbstkorrektur ===== */
+.korr .ex-task { margin: 4px 0 8px; }
+.korr-a { background: var(--fill); border-radius: 10px; padding: 8px 10px; margin: 0 0 10px; }
+.korr-a p { margin: 2px 0 0; white-space: pre-wrap; }
+.korr-k { display: flex; gap: 10px; align-items: flex-start; padding: 8px 0; border-top: .5px solid var(--sep); font-size: 16px; }
+.korr-k input { width: 22px; height: 22px; flex: none; margin-top: 1px; accent-color: var(--green); }
+.korr .btn { margin-top: 8px; }

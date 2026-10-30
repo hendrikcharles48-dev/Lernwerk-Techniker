@@ -28,6 +28,10 @@ const KEYS = {
   // Ansatz zuerst: Aufgabe erkennen, begründen, Ergebnis prüfen
   // Hörmodus: eigenes Podcast-Skript, eine Person erklärt der anderen
   podcast: 'podcast',
+  // Stufen, Prüfzeile und weitere Fragearten
+  stufe: 'stufe', inhalt: 'inhalt',
+  verwechslung: 'verwechslung', verwechslungen: 'verwechslung', zuordnen: 'zuordnen', zuordnung: 'zuordnen',
+  erklaeren: 'erklaeren', erklaere: 'erklaeren', skizze: 'skizze', skizzen: 'skizze',
   ansatz: 'ansatz', signal: 'signal', erkennen: 'signal', warum: 'warum', begruendung: 'warum', kontrolle: 'kontrolle', probe: 'kontrolle'
 };
 const keyNorm = s => String(s).toLowerCase().replace(/ä/g, 'ae').replace(/ö/g, 'oe').replace(/ü/g, 'ue').replace(/ß/g, 'ss').replace(/[^a-z]/g, '');
@@ -39,10 +43,30 @@ export function emptyTopic(fach = '', thema = '') {
   return {
     fach, thema, modul: '',
     anker: [], begriffe: [], merksaetze: [], prinzip: [], bausteine: [], schnellwege: [], fehler: [],
-    formeln: [], karten: [], aufgaben: [], umstellen: [], auswahl: [], reihenfolgen: [], podcast: [], quellen: [], notizen: []
+    formeln: [], karten: [], aufgaben: [], umstellen: [], auswahl: [], reihenfolgen: [], podcast: [], quellen: [], notizen: [],
+    verwechslungen: [], zuordnen: [], erklaeren: [], skizzen: []
   };
 }
-const LISTS = ['anker', 'begriffe', 'merksaetze', 'prinzip', 'bausteine', 'schnellwege', 'fehler', 'formeln', 'karten', 'aufgaben', 'umstellen', 'auswahl', 'reihenfolgen', 'podcast', 'quellen', 'notizen'];
+const LISTS = ['anker', 'begriffe', 'merksaetze', 'prinzip', 'bausteine', 'schnellwege', 'fehler', 'formeln', 'karten', 'aufgaben', 'umstellen', 'auswahl', 'reihenfolgen', 'podcast', 'quellen', 'notizen', 'verwechslungen', 'zuordnen', 'erklaeren', 'skizzen'];
+
+// Prüfzeile „Inhalt: 6 Karten; 2 Aufgaben“: welches Wort zu welcher Liste gehört
+const INHALT = [
+  [/^karte/, 'karten', 'Karten'], [/^aufgabe/, 'aufgaben', 'Aufgaben'], [/^(fach)?begriff/, 'begriffe', 'Begriffe'], [/^formel/, 'formeln', 'Formeln'],
+  [/^merks/, 'merksaetze', 'Merksätze'], [/^baustein/, 'bausteine', 'Bausteine'], [/^(typische)?fehler/, 'fehler', 'Fehler'], [/^schnellweg/, 'schnellwege', 'Schnellwege'],
+  [/^auswahl/, 'auswahl', 'Auswahlfragen'], [/^reihenfolge/, 'reihenfolgen', 'Reihenfolgen'], [/^umstell/, 'umstellen', 'Umstellaufgaben'], [/^verwechslung/, 'verwechslungen', 'Verwechslungen'],
+  [/^zuordn/, 'zuordnen', 'Zuordnungen'], [/^erklaer/, 'erklaeren', 'Erklär-Aufgaben'], [/^skizze/, 'skizzen', 'Skizzen'], [/^(anker|bild)/, 'anker', 'Bilder'], [/^podcast/, 'podcast', 'Podcast-Zeilen']
+];
+export function readInhalt(val) {
+  const out = [];
+  for (const teil of splitList(String(val).replace(/,/g, ';'))) {
+    const m = /^(\d+)\s*(.+)$/.exec(teil.trim());
+    if (!m) continue;
+    const w = keyNorm(m[2]);
+    const hit = INHALT.find(x => x[0].test(w));
+    if (hit) out.push({ liste: hit[1], name: hit[2], soll: +m[1] });
+  }
+  return out;
+}
 export const hasContent = t => LISTS.some(k => t[k] && t[k].length);
 
 // Für die Schlüsselerkennung: Markdown-Reste vorne entfernen
@@ -75,18 +99,20 @@ export function readValue(raw) {
  */
 export function parseBlocks(text) {
   const lines = String(text || '').replace(/\r\n?/g, '\n').split('\n');
-  const res = { themen: [], termine: [], fehler: [], hinweise: [] };
+  const res = { themen: [], termine: [], fehler: [], hinweise: [], luecken: [], abgeschnitten: false };
   const hasMarkers = lines.some(l => START.test(cleanLine(l)));
   let inBlock = !hasMarkers;
-  let cur = null, field = null, task = null, umst = null, ctx = null, blockLine = 0;
+  let cur = null, field = null, task = null, umst = null, ctx = null, blockLine = 0, stufe = 0, inhalt = null;
+  // Stufe-Zeile: alle folgenden Einträge gehören zu dieser Stufe
+  const mark = o => { if (stufe) o.stufe = stufe; return o; };
 
   const err = (i, meldung) => res.fehler.push({ zeile: i + 1, text: lines[i].trim(), meldung });
   const warn = (i, meldung) => res.hinweise.push({ zeile: i + 1, text: lines[i].trim(), meldung });
 
   function finish() {
     if (!cur) return;
-    const t = cur;
-    cur = null; field = null; task = null; umst = null; ctx = null;
+    const t = cur, soll = inhalt;
+    cur = null; field = null; task = null; umst = null; ctx = null; stufe = 0; inhalt = null;
     // leere Einträge entfernen
     for (const k of ['anker', 'merksaetze', 'prinzip', 'bausteine', 'schnellwege', 'quellen']) t[k] = t[k].map(s => s.trim()).filter(Boolean);
     t.karten = t.karten.filter(k => k.frage && k.antwort);
@@ -109,6 +135,8 @@ export function parseBlocks(text) {
       res.fehler.push({ zeile: blockLine + 1, text: lines[blockLine] ? lines[blockLine].trim() : '', meldung: 'Block ab Zeile ' + (blockLine + 1) + ': ' + (!t.fach ? 'Fach' : 'Thema') + ' fehlt. Ohne ' + (!t.fach ? 'Fach' : 'Thema') + ' kann ich den Block nicht einsortieren.' });
       return;
     }
+    // Prüfzeile: Ist alles angekommen, was der Block verspricht?
+    if (soll) for (const x of soll) { const ist = (t[x.liste] || []).length; if (ist < x.soll) res.luecken.push({ thema: t.thema, name: x.name, soll: x.soll, ist }); }
     res.themen.push(t);
   }
   function start(i) { finish(); cur = emptyTopic(); blockLine = i; }
@@ -171,18 +199,24 @@ export function parseBlocks(text) {
         field = { obj: cur[prop], idx: cur[prop].length - 1, prop: key === 'prinzip' ? 'prinzipText' : prop };
         break;
       }
+      case 'stufe': {
+        const n = parseInt(val, 10);
+        if (!(n >= 1 && n <= 3)) { warn(i, 'Stufe bitte als 1, 2 oder 3 schreiben.'); break; }
+        stufe = n; field = null; break;
+      }
+      case 'inhalt': inhalt = readInhalt(val); field = null; break;
       case 'begriff': {
         let [b, ...e] = pipes(val);
         let erk = e.join(' | ');
         if (!e.length) { const s = /^(.+?)\s+[–-]\s+(.+)$/.exec(val); if (s) { b = s[1]; erk = s[2]; } }
-        const o = { begriff: b, erklaerung: erk };
+        const o = mark({ begriff: b, erklaerung: erk });
         cur.begriffe.push(o); setField(o, 'erklaerung');
         if (!erk) warn(i, 'Begriff ohne Erklärung. Trenne Begriff und Erklärung mit |.');
         break;
       }
       case 'fehler': {
         const [f, ...a] = pipes(val);
-        const o = { fehler: f, achtung: a.join(' | ') };
+        const o = mark({ fehler: f, achtung: a.join(' | ') });
         cur.fehler.push(o); setField(o, 'achtung'); break;
       }
       case 'formel': {
@@ -193,7 +227,7 @@ export function parseBlocks(text) {
         else o = { name: p[0], formel: p[1], umgestellt: splitList(p.slice(2).join(';')) };
         try { parseEq(o.formel); } catch (e) { warn(i, 'Die Formel kann ich nicht als Rechnung lesen (' + e.message + '). Ich zeige sie als Text.'); }
         for (const u of o.umgestellt) { try { parseEq(u); } catch (e) { warn(i, 'Die Umstellung „' + u + '“ kann ich nicht lesen.'); } }
-        cur.formeln.push(o); field = null; break;
+        cur.formeln.push(mark(o)); field = null; break;
       }
       // Aufbau: kurz erklären, warum die Formel davor so zusammengesetzt ist
       case 'aufbau': {
@@ -203,12 +237,12 @@ export function parseBlocks(text) {
       }
       case 'karte': {
         const [f, ...a] = pipes(val);
-        const o = { frage: f, antwort: a.join(' | ') };
+        const o = mark({ frage: f, antwort: a.join(' | ') });
         if (!a.length) err(i, 'Bei dieser Karte fehlt die Antwort. Trenne Frage und Antwort mit einem senkrechten Strich |.');
         cur.karten.push(o); setField(o, 'antwort'); break;
       }
       case 'aufgabe':
-        task = newTask(i, val); cur.aufgaben.push(task); umst = null; ctx = 'aufgabe'; setField(task, 'text'); break;
+        task = mark(newTask(i, val)); cur.aufgaben.push(task); umst = null; ctx = 'aufgabe'; setField(task, 'text'); break;
       case 'gegeben': case 'gesucht': {
         const t = ensureTask(i); t[key].push(val); field = { obj: t[key], idx: t[key].length - 1 }; break;
       }
@@ -277,7 +311,7 @@ export function parseBlocks(text) {
         const [formel, nach, loesung] = pipes(val);
         if (!formel || !nach || !loesung) { err(i, 'Umstellen bitte so schreiben: Formel | nach welcher Größe | Lösung.'); break; }
         try { parseEq(formel); parseEq(loesung); } catch (e) { err(i, 'Diese Umstellaufgabe kann ich nicht lesen: ' + e.message); break; }
-        umst = { formel, nach, loesung, umformungen: [], tipps: [] };
+        umst = mark({ formel, nach, loesung, umformungen: [], tipps: [] });
         cur.umstellen.push(umst); task = null; ctx = 'umstellen'; field = null; break;
       }
       case 'umformung': {
@@ -289,13 +323,32 @@ export function parseBlocks(text) {
       case 'auswahl': {
         const [frage, richtig, falsch, erklaerung] = pipes(val);
         if (!frage || !richtig || !falsch) { err(i, 'Auswahl bitte so schreiben: Frage | richtige Antwort | falsche Antwort; falsche Antwort.'); break; }
-        cur.auswahl.push({ frage, richtig, falsch: splitList(falsch), erklaerung: erklaerung || '' }); field = null; break;
+        cur.auswahl.push(mark({ frage, richtig, falsch: splitList(falsch), erklaerung: erklaerung || '' })); field = null; break;
       }
       case 'reihenfolge': {
         const [titel, schritte] = pipes(val);
         const s = splitList(schritte || '');
         if (s.length < 2) { err(i, 'Reihenfolge bitte so schreiben: Titel | Schritt 1; Schritt 2; Schritt 3.'); break; }
-        cur.reihenfolgen.push({ titel, schritte: s }); field = null; break;
+        cur.reihenfolgen.push(mark({ titel, schritte: s })); field = null; break;
+      }
+      case 'verwechslung': {
+        const [a, b, unterschied] = pipes(val);
+        if (!a || !b || !unterschied) { err(i, 'Verwechslung bitte so schreiben: Begriff A | Begriff B | Unterschied in einem Satz.'); break; }
+        const o = mark({ a, b, unterschied });
+        cur.verwechslungen.push(o); setField(o, 'unterschied'); break;
+      }
+      case 'zuordnen': {
+        const [titel, rest] = pipes(val);
+        const paare = splitList(rest || '').map(x => { const k = x.indexOf('='); return k > 0 ? { begriff: x.slice(0, k).trim(), bedeutung: x.slice(k + 1).trim() } : null; }).filter(x => x && x.begriff && x.bedeutung);
+        if (!titel || paare.length < 2) { err(i, 'Zuordnen bitte so schreiben: Titel | Begriff = Bedeutung; Begriff = Bedeutung.'); break; }
+        cur.zuordnen.push(mark({ titel, paare })); field = null; break;
+      }
+      case 'erklaeren': case 'skizze': {
+        const [aufgabe, punkte] = pipes(val);
+        const kern = splitList(punkte || '');
+        const name = key === 'skizze' ? 'Skizze' : 'Erklären';
+        if (!aufgabe || !kern.length) { err(i, name + ' bitte so schreiben: Aufgabe | Kernpunkt; Kernpunkt; Kernpunkt.'); break; }
+        cur[key === 'skizze' ? 'skizzen' : 'erklaeren'].push(mark({ aufgabe, kern })); field = null; break;
       }
       case 'podcast': {
         // Podcast: Lena | Text  oder  Podcast: Tom | Text. Tom erklärt, Lena fragt.
@@ -313,7 +366,7 @@ export function parseBlocks(text) {
       }
     }
   }
-  if (hasMarkers && inBlock && cur) res.hinweise.push({ zeile: lines.length, text: '', meldung: 'Die Zeile „=== ENDE ===“ fehlt. Ich habe bis zum Schluss gelesen.' });
+  if (hasMarkers && inBlock && cur) { res.abgeschnitten = true; res.hinweise.push({ zeile: lines.length, text: '', meldung: 'Die Zeile „=== ENDE ===“ fehlt. Ich habe bis zum Schluss gelesen.' }); }
   finish();
   return res;
 }
@@ -336,6 +389,10 @@ export function summary(t) {
     [t.umstellen.length, 'Umstellaufgabe', 'Umstellaufgaben'],
     [t.auswahl.length, 'Auswahlfrage', 'Auswahlfragen'],
     [t.reihenfolgen.length, 'Reihenfolge', 'Reihenfolgen'],
+    [(t.verwechslungen || []).length, 'Verwechslung', 'Verwechslungen'],
+    [(t.zuordnen || []).length, 'Zuordnung', 'Zuordnungen'],
+    [(t.erklaeren || []).length, 'Erklär-Aufgabe', 'Erklär-Aufgaben'],
+    [(t.skizzen || []).length, 'Skizze', 'Skizzen'],
     [t.schnellwege.length, 'Schnellweg', 'Schnellwege'],
     [t.fehler.length, 'typischer Fehler', 'typische Fehler'],
     [t.prinzip.length ? 1 : 0, 'Prinzip-Text', 'Prinzip-Texte'],
@@ -350,7 +407,8 @@ const KEYFN = {
   anker: s => norm(s), merksaetze: s => norm(s), prinzip: s => norm(s), bausteine: s => norm(s), schnellwege: s => norm(s), quellen: s => norm(s),
   begriffe: b => norm(b.begriff), fehler: f => norm(f.fehler), formeln: f => norm(f.formel), karten: k => norm(k.frage),
   aufgaben: a => norm(a.text + a.gegeben.join('')), umstellen: u => norm(u.formel + '|' + u.nach), auswahl: a => norm(a.frage),
-  reihenfolgen: r => norm(r.titel), podcast: p => norm(p.wer + p.text), notizen: n => norm(n.schluessel + n.text)
+  reihenfolgen: r => norm(r.titel), podcast: p => norm(p.wer + p.text), notizen: n => norm(n.schluessel + n.text),
+  verwechslungen: v => norm(v.a + '|' + v.b), zuordnen: z => norm(z.titel), erklaeren: e => norm(e.aufgabe), skizzen: e => norm(e.aufgabe)
 };
 export function mergeTopic(base, add) {
   const out = emptyTopic(base.fach || add.fach, base.thema || add.thema);
@@ -382,18 +440,23 @@ function lineOut(key, value) {
   return key + ': ' + parts[0] + (parts.length > 1 ? '\n' + parts.slice(1).join('\n') : '');
 }
 export function exportBlock(t, termine = []) {
-  const L = ['=== LERNWERK ===', 'Fach: ' + t.fach, 'Thema: ' + t.thema];
+  const L0 = ['=== LERNWERK ===', 'Fach: ' + t.fach, 'Thema: ' + t.thema];
+  // Stufe-Zeilen nur, wenn Einträge eine Stufe haben. Sie gelten bis zur nächsten Stufe-Zeile.
+  let aktStufe = 0;
+  const L = { push(...x) { L0.push(...x); }, join: s => L0.join(s) };
+  const st = o => { const n = (o && o.stufe) || 1; if (n !== aktStufe && (aktStufe || n !== 1)) L0.push('Stufe: ' + n); aktStufe = n; };
   if (t.modul) L.push('Modul: ' + t.modul);
   t.anker.forEach(a => L.push(lineOut('Anker', a)));
-  t.begriffe.forEach(b => L.push(lineOut('Begriff', b.begriff + ' | ' + b.erklaerung)));
+  t.begriffe.forEach(b => { st(b); L.push(lineOut('Begriff', b.begriff + ' | ' + b.erklaerung)); });
   t.merksaetze.forEach(m => L.push(lineOut('Merksatz', m)));
   t.prinzip.forEach(p => L.push(lineOut('Prinzip', p)));
   t.bausteine.forEach(b => L.push(lineOut('Baustein', b)));
   t.schnellwege.forEach(s => L.push(lineOut('Schnellweg', s)));
-  t.fehler.forEach(f => L.push(lineOut('Fehler', f.fehler + ' | ' + f.achtung)));
-  t.formeln.forEach(f => { L.push('Formel: ' + (f.name || '') + ' | ' + f.formel + (f.umgestellt.length ? ' | ' + f.umgestellt.join('; ') : '')); if (f.aufbau) L.push('Aufbau: ' + f.aufbau); });
-  t.karten.forEach(k => L.push(lineOut('Karte', k.frage + ' | ' + k.antwort)));
+  t.fehler.forEach(f => { st(f); L.push(lineOut('Fehler', f.fehler + ' | ' + f.achtung)); });
+  t.formeln.forEach(f => { st(f); L.push('Formel: ' + (f.name || '') + ' | ' + f.formel + (f.umgestellt.length ? ' | ' + f.umgestellt.join('; ') : '')); if (f.aufbau) L.push('Aufbau: ' + f.aufbau); });
+  t.karten.forEach(k => { st(k); L.push(lineOut('Karte', k.frage + ' | ' + k.antwort)); });
   t.aufgaben.forEach(a => {
+    st(a);
     L.push(lineOut('Aufgabe', a.text));
     a.gegeben.forEach(g => L.push(lineOut('Gegeben', g)));
     a.gesucht.forEach(g => L.push(lineOut('Gesucht', g)));
@@ -408,12 +471,17 @@ export function exportBlock(t, termine = []) {
     if (a.kontrolle) L.push('Kontrolle: ' + a.kontrolle.frage + ' | ' + a.kontrolle.richtig + ' | ' + a.kontrolle.falsch.join('; '));
   });
   t.umstellen.forEach(u => {
+    st(u);
     L.push('Umstellen: ' + u.formel + ' | ' + u.nach + ' | ' + u.loesung);
     u.umformungen.forEach(f => L.push('Umformung: ' + f.operation + ' | ' + f.gleichung + (f.falsch.length ? ' | ' + f.falsch.join('; ') : '')));
     u.tipps.forEach(g => L.push(lineOut('Tipp', g)));
   });
-  t.auswahl.forEach(a => L.push('Auswahl: ' + a.frage + ' | ' + a.richtig + ' | ' + a.falsch.join('; ') + (a.erklaerung ? ' | ' + a.erklaerung : '')));
-  t.reihenfolgen.forEach(r => L.push('Reihenfolge: ' + r.titel + ' | ' + r.schritte.join('; ')));
+  t.auswahl.forEach(a => st(a) || L.push('Auswahl: ' + a.frage + ' | ' + a.richtig + ' | ' + a.falsch.join('; ') + (a.erklaerung ? ' | ' + a.erklaerung : '')));
+  t.reihenfolgen.forEach(r => st(r) || L.push('Reihenfolge: ' + r.titel + ' | ' + r.schritte.join('; ')));
+  (t.verwechslungen || []).forEach(v => st(v) || L.push(lineOut('Verwechslung', v.a + ' | ' + v.b + ' | ' + v.unterschied)));
+  (t.zuordnen || []).forEach(z => st(z) || L.push('Zuordnen: ' + z.titel + ' | ' + z.paare.map(p => p.begriff + ' = ' + p.bedeutung).join('; ')));
+  (t.erklaeren || []).forEach(e => st(e) || L.push('Erklären: ' + e.aufgabe + ' | ' + e.kern.join('; ')));
+  (t.skizzen || []).forEach(e => st(e) || L.push('Skizze: ' + e.aufgabe + ' | ' + e.kern.join('; ')));
   (t.podcast || []).forEach(p => L.push('Podcast: ' + (p.wer === 'B' ? 'Tom' : 'Lena') + ' | ' + p.text));
   t.quellen.forEach(q => L.push(lineOut('Quelle', q)));
   t.notizen.forEach(n => L.push(lineOut(n.schluessel, n.text)));
@@ -427,6 +495,7 @@ export const TEMPLATE = `Mach aus dem Material unten einen Lernwerk-Block für m
 Fach:
 Thema:
 Modul: (optional, zum Beispiel M2)
+Stufe: 1
 Anker: Bild aus meiner Welt
 Begriff: Fachbegriff | Erklärung in einem Satz
 Merksatz:
@@ -449,8 +518,17 @@ Signal: woran ich in der Aufgabe erkenne, dass dieser Ansatz passt
 Warum: richtige Begründung | falsche Begründung; falsche Begründung
 Kontrolle: Frage zur Plausibilität des Ergebnisses | richtige Antwort | falsch; falsch
 Auswahl: kurzer Fall aus der Praxis | richtige Antwort | falsch; falsch; falsch | Erklärung, warum
+Stufe: 2
+Verwechslung: Begriff A | Begriff B | Unterschied in einem Satz
+Zuordnen: Titel | Begriff = Bedeutung; Begriff = Bedeutung; Begriff = Bedeutung
+Stufe: 3
+Erklären: Prüfungsaufgabe zum Erklären | Kernpunkt; Kernpunkt; Kernpunkt
+Skizze: Prüfungsaufgabe zum Zeichnen | Kernpunkt; Kernpunkt
 Termin: Fach | JJJJ-MM-TT | Themen
+Inhalt: 6 Karten; 2 Aufgaben; 3 Begriffe
 === ENDE ===
 Zu jeder Aufgabe gehören Ansatz, Signal, Warum und Kontrolle. Die falschen Ansätze sollen plausibel sein, am besten Verfahren aus verwandten Themen, die man leicht verwechselt. Alle Antworten einer Auswahl gleich lang und gleich aufgebaut, damit die richtige nicht auffällt.
+Stufen: Stufe 1 sind Grundlagen (Anker, Begriffe, Merksatz, einfache Karten), Stufe 2 Zusammenhänge (Prinzip, Formeln, Bausteine, Verwechslungen, Zuordnen), Stufe 3 Anwenden (Aufgaben, Fehler, Schnellweg, schwere Karten, Erklären, Skizze). Eine Stufe-Zeile gilt für alle Zeilen danach bis zur nächsten Stufe-Zeile.
+Die Zeile Inhalt zählt am Ende, was im Block steht, damit ich sehe, ob alles angekommen ist.
 Material:
 `;

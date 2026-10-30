@@ -4,11 +4,12 @@ import { addDays, daysBetween, parseDay } from './util.js';
 export const INTERVALS = [1, 2, 4, 7, 14, 30];
 
 // ergebnis: 'richtig' (erster Versuch), 'hilfe' (mit Tipp oder zweitem Versuch), 'falsch'
+// Falsch: zwei Stufen zurück, also von 30 auf 7 Tage. Junge Karten auf Stufe 1 oder 2 fangen wieder bei 1 an.
 export function nextState(st, ergebnis, today) {
   const s = Object.assign({ stufe: 0, richtig: 0, hilfe: 0, falsch: 0 }, st || {});
   if (ergebnis === 'richtig') { s.stufe = Math.min(INTERVALS.length, s.stufe + 1); s.richtig++; }
   else if (ergebnis === 'hilfe') { s.stufe = Math.max(1, s.stufe); s.hilfe++; }
-  else { s.stufe = 1; s.falsch++; }
+  else { s.stufe = s.stufe >= 3 ? s.stufe - 2 : 1; s.falsch++; }
   s.zuletzt = today;
   s.faellig = addDays(today, INTERVALS[s.stufe - 1]);
   return s;
@@ -23,8 +24,33 @@ export function isDue(card, today, tageBisArbeit) {
   return daysBetween(today, card.faellig) <= vorlauf;
 }
 
+// Übrig gebliebene fällige Karten auf die nächsten Tage verteilen, statt alles auf morgen zu stapeln.
+// karten: nach Wichtigkeit sortiert. Die wichtigsten kommen morgen, der Rest übermorgen und danach.
+export function verteilen(karten, today, tage = 3) {
+  const n = karten.length, proTag = Math.ceil(n / tage);
+  return karten.map((c, k) => Object.assign({}, c, { faellig: addDays(today, 1 + Math.floor(k / Math.max(1, proTag))) }));
+}
+
+// Serie: Tage am Stück gelernt. Ein freier Tag pro Kalenderwoche bricht sie nicht.
+// Heute zählt erst, wenn heute gelernt wurde, bricht die Serie aber auch nicht.
+export function serie(tage, today) {
+  const set = new Set(tage);
+  if (!set.size) return 0;
+  const erster = [...set].sort()[0];
+  const woche = d => { const x = parseDay(d); x.setDate(x.getDate() - ((x.getDay() + 6) % 7)); return x.toDateString(); };
+  const frei = new Set();
+  let n = 0, d = set.has(today) ? today : addDays(today, -1);
+  while (d >= erster) {
+    if (set.has(d)) n++;
+    else if (!frei.has(woche(d))) frei.add(woche(d));
+    else break;
+    d = addDays(d, -1);
+  }
+  return n;
+}
+
 // Grobe Zeit pro Karte in Sekunden, um "Heute dran" auf etwa 15 Minuten zu deckeln.
-export const SEKUNDEN = { karte: 25, begriff: 25, fehler: 40, aufgabe: 150, umstellen: 70, auswahl: 30, reihenfolge: 60, trainer: 300 };
+export const SEKUNDEN = { karte: 25, begriff: 25, verwechslung: 30, zuordnen: 60, fehler: 40, aufgabe: 150, umstellen: 70, auswahl: 30, reihenfolge: 60, trainer: 300 };
 
 /*
  * Lernplan rückwärts bis zur Klassenarbeit.

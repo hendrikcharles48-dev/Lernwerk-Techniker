@@ -1,10 +1,10 @@
 // Ausführen mit: node tests/parser.test.mjs
 import { readFileSync } from 'node:fs';
-import { parseBlocks, exportBlock, mergeTopic, summary } from '../js/parser.js';
+import { parseBlocks, exportBlock, mergeTopic, summary, readInhalt } from '../js/parser.js';
 import { parseEq, evaluate, calc, checkSolved, checkStep, fml, speakFml } from '../js/formula.js';
 import { checkNumber, readNumber } from '../js/check.js';
 import { markdown } from '../js/util.js';
-import { nextState, INTERVALS } from '../js/srs.js';
+import { nextState, INTERVALS, verteilen, serie } from '../js/srs.js';
 
 let pass = 0, fail = 0;
 const ok = (cond, name, extra) => { if (cond) pass++; else { fail++; console.log('FEHLER:', name, extra !== undefined ? JSON.stringify(extra) : ''); } };
@@ -121,7 +121,7 @@ let s = nextState(null, 'richtig', '2026-10-01');
 ok(s.stufe === 1 && s.faellig === '2026-10-02', 'neu richtig', s);
 s = nextState(s, 'richtig', '2026-10-02'); ok(s.stufe === 2 && s.faellig === '2026-10-04', 'Stufe 2', s);
 s = nextState(s, 'hilfe', '2026-10-04'); ok(s.stufe === 2 && s.faellig === '2026-10-06', 'mit Hilfe gleiche Stufe', s);
-s = nextState(s, 'falsch', '2026-10-06'); ok(s.stufe === 1 && s.faellig === '2026-10-07', 'falsch zurück auf 1', s);
+s = nextState(s, 'falsch', '2026-10-06'); ok(s.stufe === 1 && s.faellig === '2026-10-07', 'falsch auf Stufe 2 zurück auf 1', s);
 let t = null; for (let i = 0; i < 9; i++) t = nextState(t, 'richtig', '2026-10-01'); ok(t.stufe === 6 && t.faellig === '2026-10-31', 'höchstens 30 Tage', t);
 
 // Ansatz zuerst: Ansatz, Signal, Warum, Kontrolle
@@ -163,6 +163,39 @@ ok(checkNumber('12 N/mm²', 12, 'N/mm²').status === 'ok', 'Einheit mit Bruchstr
   const pc = r.themen[0].podcast;
   ok(pc.length === 2 && pc[0].wer === 'A' && pc[1].wer === 'B' && pc[1].text === 'Das ist | ein Test.', 'Podcast-Zeilen mit Lena und Tom', pc);
   ok(/Podcast: Tom \| Das ist/.test(exportBlock(r.themen[0])), 'Podcast-Zeilen im Export');
+}
+
+// Wiederholsystem: Falsch fällt nur zwei Stufen zurück
+{
+  let c = null; for (let i = 0; i < 6; i++) c = nextState(c, 'richtig', '2026-10-01');
+  const f = nextState(c, 'falsch', '2026-10-31');
+  ok(f.stufe === 4 && f.faellig === '2026-11-07', 'falsch von 30 auf 7 Tage', f);
+  const jung = nextState(nextState(null, 'richtig', '2026-10-01'), 'richtig', '2026-10-02');
+  ok(nextState(jung, 'falsch', '2026-10-04').stufe === 1, 'junge Karte falsch zurück auf 1');
+  const v = verteilen([{ id: 1 }, { id: 2 }, { id: 3 }, { id: 4 }, { id: 5 }, { id: 6 }], '2026-10-10');
+  ok(v.filter(x => x.faellig === '2026-10-11').length === 2 && v.filter(x => x.faellig === '2026-10-13').length === 2, 'Rest auf drei Tage verteilt', v);
+}
+// Serie: ein freier Tag pro Woche bricht sie nicht
+{
+  ok(serie(['2026-10-26', '2026-10-27', '2026-10-28', '2026-10-29'], '2026-10-29') === 4, 'Serie 4 Tage');
+  ok(serie(['2026-10-26', '2026-10-28', '2026-10-29'], '2026-10-29') === 3, 'ein freier Tag in der Woche bricht nicht');
+  ok(serie(['2026-10-26', '2026-10-29'], '2026-10-29') === 1, 'zwei freie Tage in einer Woche brechen');
+  ok(serie(['2026-10-28'], '2026-10-29') === 1, 'heute noch nicht gelernt bricht nicht');
+}
+// Stufen, Prüfzeile und neue Fragearten
+{
+  const r = parseBlocks('=== LERNWERK ===\nFach: Mathematik\nThema: T\nKarte: a | b\nStufe: 2\nVerwechslung: Spannung | Strom | Spannung treibt, Strom fließt.\nZuordnen: Größen | U = Spannung; I = Strom; R = Widerstand\nStufe: 3\nErklären: Erkläre das Ohmsche Gesetz. | U = R · I; R bleibt gleich\nSkizze: Zeichne einen Stromkreis. | Quelle; Verbraucher\nInhalt: 2 Karten; 1 Verwechslung; 1 Zuordnung\n=== ENDE ===');
+  const t = r.themen[0];
+  ok(!t.karten[0].stufe && t.verwechslungen[0].stufe === 2 && t.zuordnen[0].stufe === 2 && t.erklaeren[0].stufe === 3, 'Stufe gilt bis zur nächsten Stufe-Zeile', t);
+  ok(t.zuordnen[0].paare.length === 3 && t.zuordnen[0].paare[0].begriff === 'U' && t.zuordnen[0].paare[0].bedeutung === 'Spannung', 'Zuordnen-Paare');
+  ok(t.erklaeren[0].kern.length === 2 && t.skizzen[0].kern.length === 2, 'Erklären und Skizze mit Kernpunkten');
+  ok(r.luecken.length === 1 && r.luecken[0].name === 'Karten' && r.luecken[0].ist === 1 && r.luecken[0].soll === 2, 'Prüfzeile meldet fehlende Karten', r.luecken);
+  ok(!r.abgeschnitten && !t.notizen.length, 'kein Abschnitt, keine Notiz');
+  const back = parseBlocks(exportBlock(t)).themen[0];
+  ok(back.verwechslungen[0].stufe === 2 && back.skizzen[0].stufe === 3 && !back.karten[0].stufe, 'Stufen im Export erhalten', exportBlock(t));
+  ok(parseBlocks('=== LERNWERK ===\nFach: M\nThema: T\nKarte: a | b').abgeschnitten, 'fehlendes ENDE wird erkannt');
+  ok(readInhalt('6 Karten; 2 Aufgaben, 3 Begriffe').length === 3, 'Inhalt lesen');
+  ok(/Verwechslung/.test(summary(t)), 'Zusammenfassung zählt Verwechslungen');
 }
 
 console.log(`\n${pass} bestanden, ${fail} fehlgeschlagen`);

@@ -68,8 +68,20 @@ export function sprechbar(text) {
 export const deVoices = () => (canSpeak() ? speechSynthesis.getVoices().filter(v => /^de(-|_|$)/i.test(v.lang)) : []);
 const wahl = k => { try { const v = localStorage.getItem('lernwerk:' + k); return v ? JSON.parse(v) : ''; } catch (e) { return ''; } };
 const byName = n => (n ? deVoices().find(v => v.name === n) : null);
-// Systemstimme für Lena (A) oder Tom (B). Ohne Wahl die beste gefundene Stimme.
-export const voiceFor = wer => byName(wahl(wer === 'A' ? 'stimmeA' : 'stimmeB')) || voice;
+// Systemstimme für Lena (A) oder Tom (B). Ohne Wahl: zwei verschiedene deutsche Stimmen,
+// für Lena eine Frauenstimme, für Tom eine Männerstimme, soweit das iPhone sie hat.
+const FRAU = /anna|petra|helena|marlene|katja|vicki|sandy|shelley|flo|eddy|grandma|female|frau/i;
+const MANN = /markus|yannick|martin|hans|stefan|viktor|reed|rocko|grandpa|male|mann/i;
+const auto = wer => {
+  const vs = deVoices();
+  if (!voice || vs.length < 2) return voice;
+  const andere = vs.filter(v => v !== voice);
+  if (FRAU.test(voice.name)) return wer === 'A' ? voice : andere.find(v => MANN.test(v.name)) || andere[0];
+  return wer === 'B' ? voice : andere.find(v => FRAU.test(v.name) && !MANN.test(v.name)) || andere[0];
+};
+export const voiceFor = wer => byName(wahl(wer === 'A' ? 'stimmeA' : 'stimmeB')) || auto(wer) || voice;
+// Gibt es nur eine Stimme, klingen Lena und Tom über die Tonhöhe verschieden
+const hoehe = wer => (voiceFor('A') === voiceFor('B') ? (wer === 'A' ? 1.15 : 0.9) : 1);
 // Spricht einen Text. Promise wird erfüllt, wenn fertig oder abgebrochen.
 export function speak(text, rate = 1, wer = 'B') {
   return new Promise(resolve => {
@@ -78,6 +90,7 @@ export function speak(text, rate = 1, wer = 'B') {
     u.lang = 'de-DE';
     const v = voiceFor(wer);
     if (v) u.voice = v;
+    u.pitch = hoehe(wer);
     u.rate = rate * (+wahl('sysTempo') || 1);
     let done = false;
     const fin = ok => { if (!done) { done = true; resolve(ok); } };

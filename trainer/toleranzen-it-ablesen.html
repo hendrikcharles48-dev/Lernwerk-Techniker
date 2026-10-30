@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="de"><head><meta charset="utf-8">
+<html lang="de"><head><script src="../lernwerk-speicher.js"></script><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>IT-Toleranzen ablesen</title>
 <style>
@@ -135,8 +135,8 @@ footer{padding:20px 4px 0;font-size:13px;color:var(--muted)}
 </main>
 <script>
 const PAGE=document.body.dataset.page;
-function loadDone(){try{return JSON.parse(localStorage.getItem(PAGE+':done')||'[]')}catch(e){return[]}}
-function saveDone(a){try{localStorage.setItem(PAGE+':done',JSON.stringify(a))}catch(e){}}
+function loadDone(){try{return JSON.parse(localStorage.getItem('lernwerk:'+PAGE+':done')||'[]')}catch(e){return[]}}
+function saveDone(a){try{localStorage.setItem('lernwerk:'+PAGE+':done',JSON.stringify(a))}catch(e){}}
 function upd(){const t=[...document.querySelectorAll('.task')];const d=t.filter(x=>x.classList.contains('done')).length;
 const p=document.getElementById('progress');if(p)p.textContent=d+' von '+t.length+' Aufgaben erledigt';
 const b=document.querySelector('.bar i');if(b)b.style.width=(t.length?100*d/t.length:0)+'%';}
@@ -156,7 +156,7 @@ const sub=s=>String(s).replace(/_([a-zA-Z0-9]+)/g,'<sub>$1</sub>');
 const rnd=a=>a[Math.floor(Math.random()*a.length)];
 const ri=(a,b)=>a+Math.floor(Math.random()*(b-a+1));
 const shuf=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
-const LS={get:(k,d)=>{try{return JSON.parse(localStorage.getItem(PAGE+':'+k))??d}catch(e){return d}},set:(k,v)=>{try{localStorage.setItem(PAGE+':'+k,JSON.stringify(v))}catch(e){}}};
+const LS={get:(k,d)=>{try{return JSON.parse(localStorage.getItem('lernwerk:'+PAGE+':'+k))??d}catch(e){return d}},set:(k,v)=>{try{localStorage.setItem('lernwerk:'+PAGE+':'+k,JSON.stringify(v))}catch(e){}}};
 let MEM={bags:LS.get('bags',{}),hist:LS.get('hist',[]),n:LS.get('n',0)};
 function nextType(pool){const key=pool.join(',');let b=MEM.bags[key];if(!b||!b.length||b.some(k=>!GEN[k]))b=shuf(pool);const t=b.pop();MEM.bags[key]=b;LS.set('bags',MEM.bags);return t}
 function newTask(mode){const pool=MODES[mode].pool;for(let i=0;i<60;i++){const type=nextType(pool);const t=GEN[type](MODES[mode]);const sig=type+'|'+t.sig;if(MEM.hist.includes(sig))continue;

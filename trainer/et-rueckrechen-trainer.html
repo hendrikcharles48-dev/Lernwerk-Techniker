@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="de"><head><meta charset="utf-8">
+<html lang="de"><head><script src="../lernwerk-speicher.js"></script><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Rückrechen-Trainer</title>
 <style>
@@ -224,8 +224,8 @@ body.calc-open .csheet{transform:none;visibility:visible}
 
 <script>
 const PAGE=document.body.dataset.page;
-function loadDone(){try{return JSON.parse(localStorage.getItem(PAGE+':done')||'[]')}catch(e){return[]}}
-function saveDone(a){try{localStorage.setItem(PAGE+':done',JSON.stringify(a))}catch(e){}}
+function loadDone(){try{return JSON.parse(localStorage.getItem('lernwerk:'+PAGE+':done')||'[]')}catch(e){return[]}}
+function saveDone(a){try{localStorage.setItem('lernwerk:'+PAGE+':done',JSON.stringify(a))}catch(e){}}
 function upd(){const t=[...document.querySelectorAll('.task')];const d=t.filter(x=>x.classList.contains('done')).length;
 const p=document.getElementById('progress');if(p)p.textContent=d+' von '+t.length+' Aufgaben erledigt';
 const b=document.querySelector('.bar i');if(b)b.style.width=(t.length?100*d/t.length:0)+'%';}
@@ -307,7 +307,7 @@ const TYPES={
  'L':()=>{const p=P3();return{pre:[M()],br:[[p[0]],[p[1]],split(p[2],2)],post:[M()]}},
  'M':()=>({pre:[M()],br:P2().map(v=>[v]),post:[M()]}),
  'N':()=>{const p=P2();return{pre:[],br:[split(p[0],2),split(p[1],3)],post:[M(),M()]}}};
-const LS={get:(k,d)=>{try{return JSON.parse(localStorage.getItem('trainer:'+k))??d}catch(e){return d}},set:(k,v)=>{try{localStorage.setItem('trainer:'+k,JSON.stringify(v))}catch(e){}}};
+const LS={get:(k,d)=>{try{return JSON.parse(localStorage.getItem('lernwerk:trainer:'+k))??d}catch(e){return d}},set:(k,v)=>{try{localStorage.setItem('lernwerk:trainer:'+k,JSON.stringify(v))}catch(e){}}};
 let MEM={bag:LS.get('bag',[]),hist:LS.get('hist',[]),n:LS.get('n',0)};
 function nextType(){if(!MEM.bag.length||MEM.bag.some(k=>!TYPES[k]&&!BASIC[k]))MEM.bag=shuf([...Object.keys(TYPES),...Object.keys(BASIC)]);return MEM.bag.pop()}
 function randomCirc(){const type=nextType();if(BASIC[type]){LS.set('bag',MEM.bag);return basicCirc(type)}
@@ -568,7 +568,7 @@ start(JSON.parse(JSON.stringify(PRE.B1)),'B1');
 (function(){
 const $=id=>document.getElementById(id);
 let T=[],done=false,ans=0,hist=[];
-try{hist=JSON.parse(localStorage.getItem('calc:hist')||'[]');ans=+localStorage.getItem('calc:ans')||0}catch(e){}
+try{hist=JSON.parse(localStorage.getItem('lernwerk:calc:hist')||'[]');ans=+localStorage.getItem('lernwerk:calc:ans')||0}catch(e){}
 const BIN=['+','−','×','÷','∥'];
 const isNumTok=t=>/^[0-9,]+$/.test(t);
 function fmt(v){if(!isFinite(v))return 'Fehler';let a=Math.abs(v);let s;if(a!==0&&(a<1e-6||a>=1e12))s=v.toExponential(4).replace('.',',');else{s=(+v.toPrecision(10)).toString();if(s.includes('e'))s=v.toExponential(4);s=s.replace('.',',')}return s}
@@ -590,7 +590,7 @@ function render(){const e=$('cexp'),r=$('cres'),h=$('chint');e.textContent=show(
  h.textContent=(a>0&&a<1)?'= '+fmt(v*1000)+' milli (zum Beispiel mA oder mV)':(a>=1000&&a<1e9)?'= '+fmt(v/1000)+' kilo (zum Beispiel kΩ)':'';
  e.scrollLeft=e.scrollWidth}
 function msg(s){$('cmsg').textContent=s;clearTimeout(msg.t);if(s)msg.t=setTimeout(()=>$('cmsg').textContent='',3500)}
-function saveH(){try{localStorage.setItem('calc:hist',JSON.stringify(hist.slice(0,30)));localStorage.setItem('calc:ans',String(ans))}catch(e){}}
+function saveH(){try{localStorage.setItem('lernwerk:calc:hist',JSON.stringify(hist.slice(0,30)));localStorage.setItem('lernwerk:calc:ans',String(ans))}catch(e){}}
 function drawH(){$('chist').innerHTML=hist.map((x,j)=>'<button data-j="'+j+'"><span>'+x.e+'</span><span>= '+fmt(x.v)+'</span></button>').join('')}
 function key(k){msg('');const last=T[T.length-1];
  if(k==='C'){T=[];done=false;return render()}
@@ -672,7 +672,7 @@ const QS=[
 ['Auf der Lampe stehen Volt und Watt. Wie kommst du an den Nennstrom?','I = P / U. Beispiel: 12 V und 24 W ergeben 2 A.'],
 ['Formel für die elektrische Leistung?','P = U · I, Einheit Watt (W). Umgestellt mit Ohm auch P = I² · R oder P = U² / R.']]]
 ];
-const K='wissen:ok';let OK={};try{OK=JSON.parse(localStorage.getItem(K)||'{}')}catch(e){}
+const K='lernwerk:wissen:ok';let OK={};try{OK=JSON.parse(localStorage.getItem(K)||'{}')}catch(e){}
 let F='all',order=null;
 const save=()=>{try{localStorage.setItem(K,JSON.stringify(OK))}catch(e){}};
 const sb=t=>t.replace(/_([a-zA-Z0-9]+)/g,'<sub>$1</sub>');

@@ -16,7 +16,7 @@ const roundStep = (v, s) => Number((Math.round(v / s) * s).toFixed(6));
 const parseEqSafe = s => { try { return parseEq(s); } catch (e) { return { l: null, r: null }; } };
 
 /* ===== Gespeicherter Stand auf diesem Gerät ===== */
-const KEY = 'lw-ft:' + C.id;
+const KEY = 'lernwerk:lw-ft:' + C.id;
 let save = {};
 try { save = JSON.parse(localStorage.getItem(KEY) || '{}') || {}; } catch (e) { save = {}; }
 save.kann = save.kann || {};

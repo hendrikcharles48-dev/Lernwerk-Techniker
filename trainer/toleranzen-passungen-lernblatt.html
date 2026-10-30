@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="de"><head><meta charset="utf-8">
+<html lang="de"><head><script src="../lernwerk-speicher.js"></script><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Toleranzen und Passungen</title>
 <style>
@@ -193,8 +193,8 @@ footer{padding:20px 4px 0;font-size:13px;color:var(--muted)}
 </main>
 <script>
 const PAGE=document.body.dataset.page;
-function loadDone(){try{return JSON.parse(localStorage.getItem(PAGE+':done')||'[]')}catch(e){return[]}}
-function saveDone(a){try{localStorage.setItem(PAGE+':done',JSON.stringify(a))}catch(e){}}
+function loadDone(){try{return JSON.parse(localStorage.getItem('lernwerk:'+PAGE+':done')||'[]')}catch(e){return[]}}
+function saveDone(a){try{localStorage.setItem('lernwerk:'+PAGE+':done',JSON.stringify(a))}catch(e){}}
 function upd(){const t=[...document.querySelectorAll('.task')];const d=t.filter(x=>x.classList.contains('done')).length;
 const p=document.getElementById('progress');if(p)p.textContent=d+' von '+t.length+' Aufgaben erledigt';
 const b=document.querySelector('.bar i');if(b)b.style.width=(t.length?100*d/t.length:0)+'%';}

@@ -8,11 +8,16 @@ Alle Lerndaten, Fotos und eingefügten Inhalte bleiben auf dem Gerät (IndexedDB
 
 ## Was die App kann
 
-**Heute:** Countdown zur nächsten Klassenarbeit mit deren Themen und deinem Stand. „Heute dran“ mit fälligen Wiederholungen aus allen Fächern, gedeckelt auf etwa 15 Minuten, Themen der nächsten Arbeit zuerst. Großer Knopf „5 Minuten“. „Weiter, wo du warst“. Kleine Wochenstatistik. Hinweis, wenn die letzte Sicherung älter als 14 Tage ist.
+**Heute:** Countdown zur nächsten Klassenarbeit mit deren Themen, deinem Stand und der Prüfungsbereitschaft in Prozent. Knöpfe „Unterricht“ und „Alles wiederholen“, davor wählst du die Lernzeit (2, 5, 10 oder 20 Minuten, 10 oder 20 Fragen, die letzte Wahl bleibt) und welche Fragen kommen (freigeschaltet, alles gemischt, nur schwere). Kleiner Knopf „Mini“ für 2 Minuten. Ist die Zeit um, endet die Runde sauber, übrige fällige Karten verteilen sich auf die nächsten drei Tage. „Weiter, wo du warst“. Wochenstatistik mit Serie (ein freier Tag pro Woche bricht sie nicht). Hinweis, wenn die letzte Sicherung älter als 14 Tage ist oder die automatische Sicherung ein Problem hat.
+
+**Stufen:** Jedes Thema hat drei Stufen: 1 Grundlagen (Begriffe, einfache Karten), 2 Zusammenhänge (Karten mit Warum und Wie, Formeln umstellen, Reihenfolge, Verwechslung, Zuordnen), 3 Anwenden (Aufgaben, Auswahlfälle). Eingebaute Inhalte ordnet die App selbst zu, im Block geht es mit `Stufe: 1`, `2` oder `3`. Abgefragt wird nur, was freigeschaltet ist. Neue Themen starten mit Stufe 1. „Hatten wir“ im Thema schaltet die nächste Stufe frei. Sitzt eine Stufe (70 Prozent ihrer Fragen mindestens auf Wiederhol-Stufe 3), schlägt die App die nächste vor, schaltet aber nie selbst frei. Eigene eingefügte Inhalte sind immer ganz frei. Themen, in denen vor dem Update schon gelernt wurde, behalten alle Stufen, in denen es Fortschritt gibt.
+
+**Schmierzettel:** Bei jeder Frage oben „Zettel“: tippen oder mit dem Finger zeichnen. Wird nicht geprüft, nicht gespeichert und bei der nächsten Frage geleert.
 
 **Fächer:** Fächer aus dem Lehrplan mit Modul, Akzentfarbe und Fortschritt. Themen in drei Gruppen: aktuell im Unterricht (Schalter im Thema), vorhanden, kommt noch. Zweite Ansicht „Nach Modulen“. Ein Thema hat die Reiter Prinzip, Bausteine, Üben, Karten, Schnellweg, Lernzettel, Fotos. Bei alten Trainern gibt es einen großen Knopf, der den Trainer öffnet. Oben rechts: „Als Block kopieren“.
 
 **Einfügen** (Plus in der Mitte):
+- Großer Knopf „Aus Zwischenablage einfügen“, danach sofort die Vorschau. Mit der Prüfzeile `Inhalt: 6 Karten; 2 Aufgaben` zählt die App nach und meldet deutlich, wenn etwas fehlt oder „=== ENDE ===“ fehlt.
 - Lernwerk-Block aus dem Claude-Chat einfügen, mit Vorschau („Elektrotechnik, Kondensator: 1 Merksatz, 6 Karten …“), Zuordnung zu Fach und Thema und Speichern ohne Duplikate. Neue Fächer werden angelegt. Lesefehler werden mit Zeilennummer gezeigt.
 - Knopf „Vorlage für Claude kopieren“.
 - Freier Text als Lernzettel (Markdown wird sauber dargestellt).
@@ -22,7 +27,13 @@ Alle Lerndaten, Fotos und eingefügten Inhalte bleiben auf dem Gerät (IndexedDB
 
 **Mehr:** Termine mit Lernplan rückwärts (Dienstag und Donnerstag leichter, letzter Tag nur Wiederholung), Probeklausur, Hörmodus, Erklär-Training, Lexikon, Formelsammlung, Suche, Lehrplan bearbeiten, Datensicherung, Darstellung (automatisch, hell, dunkel), Anleitung für eine Erinnerung per Kurzbefehle.
 
-**Wiederholsystem:** Abstände 1, 2, 4, 7, 14, 30 Tage. Richtig beim ersten Versuch: eine Stufe hoch. Mit Hilfe: gleiche Stufe. Falsch: zurück auf Stufe 1. Vor einer Klassenarbeit werden deren Themen vorgezogen.
+**Wiederholsystem:** Abstände 1, 2, 4, 7, 14, 30 Tage. Richtig beim ersten Versuch: eine Stufe hoch. Mit Hilfe: gleiche Stufe. Falsch: zwei Stufen zurück, also von 30 auf 7 Tage. Karten auf Stufe 1 oder 2 fangen bei Falsch wieder bei 1 an. Vor einer Klassenarbeit werden deren Themen vorgezogen. Begriffe kommen abwechselnd auch umgedreht (Erklärung lesen, Begriff finden). Verwechslungen und Zuordnungen laufen in der normalen Wiederholung mit.
+
+**Probeklausur:** Wie im Ernstfall mit echter Zeitvorgabe (30, 45, 60 oder 90 Minuten), ohne Tipps, Rechnen auf Papier, nur Ergebnisse eintippen. Vier Aufgabenarten: Rechnen (die App prüft), Begriffe erklären, Skizzen (auf Papier) und Text. Die Auswertung kommt am Ende: Kernpunkte abhaken, daraus rechnet die App Punkte und Note. „An Claude zur Korrektur“ kopiert Aufgabe und Antwort und öffnet claude.ai.
+
+**Automatische Sicherung:** Nach jeder Lerneinheit und nach dem Einfügen sichert die App den Stand als `lernwerk-sicherung.json` in ein eigenes privates GitHub-Repository, direkt über die GitHub-Schnittstelle, ohne Server. Fotos sind ausgenommen. Der Zugangsschlüssel (fein eingeschränkt, nur dieses Repository, Contents lesen und schreiben) liegt nur auf dem Gerät und steht in keiner Sicherungsdatei. Ohne Netz wird es später nachgeholt. Auf einem neuen Gerät Schlüssel eintragen und „Stand von GitHub laden“. Die manuelle Sicherung bleibt.
+
+**Speichernamen:** Alle Einträge im Browser-Speicher beginnen mit `lernwerk:`, weil Satzwerk unter derselben Adresse liegt. `lernwerk-speicher.js` übernimmt alte Werte der Trainer einmalig und lässt die alten Einträge stehen.
 
 **Prüfen:** Du rechnest, die App prüft jeden Schritt. Toleranz 1 Prozent, gezielte Hinweise bei Faktor 1000 (Einheit), Vorzeichen, RAD statt DEG, Quadrant beim Arcustangens, Kehrwert, Wurzel vergessen, zu früh gerundet. Umstellungen werden mit Zahlenproben geprüft, nicht mit eval. Tipp und Lösung bleiben zu, bis du sie öffnest.
 
@@ -86,6 +97,21 @@ Termin: Fach | JJJJ-MM-TT | Themen
 - Der Formel-Parser kann `+ − · / ^ ² ³`, Klammern, `√` und `sqrt`, `sin cos tan` in Grad, `asin acos atan`, `ln`, `lg`, `π` und implizites Mal (`2πd`).
 - Unbekannte Schlüssel werden als Notiz behalten.
 
+Stufen, Prüfzeile und weitere Fragearten:
+
+```
+Stufe: 2                     gilt für alle folgenden Zeilen bis zur nächsten Stufe-Zeile, ohne Stufe-Zeile Stufe 1
+Verwechslung: Begriff A | Begriff B | Unterschied in einem Satz
+Zuordnen: Titel | Begriff = Bedeutung; Begriff = Bedeutung; Begriff = Bedeutung
+Erklären: Prüfungsaufgabe | Kernpunkt; Kernpunkt; Kernpunkt
+Skizze: Prüfungsaufgabe zum Zeichnen auf Papier | Kernpunkt; Kernpunkt
+Inhalt: 6 Karten; 2 Aufgaben; 3 Begriffe
+```
+
+- **Stufe 1** Grundlagen: Anker, Begriffe, Merksatz, einfache Karten. **Stufe 2** Zusammenhänge: Prinzip, Formeln, Bausteine, Karten zu Zusammenhängen, Verwechslung, Zuordnen. **Stufe 3** Anwenden: Aufgaben, Fehler, Schnellweg, schwere Karten, Erklären, Skizze.
+- **Erklären und Skizze** kommen in der Probeklausur dran. Die Kernpunkte hakst du bei der Auswertung ab.
+- **Inhalt** zählt, was im Block steht. Fehlt beim Einfügen etwas, zeigt die Vorschau es rot an.
+
 Erweiterungen für eingebaute Trainer (gehen auch im Chat-Block):
 
 ```
@@ -106,6 +132,8 @@ Im Hörmodus gibt es zu jedem Thema eine Folge: Lena fragt, Tom erklärt. Vor je
   Podcast: Lena | Tom, was ist eigentlich ein Moment?
   Podcast: Tom | Stell dir einen Schraubenschlüssel vor …
   ```
+- **Im Auto:** „Auto-Playlist starten“ spielt mehrere eingebaute Folgen hintereinander (15, 30, 45 oder 60 Minuten), Themen der nächsten Arbeit zuerst. Nur Folgen mit Audiodatei, weil nur die bei gesperrtem Bildschirm weiterlaufen. Weiter, Zurück und Pause gehen über Sperrbildschirm, Lenkrad und die „Läuft gerade“-Anzeige in CarPlay. Achtung: Das iPhone zeigt dabei Weiter und Zurück statt ±15 Sekunden, beides zugleich geht nicht. CarPlay zeigt keine eigene Liste.
+- Eigene Blöcke sind nicht in der Playlist, lassen sich aber einzeln abspielen: Lena und Tom bekommen zwei verschiedene deutsche Stimmen des iPhones.
 - Für eingebaute Themen gibt es Audiodateien mit natürlichen Stimmen (Piper, frei nutzbar) unter `audio/`. Eigene Inhalte und Lernzettel liest die Systemstimme, sie bleiben auf dem Gerät.
 - Nach Änderungen an Inhalten die Audios neu erzeugen. Es werden nur geänderte Folgen gebaut:
   ```

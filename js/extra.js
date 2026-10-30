@@ -5,12 +5,13 @@ import { fml, speakFml, varsOf, parseEq, keyOf } from './formula.js';
 import { lernplan } from './srs.js';
 import * as st from './store.js';
 import { $, $$, icon, row, list, seg, sw, empty, on, push, pop, openSheet, toast, copyText, progress, confirmBox, saveFile, refreshTop, hinweisTabellenbuch } from './ui.js';
-import { topicPage, runSession, runItem, ZUSTAENDE, staerkeHTML, sortForPractice, topicProgress, formelCard, askClaude, noteReader, openTrainer, itemTitle, rich } from './engine.js';
+import { topicPage, runSession, runItem, ZUSTAENDE, staerkeHTML, sortForPractice, topicProgress, formelCard, askClaude, noteReader, openTrainer, itemTitle, rich, schmierKnopf, schmierzettel } from './engine.js';
 import { speak, stopSpeaking, canSpeak, keepAwake, pause, readAloud, stopReading, deVoices } from './speech.js';
 import * as hoer from './hoer.js';
 import * as sk from './skizzen.js';
 import { folge, dauerSchaetzung, DENKPAUSE } from './podcast.js';
 import { prefs } from './db.js';
+import * as gh from './sicherung.js';
 
 export function applyTheme(t) {
   const r = document.documentElement;
@@ -46,7 +47,7 @@ export function mehrPage() {
         row({ a: 'suche', icon: 'search', color: '#8E8E93', title: 'Suche' })
       ]) + list([
         row({ a: 'lehrplan', icon: 'list', color: '#64D2FF', title: 'Lehrplan bearbeiten', sub: 'Fächer, Module und Themen' }),
-        row({ a: 'backup', icon: 'save', color: '#34C759', title: 'Datensicherung', sub: st.kvGet('letzteSicherung') ? 'Letzte Sicherung: ' + dayShort(st.kvGet('letzteSicherung')) : 'Noch keine Sicherung' }),
+        row({ a: 'backup', icon: 'save', color: '#34C759', title: 'Datensicherung', sub: gh.aktiv() ? (gh.fehler() ? 'Sicherung hat ein Problem' : 'Automatisch über GitHub' + (gh.zuletzt() ? ', zuletzt ' + zeitKurz(gh.zuletzt()) : '')) : st.kvGet('letzteSicherung') ? 'Letzte Sicherung: ' + dayShort(st.kvGet('letzteSicherung')) : 'Noch keine Sicherung' }),
         row({ a: 'theme', icon: 'theme', color: '#636366', title: 'Darstellung', detail: { auto: 'Automatisch', hell: 'Hell', dunkel: 'Dunkel' }[prefs.get('theme', 'auto')] }),
         row({ a: 'remind', icon: 'bell', color: '#FF375F', title: 'Erinnerung einrichten' }),
         row({ a: 'info', icon: 'info', color: '#8E8E93', title: 'Über Lernwerk' })
@@ -231,87 +232,136 @@ export function formelPage() {
   };
 }
 
-/* ===== Probeklausur ===== */
+/* ===== Probeklausur =====
+ * Wie im Ernstfall: echte Zeitvorgabe, keine Tipps, Rechnen auf Papier, nur Ergebnisse eintippen.
+ * Vier Aufgabenarten: Rechnen (App prüft), Begriffe erklären, Skizzen (auf Papier) und Text.
+ * Auswertung erst am Ende: Kernpunkte abhaken, daraus rechnet die App Punkte und Note.
+ */
 const GRADABLE = ['aufgabe', 'umstellen', 'auswahl', 'reihenfolge'];
+const PUNKTE_RECHNEN = 3;
+const ART_NAME = { erklaeren: 'Erklären', skizze: 'Skizze', text: 'Text' };
 export function probePage(exam) {
   let mode = exam ? 'arbeit' : 'themen';
   let sel = new Set(exam ? exam.themaIds || [] : []);
-  let anzahl = 10, zeit = true;
+  let anzahl = 10, minuten = prefs.get('probeMin', 45);
+  const hatAufgaben = tid => st.topicItems(tid).some(i => GRADABLE.includes(i.art)) || st.pruefItems(tid).length;
   return {
     title: 'Probeklausur',
     render(b) {
       const next = exam || st.nextExam();
-      const withItems = st.faecher().map(f => ({ f, ts: f.themen.filter(t => st.topicItems(t.id).some(i => GRADABLE.includes(i.art))) })).filter(x => x.ts.length);
-      let h = `<div class="card how"><p>Gemischte Aufgaben, Tipps gesperrt. Du gibst jeweils nur dein Ergebnis ein. Am Ende siehst du die Auswertung pro Thema, Fehler gehen ins Fehlerbuch.</p></div>`;
+      const withItems = st.faecher().map(f => ({ f, ts: f.themen.filter(t => hatAufgaben(t.id)) })).filter(x => x.ts.length);
+      let h = `<div class="card how"><p>Wie im Ernstfall: Die Zeit läuft, Tipps sind gesperrt. Du rechnest auf Papier und tippst nur das Ergebnis ein. Erklär- und Textaufgaben schreibst du kurz, Skizzen zeichnest du auf Papier. Die Auswertung kommt erst am Ende.</p></div>`;
       h += seg('mode', [['arbeit', 'Nächste Arbeit'], ['themen', 'Themen wählen']], mode);
       if (mode === 'arbeit') {
         if (!next) h += empty('Keine Klassenarbeit eingetragen.', 'Trag unter Termine eine Arbeit ein oder wähl Themen.');
-        else { sel = new Set(next.themaIds || []); h += list([row({ title: next.fach + ', ' + dayLong(next.datum), sub: (next.themaIds || []).map(t => (st.thema(t) || { thema: { name: '' } }).thema.name).join(', ') || 'Keine Themen gewählt' })]); }
+        else { sel = new Set(next.themaIds || []); h += list([row({ title: next.fach + ', ' + dayLong(next.datum), sub: (next.themaIds || []).map(t => (st.thema(t) || { thema: { name: '' } }).thema.name).join(', ') || 'Keine Themen zugeordnet' })]); }
       } else {
         if (!withItems.length) h += empty('Noch keine Themen mit Aufgaben.', 'Aufgaben kommen über Aufgabe-Zeilen im Lernwerk-Block. „Formeln umstellen“ in Mathematik hat schon welche.');
         for (const x of withItems) h += `<div class="sec-h">${esc(x.f.name)}</div>` + list(x.ts.map(t => row({ title: t.name, right: `<label class="switch"><input type="checkbox" data-t="${t.id}" ${sel.has(t.id) ? 'checked' : ''}><span></span></label>` })));
       }
       h += `<div class="sec-h">Umfang</div>` + seg('n', [['5', '5 Aufgaben'], ['10', '10 Aufgaben'], ['15', '15 Aufgaben']], String(anzahl));
-      h += list([row({ title: 'Zeit anzeigen', right: sw('zeit', zeit) })]);
+      h += `<div class="sec-h">Zeitvorgabe</div>` + seg('min', [['0', 'Ohne'], ['30', '30 Min'], ['45', '45 Min'], ['60', '60 Min'], ['90', '90 Min']], String(minuten));
+      h += `<p class="src">Etwa 6 von 10 Aufgaben sind Rechenaufgaben, der Rest Erklären, Skizzen und Text, soweit das Thema sie hat.</p>`;
       h += `<button class="btn filled wide" data-a="start">Probeklausur starten</button>`;
       b.innerHTML = h;
       $$('[data-t]', b).forEach(c => c.onchange = () => { c.checked ? sel.add(c.dataset.t) : sel.delete(c.dataset.t); });
       on(b, {
-        'seg:mode': v => { mode = v; this.render(b); }, 'seg:n': v => { anzahl = +v; }, 'sw:zeit': v => { zeit = v; },
+        'seg:mode': v => { mode = v; this.render(b); }, 'seg:n': v => { anzahl = +v; }, 'seg:min': v => { minuten = +v; prefs.set('probeMin', minuten); },
         start: () => {
           const tids = [...sel];
-          let items = shuffle(tids.flatMap(t => st.topicItems(t).filter(i => GRADABLE.includes(i.art))));
-          // gleichmäßig über die Themen verteilen
-          const by = tids.map(t => items.filter(i => i.tid === t));
-          const mix = [];
-          while (mix.length < anzahl && by.some(x => x.length)) for (const x of by) if (x.length && mix.length < anzahl) mix.push(x.shift());
+          // gleichmäßig über die Themen verteilen, erst Rechnen, dann die anderen Arten
+          const rund = (lists, n, out) => { while (out.length < n && lists.some(x => x.length)) for (const x of lists) if (x.length && out.length < n) out.push(x.shift()); return out; };
+          const rechnen = tids.map(t => shuffle(st.topicItems(t).filter(i => GRADABLE.includes(i.art))));
+          const andere = tids.map(t => shuffle(st.pruefItems(t)).sort((a, c) => (a.art === 'text') - (c.art === 'text')));
+          const nR = andere.some(x => x.length) ? Math.round(anzahl * 0.6) : anzahl;
+          const mix = rund(rechnen, nR, []);
+          rund(andere, anzahl, mix);
+          rund(rechnen, anzahl, mix);
           if (!mix.length) { toast('Wähl Themen mit Aufgaben aus.'); return; }
-          runExam(mix, zeit);
+          runExam(shuffle(mix), minuten);
         }
       });
     }
   };
 }
-function runExam(items, zeigeZeit) {
+function runExam(items, minuten) {
   const res = [];
-  let i = 0;
-  const t0 = Date.now();
-  let tm = null;
-  let sheet = null;
+  let i = 0, fertig = false;
+  const t0 = Date.now(), limit = minuten * 60000;
+  let tm = null, sheet = null, zettel = null;
   openSheet({
     title: 'Probeklausur', full: true,
-    confirmClose: () => i >= items.length || confirm('Probeklausur abbrechen?'),
-    onClose: () => clearInterval(tm),
-    render(body, api) { sheet = api; body.innerHTML = `<div class="sess-top">${progress(0)}<div class="sess-info"></div></div><div class="sess-item"></div>`; show(); }
+    confirmClose: () => fertig || confirm('Probeklausur abbrechen?'),
+    onClose: () => { clearInterval(tm); if (res.length) gh.anstossen(); },
+    render(body, api) { sheet = api; body.innerHTML = `<div class="sess-top">${progress(0)}<div class="sess-info"></div>${schmierKnopf()}</div><div class="sess-item"></div>`; zettel = schmierzettel(body); show(); }
   });
-  function fmtT(ms) { const s = Math.floor(ms / 1000); return Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0'); }
-  function info() { const n = $('.sess-info', sheet.body); if (n) n.textContent = (i < items.length ? 'Aufgabe ' + (i + 1) + ' von ' + items.length : 'Auswertung') + (zeigeZeit ? ' · ' + fmtT(Date.now() - t0) : ''); }
-  if (zeigeZeit) tm = setInterval(info, 1000);
+  function fmtT(ms) { const s = Math.max(0, Math.floor(ms / 1000)); return Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0'); }
+  function info() {
+    const n = $('.sess-info', sheet.body); if (!n) return;
+    const z = Date.now() - t0;
+    n.textContent = (fertig ? 'Auswertung' : 'Aufgabe ' + (i + 1) + ' von ' + items.length) + (fertig ? '' : limit ? ' · noch ' + fmtT(limit - z) : ' · ' + fmtT(z));
+    n.classList.toggle('knapp', !!limit && !fertig && limit - z < 5 * 60000);
+    if (limit && !fertig && z >= limit) { toast('Zeit um. Die Arbeit wird abgegeben.'); abgeben(); }
+  }
+  tm = setInterval(info, 1000);
+  function abgeben() { fertig = true; clearInterval(tm); show(); }
+  function weiter(r) { if (fertig) return; res.push(r); i++; show(); $('.sheet-body', sheet.el).scrollTop = 0; }
   function show() {
+    if (i >= items.length) fertig = true;
     info();
-    $('.bar i', sheet.body).style.width = Math.round(i / items.length * 100) + '%';
+    zettel.neu();
+    $('.bar i', sheet.body).style.width = Math.round(Math.min(i, items.length) / items.length * 100) + '%';
     const box = $('.sess-item', sheet.body);
     const fresh = box.cloneNode(false); box.replaceWith(fresh);
-    if (i >= items.length) return auswertung(fresh);
+    if (fertig) return auswertung(fresh);
     const it = items[i];
-    runItem(fresh, it, { exam: true, blind: true, onDone: async (erg, inf) => { res.push({ it, erg, inf: inf || {} }); await st.recordCard(it, erg); i++; show(); $('.sheet-body', sheet.el).scrollTop = 0; } });
+    if (GRADABLE.includes(it.art)) return runItem(fresh, it, { exam: true, blind: true, onDone: async (erg, inf) => { await st.recordCard(it, erg); weiter({ it, erg, inf: inf || {} }); } });
+    // Erklären, Text, Skizze: kein Prüfen jetzt, erst bei der Auswertung
+    const th = st.thema(it.tid);
+    fresh.innerHTML = `<div class="ex-ctx"><span class="dot"></span>Probeklausur · ${ART_NAME[it.art]}</div><div class="ex-task">${rich(it.frage)}</div>
+      ${it.art === 'skizze' ? `<div class="card how"><p>Zeichne die Skizze auf Papier. Beschrifte alles, was dazugehört. Bei der Auswertung hakst du ab, was drauf ist.</p></div>` : `<textarea class="big-ta" rows="6" data-k="antw" placeholder="${it.art === 'erklaeren' ? 'Erklär in ganzen Sätzen …' : 'Deine Antwort …'}"></textarea>`}
+      <div class="btn-col"><button class="btn filled" data-a="next">${it.art === 'skizze' ? 'Fertig gezeichnet, weiter' : 'Abgeben und weiter'}</button></div>`;
+    on(fresh, { next: () => { const ta = $('[data-k="antw"]', fresh); weiter({ it, erg: null, inf: { antwort: ta ? ta.value.trim() : '' }, fach: th ? th.fach.name : '' }); } });
   }
   function auswertung(box) {
     clearInterval(tm);
-    const by = new Map();
-    for (const r of res) { const k = r.it.tid; if (!by.has(k)) by.set(k, []); by.get(k).push(r); }
-    const ok = res.filter(r => r.erg === 'richtig').length;
-    let h = `<div class="sum"><div class="sum-big">${ok} von ${res.length}</div><div class="muted">richtig${zeigeZeit ? ' in ' + fmtT(Date.now() - t0) + ' Minuten' : ''}</div></div>`;
-    h += `<div class="sec-h">Pro Thema</div>` + list([...by].map(([tid, rs]) => { const th = st.thema(tid); const n = rs.filter(r => r.erg === 'richtig').length; return row({ title: th ? th.thema.name : tid, detail: n + ' von ' + rs.length, html: progress(n / rs.length, th ? th.fach.farbe : null) }); }));
-    const wrong = res.filter(r => r.erg !== 'richtig');
-    // Woran es lag: Fehlerarten zählen, damit klar ist, was als Nächstes geübt wird
-    const arten = new Map();
-    for (const r of wrong) { const k = r.inf.fehlerart || (r.inf.eingabe ? 'Rechenweg' : 'Nicht bearbeitet'); arten.set(k, (arten.get(k) || 0) + 1); }
-    if (arten.size) h += `<div class="sec-h">Nach Fehlerart</div>` + list([...arten].sort((a, b) => b[1] - a[1]).map(([k, n]) => row({ title: k, detail: String(n) })));
-    if (wrong.length) h += `<div class="sec-h">Das schaust du dir nochmal an</div>` + list(wrong.map(r => row({ titleHTML: rich(r.inf.aufgabe || itemTitle(r.it)), sub: 'Deine Eingabe: ' + (r.inf.eingabe || 'keine') + (r.inf.richtig ? ' · richtig: ' + r.inf.richtig : '') }))) + `<div class="sec-f">Diese Fehler stehen jetzt auch im Fehlerbuch.</div>`;
-    h += `<div class="btn-col"><button class="btn filled" data-a="close">Fertig</button></div>`;
-    box.innerHTML = h;
-    on(box, { close: () => sheet.close() });
+    const offen = items.slice(res.length).map(it => ({ it, erg: GRADABLE.includes(it.art) ? 'falsch' : null, inf: { antwort: '', offen: true } }));
+    const alle = res.concat(offen);
+    const rech = alle.filter(r => GRADABLE.includes(r.it.art)), kern = alle.filter(r => !GRADABLE.includes(r.it.art));
+    const haken = kern.map(() => new Set());
+    const draw = () => {
+      const pRech = rech.filter(r => r.erg === 'richtig').length * PUNKTE_RECHNEN, maxRech = rech.length * PUNKTE_RECHNEN;
+      const pKern = haken.reduce((s, x) => s + x.size, 0), maxKern = kern.reduce((s, r) => s + r.it.kern.length, 0);
+      const max = maxRech + maxKern, p = pRech + pKern, proz = max ? Math.round(p / max * 100) : 0;
+      const note = st.noteAusProzent(proz);
+      let h = `<div class="sum"><div class="sum-big">${p} von ${max} Punkten</div><div class="muted">${proz} %${note ? ', Note ' + note : ''}${minuten ? ' · ' + fmtT(Math.min(Date.now() - t0, limit)) + ' von ' + minuten + ':00 Minuten' : ' · ' + fmtT(Date.now() - t0) + ' Minuten'}</div>${offen.length ? `<p class="muted small">${plural(offen.length, 'Aufgabe', 'Aufgaben')} nicht mehr geschafft, zählt mit 0 Punkten.</p>` : ''}</div>`;
+      if (kern.length) {
+        h += `<div class="sec-h">Selbst korrigieren</div><p class="src">Hak jeden Kernpunkt ab, den deine Antwort oder Skizze wirklich enthält. Daraus rechne ich die Punkte.</p>`;
+        h += kern.map((r, k) => `<div class="card korr"><div class="card-k">${ART_NAME[r.it.art]} · ${r.it.kern.length} ${r.it.kern.length === 1 ? 'Punkt' : 'Punkte'}</div><div class="ex-task">${rich(r.it.frage)}</div>
+          ${r.it.art !== 'skizze' ? `<div class="korr-a"><span class="muted small">Deine Antwort</span><p>${r.inf.antwort ? esc(r.inf.antwort) : '<i class="muted">nichts geschrieben</i>'}</p></div>` : ''}
+          <div class="muted small">Musterlösung, Kernpunkte zum Abhaken</div>
+          ${r.it.kern.map((x, j) => `<label class="korr-k"><input type="checkbox" data-k="${k}" data-j="${j}" ${haken[k].has(j) ? 'checked' : ''}><span>${rich(x)}</span></label>`).join('')}
+          ${r.it.art !== 'skizze' && r.inf.antwort ? `<button class="btn small" data-a="claude" data-d="${k}">${icon('claude')} An Claude zur Korrektur</button>` : ''}</div>`).join('');
+      }
+      const by = new Map();
+      for (const r of rech) { const key = r.it.tid; if (!by.has(key)) by.set(key, []); by.get(key).push(r); }
+      if (by.size) h += `<div class="sec-h">Rechnen pro Thema</div>` + list([...by].map(([tid, rs]) => { const th = st.thema(tid); const n = rs.filter(r => r.erg === 'richtig').length; return row({ title: th ? th.thema.name : 'Thema', sub: th ? th.fach.name : '', detail: n + ' von ' + rs.length, html: progress(n / rs.length, n / rs.length >= 0.8 ? 'var(--green)' : n / rs.length >= 0.5 ? 'var(--orange)' : 'var(--red)') }); }));
+      const wrong = rech.filter(r => r.erg !== 'richtig');
+      const arten = new Map();
+      for (const r of wrong) { const k = r.inf.fehlerart || (r.inf.eingabe ? 'Rechenweg' : 'Nicht bearbeitet'); arten.set(k, (arten.get(k) || 0) + 1); }
+      if (arten.size) h += `<div class="sec-h">Nach Fehlerart</div>` + list([...arten].sort((a, c) => c[1] - a[1]).map(([k, n]) => row({ title: k, detail: String(n) })));
+      if (wrong.length) h += `<div class="sec-h">Das schaust du dir nochmal an</div>` + list(wrong.map(r => row({ titleHTML: rich(r.inf.aufgabe || itemTitle(r.it)), sub: r.inf.offen ? 'Nicht mehr geschafft' : 'Deine Eingabe: ' + (r.inf.eingabe || '–') + (r.inf.richtig ? ' · richtig: ' + r.inf.richtig : '') })));
+      h += `<div class="btn-col">${kern.some(r => r.inf.antwort) ? `<button class="btn" data-a="claudeAlle">${icon('claude')} Alle Antworten an Claude zur Korrektur</button>` : ''}<button class="btn filled" data-a="close">Fertig</button></div>`;
+      box.innerHTML = h;
+      $$('[data-j]', box).forEach(c => c.onchange = () => { const s = haken[+c.dataset.k]; c.checked ? s.add(+c.dataset.j) : s.delete(+c.dataset.j); const sc = $('.sheet-body', sheet.el).scrollTop; draw(); $('.sheet-body', sheet.el).scrollTop = sc; });
+    };
+    const frage = r => { const th = st.thema(r.it.tid); return `Aufgabe${th ? ' (' + th.fach.name + ', ' + th.thema.name + ')' : ''}: ${r.it.frage}\nMeine Antwort: ${r.inf.antwort}\nMusterlösung laut Lernwerk, Kernpunkte: ${r.it.kern.join('; ')}`; };
+    on(box, {
+      close: () => sheet.close(),
+      claude: k => askClaude('Korrigier bitte meine Antwort aus einer Probeklausur wie ein Lehrer an der Fachschule Technik. Sag, welche Kernpunkte fehlen oder falsch sind, wie viele Punkte du geben würdest und wie eine gute Antwort klingt.\n\n' + frage(kern[+k])),
+      claudeAlle: () => askClaude('Korrigier bitte meine Antworten aus einer Probeklausur wie ein Lehrer an der Fachschule Technik. Sag je Aufgabe, welche Kernpunkte fehlen oder falsch sind und wie viele Punkte du geben würdest.\n\n' + kern.filter(r => r.inf.antwort).map((r, k) => (k + 1) + '. ' + frage(r)).join('\n\n'))
+    });
+    draw();
     $('.bar i', sheet.body).style.width = '100%';
   }
 }
@@ -396,7 +446,7 @@ export function hoerPage(opt = {}) {
         const pl = $('.fplayer', b); if (!pl) return;
         pl.classList.toggle('on', !!z.tid);
         $('.fp-t', b).textContent = z.info ? z.info.thema : z.tid ? (st.thema(z.tid) || { thema: { name: '' } }).thema.name : '';
-        $('.fp-f', b).textContent = z.info ? z.info.fach + (z.system ? '' : '') : z.system ? 'Systemstimme' : '';
+        $('.fp-f', b).textContent = (z.info ? z.info.fach : z.system ? 'Systemstimme' : '') + (z.auto && z.tid ? ' · Auto-Playlist, Folge ' + (z.i + 1) + ' von ' + z.liste.length : '');
         $('.fp-z', b).innerHTML = z.zeile ? `<b>${esc(z.zeile.wer)}:</b> ${esc(z.zeile.text)}` : '';
         $('[data-a="fplay"]', b).innerHTML = icon(z.spielt ? 'pause' : 'play');
         const r = $('[data-k="pos"]', b);
@@ -468,6 +518,12 @@ export function hoerPage(opt = {}) {
         fplay: () => { const z = hoer.zustand(); if (!z.tid) return alle(); hoer.umschalten(); },
         fback: () => hoer.springen(-15), ffwd: () => hoer.springen(15), fprev: () => hoer.teil(-1), fnext: () => hoer.teil(1),
         tempo: d => hoer.tempo(+d),
+        automin: d => { prefs.set('autoMin', +d); this.render(b); },
+        auto: async () => {
+          const l = await hoer.autoStart(prefs.get('autoMin', 30));
+          if (!l.length) return toast('Gerade gibt es keine Folgen mit Audiodatei.');
+          toast(plural(l.length, 'Folge', 'Folgen') + ' in der Playlist. Gute Fahrt!');
+        },
         offline: async (d, el) => {
           const l = tidsQuelle().filter(t => hoer.infoSync(t));
           if (!l.length) return toast('Für diese Auswahl gibt es keine Audiodateien.');
@@ -510,6 +566,10 @@ export function hoerPage(opt = {}) {
       <input type="range" data-k="pos" min="0" max="1" step="1" value="0" aria-label="Position"><div class="fp-zeit muted small"></div>
       <div class="pl-btns"><button class="pl-b" data-a="fprev" aria-label="Vorheriger Teil">${icon('prev')}</button><button class="pl-b" data-a="fback" aria-label="15 Sekunden zurück">${icon('back15')}</button><button class="pl-b big" data-a="fplay" aria-label="Start oder Pause">${icon('play')}</button><button class="pl-b" data-a="ffwd" aria-label="15 Sekunden vor">${icon('fwd15')}</button><button class="pl-b" data-a="fnext" aria-label="Nächster Teil">${icon('next')}</button></div>
       <div class="chips fp-tempo">${[0.8, 1, 1.2, 1.5].map(r => `<button class="tchip sm" data-a="tempo" data-d="${r}">${String(r).replace('.', ',')}×</button>`).join('')}</div></div>`;
+    const am = prefs.get('autoMin', 30);
+    h = `<div class="card auto-card"><div class="card-k">${icon('car')} Im Auto</div><p class="small">Mehrere Folgen am Stück, Themen der nächsten Arbeit zuerst. Läuft bei gesperrtem Bildschirm weiter. Weiter, Zurück und Pause gehen über Lenkrad, CarPlay und Sperrbildschirm.</p>
+      <div class="chips">${[15, 30, 45, 60].map(m => `<button class="tchip sm ${am === m ? 'on' : ''}" data-a="automin" data-d="${m}">${m} Min</button>`).join('')}</div>
+      <button class="btn filled wide" data-a="auto">${icon('play')} Auto-Playlist starten</button></div>` + h;
     if (!rows.length) return h + empty('Hier gibt es noch keine Folgen.', 'Wähl Themen im Unterricht aus oder nimm ein Fach.');
     h += `<div class="btn-row"><button class="btn filled" data-a="alle">${icon('play')} Alle abspielen</button><button class="btn" data-a="offline">${icon('download')} Offline laden, rund ${hoer.groesseMB(tids)} MB</button></div>`;
     h += list(rows);
@@ -692,13 +752,37 @@ function modEditor(m) {
 }
 
 /* ===== Datensicherung ===== */
+export const zeitKurz = iso => { const d = new Date(iso); const heute = dayStr() === dayStr(d); return (heute ? 'heute' : d.toLocaleDateString('de-DE', { day: 'numeric', month: 'numeric' })) + ', ' + d.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' }) + ' Uhr'; };
+const GH_SCHRITTE = `<ol class="steps-list small">
+  <li>In Safari github.com öffnen und anmelden. Oben rechts auf Plus, dann „New repository“.</li>
+  <li>Name: Lernwerk-Sicherung. „Private“ wählen. „Create repository“.</li>
+  <li>Profilbild, „Settings“, ganz unten „Developer settings“, „Personal access tokens“, „Fine-grained tokens“, „Generate new token“.</li>
+  <li>Name: Lernwerk. Ablauf: 1 Jahr oder kein Ablauf.</li>
+  <li>„Repository access“: „Only select repositories“ und Lernwerk-Sicherung wählen.</li>
+  <li>„Permissions“, „Repository permissions“, „Contents“: „Read and write“. Sonst nichts ändern.</li>
+  <li>„Generate token“, den Schlüssel kopieren und hier unten einfügen.</li></ol>`;
+function ghBereich() {
+  if (!gh.aktiv()) {
+    const k = gh.konfig();
+    return `<div class="sec-h">Automatisch über GitHub</div><div class="card"><p>Nach jeder Lerneinheit und nach dem Einfügen sichert Lernwerk deinen Stand in dein privates Repository. Fotos bleiben nur auf dem Gerät. Der Schlüssel bleibt nur auf diesem Gerät.</p>
+      <details class="disc"><summary>So richtest du es ein</summary>${GH_SCHRITTE}</details>
+      <label class="fld"><span>Repository</span><input type="text" data-k="repo" value="${esc(k.repo || gh.repoVorschlag())}" autocapitalize="off" autocomplete="off" spellcheck="false"></label>
+      <label class="fld"><span>Schlüssel</span><input type="password" data-k="token" value="" placeholder="github_pat_…" autocapitalize="off" autocomplete="off" spellcheck="false"></label>
+      <button class="btn filled wide" data-a="ghcon">${icon('cloud')} Verbinden</button></div>`;
+  }
+  const z = gh.zuletzt(), f = gh.fehler();
+  return `<div class="sec-h">Automatisch über GitHub</div><div class="card"><p>${icon('cloud')} <b>Zuletzt gesichert:</b> ${z ? esc(zeitKurz(z)) : 'noch nicht'}</p><p class="muted small">In ${esc(gh.konfig().repo)}. Ohne Netz holt Lernwerk die Sicherung später nach.</p>
+    ${f ? `<div class="fb bad">${esc(f)}</div>` : ''}
+    <div class="btn-col"><button class="btn" data-a="ghnow">Jetzt sichern</button><button class="btn" data-a="ghload">Stand von GitHub laden</button><button class="btn" data-a="ghoff">Schlüssel entfernen</button></div></div>`;
+}
 export function datensicherung() {
   let fotos = false;
   return {
     title: 'Datensicherung',
     render(b) {
       const last = st.kvGet('letzteSicherung');
-      b.innerHTML = `<div class="card how"><p>Deine Lerndaten liegen nur auf diesem Gerät. Mit einer Sicherung bringst du sie auf den Laptop oder rettest sie bei einem neuen iPhone. Die Datei enthält auch deine eingefügten Inhalte im Lernwerk-Format.</p><p class="muted">${last ? 'Letzte Sicherung: ' + esc(dayLong(last)) : 'Noch keine Sicherung gemacht.'}</p></div>
+      if (!this._gh) this._gh = gh.beobachten(() => { if (b.isConnected) this.render(b); else this._gh(); });
+      b.innerHTML = ghBereich() + `<div class="sec-h">Von Hand</div><div class="card how"><p>Deine Lerndaten liegen nur auf diesem Gerät. Mit einer Sicherung bringst du sie auf den Laptop oder rettest sie bei einem neuen iPhone. Die Datei enthält auch deine eingefügten Inhalte im Lernwerk-Format.</p><p class="muted">${last ? 'Letzte Sicherung: ' + esc(dayLong(last)) : 'Noch keine Sicherung gemacht.'}</p></div>
         ${list([row({ title: 'Fotos mitsichern', sub: 'Macht die Datei größer', right: sw('fotos', fotos) })])}
         <div class="btn-col"><button class="btn filled" data-a="export">${icon('save')} Sicherung erstellen</button>
         <label class="btn">${icon('open')} Sicherung laden<input type="file" accept=".json,application/json" data-k="file" hidden></label>
@@ -714,6 +798,30 @@ export function datensicherung() {
         catch (err) { toast(err.message); }
       });
       on(b, {
+        ghcon: async () => {
+          const token = $('[data-k="token"]', b).value.trim(), repo = $('[data-k="repo"]', b).value.trim();
+          if (!token || !/^[\w.-]+\/[\w.-]+$/.test(repo)) { toast('Bitte Repository als name/Lernwerk-Sicherung und den Schlüssel eintragen.'); return; }
+          toast('Ich prüfe die Verbindung …');
+          const r = await gh.pruefen(token, repo);
+          if (!r.ok) { toast(r.meldung, 6000); return; }
+          if (r.vorhanden) {
+            const datum = r.vorhanden === 'unbekannt' ? '' : ' vom ' + zeitKurz(r.vorhanden);
+            if (await confirmBox('Auf GitHub liegt schon eine Sicherung' + datum + '. Diesen Stand auf dieses Gerät laden? Der jetzige Stand auf dem Gerät wird ersetzt.', 'Laden')) {
+              try { await gh.laden(); gh.verbinden(); toast('Stand geladen. Lernwerk startet neu.'); setTimeout(() => location.reload(), 900); } catch (e) { toast(e.message, 5000); }
+              return;
+            }
+            if (!(await confirmBox('Dann überschreibe ich die Sicherung auf GitHub mit dem Stand dieses Geräts. Die alte Fassung bleibt im Verlauf auf GitHub erhalten.', 'Überschreiben', true))) return;
+          }
+          gh.verbinden();
+          toast((await gh.hochladen()) ? 'Verbunden und gesichert.' : 'Verbunden. Die erste Sicherung kommt, sobald Netz da ist.');
+          this.render(b);
+        },
+        ghnow: async () => { toast((await gh.hochladen()) ? 'Gesichert.' : gh.fehler() || 'Gerade keine Verbindung. Ich hole es später nach.'); this.render(b); },
+        ghload: async () => {
+          if (!(await confirmBox('Stand von GitHub laden? Der jetzige Stand auf diesem Gerät wird ersetzt. Fotos auf dem Gerät bleiben.', 'Laden', true))) return;
+          try { await gh.laden(); toast('Stand geladen. Lernwerk startet neu.'); setTimeout(() => location.reload(), 900); } catch (e) { toast(e.message, 5000); }
+        },
+        ghoff: async () => { if (await confirmBox('Schlüssel von diesem Gerät entfernen? Die automatische Sicherung stoppt. Die Sicherung auf GitHub bleibt.', 'Entfernen', true)) { gh.trennen(); this.render(b); } },
         'sw:fotos': v => { fotos = v; },
         export: async () => {
           const data = await st.exportBackup(fotos);

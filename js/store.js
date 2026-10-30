@@ -3,7 +3,7 @@ import * as db from './db.js';
 import { parseBlocks, mergeTopic, emptyTopic, exportBlock, hasContent } from './parser.js';
 import { parseEq, keyOf } from './formula.js';
 import { norm, slug, uid, dayStr, addDays, daysBetween, hash, toDay } from './util.js';
-import { nextState, isDue, SEKUNDEN } from './srs.js';
+import { nextState, isDue, SEKUNDEN, verteilen, serie } from './srs.js';
 
 export const S = {
   base: null, plan: null,
@@ -44,6 +44,7 @@ export async function init() {
 
   await loadBuiltin();
   await unterrichtVorgabe();
+  await freigabeStart();
   if (!kvGet('ersterStart')) await kvSet('ersterStart', dayStr());
   await ingestInbox();
   db.requestPersist();
@@ -262,25 +263,108 @@ export function exportTopic(tid) {
 }
 
 /* ===== Übungs-Elemente und Karten ===== */
-export function topicItems(tid) {
-  const t = topic(tid);
+function itemsOf(t, tid) {
   const items = [];
-  t.karten.forEach(k => items.push({ id: 'k:' + tid + ':' + hash(norm(k.frage)), art: 'karte', tid, frage: k.frage, antwort: k.antwort }));
-  t.begriffe.forEach(b => b.erklaerung && items.push({ id: 'b:' + tid + ':' + hash(norm(b.begriff)), art: 'begriff', tid, frage: 'Was bedeutet „' + b.begriff + '“?', antwort: b.erklaerung, begriff: b.begriff }));
-  t.aufgaben.forEach(a => items.push({ id: 'a:' + tid + ':' + hash(norm(a.text + a.gegeben.join(''))), art: 'aufgabe', tid, aufgabe: a }));
+  const st = o => (o && o.stufe) || 0;
+  t.karten.forEach(k => items.push({ id: 'k:' + tid + ':' + hash(norm(k.frage)), art: 'karte', tid, frage: k.frage, antwort: k.antwort, s: st(k) }));
+  t.begriffe.forEach(b => b.erklaerung && items.push({ id: 'b:' + tid + ':' + hash(norm(b.begriff)), art: 'begriff', tid, frage: 'Was bedeutet „' + b.begriff + '“?', antwort: b.erklaerung, begriff: b.begriff, s: st(b) }));
+  t.aufgaben.forEach(a => items.push({ id: 'a:' + tid + ':' + hash(norm(a.text + a.gegeben.join(''))), art: 'aufgabe', tid, aufgabe: a, s: st(a) }));
   const seen = new Set();
-  t.umstellen.forEach(u => { seen.add(norm(u.formel) + '|' + keyOf(u.nach)); items.push({ id: 'u:' + tid + ':' + hash(norm(u.formel) + keyOf(u.nach)), art: 'umstellen', tid, u }); });
+  t.umstellen.forEach(u => { seen.add(norm(u.formel) + '|' + keyOf(u.nach)); items.push({ id: 'u:' + tid + ':' + hash(norm(u.formel) + keyOf(u.nach)), art: 'umstellen', tid, u, s: st(u) }); });
   t.formeln.forEach(f => f.umgestellt.forEach(g => {
     let nach;
     try { const e = parseEq(g); if (!e.l || e.l.t !== 'var') return; nach = e.l.n; parseEq(f.formel); } catch (err) { return; }
     const key = norm(f.formel) + '|' + keyOf(nach);
     if (seen.has(key)) return;
     seen.add(key);
-    items.push({ id: 'u:' + tid + ':' + hash(norm(f.formel) + keyOf(nach)), art: 'umstellen', tid, u: { formel: f.formel, nach, loesung: g, umformungen: [], tipps: [], name: f.name } });
+    items.push({ id: 'u:' + tid + ':' + hash(norm(f.formel) + keyOf(nach)), art: 'umstellen', tid, u: { formel: f.formel, nach, loesung: g, umformungen: [], tipps: [], name: f.name }, s: st(f) });
   }));
-  t.auswahl.forEach(a => items.push({ id: 'w:' + tid + ':' + hash(norm(a.frage)), art: 'auswahl', tid, a }));
-  t.reihenfolgen.forEach(r => items.push({ id: 'r:' + tid + ':' + hash(norm(r.titel)), art: 'reihenfolge', tid, r }));
+  t.auswahl.forEach(a => items.push({ id: 'w:' + tid + ':' + hash(norm(a.frage)), art: 'auswahl', tid, a, s: st(a) }));
+  t.reihenfolgen.forEach(r => items.push({ id: 'r:' + tid + ':' + hash(norm(r.titel)), art: 'reihenfolge', tid, r, s: st(r) }));
+  (t.verwechslungen || []).forEach(v => items.push({ id: 'v:' + tid + ':' + hash(norm(v.a + '|' + v.b)), art: 'verwechslung', tid, v, s: st(v) }));
+  (t.zuordnen || []).forEach(z => z.paare.length >= 2 && items.push({ id: 'z:' + tid + ':' + hash(norm(z.titel)), art: 'zuordnen', tid, z, s: st(z) }));
   return items;
+}
+/* ===== Stufen pro Thema =====
+ * 1 Grundlagen, 2 Zusammenhänge, 3 Anwenden. Ohne Stufe-Zeile ordnet die App selbst zu.
+ * Abgefragt wird nur, was freigeschaltet ist. Eigene eingefügte Inhalte sind immer frei.
+ */
+export const STUFEN_NAMEN = { 1: 'Grundlagen', 2: 'Zusammenhänge', 3: 'Anwenden' };
+const SCHWER = /^(warum|wieso|weshalb|wie hängt|wie hangen|was passiert|was ändert|was bewirkt|wann |wodurch|welche folge|vergleiche|worin unterscheid)/i;
+export function autoStufe(it) {
+  if (it.s) return it.s;
+  if (it.art === 'begriff') return 1;
+  if (it.art === 'karte') return SCHWER.test(it.frage.trim()) || it.antwort.length > 140 ? 2 : 1;
+  if (it.art === 'aufgabe' || it.art === 'auswahl') return 3;
+  return 2; // umstellen, reihenfolge, verwechslung, zuordnen
+}
+export function topicItems(tid) {
+  const b = S.builtin.get(tid), u = S.content.get(tid);
+  const eigen = new Set(u ? itemsOf(u, tid).map(i => i.id) : []);
+  const items = itemsOf(topic(tid), tid);
+  for (const it of items) { it.stufe = autoStufe(it); it.eigen = !b || eigen.has(it.id); delete it.s; }
+  return items;
+}
+// Freigeschaltete Stufe eines Themas (1 bis 3)
+export function freigabe(tid) {
+  const v = kvGet('freigabe', {})[tid];
+  if (v) return v;
+  return S.builtin.get(tid) ? 1 : 3;
+}
+export async function setFreigabe(tid, n) {
+  const f = Object.assign({}, kvGet('freigabe', {}));
+  f[tid] = Math.max(1, Math.min(3, n));
+  await kvSet('freigabe', f);
+  changed('freigabe');
+}
+// Einmalig beim Update: Themen, in denen schon gelernt wurde, behalten alles, was schon dran war.
+async function freigabeStart() {
+  if (kvGet('freigabeStart')) return;
+  const f = {};
+  const fertig = new Set(kvGet('abgeschlossen', []));
+  for (const tid of allTids()) {
+    if (!S.builtin.get(tid)) continue;
+    let n = fertig.has(tid) || S.cards.get('t:' + tid) ? 3 : 1;
+    for (const it of topicItems(tid)) if (S.cards.get(it.id)) n = Math.max(n, it.stufe);
+    if (n > 1) f[tid] = n;
+  }
+  await kvSet('freigabe', Object.assign(f, kvGet('freigabe', {})));
+  await kvSet('freigabeStart', dayStr());
+}
+// Übungsmodus: frei (nur freigeschaltet), alles (auch gesperrte Stufen), schwer (Stufe 3 und Karten mit vielen Fehlern)
+export const MODI = [['frei', 'Freigeschaltet'], ['alles', 'Alles gemischt'], ['schwer', 'Nur schwere']];
+export const modus = () => kvGet('uebModus', 'frei');
+export async function setModus(m) { await kvSet('uebModus', m); changed('modus'); }
+export function sichtbar(it, m = modus()) {
+  if (!it.tid || it.art === 'fehler' || it.art === 'auffrischen') return true;
+  if (m === 'alles') return true;
+  if (m === 'schwer') { const c = S.cards.get(it.id); return it.stufe === 3 || !!(c && c.falsch >= 2); }
+  return it.eigen || it.stufe <= freigabe(it.tid);
+}
+// Nur die Übungen, die im gewählten Modus dran sind
+export const uebItems = (tid, m) => topicItems(tid).filter(it => sichtbar(it, m));
+// Sitzt die freigeschaltete Stufe? 70 % ihrer Fragen mindestens auf Wiederhol-Stufe 3 (4 Tage).
+export function stufeSitzt(tid) {
+  const n = freigabe(tid);
+  if (n >= 3) return false;
+  const its = topicItems(tid).filter(it => !it.eigen && it.stufe === n);
+  if (its.length < 2) return its.length > 0 && its.every(it => (S.cards.get(it.id) || {}).stufe >= 3);
+  return its.filter(it => (S.cards.get(it.id) || {}).stufe >= 3).length / its.length >= 0.7;
+}
+// Aufgaben nur für die Probeklausur: Erklären, Skizze und Text aus Begriffen und Karten
+export function pruefItems(tid) {
+  const t = topic(tid), out = [];
+  (t.erklaeren || []).forEach(e => out.push({ id: 'e:' + tid + ':' + hash(norm(e.aufgabe)), art: 'erklaeren', tid, frage: e.aufgabe, kern: e.kern }));
+  (t.skizzen || []).forEach(e => out.push({ id: 's:' + tid + ':' + hash(norm(e.aufgabe)), art: 'skizze', tid, frage: e.aufgabe, kern: e.kern }));
+  t.begriffe.forEach(b => b.erklaerung && out.push({ id: 'b:' + tid + ':' + hash(norm(b.begriff)), art: 'erklaeren', tid, frage: 'Erkläre den Begriff „' + b.begriff + '“.', kern: kernAus(b.erklaerung) }));
+  t.karten.forEach(k => out.push({ id: 'k:' + tid + ':' + hash(norm(k.frage)), art: 'text', tid, frage: k.frage, kern: kernAus(k.antwort) }));
+  return out;
+}
+// Musterantwort in abhakbare Kernpunkte teilen: an Semikolon oder Satzende
+function kernAus(text) {
+  const t = String(text || '').trim();
+  const teile = (t.includes(';') ? t.split(';') : t.replace(/([.!?])\s+(?=[A-ZÄÖÜ])/g, '$1\n').split('\n')).map(x => x.trim()).filter(Boolean);
+  return teile.length ? teile.slice(0, 4) : [t];
 }
 export const errorItem = e => ({ id: 'f:' + e.id, art: 'fehler', tid: e.tid, err: e });
 
@@ -317,7 +401,8 @@ export function buildQueue(maxSec = 900, opt = {}) {
   const nach = nacharbeitThemen(today);
   const tids = opt.tids || allTids();
   const pool = [];
-  for (const tid of tids) for (const it of topicItems(tid)) pool.push(it);
+  const m = opt.modus || modus();
+  for (const tid of tids) for (const it of topicItems(tid)) if (sichtbar(it, m)) pool.push(it);
   if (!opt.tids || opt.mitFehlern) for (const e of S.errors) if (!e.erledigt && (!opt.tids || opt.tids.includes(e.tid))) pool.push(errorItem(e));
   const stk = new Map();
   const stufe = tid => { if (!stk.has(tid)) stk.set(tid, tid ? staerke(tid).stufe : 'mittel'); return stk.get(tid); };
@@ -334,6 +419,28 @@ export function buildQueue(maxSec = 900, opt = {}) {
   for (const it of neu) { if (n >= (opt.maxNeu || 8) || !add(it)) break; n++; }
   return { items: out, sekunden: sec, faellig: due.length };
 }
+// Zeit um: fällige Karten, die heute nicht mehr drankamen, auf die nächsten drei Tage verteilen.
+export async function verteileRest() {
+  const today = dayStr();
+  const q = buildQueue(1e9, { maxNeu: 0 });
+  const rest = q.items.map(it => S.cards.get(it.id)).filter(c => c && c.faellig <= today && c.zuletzt !== today);
+  for (const c of verteilen(rest, today)) { S.cards.set(c.id, c); await db.put('cards', c); }
+  if (rest.length) changed('cards');
+  return rest.length;
+}
+// Prüfungsbereitschaft in Prozent: Stand der freigeschalteten Fragen der Themen.
+// Eine Frage zählt voll ab Wiederhol-Stufe 4, neue zählen 0. Jeder offene Fehler zieht 3 Punkte ab, höchstens 15.
+export function bereitschaft(ex) {
+  const tids = (ex && ex.themaIds) || [];
+  const its = tids.flatMap(t => uebItems(t, 'frei'));
+  if (!its.length) return null;
+  let s = 0;
+  for (const it of its) { const c = S.cards.get(it.id); if (c) s += Math.min(c.stufe, 4) / 4; }
+  const offen = S.errors.filter(e => !e.erledigt && tids.includes(e.tid)).length;
+  return Math.max(0, Math.round(s / its.length * 100 - Math.min(15, 3 * offen)));
+}
+// Serie: Tage am Stück gelernt, ein freier Tag pro Woche ist erlaubt
+export function lernSerie() { return serie(S.events.filter(e => e.ok != null).map(e => dayStr(new Date(e.zeit))), dayStr()); }
 export function dueTrainers(today = dayStr()) {
   const out = [];
   for (const f of S.plan.faecher) for (const t of f.themen) {

@@ -6,10 +6,11 @@ import { $, $$, icon, row, list, seg, sw, empty, on, push, initTabs, showTab, ta
 import { topicPage, runSession, sortForPractice, fachProgress, topicProgress, openTrainer, askClaude, shrinkImage, noteReader, firstLine, itemTitle } from './engine.js';
 import { mehrPage, unterrichtPage, termineDetail, termEditor, datensicherung, applyTheme, hoerPage } from './extra.js';
 import { prefs } from './db.js';
+import * as sicherung from './sicherung.js';
 import { laden as skizzenLaden } from './skizzen.js';
 import { canSpeak, readAloud } from './speech.js';
 
-export const VERSION = '1.15.1';
+export const VERSION = '1.16.0';
 
 /* ===== Heute ===== */
 // Freundliche, wechselnde Sätze für den Start. Ohne Druck.
@@ -35,10 +36,15 @@ const heute = {
     const d0 = new Date(); d0.setHours(0, 0, 0, 0);
     const doy = Math.floor((d0 - new Date(d0.getFullYear(), 0, 0)) / 86400000);
     let h = `<div class="hello"><div class="hello-t">${esc(gruss())}</div><div class="hello-d">${esc(dayLong(today))}</div><p class="hello-m">${icon('sparkle')}<span>${esc(MUT[doy % MUT.length])}</span></p></div>`;
-    if (st.backupDue()) h += `<button class="banner warn" data-a="backup">${icon('save')}<span><b>Zeit für eine Sicherung.</b> Deine letzte Sicherung ist älter als 14 Tage. Tippe hier.</span></button>`;
+    if (sicherung.aktiv() && sicherung.fehler()) h += `<button class="banner warn" data-a="backup">${icon('cloud')}<span><b>Sicherung klappt nicht.</b> ${esc(sicherung.fehler())}</span></button>`;
+    else if (st.backupDue()) h += `<button class="banner warn" data-a="backup">${icon('save')}<span><b>Zeit für eine Sicherung.</b> Deine letzte Sicherung ist älter als 14 Tage. Tippe hier.</span></button>`;
     const qu = unterrichtQueue(), qa = allesQueue();
     h += `<button class="five" data-a="lernU">${icon('bolt')}<span><b>Unterricht</b><small>${aktTids().length ? 'Nur was gerade im Unterricht dran ist. ' + (qu.items.length ? plural(qu.items.length, 'Übung', 'Übungen') + ' offen.' : 'Nichts fällig, du kannst trotzdem üben.') : 'Noch keine Themen angewählt. Tippe hier.'}</small></span></button>`;
     h += `<button class="mixbtn" data-a="lernA">${icon('mix')}<span><b>Alles wiederholen</b><small>Alles, was abgeschlossen ist oder schon dran war. Schwache Themen kommen öfter.${qa.faellig ? ' ' + plural(qa.faellig, 'Übung', 'Übungen') + ' fällig.' : ''}</small></span></button>`;
+    // Lernzeit und Fragen vor dem Start wählen. Die letzte Wahl bleibt.
+    h += `<div class="lernwahl"><div class="lw-row"><span class="lw-l">Lernzeit</span>${seg('zeit', ZEITEN, prefs.get('lernzeit', '10'))}</div>
+      <div class="lw-row"><span class="lw-l">Fragen</span>${seg('modus', st.MODI, st.modus())}</div>
+      <button class="mini" data-a="mini">${icon('bolt')}<span><b>Mini</b> · 2 Minuten, etwa 5 Fragen</span></button></div>`;
     // Heute: Ring mit erledigt und offen
     const q = st.buildQueue(900);
     const erledigt = st.S.events.filter(e => e.zeit >= d0.getTime() && e.ok != null && e.art !== 'ansatz').length;
@@ -56,10 +62,11 @@ const heute = {
     const ex = st.nextExam(today);
     if (ex) {
       const d = daysBetween(today, ex.datum);
+      const bereit = st.bereitschaft(ex);
       const f = st.fach(ex.fachId);
       const tops = (ex.themaIds || []).map(id => st.thema(id)).filter(Boolean);
       h += `<div class="sec-h">Nächste Klassenarbeit</div><button class="card count" data-a="exam" data-d="${ex.id}" style="--fc:${f ? f.farbe : 'var(--accent)'}">
-        <div class="count-head"><span class="count-badge"><b>${d === 0 ? '!' : d}</b><small>${d === 0 ? 'heute' : d === 1 ? 'Tag' : 'Tage'}</small></span><span><div class="count-t">${esc(ex.fach)}</div><div class="muted">${esc(dayLong(ex.datum))}</div></span></div>
+        <div class="count-head"><span class="count-badge"><b>${d === 0 ? '!' : d}</b><small>${d === 0 ? 'heute' : d === 1 ? 'Tag' : 'Tage'}</small></span><span><div class="count-t">${esc(ex.fach)}</div><div class="muted">${esc(dayLong(ex.datum))}</div></span>${bereit != null ? `<span class="bereit">${ring(bereit / 100, 56, bereit >= 75 ? 'var(--green)' : bereit >= 45 ? 'var(--orange)' : 'var(--red)', `<b>${bereit}</b><small>%</small>`)}<small>vorbereitet</small></span>` : ''}</div>
         ${tops.length ? `<div class="count-tops">${tops.map(t => { const p = topicProgress(t.thema.id); return `<div class="ct"><span>${esc(t.thema.name)}</span>${progress(p || 0, f ? f.farbe : null)}</div>`; }).join('')}</div>` : ex.themen ? `<div class="muted">${esc(ex.themen)}</div>` : ''}
         <div class="count-more">Lernplan ansehen ${icon('chev', 'chev')}</div></button>`;
     }
@@ -79,7 +86,8 @@ const heute = {
     const aq = st.ansatzQuote(mon.getTime());
     const tage = ['Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa', 'So'];
     const heuteIdx = (new Date().getDay() + 6) % 7;
-    h += `<div class="sec-h">Diese Woche</div><div class="card week"><div class="week-days">${w.tage.map((n, i) => `<div class="wd ${n ? 'on' : ''} ${i === heuteIdx ? 'now' : ''}"><span>${n ? icon('check') : ''}</span><small>${tage[i]}</small></div>`).join('')}</div>
+    const serie = st.lernSerie();
+    h += `<div class="sec-h">Diese Woche</div><div class="card week">${serie >= 2 ? `<div class="serie">${icon('flame')}<span><b>${serie} Tage</b> am Stück gelernt. Ein freier Tag pro Woche bricht die Serie nicht.</span></div>` : ''}<div class="week-days">${w.tage.map((n, i) => `<div class="wd ${n ? 'on' : ''} ${i === heuteIdx ? 'now' : ''}"><span>${n ? icon('check') : ''}</span><small>${tage[i]}</small></div>`).join('')}</div>
       <div class="muted">${w.n ? 'An ' + plural(w.aktiv, 'Tag', 'Tagen') + ' gelernt, ' + plural(w.n, 'Übung', 'Übungen') + ', davon ' + w.ok + ' beim ersten Mal gewusst.' : 'Noch nichts geübt diese Woche. Fünf Minuten reichen für den Anfang.'}</div>${aq.n ? `<div class="week-ansatz">${icon('target')}<span>Ansatz sofort erkannt: <b>${aq.ok} von ${aq.n}</b>. Das ist dein wichtigster Wert.</span></div>` : ''}</div>`;
     b.innerHTML = h;
     on(b, {
@@ -87,6 +95,9 @@ const heute = {
       exam: id => push(termineDetail(id)),
       newexam: () => termEditor({}),
       lernU: () => lernenUnterricht(),
+      mini: () => (aktTids().length ? lernenUnterricht(MINI) : lernenAlles(MINI)),
+      'seg:zeit': v => { prefs.set('lernzeit', v); toast(lernzeit().min ? 'Lernzeit: ' + v + ' Minuten.' : 'Runde mit ' + lernzeit().n + ' Fragen.'); },
+      'seg:modus': v => { st.setModus(v); },
       trmix: () => trainerGemischt(),
       trainer: d => { const i = d.indexOf('|'); openTrainer(d.slice(0, i), d.slice(i + 1)); },
       trainerAlle: () => push(trainerSeite()),
@@ -155,11 +166,18 @@ function gelernteTids() {
   const fertig = new Set(st.abgeschlosseneTids());
   return st.allTids().filter(t => akt.has(t) || fertig.has(t) || nach.has(t) || st.card('t:' + t) || st.topicItems(t).some(i => st.card(i.id)));
 }
+// Lernzeit: n Fragen, min Minuten (dann endet die Runde sauber), rechnen Anzahl Rechenaufgaben
+const ZEITEN = [['2', '2 Min'], ['5', '5 Min'], ['10', '10 Min'], ['20', '20 Min'], ['f10', '10 Fragen'], ['f20', '20 Fragen']];
+const MINI = { n: 5, min: 2, rechnen: 0 };
+export function lernzeit() {
+  const v = prefs.get('lernzeit', '10');
+  const z = { 2: MINI, 5: { n: 8, min: 5, rechnen: 2 }, 10: { n: 12, min: 10, rechnen: 6 }, 20: { n: 24, min: 20, rechnen: 12 }, f10: { n: 10, rechnen: 5 }, f20: { n: 20, rechnen: 10 } }[v];
+  return z || { n: 12, min: 10, rechnen: 6 };
+}
 // Mindestens die Hälfte zum Mitrechnen: Rechen- und Umstellaufgaben, die du Schritt für Schritt löst
 const zumRechnen = it => it.art === 'aufgabe' || it.art === 'umstellen';
 // Eine Runde hat etwa 12 Übungen: 6 zum Mitrechnen, 6 andere. Fällige Übungen gehen vor.
-export function mitRechnen(items, tids, n = 12) {
-  const halb = n / 2;
+export function mitRechnen(items, tids, n = 12, halb = n / 2) {
   const rechnen = items.filter(zumRechnen).slice(0, halb);
   const ids = new Set(items.map(i => i.id));
   if (rechnen.length < halb) rechnen.push(...mixAufgaben(tids, halb).filter(i => !ids.has(i.id)).slice(0, halb - rechnen.length));
@@ -170,8 +188,8 @@ export function mitRechnen(items, tids, n = 12) {
 function mixAufgaben(tids, n) {
   const pick = (lists, out) => { for (let r = 0; out.length < n && lists.some(l => l.length); r++) for (const l of lists) if (l.length && out.length < n) out.push(l.shift()); };
   const ts = shuffle([...tids]);
-  const mitAnsatz = ts.map(t => shuffle(st.topicItems(t).filter(i => i.art === 'aufgabe' && i.aufgabe.ansatz))).filter(l => l.length);
-  const rest = ts.map(t => shuffle(st.topicItems(t).filter(i => (i.art === 'aufgabe' && !i.aufgabe.ansatz) || i.art === 'umstellen'))).filter(l => l.length);
+  const mitAnsatz = ts.map(t => shuffle(st.uebItems(t).filter(i => i.art === 'aufgabe' && i.aufgabe.ansatz))).filter(l => l.length);
+  const rest = ts.map(t => shuffle(st.uebItems(t).filter(i => (i.art === 'aufgabe' && !i.aufgabe.ansatz) || i.art === 'umstellen'))).filter(l => l.length);
   const out = [];
   pick(mitAnsatz, out);
   pick(rest, out);
@@ -180,17 +198,17 @@ function mixAufgaben(tids, n) {
 export function unterrichtQueue() { const t = aktTids(); return t.length ? st.buildQueue(900, { tids: t, mitFehlern: true }) : { items: [], sekunden: 0 }; }
 // Neue Karten nur aus Themen, die in einer Arbeit nicht gut liefen
 export function allesQueue() { return st.buildQueue(900, { maxNeu: st.nacharbeitThemen().size ? 6 : 0 }); }
-export function lernenUnterricht() {
+export function lernenUnterricht(z = lernzeit()) {
   const tids = aktTids();
   if (!tids.length) { toast('Wähl zuerst aus, was gerade im Unterricht dran ist.'); push(unterrichtPage()); return; }
   let items = unterrichtQueue().items;
-  items = mitRechnen(items, tids);
+  items = mitRechnen(items, tids, z.n, z.rechnen);
   if (!items.length) {
-    items = sortForPractice(tids.flatMap(t => st.topicItems(t))).slice(0, 12);
+    items = sortForPractice(tids.flatMap(t => st.uebItems(t))).slice(0, z.n);
     if (items.length) toast('Gerade ist nichts fällig. Ich nehme Übungen aus deinen Unterrichtsthemen.');
   }
   if (!items.length) { toast('Für deine Unterrichtsthemen gibt es noch keine Übungen. Füge Inhalte über Einfügen hinzu.'); return; }
-  runSession(items, 'Unterricht', { onClose: () => refreshTop() });
+  runSession(items, 'Unterricht', { minutes: z.min, onClose: () => refreshTop() });
 }
 // Aufgaben aus allen Themen, zu denen es einen Trainer gibt, gemischt und ohne Themenhinweis
 export function trainerGemischt() {
@@ -203,24 +221,25 @@ export function trainerGemischt() {
 }
 // Alles wiederholen: etwa die Hälfte aus schwachen Themen, ein Drittel aus mittleren, der Rest aus sicheren.
 // Fehlt eine Gruppe, bekommt die nächste ihren Anteil. Schwache Themen bekommen danach eine kurze Auffrischung.
-export function lernenAlles() {
+export function lernenAlles(z = lernzeit()) {
   const tids = gelernteTids();
   if (!tids.length) { toast('Es war noch nichts dran. Fang mit Unterricht an.'); return; }
   const grp = { schwach: [], mittel: [], sicher: [] };
   for (const t of tids) grp[st.staerke(t).stufe].push(t);
-  const N = 12, ziel = { schwach: 6, mittel: 4, sicher: 2 };
+  const N = z.n, ziel = { schwach: Math.round(N / 2), mittel: Math.round(N / 3), sicher: N - Math.round(N / 2) - Math.round(N / 3) };
+  const anteil = z.rechnen / z.n;
   const due = allesQueue().items;
   const used = new Set();
   const take = (it, out) => { if (used.has(it.id)) return; used.add(it.id); out.push(it); };
   const pickFor = (ts, n, mitLosen) => {
     const set = new Set(ts), out = [];
     // Erst die Hälfte zum Mitrechnen: fällige Rechenaufgaben, dann neue
-    const halb = Math.ceil(n / 2), rechnen = () => out.filter(zumRechnen).length;
+    const halb = Math.ceil(n * anteil), rechnen = () => out.filter(zumRechnen).length;
     for (const it of due) if (rechnen() < halb && zumRechnen(it) && set.has(it.tid)) take(it, out);
     for (const it of mixAufgaben(ts, halb)) if (rechnen() < halb) take(it, out);
     for (const it of due) if (out.length < n && (set.has(it.tid) || (mitLosen && it.art === 'fehler' && !st.thema(it.tid)))) take(it, out);
-    for (const it of mixAufgaben(ts, n)) if (out.length < n) take(it, out);
-    for (const it of sortForPractice(ts.flatMap(t => st.topicItems(t)))) { if (out.length >= n) break; take(it, out); }
+    if (anteil) for (const it of mixAufgaben(ts, n)) if (out.length < n) take(it, out);
+    for (const it of sortForPractice(ts.flatMap(t => st.uebItems(t)))) { if (out.length >= n) break; take(it, out); }
     return out;
   };
   let items = [], rest = 0;
@@ -239,7 +258,7 @@ export function lernenAlles() {
     if (schwach.has(it.tid) && !done.has(it.tid)) { done.add(it.tid); const T = st.topic(it.tid); if (T.merksaetze.length || T.schnellwege.length) out.push({ id: 'auffrischen:' + it.tid, art: 'auffrischen', tid: it.tid }); }
   }
   if (!out.length) { toast('Gerade gibt es nichts zu wiederholen.'); return; }
-  runSession(out, 'Alles wiederholen', { blind: true, onClose: () => refreshTop() });
+  runSession(out.slice(0, N + 3), 'Alles wiederholen', { blind: true, minutes: z.min, onClose: () => refreshTop() });
 }
 
 /* ===== Fächer ===== */
@@ -334,12 +353,13 @@ const einfuegen = {
 };
 function drawBlock(el) {
   el.innerHTML = `
-    <div class="card how"><p><b>So geht es:</b> Vorlage kopieren, im Claude-Chat zusammen mit deinem Material einfügen, den Block aus der Antwort kopieren und hier einfügen.</p>
-      <button class="btn filled" data-a="tpl">${icon('copy')} Vorlage für Claude kopieren</button></div>
-    <div class="sec-h">Block aus dem Chat</div>
-    <textarea class="big-ta" rows="9" placeholder="=== LERNWERK ===&#10;Fach: …&#10;Thema: …" data-k="block">${esc(insText)}</textarea>
-    <div class="btn-row"><button class="btn" data-a="paste">${icon('paste')} Aus Zwischenablage einfügen</button><button class="btn" data-a="clear">Leeren</button></div>
-    <div class="preview"></div>`;
+    <button class="paste-big" data-a="paste">${icon('paste')}<span><b>Aus Zwischenablage einfügen</b><small>Block im Chat kopieren, hier tippen, fertig.</small></span></button>
+    <div class="preview"></div>
+    <div class="card how"><p><b>So geht es:</b> Vorlage kopieren, im Claude-Chat zusammen mit deinem Material einfügen, den Block aus der Antwort kopieren und oben einfügen.</p>
+      <button class="btn" data-a="tpl">${icon('copy')} Vorlage für Claude kopieren</button></div>
+    <div class="sec-h">Block von Hand einfügen</div>
+    <textarea class="big-ta" rows="7" placeholder="=== LERNWERK ===&#10;Fach: …&#10;Thema: …" data-k="block">${esc(insText)}</textarea>
+    <div class="btn-row"><button class="btn" data-a="clear">Leeren</button></div>`;
   const ta = $('[data-k="block"]', el);
   const pv = $('.preview', el);
   let parsed = null, zu = [];
@@ -360,6 +380,9 @@ function drawBlock(el) {
     const r = parsed;
     let h = '';
     if (!r.themen.length && !r.termine.length) h += `<div class="fb bad">Ich finde keinen Lernwerk-Block. Er beginnt mit „=== LERNWERK ===“ oder mit den Zeilen „Fach:“ und „Thema:“.</div>`;
+    // Prüfzeile und Ende: Ist alles angekommen?
+    if (r.abgeschnitten || r.luecken.length) h += `<div class="fb bad pv-check"><b>Da fehlt etwas.</b>${r.abgeschnitten ? '<div>Die Zeile „=== ENDE ===“ fehlt. Der Block wirkt abgeschnitten. Kopier ihn im Chat noch einmal ganz.</div>' : ''}${r.luecken.map(x => `<div>${esc(x.thema)}: ${x.ist} von ${x.soll} ${esc(x.name)} angekommen.</div>`).join('')}<div class="muted small">Du kannst trotzdem speichern. Den Rest fügst du später einfach dazu, doppelte Einträge lasse ich weg.</div></div>`;
+    else if (r.themen.length && /^\s*inhalt\s*:/im.test(ta.value)) h += `<div class="fb good">Alles angekommen, wie in der Zeile „Inhalt“ angegeben.</div>`;
     r.themen.forEach((t, i) => {
       const z = zu[i];
       const ziel = z.themaId ? 'ergänzt ein vorhandenes Thema' : 'legt ein neues Thema an';
@@ -383,7 +406,12 @@ function drawBlock(el) {
   ta.addEventListener('input', () => { clearTimeout(tmr); tmr = setTimeout(update, 250); });
   on(el, {
     tpl: async () => { const ok = await copyText(TEMPLATE); toast(ok ? 'Vorlage kopiert. Im Chat einfügen und dein Material darunter.' : 'Kopieren hat nicht geklappt.'); },
-    paste: async () => { const t = await readClipboard(); if (t == null) { toast('Tippe ins Feld und wähle Einsetzen.'); ta.focus(); return; } ta.value = t; update(); },
+    paste: async () => {
+      const t = await readClipboard();
+      if (t == null) { toast('Tippe ins Feld und wähle Einsetzen.'); ta.focus(); return; }
+      if (!t.trim()) { toast('Die Zwischenablage ist leer. Kopier den Block im Chat.'); return; }
+      ta.value = t; update();
+    },
     clear: () => { ta.value = ''; update(); },
     save: async () => {
       if (!parsed) return;
@@ -393,6 +421,7 @@ function drawBlock(el) {
       const n = res.reduce((s, x) => s + x.added, 0);
       toast(res.length ? 'Gespeichert: ' + res.map(x => x.thema.name).join(', ') + (n ? ' (' + plural(n, 'neuer Eintrag', 'neue Einträge') + ')' : ' (nichts Neues)') : 'Termine gespeichert.');
       insResult = res.map(x => ({ tid: x.thema.id, name: x.thema.name, fach: x.fach.name, farbe: x.fach.farbe }));
+      import('./sicherung.js').then(m => m.anstossen()).catch(() => {});
       refreshTop();
     },
     open: tid => { showTab('faecher'); push(topicPage(tid)); }
@@ -442,6 +471,7 @@ function drawZettel(el) {
       const tid = await resolvePick(o);
       if (!tid) return;
       const n = await st.saveNote({ tid, titel: o.titel.trim() || firstLine(o.text), text: o.text });
+      import('./sicherung.js').then(m => m.anstossen()).catch(() => {});
       insNote = { text: '', titel: '', fid: o.fid, tid: '', neu: '' };
       toast('Lernzettel gespeichert.');
       drawZettel(el);
@@ -487,7 +517,7 @@ const fehlerbuch = {
       const groups = new Map();
       for (const e of offen) { if (!groups.has(e.fehlerart)) groups.set(e.fehlerart, []); groups.get(e.fehlerart).push(e); }
       const sorted = [...groups].sort((a, b) => b[1].length - a[1].length);
-      if (sorted.length) h += `<div class="card pattern"><div class="card-k">Dein häufigstes Muster</div><p><b>${esc(sorted[0][0])}</b>: ${plural(sorted[0][1].length, 'Mal', 'Mal')}.${tipFor(sorted[0][0])}</p></div>`;
+      if (sorted.length) h += `<div class="card pattern"><div class="card-k">Dein Muster</div><p>Häufigster Fehler: <b>${esc(sorted[0][0])}</b>, ${plural(sorted[0][1].length, 'Mal', 'Mal')}.${tipFor(sorted[0][0])}</p>${sorted[1] ? `<p class="muted small">Danach: ${sorted.slice(1, 3).map(([k, es]) => esc(k) + ' (' + es.length + ')').join(', ')}</p>` : ''}</div>`;
       for (const [art, es] of sorted) {
         h += `<div class="sec-h">${esc(art)} · ${es.length}</div>` + list(es.sort((a, b) => b.zeit - a.zeit).map(e => row({ a: 'err', d: e.id, title: e.aufgabe || '(ohne Aufgabentext)', sub: [e.thema || e.fach, new Date(e.zeit).toLocaleDateString('de-DE'), e.quelle === 'trainer' ? 'Trainer' : e.quelle === 'manuell' ? 'selbst eingetragen' : ''].filter(Boolean).join(' · ') })));
       }
@@ -592,10 +622,12 @@ async function boot() {
   const ret = prefs.get('return', null);
   if (ret && Date.now() - ret.zeit < 3 * 3600 * 1000 && st.thema(ret.tid)) { showTab('faecher'); push(topicPage(ret.tid)); }
   prefs.set('return', null);
-  const recheck = async () => { if (document.visibilityState === 'visible') { const n = await st.ingestInbox(); if (n) refreshAll(); } };
+  const recheck = async () => { if (document.visibilityState === 'visible') { const n = await st.ingestInbox(); if (n) { refreshAll(); sicherung.anstossen(); } } };
   document.addEventListener('visibilitychange', recheck);
   window.addEventListener('pageshow', recheck);
   registerSW();
+  sicherung.start();
+  sicherung.beobachten(() => { if (tab() === 'heute') refreshTop(); });
   const neu = prefs.get('aktualisiert', null);
   if (neu) { prefs.set('aktualisiert', null); setTimeout(() => toast('Lernwerk wurde aktualisiert.'), 600); }
 }

@@ -66,31 +66,54 @@ export function topicPage(tid, startTab) {
       const { fach: f, thema: t } = th2;
       const T = st.topic(tid);
       const items = st.topicItems(tid);
+      const sicht = items.filter(i => st.sichtbar(i));
       if (!cur) cur = st.hasTopicContent(tid) ? 'prinzip' : (st.notesFor(tid).length ? 'zettel' : 'prinzip');
       st.setPlace({ art: 'thema', tid, titel: t.name, tab: cur });
       const sk = st.staerke(tid);
       const tc = st.card('t:' + tid);
+      const alle = items;
       let h = `<div class="topic-head" style="--fc:${f.farbe}">
         <div class="chips"><span class="chip chip-ic" style="background:${f.farbe}">${icon(fachIcon(f))}${esc(f.kurz || f.name)}</span>${(f.module || []).map(m => `<span class="chip ghost">${esc(m === 'Ü' ? 'übergreifend' : m)}</span>`).join('')}${T.modul && !(f.module || []).includes(T.modul) ? `<span class="chip ghost">${esc(T.modul)}</span>` : ''}</div>
-        <div class="zst">${seg('zst', ZUSTAENDE, st.zustand(tid))}</div>${staerkeHTML(sk)}`;
+        <div class="zst">${seg('zst', ZUSTAENDE, st.zustand(tid))}</div>${staerkeHTML(sk)}${stufenHTML(tid, alle)}`;
       if (t.trainer && t.trainer.length) {
         h += `<div class="trainer-btns">${t.trainer.map(x => `<button class="btn-big" data-a="trainer" data-d="${esc(x.datei)}" style="--fc:${f.farbe}">${icon('open')}<span><b>${esc(x.titel)}</b><small>Trainer${tc ? ' · ' + stufeText(tc) : ''}</small></span></button>`).join('')}</div>`;
       }
-      h += `</div><div class="seg-scroll">${seg('tab', TABS.map(([v, l]) => [v, l + countFor(v, T, items, tid)]), cur)}</div><div class="tab-body"></div>`;
+      h += `</div><div class="seg-scroll">${seg('tab', TABS.map(([v, l]) => [v, l + countFor(v, T, sicht, tid)]), cur)}</div><div class="tab-body"></div>`;
       body.innerHTML = h;
       const tb = $('.tab-body', body);
       const draw = () => { st.setPlace({ art: 'thema', tid, titel: t.name, tab: cur }); renderTab(tb, cur, tid, T, items, f); };
       on(body, {
         'seg:zst': v => { st.setZustand(tid, v); toast({ kommt: 'Kommt noch.', aktuell: 'Im Unterricht. Kommt bei Unterricht dran.', fertig: 'Abgeschlossen. Kommt bei Alles wiederholen dran.' }[v]); },
         trainer: d => openTrainer(tid, d),
-        'seg:tab': v => { cur = v; draw(); }
+        'seg:tab': v => { cur = v; draw(); },
+        hatten: async () => { const n = st.freigabe(tid) + 1; await st.setFreigabe(tid, n); toast('Stufe ' + n + ' ist frei: ' + st.STUFEN_NAMEN[n] + '. Kommt ab jetzt in der Wiederholung dran.'); },
+        stufe: async d => {
+          const k = +d, n = st.freigabe(tid);
+          if (k === n) return;
+          if (k < n && !(await confirmBox('Zurück auf Stufe ' + k + '? Fragen aus höheren Stufen kommen dann nicht mehr dran. Dein Stand bleibt gespeichert.', 'Zurück'))) return;
+          await st.setFreigabe(tid, k);
+          toast('Freigeschaltet bis Stufe ' + k + '.');
+        }
       });
       draw();
     }
   };
 }
+// Stufen des Themas: 1 Grundlagen, 2 Zusammenhänge, 3 Anwenden. Nur eingebaute Inhalte, eigene sind immer frei.
+function stufenHTML(tid, items) {
+  const its = items.filter(i => !i.eigen);
+  if (!its.length) return '';
+  const n = st.freigabe(tid);
+  const anz = k => its.filter(i => i.stufe === k).length;
+  let h = `<div class="stufen">${[1, 2, 3].map(k => `<button class="stf ${k <= n ? 'on' : ''}" data-a="stufe" data-d="${k}"><b>${k <= n ? k : icon('lock')}</b><span>${st.STUFEN_NAMEN[k]}</span><small>${anz(k)}</small></button>`).join('')}</div>`;
+  const hoechste = Math.max(...its.map(i => i.stufe));
+  if (n < hoechste) h += (st.stufeSitzt(tid) ? `<div class="fb good stf-tipp"><b>Stufe ${n} sitzt.</b> Wenn ihr Stufe ${n + 1} im Unterricht hattet, schalte sie frei.</div>` : '') + `<button class="btn small stf-btn" data-a="hatten">${icon('check')} Hatten wir: Stufe ${n + 1} freischalten</button>`;
+  return h;
+}
+const modusHTML = () => `<div class="modus">${seg('modus', st.MODI, st.modus())}</div>`;
+const gesperrtHinweis = (alle, sicht) => { const n = alle.length - sicht.length; return n > 0 ? `<p class="src">${n} weitere ${n === 1 ? 'Frage ist' : 'Fragen sind'} noch gesperrt. „Hatten wir“ oben schaltet die nächste Stufe frei.</p>` : ''; };
 function countFor(v, T, items, tid) {
-  const n = { prinzip: 0, bausteine: 0, ueben: items.filter(i => ['aufgabe', 'umstellen', 'auswahl', 'reihenfolge'].includes(i.art)).length, karten: items.filter(i => i.art === 'karte' || i.art === 'begriff').length, schnellweg: T.schnellwege.length, zettel: st.notesFor(tid).length, fotos: st.photosFor(tid).length }[v];
+  const n = { prinzip: 0, bausteine: 0, ueben: items.filter(i => ['aufgabe', 'umstellen', 'auswahl', 'reihenfolge', 'verwechslung', 'zuordnen'].includes(i.art)).length, karten: items.filter(i => i.art === 'karte' || i.art === 'begriff').length, schnellweg: T.schnellwege.length, zettel: st.notesFor(tid).length, fotos: st.photosFor(tid).length }[v];
   return n ? ' ' + n : '';
 }
 
@@ -116,21 +139,29 @@ function renderTab(el, tab, tid, T, items, f) {
     if (T.formeln.length) h += `<div class="sec-h">Formeln</div>` + T.formeln.map(formelCard).join('');
     if (!h) h = empty('Noch keine Bausteine.', 'Bausteine zerlegen eine Aufgabe in gegeben, gesucht, Regel und nächsten Schritt. Hol sie dir über Einfügen aus dem Chat.');
   }
+  const UEB = ['aufgabe', 'umstellen', 'auswahl', 'reihenfolge', 'verwechslung', 'zuordnen'];
   if (tab === 'ueben') {
-    const ex = items.filter(i => ['aufgabe', 'umstellen', 'auswahl', 'reihenfolge'].includes(i.art));
-    if (!ex.length) h = empty('Noch keine Übungen.', 'Aufgaben kommen über einen Lernwerk-Block mit Aufgabe-Zeilen. Der alte Trainer oben funktioniert wie gewohnt.');
+    const alle = items.filter(i => UEB.includes(i.art));
+    const ex = alle.filter(i => st.sichtbar(i));
+    if (alle.length) h += modusHTML();
+    if (!alle.length) h = empty('Noch keine Übungen.', 'Aufgaben kommen über einen Lernwerk-Block mit Aufgabe-Zeilen. Der alte Trainer oben funktioniert wie gewohnt.');
+    else if (!ex.length) h += empty('In dieser Stufe gibt es noch keine Übungen.', 'Schalte oben mit „Hatten wir“ die nächste Stufe frei oder wähl „Alles gemischt“.');
     else {
       h += `<div class="btn-row"><button class="btn filled" data-a="mix">${icon('bolt')} Gemischt üben</button></div>`;
       const grp = (art, title) => { const g = ex.filter(i => i.art === art); if (!g.length) return ''; return `<div class="sec-h">${title}</div>` + list(g.map(i => row({ a: 'item', d: i.id, titleHTML: itemHTML(i), subHTML: esc(stufeText(st.card(i.id))) }))); };
-      h += grp('aufgabe', 'Aufgaben') + grp('umstellen', 'Formeln umstellen') + grp('auswahl', 'Auswahlfragen') + grp('reihenfolge', 'Reihenfolge');
+      h += grp('aufgabe', 'Aufgaben') + grp('umstellen', 'Formeln umstellen') + grp('auswahl', 'Auswahlfragen') + grp('reihenfolge', 'Reihenfolge') + grp('verwechslung', 'Nicht verwechseln') + grp('zuordnen', 'Zuordnen');
     }
+    h += gesperrtHinweis(alle, ex);
   }
   if (tab === 'karten') {
-    const ks = items.filter(i => i.art === 'karte' || i.art === 'begriff');
-    if (!ks.length) h = empty('Noch keine Karten.', 'Karten kommen über Karte-Zeilen und Begriff-Zeilen im Lernwerk-Block.');
+    const kAlle = items.filter(i => i.art === 'karte' || i.art === 'begriff');
+    const ks = kAlle.filter(i => st.sichtbar(i));
+    if (kAlle.length) h += modusHTML();
+    if (!ks.length) h += empty(kAlle.length ? 'In dieser Stufe gibt es keine Karten.' : 'Noch keine Karten.', 'Karten kommen über Karte-Zeilen und Begriff-Zeilen im Lernwerk-Block.') + gesperrtHinweis(kAlle, ks);
     else {
       h += `<div class="btn-row"><button class="btn filled" data-a="karten">${icon('cards')} Karten üben</button></div>`;
       h += list(ks.map(k => row({ a: 'flip', d: k.id, title: k.frage, subHTML: `<span class="hidden-ans" data-ans="${esc(k.id)}">Antippen zum Aufdecken</span>`, detail: stufeText(st.card(k.id)), chev: false })));
+      h += gesperrtHinweis(kAlle, ks);
     }
   }
   if (tab === 'schnellweg') {
@@ -154,8 +185,9 @@ function renderTab(el, tab, tid, T, items, f) {
   if (tab === 'fotos') loadThumbs(el);
   on(el, {
       item: id => { const it = st.topicItems(tid).find(i => i.id === id); if (it) runSession([it], itemTitle(it), { single: true }); },
-      mix: () => { const its = st.topicItems(tid).filter(i => ['aufgabe', 'umstellen', 'auswahl', 'reihenfolge'].includes(i.art)); runSession(sortForPractice(its).slice(0, 8), 'Gemischt üben'); },
-      karten: () => { const its = st.topicItems(tid).filter(i => i.art === 'karte' || i.art === 'begriff'); runSession(sortForPractice(its), 'Karten'); },
+      mix: () => { const its = st.uebItems(tid).filter(i => UEB.includes(i.art)); runSession(sortForPractice(its).slice(0, 8), 'Gemischt üben'); },
+      karten: () => { const its = st.uebItems(tid).filter(i => i.art === 'karte' || i.art === 'begriff'); runSession(sortForPractice(its), 'Karten'); },
+      'seg:modus': v => { st.setModus(v); toast({ frei: 'Nur freigeschaltete Stufen.', alles: 'Alle Stufen gemischt.', schwer: 'Nur schwere Fragen.' }[v]); },
       flip: (id, b) => { const it = st.topicItems(tid).find(i => i.id === id); const s = $('.hidden-ans', b); if (it && s) { s.textContent = it.antwort; s.classList.add('shown'); } },
       newnote: () => noteEditor({ tid }),
       note: id => noteReader(id),
@@ -205,6 +237,8 @@ export function itemTitle(i) {
   if (i.art === 'umstellen') return i.u.formel + ' nach ' + i.u.nach;
   if (i.art === 'auswahl') return i.a.frage;
   if (i.art === 'reihenfolge') return i.r.titel;
+  if (i.art === 'verwechslung') return i.v.a + ' oder ' + i.v.b;
+  if (i.art === 'zuordnen') return 'Zuordnen: ' + i.z.titel;
   if (i.art === 'fehler') return i.err.aufgabe || i.err.fehlerart;
   return i.frage || '';
 }
@@ -365,7 +399,7 @@ export function runItem(el, item, ctx) {
   el.style.setProperty('--fc', meta.farbe);
   // Gemischtes Üben: Das Thema wird nicht verraten, sonst ist der Ansatz schon klar
   if (ctx.blind && item.art !== 'aufgabe') Object.assign(meta, { fach: 'Gemischt', thema: 'ohne Themenhinweis' });
-  const runner = { auffrischen: runAuffrischen, aufgabe: runAufgabe, umstellen: runUmstellen, auswahl: runAuswahl, reihenfolge: runReihenfolge, karte: runKarte, begriff: runKarte, fehler: runFehler }[item.art];
+  const runner = { auffrischen: runAuffrischen, aufgabe: runAufgabe, umstellen: runUmstellen, auswahl: runAuswahl, reihenfolge: runReihenfolge, karte: runKarte, begriff: runBegriff, fehler: runFehler, verwechslung: runVerwechslung, zuordnen: runZuordnen }[item.art];
   if (!runner) { el.innerHTML = empty('Diese Übung kenne ich nicht.'); ctx.onDone('hilfe'); return; }
   runner(el, item, ctx, meta);
 }
@@ -795,8 +829,8 @@ function rateButtons() {
 }
 // Karte als Auswahl: die richtige Antwort unter Antworten anderer Karten desselben Themas finden.
 // Gibt es zu wenige andere Antworten, oder willst du lieber aufdecken, wird es eine Klappkarte.
-function runKarte(el, item, ctx, meta) {
-  const andere = [...new Set(st.topicItems(item.tid).filter(i => (i.art === 'karte' || i.art === 'begriff') && i.antwort && i.frage !== item.frage && norm(i.antwort) !== norm(item.antwort)).map(i => i.antwort))];
+function runKarte(el, item, ctx, meta, pool) {
+  const andere = pool || [...new Set(st.topicItems(item.tid).filter(i => (i.art === 'karte' || i.art === 'begriff') && i.antwort && i.frage !== item.frage && norm(i.antwort) !== norm(item.antwort)).map(i => i.antwort))];
   if (andere.length < 3 || ctx.exam) return runKarteFlip(el, item, ctx, meta);
   const L = item.antwort.length;
   const falsch = shuffle(andere.sort((a, b) => Math.abs(a.length - L) - Math.abs(b.length - L)).slice(0, 6)).slice(0, 3);
@@ -821,6 +855,70 @@ function runKarte(el, item, ctx, meta) {
   });
   draw();
 }
+// Begriffe kommen abwechselnd umgedreht: Erklärung lesen, Begriff finden
+function runBegriff(el, item, ctx, meta) {
+  const c = st.card(item.id);
+  const rund = c ? c.richtig + c.hilfe + c.falsch : 0;
+  if (ctx.exam || rund % 2 === 0) return runKarte(el, item, ctx, meta);
+  const namen = [...new Set(st.topicItems(item.tid).filter(i => i.art === 'begriff' && norm(i.begriff) !== norm(item.begriff)).map(i => i.begriff))];
+  const rev = Object.assign({}, item, { frage: 'Wie heißt der Begriff? ' + item.antwort, antwort: item.begriff });
+  runKarte(el, rev, ctx, meta, namen);
+}
+// Verwechslung: Was unterscheidet A von B? Oder: Zu welchem Begriff passt die Aussage?
+function runVerwechslung(el, item, ctx, meta) {
+  const V = item.v, T = st.topic(item.tid);
+  const erk = n => (T.begriffe.find(b => norm(b.begriff) === norm(n)) || {}).erklaerung;
+  const aussagen = [[V.a, erk(V.a)], [V.b, erk(V.b)]].filter(x => x[1]);
+  const c = st.card(item.id);
+  const rund = c ? c.richtig + c.hilfe + c.falsch : 0;
+  if (!aussagen.length || rund % 2 === 0) {
+    let open = false;
+    const draw = () => {
+      el.innerHTML = ctxLine(meta) + `<div class="card-k">Nicht verwechseln</div><button class="flash ${open ? 'open' : ''}" data-a="flip"><div class="flash-q">Was unterscheidet ${rich(V.a)} von ${rich(V.b)}?</div>${open ? `<div class="flash-a">${rich(V.unterschied)}</div>` : '<div class="flash-hint">Erst selbst sagen, dann antippen</div>'}</button>${open ? rateButtons() : ''}`;
+    };
+    on(el, { flip: () => { open = true; draw(); }, rate: d => ctx.onDone(d) });
+    return draw();
+  }
+  const [ziel, aussage] = aussagen[Math.floor(Math.random() * aussagen.length)];
+  let gewaehlt = null;
+  const draw = () => {
+    const ok = gewaehlt != null && norm(gewaehlt) === norm(ziel);
+    el.innerHTML = ctxLine(meta) + `<div class="card-k">Nicht verwechseln</div><div class="ex-task">Zu welchem Begriff passt diese Aussage?</div><div class="card"><p>${rich(aussage)}</p></div>
+      <div class="mc">${[V.a, V.b].map(o => `<button class="mc-o ${gewaehlt === o ? (ok ? 'ok' : 'no') : gewaehlt != null && norm(o) === norm(ziel) ? 'ok' : ''}" data-a="pick" data-d="${esc(o)}">${rich(o)}</button>`).join('')}</div>
+      ${gewaehlt != null ? `<div class="fb ${ok ? 'good' : 'info'}"><b>${ok ? 'Richtig.' : 'Das war ' + esc(ziel) + '.'}</b> ${rich(V.unterschied)}</div><div class="btn-col"><button class="btn filled" data-a="fertig">${ctx.nextLabel || 'Weiter'}</button></div>` : ''}`;
+  };
+  on(el, {
+    pick: o => { if (gewaehlt != null) return; gewaehlt = o; if (norm(o) !== norm(ziel)) logError(meta, item, { aufgabe: 'Verwechslung: ' + V.a + ' oder ' + V.b, eingabe: o, richtig: ziel, fehlerart: 'Fachbegriff verwechselt' }); draw(); },
+    fertig: () => ctx.onDone(norm(gewaehlt) === norm(ziel) ? 'richtig' : 'falsch')
+  });
+  draw();
+}
+// Zuordnen: links Begriffe, rechts Bedeutungen. Erst Begriff, dann Bedeutung antippen.
+function runZuordnen(el, item, ctx, meta) {
+  const Z = item.z;
+  const paare = shuffle(Z.paare.map((p, k) => Object.assign({ k }, p))).slice(0, 5);
+  const rechts = shuffle(paare.slice());
+  const fertigSet = new Set();
+  let wahl = null, fehler = 0, falschK = null;
+  function draw() {
+    const done = fertigSet.size === paare.length;
+    el.innerHTML = ctxLine(meta) + `<div class="ex-task">Ordne zu: ${rich(Z.titel)}</div><div class="zuo">
+      <div class="zuo-col">${paare.map(p => `<button class="zuo-i ${fertigSet.has(p.k) ? 'ok' : wahl === p.k ? 'sel' : ''}" data-a="links" data-d="${p.k}" ${fertigSet.has(p.k) ? 'disabled' : ''}>${rich(p.begriff)}</button>`).join('')}</div>
+      <div class="zuo-col">${rechts.map(p => `<button class="zuo-i ${fertigSet.has(p.k) ? 'ok' : falschK === p.k ? 'no' : ''}" data-a="rechts" data-d="${p.k}" ${fertigSet.has(p.k) ? 'disabled' : ''}>${rich(p.bedeutung)}</button>`).join('')}</div></div>
+      ${done ? `<div class="fb ${fehler ? 'info' : 'good'}"><b>${fehler ? 'Geschafft, mit ' + fehler + (fehler === 1 ? ' Fehlgriff.' : ' Fehlgriffen.') : 'Alles richtig zugeordnet.'}</b></div><div class="btn-col"><button class="btn filled" data-a="fertig">${ctx.nextLabel || 'Weiter'}</button></div>` : `<div class="muted small">${wahl == null ? 'Tippe links einen Begriff an.' : 'Jetzt rechts die passende Bedeutung.'}</div>`}`;
+  }
+  on(el, {
+    links: k => { wahl = +k; falschK = null; draw(); },
+    rechts: k => {
+      if (wahl == null) { toast('Tippe zuerst links einen Begriff an.'); return; }
+      if (+k === wahl) { fertigSet.add(wahl); wahl = null; falschK = null; }
+      else { fehler++; falschK = +k; if (fehler === 1) { const p = paare.find(x => x.k === wahl); logError(meta, item, { aufgabe: 'Zuordnen: ' + Z.titel + ', ' + p.begriff, eingabe: (paare.find(x => x.k === +k) || {}).bedeutung, richtig: p.bedeutung, fehlerart: 'Fachbegriff verwechselt' }); } }
+      draw();
+    },
+    fertig: () => ctx.onDone(fehler === 0 ? 'richtig' : fehler <= 2 ? 'hilfe' : 'falsch')
+  });
+  draw();
+}
 function runKarteFlip(el, item, ctx, meta) {
   let open = false;
   function draw() {
@@ -840,6 +938,45 @@ function runFehler(el, item, ctx, meta) {
   draw();
 }
 
+/* ===== Schmierzettel =====
+ * Kleiner Knopf oben in der Sitzung. Tippen oder mit dem Finger zeichnen.
+ * Wird nicht geprüft, nicht gespeichert und bei jeder neuen Frage geleert.
+ */
+export const schmierKnopf = () => `<button class="schmier-btn" data-schmier aria-label="Schmierzettel">${icon('edit')}<span>Zettel</span></button>`;
+export function schmierzettel(root) {
+  const btn = $('[data-schmier]', root);
+  const box = document.createElement('div');
+  box.className = 'schmier';
+  box.hidden = true;
+  btn.closest('.sess-top').after(box);
+  let art = 'tippen', cv = null;
+  function draw() {
+    box.innerHTML = `<div class="schmier-head">${seg('sart', [['tippen', 'Tippen'], ['zeichnen', 'Zeichnen']], art)}<button class="btn small" data-x="leer">Leeren</button></div>
+      ${art === 'tippen' ? '<textarea class="schmier-ta" rows="4" placeholder="Nebenrechnung, Stichworte … wird nicht gespeichert" autocapitalize="off" autocomplete="off" spellcheck="false"></textarea>' : '<canvas class="schmier-cv"></canvas>'}`;
+    $$('[data-seg] button', box).forEach(b => b.onclick = () => { art = b.dataset.v; draw(); });
+    $('[data-x="leer"]', box).onclick = leeren;
+    cv = $('.schmier-cv', box);
+    if (cv) malen(cv);
+  }
+  function malen(c) {
+    const r = window.devicePixelRatio || 1;
+    const w = c.clientWidth || 320, h = 220;
+    c.width = w * r; c.height = h * r; c.style.height = h + 'px';
+    const g = c.getContext('2d');
+    g.scale(r, r); g.lineWidth = 2.2; g.lineCap = 'round'; g.lineJoin = 'round';
+    g.strokeStyle = getComputedStyle(c).color;
+    let zieht = false;
+    const pos = e => { const b = c.getBoundingClientRect(); return [e.clientX - b.left, e.clientY - b.top]; };
+    c.onpointerdown = e => { zieht = true; c.setPointerCapture(e.pointerId); const [x, y] = pos(e); g.beginPath(); g.moveTo(x, y); g.lineTo(x + 0.1, y + 0.1); g.stroke(); };
+    c.onpointermove = e => { if (!zieht) return; const [x, y] = pos(e); g.lineTo(x, y); g.stroke(); };
+    c.onpointerup = c.onpointercancel = () => { zieht = false; };
+  }
+  function leeren() { if (box.hidden) return; draw(); }
+  btn.addEventListener('click', () => { box.hidden = !box.hidden; btn.classList.toggle('on', !box.hidden); if (!box.hidden) draw(); });
+  // Neue Frage: Zettel leeren und zuklappen
+  return { neu() { box.hidden = true; box.innerHTML = ''; btn.classList.remove('on'); } };
+}
+
 /* ===== Sitzung: mehrere Übungen nacheinander ===== */
 export function runSession(items, title, opt = {}) {
   if (!items.length) { toast('Gerade ist nichts dran.'); return; }
@@ -847,15 +984,21 @@ export function runSession(items, title, opt = {}) {
   let i = 0;
   const start = Date.now();
   const limit = opt.minutes ? opt.minutes * 60000 : 0;
-  let timer = null;
+  let timer = null, zettel = null, zeitUm = false;
   let sheet = null;
   openSheet({
     title, full: true,
     confirmClose: () => i >= items.length || res.length === 0 || confirm('Sitzung beenden? Was du schon gemacht hast, ist gespeichert.'),
-    onClose: () => { clearInterval(timer); stopSpeaking(); if (opt.onClose) opt.onClose(res); },
+    onClose: () => {
+      clearInterval(timer); stopSpeaking();
+      if (zeitUm) st.verteileRest();
+      if (res.length) import('./sicherung.js').then(m => m.anstossen()).catch(() => {});
+      if (opt.onClose) opt.onClose(res);
+    },
     render(body, api) {
       sheet = api;
-      body.innerHTML = `<div class="sess-top">${items.length > 1 ? progress(0) : ''}<div class="sess-info"></div></div><div class="sess-item"></div>`;
+      body.innerHTML = `<div class="sess-top">${items.length > 1 ? progress(0) : ''}<div class="sess-info"></div>${schmierKnopf()}</div><div class="sess-item"></div>`;
+      zettel = schmierzettel(body);
       show();
     }
   });
@@ -866,7 +1009,9 @@ export function runSession(items, title, opt = {}) {
     const bar = $('.bar i', sheet.body);
     if (bar) bar.style.width = Math.round(i / items.length * 100) + '%';
     const n = info(); if (n) n.textContent = items.length > 1 && i < items.length ? (i + 1) + ' von ' + items.length : '';
-    if (i >= items.length || (limit && Date.now() - start > limit && i > 0)) return summary(box);
+    zettel.neu();
+    if (limit && Date.now() - start > limit && i > 0 && i < items.length) zeitUm = true;
+    if (i >= items.length || zeitUm) return summary(box);
     const it = items[i];
     const fresh = box.cloneNode(false);
     box.replaceWith(fresh);
@@ -894,6 +1039,7 @@ export function runSession(items, title, opt = {}) {
       ${an.length ? `<p class="sum-ansatz">${icon('target')} Ansatz sofort erkannt: <b>${an.filter(r => r.info.ansatz).length} von ${an.length}</b></p>` : ''}
       <div class="sum-row"><span class="pill ok">${c('richtig')} gewusst</span><span class="pill mid">${c('hilfe')} mit Hilfe</span><span class="pill no">${c('falsch')} noch nicht</span></div>
       <p>${q >= 0.8 ? 'Die Karten kommen jetzt in größeren Abständen wieder.' : 'Was noch wackelt, kommt morgen wieder. So setzt es sich fest.'}</p>
+      ${zeitUm ? '<p class="muted">Zeit um. Was heute nicht mehr drankam, verteile ich auf die nächsten Tage.</p>' : ''}
       <button class="btn filled" data-a="close">Fertig</button></div>`;
     on(box, { close: () => sheet.close() });
     const bar = $('.bar i', sheet.body); if (bar) bar.style.width = '100%';

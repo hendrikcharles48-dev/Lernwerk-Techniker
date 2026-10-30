@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="de">
-<head>
+<head><script src="../lernwerk-speicher.js"></script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>SolidWorks Kürzel</title>
@@ -217,7 +217,7 @@ document.querySelectorAll(".seg[role=tablist] button").forEach(b=>b.onclick=()=>
 // Trainer
 let pool="std", dir="a2k", cur=null, right=0, streak=0, best=0;
 const weight={};
-try{best=parseInt(localStorage.getItem("sw_best")||"0",10)||0}catch(e){}
+try{best=parseInt(localStorage.getItem("lernwerk:sw_best")||"0",10)||0}catch(e){}
 document.getElementById("sBest").textContent=best;
 function bindSeg(id,fn){document.querySelectorAll(`#${id} button`).forEach(b=>b.onclick=()=>{
   document.querySelectorAll(`#${id} button`).forEach(x=>x.classList.toggle("on",x===b)); fn(b); ask();});}
@@ -259,7 +259,7 @@ function answer(btn,o,q){
   if(o===q){
     btn.classList.add("right"); right++; streak++;
     weight[id]=Math.max(1,(weight[id]||1)-1);
-    if(streak>best){best=streak; try{localStorage.setItem("sw_best",String(best))}catch(e){}}
+    if(streak>best){best=streak; try{localStorage.setItem("lernwerk:sw_best",String(best))}catch(e){}}
   }else{
     btn.classList.add("wrong"); streak=0; weight[id]=(weight[id]||1)+3;
     [...document.querySelectorAll("#opts .opt")].forEach(b=>{

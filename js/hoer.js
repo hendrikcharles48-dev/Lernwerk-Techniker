@@ -17,7 +17,7 @@ export async function index() {
 export const bereit = () => !!idx;
 export const infoSync = tid => (idx && idx.folgen[tid]) || null;
 
-const P = { audio: null, liste: [], i: 0, tid: null, info: null, sys: null, seg: -1, ab: null, rate: prefs.get('hoerTempo', 1) };
+const P = { audio: null, liste: [], i: 0, tid: null, info: null, sys: null, seg: -1, ab: null, auto: false, rate: prefs.get('hoerTempo', 1) };
 const hoerer = new Set();
 export const subscribe = f => { hoerer.add(f); return () => hoerer.delete(f); };
 const emit = () => hoerer.forEach(f => { try { f(); } catch (e) { /* Seite weg */ } });
@@ -55,11 +55,46 @@ function segAt(t) {
 
 /* ===== Abspielen ===== */
 // liste: Themen-IDs in der Reihenfolge, i: womit anfangen
-export async function spielen(liste, i = 0) {
+export async function spielen(liste, i = 0, auto = false) {
   stopReading(); stopSystem();
-  P.liste = liste.slice(); P.i = i;
+  P.liste = liste.slice(); P.i = i; P.auto = auto;
   await index();
+  if (P.audio) session();
   laden();
+}
+
+/* ===== Auto-Playlist =====
+ * Mehrere eingebaute Folgen am Stück, nur mit Audiodatei, weil nur die bei gesperrtem Bildschirm weiterlaufen.
+ * Reihenfolge: Themen der nächsten Arbeit, dann Unterricht, dann schwache, dann lange nicht gehörte.
+ */
+export async function autoListe(minuten) {
+  await index();
+  const ex = st.nextExam();
+  const g = gehoert();
+  const passt = t => { const tp = st.topic(t); return infoSync(t) && !(tp.podcast && tp.podcast.length); };
+  const vorne = [...((ex && ex.themaIds) || []), ...st.kvGet('aktuell', [])];
+  const rest = st.allTids().filter(t => !vorne.includes(t)).map(t => ({ t, k: (st.staerke(t).stufe === 'schwach' ? 0 : 2) + (g[t] ? 1 : 0), d: g[t] || '' }))
+    .sort((a, b) => a.k - b.k || (a.d < b.d ? -1 : a.d > b.d ? 1 : 0)).map(x => x.t);
+  const out = [];
+  let sek = 0;
+  for (const t of [...new Set([...vorne, ...rest])]) {
+    if (!passt(t)) continue;
+    if (out.length && sek + infoSync(t).dauer > minuten * 60 + 120) continue;
+    out.push(t); sek += infoSync(t).dauer;
+    if (sek >= minuten * 60) break;
+  }
+  return out;
+}
+export async function autoStart(minuten) {
+  const l = await autoListe(minuten);
+  if (l.length) await spielen(l, 0, true);
+  return l;
+}
+// Zurück: am Anfang der Folge zur vorherigen, sonst an den Anfang der Folge
+function zurueck() {
+  const a = P.audio;
+  if (a && a.currentTime > 8) { a.currentTime = 0; return; }
+  if (P.i > 0) folgeWechseln(-1); else if (a) a.currentTime = 0;
 }
 function laden() {
   const tid = P.liste[P.i];
@@ -115,7 +150,7 @@ export function zustand() {
   const segs = P.sys ? P.sys.segs.map(x => [0, 0, x.wer, x.art, x.text]) : P.info ? P.info.segs : [];
   const j = P.sys ? P.sys.j : P.seg;
   return {
-    tid: P.tid, liste: P.liste, i: P.i, info: P.info, system: !!P.sys, rate: P.rate,
+    tid: P.tid, liste: P.liste, i: P.i, info: P.info, system: !!P.sys, rate: P.rate, auto: P.auto,
     spielt: P.sys ? !P.sys.paused : !!(a && !a.paused && P.tid),
     zeit: a && P.info ? a.currentTime : 0, dauer: P.info ? P.info.dauer : 0,
     zeile: segs[j] ? { wer: SPRECHER[segs[j][2]], text: segs[j][4], art: segs[j][3] } : null
@@ -129,15 +164,23 @@ function session() {
   const set = (n, f) => { try { ms.setActionHandler(n, f); } catch (e) { /* nicht unterstützt */ } };
   set('play', () => umschalten());
   set('pause', () => umschalten());
-  set('seekbackward', d => springen(-((d && d.seekOffset) || 15)));
-  set('seekforward', d => springen((d && d.seekOffset) || 15));
-  set('previoustrack', () => teil(-1));
-  set('nexttrack', () => teil(1));
   set('seekto', d => setzen(d.seekTime));
+  // Im Auto: Weiter und Zurück wechseln die Folge (Lenkrad, CarPlay). Das iPhone zeigt dann
+  // Weiter und Zurück statt ±15 Sekunden, beides gleichzeitig geht dort nicht.
+  if (P.auto) {
+    set('seekbackward', null); set('seekforward', null);
+    set('previoustrack', () => zurueck());
+    set('nexttrack', () => folgeWechseln(1));
+  } else {
+    set('seekbackward', d => springen(-((d && d.seekOffset) || 15)));
+    set('seekforward', d => springen((d && d.seekOffset) || 15));
+    set('previoustrack', () => teil(-1));
+    set('nexttrack', () => teil(1));
+  }
 }
 function meta() {
   if (!navigator.mediaSession || typeof MediaMetadata === 'undefined' || !P.info) return;
-  navigator.mediaSession.metadata = new MediaMetadata({ title: P.info.thema, artist: 'Lena und Tom · Lernwerk', album: P.info.fach, artwork: [{ src: 'icons/icon-512.png', sizes: '512x512', type: 'image/png' }] });
+  navigator.mediaSession.metadata = new MediaMetadata({ title: P.info.thema, artist: 'Lena und Tom · Lernwerk' + (P.auto ? ' · Folge ' + (P.i + 1) + ' von ' + P.liste.length : ''), album: P.info.fach, artwork: [{ src: 'icons/icon-512.png', sizes: '512x512', type: 'image/png' }] });
 }
 function posState() {
   const a = P.audio, ms = navigator.mediaSession;

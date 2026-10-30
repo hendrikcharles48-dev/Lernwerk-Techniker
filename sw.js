@@ -1,10 +1,10 @@
 // Service Worker: Offline-Nutzung und automatische Updates.
 // Bei jeder Änderung VERSION erhöhen (gleicher Wert wie in js/app.js).
 // Die neue Version installiert sich beim nächsten Öffnen von selbst.
-const VERSION = '1.15.1';
+const VERSION = '1.16.0';
 const CACHE = 'lernwerk-' + VERSION;
 const FILES = [
-  './', 'index.html', 'manifest.webmanifest', 'css/app.css', 'lehrplan.json', 'lernwerk-bridge.js',
+  './', 'index.html', 'manifest.webmanifest', 'css/app.css', 'lehrplan.json', 'lernwerk-bridge.js', 'lernwerk-speicher.js', 'js/sicherung.js',
   'js/app.js', 'js/extra.js', 'js/engine.js', 'js/store.js', 'js/db.js', 'js/ui.js', 'js/parser.js',
   'js/formula.js', 'js/check.js', 'js/srs.js', 'js/speech.js', 'js/podcast.js', 'js/hoer.js', 'js/skizzen.js', 'js/util.js', 'js/mathedit.js',
   'inhalte/index.json', 'inhalte/faecher.json', 'inhalte/formeln-umstellen.txt', 'inhalte/terme.txt',
