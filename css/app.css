@@ -683,12 +683,11 @@ body.sheet-open #readbar { bottom: calc(var(--sab) + 14px); }
 .ut-name small { display: block; font-size: 13px; color: var(--label2); }
 .ut-z { flex: 0 1 auto; margin: 0 0 0 auto !important; }
 .ut-z .seg button { flex: 0 0 auto; font-size: 12.5px; padding: 6px 9px; min-height: 36px; }
-/* Status-Schalter: alle drei Felder farbig hinterlegt, das aktive kräftiger.
+/* Status-Schalter: nur das gewählte Feld ist farbig hinterlegt.
    Kommt noch blau, Im Unterricht grün, Abgeschlossen rot. */
 .zst .seg button[data-v="kommt"] { --zc: var(--accent); }
 .zst .seg button[data-v="aktuell"] { --zc: var(--green); }
 .zst .seg button[data-v="fertig"] { --zc: var(--red); }
-.zst .seg button { background: color-mix(in srgb, var(--zc) 12%, transparent); color: color-mix(in srgb, var(--zc) 75%, var(--label)); }
 :root .zst .seg button.on[data-v], :root[data-theme="dark"] .zst .seg button.on[data-v], :root:not([data-theme="light"]) .zst .seg button.on[data-v] { background: color-mix(in srgb, var(--zc) 30%, var(--bg2)); color: var(--label); box-shadow: 0 0 0 1.5px var(--zc) inset; }
 .zst .seg { gap: 3px; }
 

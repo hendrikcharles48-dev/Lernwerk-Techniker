@@ -12,7 +12,7 @@ Alle Lerndaten, Fotos und eingefügten Inhalte bleiben auf dem Gerät (IndexedDB
 
 **Wischen:** Auf den fünf Hauptseiten wechselt waagerechtes Wischen zum Nachbarbereich der unteren Leiste. Nicht in Unterseiten, nicht in Lerneinheiten und nicht auf Elementen, die selbst wischen oder waagerecht scrollen.
 
-**Im Unterricht** (unter Mehr): Liste der Fächer. Im Fach stehen alle Themen in Lehrplan-Reihenfolge, jedes mit dem Schalter Kommt noch (blau), Im Unterricht (grün), Abgeschlossen (rot). Das aktive Feld ist kräftiger. Umschalten sortiert nicht neu.
+**Im Unterricht** (unter Mehr): Liste der Fächer. Im Fach stehen alle Themen in Lehrplan-Reihenfolge, jedes mit dem Schalter Kommt noch (blau), Im Unterricht (grün), Abgeschlossen (rot). Nur das gewählte Feld ist farbig. Umschalten sortiert nicht neu.
 
 **Diagramme:** Woche (Übungen pro Tag), Stand im Fach und je Thema (neu, wackelt, sitzt), Anteil, der in jeder Stufe sitzt, Notenverlauf pro Fach, Fehler nach Art und pro Woche, Punkte nach Aufgabenart in der Probeklausur. Antippen zeigt den Wert. Eigene SVG-Diagramme in `js/diagramm.js`, ohne Bibliothek.
 
