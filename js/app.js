@@ -11,33 +11,66 @@ import * as sicherung from './sicherung.js';
 import { laden as skizzenLaden } from './skizzen.js';
 import { canSpeak, readAloud } from './speech.js';
 
-export const VERSION = '1.17.3';
+export const VERSION = '1.18.0';
 
 /* ===== Heute ===== */
-// Freundliche, wechselnde Sätze für den Start. Ohne Druck.
+// Kurze, wechselnde Sätze für den Start. Ohne Druck.
 const MUT = [
-  'Erst der Arbeitsplan, dann das Programm. Schritt für Schritt wird es was.',
-  'Wiederholen ist wie Schlichten: Danach sitzt es glatt.',
-  'Fehler sind Messwerte. Sie zeigen dir, wo du nachstellen musst.',
-  'Heute ein bisschen besser als gestern reicht völlig.',
-  'Kurz und regelmäßig schlägt lang und selten. Wie beim Training.',
-  'Auch Profis üben. Leg einfach los.',
-  'Fünf Minuten sind ein guter Anfang. Der Rest kommt von allein.',
-  'Jeder Satz Karten ist ein Satz Wiederholungen für den Kopf.',
-  'Sauber gespannt ist halb gefräst. Sauber verstanden ist halb gelernt.'
+  'Erst planen, dann fräsen.',
+  'Wiederholen ist Schlichten.',
+  'Fehler sind Messwerte.',
+  'Ein bisschen besser als gestern reicht.',
+  'Kurz und oft schlägt lang und selten.',
+  'Fünf Minuten sind ein Anfang.',
+  'Sauber gespannt ist halb gefräst.'
 ];
 function gruss() {
   const h = new Date().getHours();
-  return h < 5 ? 'Noch wach?' : h < 11 ? 'Guten Morgen!' : h < 18 ? 'Moin!' : 'Guten Abend!';
+  return h < 5 ? 'Noch wach?' : h < 11 ? 'Moin!' : h < 18 ? 'Hallo!' : 'Guten Abend!';
+}
+// Bausteine der Startseite. Reihenfolge und Sichtbarkeit stellst du unten unter „Startseite anpassen“ ein.
+const START_TEILE = [
+  ['spruch', 'Spruch des Tages'], ['tag', 'Fortschritt heute'], ['unterricht', 'Lernknopf Unterricht'], ['alles', 'Lernknopf Alles wiederholen'],
+  ['wahl', 'Lernzeit, Fragen und Mini'], ['imunterricht', 'Im Unterricht'], ['arbeit', 'Nächste Klassenarbeit'], ['kacheln', 'Trainer und Hörmodus'], ['woche', 'Diese Woche']
+];
+export function startLayout() {
+  const l = (prefs.get('startLayout', null) || []).filter(x => START_TEILE.some(t => t[0] === x.id));
+  for (const [id] of START_TEILE) if (!l.some(x => x.id === id)) l.push({ id, an: true });
+  return l;
+}
+function startAnpassen() {
+  openSheet({
+    title: 'Startseite anpassen',
+    render(body) {
+      const l = startLayout();
+      const name = id => START_TEILE.find(t => t[0] === id)[1];
+      body.innerHTML = `<p class="src">Schalte aus, was du nicht brauchst. Mit den Pfeilen änderst du die Reihenfolge.</p>
+        <div class="list">${l.map((x, k) => `<div class="row sa-row"><span class="row-main"><span class="row-t">${esc(name(x.id))}</span></span>
+          <button class="sa-b" data-a="hoch" data-d="${k}" ${k ? '' : 'disabled'} aria-label="nach oben">${icon('chev', 'sa-hoch')}</button><button class="sa-b" data-a="runter" data-d="${k}" ${k < l.length - 1 ? '' : 'disabled'} aria-label="nach unten">${icon('chev', 'sa-runter')}</button>
+          <label class="switch"><input type="checkbox" data-sw="an" data-k="${k}" ${x.an ? 'checked' : ''}><span></span></label></div>`).join('')}</div>
+        <button class="btn wide" data-a="zurueck">Wie am Anfang</button>`;
+      const speichern = neu => { prefs.set('startLayout', neu); this.render(body); refreshAll(); };
+      on(body, {
+        hoch: k => { const n = startLayout(); k = +k; [n[k - 1], n[k]] = [n[k], n[k - 1]]; speichern(n); },
+        runter: k => { const n = startLayout(); k = +k; [n[k + 1], n[k]] = [n[k], n[k + 1]]; speichern(n); },
+        'sw:an': (v, el) => { const n = startLayout(); n[+el.dataset.k].an = v; prefs.set('startLayout', n); refreshAll(); },
+        zurueck: () => { prefs.set('startLayout', null); this.render(body); refreshAll(); }
+      });
+    }
+  });
 }
 let wahlOffen = null;
 const heute = {
   title: 'Heute',
+  large: false,
   render(b) {
     const today = dayStr();
     const d0 = new Date(); d0.setHours(0, 0, 0, 0);
     const doy = Math.floor((d0 - new Date(d0.getFullYear(), 0, 0)) / 86400000);
-    let h = `<div class="hello"><div class="hello-t">${esc(gruss())}</div><div class="hello-d">${esc(dayLong(today))}</div><p class="hello-m">${icon('sparkle')}<span>${esc(MUT[doy % MUT.length])}</span></p></div>`;
+    const T = {};
+    // Kopf: Gruß und Datum in einer Zeile
+    let h = `<div class="kopf"><b>${esc(gruss())}</b><span>${esc(new Date().toLocaleDateString('de-DE', { weekday: 'short', day: 'numeric', month: 'short' }))}</span></div>`;
+    T.spruch = `<p class="spruch">${icon('sparkle')}<span>${esc(MUT[doy % MUT.length])}</span></p>`;
     if (sicherung.aktiv() && sicherung.fehler()) h += `<button class="banner warn" data-a="backup">${icon('cloud')}<span><b>Sicherung klappt nicht.</b> ${esc(sicherung.fehler())}</span></button>`;
     else if (st.backupDue()) h += `<button class="banner warn" data-a="backup">${icon('save')}<span><b>Zeit für eine Sicherung.</b> Deine letzte Sicherung ist älter als 14 Tage. Tippe hier.</span></button>`;
     const qu = unterrichtQueue(), qa = allesQueue();
@@ -46,7 +79,7 @@ const heute = {
     const erledigt = st.S.events.filter(e => e.zeit >= d0.getTime() && e.ok != null && e.art !== 'ansatz').length;
     const offen = q.items.length;
     const anteil = erledigt + offen ? erledigt / (erledigt + offen) : 1;
-    h += `<div class="tagline">${ring(anteil, 34, offen ? 'var(--accent)' : 'var(--green)', offen ? '' : icon('check', 'ring-check'))}<span>${offen ? `<b>Heute:</b> ${erledigt ? erledigt + ' geschafft, ' : ''}noch ${plural(offen, 'Übung', 'Übungen')} offen` : erledigt ? `<b>Alles geschafft für heute!</b> ${plural(erledigt, 'Übung', 'Übungen')}.` : '<b>Heute:</b> gerade nichts fällig'}</span></div>`;
+    T.tag = `<div class="tagline">${ring(anteil, 34, offen ? 'var(--accent)' : 'var(--green)', offen ? '' : icon('check', 'ring-check'))}<span>${offen ? `<b>Heute:</b> ${erledigt ? erledigt + ' geschafft, ' : ''}noch ${plural(offen, 'Übung', 'Übungen')} offen` : erledigt ? `<b>Alles geschafft für heute!</b> ${plural(erledigt, 'Übung', 'Übungen')}.` : '<b>Heute:</b> gerade nichts fällig'}</span></div>`;
     const minuten = x => Math.max(1, Math.round(x.sekunden / 60));
     // Aus welchen Themen die offenen Übungen kommen, als kleine Schilder im Knopf
     const themenTags = items => {
@@ -55,25 +88,26 @@ const heute = {
       const l = [...by].sort((a, c) => c[1] - a[1]);
       return l.length ? `<span class="lern-tags">${l.slice(0, 3).map(([k, n]) => `<span>${esc(k)} ${n}</span>`).join('')}${l.length > 3 ? `<span>und ${l.length - 3} weitere</span>` : ''}</span>` : '';
     };
-    h += `<button class="five" data-a="lernU">${icon('bolt')}<span><b>Unterricht</b><small>${aktTids().length ? (qu.items.length ? plural(qu.items.length, 'Übung', 'Übungen') + ' offen · etwa ' + minuten(qu) + ' Min' : 'Nichts fällig, du kannst trotzdem üben.') : 'Noch keine Themen angewählt. Tippe hier.'}</small>${themenTags(qu.items)}</span></button>`;
-    h += `<button class="mixbtn" data-a="lernA">${icon('mix')}<span><b>Alles wiederholen</b><small>${qa.faellig ? plural(qa.faellig, 'Übung', 'Übungen') + ' fällig · etwa ' + minuten(qa) + ' Min' : 'Nichts fällig. Alles, was schon dran war, schwache Themen öfter.'}</small>${qa.faellig ? themenTags(qa.items) : ''}</span></button>`;
+    T.unterricht = `<button class="five" data-a="lernU">${icon('bolt')}<span><b>Unterricht</b><small>${aktTids().length ? (qu.items.length ? plural(qu.items.length, 'Übung', 'Übungen') + ' offen · etwa ' + minuten(qu) + ' Min' : 'Nichts fällig, du kannst trotzdem üben.') : 'Noch keine Themen angewählt. Tippe hier.'}</small>${themenTags(qu.items)}</span></button>`;
+    T.alles = `<button class="mixbtn" data-a="lernA">${icon('mix')}<span><b>Alles wiederholen</b><small>${qa.faellig ? plural(qa.faellig, 'Übung', 'Übungen') + ' fällig · etwa ' + minuten(qa) + ' Min' : 'Nichts fällig. Alles, was schon dran war, schwache Themen öfter.'}</small>${qa.faellig ? themenTags(qa.items) : ''}</span></button>`;
     // Lernzeit und Fragen vor dem Start wählen. Die letzte Wahl bleibt.
     // Zwei Knöpfe nebeneinander. Antippen klappt die Optionen auf, eine Wahl klappt sie wieder zu.
     const zeitWert = prefs.get('lernzeit', '10'), zeitText = (ZEITEN.find(z => z[0] === zeitWert) || ZEITEN[2])[1];
     const modusText = (st.MODI.find(m => m[0] === st.modus()) || st.MODI[0])[1];
-    const wk = (k, l, v) => `<button class="lw-k ${wahlOffen === k ? 'on' : ''}" data-a="wahl" data-d="${k}" aria-expanded="${wahlOffen === k}"><small>${l}</small><b>${esc(v)}</b>${icon('chev', 'lw-chev')}</button>`;
-    h += `<div class="lernwahl"><div class="lw-knoepfe">${wk('zeit', 'Lernzeit', zeitText)}${wk('modus', 'Fragen', modusText)}</div>
-      ${wahlOffen === 'zeit' ? `<div class="lw-row lw-opts">${seg('zeit', ZEITEN, zeitWert)}</div>` : wahlOffen === 'modus' ? `<div class="lw-row lw-opts">${seg('modus', st.MODI, st.modus())}</div>` : ''}
+    // Jeder Knopf klappt seine Optionen als Spalte darunter auf
+    const wk = (k, l, v, opts, cur) => `<div class="lw-col"><button class="lw-k ${wahlOffen === k ? 'on' : ''}" data-a="wahl" data-d="${k}" aria-expanded="${wahlOffen === k}"><small>${l}</small><b>${esc(v)}</b>${icon('chev', 'lw-chev')}</button>
+      ${wahlOffen === k ? `<div class="lw-liste">${opts.map(([v2, l2]) => `<button class="${v2 === cur ? 'on' : ''}" data-a="waehle" data-d="${k}|${esc(v2)}">${esc(l2)}${v2 === cur ? icon('check') : ''}</button>`).join('')}</div>` : ''}</div>`;
+    T.wahl = `<div class="lernwahl"><div class="lw-knoepfe">${wk('zeit', 'Lernzeit', zeitText, ZEITEN, zeitWert)}${wk('modus', 'Fragen', modusText, st.MODI, st.modus())}</div>
       <button class="mini" data-a="mini">${icon('bolt')}<span><b>Mini</b> · 2 Minuten, etwa 5 Fragen</span></button></div>`;
     const aktT = st.kvGet('aktuell', []).map(id => st.thema(id)).filter(Boolean);
-    h += `<button class="unt-zeile" data-a="unterricht">${icon('check')}<b>Im Unterricht</b><span class="unt-tags">${aktT.length ? aktT.map(({ fach: f, thema: t }) => `<span class="tag" style="--fc:${f.farbe}">${esc(t.name)}</span>`).join('') : '<span class="muted">nichts angewählt, tippe hier</span>'}</span>${aktT.length ? `<span class="muted">${aktT.length}</span>` : ''}${icon('chev', 'chev')}</button>`;
+    T.imunterricht = `<button class="unt-zeile" data-a="unterricht">${icon('check')}<b>Im Unterricht</b><span class="unt-tags">${aktT.length ? aktT.map(({ fach: f, thema: t }) => `<span class="tag" style="--fc:${f.farbe}">${esc(t.name)}</span>`).join('') : '<span class="muted">nichts angewählt, tippe hier</span>'}</span>${aktT.length ? `<span class="muted">${aktT.length}</span>` : ''}${icon('chev', 'chev')}</button>`;
     const ex = st.nextExam(today);
     if (ex) {
       const d = daysBetween(today, ex.datum);
       const bereit = st.bereitschaft(ex);
       const f = st.fach(ex.fachId);
       const tops = (ex.themaIds || []).map(id => st.thema(id)).filter(Boolean);
-      h += `<div class="sec-h">Nächste Klassenarbeit</div><button class="card count" data-a="exam" data-d="${ex.id}" style="--fc:${f ? f.farbe : 'var(--accent)'}">
+      T.arbeit = `<div class="sec-h">Nächste Klassenarbeit</div><button class="card count" data-a="exam" data-d="${ex.id}" style="--fc:${f ? f.farbe : 'var(--accent)'}">
         <div class="count-head"><span class="count-badge"><b>${d === 0 ? '!' : d}</b><small>${d === 0 ? 'heute' : d === 1 ? 'Tag' : 'Tage'}</small></span><span><div class="count-t">${esc(ex.fach)}</div><div class="muted">${esc(dayLong(ex.datum))}</div></span>${bereit != null ? `<span class="bereit">${ring(bereit / 100, 56, bereit >= 75 ? 'var(--green)' : bereit >= 45 ? 'var(--orange)' : 'var(--red)', `<b>${bereit}</b><small>%</small>`)}<small>vorbereitet</small></span>` : ''}</div>
         ${tops.length ? `<div class="count-tops">${tops.map(t => { const p = topicProgress(t.thema.id); return `<div class="ct"><span>${esc(t.thema.name)}</span>${progress(p || 0, f ? f.farbe : null)}</div>`; }).join('')}</div>` : ex.themen ? `<div class="muted">${esc(ex.themen)}</div>` : ''}
         <div class="count-more">Lernplan ansehen ${icon('chev', 'chev')}</div></button>`;
@@ -81,19 +115,23 @@ const heute = {
     // Trainer und Hörmodus: je eine Kachel. Die Trainer liegen dahinter in Ordnern nach Fach.
     const tr = trainerOrdnerListe(today);
     const fae = tr.reduce((n, o) => n + o.due, 0);
-    h += `<div class="tr-grid">`;
-    if (tr.length) h += `<button class="tr-tile" data-a="trainerAlle" style="--fc:#5E5CE6"><span class="tr-ic">${icon('tools')}</span><b>Trainer</b><small>${plural(tr.reduce((n, o) => n + o.n, 0), 'Trainer', 'Trainer')} in ${tr.length} Ordnern${fae ? ' · ' + fae + ' fällig' : ''}</small></button>`;
-    h += `<button class="tr-tile" data-a="hoer" style="--fc:#30D158"><span class="tr-ic">${icon('ear')}</span><b>Hörmodus</b><small>Folgen und Abfragen</small></button></div>`;
+    T.kacheln = `<div class="tr-grid">`;
+    if (tr.length) T.kacheln += `<button class="tr-tile" data-a="trainerAlle" style="--fc:#5E5CE6"><span class="tr-ic">${icon('tools')}</span><b>Trainer</b><small>${plural(tr.reduce((n, o) => n + o.n, 0), 'Trainer', 'Trainer')} in ${tr.length} Ordnern${fae ? ' · ' + fae + ' fällig' : ''}</small></button>`;
+    T.kacheln += `<button class="tr-tile" data-a="hoer" style="--fc:#30D158"><span class="tr-ic">${icon('ear')}</span><b>Hörmodus</b><small>Folgen und Abfragen</small></button></div>`;
     const w = st.weekStats();
     const mon = new Date(); mon.setHours(0, 0, 0, 0); mon.setDate(mon.getDate() - ((mon.getDay() + 6) % 7));
     const aq = st.ansatzQuote(mon.getTime());
     const tage = ['Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa', 'So'];
     const heuteIdx = (new Date().getDay() + 6) % 7;
     const serie = st.lernSerie();
-    h += `<div class="sec-h">Diese Woche</div><div class="card week">${serie >= 2 ? `<div class="serie">${icon('flame')}<span><b>${serie} Tage</b> am Stück gelernt. Ein freier Tag pro Woche bricht die Serie nicht.</span></div>` : ''}${w.n ? saeulen(w.uebTage.map((n, i) => ({ label: tage[i], n, ok: w.okTage[i], aktiv: i === heuteIdx })), { titel: 'Übungen pro Tag', legende: [['dg-voll', 'beim ersten Mal gewusst'], ['dg-hell', 'mit Hilfe oder falsch']] }) : `<div class="week-days">${w.tage.map((n, i) => `<div class="wd ${n ? 'on' : ''} ${i === heuteIdx ? 'now' : ''}"><span>${n ? icon('check') : ''}</span><small>${tage[i]}</small></div>`).join('')}</div>`}
+    T.woche = `<div class="sec-h">Diese Woche</div><div class="card week">${serie >= 2 ? `<div class="serie">${icon('flame')}<span><b>${serie} Tage</b> am Stück gelernt. Ein freier Tag pro Woche bricht die Serie nicht.</span></div>` : ''}${w.n ? saeulen(w.uebTage.map((n, i) => ({ label: tage[i], n, ok: w.okTage[i], aktiv: i === heuteIdx })), { titel: 'Übungen pro Tag', legende: [['dg-voll', 'beim ersten Mal gewusst'], ['dg-hell', 'mit Hilfe oder falsch']] }) : `<div class="week-days">${w.tage.map((n, i) => `<div class="wd ${n ? 'on' : ''} ${i === heuteIdx ? 'now' : ''}"><span>${n ? icon('check') : ''}</span><small>${tage[i]}</small></div>`).join('')}</div>`}
       <div class="muted">${w.n ? 'An ' + plural(w.aktiv, 'Tag', 'Tagen') + ' gelernt, ' + plural(w.n, 'Übung', 'Übungen') + ', davon ' + w.ok + ' beim ersten Mal gewusst.' : 'Noch nichts geübt diese Woche. Fünf Minuten reichen für den Anfang.'}</div>${aq.n ? `<div class="week-ansatz">${icon('target')}<span>Ansatz sofort erkannt: <b>${aq.ok} von ${aq.n}</b>. Das ist dein wichtigster Wert.</span></div>` : ''}</div>`;
+    for (const x of startLayout()) if (x.an && T[x.id]) h += T[x.id];
+    h += `<button class="sa-link" data-a="anpassen">${icon('list')} Startseite anpassen</button>`;
     b.innerHTML = h;
     on(b, {
+      anpassen: () => startAnpassen(),
+      waehle: d => { const [k, v] = d.split('|'); wahlOffen = null; if (k === 'zeit') prefs.set('lernzeit', v); else st.setModus(v); this.render(b); },
       backup: () => push(datensicherung()),
       exam: id => push(termineDetail(id)),
       newexam: () => termEditor({}),

@@ -747,7 +747,7 @@ body.sheet-open #readbar { bottom: calc(var(--sab) + 14px); }
 /* ===== Lernknöpfe: Themen und Wahlknöpfe ===== */
 .lern-tags { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 6px; }
 .lern-tags span { font-size: 12px; font-weight: 600; padding: 2px 8px; border-radius: 10px; background: rgba(255,255,255,.22); color: #fff; }
-.lw-knoepfe { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 8px; }
+.lw-knoepfe { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 8px; align-items: start; }
 .lw-k { position: relative; display: flex; flex-direction: column; align-items: flex-start; gap: 1px; min-height: 54px; border: 0; border-radius: 12px; background: var(--fill); padding: 8px 30px 8px 12px; text-align: left; color: var(--label); }
 .lw-k small { font-size: 12px; color: var(--label2); }
 .lw-k b { font-size: 16px; }
@@ -755,3 +755,24 @@ body.sheet-open #readbar { bottom: calc(var(--sab) + 14px); }
 .lw-k.on { box-shadow: 0 0 0 2px var(--accent) inset; }
 .lw-k.on .lw-chev { transform: rotate(-90deg); color: var(--accent); }
 .lw-opts { margin: 0 0 8px; }
+
+/* ===== Startseite: Kopf, Spruch, Auswahl als Spalte, Anpassen ===== */
+.kopf { display: flex; align-items: baseline; gap: 10px; margin: 4px 4px 4px; }
+.kopf b { font-size: 28px; font-weight: 800; letter-spacing: -.02em; }
+.kopf span { color: var(--label2); font-size: 15px; font-weight: 600; }
+.spruch { display: flex; gap: 6px; align-items: center; margin: 0 4px 12px; font-size: 14px; color: var(--label2); }
+.spruch .ic { width: 16px; height: 16px; color: #FF9F0A; flex: none; }
+.lw-col { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.lw-liste { display: flex; flex-direction: column; background: var(--bg2); border-radius: 12px; box-shadow: var(--shadow); overflow: hidden; }
+.lw-liste button { display: flex; align-items: center; justify-content: space-between; min-height: 44px; border: 0; background: none; padding: 8px 12px; font-size: 15px; color: var(--label); text-align: left; }
+.lw-liste button + button { border-top: .5px solid var(--sep); }
+.lw-liste button.on { color: var(--accent); font-weight: 600; }
+.lw-liste .ic { width: 18px; height: 18px; color: var(--accent); }
+.sa-link { display: flex; align-items: center; justify-content: center; gap: 6px; margin: 4px auto 8px; border: 0; background: none; color: var(--label2); font-size: 13px; font-weight: 600; padding: 10px 14px; min-height: 44px; }
+.sa-link .ic { width: 16px; height: 16px; }
+.sa-row { gap: 4px; }
+.sa-b { border: 0; background: var(--fill); border-radius: 10px; width: 38px; height: 38px; display: inline-flex; align-items: center; justify-content: center; color: var(--accent); flex: none; }
+.sa-b:disabled { opacity: .3; }
+.sa-b .ic { width: 18px; height: 18px; }
+.sa-hoch { transform: rotate(-90deg); } .sa-runter { transform: rotate(90deg); }
+.sa-row .switch { margin-left: 6px; }
