@@ -780,6 +780,8 @@ body.sheet-open #readbar { bottom: calc(var(--sab) + 14px); }
 .rechner { margin-top: 10px; }
 .rechner-k { display: flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 600; color: var(--label2); margin: 0 0 6px; }
 .rechner-k .ic { width: 16px; height: 16px; }
-.rechner-in { background: var(--fill) !important; box-shadow: none !important; font-variant-numeric: tabular-nums; }
-.rechner-out { margin: 6px 4px 0; font-size: 17px; }
-.rechner-out b { font-size: 20px; }
+.rechner-feld .me { min-height: 56px; font-size: 22px; text-align: right; justify-content: flex-end; background: var(--fill); box-shadow: none; }
+.rechner-zeile { display: flex; align-items: center; gap: 8px; margin: 8px 0 4px; }
+.rechner-zeile .btn { min-width: 56px; }
+.rechner-out { margin-left: auto; font-size: 18px; text-align: right; font-variant-numeric: tabular-nums; }
+.rechner-out b { font-size: 26px; }

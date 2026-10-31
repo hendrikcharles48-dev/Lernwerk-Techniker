@@ -980,11 +980,21 @@ export function schmierzettel(root) {
     box.innerHTML = `<div class="schmier-head">${seg('sart', [['tippen', 'Tippen'], ['zeichnen', 'Zeichnen']], art)}<button class="btn small" data-x="leer">Leeren</button></div>
       <textarea class="schmier-ta" rows="4" placeholder="Nebenrechnung, Stichworte … wird nicht gespeichert" autocapitalize="off" autocomplete="off" spellcheck="false"></textarea>
       <canvas class="schmier-cv"></canvas>
-      ${mitRechner ? `<div class="rechner"><div class="rechner-k">${icon('formula')} Taschenrechner</div><input class="inp rechner-in" type="text" inputmode="text" placeholder="zum Beispiel 230 / (2 · 47) oder sqrt(3) · 400" autocapitalize="off" autocomplete="off" spellcheck="false"><div class="rechner-out muted">Rechnung eingeben, das Ergebnis steht hier.</div></div>` : ''}`;
+      ${mitRechner ? `<div class="rechner"><div class="rechner-k">${icon('formula')} Taschenrechner</div>
+        <div class="fml-in calc-in rechner-feld">${editorHTML([], 'Rechnung eintippen', { calc: true })}</div>
+        <div class="rechner-zeile"><button class="btn small" data-x="ac">AC</button><button class="btn small" data-x="ans" disabled>Ans</button><div class="rechner-out muted">=</div></div></div>` : ''}`;
     $$('[data-seg] button', box).forEach(b => b.onclick = () => { art = b.dataset.v; zeigen(); });
     $('[data-x="leer"]', box).onclick = () => { $('.schmier-ta', box).value = ''; const c = $('.schmier-cv', box); if (gemalt) { gemalt = false; malen(c); } };
-    const rin = $('.rechner-in', box);
-    if (rin) rin.oninput = () => rechnen(rin.value);
+    // Taschenrechner mit eigener Tastatur: Bruch, Wurzel, Hochzahl, sin, cos, tan in Grad, π, mal zehn hoch.
+    // Das Ergebnis steht sofort darunter. Ans setzt das letzte Ergebnis ein.
+    const host = $('.rechner .me', box);
+    if (host) {
+      attachEditor(host, $('.rechner .me-pad', box), { onChange: v => rechnen(v) });
+      // Ergebnis direkt unter der Anzeige, wie auf einem echten Taschenrechner
+      (host.closest('.me-numrow') || host).after($('.rechner-zeile', box));
+      $('[data-x="ac"]', box).onclick = () => { host.value = ''; rechnen(''); };
+      $('[data-x="ans"]', box).onclick = () => { if (ans != null) host.value = host.value + (host.value && !/[+\-*·(]$/.test(host.value.trim()) ? ' · ' : '') + fmtNum(ans, 8); };
+    }
     gebaut = true;
     zeigen();
   }
@@ -995,13 +1005,16 @@ export function schmierzettel(root) {
     // Die Zeichenfläche braucht ihre Breite, deshalb erst einrichten, wenn sie sichtbar ist
     if (art === 'zeichnen' && !c.width_ok) { malen(c); c.width_ok = true; }
   }
+  let ans = null;
   function rechnen(src) {
     const out = $('.rechner-out', box);
+    if (!out) return;
     const t = String(src).trim();
-    if (!t) { out.textContent = 'Rechnung eingeben, das Ergebnis steht hier.'; out.classList.add('muted'); return; }
-    const v = calc(t.replace(/(\d),(\d)/g, '$1.$2').replace(/[×x*]/g, '·').replace(/:/g, '/').replace(/,/g, '.'));
+    if (!t) { out.textContent = '='; out.classList.add('muted'); return; }
+    const v = calc(t.replace(/(\d),(\d)/g, '$1.$2'));
     out.classList.toggle('muted', v == null);
-    out.innerHTML = v == null ? 'Das kann ich noch nicht ausrechnen.' : '= <b>' + esc(fmtNum(v, 6)) + '</b>';
+    out.innerHTML = v == null ? '= …' : '= <b>' + esc(fmtNum(v, 8)) + '</b>';
+    if (v != null) { ans = v; const a = $('[data-x="ans"]', box); if (a) a.disabled = false; }
   }
   function malen(c) {
     const r = window.devicePixelRatio || 1;
@@ -1029,7 +1042,7 @@ export function schmierzettel(root) {
     if (!box.hidden) zeigen();
   });
   // Neue Frage: Zettel leeren und zuklappen. Bei Rechenaufgaben gibt es den Taschenrechner dazu.
-  return { neu(item) { box.hidden = true; box.innerHTML = ''; gebaut = false; gemalt = false; btn.classList.remove('on'); mitRechner = !!item && (item.art === 'aufgabe' || item.art === 'umstellen'); } };
+  return { neu(item) { box.hidden = true; box.innerHTML = ''; gebaut = false; gemalt = false; ans = null; btn.classList.remove('on'); mitRechner = !!item && (item.art === 'aufgabe' || item.art === 'umstellen'); } };
 }
 
 /* ===== Sitzung: mehrere Übungen nacheinander ===== */
