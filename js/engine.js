@@ -1045,6 +1045,22 @@ export function schmierzettel(root) {
   return { neu(item) { box.hidden = true; box.innerHTML = ''; gebaut = false; gemalt = false; ans = null; btn.classList.remove('on'); mitRechner = !!item && (item.art === 'aufgabe' || item.art === 'umstellen'); } };
 }
 
+/* ===== Skizze zur Frage =====
+ * Bei Rechenaufgaben steht die Skizze des Themas offen unter der Aufgabe, bei anderen Fragen
+ * als „Bild dazu“ zum Aufklappen, damit sie nichts verrät. Ohne Bildunterschrift.
+ */
+export function frageSkizze(box, item, ctx = {}) {
+  if (!box) return;
+  const h = item && item.tid ? sk.html(item.tid, true, true) : '';
+  if (!h) { box.innerHTML = ''; return; }
+  const offen = item.art === 'aufgabe' || (item.art === 'umstellen' && !ctx.blind);
+  box.innerHTML = offen ? h : `<details class="disc frage-sk"><summary>${icon('photo')} Bild dazu</summary>${h}</details>`;
+  // Bei Rechenaufgaben steht die Skizze wie im Fachbuch über der Aufgabe, sonst darunter
+  const item0 = box.parentElement && box.parentElement.querySelector('.sess-item');
+  if (item0) { if (offen) item0.before(box); else item0.after(box); }
+  sk.fuellen(box);
+}
+
 /* ===== Sitzung: mehrere Übungen nacheinander ===== */
 export function runSession(items, title, opt = {}) {
   if (!items.length) { toast('Gerade ist nichts dran.'); return; }
@@ -1065,7 +1081,7 @@ export function runSession(items, title, opt = {}) {
     },
     render(body, api) {
       sheet = api;
-      body.innerHTML = `<div class="sess-top">${items.length > 1 ? progress(0) : ''}<div class="sess-info"></div></div><div class="sess-item"></div><div class="schmier-zone">${schmierKnopf()}</div>`;
+      body.innerHTML = `<div class="sess-top">${items.length > 1 ? progress(0) : ''}<div class="sess-info"></div></div><div class="sess-item"></div><div class="sess-sk"></div><div class="schmier-zone">${schmierKnopf()}</div>`;
       zettel = schmierzettel(body);
       show();
     }
@@ -1079,6 +1095,7 @@ export function runSession(items, title, opt = {}) {
     const n = info(); if (n) n.textContent = items.length > 1 && i < items.length ? (i + 1) + ' von ' + items.length : '';
     zettel.neu(items[i]);
     if (limit && Date.now() - start > limit && i > 0 && i < items.length) zeitUm = true;
+    frageSkizze($('.sess-sk', sheet.body), i >= items.length || zeitUm ? null : items[i], opt);
     if (i >= items.length || zeitUm) return summary(box);
     const it = items[i];
     const fresh = box.cloneNode(false);

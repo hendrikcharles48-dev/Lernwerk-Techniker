@@ -12,7 +12,9 @@ export async function laden() {
   try { const r = await fetch('inhalte/bilder/index.json'); idx = r.ok ? await r.json() : {}; } catch (e) { idx = {}; }
   return idx;
 }
-export const fuer = tid => (idx && idx[tid]) || [];
+// Themen ohne eigene Skizze nutzen die eines verwandten Themas
+const VERWANDT = { 'et-rueckrechnen': 'et-gemischte-schaltungen', 'tm-formelsammlung-statik': 'tm-lagerkraefte', 'tm-wandschwenkkran': 'tm-zentrales-kraeftesystem' };
+export const fuer = tid => (idx && (idx[tid] || idx[VERWANDT[tid]])) || [];
 const fuer_datei = d => Object.values(idx || {}).flat().find(x => x.datei === d);
 async function svg(datei) {
   if (svgs.has(datei)) return svgs.get(datei);
@@ -24,8 +26,9 @@ async function svg(datei) {
   return t;
 }
 // Platzhalter für die Skizzen eines Themas. Danach fuellen() aufrufen.
-export function html(tid, klein = false) {
-  return fuer(tid).map(s => `<figure class="sk-fig sk${klein ? ' klein' : ''}" data-sk="${esc(s.datei)}"><div class="sk-box" role="button" tabindex="0" aria-label="Skizze groß ansehen"></div><figcaption>${tief(s.text)}</figcaption></figure>`).join('');
+// ohneText: bei Fragen ohne Bildunterschrift, damit sie die Antwort nicht verrät
+export function html(tid, klein = false, ohneText = false) {
+  return fuer(tid).map(s => `<figure class="sk-fig sk${klein ? ' klein' : ''}" data-sk="${esc(s.datei)}"><div class="sk-box" role="button" tabindex="0" aria-label="Skizze groß ansehen"></div>${ohneText ? '' : `<figcaption>${tief(s.text)}</figcaption>`}</figure>`).join('');
 }
 export function fuellen(root) {
   $$('[data-sk]', root).forEach(async f => {

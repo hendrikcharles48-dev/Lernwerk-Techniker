@@ -563,8 +563,8 @@ body.sheet-open #readbar { bottom: calc(var(--sab) + 14px); }
 /* Aufbau einer Formel */
 .fml-aufbau { font-size: 15px; color: var(--label2); margin-top: 6px; line-height: 1.4; }
 .aufbau-box .ab-z { margin-top: 6px; }
-.aufbau-box .ab-z .fml { display: inline-flex; margin-right: 8px; font-weight: 600; }
-.aufbau-box .ab-z span { display: block; margin-top: 2px; }
+.aufbau-box .ab-z .fml { display: inline-flex; margin-right: 8px; }
+.aufbau-box .ab-z > span { display: block; margin-top: 2px; }
 
 /* Hörmodus: Folgen-Player */
 .tchip { border: 0; background: var(--fill); color: var(--label); font: inherit; font-size: 14px; font-weight: 600; padding: 7px 13px; border-radius: 18px; min-height: 36px; }
@@ -785,3 +785,11 @@ body.sheet-open #readbar { bottom: calc(var(--sab) + 14px); }
 .rechner-zeile .btn { min-width: 56px; }
 .rechner-out { margin-left: auto; font-size: 18px; text-align: right; font-variant-numeric: tabular-nums; }
 .rechner-out b { font-size: 26px; }
+.trmixbtn { display: flex; align-items: center; gap: 14px; width: 100%; border: 0; border-radius: 18px; padding: 16px 18px; margin: 0 0 6px; color: #fff; text-align: left; background: linear-gradient(130deg, #0A84FF, #30B0C7 60%, #30D158); box-shadow: 0 8px 22px rgba(10,132,255,.25); }
+.trmixbtn .ic { width: 32px; height: 32px; flex: none; }
+.trmixbtn b { display: block; font-size: 19px; }
+.trmixbtn small { display: block; font-size: 14px; opacity: .92; }
+.trmixbtn:active { transform: scale(.98); }
+.sess-sk { margin: 0 0 12px; }
+.sess-sk .sk-fig { margin: 0; }
+.frage-sk summary .ic { width: 18px; height: 18px; vertical-align: -3px; color: var(--accent); }

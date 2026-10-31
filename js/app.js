@@ -11,7 +11,7 @@ import * as sicherung from './sicherung.js';
 import { laden as skizzenLaden } from './skizzen.js';
 import { canSpeak, readAloud } from './speech.js';
 
-export const VERSION = '1.18.2';
+export const VERSION = '1.19.0';
 
 /* ===== Heute ===== */
 // Kurze, wechselnde Sätze für den Start. Ohne Druck.
@@ -30,12 +30,17 @@ function gruss() {
 }
 // Bausteine der Startseite. Reihenfolge und Sichtbarkeit stellst du unten unter „Startseite anpassen“ ein.
 const START_TEILE = [
-  ['spruch', 'Spruch des Tages'], ['tag', 'Fortschritt heute'], ['unterricht', 'Lernknopf Unterricht'], ['alles', 'Lernknopf Alles wiederholen'],
+  ['spruch', 'Spruch des Tages'], ['tag', 'Fortschritt heute'], ['unterricht', 'Lernknopf Unterricht'], ['trainermix', 'Lernknopf Trainer gemischt'], ['alles', 'Lernknopf Alles wiederholen'],
   ['wahl', 'Lernzeit, Fragen und Mini'], ['imunterricht', 'Im Unterricht'], ['arbeit', 'Nächste Klassenarbeit'], ['kacheln', 'Trainer und Hörmodus'], ['woche', 'Diese Woche']
 ];
 export function startLayout() {
   const l = (prefs.get('startLayout', null) || []).filter(x => START_TEILE.some(t => t[0] === x.id));
-  for (const [id] of START_TEILE) if (!l.some(x => x.id === id)) l.push({ id, an: true });
+  // Neue Bausteine kommen hinter ihren Vorgänger aus der Grundreihenfolge
+  START_TEILE.forEach(([id], k) => {
+    if (l.some(x => x.id === id)) return;
+    const vor = k ? l.findIndex(x => x.id === START_TEILE[k - 1][0]) : -1;
+    l.splice(vor + 1, 0, { id, an: true });
+  });
   return l;
 }
 function startAnpassen() {
@@ -89,6 +94,7 @@ const heute = {
       return l.length ? `<span class="lern-tags">${l.slice(0, 3).map(([k, n]) => `<span>${esc(k)} ${n}</span>`).join('')}${l.length > 3 ? `<span>und ${l.length - 3} weitere</span>` : ''}</span>` : '';
     };
     T.unterricht = `<button class="five" data-a="lernU">${icon('bolt')}<span><b>Unterricht</b><small>${aktTids().length ? (qu.items.length ? plural(qu.items.length, 'Übung', 'Übungen') + ' offen · etwa ' + minuten(qu) + ' Min' : 'Nichts fällig, du kannst trotzdem üben.') : 'Noch keine Themen angewählt. Tippe hier.'}</small>${themenTags(qu.items)}</span></button>`;
+    T.trainermix = `<button class="trmixbtn" data-a="trmix">${icon('tools')}<span><b>Trainer gemischt</b><small>Rechenaufgaben aus allen Trainern durcheinander, ohne Themenhinweis</small></span></button>`;
     T.alles = `<button class="mixbtn" data-a="lernA">${icon('mix')}<span><b>Alles wiederholen</b><small>${qa.faellig ? plural(qa.faellig, 'Übung', 'Übungen') + ' fällig · etwa ' + minuten(qa) + ' Min' : 'Nichts fällig. Alles, was schon dran war, schwache Themen öfter.'}</small>${qa.faellig ? themenTags(qa.items) : ''}</span></button>`;
     // Lernzeit und Fragen vor dem Start wählen. Die letzte Wahl bleibt.
     // Zwei Knöpfe nebeneinander. Antippen klappt die Optionen auf, eine Wahl klappt sie wieder zu.
@@ -98,7 +104,7 @@ const heute = {
     const wk = (k, l, v, opts, cur) => `<div class="lw-col"><button class="lw-k ${wahlOffen === k ? 'on' : ''}" data-a="wahl" data-d="${k}" aria-expanded="${wahlOffen === k}"><small>${l}</small><b>${esc(v)}</b>${icon('chev', 'lw-chev')}</button>
       ${wahlOffen === k ? `<div class="lw-liste">${opts.map(([v2, l2]) => `<button class="${v2 === cur ? 'on' : ''}" data-a="waehle" data-d="${k}|${esc(v2)}">${esc(l2)}${v2 === cur ? icon('check') : ''}</button>`).join('')}</div>` : ''}</div>`;
     T.wahl = `<div class="lernwahl"><div class="lw-knoepfe">${wk('zeit', 'Lernzeit', zeitText, ZEITEN, zeitWert)}${wk('modus', 'Fragen', modusText, st.MODI, st.modus())}</div>
-      <button class="mini" data-a="mini">${icon('bolt')}<span><b>Mini</b> · 2 Minuten, etwa 5 Fragen</span></button></div>`;
+      <button class="mini" data-a="mini">${icon('bolt')}<span><b>Mini</b> · 2 Minuten, eine Trainer-Aufgabe und Karten</span></button></div>`;
     const aktT = st.kvGet('aktuell', []).map(id => st.thema(id)).filter(Boolean);
     T.imunterricht = `<button class="unt-zeile" data-a="unterricht">${icon('check')}<b>Im Unterricht</b><span class="unt-tags">${aktT.length ? aktT.map(({ fach: f, thema: t }) => `<span class="tag" style="--fc:${f.farbe}">${esc(t.name)}</span>`).join('') : '<span class="muted">nichts angewählt, tippe hier</span>'}</span>${aktT.length ? `<span class="muted">${aktT.length}</span>` : ''}${icon('chev', 'chev')}</button>`;
     const ex = st.nextExam(today);
@@ -210,11 +216,12 @@ function gelernteTids() {
 }
 // Lernzeit: n Fragen, min Minuten (dann endet die Runde sauber), rechnen Anzahl Rechenaufgaben
 const ZEITEN = [['2', '2 Min'], ['5', '5 Min'], ['10', '10 Min'], ['20', '20 Min'], ['f10', '10 Fragen'], ['f20', '20 Fragen']];
-const MINI = { n: 5, min: 2, rechnen: 1 };
+const MINI = { n: 4, min: 2, rechnen: 1 };
 export function lernzeit() {
   const v = prefs.get('lernzeit', '10');
-  const z = { 2: MINI, 5: { n: 8, min: 5, rechnen: 2 }, 10: { n: 12, min: 10, rechnen: 6 }, 20: { n: 24, min: 20, rechnen: 12 }, f10: { n: 10, rechnen: 5 }, f20: { n: 20, rechnen: 10 } }[v];
-  return z || { n: 12, min: 10, rechnen: 6 };
+  // Vor allem gemischte Trainer-Aufgaben: Eine Rechenaufgabe braucht etwa 2 bis 3 Minuten, dazwischen ein paar Karten
+  const z = { 2: MINI, 5: { n: 5, min: 5, rechnen: 2 }, 10: { n: 8, min: 10, rechnen: 4 }, 20: { n: 14, min: 20, rechnen: 8 }, f10: { n: 10, rechnen: 7 }, f20: { n: 20, rechnen: 14 } }[v];
+  return z || { n: 8, min: 10, rechnen: 4 };
 }
 // Mindestens die Hälfte zum Mitrechnen: Rechen- und Umstellaufgaben, die du Schritt für Schritt löst
 const zumRechnen = it => it.art === 'aufgabe' || it.art === 'umstellen';
@@ -249,7 +256,8 @@ function trainerGruppen(vorne = []) {
   return [a, b, alle.filter(t => !a.includes(t) && !b.includes(t))];
 }
 function mitTrainer(items, z, vorne) {
-  const need = Math.max(1, Math.ceil(z.rechnen / 2));
+  // Alle Rechenplätze gehen an Trainer-Aufgaben, gemischt aus mehreren Themen
+  const need = Math.max(1, z.rechnen);
   const istTr = i => zumRechnen(i) && st.hatTrainer(i.tid);
   const ist = items.filter(istTr).length;
   if (ist >= need) return items;
@@ -286,11 +294,13 @@ export function lernenUnterricht(z = lernzeit()) {
 // Aufgaben aus allen Themen, zu denen es einen Trainer gibt, gemischt und ohne Themenhinweis
 export function trainerGemischt() {
   const tids = st.allTids().filter(t => ((st.thema(t) || { thema: {} }).thema.trainer || []).length);
-  const auf = mixAufgaben(tids, 7);
-  const mc = shuffle(tids.flatMap(t => st.topicItems(t).filter(i => i.art === 'auswahl'))).slice(0, 3);
+  // Länge nach der gewählten Lernzeit: fast nur Rechenaufgaben, dazu ein paar Auswahlfragen
+  const z = lernzeit();
+  const auf = mixAufgaben(tids, z.rechnen + 1);
+  const mc = shuffle(tids.flatMap(t => st.topicItems(t).filter(i => i.art === 'auswahl'))).slice(0, Math.min(3, Math.max(1, z.n - auf.length)));
   const items = shuffle([...auf, ...mc]);
   if (!items.length) { toast('Für die Trainer gibt es noch keine Aufgaben.'); return; }
-  runSession(items, 'Alle Trainer gemischt', { blind: true, onClose: () => refreshTop() });
+  runSession(items, 'Alle Trainer gemischt', { blind: true, minutes: z.min, onClose: () => refreshTop() });
 }
 // Alles wiederholen: etwa die Hälfte aus schwachen Themen, ein Drittel aus mittleren, der Rest aus sicheren.
 // Fehlt eine Gruppe, bekommt die nächste ihren Anteil. Schwache Themen bekommen danach eine kurze Auffrischung.

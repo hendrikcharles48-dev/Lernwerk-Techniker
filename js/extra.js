@@ -5,7 +5,7 @@ import { fml, speakFml, varsOf, parseEq, keyOf } from './formula.js';
 import { lernplan } from './srs.js';
 import * as st from './store.js';
 import { $, $$, icon, row, list, seg, sw, empty, on, push, pop, openSheet, toast, copyText, progress, confirmBox, saveFile, refreshTop, hinweisTabellenbuch, fachIcon } from './ui.js';
-import { topicPage, runSession, runItem, ZUSTAENDE, staerkeHTML, sortForPractice, topicProgress, formelCard, askClaude, noteReader, openTrainer, itemTitle, rich, schmierKnopf, schmierzettel } from './engine.js';
+import { topicPage, runSession, runItem, ZUSTAENDE, staerkeHTML, sortForPractice, topicProgress, formelCard, askClaude, noteReader, openTrainer, itemTitle, rich, schmierKnopf, schmierzettel, frageSkizze } from './engine.js';
 import { speak, stopSpeaking, canSpeak, keepAwake, pause, readAloud, stopReading, deVoices } from './speech.js';
 import * as hoer from './hoer.js';
 import * as sk from './skizzen.js';
@@ -294,7 +294,7 @@ function runExam(items, minuten) {
     title: 'Probeklausur', full: true,
     confirmClose: () => fertig || confirm('Probeklausur abbrechen?'),
     onClose: () => { clearInterval(tm); if (res.length) gh.anstossen(); },
-    render(body, api) { sheet = api; body.innerHTML = `<div class="sess-top">${progress(0)}<div class="sess-info"></div></div><div class="sess-item"></div><div class="schmier-zone">${schmierKnopf()}</div>`; zettel = schmierzettel(body); show(); }
+    render(body, api) { sheet = api; body.innerHTML = `<div class="sess-top">${progress(0)}<div class="sess-info"></div></div><div class="sess-item"></div><div class="sess-sk"></div><div class="schmier-zone">${schmierKnopf()}</div>`; zettel = schmierzettel(body); show(); }
   });
   function fmtT(ms) { const s = Math.max(0, Math.floor(ms / 1000)); return Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0'); }
   function info() {
@@ -311,6 +311,7 @@ function runExam(items, minuten) {
     if (i >= items.length) fertig = true;
     info();
     zettel.neu(items[i]);
+    frageSkizze($('.sess-sk', sheet.body), fertig ? null : items[i], { blind: true });
     $('.bar i', sheet.body).style.width = Math.round(Math.min(i, items.length) / items.length * 100) + '%';
     const box = $('.sess-item', sheet.body);
     const fresh = box.cloneNode(false); box.replaceWith(fresh);
