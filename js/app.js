@@ -12,7 +12,7 @@ import * as sicherung from './sicherung.js';
 import { laden as skizzenLaden } from './skizzen.js';
 import { canSpeak, readAloud } from './speech.js';
 
-export const VERSION = '1.21.1';
+export const VERSION = '1.22.0';
 
 /* ===== Heute ===== */
 // Kurze, wechselnde Sätze für den Start. Ohne Druck.
@@ -115,12 +115,12 @@ const heute = {
       const tops = (ex.themaIds || []).map(id => st.thema(id)).filter(Boolean);
       // Die Karte der Arbeit: oben antippen öffnet sie, unten steckt der heutige Tag aus dem Lernplan
       const tag = planHeute(ex, today);
-      const fuss = !tag ? `<button class="count-more" data-a="exam" data-d="${ex.id}">Lernplan ansehen ${icon('chev', 'chev')}</button>`
+      const mehr = `<button class="count-more" data-a="exam" data-d="${ex.id}">Lernplan ansehen ${icon('chev', 'chev')}</button>`;
+      const fuss = !tag || !tag.aufgabe && !tag.fertig ? mehr
         : tag.fertig
-          ? `<div class="count-plan fertig">${icon('check')}<span><b>Heute geschafft.</b><small>${tag.morgen ? 'Morgen: ' + esc(tag.morgen) : 'Morgen ist die Arbeit. Viel Erfolg!'}</small></span><button class="btn small" data-a="plantag">Nochmal</button></div>
-            <button class="count-more" data-a="exam" data-d="${ex.id}">Lernplan ansehen ${icon('chev', 'chev')}</button>`
-          : `<button class="count-plan" data-a="plantag">${icon('bolt')}<span><b>Heute lernen</b><small>${esc(tag.text)}</small></span>${icon('chev', 'chev')}</button>
-            <button class="count-more" data-a="exam" data-d="${ex.id}">Lernplan ansehen ${icon('chev', 'chev')}</button>`;
+          ? `<div class="count-plan fertig">${icon('check')}<span><b>Tagesziel erreicht.</b><small>Du kannst gern weiterlernen.</small></span></div>
+            <div class="count-weiter">${tag.danach ? `<button data-a="plantag"><b>Nächsten Tag vorziehen</b><small>${esc(tag.danachText)}</small></button>` : ''}<button data-a="planschwach"><b>Schwächen üben</b><small>Fehler, falsche und wackelnde Fragen der Arbeit</small></button></div>${mehr}`
+          : `<button class="count-plan" data-a="plantag">${icon('bolt')}<span><b>${tag.aufgabe.art === 'schwach' ? 'Heute: Schwächen üben' : tag.aufgabe.vor ? 'Heute lernen, du bist vorne' : 'Heute lernen'}</b><small>${esc(tag.aufgabe.text)}</small></span>${icon('chev', 'chev')}</button>${mehr}`;
       T.arbeit = `<div class="sec-h">Nächste Klassenarbeit</div><div class="card count" style="--fc:${f ? f.farbe : 'var(--accent)'}"><button class="count-main" data-a="exam" data-d="${ex.id}">
         <div class="count-head"><span class="count-badge"><b>${d === 0 ? '!' : d}</b><small>${d === 0 ? 'heute' : d === 1 ? 'Tag' : 'Tage'}</small></span><span><div class="count-t">${esc(ex.fach)}</div><div class="muted">${esc(dayLong(ex.datum))}</div></span>${bereit != null ? `<span class="bereit">${ring(bereit / 100, 56, bereit >= 75 ? 'var(--green)' : bereit >= 45 ? 'var(--orange)' : 'var(--red)', `<b>${bereit}</b><small>%</small>`)}<small>vorbereitet</small></span>` : ''}</div>
         ${tops.length ? `<div class="count-tops">${tops.map(t => { const p = topicProgress(t.thema.id); return `<div class="ct"><span>${esc(t.thema.name)}</span>${progress(p || 0, f ? f.farbe : null)}</div>`; }).join('')}</div>` : ex.themen ? `<div class="muted">${esc(ex.themen)}</div>` : ''}
@@ -147,7 +147,8 @@ const heute = {
       anpassen: () => startAnpassen(),
       waehle: d => { const [k, v] = d.split('|'); wahlOffen = null; if (k === 'zeit') prefs.set('lernzeit', v); else st.setModus(v); this.render(b); },
       backup: () => push(datensicherung()),
-      plantag: () => planTagLernen(st.nextExam(dayStr())),
+      plantag: () => planTagLernen(st.nextExam(dayStr()), 'plan'),
+      planschwach: () => planTagLernen(st.nextExam(dayStr()), 'schwach'),
       exam: id => push(termineDetail(id)),
       newexam: () => termEditor({}),
       lernU: () => lernenUnterricht(),
@@ -254,41 +255,111 @@ function mixAufgaben(tids, n) {
   return out;
 }
 /* ===== Lernplan: der heutige Tag =====
- * Der Lernplan rechnet rückwärts bis zur Arbeit, der erste Tag ist immer heute.
- * Ist die heutige Runde geschafft, merkt sich die App das Datum je Arbeit (kv „planErledigt“).
+ * Der Lernplan rechnet rückwärts bis zur Arbeit und beginnt an einem festen Tag (planStart).
+ * Erledigt wird immer der nächste offene Plantag. Wer mehr lernen will, zieht den nächsten Tag vor,
+ * dann läuft der Plan schneller durch und am Ende bleiben freie Tage für Schwächen.
+ * Der Wiederholtag direkt vor der Arbeit bleibt an seinem Platz.
+ * Liegt ein Thema in einer Runde unter 60 % richtig, kommt es am nächsten Plantag zusätzlich dran.
  */
-const planText = p => (p.art === 'wiederholen' ? 'Alles wiederholen und Fehlerbuch' : p.themen.map(x => x.thema.name + (x.neu ? '' : ' wiederholen')).join(', ')) + (p.leicht ? ' · kurz, voller Tag' : '');
+// Kurz oder lang richtet sich nach dem Tag, an dem wirklich gelernt wird (Dienstag und Donnerstag sind volle Tage)
+const leichtAm = d => [2, 4].includes(new Date(d + 'T12:00').getDay());
+const planText = (p, leicht = p.leicht) => (p.art === 'wiederholen' ? 'Alles wiederholen und Fehlerbuch' : p.themen.map(x => x.thema.name + (x.neu ? '' : ' wiederholen')).join(', ')) + (leicht ? ' · kurz, voller Tag' : '');
 function planTage(ex, today) {
   const tops = (ex.themaIds || []).map(t => st.thema(t)).filter(Boolean).map(t => t.thema);
   return tops.length ? lernplan(ex.datum, tops, st.planStart(ex, today)) : [];
 }
 function planHeute(ex, today) {
   const tage = planTage(ex, today);
-  const p = tage.find(x => x.datum === today);
-  if (!p) return null;
-  const fertig = (st.kvGet('planErledigt', {})[ex.id] || []).includes(today);
-  const m = tage.find(x => x.datum > today);
-  return { p, text: planText(p), fertig, morgen: m ? planText(m) : '' };
+  if (!tage.length || !tage.some(x => x.datum >= today)) return null;
+  const erl = st.planErledigt(ex);
+  const fertig = Object.values(erl).includes(today);
+  const offen = tage.filter(x => x.datum >= today && !erl[x.datum]);
+  // Der Wiederholtag kommt erst an seinem eigenen Tag dran
+  const naechster = offen.find(x => x.art !== 'wiederholen' || x.datum === today) || null;
+  const nach = st.planNachholen(ex).map(t => st.thema(t).thema.name);
+  const mitNach = t => t + (nach.length ? ' · nochmal: ' + nach.join(', ') : '');
+  const aufgabe = naechster ? { art: 'plan', p: naechster, text: mitNach(planText(naechster, leichtAm(today))), vor: naechster.datum > today }
+    : offen.length ? { art: 'schwach', text: 'Du bist vorgearbeitet. Heute deine Schwächen üben.' } : null;
+  // Nach dem Tagesziel: Was käme als Nächstes, und darf es vorgezogen werden?
+  const danach = naechster && naechster.art === 'lernen' ? naechster : null;
+  return { aufgabe, fertig, danach, danachText: danach ? mitNach(planText(danach, leichtAm(today))) : '', erl, tage };
 }
-function planTagLernen(ex) {
+
+// Die schwächsten Fragen der Arbeit: offene Fehler, falsch beantwortete und wackelnde Fragen,
+// dazu schwache Themen und Themen zum Nachholen. Gibt es nichts Schwaches, die unsichersten Fragen.
+function schwachItems(ex, n) {
+  const tids = ex.themaIds || [];
+  const out = [], ids = new Set();
+  const rein = it => { if (it && !ids.has(it.id)) { ids.add(it.id); out.push(it); } };
+  shuffle(st.S.errors.filter(e => !e.erledigt && tids.includes(e.tid))).slice(0, Math.ceil(n / 3)).forEach(e => rein(st.errorItem(e)));
+  const nach = new Set(st.planNachholen(ex));
+  const alle = tids.flatMap(t => st.uebItems(t));
+  const wert = it => {
+    const c = st.S.cards.get(it.id);
+    let w = 0;
+    if (c) { if (c.falsch) w += 2 + Math.min(3, c.falsch); if (c.stufe <= 1) w += 2; else if (c.stufe <= 2) w += 1; }
+    if (nach.has(it.tid)) w += 2;
+    if (st.staerke(it.tid).stufe === 'schwach') w += 1;
+    return w;
+  };
+  const schwach = shuffle(alle).map(it => [it, wert(it)]).filter(x => x[1] > 0).sort((a, b) => b[1] - a[1]).map(x => x[0]);
+  schwach.forEach(rein);
+  const echt = out.length;
+  if (out.length < n) sortForPractice(alle.filter(it => { const c = st.S.cards.get(it.id); return !c || c.stufe < 4; })).forEach(rein);
+  return { items: out, echt };
+}
+
+// Eine Runde auswerten: Themen unter 60 % kommen zum Nachholen, Themen ab 80 % sind wieder raus
+async function planAuswerten(ex, res) {
+  const proThema = new Map();
+  for (const r of res) { if (!r.it.tid) continue; const x = proThema.get(r.it.tid) || { n: 0, ok: 0 }; x.n++; if (r.erg === 'richtig') x.ok++; proThema.set(r.it.tid, x); }
+  const nach = new Set(st.planNachholen(ex));
+  const schlecht = [];
+  for (const [tid, x] of proThema) {
+    if (x.n < 3) continue;
+    const q = x.ok / x.n;
+    if (q < 0.6) { nach.add(tid); schlecht.push(tid); } else if (q >= 0.8) nach.delete(tid);
+  }
+  await st.planNachholenSetzen(ex, [...nach]);
+  return schlecht.map(t => st.thema(t)).filter(Boolean).map(t => t.thema.name);
+}
+
+// art: 'plan' lernt den nächsten offenen Plantag (auch vorgezogen), 'schwach' übt die Schwächen
+function planTagLernen(ex, art) {
   if (!ex) return;
   const today = dayStr();
   const tag = planHeute(ex, today);
   if (!tag) return;
   const z = lernzeit();
-  const tids = tag.p.art === 'wiederholen' || !tag.p.themen.length ? (ex.themaIds || []) : tag.p.themen.map(x => x.thema.id);
-  const q = st.buildQueue((z.min || 15) * 60, { tids, exam: ex, mitFehlern: true, maxNeu: tag.p.leicht ? 4 : 10 });
-  let items = mitRechnen(q.items, tids, tag.p.leicht ? Math.ceil(z.n / 2) : z.n, tag.p.leicht ? Math.ceil(z.rechnen / 2) : z.rechnen);
-  if (!items.length) items = sortForPractice(tids.flatMap(t => st.uebItems(t))).slice(0, z.n);
-  if (!items.length) { toast('Für die Themen dieses Tages gibt es noch keine Übungen.'); return; }
-  runSession(items, 'Lernplan heute', { minutes: tag.p.leicht ? Math.ceil((z.min || 10) / 2) : z.min, onClose: async res => {
+  let items, titel, minuten = z.min, planTag;
+  const auf = tag.fertig ? (art === 'schwach' || !tag.danach ? { art: 'schwach' } : { art: 'plan', p: tag.danach, vor: true }) : (art === 'schwach' ? { art: 'schwach' } : tag.aufgabe);
+  if (!auf) return;
+  if (auf.art === 'schwach') {
+    const w = schwachItems(ex, z.n);
+    items = mitRechnen(w.items.slice(0, z.n), ex.themaIds || [], z.n, Math.min(z.rechnen, Math.ceil(z.n / 3)));
+    if (!w.echt && items.length) toast('Keine echten Schwächen gefunden. Ich nehme die unsichersten Fragen.');
+    titel = 'Schwächen üben';
+    // Freier Tag nach dem Vorarbeiten: die Schwächen-Runde zählt als Tagesziel
+    if (!tag.fertig) planTag = 'frei:' + today;
+  } else {
+    const p = Object.assign({}, auf.p, { leicht: leichtAm(today) });
+    planTag = p.datum;
+    const nach = st.planNachholen(ex);
+    const tids = p.art === 'wiederholen' || !p.themen.length ? (ex.themaIds || []) : [...new Set([...p.themen.map(x => x.thema.id), ...nach])];
+    const q = st.buildQueue((z.min || 15) * 60, { tids, exam: ex, mitFehlern: true, maxNeu: p.leicht ? 4 : 10 });
+    items = mitRechnen(q.items, tids, p.leicht ? Math.ceil(z.n / 2) : z.n, p.leicht ? Math.ceil(z.rechnen / 2) : z.rechnen);
+    if (!items.length) items = sortForPractice(tids.flatMap(t => st.uebItems(t))).slice(0, z.n);
+    titel = auf.vor ? 'Lernplan vorgezogen' : 'Lernplan heute';
+    if (p.leicht) minuten = Math.ceil((z.min || 10) / 2);
+  }
+  if (!items.length) { toast('Für diese Themen gibt es noch keine Übungen.'); return; }
+  runSession(items, titel, { minutes: minuten, onClose: async res => {
+    const schlecht = await planAuswerten(ex, res);
     // Geschafft, wenn mindestens die Hälfte der Runde bearbeitet ist
-    if (res.length >= Math.min(items.length, Math.max(3, Math.ceil(items.length / 2)))) {
-      const e = Object.assign({}, st.kvGet('planErledigt', {}));
-      e[ex.id] = [...new Set([...(e[ex.id] || []), today])];
-      await st.kvSet('planErledigt', e);
-      toast('Lernplan für heute geschafft!');
-    }
+    const genug = res.length >= Math.min(items.length, Math.max(3, Math.ceil(items.length / 2)));
+    if (genug && planTag) await st.planAbhaken(ex, planTag, today);
+    if (schlecht.length) toast(schlecht.join(', ') + ' kommt beim nächsten Plantag nochmal dran.');
+    else if (genug && planTag) toast(auf.vor ? 'Tag vorgezogen. Der Plan läuft jetzt schneller.' : 'Lernplan für heute geschafft!');
     refreshTop();
   } });
 }

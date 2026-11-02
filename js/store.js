@@ -629,6 +629,25 @@ export function planStart(ex, today = dayStr()) {
   kvSet('planStart', Object.assign({}, ps, { [ex.id]: today }));
   return today;
 }
+// Erledigte Tage im Lernplan: Plantag zu dem Tag, an dem er wirklich gelernt wurde.
+// Ältere Stände speichern nur eine Liste von Tagen, die zählen als am selben Tag gelernt.
+export function planErledigt(ex) {
+  const v = kvGet('planErledigt', {})[ex.id];
+  if (Array.isArray(v)) return Object.fromEntries(v.map(d => [d, d]));
+  return Object.assign({}, v || {});
+}
+export async function planAbhaken(ex, planTag, heute = dayStr()) {
+  const alle = Object.assign({}, kvGet('planErledigt', {}));
+  alle[ex.id] = Object.assign(planErledigt(ex), { [planTag]: heute });
+  await kvSet('planErledigt', alle);
+}
+// Themen, die in einer Lernplan-Runde schlecht liefen, kommen am nächsten Plantag zusätzlich dran
+export const planNachholen = ex => (kvGet('planNachholen', {})[ex.id] || []).filter(t => thema(t));
+export async function planNachholenSetzen(ex, tids) {
+  const alle = Object.assign({}, kvGet('planNachholen', {}));
+  alle[ex.id] = [...new Set(tids)];
+  await kvSet('planNachholen', alle);
+}
 export async function deleteExam(id) { S.exams = S.exams.filter(e => e.id !== id); await db.del('exams', id); await loeschmarke('exams:' + id); changed('exams'); }
 
 /* ===== Fehlerbuch ===== */

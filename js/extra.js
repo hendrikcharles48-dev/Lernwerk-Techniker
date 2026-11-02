@@ -132,12 +132,16 @@ export function termineDetail(id) {
       h += `<div class="btn-row"><button class="btn filled" data-a="ueben">${icon('bolt')} Themen der Arbeit üben</button><button class="btn" data-a="probe">${icon('exam')} Probeklausur</button><button class="btn" data-a="hoer">${icon('ear')} Hörmodus</button></div>`;
       if (d > 0) {
         const plan = lernplan(e.datum, tops.map(t => t.thema), st.planStart(e, today)).filter(p => p.datum >= today);
+        const erl = st.planErledigt(e);
+        const haken = d => !erl[d] ? '' : erl[d] < d ? ' ✓ vorgezogen' : ' ✓ geschafft';
+        const nach = st.planNachholen(e).map(t => st.thema(t).thema.name);
+        if (nach.length) h += `<div class="fb info">Kommt beim nächsten Plantag nochmal dran: ${esc(nach.join(', '))}. Ab 80 % richtig ist es wieder raus.</div>`;
         h += `<div class="sec-h">Lernplan bis zur Arbeit</div>` + list(plan.map(p => row({
-          title: (p.datum === today ? 'Heute, ' : '') + dayLong(p.datum) + ((st.kvGet('planErledigt', {})[e.id] || []).includes(p.datum) ? ' ✓ geschafft' : ''),
+          title: (p.datum === today ? 'Heute, ' : '') + dayLong(p.datum) + haken(p.datum),
           sub: p.art === 'wiederholen' ? 'Nur Wiederholung und Fehlerbuch' : p.themen.length ? p.themen.map(x => x.thema.name + (x.neu ? '' : ' wiederholen')).join(', ') + (p.leicht ? ' · voller Tag, nur kurz' : '') : 'Fällige Karten',
           cls: p.datum === today ? 'today-row' : ''
         })));
-        h += `<div class="sec-f">Dienstag und Donnerstag sind bei dir volle Tage. Dort plane ich weniger ein.</div>`;
+        h += `<div class="sec-f">Dienstag und Donnerstag sind bei dir volle Tage. Dort plane ich weniger ein. Nach dem Tagesziel kannst du auf der Startseite den nächsten Tag vorziehen. Dann läuft der Plan schneller, und die frei gewordenen Tage nutzt du für deine Schwächen.</div>`;
       }
       b.innerHTML = h;
       on(b, {
