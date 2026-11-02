@@ -12,7 +12,7 @@ import * as sicherung from './sicherung.js';
 import { laden as skizzenLaden } from './skizzen.js';
 import { canSpeak, readAloud } from './speech.js';
 
-export const VERSION = '1.22.0';
+export const VERSION = '1.22.1';
 
 /* ===== Heute ===== */
 // Kurze, wechselnde Sätze für den Start. Ohne Druck.
@@ -115,7 +115,10 @@ const heute = {
       const tops = (ex.themaIds || []).map(id => st.thema(id)).filter(Boolean);
       // Die Karte der Arbeit: oben antippen öffnet sie, unten steckt der heutige Tag aus dem Lernplan
       const tag = planHeute(ex, today);
-      const mehr = `<button class="count-more" data-a="exam" data-d="${ex.id}">Lernplan ansehen ${icon('chev', 'chev')}</button>`;
+      // Themen der Arbeit sind eingeklappt, damit die Startseite übersichtlich bleibt
+      const themenOffen = prefs.get('arbeitThemenOffen', false);
+      const themenListe = tops.length ? `<div class="count-tops">${tops.map(t => { const p = topicProgress(t.thema.id); return `<div class="ct"><span>${esc(t.thema.name)}</span>${progress(p || 0, f ? f.farbe : null)}</div>`; }).join('')}</div>` : ex.themen ? `<div class="muted count-tops">${esc(ex.themen)}</div>` : '';
+      const mehr = `<div class="count-fuss">${themenListe ? `<button class="count-auf ${themenOffen ? 'on' : ''}" data-a="arbeitThemen" aria-expanded="${themenOffen}">${tops.length ? plural(tops.length, 'Thema', 'Themen') : 'Themen'} ${icon('chev', 'lw-chev')}</button>` : '<span></span>'}<button class="count-more" data-a="exam" data-d="${ex.id}">Lernplan ${icon('chev', 'chev')}</button></div>${themenOffen ? themenListe : ''}`;
       const fuss = !tag || !tag.aufgabe && !tag.fertig ? mehr
         : tag.fertig
           ? `<div class="count-plan fertig">${icon('check')}<span><b>Tagesziel erreicht.</b><small>Du kannst gern weiterlernen.</small></span></div>
@@ -123,7 +126,6 @@ const heute = {
           : `<button class="count-plan" data-a="plantag">${icon('bolt')}<span><b>${tag.aufgabe.art === 'schwach' ? 'Heute: Schwächen üben' : tag.aufgabe.vor ? 'Heute lernen, du bist vorne' : 'Heute lernen'}</b><small>${esc(tag.aufgabe.text)}</small></span>${icon('chev', 'chev')}</button>${mehr}`;
       T.arbeit = `<div class="sec-h">Nächste Klassenarbeit</div><div class="card count" style="--fc:${f ? f.farbe : 'var(--accent)'}"><button class="count-main" data-a="exam" data-d="${ex.id}">
         <div class="count-head"><span class="count-badge"><b>${d === 0 ? '!' : d}</b><small>${d === 0 ? 'heute' : d === 1 ? 'Tag' : 'Tage'}</small></span><span><div class="count-t">${esc(ex.fach)}</div><div class="muted">${esc(dayLong(ex.datum))}</div></span>${bereit != null ? `<span class="bereit">${ring(bereit / 100, 56, bereit >= 75 ? 'var(--green)' : bereit >= 45 ? 'var(--orange)' : 'var(--red)', `<b>${bereit}</b><small>%</small>`)}<small>vorbereitet</small></span>` : ''}</div>
-        ${tops.length ? `<div class="count-tops">${tops.map(t => { const p = topicProgress(t.thema.id); return `<div class="ct"><span>${esc(t.thema.name)}</span>${progress(p || 0, f ? f.farbe : null)}</div>`; }).join('')}</div>` : ex.themen ? `<div class="muted">${esc(ex.themen)}</div>` : ''}
         </button>${fuss}</div>`;
     }
     // Trainer und Hörmodus: je eine Kachel. Die Trainer liegen dahinter in Ordnern nach Fach.
@@ -153,6 +155,7 @@ const heute = {
       newexam: () => termEditor({}),
       lernU: () => lernenUnterricht(),
       mini: () => (aktTids().length ? lernenUnterricht(MINI) : lernenAlles(MINI)),
+      arbeitThemen: () => { prefs.set('arbeitThemenOffen', !prefs.get('arbeitThemenOffen', false)); this.render(b); },
       wahl: k => { wahlOffen = wahlOffen === k ? null : k; this.render(b); },
       'seg:zeit': v => { prefs.set('lernzeit', v); wahlOffen = null; this.render(b); },
       'seg:modus': v => { wahlOffen = null; st.setModus(v); this.render(b); },
