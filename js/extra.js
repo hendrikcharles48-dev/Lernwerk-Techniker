@@ -787,8 +787,8 @@ export function datensicherung() {
     render(b) {
       const last = st.kvGet('letzteSicherung');
       if (!this._gh) this._gh = gh.beobachten(() => { if (b.isConnected) this.render(b); else this._gh(); });
-      b.innerHTML = ghBereich() + `<div class="sec-h">Von Hand</div><div class="card how"><p>Deine Lerndaten liegen nur auf diesem Gerät. Mit einer Sicherung bringst du sie auf den Laptop oder rettest sie bei einem neuen iPhone. Die Datei enthält auch deine eingefügten Inhalte im Lernwerk-Format.</p><p class="muted">${last ? 'Letzte Sicherung: ' + esc(dayLong(last)) : 'Noch keine Sicherung gemacht.'}</p></div>
-        ${list([row({ title: 'Fotos mitsichern', sub: 'Macht die Datei größer', right: sw('fotos', fotos) })])}
+      b.innerHTML = ghBereich() + `<div class="sec-h">Zusätzlich als Datei</div><div class="card how"><p>Brauchst du normalerweise nicht. Mit dem Abgleich über GitHub sind deine Daten schon gesichert und auf allen verbundenen Geräten. Hier speicherst du zusätzlich eine Datei, zum Beispiel für den Laptop. Die Datei enthält auch deine eingefügten Inhalte im Lernwerk-Format.</p><p class="muted">${last ? 'Letzte Sicherung: ' + esc(dayLong(last)) : 'Noch keine Sicherung gemacht.'}</p></div>
+        ${list([row({ title: 'Fotos mitsichern', sub: 'Nur für diese Datei. Fotos bleiben sonst auf dem Gerät.', right: sw('fotos', fotos) })])}
         <div class="btn-col"><button class="btn filled" data-a="export">${icon('save')} Sicherung erstellen</button>
         <label class="btn">${icon('open')} Sicherung laden<input type="file" accept=".json,application/json" data-k="file" hidden></label>
         <button class="btn" data-a="blocks">${icon('block')} Eigene Inhalte als Blöcke kopieren</button></div>
