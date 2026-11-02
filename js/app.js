@@ -12,7 +12,7 @@ import * as sicherung from './sicherung.js';
 import { laden as skizzenLaden } from './skizzen.js';
 import { canSpeak, readAloud } from './speech.js';
 
-export const VERSION = '1.21.0';
+export const VERSION = '1.21.1';
 
 /* ===== Heute ===== */
 // Kurze, wechselnde Sätze für den Start. Ohne Druck.
@@ -113,15 +113,18 @@ const heute = {
       const bereit = st.bereitschaft(ex);
       const f = st.fach(ex.fachId);
       const tops = (ex.themaIds || []).map(id => st.thema(id)).filter(Boolean);
-      T.arbeit = `<div class="sec-h">Nächste Klassenarbeit</div><button class="card count" data-a="exam" data-d="${ex.id}" style="--fc:${f ? f.farbe : 'var(--accent)'}">
+      // Die Karte der Arbeit: oben antippen öffnet sie, unten steckt der heutige Tag aus dem Lernplan
+      const tag = planHeute(ex, today);
+      const fuss = !tag ? `<button class="count-more" data-a="exam" data-d="${ex.id}">Lernplan ansehen ${icon('chev', 'chev')}</button>`
+        : tag.fertig
+          ? `<div class="count-plan fertig">${icon('check')}<span><b>Heute geschafft.</b><small>${tag.morgen ? 'Morgen: ' + esc(tag.morgen) : 'Morgen ist die Arbeit. Viel Erfolg!'}</small></span><button class="btn small" data-a="plantag">Nochmal</button></div>
+            <button class="count-more" data-a="exam" data-d="${ex.id}">Lernplan ansehen ${icon('chev', 'chev')}</button>`
+          : `<button class="count-plan" data-a="plantag">${icon('bolt')}<span><b>Heute lernen</b><small>${esc(tag.text)}</small></span>${icon('chev', 'chev')}</button>
+            <button class="count-more" data-a="exam" data-d="${ex.id}">Lernplan ansehen ${icon('chev', 'chev')}</button>`;
+      T.arbeit = `<div class="sec-h">Nächste Klassenarbeit</div><div class="card count" style="--fc:${f ? f.farbe : 'var(--accent)'}"><button class="count-main" data-a="exam" data-d="${ex.id}">
         <div class="count-head"><span class="count-badge"><b>${d === 0 ? '!' : d}</b><small>${d === 0 ? 'heute' : d === 1 ? 'Tag' : 'Tage'}</small></span><span><div class="count-t">${esc(ex.fach)}</div><div class="muted">${esc(dayLong(ex.datum))}</div></span>${bereit != null ? `<span class="bereit">${ring(bereit / 100, 56, bereit >= 75 ? 'var(--green)' : bereit >= 45 ? 'var(--orange)' : 'var(--red)', `<b>${bereit}</b><small>%</small>`)}<small>vorbereitet</small></span>` : ''}</div>
         ${tops.length ? `<div class="count-tops">${tops.map(t => { const p = topicProgress(t.thema.id); return `<div class="ct"><span>${esc(t.thema.name)}</span>${progress(p || 0, f ? f.farbe : null)}</div>`; }).join('')}</div>` : ex.themen ? `<div class="muted">${esc(ex.themen)}</div>` : ''}
-        <div class="count-more">Lernplan ansehen ${icon('chev', 'chev')}</div></button>`;
-      // Der heutige Tag aus dem Lernplan: ein kleiner Knopf zum Starten, mit Haken, wenn er geschafft ist
-      const tag = planHeute(ex, today);
-      if (tag) T.arbeit += tag.fertig
-        ? `<div class="plantag fertig">${icon('check')}<span><b>Heute geschafft.</b> ${tag.morgen ? 'Morgen: ' + esc(tag.morgen) : 'Morgen ist die Arbeit. Viel Erfolg!'}</span><button class="btn small" data-a="plantag">Nochmal</button></div>`
-        : `<button class="plantag" data-a="plantag">${icon('bolt')}<span><b>Heute lernen</b><small>${esc(tag.text)}</small></span>${icon('chev', 'chev')}</button>`;
+        </button>${fuss}</div>`;
     }
     // Trainer und Hörmodus: je eine Kachel. Die Trainer liegen dahinter in Ordnern nach Fach.
     const tr = trainerOrdnerListe(today);
