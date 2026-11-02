@@ -8,11 +8,12 @@ import { mehrPage, unterrichtPage, termineDetail, termEditor, datensicherung, ap
 import { prefs } from './db.js';
 import { saeulen, stapel, standVon, balken } from './diagramm.js';
 import { lernplan } from './srs.js';
+import { bereinigen } from './svg.js';
 import * as sicherung from './sicherung.js';
 import { laden as skizzenLaden } from './skizzen.js';
 import { canSpeak, readAloud } from './speech.js';
 
-export const VERSION = '1.22.1';
+export const VERSION = '1.23.0';
 
 /* ===== Heute ===== */
 // Kurze, wechselnde Sätze für den Start. Ohne Druck.
@@ -615,6 +616,7 @@ function drawBlock(el) {
       const z = zu[i];
       const ziel = z.themaId ? 'ergänzt ein vorhandenes Thema' : 'legt ein neues Thema an';
       h += `<div class="card pv"><div class="pv-t">${esc(t.fach)}, ${esc(t.thema)}: ${esc(summary(t))}.</div><div class="muted small">Das ${ziel}. Doppelte Einträge lasse ich weg.</div>
+        ${(t.zeichnungen || []).length ? `<div class="pv-zg">${t.zeichnungen.map(zg => `<figure class="sk-fig sk"><div class="sk-box">${bereinigen(zg.svg)}</div><figcaption>${esc(zg.titel)}</figcaption></figure>`).join('')}</div>` : ''}
         <label class="fld"><span>Fach</span><select data-i="${i}" data-k="fach">${fachOpts(z.fachId, t.fach)}</select></label>
         <label class="fld"><span>Thema</span><select data-i="${i}" data-k="thema">${themaOpts(z.fachId, z.themaId, t.thema)}</select></label></div>`;
     });
@@ -622,7 +624,7 @@ function drawBlock(el) {
     if (r.fehler.length) h += `<div class="fb bad"><b>${plural(r.fehler.length, 'Problem', 'Probleme')} beim Lesen:</b>${r.fehler.map(e => `<div class="pv-err">Zeile ${e.zeile}: ${esc(e.meldung)}${e.text ? `<code>${esc(e.text.slice(0, 80))}</code>` : ''}</div>`).join('')}</div>`;
     if (r.hinweise.length) h += `<details class="disc"><summary>${plural(r.hinweise.length, 'Hinweis', 'Hinweise')}</summary>${r.hinweise.map(e => `<div class="pv-err">Zeile ${e.zeile}: ${esc(e.meldung)}</div>`).join('')}</details>`;
     // Ersetzen: wenn vorher etwas Falsches eingefügt wurde und der neue Text es ablösen soll
-    if (r.themen.some((t, i) => zu[i].themaId && st.S.content.get(zu[i].themaId))) h += list([row({ title: 'Bisherige Inhalte ersetzen', sub: 'Was du früher in diese Themen eingefügt hast, wird durch diesen Text ersetzt, auch auf deinen anderen Geräten. Lernzettel, Fotos und Fortschritt bleiben.', right: sw('ersetzen', insErsetzen) })]);
+    if (r.themen.some((t, i) => zu[i].themaId && st.S.content.get(zu[i].themaId))) h += list([row({ title: 'Bisherige Inhalte ersetzen', sub: 'Was du früher in diese Themen eingefügt hast, wird durch diesen Text ersetzt, auch auf deinen anderen Geräten. Lernzettel, Fotos und Fortschritt bleiben. Zeichnungen bleiben auch, wenn dieser Text keine eigenen enthält.', right: sw('ersetzen', insErsetzen) })]);
     if (r.themen.length || r.termine.length) h += `<button class="btn filled wide" data-a="save">Speichern?</button>`;
     pv.innerHTML = h;
     $$('select', pv).forEach(s => s.addEventListener('change', () => {

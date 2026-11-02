@@ -350,6 +350,8 @@ export async function saveBlocks(zuordnung, termine = [], opt = {}) {
     const ersetzen = opt.ersetzen && !ersetzt.has(t.id);
     if (ersetzen) ersetzt.add(t.id);
     const old = (!ersetzen && S.content.get(t.id)) || emptyTopic(f.name, t.name);
+    // Ersetzen: Zeichnungen bleiben, wenn der neue Block keine eigenen mitbringt
+    if (ersetzen && S.content.get(t.id) && !(z.topic.zeichnungen || []).length) old.zeichnungen = (S.content.get(t.id).zeichnungen || []).slice();
     const base = S.builtin.get(t.id);
     const neu = mergeTopic(base ? mergeTopic(base, old).topic : old, z.topic);
     const merged = mergeTopic(old, z.topic).topic;
@@ -367,6 +369,16 @@ export async function saveBlocks(zuordnung, termine = [], opt = {}) {
 export async function setUserTopic(tid, topicObj) {
   S.content.set(tid, topicObj); S.contentZeit.set(tid, Date.now());
   await db.put('content', { id: tid, topic: topicObj, zeit: Date.now() });
+  changed('content');
+}
+// Eine eingefügte Zeichnung löschen. „ersetzt“ sorgt dafür, dass sie beim Abgleich nicht vom anderen Gerät zurückkommt.
+export async function zeichnungLoeschen(tid, titel) {
+  const u = S.content.get(tid);
+  if (!u) return;
+  const t = Object.assign({}, u, { zeichnungen: (u.zeichnungen || []).filter(z => norm(z.titel) !== norm(titel)) });
+  const jetzt = Date.now();
+  S.content.set(tid, t); S.contentZeit.set(tid, jetzt); S.contentErsetzt.set(tid, jetzt);
+  await db.put('content', { id: tid, topic: t, zeit: jetzt, ersetzt: jetzt });
   changed('content');
 }
 export function exportTopic(tid) {

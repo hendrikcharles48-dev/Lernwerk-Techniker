@@ -16,7 +16,7 @@ Alle Lerndaten, Fotos und eingefügten Inhalte bleiben auf dem Gerät (IndexedDB
 
 **Diagramme:** Woche (Übungen pro Tag), Stand im Fach und je Thema (neu, wackelt, sitzt), Anteil, der in jeder Stufe sitzt, Notenverlauf pro Fach, Fehler nach Art und pro Woche, Punkte nach Aufgabenart in der Probeklausur. Antippen zeigt den Wert. Eigene SVG-Diagramme in `js/diagramm.js`, ohne Bibliothek.
 
-**Trainer-Aufgaben:** Jede Runde von der Startseite (Unterricht, Alles wiederholen, Mini) besteht vor allem aus gemischten Rechenaufgaben aus Themen mit Trainer, dazwischen ein paar Karten. Eigener Knopf „Trainer gemischt“ auf der Startseite. **Skizzen in Fragen:** Bei Rechenaufgaben steht die Skizze des Themas über der Aufgabe, bei anderen Fragen als „Bild dazu“ zum Aufklappen. Diese Aufgaben sind unabhängig von den Stufen immer frei.
+**Trainer-Aufgaben:** Jede Runde von der Startseite (Unterricht, Alles wiederholen, Mini) besteht vor allem aus gemischten Rechenaufgaben aus Themen mit Trainer, dazwischen ein paar Karten. Eigener Knopf „Trainer gemischt“ auf der Startseite. **Skizzen in Fragen:** Bei Rechenaufgaben steht die Skizze des Themas über der Aufgabe, bei anderen Fragen als „Bild dazu“ zum Aufklappen. Diese Aufgaben sind unabhängig von den Stufen immer frei. **Eigene Zeichnungen:** Mit „Zeichnung: Titel | <svg…>…</svg>“ kommen fertige Skizzen über Einfügen ins Thema. Getrennt wird nur am ersten Trennstrich, das SVG darf über mehrere Zeilen gehen. Die App bereinigt es vor dem Speichern und Anzeigen (keine Skripte, keine on…-Attribute, keine Verweise nach außen). Die Zeichnungen erscheinen dort, wo auch die eingebauten Skizzen stehen, mit den Farbklassen der App (l, d, d2, lf, bgf, fl, r, b, g, o, p, rf, bf, gf, of, pf, fr, fb, fg, fo, t2, rt, bt, gt, ot, pt), hell und dunkel. In der Themenansicht hat jede eingefügte Zeichnung ein Löschen-Symbol. Eine gleichnamige Zeichnung ersetzt beim Einfügen die alte. „Bisherige Inhalte ersetzen“ ersetzt die Zeichnungen nur, wenn der neue Block eigene enthält.
 
 **Lernplan auf der Startseite:** In der Karte der nächsten Klassenarbeit steckt unten „Heute lernen“ mit den Themen des heutigen Plantags. Die Themen der Arbeit mit ihrem Fortschritt sind eingeklappt und gehen mit „4 Themen“ auf. Ist die Runde geschafft, steht dort ein Haken und was morgen dran ist. Der Plan beginnt an dem Tag, an dem er zum ersten Mal gezeigt wird, und läuft dann Tag für Tag weiter. Geschaffte Tage stehen im Lernplan mit Haken. Nach dem Tagesziel kann man weiterlernen: „Nächsten Tag vorziehen“ lernt den nächsten Plantag schon heute, dann läuft der Plan schneller und am Ende bleiben freie Tage, an denen die Schwächen drankommen. Der Wiederholtag vor der Arbeit bleibt an seinem Platz. „Schwächen üben“ nimmt offene Fehler, falsch beantwortete und wackelnde Fragen der Arbeit. Liegt ein Thema in einer Runde unter 60 % richtig, kommt es beim nächsten Plantag zusätzlich dran, ab 80 % ist es wieder raus.
 
@@ -117,6 +117,7 @@ Verwechslung: Begriff A | Begriff B | Unterschied in einem Satz
 Zuordnen: Titel | Begriff = Bedeutung; Begriff = Bedeutung; Begriff = Bedeutung
 Erklären: Prüfungsaufgabe | Kernpunkt; Kernpunkt; Kernpunkt
 Skizze: Prüfungsaufgabe zum Zeichnen auf Papier | Kernpunkt; Kernpunkt
+Zeichnung: Titel | <svg viewBox="0 0 300 200">…</svg>
 Inhalt: 6 Karten; 2 Aufgaben; 3 Begriffe
 ```
 

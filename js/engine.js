@@ -127,7 +127,7 @@ function renderTab(el, tab, tid, T, items, f) {
     const nichts = !T.anker.length && !T.begriffe.length && !T.merksaetze.length && !T.prinzip.length && !T.notizen.length;
     if (nichts) h += emptyContent(tid);
     T.anker.forEach(a => { h += `<div class="card anchor"><div class="card-k">Bild aus deiner Welt</div><p>${esc(a)}</p></div>`; });
-    if (sk.fuer(tid).length) h += `<div class="sec-h">Skizze</div>` + sk.html(tid);
+    if (sk.fuer(tid).length) h += `<div class="sec-h">${sk.fuer(tid).length > 1 ? 'Skizzen' : 'Skizze'}</div>` + sk.html(tid, false, false, true);
     if (T.begriffe.length) h += `<div class="sec-h">Fachbegriffe</div>` + list(T.begriffe.map(b => row({ titleHTML: `<b>${esc(b.begriff)}</b>`, sub: b.erklaerung })));
     T.merksaetze.forEach(m => { h += `<div class="card merk" style="--fc:${color}"><div class="card-k">Merksatz</div><p>${esc(m)}</p></div>`; });
     if (T.prinzip.length) h += `<div class="sec-h">So funktioniert es</div><div class="card prose">${T.prinzip.map(p => markdown(p)).join('')}</div>`;

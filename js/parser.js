@@ -3,6 +3,7 @@
 import { norm, toDay } from './util.js';
 import { parseEq, parseExpr, evaluate, varsOf } from './formula.js';
 import { readNumber } from './check.js';
+import { bereinigen, istSvg } from './svg.js';
 
 const KEYS = {
   fach: 'fach', thema: 'thema', modul: 'modul',
@@ -32,6 +33,8 @@ const KEYS = {
   stufe: 'stufe', inhalt: 'inhalt',
   verwechslung: 'verwechslung', verwechslungen: 'verwechslung', zuordnen: 'zuordnen', zuordnung: 'zuordnen',
   erklaeren: 'erklaeren', erklaere: 'erklaeren', skizze: 'skizze', skizzen: 'skizze',
+  // Fertige Zeichnung als SVG: Zeichnung: Titel | <svg …>…</svg>
+  zeichnung: 'zeichnung', zeichnungen: 'zeichnung', svg: 'zeichnung',
   ansatz: 'ansatz', signal: 'signal', erkennen: 'signal', warum: 'warum', begruendung: 'warum', kontrolle: 'kontrolle', probe: 'kontrolle'
 };
 const keyNorm = s => String(s).toLowerCase().replace(/ä/g, 'ae').replace(/ö/g, 'oe').replace(/ü/g, 'ue').replace(/ß/g, 'ss').replace(/[^a-z]/g, '');
@@ -44,17 +47,17 @@ export function emptyTopic(fach = '', thema = '') {
     fach, thema, modul: '',
     anker: [], begriffe: [], merksaetze: [], prinzip: [], bausteine: [], schnellwege: [], fehler: [],
     formeln: [], karten: [], aufgaben: [], umstellen: [], auswahl: [], reihenfolgen: [], podcast: [], quellen: [], notizen: [],
-    verwechslungen: [], zuordnen: [], erklaeren: [], skizzen: []
+    verwechslungen: [], zuordnen: [], erklaeren: [], skizzen: [], zeichnungen: []
   };
 }
-const LISTS = ['anker', 'begriffe', 'merksaetze', 'prinzip', 'bausteine', 'schnellwege', 'fehler', 'formeln', 'karten', 'aufgaben', 'umstellen', 'auswahl', 'reihenfolgen', 'podcast', 'quellen', 'notizen', 'verwechslungen', 'zuordnen', 'erklaeren', 'skizzen'];
+const LISTS = ['anker', 'begriffe', 'merksaetze', 'prinzip', 'bausteine', 'schnellwege', 'fehler', 'formeln', 'karten', 'aufgaben', 'umstellen', 'auswahl', 'reihenfolgen', 'podcast', 'quellen', 'notizen', 'verwechslungen', 'zuordnen', 'erklaeren', 'skizzen', 'zeichnungen'];
 
 // Prüfzeile „Inhalt: 6 Karten; 2 Aufgaben“: welches Wort zu welcher Liste gehört
 const INHALT = [
   [/^karte/, 'karten', 'Karten'], [/^aufgabe/, 'aufgaben', 'Aufgaben'], [/^(fach)?begriff/, 'begriffe', 'Begriffe'], [/^formel/, 'formeln', 'Formeln'],
   [/^merks/, 'merksaetze', 'Merksätze'], [/^baustein/, 'bausteine', 'Bausteine'], [/^(typische)?fehler/, 'fehler', 'Fehler'], [/^schnellweg/, 'schnellwege', 'Schnellwege'],
   [/^auswahl/, 'auswahl', 'Auswahlfragen'], [/^reihenfolge/, 'reihenfolgen', 'Reihenfolgen'], [/^umstell/, 'umstellen', 'Umstellaufgaben'], [/^verwechslung/, 'verwechslungen', 'Verwechslungen'],
-  [/^zuordn/, 'zuordnen', 'Zuordnungen'], [/^erklaer/, 'erklaeren', 'Erklär-Aufgaben'], [/^skizze/, 'skizzen', 'Skizzen'], [/^(anker|bild)/, 'anker', 'Bilder'], [/^podcast/, 'podcast', 'Podcast-Zeilen']
+  [/^zuordn/, 'zuordnen', 'Zuordnungen'], [/^erklaer/, 'erklaeren', 'Erklär-Aufgaben'], [/^skizze/, 'skizzen', 'Skizzen'], [/^(zeichnung|svg)/, 'zeichnungen', 'Zeichnungen'], [/^(anker|bild)/, 'anker', 'Bilder'], [/^podcast/, 'podcast', 'Podcast-Zeilen']
 ];
 export function readInhalt(val) {
   const out = [];
@@ -350,6 +353,24 @@ export function parseBlocks(text) {
         if (!aufgabe || !kern.length) { err(i, name + ' bitte so schreiben: Aufgabe | Kernpunkt; Kernpunkt; Kernpunkt.'); break; }
         cur[key === 'skizze' ? 'skizzen' : 'erklaeren'].push(mark({ aufgabe, kern })); field = null; break;
       }
+      case 'zeichnung': {
+        // Nur am ersten Trennstrich teilen, im SVG dürfen weitere stehen. Die Rohzeile nehmen, damit
+        // Markdown-Bereinigung nichts im SVG verändert. Ein SVG darf über mehrere Zeilen gehen.
+        const roh = raw.slice(raw.indexOf(':') + 1);
+        const k = roh.indexOf('|');
+        const titel = stripMd(k < 0 ? roh : roh.slice(0, k)).trim();
+        let svg = k < 0 ? '' : roh.slice(k + 1).replace(/`+\s*$/, '').trim();
+        if (/<svg[\s>]/i.test(svg) && !/<\/svg>/i.test(svg)) {
+          let j = i + 1;
+          while (j < lines.length && !/<\/svg>/i.test(lines[j]) && !(hasMarkers && END.test(cleanLine(lines[j])))) j++;
+          if (j < lines.length && /<\/svg>/i.test(lines[j])) { svg += '\n' + lines.slice(i + 1, j + 1).join('\n'); i = j; }
+        }
+        svg = svg.replace(/(<\/svg>)[\s\S]*$/i, '$1').trim();
+        if (!titel || !istSvg(svg)) { err(i, 'Zeichnung bitte so schreiben: Titel | <svg …>…</svg>. Nach dem Trennstrich fehlt ein vollständiges SVG.'); field = null; break; }
+        const sauber = bereinigen(svg);
+        if (!sauber) { err(i, 'Die Zeichnung „' + titel + '“ kann ich nicht lesen. Das SVG ist fehlerhaft.'); field = null; break; }
+        cur.zeichnungen.push({ titel, svg: sauber }); field = null; break;
+      }
       case 'podcast': {
         // Podcast: Lena | Text  oder  Podcast: Tom | Text. Tom erklärt, Lena fragt.
         const [wer, ...rest] = pipes(val);
@@ -393,6 +414,7 @@ export function summary(t) {
     [(t.zuordnen || []).length, 'Zuordnung', 'Zuordnungen'],
     [(t.erklaeren || []).length, 'Erklär-Aufgabe', 'Erklär-Aufgaben'],
     [(t.skizzen || []).length, 'Skizze', 'Skizzen'],
+    [(t.zeichnungen || []).length, 'Zeichnung', 'Zeichnungen'],
     [t.schnellwege.length, 'Schnellweg', 'Schnellwege'],
     [t.fehler.length, 'typischer Fehler', 'typische Fehler'],
     [t.prinzip.length ? 1 : 0, 'Prinzip-Text', 'Prinzip-Texte'],
@@ -408,9 +430,11 @@ const KEYFN = {
   begriffe: b => norm(b.begriff), fehler: f => norm(f.fehler), formeln: f => norm(f.formel), karten: k => norm(k.frage),
   aufgaben: a => norm(a.text + a.gegeben.join('')), umstellen: u => norm(u.formel + '|' + u.nach), auswahl: a => norm(a.frage),
   reihenfolgen: r => norm(r.titel), podcast: p => norm(p.wer + p.text), notizen: n => norm(n.schluessel + n.text),
-  verwechslungen: v => norm(v.a + '|' + v.b), zuordnen: z => norm(z.titel), erklaeren: e => norm(e.aufgabe), skizzen: e => norm(e.aufgabe)
+  verwechslungen: v => norm(v.a + '|' + v.b), zuordnen: z => norm(z.titel), erklaeren: e => norm(e.aufgabe), skizzen: e => norm(e.aufgabe), zeichnungen: z => norm(z.titel)
 };
-export function mergeTopic(base, add) {
+// opt.zeichnungBleibt: bei gleichem Titel behält base seine Zeichnung (Abgleich: base ist die neuere Fassung).
+// Sonst ersetzt eine gleichnamige Zeichnung aus add die alte.
+export function mergeTopic(base, add, opt = {}) {
   const out = emptyTopic(base.fach || add.fach, base.thema || add.thema);
   out.modul = base.modul || add.modul || '';
   let added = 0;
@@ -422,6 +446,7 @@ export function mergeTopic(base, add) {
       if (!key) continue;
       if (seen.has(key)) {
         const old = seen.get(key);
+        if (k === 'zeichnungen') { if (!opt.zeichnungBleibt && old.svg !== x.svg) { out[k][out[k].indexOf(old)] = x; seen.set(key, x); added++; } continue; }
         if (k === 'begriffe' && !old.erklaerung && x.erklaerung) old.erklaerung = x.erklaerung;
         if (k === 'formeln') for (const u of x.umgestellt) if (!old.umgestellt.some(o => norm(o) === norm(u))) old.umgestellt.push(u);
         if (k === 'formeln' && x.aufbau && !old.aufbau) old.aufbau = x.aufbau;
@@ -482,6 +507,7 @@ export function exportBlock(t, termine = []) {
   (t.zuordnen || []).forEach(z => st(z) || L.push('Zuordnen: ' + z.titel + ' | ' + z.paare.map(p => p.begriff + ' = ' + p.bedeutung).join('; ')));
   (t.erklaeren || []).forEach(e => st(e) || L.push('Erklären: ' + e.aufgabe + ' | ' + e.kern.join('; ')));
   (t.skizzen || []).forEach(e => st(e) || L.push('Skizze: ' + e.aufgabe + ' | ' + e.kern.join('; ')));
+  (t.zeichnungen || []).forEach(z => L.push('Zeichnung: ' + z.titel + ' | ' + String(z.svg).replace(/\s*\n\s*/g, ' ')));
   (t.podcast || []).forEach(p => L.push('Podcast: ' + (p.wer === 'B' ? 'Tom' : 'Lena') + ' | ' + p.text));
   t.quellen.forEach(q => L.push(lineOut('Quelle', q)));
   t.notizen.forEach(n => L.push(lineOut(n.schluessel, n.text)));
@@ -524,6 +550,7 @@ Zuordnen: Titel | Begriff = Bedeutung; Begriff = Bedeutung; Begriff = Bedeutung
 Stufe: 3
 Erklären: Prüfungsaufgabe zum Erklären | Kernpunkt; Kernpunkt; Kernpunkt
 Skizze: Prüfungsaufgabe zum Zeichnen | Kernpunkt; Kernpunkt
+Zeichnung: Titel | <svg viewBox="0 0 300 200">…</svg> (optional, fertige Skizze als SVG, Farben über die Klassen l, d, r, b, g, o, t2)
 Termin: Fach | JJJJ-MM-TT | Themen
 Inhalt: 6 Karten; 2 Aufgaben; 3 Begriffe
 === ENDE ===

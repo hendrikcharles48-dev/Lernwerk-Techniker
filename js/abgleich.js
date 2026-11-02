@@ -132,7 +132,7 @@ export function zusammenfuehren(L, F) {
         const [n, a] = tx > ta ? [x, alt] : [alt, x];
         // Auf einem Gerät ersetzt: die ältere Fassung nicht wieder dazumischen
         if (n.ersetzt && n.ersetzt >= (zeitVon(s, a) || 0)) { m.set(x.id, n); return; }
-        const neu = { id: x.id, topic: mergeTopic(n.topic, a.topic).topic, zeit: Math.max(ta, tx) || undefined };
+        const neu = { id: x.id, topic: mergeTopic(n.topic, a.topic, { zeichnungBleibt: true }).topic, zeit: Math.max(ta, tx) || undefined };
         if (n.ersetzt || a.ersetzt) neu.ersetzt = Math.max(n.ersetzt || 0, a.ersetzt || 0);
         m.set(x.id, neu);
         return;
