@@ -131,9 +131,9 @@ export function termineDetail(id) {
       else h += `<div class="fb info">Wähl die Themen der Arbeit aus (oben rechts bearbeiten). Dann zieht Lernwerk sie in Heute vor und plant rückwärts.</div>`;
       h += `<div class="btn-row"><button class="btn filled" data-a="ueben">${icon('bolt')} Themen der Arbeit üben</button><button class="btn" data-a="probe">${icon('exam')} Probeklausur</button><button class="btn" data-a="hoer">${icon('ear')} Hörmodus</button></div>`;
       if (d > 0) {
-        const plan = lernplan(e.datum, tops.map(t => t.thema), today);
+        const plan = lernplan(e.datum, tops.map(t => t.thema), st.planStart(e, today)).filter(p => p.datum >= today);
         h += `<div class="sec-h">Lernplan bis zur Arbeit</div>` + list(plan.map(p => row({
-          title: (p.datum === today ? 'Heute, ' : '') + dayLong(p.datum),
+          title: (p.datum === today ? 'Heute, ' : '') + dayLong(p.datum) + ((st.kvGet('planErledigt', {})[e.id] || []).includes(p.datum) ? ' ✓ geschafft' : ''),
           sub: p.art === 'wiederholen' ? 'Nur Wiederholung und Fehlerbuch' : p.themen.length ? p.themen.map(x => x.thema.name + (x.neu ? '' : ' wiederholen')).join(', ') + (p.leicht ? ' · voller Tag, nur kurz' : '') : 'Fällige Karten',
           cls: p.datum === today ? 'today-row' : ''
         })));

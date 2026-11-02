@@ -793,3 +793,13 @@ body.sheet-open #readbar { bottom: calc(var(--sab) + 14px); }
 .sess-sk { margin: 0 0 12px; }
 .sess-sk .sk-fig { margin: 0; }
 .frage-sk summary .ic { width: 18px; height: 18px; vertical-align: -3px; color: var(--accent); }
+
+/* ===== Lernplan: der heutige Tag unter der nächsten Arbeit ===== */
+.plantag { display: flex; align-items: center; gap: 10px; width: 100%; min-height: 52px; border: 0; border-radius: var(--r); background: var(--bg2); box-shadow: var(--shadow); padding: 10px 12px; margin: -6px 0 14px; text-align: left; color: var(--label); font-size: 15px; }
+.plantag > .ic:first-child { width: 22px; height: 22px; color: var(--accent); flex: none; }
+.plantag span { flex: 1; min-width: 0; }
+.plantag b { display: block; font-size: 16px; }
+.plantag small { display: block; color: var(--label2); font-size: 13.5px; }
+.plantag .chev { width: 16px; height: 16px; color: var(--label3); flex: none; }
+.plantag.fertig > .ic:first-child { color: var(--green); }
+.plantag.fertig .btn { flex: none; }

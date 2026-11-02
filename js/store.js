@@ -622,6 +622,13 @@ export function nacharbeitThemen(today = dayStr()) {
   for (const [tid, v] of out) if (v.bewertung !== 'mittel' && v.bewertung !== 'schlecht') out.delete(tid);
   return out;
 }
+// Der Lernplan beginnt an dem Tag, an dem er zum ersten Mal gezeigt wurde, und läuft dann Tag für Tag weiter
+export function planStart(ex, today = dayStr()) {
+  const ps = kvGet('planStart', {});
+  if (ps[ex.id] && ps[ex.id] <= today) return ps[ex.id];
+  kvSet('planStart', Object.assign({}, ps, { [ex.id]: today }));
+  return today;
+}
 export async function deleteExam(id) { S.exams = S.exams.filter(e => e.id !== id); await db.del('exams', id); await loeschmarke('exams:' + id); changed('exams'); }
 
 /* ===== Fehlerbuch ===== */

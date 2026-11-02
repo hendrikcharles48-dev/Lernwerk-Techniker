@@ -7,11 +7,12 @@ import { topicPage, runSession, sortForPractice, fachProgress, topicProgress, op
 import { mehrPage, unterrichtPage, termineDetail, termEditor, datensicherung, applyTheme, hoerPage } from './extra.js';
 import { prefs } from './db.js';
 import { saeulen, stapel, standVon, balken } from './diagramm.js';
+import { lernplan } from './srs.js';
 import * as sicherung from './sicherung.js';
 import { laden as skizzenLaden } from './skizzen.js';
 import { canSpeak, readAloud } from './speech.js';
 
-export const VERSION = '1.20.3';
+export const VERSION = '1.21.0';
 
 /* ===== Heute ===== */
 // Kurze, wechselnde Sätze für den Start. Ohne Druck.
@@ -30,7 +31,7 @@ function gruss() {
 }
 // Bausteine der Startseite. Reihenfolge und Sichtbarkeit stellst du unten unter „Startseite anpassen“ ein.
 const START_TEILE = [
-  ['spruch', 'Spruch des Tages'], ['tag', 'Fortschritt heute'], ['unterricht', 'Lernknopf Unterricht'], ['trainermix', 'Lernknopf Trainer gemischt'], ['alles', 'Lernknopf Alles wiederholen'],
+  ['spruch', 'Spruch des Tages'], ['tag', 'Fortschritt heute'], ['unterricht', 'Lernknopf Unterricht'], ['alles', 'Lernknopf Alles wiederholen'],
   ['wahl', 'Lernzeit, Fragen und Mini'], ['imunterricht', 'Im Unterricht'], ['arbeit', 'Nächste Klassenarbeit'], ['kacheln', 'Trainer und Hörmodus'], ['woche', 'Diese Woche']
 ];
 export function startLayout() {
@@ -94,7 +95,6 @@ const heute = {
       return l.length ? `<span class="lern-tags">${l.slice(0, 3).map(([k, n]) => `<span>${esc(k)} ${n}</span>`).join('')}${l.length > 3 ? `<span>und ${l.length - 3} weitere</span>` : ''}</span>` : '';
     };
     T.unterricht = `<button class="five" data-a="lernU">${icon('bolt')}<span><b>Unterricht</b><small>${aktTids().length ? (qu.items.length ? plural(qu.items.length, 'Übung', 'Übungen') + ' offen · etwa ' + minuten(qu) + ' Min' : 'Nichts fällig, du kannst trotzdem üben.') : 'Noch keine Themen angewählt. Tippe hier.'}</small>${themenTags(qu.items)}</span></button>`;
-    T.trainermix = `<button class="trmixbtn" data-a="trmix">${icon('tools')}<span><b>Trainer gemischt</b><small>Rechenaufgaben aus allen Trainern durcheinander, ohne Themenhinweis</small></span></button>`;
     T.alles = `<button class="mixbtn" data-a="lernA">${icon('mix')}<span><b>Alles wiederholen</b><small>${qa.faellig ? plural(qa.faellig, 'Übung', 'Übungen') + ' fällig · etwa ' + minuten(qa) + ' Min' : 'Nichts fällig. Alles, was schon dran war, schwache Themen öfter.'}</small>${qa.faellig ? themenTags(qa.items) : ''}</span></button>`;
     // Lernzeit und Fragen vor dem Start wählen. Die letzte Wahl bleibt.
     // Zwei Knöpfe nebeneinander. Antippen klappt die Optionen auf, eine Wahl klappt sie wieder zu.
@@ -117,6 +117,11 @@ const heute = {
         <div class="count-head"><span class="count-badge"><b>${d === 0 ? '!' : d}</b><small>${d === 0 ? 'heute' : d === 1 ? 'Tag' : 'Tage'}</small></span><span><div class="count-t">${esc(ex.fach)}</div><div class="muted">${esc(dayLong(ex.datum))}</div></span>${bereit != null ? `<span class="bereit">${ring(bereit / 100, 56, bereit >= 75 ? 'var(--green)' : bereit >= 45 ? 'var(--orange)' : 'var(--red)', `<b>${bereit}</b><small>%</small>`)}<small>vorbereitet</small></span>` : ''}</div>
         ${tops.length ? `<div class="count-tops">${tops.map(t => { const p = topicProgress(t.thema.id); return `<div class="ct"><span>${esc(t.thema.name)}</span>${progress(p || 0, f ? f.farbe : null)}</div>`; }).join('')}</div>` : ex.themen ? `<div class="muted">${esc(ex.themen)}</div>` : ''}
         <div class="count-more">Lernplan ansehen ${icon('chev', 'chev')}</div></button>`;
+      // Der heutige Tag aus dem Lernplan: ein kleiner Knopf zum Starten, mit Haken, wenn er geschafft ist
+      const tag = planHeute(ex, today);
+      if (tag) T.arbeit += tag.fertig
+        ? `<div class="plantag fertig">${icon('check')}<span><b>Heute geschafft.</b> ${tag.morgen ? 'Morgen: ' + esc(tag.morgen) : 'Morgen ist die Arbeit. Viel Erfolg!'}</span><button class="btn small" data-a="plantag">Nochmal</button></div>`
+        : `<button class="plantag" data-a="plantag">${icon('bolt')}<span><b>Heute lernen</b><small>${esc(tag.text)}</small></span>${icon('chev', 'chev')}</button>`;
     }
     // Trainer und Hörmodus: je eine Kachel. Die Trainer liegen dahinter in Ordnern nach Fach.
     const tr = trainerOrdnerListe(today);
@@ -139,6 +144,7 @@ const heute = {
       anpassen: () => startAnpassen(),
       waehle: d => { const [k, v] = d.split('|'); wahlOffen = null; if (k === 'zeit') prefs.set('lernzeit', v); else st.setModus(v); this.render(b); },
       backup: () => push(datensicherung()),
+      plantag: () => planTagLernen(st.nextExam(dayStr())),
       exam: id => push(termineDetail(id)),
       newexam: () => termEditor({}),
       lernU: () => lernenUnterricht(),
@@ -244,6 +250,46 @@ function mixAufgaben(tids, n) {
   pick(rest, out);
   return out;
 }
+/* ===== Lernplan: der heutige Tag =====
+ * Der Lernplan rechnet rückwärts bis zur Arbeit, der erste Tag ist immer heute.
+ * Ist die heutige Runde geschafft, merkt sich die App das Datum je Arbeit (kv „planErledigt“).
+ */
+const planText = p => (p.art === 'wiederholen' ? 'Alles wiederholen und Fehlerbuch' : p.themen.map(x => x.thema.name + (x.neu ? '' : ' wiederholen')).join(', ')) + (p.leicht ? ' · kurz, voller Tag' : '');
+function planTage(ex, today) {
+  const tops = (ex.themaIds || []).map(t => st.thema(t)).filter(Boolean).map(t => t.thema);
+  return tops.length ? lernplan(ex.datum, tops, st.planStart(ex, today)) : [];
+}
+function planHeute(ex, today) {
+  const tage = planTage(ex, today);
+  const p = tage.find(x => x.datum === today);
+  if (!p) return null;
+  const fertig = (st.kvGet('planErledigt', {})[ex.id] || []).includes(today);
+  const m = tage.find(x => x.datum > today);
+  return { p, text: planText(p), fertig, morgen: m ? planText(m) : '' };
+}
+function planTagLernen(ex) {
+  if (!ex) return;
+  const today = dayStr();
+  const tag = planHeute(ex, today);
+  if (!tag) return;
+  const z = lernzeit();
+  const tids = tag.p.art === 'wiederholen' || !tag.p.themen.length ? (ex.themaIds || []) : tag.p.themen.map(x => x.thema.id);
+  const q = st.buildQueue((z.min || 15) * 60, { tids, exam: ex, mitFehlern: true, maxNeu: tag.p.leicht ? 4 : 10 });
+  let items = mitRechnen(q.items, tids, tag.p.leicht ? Math.ceil(z.n / 2) : z.n, tag.p.leicht ? Math.ceil(z.rechnen / 2) : z.rechnen);
+  if (!items.length) items = sortForPractice(tids.flatMap(t => st.uebItems(t))).slice(0, z.n);
+  if (!items.length) { toast('Für die Themen dieses Tages gibt es noch keine Übungen.'); return; }
+  runSession(items, 'Lernplan heute', { minutes: tag.p.leicht ? Math.ceil((z.min || 10) / 2) : z.min, onClose: async res => {
+    // Geschafft, wenn mindestens die Hälfte der Runde bearbeitet ist
+    if (res.length >= Math.min(items.length, Math.max(3, Math.ceil(items.length / 2)))) {
+      const e = Object.assign({}, st.kvGet('planErledigt', {}));
+      e[ex.id] = [...new Set([...(e[ex.id] || []), today])];
+      await st.kvSet('planErledigt', e);
+      toast('Lernplan für heute geschafft!');
+    }
+    refreshTop();
+  } });
+}
+
 /* ===== Trainer-Aufgaben gehören immer dazu =====
  * Jede Runde von der Startseite enthält Rechenaufgaben aus Themen mit Trainer: mindestens eine,
  * sonst mindestens die Hälfte der Rechenplätze. Erst aus den gewählten Themen, dann aus allen
