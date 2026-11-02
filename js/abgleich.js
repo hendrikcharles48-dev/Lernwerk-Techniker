@@ -130,7 +130,11 @@ export function zusammenfuehren(L, F) {
       if (s === 'content') {
         // Beide Geräte haben etwas zum Thema eingefügt: zusammenlegen, die neuere Fassung zuerst
         const [n, a] = tx > ta ? [x, alt] : [alt, x];
-        m.set(x.id, { id: x.id, topic: mergeTopic(n.topic, a.topic).topic, zeit: Math.max(ta, tx) || undefined });
+        // Auf einem Gerät ersetzt: die ältere Fassung nicht wieder dazumischen
+        if (n.ersetzt && n.ersetzt >= (zeitVon(s, a) || 0)) { m.set(x.id, n); return; }
+        const neu = { id: x.id, topic: mergeTopic(n.topic, a.topic).topic, zeit: Math.max(ta, tx) || undefined };
+        if (n.ersetzt || a.ersetzt) neu.ersetzt = Math.max(n.ersetzt || 0, a.ersetzt || 0);
+        m.set(x.id, neu);
         return;
       }
       if (s === 'cards' && tx === ta) { const n = c => (c.richtig || 0) + (c.hilfe || 0) + (c.falsch || 0); if (n(x) > n(alt)) m.set(x.id, x); return; }

@@ -44,6 +44,7 @@ export async function init() {
   S.kv = new Map(kv);
   S.content = new Map(content.map(c => [c.id, c.topic]));
   S.contentZeit = new Map(content.map(c => [c.id, c.zeit || 0]));
+  S.contentErsetzt = new Map(content.filter(c => c.ersetzt).map(c => [c.id, c.ersetzt]));
   S.notes = notes; S.cards = new Map(cards.map(c => [c.id, c])); S.errors = errors; S.events = events; S.exams = exams;
   S.photoMeta = photos.map(p => ({ id: p.id, tid: p.tid, zeit: p.zeit, titel: p.titel }));
 
@@ -336,21 +337,27 @@ export async function fachZusammenlegen(vonFid, nachFid) {
 
 /* ===== Inhalte aus Blöcken übernehmen ===== */
 // zuordnung: [{topic, fachId|null (neu), themaId|null (neu)}]
-export async function saveBlocks(zuordnung, termine = []) {
-  const out = [];
+// opt.ersetzen: Was bisher in diesen Themen eingefügt war, fliegt raus und wird durch den neuen Text ersetzt.
+// Mehrere Blöcke zum selben Thema in einem Text werden dabei zusammen übernommen.
+export async function saveBlocks(zuordnung, termine = [], opt = {}) {
+  const out = [], ersetzt = new Set();
   for (const z of zuordnung) {
     let f = z.fachId ? fach(z.fachId) : findFach(z.topic.fach);
     if (!f) f = await addFach(z.topic.fach, z.topic.modul);
     if (z.topic.modul && !f.module.includes(z.topic.modul) && /^M\d$/.test(z.topic.modul)) { f.module.push(z.topic.modul); await savePlan(); }
     let t = z.themaId ? f.themen.find(x => x.id === z.themaId) : null;
     if (!t) t = await addThema(f, z.topic.thema);
-    const old = S.content.get(t.id) || emptyTopic(f.name, t.name);
+    const ersetzen = opt.ersetzen && !ersetzt.has(t.id);
+    if (ersetzen) ersetzt.add(t.id);
+    const old = (!ersetzen && S.content.get(t.id)) || emptyTopic(f.name, t.name);
     const base = S.builtin.get(t.id);
     const neu = mergeTopic(base ? mergeTopic(base, old).topic : old, z.topic);
     const merged = mergeTopic(old, z.topic).topic;
     merged.fach = f.name; merged.thema = t.name;
     S.content.set(t.id, merged); S.contentZeit.set(t.id, Date.now());
-    await db.put('content', { id: t.id, topic: merged, zeit: Date.now() });
+    if (opt.ersetzen) S.contentErsetzt.set(t.id, Date.now());
+    // „ersetzt“ sagt dem Abgleich: ältere Fassungen auf anderen Geräten nicht wieder dazumischen
+    await db.put('content', Object.assign({ id: t.id, topic: merged, zeit: Date.now() }, S.contentErsetzt.get(t.id) ? { ersetzt: S.contentErsetzt.get(t.id) } : {}));
     out.push({ fach: f, thema: t, added: neu.added });
   }
   for (const x of termine) await addExam({ fach: x.fach, datum: x.datum, themen: x.themen });
@@ -757,7 +764,7 @@ export async function exportBackup(mitFotos) {
   return {
     app: 'Lernwerk Techniker', format: 1, erstellt: new Date().toISOString(),
     hinweis: 'Eigene Inhalte stehen zusätzlich im Lernwerk-Format unter "bloecke".',
-    kv, content: [...S.content].map(([id, topic]) => ({ id, topic, zeit: (S.contentZeit && S.contentZeit.get(id)) || 0 })), notes: S.notes, cards: [...S.cards.values()],
+    kv, content: [...S.content].map(([id, topic]) => Object.assign({ id, topic, zeit: (S.contentZeit && S.contentZeit.get(id)) || 0 }, S.contentErsetzt && S.contentErsetzt.get(id) ? { ersetzt: S.contentErsetzt.get(id) } : {})), notes: S.notes, cards: [...S.cards.values()],
     errors: S.errors, events: S.events, exams: S.exams, photos, bloecke,
     einstellungen: { theme: db.prefs.get('theme', 'auto') }
   };
@@ -783,6 +790,7 @@ export async function uebernehmen(d) {
   S.kv = new Map(Object.entries(d.kv));
   S.content = new Map((d.content || []).map(c => [c.id, c.topic]));
   S.contentZeit = new Map((d.content || []).map(c => [c.id, c.zeit || 0]));
+  S.contentErsetzt = new Map((d.content || []).filter(c => c.ersetzt).map(c => [c.id, c.ersetzt]));
   S.notes = d.notes || []; S.cards = new Map((d.cards || []).map(c => [c.id, c]));
   S.errors = d.errors || []; S.events = (d.events || []).slice().sort((a, b) => a.zeit - b.zeit); S.exams = d.exams || [];
   if (d.kv.lehrplan) { S.plan = d.kv.lehrplan; if (S.base && (S.plan.baseVersion || 0) < S.base.version) { S.plan = upgradePlan(S.plan, S.base); S.plan.baseVersion = S.base.version; } }

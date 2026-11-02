@@ -104,5 +104,15 @@ const karte = (id, stufe, zeit, extra = {}) => Object.assign({ id, stufe, richti
   ok(!r.vonFern, 'Gerätedaten des anderen Geräts lösen keine Übernahme aus', r);
 }
 
+// 12. Auf einem Gerät ersetzter Inhalt: die alte Fassung vom anderen Gerät kommt nicht wieder dazu
+{
+  const falsch = Object.assign(emptyTopic('Werkstofftechnik', 'T'), { karten: [{ frage: 'Falsch?', antwort: 'falsch' }] });
+  const richtig = Object.assign(emptyTopic('Werkstofftechnik', 'T'), { karten: [{ frage: 'Richtig?', antwort: 'richtig' }] });
+  const d = zusammenfuehren(stand({ content: [{ id: 't', topic: richtig, zeit: 500, ersetzt: 500 }] }), stand({ content: [{ id: 't', topic: falsch, zeit: 100 }] })).daten;
+  ok(d.content[0].topic.karten.length === 1 && d.content[0].topic.karten[0].frage === 'Richtig?', 'ersetzter Inhalt bleibt ersetzt', d.content[0].topic.karten);
+  const d2 = zusammenfuehren(stand({ content: [{ id: 't', topic: falsch, zeit: 100 }] }), stand({ content: [{ id: 't', topic: richtig, zeit: 500, ersetzt: 500 }] })).daten;
+  ok(d2.content[0].topic.karten[0].frage === 'Richtig?' && d2.content[0].topic.karten.length === 1, 'auch in der anderen Richtung');
+}
+
 console.log(`\n${pass} bestanden, ${fail} fehlgeschlagen`);
 process.exit(fail ? 1 : 0);

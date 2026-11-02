@@ -11,7 +11,7 @@ import * as sicherung from './sicherung.js';
 import { laden as skizzenLaden } from './skizzen.js';
 import { canSpeak, readAloud } from './speech.js';
 
-export const VERSION = '1.20.2';
+export const VERSION = '1.20.3';
 
 /* ===== Heute ===== */
 // Kurze, wechselnde Sätze für den Start. Ohne Druck.
@@ -443,6 +443,7 @@ export function fachPage(fid) {
 let insMode = 'block';
 let insText = '';
 let insResult = null;
+let insErsetzen = false;
 let insNote = { text: '', titel: '', fid: '', tid: '', neu: '' };
 const einfuegen = {
   title: 'Einfügen',
@@ -497,6 +498,8 @@ function drawBlock(el) {
     if (r.termine.length) h += `<div class="card pv"><div class="pv-t">${plural(r.termine.length, 'Termin', 'Termine')}</div>${r.termine.map(x => `<div>${esc(x.fach)}: ${esc(dayLong(x.datum))}${x.themen ? ', ' + esc(x.themen) : ''}</div>`).join('')}</div>`;
     if (r.fehler.length) h += `<div class="fb bad"><b>${plural(r.fehler.length, 'Problem', 'Probleme')} beim Lesen:</b>${r.fehler.map(e => `<div class="pv-err">Zeile ${e.zeile}: ${esc(e.meldung)}${e.text ? `<code>${esc(e.text.slice(0, 80))}</code>` : ''}</div>`).join('')}</div>`;
     if (r.hinweise.length) h += `<details class="disc"><summary>${plural(r.hinweise.length, 'Hinweis', 'Hinweise')}</summary>${r.hinweise.map(e => `<div class="pv-err">Zeile ${e.zeile}: ${esc(e.meldung)}</div>`).join('')}</details>`;
+    // Ersetzen: wenn vorher etwas Falsches eingefügt wurde und der neue Text es ablösen soll
+    if (r.themen.some((t, i) => zu[i].themaId && st.S.content.get(zu[i].themaId))) h += list([row({ title: 'Bisherige Inhalte ersetzen', sub: 'Was du früher in diese Themen eingefügt hast, wird durch diesen Text ersetzt, auch auf deinen anderen Geräten. Lernzettel, Fotos und Fortschritt bleiben.', right: sw('ersetzen', insErsetzen) })]);
     if (r.themen.length || r.termine.length) h += `<button class="btn filled wide" data-a="save">Speichern?</button>`;
     pv.innerHTML = h;
     $$('select', pv).forEach(s => s.addEventListener('change', () => {
@@ -517,11 +520,13 @@ function drawBlock(el) {
       ta.value = t; update();
     },
     clear: () => { ta.value = ''; update(); },
+    'sw:ersetzen': v => { insErsetzen = v; },
     save: async () => {
       if (!parsed) return;
       const p = parsed;
       ta.value = ''; insText = ''; parsed = null;
-      const res = await st.saveBlocks(zu, p.termine);
+      const res = await st.saveBlocks(zu, p.termine, { ersetzen: insErsetzen });
+      insErsetzen = false;
       const n = res.reduce((s, x) => s + x.added, 0);
       toast(res.length ? 'Gespeichert: ' + res.map(x => x.thema.name).join(', ') + (n ? ' (' + plural(n, 'neuer Eintrag', 'neue Einträge') + ')' : ' (nichts Neues)') : 'Termine gespeichert.');
       insResult = res.map(x => ({ tid: x.thema.id, name: x.thema.name, fach: x.fach.name, farbe: x.fach.farbe }));
