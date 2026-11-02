@@ -26,6 +26,7 @@ Alle Lerndaten, Fotos und eingefügten Inhalte bleiben auf dem Gerät (IndexedDB
 
 **Einfügen** (Plus in der Mitte):
 - Großer Knopf „Aus Zwischenablage einfügen“, danach sofort die Vorschau. Mit der Prüfzeile `Inhalt: 6 Karten; 2 Aufgaben` zählt die App nach und meldet deutlich, wenn etwas fehlt oder „=== ENDE ===“ fehlt.
+- Ähnliche Fachnamen werden erkannt, zum Beispiel Werkstoffkunde als Werkstofftechnik, Mechanik als Technische Mechanik, BWL als Ökonomie. Ist doch ein Fach doppelt entstanden, schlägt die Fachseite „Zusammenlegen“ vor (auch unter Lehrplan bearbeiten): Themen, Karten, Fortschritt, Lernzettel, Fotos und Fehler wandern mit, gleichnamige Themen werden zu einem, das alte Fach verschwindet auch auf den anderen Geräten.
 - Lernwerk-Block aus dem Claude-Chat einfügen, mit Vorschau („Elektrotechnik, Kondensator: 1 Merksatz, 6 Karten …“), Zuordnung zu Fach und Thema und Speichern ohne Duplikate. Neue Fächer werden angelegt. Lesefehler werden mit Zeilennummer gezeigt.
 - Knopf „Vorlage für Claude kopieren“.
 - Freier Text als Lernzettel (Markdown wird sauber dargestellt).

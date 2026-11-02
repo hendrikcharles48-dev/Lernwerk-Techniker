@@ -128,12 +128,34 @@ export function thema(tid) {
   for (const f of S.plan.faecher) { const t = f.themen.find(x => x.id === tid); if (t) return { fach: f, thema: t }; }
   return null;
 }
+// Andere Namen, die im Unterricht oder im Chat für dieselben Fächer vorkommen
+const FACH_ALIAS = {
+  werkstoffkunde: 'ws', werkstoffe: 'ws', werkstoff: 'ws', mathe: 'mathe', elektro: 'et', mechanik: 'tm', statik: 'tm', festigkeitslehre: 'tm',
+  maschinenelemente: 'tm', technischeszeichnen: 'tol', toleranzen: 'tol', pneumatik: 'st', sps: 'st', steuerungstechnik: 'st', automatisierungstechnik: 'auto',
+  projektmanagement: 'pm', qualitaetsmanagement: 'm7', qm: 'm7', bwl: 'm8', betriebswirtschaft: 'm8', betriebswirtschaftslehre: 'm8', oekonomie: 'm8',
+  personal: 'm6', personalwesen: 'm6', fuehrung: 'm6', instandhaltung: 'm5', arbeitssicherheit: 'm5', deutsch: 'de', englisch: 'en'
+};
+const ae = s => String(s).toLowerCase().replace(/ä/g, 'ae').replace(/ö/g, 'oe').replace(/ü/g, 'ue').replace(/ß/g, 'ss');
+// Erstes richtiges Wort eines Fachnamens, zum Beispiel „werkstofftechnik“
+const kernwort = s => (ae(s).match(/[a-z]{3,}/g) || []).find(w => !['und', 'der', 'die', 'das', 'technische', 'technisches'].includes(w)) || '';
+const gemeinsam = (a, b) => { let i = 0; while (i < a.length && i < b.length && a[i] === b[i]) i++; return i; };
 export function findFach(name) {
   const n = norm(name);
   if (!n) return null;
+  const al = FACH_ALIAS[ae(name).replace(/[^a-z]/g, '')];
   return S.plan.faecher.find(f => norm(f.name) === n || norm(f.kurz) === n || norm(f.id) === n)
     || S.plan.faecher.find(f => norm(f.name).startsWith(n) || n.startsWith(norm(f.name)))
+    || (al && S.plan.faecher.find(f => f.id === al))
+    // Gleicher Wortstamm, zum Beispiel Werkstoffkunde und Werkstofftechnik
+    || S.plan.faecher.find(f => { const a = kernwort(name), b = kernwort(f.name), k = kernwort(f.kurz || ''); return a.length >= 6 && (gemeinsam(a, b) >= 7 || gemeinsam(a, k) >= 7); })
     || null;
+}
+// Eigenes Fach, das wohl dasselbe ist wie ein anderes (zum Beispiel Werkstoffkunde und Werkstofftechnik)
+export function aehnlichesFach(f) {
+  if (!f || !f.eigen) return null;
+  const al = FACH_ALIAS[ae(f.name).replace(/[^a-z]/g, '')];
+  const a = kernwort(f.name);
+  return S.plan.faecher.find(x => x !== f && ((al && x.id === al) || (a.length >= 6 && (gemeinsam(a, kernwort(x.name)) >= 7 || gemeinsam(a, kernwort(x.kurz || '')) >= 7)))) || null;
 }
 export function findThema(fachName, themaName, inhalt) {
   for (const f of S.plan.faecher) for (const t of f.themen) if (inhalt && t.inhalt === inhalt) return { fach: f, thema: t };
@@ -251,6 +273,65 @@ export function staerke(tid) {
   if (v == null) return { wert: null, stufe: offen ? 'schwach' : 'mittel', n: ev.length };
   v = Math.max(0, v - 0.05 * Math.min(offen, 4));
   return { wert: v, stufe: v < 0.6 ? 'schwach' : v < 0.8 ? 'mittel' : 'sicher', n: ev.length };
+}
+
+/* ===== Thema oder Fach zusammenlegen =====
+ * Falsch angelegt, zum Beispiel „Werkstoffkunde“ neben „Werkstofftechnik“: Alles wandert ins richtige Thema,
+ * mit Fortschritt, Lernzetteln, Fotos und Fehlern. Das alte Thema verschwindet, auch auf den anderen Geräten.
+ */
+export async function themaZusammenlegen(von, nach) {
+  if (von === nach) return;
+  const marken = [];
+  const c = S.content.get(von);
+  if (c) {
+    const ziel = S.content.get(nach) || emptyTopic();
+    const m = mergeTopic(ziel, c).topic;
+    const th = thema(nach); if (th) { m.fach = th.fach.name; m.thema = th.thema.name; }
+    S.content.set(nach, m); S.contentZeit.set(nach, Date.now());
+    await db.put('content', { id: nach, topic: m, zeit: Date.now() });
+    S.content.delete(von); S.contentZeit.delete(von); await db.del('content', von); marken.push('content:' + von);
+  }
+  // Karten tragen das Thema in der Kennung: umbenennen, der bessere Stand gewinnt
+  for (const card of [...S.cards.values()]) {
+    const m = /^([a-z]+):(.+?):([^:]+)$/.exec(card.id);
+    if (!(m && m[2] === von) && card.id !== 't:' + von) { if (card.tid === von) { card.tid = nach; card.zeit = Date.now(); await db.put('cards', card); } continue; }
+    const neu = card.id === 't:' + von ? 't:' + nach : m[1] + ':' + nach + ':' + m[3];
+    const da = S.cards.get(neu);
+    if (!da || (card.stufe || 0) > (da.stufe || 0)) { const x = Object.assign({}, card, { id: neu, tid: nach, zeit: Date.now() }); S.cards.set(neu, x); await db.put('cards', x); }
+    S.cards.delete(card.id); await db.del('cards', card.id); marken.push('cards:' + card.id);
+  }
+  const zt = thema(nach);
+  for (const n of S.notes) if (n.tid === von) { n.tid = nach; n.geaendert = Date.now(); await db.put('notes', n); }
+  for (const e of S.errors) if (e.tid === von) { e.tid = nach; if (zt) { e.thema = zt.thema.name; e.fach = zt.fach.name; } e.geaendert = Date.now(); await db.put('errors', e); }
+  for (const e of S.events) if (e.tid === von) { e.tid = nach; await db.put('events', e); }
+  for (const p of S.photoMeta) if (p.tid === von) { p.tid = nach; const x = await db.get('photos', p.id); if (x) { x.tid = nach; await db.put('photos', x); } }
+  for (const x of S.exams) if ((x.themaIds || []).includes(von)) { x.themaIds = [...new Set(x.themaIds.map(t => (t === von ? nach : t)))]; x.geaendert = Date.now(); await db.put('exams', x); }
+  // Status und Stufe übernehmen, wenn das Ziel noch keine hat
+  if (zustand(von) !== 'kommt' && zustand(nach) === 'kommt') await setZustand(nach, zustand(von));
+  const fr = Object.assign({}, kvGet('freigabe', {}));
+  if (fr[von] && !(fr[nach] >= fr[von])) { fr[nach] = fr[von]; await kvSet('freigabe', fr); }
+  if (marken.length) await loeschmarke(...marken);
+  const alt = thema(von);
+  if (alt) alt.fach.themen = alt.fach.themen.filter(t => t.id !== von);
+  await savePlan();
+  changed('content');
+}
+// Fach in ein anderes legen: gleichnamige Themen werden zusammengelegt, die anderen wandern mit
+export async function fachZusammenlegen(vonFid, nachFid) {
+  const von = fach(vonFid), nach = fach(nachFid);
+  if (!von || !nach || von === nach) return 0;
+  let n = 0;
+  for (const t of von.themen.slice()) {
+    const ziel = suggestThema(nach, t.name);
+    if (ziel) await themaZusammenlegen(t.id, ziel.id);
+    else { von.themen = von.themen.filter(x => x.id !== t.id); nach.themen.push(t); for (const e of S.errors) if (e.tid === t.id) { e.fach = nach.name; e.geaendert = Date.now(); await db.put('errors', e); } }
+    n++;
+  }
+  for (const x of S.exams) if (x.fachId === vonFid) { x.fachId = nachFid; x.fach = nach.name; x.geaendert = Date.now(); await db.put('exams', x); }
+  S.plan.faecher = S.plan.faecher.filter(f => f.id !== vonFid);
+  await savePlan();
+  changed('content');
+  return n;
 }
 
 /* ===== Inhalte aus Blöcken übernehmen ===== */

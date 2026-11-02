@@ -11,7 +11,7 @@ import * as sicherung from './sicherung.js';
 import { laden as skizzenLaden } from './skizzen.js';
 import { canSpeak, readAloud } from './speech.js';
 
-export const VERSION = '1.20.1';
+export const VERSION = '1.20.2';
 
 /* ===== Heute ===== */
 // Kurze, wechselnde Sätze für den Start. Ohne Druck.
@@ -413,6 +413,9 @@ export function fachPage(fid) {
         const parts = intro.split(/\n\s*\n/);
         h += `<div class="card intro" style="--fc:${f.farbe}"><div class="card-k">Worum es in diesem Fach geht</div><div class="prose">${markdown(parts[0])}</div>${parts.length > 1 ? `<details class="more"><summary>Weiterlesen</summary><div class="prose">${markdown(parts.slice(1).join('\n\n'))}</div></details>` : ''}${canSpeak() ? `<button class="btn small" data-a="introvor">${icon('ear')} Vorlesen</button>` : ''}</div>`;
       }
+      // Falsch angelegtes Fach: Vorschlag zum Zusammenlegen
+      const gleich = st.aehnlichesFach(f);
+      if (gleich) h += `<div class="fb info"><b>Ist das dasselbe wie ${esc(gleich.name)}?</b> Dann leg die beiden zusammen. Alle Themen, Karten und Fortschritte wandern mit.<div class="btn-row"><button class="btn small filled" data-a="zusammen" data-d="${esc(gleich.id)}">Mit ${esc(gleich.name)} zusammenlegen</button></div></div>`;
       if (fachItems.some(i => st.card(i.id))) h += `<div class="sec-h">Stand im Fach</div><div class="card">${stapel(standVon(fachItems, st.card), { hoch: 12, legende: true })}<p class="muted small">Sitzt heißt: kommt erst in 4 oder mehr Tagen wieder.</p></div>`;
       if (g.aktuell.length) h += `<div class="sec-h">Aktuell im Unterricht</div>` + list(g.aktuell.map(tRow));
       if (g.abgeschlossen.length) h += `<div class="sec-h">Abgeschlossen</div>` + list(g.abgeschlossen.map(tRow));
@@ -421,7 +424,17 @@ export function fachPage(fid) {
       if (!f.themen.length) h += empty('Noch keine Themen.', 'Füge einen Lernwerk-Block oder einen Lernzettel über Einfügen hinzu.');
       h += `<div class="sec-f">Unter Im Unterricht legst du fest, was gerade dran ist und was abgeschlossen ist.</div>`;
       b.innerHTML = h;
-      on(b, { topic: tid => push(topicPage(tid)), introvor: () => readAloud(plainText(st.fachIntro(f.id)), f.name) });
+      on(b, {
+        topic: tid => push(topicPage(tid)), introvor: () => readAloud(plainText(st.fachIntro(f.id)), f.name),
+        zusammen: async zid => {
+          const z = st.fach(zid);
+          if (!(await confirmBox('„' + f.name + '“ mit „' + z.name + '“ zusammenlegen? Danach gibt es „' + f.name + '“ nicht mehr, auch nicht auf deinen anderen Geräten. Alles Gelernte bleibt erhalten.', 'Zusammenlegen'))) return;
+          const n = await st.fachZusammenlegen(f.id, z.id);
+          toast(plural(n, 'Thema', 'Themen') + ' nach ' + z.name + ' übernommen.');
+          sicherung.anstossen();
+          showTab('faecher'); showTab('faecher');
+        }
+      });
     }
   };
 }

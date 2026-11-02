@@ -704,7 +704,10 @@ function fachEditor(f) {
         ${f.themen.map((t, i) => `<div class="edit-row"><input type="text" data-ti="${i}" value="${esc(t.name)}"><button class="btn small" data-a="up" data-d="${i}" aria-label="Nach oben">↑</button><button class="btn small danger" data-a="deltopic" data-d="${i}" aria-label="Löschen">${icon('trash')}</button></div>`).join('')}
         <div class="edit-row"><input type="text" data-k="neu" placeholder="Neues Thema"><button class="btn small" data-a="addtopic">Hinzufügen</button></div>
         <button class="btn filled" data-a="save">Speichern</button>
-        ${f.eigen ? `<button class="btn danger" data-a="delfach">${icon('trash')} Fach löschen</button>` : ''}</div>`;
+        ${f.eigen ? `<div class="sec-h">Falsch angelegt?</div><p class="src">Ist das eigentlich dasselbe Fach wie ein anderes, zum Beispiel Werkstoffkunde und Werkstofftechnik? Dann leg es zusammen. Alle Themen, Karten, Fortschritte, Lernzettel, Fotos und Fehler wandern mit. Gleichnamige Themen werden zu einem.</p>
+        <label class="fld"><span>Zusammenlegen mit</span><select data-k="ziel"><option value="">Fach wählen</option>${st.faecher().filter(x => x !== f).map(x => `<option value="${esc(x.id)}">${esc(x.name)}</option>`).join('')}</select></label>
+        <button class="btn" data-a="zusammen">Mit diesem Fach zusammenlegen</button>
+        <button class="btn danger" data-a="delfach">${icon('trash')} Fach löschen</button>` : ''}</div>`;
       const grab = () => {
         f.name = $('[data-k="name"]', b).value.trim() || f.name;
         f.kurz = $('[data-k="kurz"]', b).value.trim();
@@ -721,6 +724,14 @@ function fachEditor(f) {
           const hat = st.S.content.has(t.id) || st.notesFor(t.id).length || (t.trainer && t.trainer.length);
           if (!(await confirmBox('Thema „' + t.name + '“ aus dem Lehrplan entfernen?' + (hat ? ' Inhalte und Lernzettel bleiben gespeichert, sind aber nicht mehr sichtbar.' : ''), 'Entfernen', true))) return;
           f.themen.splice(+i, 1); api.refresh();
+        },
+        zusammen: async () => {
+          const ziel = st.fach($('[data-k="ziel"]', b).value);
+          if (!ziel) { toast('Wähl zuerst das richtige Fach.'); return; }
+          if (!(await confirmBox('„' + f.name + '“ mit „' + ziel.name + '“ zusammenlegen? Danach gibt es „' + f.name + '“ nicht mehr, auch nicht auf deinen anderen Geräten. Alles Gelernte bleibt erhalten.', 'Zusammenlegen'))) return;
+          const n = await st.fachZusammenlegen(f.id, ziel.id);
+          api.close(); toast(plural(n, 'Thema', 'Themen') + ' nach ' + ziel.name + ' übernommen.');
+          gh.anstossen();
         },
         delfach: async () => { if (!(await confirmBox('Fach „' + f.name + '“ löschen?', 'Löschen', true))) return; st.S.plan.faecher = st.S.plan.faecher.filter(x => x !== f); await st.savePlan(); api.close(); }
       });
