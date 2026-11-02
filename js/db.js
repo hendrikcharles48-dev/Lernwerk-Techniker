@@ -78,6 +78,14 @@ export async function clear(store) {
   return tx(store, 'readwrite', s => s.clear());
 }
 
+// Einen Speicher in einem Rutsch ersetzen: alles löschen und neu schreiben, in einer Transaktion.
+// eintraege: Liste von Objekten mit id, beim kv-Speicher Liste von [Schlüssel, Wert].
+export async function ersetzen(store, eintraege) {
+  const db = await open();
+  if (!db) { memory[store].clear(); for (const e of eintraege) store === 'kv' ? memory.kv.set(e[0], e[1]) : memory[store].set(e.id, e); return; }
+  return tx(store, 'readwrite', s => { s.clear(); for (const e of eintraege) store === 'kv' ? s.put(e[1], e[0]) : s.put(e); return null; });
+}
+
 export async function requestPersist() {
   try {
     if (navigator.storage && navigator.storage.persist) {

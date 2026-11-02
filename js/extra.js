@@ -48,7 +48,7 @@ export function mehrPage() {
         row({ a: 'suche', icon: 'search', color: '#8E8E93', title: 'Suche' })
       ]) + list([
         row({ a: 'lehrplan', icon: 'list', color: '#64D2FF', title: 'Lehrplan bearbeiten', sub: 'Fächer, Module und Themen' }),
-        row({ a: 'backup', icon: 'save', color: '#34C759', title: 'Datensicherung', sub: gh.aktiv() ? (gh.fehler() ? 'Sicherung hat ein Problem' : 'Automatisch über GitHub' + (gh.zuletzt() ? ', zuletzt ' + zeitKurz(gh.zuletzt()) : '')) : st.kvGet('letzteSicherung') ? 'Letzte Sicherung: ' + dayShort(st.kvGet('letzteSicherung')) : 'Noch keine Sicherung' }),
+        row({ a: 'backup', icon: 'save', color: '#34C759', title: 'Datensicherung', sub: gh.aktiv() ? (gh.fehler() ? 'Sicherung hat ein Problem' : 'Abgleich über GitHub' + (gh.zuletzt() ? ', zuletzt ' + zeitKurz(gh.zuletzt()) : '')) : st.kvGet('letzteSicherung') ? 'Letzte Sicherung: ' + dayShort(st.kvGet('letzteSicherung')) : 'Noch keine Sicherung' }),
         row({ a: 'theme', icon: 'theme', color: '#636366', title: 'Darstellung', detail: { auto: 'Automatisch', hell: 'Hell', dunkel: 'Dunkel' }[prefs.get('theme', 'auto')] }),
         row({ a: 'remind', icon: 'bell', color: '#FF375F', title: 'Erinnerung einrichten' }),
         row({ a: 'info', icon: 'info', color: '#8E8E93', title: 'Über Lernwerk' })
@@ -768,16 +768,17 @@ const GH_SCHRITTE = `<ol class="steps-list small">
 function ghBereich() {
   if (!gh.aktiv()) {
     const k = gh.konfig();
-    return `<div class="sec-h">Automatisch über GitHub</div><div class="card"><p>Nach jeder Lerneinheit und nach dem Einfügen sichert Lernwerk deinen Stand in dein privates Repository. Fotos bleiben nur auf dem Gerät. Der Schlüssel bleibt nur auf diesem Gerät.</p>
+    return `<div class="sec-h">Automatisch über GitHub</div><div class="card"><p>Lernwerk gleicht deinen Stand über dein privates Repository ab: beim Öffnen, nach jeder Lerneinheit und nach dem Einfügen. Mit demselben Schlüssel auf iPhone und iPad haben beide Geräte denselben Stand. Fotos und die Darstellung bleiben pro Gerät. Der Schlüssel bleibt nur auf diesem Gerät.</p>
       <details class="disc"><summary>So richtest du es ein</summary>${GH_SCHRITTE}</details>
       <label class="fld"><span>Repository</span><input type="text" data-k="repo" value="${esc(k.repo || gh.repoVorschlag())}" autocapitalize="off" autocomplete="off" spellcheck="false"></label>
       <label class="fld"><span>Schlüssel</span><input type="password" data-k="token" value="" placeholder="github_pat_…" autocapitalize="off" autocomplete="off" spellcheck="false"></label>
       <button class="btn filled wide" data-a="ghcon">${icon('cloud')} Verbinden</button></div>`;
   }
   const z = gh.zuletzt(), f = gh.fehler();
-  return `<div class="sec-h">Automatisch über GitHub</div><div class="card"><p>${icon('cloud')} <b>Zuletzt gesichert:</b> ${z ? esc(zeitKurz(z)) : 'noch nicht'}</p><p class="muted small">In ${esc(gh.konfig().repo)}. Ohne Netz holt Lernwerk die Sicherung später nach.</p>
+  return `<div class="sec-h">Abgleich über GitHub</div><div class="card"><p>${icon('cloud')} <b>Zuletzt abgeglichen:</b> ${z ? esc(zeitKurz(z)) : 'noch nicht'}</p><p class="muted small">In ${esc(gh.konfig().repo)}. Andere Geräte mit demselben Schlüssel bekommen denselben Stand. Ohne Netz holt Lernwerk den Abgleich später nach.</p>
     ${f ? `<div class="fb bad">${esc(f)}</div>` : ''}
-    <div class="btn-col"><button class="btn" data-a="ghnow">Jetzt sichern</button><button class="btn" data-a="ghload">Stand von GitHub laden</button><button class="btn" data-a="ghoff">Schlüssel entfernen</button></div></div>`;
+    <div class="btn-col"><button class="btn filled" data-a="ghnow">${icon('cloud')} Jetzt abgleichen</button><button class="btn" data-a="ghoff">Schlüssel entfernen</button></div>
+    <details class="disc notfall"><summary>Notfall</summary><p class="small">Nur wenn etwas schiefgelaufen ist: Der Stand auf GitHub ersetzt alles auf diesem Gerät. Was nur hier gespeichert ist, geht verloren. Fotos bleiben.</p><button class="btn danger" data-a="ghload">Stand von GitHub komplett übernehmen</button></details></div>`;
 }
 export function datensicherung() {
   let fotos = false;
@@ -808,21 +809,14 @@ export function datensicherung() {
           toast('Ich prüfe die Verbindung …');
           const r = await gh.pruefen(token, repo);
           if (!r.ok) { toast(r.meldung, 6000); return; }
-          if (r.vorhanden) {
-            const datum = r.vorhanden === 'unbekannt' ? '' : ' vom ' + zeitKurz(r.vorhanden);
-            if (await confirmBox('Auf GitHub liegt schon eine Sicherung' + datum + '. Diesen Stand auf dieses Gerät laden? Der jetzige Stand auf dem Gerät wird ersetzt.', 'Laden')) {
-              try { await gh.laden(); gh.verbinden(); toast('Stand geladen. Lernwerk startet neu.'); setTimeout(() => location.reload(), 900); } catch (e) { toast(e.message, 5000); }
-              return;
-            }
-            if (!(await confirmBox('Dann überschreibe ich die Sicherung auf GitHub mit dem Stand dieses Geräts. Die alte Fassung bleibt im Verlauf auf GitHub erhalten.', 'Überschreiben', true))) return;
-          }
+          // Liegt schon ein Stand auf GitHub (anderes Gerät), werden beide zusammengeführt. Nichts geht verloren.
           gh.verbinden();
-          toast((await gh.hochladen()) ? 'Verbunden und gesichert.' : 'Verbunden. Die erste Sicherung kommt, sobald Netz da ist.');
+          toast((await gh.abgleichen()) ? (r.vorhanden ? 'Verbunden. Beide Stände sind zusammengeführt.' : 'Verbunden und gesichert.') : 'Verbunden. Der erste Abgleich kommt, sobald Netz da ist.');
           this.render(b);
         },
-        ghnow: async () => { toast((await gh.hochladen()) ? 'Gesichert.' : gh.fehler() || 'Gerade keine Verbindung. Ich hole es später nach.'); this.render(b); },
+        ghnow: async () => { toast('Ich gleiche ab …', 1500); const ok = await gh.abgleichen(); if (ok) toast('Abgeglichen.'); else toast(gh.fehler() || 'Gerade keine Verbindung oder ein Fenster ist offen. Ich hole es später nach.'); this.render(b); },
         ghload: async () => {
-          if (!(await confirmBox('Stand von GitHub laden? Der jetzige Stand auf diesem Gerät wird ersetzt. Fotos auf dem Gerät bleiben.', 'Laden', true))) return;
+          if (!(await confirmBox('Notfall: Stand von GitHub komplett übernehmen? Alles auf diesem Gerät wird ersetzt. Was nur hier gespeichert ist, geht verloren. Fotos bleiben.', 'Komplett übernehmen', true))) return;
           try { await gh.laden(); toast('Stand geladen. Lernwerk startet neu.'); setTimeout(() => location.reload(), 900); } catch (e) { toast(e.message, 5000); }
         },
         ghoff: async () => { if (await confirmBox('Schlüssel von diesem Gerät entfernen? Die automatische Sicherung stoppt. Die Sicherung auf GitHub bleibt.', 'Entfernen', true)) { gh.trennen(); this.render(b); } },

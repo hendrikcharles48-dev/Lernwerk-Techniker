@@ -11,7 +11,7 @@ import * as sicherung from './sicherung.js';
 import { laden as skizzenLaden } from './skizzen.js';
 import { canSpeak, readAloud } from './speech.js';
 
-export const VERSION = '1.19.0';
+export const VERSION = '1.20.0';
 
 /* ===== Heute ===== */
 // Kurze, wechselnde Sätze für den Start. Ohne Druck.

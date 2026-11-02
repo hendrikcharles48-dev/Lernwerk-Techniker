@@ -16,7 +16,19 @@ export const onChange = fn => listeners.add(fn);
 const changed = what => listeners.forEach(fn => { try { fn(what); } catch (e) { console.error(e); } });
 
 const kvGet = (k, d) => (S.kv.has(k) ? S.kv.get(k) : d);
-async function kvSet(k, v) { S.kv.set(k, v); await db.put('kv', v, k); }
+// Jede Änderung bekommt einen Zeitstempel, damit beim Abgleich zwischen Geräten die neuere gewinnt
+async function kvSet(k, v) {
+  S.kv.set(k, v); await db.put('kv', v, k);
+  if (k === 'kvZeit' || k === 'geloescht') return;
+  const z = Object.assign({}, kvGet('kvZeit', {})); z[k] = Date.now();
+  S.kv.set('kvZeit', z); await db.put('kv', z, 'kvZeit');
+}
+// Löschmarke: Was hier gelöscht wird, kommt beim Abgleich nicht vom anderen Gerät zurück
+export async function loeschmarke(...keys) {
+  const g = Object.assign({}, kvGet('geloescht', {}));
+  for (const k of keys) g[k] = Date.now();
+  S.kv.set('geloescht', g); await db.put('kv', g, 'geloescht');
+}
 export { kvGet, kvSet };
 
 /* ===== Start ===== */
@@ -31,6 +43,7 @@ export async function init() {
     ['kv', 'content', 'notes', 'cards', 'errors', 'events', 'exams', 'photos'].map(s => (s === 'kv' ? db.allKV() : db.all(s))));
   S.kv = new Map(kv);
   S.content = new Map(content.map(c => [c.id, c.topic]));
+  S.contentZeit = new Map(content.map(c => [c.id, c.zeit || 0]));
   S.notes = notes; S.cards = new Map(cards.map(c => [c.id, c])); S.errors = errors; S.events = events; S.exams = exams;
   S.photoMeta = photos.map(p => ({ id: p.id, tid: p.tid, zeit: p.zeit, titel: p.titel }));
 
@@ -41,6 +54,7 @@ export async function init() {
   else if ((plan.baseVersion || 0) < S.base.version) plan = upgradePlan(plan, S.base);
   plan.baseVersion = S.base.version;
   S.plan = plan;
+  S.planIds = planIds(plan);
 
   await loadBuiltin();
   await unterrichtVorgabe();
@@ -61,14 +75,16 @@ async function unterrichtVorgabe() {
   await kvSet('unterrichtVorgabe', [...done, ...neu]);
 }
 
-// Neue Themen aus einer neueren lehrplan.json übernehmen, eigene Änderungen behalten
+// Neue Themen aus einer neueren lehrplan.json übernehmen, eigene Änderungen behalten.
+// Was gelöscht wurde, holt das Update nicht zurück.
 function upgradePlan(plan, base) {
+  const gel = kvGet('geloescht', {});
   for (const bf of base.faecher) {
     let f = plan.faecher.find(x => x.id === bf.id);
-    if (!f) { plan.faecher.push(JSON.parse(JSON.stringify(bf))); continue; }
+    if (!f) { if (!gel['fach:' + bf.id]) plan.faecher.push(JSON.parse(JSON.stringify(bf))); continue; }
     for (const bt of bf.themen) {
       const t = f.themen.find(x => x.id === bt.id);
-      if (!t) f.themen.push(JSON.parse(JSON.stringify(bt)));
+      if (!t) { if (!gel['thema:' + bt.id]) f.themen.push(JSON.parse(JSON.stringify(bt))); }
       else { if (bt.trainer && !t.trainer) t.trainer = bt.trainer; if (bt.inhalt && !t.inhalt) t.inhalt = bt.inhalt; if (bt.trainerThemen) t.trainerThemen = bt.trainerThemen; }
     }
   }
@@ -136,14 +152,22 @@ export function suggestThema(f, themaName) {
     || null;
 }
 
-export async function savePlan() { await kvSet('lehrplan', S.plan); changed('plan'); }
+const planIds = p => new Set((p ? p.faecher : []).flatMap(f => ['fach:' + f.id, ...f.themen.map(t => 'thema:' + t.id)]));
+// Gelöschte Fächer und Themen erkennt der Vergleich mit dem letzten gespeicherten Lehrplan
+export async function savePlan() {
+  const jetzt = planIds(S.plan);
+  const weg = [...(S.planIds || [])].filter(k => !jetzt.has(k));
+  if (weg.length) await loeschmarke(...weg);
+  S.planIds = jetzt;
+  await kvSet('lehrplan', S.plan); changed('plan');
+}
 
 const FARBEN = ['#FF9F0A', '#30D158', '#0A84FF', '#BF5AF2', '#FF375F', '#64D2FF', '#AC8E68', '#5E5CE6', '#FFD60A', '#00C7BE'];
 export async function addFach(name, modul = '') {
   const id = slug(name);
   let fid = id, i = 2;
   while (fach(fid)) fid = id + '-' + i++;
-  const f = { id: fid, name, kurz: name.length > 16 ? name.split(/\s/)[0] : name, module: modul ? [modul] : [], farbe: FARBEN[S.plan.faecher.length % FARBEN.length], themen: [], eigen: true };
+  const f = { id: fid, name, kurz: name.length > 16 ? name.split(/\s/)[0] : name, module: modul ? [modul] : [], farbe: FARBEN[S.plan.faecher.length % FARBEN.length], themen: [], eigen: true, angelegt: Date.now() };
   S.plan.faecher.push(f);
   await savePlan();
   return f;
@@ -151,7 +175,7 @@ export async function addFach(name, modul = '') {
 export async function addThema(f, name) {
   let tid = f.id + '-' + slug(name), i = 2;
   while (thema(tid)) tid = f.id + '-' + slug(name) + '-' + i++;
-  const t = { id: tid, name, eigen: true };
+  const t = { id: tid, name, eigen: true, angelegt: Date.now() };
   f.themen.push(t);
   await savePlan();
   return t;
@@ -191,6 +215,7 @@ export async function setZustand(tid, z) {
   await kvSet('aktuell', [...a]);
   await kvSet('abgeschlossen', [...f]);
   await kvSet('aktuellSeit', seit);
+  await kvSet('zustandZeit', Object.assign({}, kvGet('zustandZeit', {}), { [tid]: Date.now() }));
   changed('aktuell');
 }
 export const abgeschlosseneTids = () => kvGet('abgeschlossen', []).filter(t => thema(t));
@@ -243,7 +268,7 @@ export async function saveBlocks(zuordnung, termine = []) {
     const neu = mergeTopic(base ? mergeTopic(base, old).topic : old, z.topic);
     const merged = mergeTopic(old, z.topic).topic;
     merged.fach = f.name; merged.thema = t.name;
-    S.content.set(t.id, merged);
+    S.content.set(t.id, merged); S.contentZeit.set(t.id, Date.now());
     await db.put('content', { id: t.id, topic: merged, zeit: Date.now() });
     out.push({ fach: f, thema: t, added: neu.added });
   }
@@ -252,7 +277,7 @@ export async function saveBlocks(zuordnung, termine = []) {
   return out;
 }
 export async function setUserTopic(tid, topicObj) {
-  S.content.set(tid, topicObj);
+  S.content.set(tid, topicObj); S.contentZeit.set(tid, Date.now());
   await db.put('content', { id: tid, topic: topicObj, zeit: Date.now() });
   changed('content');
 }
@@ -380,7 +405,7 @@ export async function recordCard(item, ergebnis) {
     const f = { schwach: 0.6, mittel: 1, sicher: 1.4 }[staerke(item.tid).stufe];
     if (f !== 1) st.faellig = addDays(today, Math.max(1, Math.round(daysBetween(today, st.faellig) * f)));
   }
-  st.id = item.id; st.tid = item.tid; st.art = item.art;
+  st.id = item.id; st.tid = item.tid; st.art = item.art; st.zeit = Date.now();
   S.cards.set(item.id, st);
   await db.put('cards', st);
   await addEvent({ art: item.art, tid: item.tid, ok: ergebnis === 'richtig', ergebnis });
@@ -462,7 +487,7 @@ export function matchThemen(f, text) {
 export async function addExam(x) {
   let f = x.fachId ? fach(x.fachId) : findFach(x.fach);
   if (!f && x.fach) f = await addFach(x.fach);
-  const e = { id: x.id || uid(), fachId: f ? f.id : '', fach: f ? f.name : x.fach, datum: toDay(x.datum) || x.datum, themen: x.themen || '', themaIds: x.themaIds || matchThemen(f, x.themen) };
+  const e = { geaendert: Date.now(), id: x.id || uid(), fachId: f ? f.id : '', fach: f ? f.name : x.fach, datum: toDay(x.datum) || x.datum, themen: x.themen || '', themaIds: x.themaIds || matchThemen(f, x.themen) };
   // Ergebnis der Arbeit: Note, Prozent und wie es je Thema lief (gut, mittel, schlecht)
   for (const k of ['note', 'prozent', 'ergebnis', 'notiz']) if (x[k] != null && x[k] !== '') e[k] = x[k];
   const dup = S.exams.find(o => o.id !== e.id && o.fachId === e.fachId && o.datum === e.datum);
@@ -509,7 +534,7 @@ export function nacharbeitThemen(today = dayStr()) {
   for (const [tid, v] of out) if (v.bewertung !== 'mittel' && v.bewertung !== 'schlecht') out.delete(tid);
   return out;
 }
-export async function deleteExam(id) { S.exams = S.exams.filter(e => e.id !== id); await db.del('exams', id); changed('exams'); }
+export async function deleteExam(id) { S.exams = S.exams.filter(e => e.id !== id); await db.del('exams', id); await loeschmarke('exams:' + id); changed('exams'); }
 
 /* ===== Fehlerbuch ===== */
 export async function addError(x) {
@@ -524,10 +549,11 @@ export async function addError(x) {
   changed('errors');
   return e;
 }
-export async function updateError(e) { await db.put('errors', e); changed('errors'); }
+export async function updateError(e) { e.geaendert = Date.now(); await db.put('errors', e); changed('errors'); }
 export async function deleteError(id) {
   S.errors = S.errors.filter(e => e.id !== id);
   await db.del('errors', id); S.cards.delete('f:' + id); await db.del('cards', 'f:' + id);
+  await loeschmarke('errors:' + id, 'cards:f:' + id);
   changed('errors');
 }
 
@@ -576,11 +602,11 @@ export const place = () => kvGet('zuletzt', null);
 
 /* ===== Lernzettel ===== */
 export async function saveNote(n) {
-  const x = Object.assign({ id: uid(), zeit: Date.now() }, n);
+  const x = Object.assign({ id: uid(), zeit: Date.now() }, n, { geaendert: Date.now() });
   S.notes = S.notes.filter(o => o.id !== x.id).concat(x);
   await db.put('notes', x); changed('notes'); return x;
 }
-export async function deleteNote(id) { S.notes = S.notes.filter(n => n.id !== id); await db.del('notes', id); changed('notes'); }
+export async function deleteNote(id) { S.notes = S.notes.filter(n => n.id !== id); await db.del('notes', id); await loeschmarke('notes:' + id); changed('notes'); }
 export const notesFor = tid => S.notes.filter(n => n.tid === tid).sort((a, b) => b.zeit - a.zeit);
 
 /* ===== Fotos ===== */
@@ -650,7 +676,7 @@ export async function exportBackup(mitFotos) {
   return {
     app: 'Lernwerk Techniker', format: 1, erstellt: new Date().toISOString(),
     hinweis: 'Eigene Inhalte stehen zusätzlich im Lernwerk-Format unter "bloecke".',
-    kv, content: [...S.content].map(([id, topic]) => ({ id, topic })), notes: S.notes, cards: [...S.cards.values()],
+    kv, content: [...S.content].map(([id, topic]) => ({ id, topic, zeit: (S.contentZeit && S.contentZeit.get(id)) || 0 })), notes: S.notes, cards: [...S.cards.values()],
     errors: S.errors, events: S.events, exams: S.exams, photos, bloecke,
     einstellungen: { theme: db.prefs.get('theme', 'auto') }
   };
@@ -667,6 +693,20 @@ export async function importBackup(data) {
   }
   if (data.einstellungen && data.einstellungen.theme) db.prefs.set('theme', data.einstellungen.theme);
   await kvSet('letzteSicherung', kvGet('letzteSicherung', null));
+}
+// Abgleich: den zusammengeführten Stand auf diesem Gerät einspielen, ohne Neustart.
+// Fotos und die Einstellungen dieses Geräts bleiben.
+export async function uebernehmen(d) {
+  await db.ersetzen('kv', Object.entries(d.kv));
+  for (const st of ['content', 'notes', 'cards', 'errors', 'events', 'exams']) await db.ersetzen(st, d[st] || []);
+  S.kv = new Map(Object.entries(d.kv));
+  S.content = new Map((d.content || []).map(c => [c.id, c.topic]));
+  S.contentZeit = new Map((d.content || []).map(c => [c.id, c.zeit || 0]));
+  S.notes = d.notes || []; S.cards = new Map((d.cards || []).map(c => [c.id, c]));
+  S.errors = d.errors || []; S.events = (d.events || []).slice().sort((a, b) => a.zeit - b.zeit); S.exams = d.exams || [];
+  if (d.kv.lehrplan) { S.plan = d.kv.lehrplan; if (S.base && (S.plan.baseVersion || 0) < S.base.version) { S.plan = upgradePlan(S.plan, S.base); S.plan.baseVersion = S.base.version; } }
+  S.planIds = planIds(S.plan);
+  changed('abgleich');
 }
 export async function markBackup() { await kvSet('letzteSicherung', dayStr()); changed('backup'); }
 export function backupDue() {

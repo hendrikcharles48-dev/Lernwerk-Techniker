@@ -12,6 +12,7 @@
 
 ## Tests vor jedem Push
 - `node tests/parser.test.mjs`
+- `node tests/abgleich.test.mjs` (Zusammenführen beim Abgleich zwischen Geräten)
 - `node tests/inhalte.test.mjs` (prüft auch, dass beide VERSION-Werte gleich sind und alle Offline-Dateien existieren)
 - Neue Dateien in die Liste `FILES` in `sw.js` aufnehmen.
 

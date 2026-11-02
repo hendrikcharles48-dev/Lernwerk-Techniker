@@ -3,6 +3,8 @@
 // und nie im öffentlichen Repository. Fotos werden nicht mitgesichert.
 import { prefs } from './db.js';
 import * as st from './store.js';
+import { zusammenfuehren } from './abgleich.js';
+import { toast } from './ui.js';
 
 const API = 'https://api.github.com';
 const DATEI = 'lernwerk-sicherung.json';
@@ -67,62 +69,114 @@ export async function pruefen(token, repo) {
 export function verbinden() { prefs.set('ghVerbunden', true); prefs.set('ghFehler', null); melden(); }
 export function trennen() { for (const k of ['ghToken', 'ghVerbunden', 'ghSha', 'ghFehler']) prefs.set(k, null); melden(); }
 
-// Hochladen. Läuft immer nur einmal gleichzeitig.
+// Stand auf GitHub holen: Kennung (sha) und Inhalt. Große Dateien kommen über den Rohtext.
+function text64(b64) {
+  const bin = atob(String(b64).replace(/\s/g, ''));
+  const bytes = new Uint8Array(bin.length);
+  for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+  return new TextDecoder().decode(bytes);
+}
+async function holen() {
+  const pfad = '/repos/' + konfig().repo + '/contents/' + DATEI;
+  const r = await gh(pfad);
+  if (r.status === 404) return { sha: null, daten: null };
+  if (!r.ok) return { fehler: meldung(r.status) };
+  const j = await r.json();
+  let txt = j.content && j.encoding === 'base64' ? text64(j.content) : '';
+  if (!txt) { const raw = await gh(pfad, { headers: { Accept: 'application/vnd.github.raw+json' } }); if (!raw.ok) return { fehler: meldung(raw.status) }; txt = await raw.text(); }
+  let daten = null;
+  try { daten = JSON.parse(txt); } catch (e) { daten = null; }
+  return { sha: j.sha, daten };
+}
+
+// Läuft gerade eine Lerneinheit oder ein anderes Fenster? Dann nichts vom anderen Gerät einspielen.
+const fensterOffen = () => typeof document !== 'undefined' && document.body.classList.contains('sheet-open');
+let warten = null;
+function nachDemFenster() {
+  if (warten) return;
+  warten = new MutationObserver(() => { if (!fensterOffen()) { warten.disconnect(); warten = null; anstossen(800); } });
+  warten.observe(document.body, { attributes: true, attributeFilter: ['class'] });
+}
+
+/*
+ * Abgleich: erst holen und zusammenführen, dann hochladen. Nie blind überschreiben.
+ * Hat GitHub inzwischen einen neueren Stand (Antwort 409 oder 422), beginnt es von vorn, höchstens dreimal.
+ */
 let laeuft = null;
-export async function hochladen() {
+export async function abgleichen() {
   if (!aktiv()) return false;
   if (laeuft) return laeuft;
+  if (fensterOffen()) { prefs.set('ghOffen', true); nachDemFenster(); return false; }
   laeuft = (async () => {
-    prefs.set('ghOffen', true);
-    if (!navigator.onLine) return false;
+    if (!navigator.onLine) { prefs.set('ghOffen', true); return false; }
     try {
-      const data = await st.exportBackup(false);
-      const body = { message: 'Sicherung ' + new Date().toISOString().slice(0, 16).replace('T', ' '), content: base64(JSON.stringify(data)) };
-      const pfad = '/repos/' + konfig().repo + '/contents/' + DATEI;
-      const senden = () => gh(pfad, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(Object.assign({}, body, prefs.get('ghSha', null) ? { sha: prefs.get('ghSha', null) } : {})) });
-      let r = await senden();
-      // Stand auf GitHub hat sich geändert (anderes Gerät): aktuelle Kennung holen und nochmal
-      if (r.status === 409 || r.status === 422) {
-        const f = await gh(pfad);
-        prefs.set('ghSha', f.ok ? (await f.json()).sha : null);
-        r = await senden();
+      for (let versuch = 0; versuch < 3; versuch++) {
+        const fern = await holen();
+        if (fern.fehler) { prefs.set('ghFehler', fern.fehler); melden(); return false; }
+        const lokal = await st.exportBackup(false);
+        let daten = lokal, hoch = true;
+        if (fern.daten) {
+          const m = zusammenfuehren(lokal, fern.daten);
+          daten = m.daten; hoch = m.vonLokal;
+          if (m.vonFern) {
+            if (fensterOffen()) { prefs.set('ghOffen', true); nachDemFenster(); return false; }
+            await st.uebernehmen(m.daten);
+            toast('Stand vom anderen Gerät übernommen.');
+          }
+        }
+        prefs.set('ghSha', fern.sha);
+        if (hoch) {
+          const body = { message: 'Abgleich ' + new Date().toISOString().slice(0, 16).replace('T', ' '), content: base64(JSON.stringify(daten)) };
+          if (fern.sha) body.sha = fern.sha;
+          const r = await gh('/repos/' + konfig().repo + '/contents/' + DATEI, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+          // Ein anderes Gerät war schneller: neu holen und noch einmal zusammenführen
+          if (r.status === 409 || r.status === 422) continue;
+          if (!r.ok) { prefs.set('ghFehler', meldung(r.status)); melden(); return false; }
+          const j = await r.json();
+          prefs.set('ghSha', j.content && j.content.sha);
+        }
+        prefs.set('ghZuletzt', new Date().toISOString());
+        prefs.set('ghFehler', null);
+        prefs.set('ghOffen', false);
+        await st.markBackup();
+        melden();
+        return true;
       }
-      if (!r.ok) { prefs.set('ghFehler', meldung(r.status)); melden(); return false; }
-      const j = await r.json();
-      prefs.set('ghSha', j.content && j.content.sha);
-      prefs.set('ghZuletzt', new Date().toISOString());
-      prefs.set('ghFehler', null);
-      prefs.set('ghOffen', false);
-      await st.markBackup();
-      melden();
-      return true;
+      return false;
     } catch (e) {
       // Offline oder Netz weg: beim nächsten Mal nachholen, keine Warnung
+      prefs.set('ghOffen', true);
       return false;
     }
   })();
-  try { return await laeuft; } finally { laeuft = null; }
+  try { return await laeuft; } finally { laeuft = null; letzter = Date.now(); }
 }
+// Älterer Name, gleiche Wirkung
+export const hochladen = abgleichen;
 
 // Nach einer Lerneinheit oder nach dem Einfügen. Kurz warten, damit alles gespeichert ist.
-let tmr = null;
+let tmr = null, letzter = 0;
 export function anstossen(ms = 1500) {
   if (!aktiv()) return;
   prefs.set('ghOffen', true);
   clearTimeout(tmr);
-  tmr = setTimeout(() => hochladen(), ms);
+  tmr = setTimeout(() => abgleichen(), ms);
 }
-// Beim Öffnen und wenn wieder Netz da ist: Offenes nachholen
-export function nachholen() {
-  if (aktiv() && prefs.get('ghOffen', false)) anstossen(4000);
+// Beim Öffnen, wenn die App wieder sichtbar wird und wenn wieder Netz da ist.
+// Beim Sichtbarwerden höchstens einmal pro Minute, außer es wartet noch etwas von diesem Gerät.
+export function nachholen(immer = false) {
+  if (!aktiv()) return;
+  if (!immer && !prefs.get('ghOffen', false) && Date.now() - letzter < 60000) return;
+  clearTimeout(tmr);
+  tmr = setTimeout(() => abgleichen(), 1200);
 }
 export function start() {
-  nachholen();
-  window.addEventListener('online', nachholen);
+  nachholen(true);
+  window.addEventListener('online', () => nachholen(true));
   document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') nachholen(); });
 }
 
-// Stand von GitHub laden und auf diesem Gerät einspielen. Fotos auf dem Gerät bleiben.
+// Notfall: Stand von GitHub komplett übernehmen und den Stand dieses Geräts ersetzen. Fotos bleiben.
 export async function laden() {
   const r = await gh('/repos/' + konfig().repo + '/contents/' + DATEI, { headers: { Accept: 'application/vnd.github.raw+json' } });
   if (r.status === 404) throw new Error('Auf GitHub liegt noch keine Sicherung.');
