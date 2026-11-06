@@ -44,6 +44,48 @@ export async function openTrainer(tid, datei) {
   location.href = datei;
 }
 
+/* ===== Lernweg für ein neues Thema =====
+ * Erst verstehen, dann im Trainer selbst machen, dann die ersten leichten Fragen.
+ * Danach übernimmt die Wiederholung. Gespeichert pro Thema in kv „lernweg“: { lesen, trainer, fragen, aus } als Zeitpunkte.
+ */
+const lernweg = tid => (st.kvGet('lernweg', {})[tid] || {});
+async function lernwegSetzen(tid, schritt) {
+  const alle = Object.assign({}, st.kvGet('lernweg', {}));
+  alle[tid] = Object.assign({}, alle[tid] || {}, { [schritt]: Date.now() });
+  await st.kvSet('lernweg', alle);
+}
+function lernwegSchritte(tid) {
+  const th = st.thema(tid), T = st.topic(tid);
+  // Lernblätter erklären, Trainer lassen dich selbst rechnen
+  const alle = (th && th.thema.trainer) || [];
+  const blatt = alle.find(x => /lernblatt/i.test(x.titel + x.datei));
+  const tr = alle.find(x => !/lernblatt/i.test(x.titel + x.datei));
+  return [
+    blatt ? { k: 'lesen', titel: 'Verstehen', text: blatt.titel + ' durchgehen, dann Bild, Skizze und Prinzip im Thema.', datei: blatt.datei }
+      : { k: 'lesen', titel: 'Verstehen', text: 'Bild aus deiner Welt, Skizze und Prinzip lesen. Gern vorlesen lassen.' },
+    tr ? { k: 'trainer', titel: 'Im Trainer selbst machen', text: tr.titel + ': Schritt für Schritt, mit Erklärung bei jedem Fehler.', datei: tr.datei }
+      : { k: 'trainer', titel: 'Bausteine durchgehen', text: T.bausteine.length ? 'Die Lösungsbausteine und den Schnellweg einmal in Ruhe ansehen.' : 'Die Fachbegriffe und Merksätze einmal laut erklären.' },
+    { k: 'fragen', titel: 'Erste Fragen', text: 'Ein paar leichte Fragen aus Stufe 1. Was nicht sitzt, kommt gleich nochmal.' }
+  ];
+}
+// Offen, solange nicht alle Schritte erledigt sind und er nicht ausgeblendet wurde.
+// Gezeigt wird er bei Themen im Unterricht und bei Themen, die noch nie geübt wurden.
+export function lernwegOffen(tid) {
+  const w = lernweg(tid);
+  if (w.aus || (w.lesen && w.trainer && w.fragen) || !st.hasTopicContent(tid)) return false;
+  return st.zustand(tid) === 'aktuell' || !st.topicItems(tid).some(i => st.card(i.id));
+}
+export const lernwegStand = tid => { const w = lernweg(tid); return ['lesen', 'trainer', 'fragen'].filter(k => w[k]).length; };
+function lernwegHTML(tid, f) {
+  if (!lernwegOffen(tid)) return '';
+  const w = lernweg(tid);
+  const schritte = lernwegSchritte(tid);
+  const naechster = schritte.find(x => !w[x.k]);
+  return `<div class="lweg" style="--fc:${f.farbe}"><div class="lweg-h"><span><b>Dein Lernweg</b><small>So sitzt das Thema am schnellsten</small></span><button class="lweg-x" data-a="lwegAus" aria-label="Lernweg ausblenden">${icon('close')}</button></div>
+    ${schritte.map((x, k) => `<button class="lweg-s ${w[x.k] ? 'done' : ''} ${x === naechster ? 'jetzt' : ''}" data-a="lweg" data-d="${x.k}"><i>${w[x.k] ? icon('check') : k + 1}</i><span><b>${esc(x.titel)}</b><small>${esc(x.text)}</small></span>${x === naechster ? icon('chev', 'chev') : ''}</button>`).join('')}
+    <div class="lweg-f">Danach übernimmt die Wiederholung: Das Thema kommt von selbst in deinen Runden wieder.</div></div>`;
+}
+
 /* ===== Themenseite ===== */
 const TABS = [['prinzip', 'Prinzip'], ['bausteine', 'Bausteine'], ['ueben', 'Üben'], ['karten', 'Karten'], ['schnellweg', 'Schnellweg'], ['zettel', 'Lernzettel'], ['fotos', 'Fotos']];
 
@@ -74,7 +116,7 @@ export function topicPage(tid, startTab) {
       const alle = items;
       let h = `<div class="topic-head" style="--fc:${f.farbe}">
         <div class="chips"><span class="chip chip-ic" style="background:${f.farbe}">${icon(fachIcon(f))}${esc(f.kurz || f.name)}</span>${(f.module || []).map(m => `<span class="chip ghost">${esc(m === 'Ü' ? 'übergreifend' : m)}</span>`).join('')}${T.modul && !(f.module || []).includes(T.modul) ? `<span class="chip ghost">${esc(T.modul)}</span>` : ''}</div>
-        <div class="zst">${seg('zst', ZUSTAENDE, st.zustand(tid))}</div>${staerkeHTML(sk)}${stufenHTML(tid, alle)}`;
+        <div class="zst">${seg('zst', ZUSTAENDE, st.zustand(tid))}</div>${lernwegHTML(tid, f)}${staerkeHTML(sk)}${stufenHTML(tid, alle)}`;
       if (t.trainer && t.trainer.length) {
         h += `<div class="trainer-btns">${t.trainer.map(x => `<button class="btn-big" data-a="trainer" data-d="${esc(x.datei)}" style="--fc:${f.farbe}">${icon('open')}<span><b>${esc(x.titel)}</b><small>Trainer${tc ? ' · ' + stufeText(tc) : ''}</small></span></button>`).join('')}</div>`;
       }
@@ -82,8 +124,31 @@ export function topicPage(tid, startTab) {
       body.innerHTML = h;
       const tb = $('.tab-body', body);
       const draw = () => { st.setPlace({ art: 'thema', tid, titel: t.name, tab: cur }); renderTab(tb, cur, tid, T, items, f); };
+      const neu = () => this.render(body);
       on(body, {
-        'seg:zst': v => { st.setZustand(tid, v); toast({ kommt: 'Kommt noch.', aktuell: 'Im Unterricht. Kommt bei Unterricht dran.', fertig: 'Abgeschlossen. Kommt bei Alles wiederholen dran.' }[v]); },
+        'seg:zst': async v => { await st.setZustand(tid, v); toast({ kommt: 'Kommt noch.', aktuell: lernwegOffen(tid) ? 'Im Unterricht. Fang oben mit deinem Lernweg an.' : 'Im Unterricht. Kommt bei Unterricht dran.', fertig: 'Abgeschlossen. Kommt bei Alles wiederholen dran.' }[v]); if (v === 'aktuell') neu(); },
+        lwegAus: async () => { await lernwegSetzen(tid, 'aus'); toast('Lernweg ausgeblendet.'); neu(); },
+        lweg: async k => {
+          const x = lernwegSchritte(tid).find(y => y.k === k);
+          if (k === 'lesen' && x.datei) { await lernwegSetzen(tid, 'lesen'); openTrainer(tid, x.datei); return; }
+          if (k === 'lesen') { await lernwegSetzen(tid, 'lesen'); cur = 'prinzip'; neu(); setTimeout(() => { const el = $('.tab-body', body); if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 50); return; }
+          if (k === 'trainer') {
+            await lernwegSetzen(tid, 'trainer');
+            if (x.datei) { openTrainer(tid, x.datei); return; }
+            cur = T.bausteine.length ? 'bausteine' : 'prinzip'; neu(); return;
+          }
+          // Erste Fragen: Stufe 1, sonst die leichtesten, höchstens 8
+          const alleIt = st.topicItems(tid).filter(i => i.art !== 'fehler');
+          let its = alleIt.filter(i => i.stufe === 1);
+          if (its.length < 4) its = alleIt.filter(i => i.stufe <= 2);
+          if (!its.length) its = alleIt;
+          its = sortForPractice(its).slice(0, 8);
+          if (!its.length) { toast('Zu diesem Thema gibt es noch keine Fragen.'); return; }
+          runSession(its, 'Erste Fragen: ' + t.name, { onClose: async res => {
+            if (res.length >= Math.ceil(its.length / 2)) { await lernwegSetzen(tid, 'fragen'); toast(lernwegStand(tid) === 3 ? 'Lernweg geschafft. Ab jetzt kommt das Thema in deinen Runden.' : 'Erste Fragen geschafft.'); }
+            neu();
+          } });
+        },
         trainer: d => openTrainer(tid, d),
         'seg:tab': v => { cur = v; draw(); },
         hatten: async () => { const n = st.freigabe(tid) + 1; await st.setFreigabe(tid, n); toast('Stufe ' + n + ' ist frei: ' + st.STUFEN_NAMEN[n] + '. Kommt ab jetzt in der Wiederholung dran.'); },
@@ -1064,6 +1129,11 @@ export function frageSkizze(box, item, ctx = {}) {
 /* ===== Sitzung: mehrere Übungen nacheinander ===== */
 export function runSession(items, title, opt = {}) {
   if (!items.length) { toast('Gerade ist nichts dran.'); return; }
+  // Eigene Liste: Fehler werden hinten angehängt, die Liste des Aufrufers bleibt, wie sie ist
+  items = items.slice();
+  // Was nicht saß, kommt am Ende der Runde noch einmal dran, höchstens zweimal. Gewertet wird nur der erste Versuch.
+  const nochmal = !opt.single && !opt.blind && !opt.ohneNochmal;
+  let nachgeholt = 0;
   const res = [];
   let i = 0;
   const start = Date.now();
@@ -1092,7 +1162,7 @@ export function runSession(items, title, opt = {}) {
     const box = $('.sess-item', sheet.body);
     const bar = $('.bar i', sheet.body);
     if (bar) bar.style.width = Math.round(i / items.length * 100) + '%';
-    const n = info(); if (n) n.textContent = items.length > 1 && i < items.length ? (i + 1) + ' von ' + items.length : '';
+    const n = info(); if (n) n.textContent = items.length > 1 && i < items.length ? (items[i]._nochmal ? 'Nochmal, eben saß es noch nicht · ' : '') + (i + 1) + ' von ' + items.length : '';
     zettel.neu(items[i]);
     if (limit && Date.now() - start > limit && i > 0 && i < items.length) zeitUm = true;
     frageSkizze($('.sess-sk', sheet.body), i >= items.length || zeitUm ? null : items[i], opt);
@@ -1104,13 +1174,26 @@ export function runSession(items, title, opt = {}) {
       blind: opt.blind,
       nextLabel: i < items.length - 1 ? 'Weiter' : 'Fertig',
       onDone: async (erg, info2) => {
-        if (!(info2 && info2.skip)) { await st.recordCard(it, erg); res.push({ it, erg, info: info2 }); }
-        if (info2 && info2.ansatz != null) await st.addEvent({ art: 'ansatz', tid: it.tid, ok: !!info2.ansatz });
+        const skip = info2 && info2.skip;
+        if (it._nochmal) { if (erg === 'richtig') nachgeholt++; }
+        else if (!skip) { await st.recordCard(it, erg); res.push({ it, erg, info: info2 }); }
+        if (nochmal && !skip && erg !== 'richtig' && (it._nochmal || 0) < 2 && !zeitUm) items.push(Object.assign({}, it, { _nochmal: (it._nochmal || 0) + 1 }));
+        if (!it._nochmal && info2 && info2.ansatz != null) await st.addEvent({ art: 'ansatz', tid: it.tid, ok: !!info2.ansatz });
         i++;
         show();
         $('.sheet-body', sheet.el).scrollTop = 0;
       }
     });
+  }
+  // Was wackelte: direkt in den passenden Trainer oder zurück zum Prinzip des Themas
+  function weiterHTML() {
+    const tids = [...new Set(res.filter(r => r.erg !== 'richtig' && r.it.tid).map(r => r.it.tid))].map(t => st.thema(t)).filter(Boolean).slice(0, 3);
+    if (!tids.length) return '';
+    return `<div class="sum-weiter"><div class="sum-wt">So holst du auf, was gewackelt hat:</div>${tids.map(({ fach: f, thema: t }) => {
+      const tr = (t.trainer || []).find(x => !/lernblatt/i.test(x.titel + x.datei)) || (t.trainer || [])[0];
+      return tr ? `<button class="btn-big" style="--fc:${f.farbe}" data-a="sumTrainer" data-d="${esc(t.id + '|' + tr.datei)}">${icon('open')}<span><b>Im Trainer üben</b><small>${esc(t.name)}: Schritt für Schritt mit Erklärung</small></span></button>`
+        : `<button class="btn-big" style="--fc:${f.farbe}" data-a="sumThema" data-d="${esc(t.id)}">${icon('book')}<span><b>Prinzip nochmal ansehen</b><small>${esc(t.name)}: Bild, Merksatz und Erklärung</small></span></button>`;
+    }).join('')}</div>`;
   }
   function summary(box) {
     clearInterval(timer);
@@ -1124,9 +1207,15 @@ export function runSession(items, title, opt = {}) {
       ${an.length ? `<p class="sum-ansatz">${icon('target')} Ansatz sofort erkannt: <b>${an.filter(r => r.info.ansatz).length} von ${an.length}</b></p>` : ''}
       <div class="sum-row"><span class="pill ok">${c('richtig')} gewusst</span><span class="pill mid">${c('hilfe')} mit Hilfe</span><span class="pill no">${c('falsch')} noch nicht</span></div>
       <p>${q >= 0.8 ? 'Die Karten kommen jetzt in größeren Abständen wieder.' : 'Was noch wackelt, kommt morgen wieder. So setzt es sich fest.'}</p>
+      ${nachgeholt ? `<p class="sum-nach">${icon('check')} ${nachgeholt === 1 ? 'Einen Fehler' : nachgeholt + ' Fehler'} direkt in der Runde nachgeholt.</p>` : ''}
+      ${weiterHTML()}
       ${zeitUm ? '<p class="muted">Zeit um. Was heute nicht mehr drankam, verteile ich auf die nächsten Tage.</p>' : ''}
       <button class="btn filled" data-a="close">Fertig</button></div>`;
-    on(box, { close: () => sheet.close() });
+    on(box, {
+      close: () => sheet.close(),
+      sumTrainer: d => { const [tid, datei] = d.split('|'); sheet.close(); openTrainer(tid, datei); },
+      sumThema: tid => { sheet.close(); push(topicPage(tid, 'prinzip')); }
+    });
     const bar = $('.bar i', sheet.body); if (bar) bar.style.width = '100%';
   }
   return sheet;

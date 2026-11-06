@@ -3,7 +3,7 @@ import { esc, dayStr, dayLong, daysBetween, plural, fmtNum, markdown, plainText,
 import { parseBlocks, summary, TEMPLATE } from './parser.js';
 import * as st from './store.js';
 import { $, $$, icon, row, list, seg, sw, empty, on, push, initTabs, showTab, tab, openSheet, toast, copyText, readClipboard, progress, ring, fachIcon, confirmBox, refreshAll, refreshTop, initEdgeSwipe, initTabSwipe, hinweisTabellenbuch } from './ui.js';
-import { topicPage, runSession, sortForPractice, fachProgress, topicProgress, openTrainer, askClaude, shrinkImage, noteReader, firstLine, itemTitle } from './engine.js';
+import { topicPage, runSession, sortForPractice, fachProgress, topicProgress, openTrainer, askClaude, shrinkImage, noteReader, firstLine, itemTitle, lernwegOffen, lernwegStand } from './engine.js';
 import { mehrPage, unterrichtPage, termineDetail, termEditor, datensicherung, applyTheme, hoerPage } from './extra.js';
 import { prefs } from './db.js';
 import { saeulen, stapel, standVon, balken } from './diagramm.js';
@@ -13,7 +13,7 @@ import * as sicherung from './sicherung.js';
 import { laden as skizzenLaden } from './skizzen.js';
 import { canSpeak, readAloud } from './speech.js';
 
-export const VERSION = '1.23.0';
+export const VERSION = '1.24.0';
 
 /* ===== Heute ===== */
 // Kurze, wechselnde Sätze für den Start. Ohne Druck.
@@ -108,6 +108,9 @@ const heute = {
       <button class="mini" data-a="mini">${icon('bolt')}<span><b>Mini</b> · 2 Minuten, eine Trainer-Aufgabe und Karten</span></button></div>`;
     const aktT = st.kvGet('aktuell', []).map(id => st.thema(id)).filter(Boolean);
     T.imunterricht = `<button class="unt-zeile" data-a="unterricht">${icon('check')}<b>Im Unterricht</b><span class="unt-tags">${aktT.length ? aktT.map(({ fach: f, thema: t }) => `<span class="tag" style="--fc:${f.farbe}">${esc(t.name)}</span>`).join('') : '<span class="muted">nichts angewählt, tippe hier</span>'}</span>${aktT.length ? `<span class="muted">${aktT.length}</span>` : ''}${icon('chev', 'chev')}</button>`;
+    // Neue Themen im Unterricht mit offenem Lernweg: erst verstehen und im Trainer üben
+    const wege = aktT.filter(x => lernwegOffen(x.thema.id));
+    if (wege.length) T.imunterricht += `<div class="lweg-start">${wege.slice(0, 2).map(({ fach: f, thema: t }) => `<button data-a="topic" data-d="${t.id}" style="--fc:${f.farbe}">${icon('target')}<span><b>Lernweg: ${esc(t.name)}</b><small>Schritt ${lernwegStand(t.id) + 1} von 3 · erst verstehen, dann üben</small></span>${icon('chev', 'chev')}</button>`).join('')}${wege.length > 2 ? `<div class="muted small">und ${wege.length - 2} weitere unter Im Unterricht</div>` : ''}</div>`;
     const ex = st.nextExam(today);
     if (ex) {
       const d = daysBetween(today, ex.datum);

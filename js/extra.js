@@ -35,7 +35,8 @@ export function mehrPage() {
       const ex = st.nextExam();
       const nAkt = st.kvGet('aktuell', []).filter(id => st.thema(id)).length;
       b.innerHTML = list([
-        row({ a: 'unterricht', icon: 'check', color: '#0A84FF', title: 'Im Unterricht', sub: nAkt ? plural(nAkt, 'Thema', 'Themen') + ' angewählt' : 'Noch keine Themen angewählt' })
+        row({ a: 'unterricht', icon: 'check', color: '#0A84FF', title: 'Im Unterricht', sub: nAkt ? plural(nAkt, 'Thema', 'Themen') + ' angewählt' : 'Noch keine Themen angewählt' }),
+        row({ a: 'sogehts', icon: 'target', color: '#FF9F0A', title: 'So lernst du mit Lernwerk', sub: 'Erst verstehen, dann üben, dann wiederholen' })
       ]) + list([
         row({ a: 'noten', icon: 'exam', color: '#FFD60A', title: 'Noten', sub: notenSub() }),
         row({ a: 'termine', icon: 'calendar', color: '#FF453A', title: 'Termine', sub: ex ? 'Nächste Arbeit: ' + ex.fach + ', ' + dayShort(ex.datum) : 'Klassenarbeiten eintragen' }),
@@ -54,11 +55,37 @@ export function mehrPage() {
         row({ a: 'info', icon: 'info', color: '#8E8E93', title: 'Über Lernwerk' })
       ]) + hinweisTabellenbuch();
       on(b, {
-        unterricht: () => push(unterrichtPage()), noten: () => push(notenPage()), termine: () => push(terminePage()), probe: () => push(probePage()), hoer: () => push(hoerPage()), erklaer: () => push(erklaerPage()),
+        unterricht: () => push(unterrichtPage()), sogehts: () => push(soGehtsPage()), noten: () => push(notenPage()), termine: () => push(terminePage()), probe: () => push(probePage()), hoer: () => push(hoerPage()), erklaer: () => push(erklaerPage()),
         lexikon: () => push(lexikonPage()), formeln: () => push(formelPage()), suche: () => push(suchePage()),
         lehrplan: () => push(lehrplanPage()), backup: () => push(datensicherung()), theme: () => push(themePage()),
         remind: () => push(erinnerungPage()), info: () => push(infoPage())
       });
+    }
+  };
+}
+
+/* ===== So lernst du mit Lernwerk ===== */
+export function soGehtsPage() {
+  const k = (n, t, txt) => `<div class="sg"><span class="sg-n">${n}</span><div><b>${t}</b><p>${txt}</p></div></div>`;
+  return {
+    title: 'So lernst du',
+    render(b) {
+      b.innerHTML = `<p class="sec-f">Lernen hat zwei Teile. Erst verstehst du etwas, dann holst du es immer wieder aus dem Kopf. Die Trainer bringen dir etwas bei, die Runden sorgen dafür, dass es bleibt. Du brauchst beides, in dieser Reihenfolge.</p>
+        <div class="sec-h">Neues Thema aus dem Unterricht</div><div class="card">
+        ${k(1, 'Thema auf Im Unterricht stellen', 'Dann erscheint oben im Thema dein Lernweg, und auf der Startseite ein Knopf dazu.')}
+        ${k(2, 'Verstehen', 'Bild aus deiner Welt, Skizze und Prinzip lesen oder vorlesen lassen.')}
+        ${k(3, 'Im Trainer selbst machen', 'Hier rechnest du Schritt für Schritt und bekommst bei jedem Fehler eine Erklärung. Das ist der wichtigste Schritt.')}
+        ${k(4, 'Erste Fragen', 'Ein paar leichte Fragen. Danach kommt das Thema von selbst in deinen Runden.')}</div>
+        <div class="sec-h">Jeden Tag, 10 bis 20 Minuten</div><div class="card">
+        ${k('✓', 'Heute lernen oder Lernzeit', 'Vor einer Arbeit in der Karte der Arbeit, sonst über die Lernzeit auf der Startseite.')}
+        ${k('✓', 'Erst antworten, dann aufdecken', 'Sag die Antwort ganz im Kopf oder laut, bevor du aufdeckst. Nur ungefähr wissen zählt nicht.')}
+        ${k('✓', 'Ehrlich bewerten', 'Warst du unsicher, tipp auf Mit Hilfe. Nur so plant die App richtig.')}
+        ${k('✓', 'Wirklich rechnen', 'Rechenaufgaben auf dem Zettel oder auf Papier ausrechnen, nicht nur ansehen.')}
+        ${k('✓', 'Fehler sind gut', 'Was nicht saß, kommt am Ende der Runde nochmal. Am Schluss bringt dich ein Knopf in den passenden Trainer.')}</div>
+        <div class="sec-h">Einmal pro Woche</div><div class="card">
+        ${k('✓', 'Fehlerbuch', 'Deine offenen Fehler durchgehen.')}
+        ${k('✓', 'Laut erklären', 'Im Erklär-Training ein Thema erklären, als würdest du es einem Kollegen in der Werkstatt zeigen.')}
+        ${k('✓', 'Vor der Arbeit', 'Eine Probeklausur mit echter Zeit, ohne Tipps.')}</div>`;
     }
   };
 }
