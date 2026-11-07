@@ -851,3 +851,6 @@ button.count-more { border: 0; background: none; padding: 4px 0 0; font: inherit
 .sg { display: flex; gap: 12px; padding: 8px 0; } .sg + .sg { border-top: 0.5px solid var(--sep); }
 .sg-n { flex: none; width: 26px; height: 26px; border-radius: 50%; background: var(--accent); color: #fff; display: grid; place-items: center; font-weight: 700; font-size: 14px; }
 .sg b { display: block; font-size: 16px; } .sg p { margin: 2px 0 0; color: var(--label2); font-size: 14.5px; line-height: 1.4; }
+
+.lweg-ein { display: inline-flex; align-items: center; gap: 6px; margin: 10px 0 2px; border: 0; background: none; padding: 4px 0; color: var(--accent); font: inherit; font-size: 15px; }
+.lweg-ein .ic { width: 17px; height: 17px; }

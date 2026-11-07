@@ -49,9 +49,9 @@ export async function openTrainer(tid, datei) {
  * Danach übernimmt die Wiederholung. Gespeichert pro Thema in kv „lernweg“: { lesen, trainer, fragen, aus } als Zeitpunkte.
  */
 const lernweg = tid => (st.kvGet('lernweg', {})[tid] || {});
-async function lernwegSetzen(tid, schritt) {
+async function lernwegSetzen(tid, schritt, wert = Date.now()) {
   const alle = Object.assign({}, st.kvGet('lernweg', {}));
-  alle[tid] = Object.assign({}, alle[tid] || {}, { [schritt]: Date.now() });
+  alle[tid] = Object.assign({}, alle[tid] || {}, { [schritt]: wert });
   await st.kvSet('lernweg', alle);
 }
 function lernwegSchritte(tid) {
@@ -77,8 +77,10 @@ export function lernwegOffen(tid) {
 }
 export const lernwegStand = tid => { const w = lernweg(tid); return ['lesen', 'trainer', 'fragen'].filter(k => w[k]).length; };
 function lernwegHTML(tid, f) {
-  if (!lernwegOffen(tid)) return '';
   const w = lernweg(tid);
+  // Ausgeblendet, aber noch nicht fertig: kleiner Knopf zum Zurückholen
+  if (w.aus && !(w.lesen && w.trainer && w.fragen) && st.hasTopicContent(tid)) return `<button class="lweg-ein" data-a="lwegEin">${icon('target')} Lernweg wieder einblenden</button>`;
+  if (!lernwegOffen(tid)) return '';
   const schritte = lernwegSchritte(tid);
   const naechster = schritte.find(x => !w[x.k]);
   return `<div class="lweg" style="--fc:${f.farbe}"><div class="lweg-h"><span><b>Dein Lernweg</b><small>So sitzt das Thema am schnellsten</small></span><button class="lweg-x" data-a="lwegAus" aria-label="Lernweg ausblenden">${icon('close')}</button></div>
@@ -127,7 +129,8 @@ export function topicPage(tid, startTab) {
       const neu = () => this.render(body);
       on(body, {
         'seg:zst': async v => { await st.setZustand(tid, v); toast({ kommt: 'Kommt noch.', aktuell: lernwegOffen(tid) ? 'Im Unterricht. Fang oben mit deinem Lernweg an.' : 'Im Unterricht. Kommt bei Unterricht dran.', fertig: 'Abgeschlossen. Kommt bei Alles wiederholen dran.' }[v]); if (v === 'aktuell') neu(); },
-        lwegAus: async () => { await lernwegSetzen(tid, 'aus'); toast('Lernweg ausgeblendet.'); neu(); },
+        lwegAus: async () => { await lernwegSetzen(tid, 'aus'); toast('Lernweg ausgeblendet. Oben im Thema holst du ihn zurück.'); neu(); },
+        lwegEin: async () => { await lernwegSetzen(tid, 'aus', 0); neu(); },
         lweg: async k => {
           const x = lernwegSchritte(tid).find(y => y.k === k);
           if (k === 'lesen' && x.datei) { await lernwegSetzen(tid, 'lesen'); openTrainer(tid, x.datei); return; }
@@ -1106,8 +1109,8 @@ export function schmierzettel(root) {
     btn.classList.toggle('on', !box.hidden);
     if (!box.hidden) zeigen();
   });
-  // Neue Frage: Zettel leeren und zuklappen. Bei Rechenaufgaben gibt es den Taschenrechner dazu.
-  return { neu(item) { box.hidden = true; box.innerHTML = ''; gebaut = false; gemalt = false; ans = null; btn.classList.remove('on'); mitRechner = !!item && (item.art === 'aufgabe' || item.art === 'umstellen'); } };
+  // Neue Frage: Zettel leeren und zuklappen. Der Taschenrechner ist bei jeder Frage dabei.
+  return { neu(item) { box.hidden = true; box.innerHTML = ''; gebaut = false; gemalt = false; ans = null; btn.classList.remove('on'); mitRechner = true; } };
 }
 
 /* ===== Skizze zur Frage =====
