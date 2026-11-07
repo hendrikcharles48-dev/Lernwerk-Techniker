@@ -187,6 +187,8 @@ Dann in Safari: Teilen-Knopf, **Zum Home-Bildschirm**.
 
 Updates laufen automatisch: Änderungen werden direkt auf `main` veröffentlicht. Beim nächsten Öffnen holt sich die App die neue Version selbst und zeigt kurz „Lernwerk wurde aktualisiert“. Ist gerade eine Übung offen, wartet sie damit, bis du fertig bist. Dafür bei jeder Änderung `VERSION` in `sw.js` und `js/app.js` gleich erhöhen.
 
+Kommt per E-Mail „pages build and deployment: Some jobs were not successful“ und hängt der Schritt deploy bei „syncing_files“, liegt das an GitHub, nicht an der App. Dann hilft ein neuer Push auf `main` oder auf github.com unter Actions „Re-run all jobs“. Bis dahin bleibt die vorige Version online.
+
 ## Technik
 
 - `index.html`, `css/app.css`, `js/` (ES-Module, keine externen Bibliotheken), `lehrplan.json`, `inhalte/`, `trainer/`
