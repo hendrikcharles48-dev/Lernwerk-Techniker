@@ -592,6 +592,10 @@ export async function addExam(x) {
   for (const k of ['note', 'prozent', 'ergebnis', 'notiz']) if (x[k] != null && x[k] !== '') e[k] = x[k];
   const dup = S.exams.find(o => o.id !== e.id && o.fachId === e.fachId && o.datum === e.datum);
   if (dup) e.id = dup.id;
+  // Eine Termin-Zeile beim Einfügen ergänzt die Themen einer vorhandenen Arbeit, statt sie zu ersetzen
+  const alt = S.exams.find(o => o.id === e.id);
+  if (alt && !x.themaIds) e.themaIds = [...new Set([...(alt.themaIds || []), ...e.themaIds])];
+  if (alt) for (const k of ['note', 'prozent', 'ergebnis', 'notiz']) if (e[k] == null && alt[k] != null) e[k] = alt[k];
   S.exams = S.exams.filter(o => o.id !== e.id).concat(e);
   await db.put('exams', e);
   changed('exams');
@@ -659,6 +663,25 @@ export async function planNachholenSetzen(ex, tids) {
   const alle = Object.assign({}, kvGet('planNachholen', {}));
   alle[ex.id] = [...new Set(tids)];
   await kvSet('planNachholen', alle);
+}
+// Nächste Arbeit in einem Fach (heute oder später)
+export function naechsteArbeitIn(fid, today = dayStr()) {
+  return S.exams.filter(e => e.fachId === fid && e.datum >= today).sort((a, b) => (a.datum < b.datum ? -1 : 1))[0] || null;
+}
+// Themen des Fachs, die vermutlich in die Arbeit gehören, aber fehlen: im Unterricht oder selbst eingefügt
+export function fehlendeThemen(ex) {
+  const f = fach(ex.fachId);
+  if (!f) return [];
+  const drin = new Set(ex.themaIds || []);
+  return f.themen.filter(t => !drin.has(t.id) && zustand(t.id) !== 'fertig' && (zustand(t.id) === 'aktuell' || S.content.has(t.id)));
+}
+export async function themenZurArbeit(exId, tids) {
+  const ex = S.exams.find(e => e.id === exId);
+  if (!ex || !tids.length) return;
+  const e = Object.assign({}, ex, { themaIds: [...new Set([...(ex.themaIds || []), ...tids])], geaendert: Date.now() });
+  S.exams = S.exams.filter(o => o.id !== e.id).concat(e);
+  await db.put('exams', e);
+  changed('exams');
 }
 export async function deleteExam(id) { S.exams = S.exams.filter(e => e.id !== id); await db.del('exams', id); await loeschmarke('exams:' + id); changed('exams'); }
 

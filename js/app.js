@@ -13,7 +13,7 @@ import * as sicherung from './sicherung.js';
 import { laden as skizzenLaden } from './skizzen.js';
 import { canSpeak, readAloud } from './speech.js';
 
-export const VERSION = '1.24.2';
+export const VERSION = '1.25.0';
 
 /* ===== Heute ===== */
 // Kurze, wechselnde Sätze für den Start. Ohne Druck.
@@ -128,9 +128,11 @@ const heute = {
           ? `<div class="count-plan fertig">${icon('check')}<span><b>Tagesziel erreicht.</b><small>Du kannst gern weiterlernen.</small></span></div>
             <div class="count-weiter">${tag.danach ? `<button data-a="plantag"><b>Nächsten Tag vorziehen</b><small>${esc(tag.danachText)}</small></button>` : ''}<button data-a="planschwach"><b>Schwächen üben</b><small>Fehler, falsche und wackelnde Fragen der Arbeit</small></button></div>${mehr}`
           : `<button class="count-plan" data-a="plantag">${icon('bolt')}<span><b>${tag.aufgabe.art === 'schwach' ? 'Heute: Schwächen üben' : tag.aufgabe.vor ? 'Heute lernen, du bist vorne' : 'Heute lernen'}</b><small>${esc(tag.aufgabe.text)}</small></span>${icon('chev', 'chev')}</button>${mehr}`;
+      const fehlen = st.fehlendeThemen(ex);
+      const fehlenHTML = fehlen.length ? `<button class="count-fehlt" data-a="exam" data-d="${ex.id}">${icon('plus')}<span>${fehlen.length === 1 ? '1 neues Thema ist' : fehlen.length + ' neue Themen sind'} noch nicht in der Arbeit: ${esc(fehlen.map(t => t.name).join(', '))}</span>${icon('chev', 'chev')}</button>` : '';
       T.arbeit = `<div class="sec-h">Nächste Klassenarbeit</div><div class="card count" style="--fc:${f ? f.farbe : 'var(--accent)'}"><button class="count-main" data-a="exam" data-d="${ex.id}">
         <div class="count-head"><span class="count-badge"><b>${d === 0 ? '!' : d}</b><small>${d === 0 ? 'heute' : d === 1 ? 'Tag' : 'Tage'}</small></span><span><div class="count-t">${esc(ex.fach)}</div><div class="muted">${esc(dayLong(ex.datum))}</div></span>${bereit != null ? `<span class="bereit">${ring(bereit / 100, 56, bereit >= 75 ? 'var(--green)' : bereit >= 45 ? 'var(--orange)' : 'var(--red)', `<b>${bereit}</b><small>%</small>`)}<small>vorbereitet</small></span>` : ''}</div>
-        </button>${fuss}</div>`;
+        </button>${fehlenHTML}${fuss}</div>`;
     }
     // Trainer und Hörmodus: je eine Kachel. Die Trainer liegen dahinter in Ordnern nach Fach.
     const tr = trainerOrdnerListe(today);
@@ -573,7 +575,7 @@ export function fachPage(fid) {
 let insMode = 'block';
 let insText = '';
 let insResult = null;
-let insErsetzen = false;
+let insErsetzen = false, insArbeit = true;
 let insNote = { text: '', titel: '', fid: '', tid: '', neu: '' };
 const einfuegen = {
   title: 'Einfügen',
@@ -630,6 +632,9 @@ function drawBlock(el) {
     if (r.fehler.length) h += `<div class="fb bad"><b>${plural(r.fehler.length, 'Problem', 'Probleme')} beim Lesen:</b>${r.fehler.map(e => `<div class="pv-err">Zeile ${e.zeile}: ${esc(e.meldung)}${e.text ? `<code>${esc(e.text.slice(0, 80))}</code>` : ''}</div>`).join('')}</div>`;
     if (r.hinweise.length) h += `<details class="disc"><summary>${plural(r.hinweise.length, 'Hinweis', 'Hinweise')}</summary>${r.hinweise.map(e => `<div class="pv-err">Zeile ${e.zeile}: ${esc(e.meldung)}</div>`).join('')}</details>`;
     // Ersetzen: wenn vorher etwas Falsches eingefügt wurde und der neue Text es ablösen soll
+    // Gibt es im Fach eine kommende Arbeit, kommen neue Themen gleich mit in ihren Lernplan
+    const arbeiten = [...new Map(r.themen.map((t, i) => { const ex = zu[i].fachId ? st.naechsteArbeitIn(zu[i].fachId) : null; return ex && !(zu[i].themaId && (ex.themaIds || []).includes(zu[i].themaId)) ? [ex.id, ex] : null; }).filter(Boolean)).values()];
+    if (arbeiten.length) h += list([row({ title: 'Zur Klassenarbeit dazunehmen', sub: arbeiten.map(ex => ex.fach + ' am ' + dayLong(ex.datum)).join(', ') + '. Die Themen kommen dann mit in den Lernplan.', right: sw('arbeit', insArbeit) })]);
     if (r.themen.some((t, i) => zu[i].themaId && st.S.content.get(zu[i].themaId))) h += list([row({ title: 'Bisherige Inhalte ersetzen', sub: 'Was du früher in diese Themen eingefügt hast, wird durch diesen Text ersetzt, auch auf deinen anderen Geräten. Lernzettel, Fotos und Fortschritt bleiben. Zeichnungen bleiben auch, wenn dieser Text keine eigenen enthält.', right: sw('ersetzen', insErsetzen) })]);
     if (r.themen.length || r.termine.length) h += `<button class="btn filled wide" data-a="save">Speichern?</button>`;
     pv.innerHTML = h;
@@ -652,12 +657,16 @@ function drawBlock(el) {
     },
     clear: () => { ta.value = ''; update(); },
     'sw:ersetzen': v => { insErsetzen = v; },
+    'sw:arbeit': v => { insArbeit = v; },
     save: async () => {
       if (!parsed) return;
       const p = parsed;
       ta.value = ''; insText = ''; parsed = null;
       const res = await st.saveBlocks(zu, p.termine, { ersetzen: insErsetzen });
       insErsetzen = false;
+      // Neue Themen zur kommenden Arbeit im Fach
+      if (insArbeit) for (const x of res) { const ex = st.naechsteArbeitIn(x.fach.id); if (ex && !(ex.themaIds || []).includes(x.thema.id)) await st.themenZurArbeit(ex.id, [x.thema.id]); }
+      insArbeit = true;
       const n = res.reduce((s, x) => s + x.added, 0);
       toast(res.length ? 'Gespeichert: ' + res.map(x => x.thema.name).join(', ') + (n ? ' (' + plural(n, 'neuer Eintrag', 'neue Einträge') + ')' : ' (nichts Neues)') : 'Termine gespeichert.');
       insResult = res.map(x => ({ tid: x.thema.id, name: x.thema.name, fach: x.fach.name, farbe: x.fach.farbe }));

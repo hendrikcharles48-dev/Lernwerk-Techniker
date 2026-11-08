@@ -859,3 +859,12 @@ button.count-more { border: 0; background: none; padding: 4px 0 0; font: inherit
 .zst-pill { display: inline-block; vertical-align: 2px; margin-left: 4px; padding: 1px 7px; border-radius: 99px; font-size: 11.5px; font-weight: 600; line-height: 1.5; white-space: nowrap; --zc: var(--accent); color: var(--zc); background: color-mix(in srgb, var(--zc) 16%, transparent); }
 .zst-pill.z-aktuell { --zc: var(--green); }
 .zst-pill.z-fertig { --zc: var(--red); }
+
+/* Neue Themen, die noch nicht in der Arbeit sind */
+.count-fehlt { display: flex; align-items: center; gap: 8px; width: 100%; margin-top: 10px; border: 0; border-radius: 12px; background: color-mix(in srgb, var(--orange) 14%, var(--bg2)); padding: 8px 10px; text-align: left; color: var(--label); font: inherit; font-size: 14px; }
+.count-fehlt > .ic:first-child { width: 18px; height: 18px; color: var(--orange); flex: none; }
+.count-fehlt span { flex: 1; min-width: 0; }
+.count-fehlt .chev { width: 15px; height: 15px; color: var(--label3); flex: none; }
+.fehlt-box > div:nth-child(2) { margin: 4px 0 8px; }
+.fehlt-z { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 6px 0; border-top: 0.5px solid var(--sep); }
+.fehlt-box > .btn.filled { margin-top: 8px; }
