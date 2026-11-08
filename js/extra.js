@@ -133,7 +133,8 @@ export function termEditor(e0) {
           if (!e.datum) { toast('Bitte ein Datum wählen.'); return; }
           const f = st.fach(e.fachId);
           const ids = e.themaIds.length ? e.themaIds : st.matchThemen(f, e.themen);
-          await st.addExam({ id: e0.id, fachId: e.fachId, fach: f.name, datum: e.datum, themen: e.themen, themaIds: ids });
+          const raus = (e0.themaIds || []).filter(t => !ids.includes(t));
+          await st.addExam({ id: e0.id, fachId: e.fachId, fach: f.name, datum: e.datum, themen: e.themen, themaIds: ids, ausgeschlossen: [...new Set([...(e0.ausgeschlossen || []).filter(t => !ids.includes(t)), ...raus])] });
           api.close(); toast('Termin gespeichert.'); refreshTop();
         },
         del: async () => { if (await confirmBox('Termin löschen?', 'Löschen', true)) { await st.deleteExam(e0.id); api.close(); pop(); } }
@@ -142,6 +143,7 @@ export function termEditor(e0) {
   });
 }
 export function termineDetail(id) {
+  let abwahl = false;
   return {
     title: 'Klassenarbeit',
     actions: [{ label: 'Bearbeiten', icon: 'edit', onClick: () => { const e = st.S.exams.find(x => x.id === id); if (e) termEditor(e); } }],
@@ -156,8 +158,9 @@ export function termineDetail(id) {
       if (d < 0) h += `<div class="btn-row"><button class="btn filled" data-a="note">${icon('exam')} ${e.note != null || e.prozent != null ? 'Note ansehen: ' + [e.note != null ? fmtNote(e.note) : '', e.prozent != null ? fmtNum(e.prozent, 1) + ' %' : ''].filter(Boolean).join(', ') : 'Note eintragen'}</button></div>`;
       // Themen im Fach, die fehlen: im Unterricht oder selbst eingefügt, aber nicht in der Arbeit
       const fehlen = d >= 0 ? st.fehlendeThemen(e) : [];
-      if (fehlen.length) h += `<div class="fb info fehlt-box"><b>Gehören diese Themen dazu?</b><div>Sie sind im Unterricht oder neu eingefügt, aber noch nicht in der Arbeit. Dazugenommen kommen sie in den Lernplan.</div>${fehlen.map(t => `<div class="fehlt-z"><span>${esc(t.name)}</span><button class="btn small" data-a="dazu" data-d="${t.id}">Dazunehmen</button></div>`).join('')}${fehlen.length > 1 ? `<button class="btn small filled" data-a="alleDazu">Alle dazunehmen</button>` : ''}</div>`;
-      if (tops.length) h += `<div class="sec-h">Dein Stand</div>` + list(tops.map(t => { const p = topicProgress(t.thema.id); return row({ a: 'topic', d: t.thema.id, title: t.thema.name, html: progress(p || 0, f ? f.farbe : null), detail: Math.round((p || 0) * 100) + ' %' }); }));
+      if (fehlen.length) h += `<div class="fb info fehlt-box"><b>Gehören diese Themen dazu?</b><div>Sie sind im Unterricht oder neu eingefügt, aber noch nicht in der Arbeit. Dazugenommen kommen sie in den Lernplan.</div>${fehlen.map(t => `<div class="fehlt-z"><span>${esc(t.name)}</span><span class="fehlt-k"><button class="btn small" data-a="nichtDazu" data-d="${t.id}">Nein</button><button class="btn small" data-a="dazu" data-d="${t.id}">Dazunehmen</button></span></div>`).join('')}${fehlen.length > 1 ? `<button class="btn small filled" data-a="alleDazu">Alle dazunehmen</button>` : ''}</div>`;
+      // Themen der Arbeit: antippen öffnet das Thema. „Themen abwählen“ zeigt bei jedem Thema einen Knopf zum Rausnehmen.
+      if (tops.length) h += `<div class="sec-h sec-h-btn"><span>Dein Stand</span>${d >= 0 ? `<button class="link" data-a="abwahl">${abwahl ? 'Fertig' : 'Themen abwählen'}</button>` : ''}</div>` + list(tops.map(t => { const p = topicProgress(t.thema.id); return abwahl ? row({ title: t.thema.name, right: `<button class="btn small danger" data-a="raus" data-d="${t.thema.id}">Rausnehmen</button>` }) : row({ a: 'topic', d: t.thema.id, title: t.thema.name, html: progress(p || 0, f ? f.farbe : null), detail: Math.round((p || 0) * 100) + ' %' }); }));
       else h += `<div class="fb info">Wähl die Themen der Arbeit aus (oben rechts bearbeiten). Dann zieht Lernwerk sie in Heute vor und plant rückwärts.</div>`;
       h += `<div class="btn-row"><button class="btn filled" data-a="ueben">${icon('bolt')} Themen der Arbeit üben</button><button class="btn" data-a="probe">${icon('exam')} Probeklausur</button><button class="btn" data-a="hoer">${icon('ear')} Hörmodus</button></div>`;
       if (d > 0) {
@@ -176,6 +179,9 @@ export function termineDetail(id) {
       b.innerHTML = h;
       on(b, {
         topic: tid => push(topicPage(tid)),
+        abwahl: () => { abwahl = !abwahl; this.render(b); },
+        raus: async tid => { await st.themenAusArbeit(e.id, [tid]); toast('Rausgenommen. Der Lernplan rechnet neu.'); this.render(b); refreshTop(); },
+        nichtDazu: async tid => { await st.themenAusArbeit(e.id, [tid]); toast('Gehört nicht dazu. Ich frage nicht mehr.'); this.render(b); refreshTop(); },
         dazu: async tid => { await st.themenZurArbeit(e.id, [tid]); toast('Dazugenommen. Der Lernplan rechnet neu.'); this.render(b); refreshTop(); },
         alleDazu: async () => { await st.themenZurArbeit(e.id, fehlen.map(t => t.id)); toast('Alle dazugenommen. Der Lernplan rechnet neu.'); this.render(b); refreshTop(); },
         note: () => push(klausurPage(e.id)),

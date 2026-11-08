@@ -13,7 +13,7 @@ import * as sicherung from './sicherung.js';
 import { laden as skizzenLaden } from './skizzen.js';
 import { canSpeak, readAloud } from './speech.js';
 
-export const VERSION = '1.25.1';
+export const VERSION = '1.25.2';
 
 /* ===== Heute ===== */
 // Kurze, wechselnde Sätze für den Start. Ohne Druck.
@@ -637,7 +637,7 @@ function drawBlock(el) {
     if (r.hinweise.length) h += `<details class="disc"><summary>${plural(r.hinweise.length, 'Hinweis', 'Hinweise')}</summary>${r.hinweise.map(e => `<div class="pv-err">Zeile ${e.zeile}: ${esc(e.meldung)}</div>`).join('')}</details>`;
     // Ersetzen: wenn vorher etwas Falsches eingefügt wurde und der neue Text es ablösen soll
     // Gibt es im Fach eine kommende Arbeit, kommen neue Themen gleich mit in ihren Lernplan
-    const arbeiten = [...new Map(r.themen.map((t, i) => { const ex = zu[i].fachId ? st.naechsteArbeitIn(zu[i].fachId) : null; return ex && !(zu[i].themaId && (ex.themaIds || []).includes(zu[i].themaId)) ? [ex.id, ex] : null; }).filter(Boolean)).values()];
+    const arbeiten = [...new Map(r.themen.map((t, i) => { const ex = zu[i].fachId ? st.naechsteArbeitIn(zu[i].fachId) : null; return ex && !(zu[i].themaId && [...(ex.themaIds || []), ...(ex.ausgeschlossen || [])].includes(zu[i].themaId)) ? [ex.id, ex] : null; }).filter(Boolean)).values()];
     if (arbeiten.length) h += list([row({ title: 'Zur Klassenarbeit dazunehmen', sub: arbeiten.map(ex => ex.fach + ' am ' + dayLong(ex.datum)).join(', ') + '. Die Themen kommen dann mit in den Lernplan.', right: sw('arbeit', insArbeit) })]);
     if (r.themen.some((t, i) => zu[i].themaId && st.S.content.get(zu[i].themaId))) h += list([row({ title: 'Bisherige Inhalte ersetzen', sub: 'Was du früher in diese Themen eingefügt hast, wird durch diesen Text ersetzt, auch auf deinen anderen Geräten. Lernzettel, Fotos und Fortschritt bleiben. Zeichnungen bleiben auch, wenn dieser Text keine eigenen enthält.', right: sw('ersetzen', insErsetzen) })]);
     if (r.themen.length || r.termine.length) h += `<button class="btn filled wide" data-a="save">Speichern?</button>`;
@@ -669,7 +669,7 @@ function drawBlock(el) {
       const res = await st.saveBlocks(zu, p.termine, { ersetzen: insErsetzen });
       insErsetzen = false;
       // Neue Themen zur kommenden Arbeit im Fach
-      if (insArbeit) for (const x of res) { const ex = st.naechsteArbeitIn(x.fach.id); if (ex && !(ex.themaIds || []).includes(x.thema.id)) await st.themenZurArbeit(ex.id, [x.thema.id]); }
+      if (insArbeit) for (const x of res) { const ex = st.naechsteArbeitIn(x.fach.id); if (ex && ![...(ex.themaIds || []), ...(ex.ausgeschlossen || [])].includes(x.thema.id)) await st.themenZurArbeit(ex.id, [x.thema.id]); }
       insArbeit = true;
       const n = res.reduce((s, x) => s + x.added, 0);
       toast(res.length ? 'Gespeichert: ' + res.map(x => x.thema.name).join(', ') + (n ? ' (' + plural(n, 'neuer Eintrag', 'neue Einträge') + ')' : ' (nichts Neues)') : 'Termine gespeichert.');

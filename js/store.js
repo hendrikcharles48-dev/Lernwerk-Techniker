@@ -592,12 +592,15 @@ export async function addExam(x) {
   const e = { geaendert: Date.now(), id: x.id || uid(), fachId: f ? f.id : '', fach: f ? f.name : x.fach, datum: toDay(x.datum) || x.datum, themen: x.themen || '', themaIds: x.themaIds || matchThemen(f, x.themen) };
   // Ergebnis der Arbeit: Note, Prozent und wie es je Thema lief (gut, mittel, schlecht)
   for (const k of ['note', 'prozent', 'ergebnis', 'notiz']) if (x[k] != null && x[k] !== '') e[k] = x[k];
+  // Abgewählte Themen: kommen nicht wieder als Vorschlag
+  if (x.ausgeschlossen && x.ausgeschlossen.length) e.ausgeschlossen = x.ausgeschlossen;
   const dup = S.exams.find(o => o.id !== e.id && o.fachId === e.fachId && o.datum === e.datum);
   if (dup) e.id = dup.id;
   // Eine Termin-Zeile beim Einfügen ergänzt die Themen einer vorhandenen Arbeit, statt sie zu ersetzen
   const alt = S.exams.find(o => o.id === e.id);
-  if (alt && !x.themaIds) e.themaIds = [...new Set([...(alt.themaIds || []), ...e.themaIds])];
-  if (alt) for (const k of ['note', 'prozent', 'ergebnis', 'notiz']) if (e[k] == null && alt[k] != null) e[k] = alt[k];
+  if (alt && !x.themaIds) e.themaIds = [...new Set([...(alt.themaIds || []), ...e.themaIds.filter(t => !(alt.ausgeschlossen || []).includes(t))])];
+  if (alt) for (const k of ['note', 'prozent', 'ergebnis', 'notiz', 'ausgeschlossen']) if (e[k] == null && alt[k] != null) e[k] = alt[k];
+  if (e.ausgeschlossen) e.ausgeschlossen = e.ausgeschlossen.filter(t => !e.themaIds.includes(t));
   S.exams = S.exams.filter(o => o.id !== e.id).concat(e);
   await db.put('exams', e);
   changed('exams');
@@ -674,13 +677,22 @@ export function naechsteArbeitIn(fid, today = dayStr()) {
 export function fehlendeThemen(ex) {
   const f = fach(ex.fachId);
   if (!f) return [];
-  const drin = new Set(ex.themaIds || []);
+  const drin = new Set([...(ex.themaIds || []), ...(ex.ausgeschlossen || [])]);
   return f.themen.filter(t => !drin.has(t.id) && zustand(t.id) !== 'fertig' && (zustand(t.id) === 'aktuell' || S.content.has(t.id)));
 }
 export async function themenZurArbeit(exId, tids) {
   const ex = S.exams.find(e => e.id === exId);
   if (!ex || !tids.length) return;
-  const e = Object.assign({}, ex, { themaIds: [...new Set([...(ex.themaIds || []), ...tids])], geaendert: Date.now() });
+  const e = Object.assign({}, ex, { themaIds: [...new Set([...(ex.themaIds || []), ...tids])], ausgeschlossen: (ex.ausgeschlossen || []).filter(t => !tids.includes(t)), geaendert: Date.now() });
+  S.exams = S.exams.filter(o => o.id !== e.id).concat(e);
+  await db.put('exams', e);
+  changed('exams');
+}
+// Themen aus der Arbeit nehmen und merken, damit sie nicht wieder als fehlend gemeldet werden
+export async function themenAusArbeit(exId, tids) {
+  const ex = S.exams.find(e => e.id === exId);
+  if (!ex || !tids.length) return;
+  const e = Object.assign({}, ex, { themaIds: (ex.themaIds || []).filter(t => !tids.includes(t)), ausgeschlossen: [...new Set([...(ex.ausgeschlossen || []), ...tids])], geaendert: Date.now() });
   S.exams = S.exams.filter(o => o.id !== e.id).concat(e);
   await db.put('exams', e);
   changed('exams');

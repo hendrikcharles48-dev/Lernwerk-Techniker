@@ -868,3 +868,7 @@ button.count-more { border: 0; background: none; padding: 4px 0 0; font: inherit
 .fehlt-box > div:nth-child(2) { margin: 4px 0 8px; }
 .fehlt-z { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 6px 0; border-top: 0.5px solid var(--sep); }
 .fehlt-box > .btn.filled { margin-top: 8px; }
+
+.sec-h-btn { display: flex; align-items: baseline; justify-content: space-between; }
+.sec-h-btn .link { border: 0; background: none; padding: 0; color: var(--accent); font: inherit; font-size: 14px; text-transform: none; letter-spacing: 0; }
+.fehlt-k { display: flex; gap: 6px; flex: none; }
