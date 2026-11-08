@@ -519,6 +519,7 @@ export function nextExam(today = dayStr()) {
 }
 export function allTids() { return S.plan.faecher.flatMap(f => f.themen.map(t => t.id)); }
 
+const shuffleArr = a => { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
 export function buildQueue(maxSec = 900, opt = {}) {
   const today = dayStr();
   const ex = opt.exam !== undefined ? opt.exam : nextExam(today);
@@ -536,8 +537,9 @@ export function buildQueue(maxSec = 900, opt = {}) {
   const prio = it => (exT.has(it.tid) ? 0 : stufe(it.tid) === 'schwach' ? 1 : akt.has(it.tid) ? 2 : stufe(it.tid) === 'mittel' ? 3 : 4);
   const due = pool.filter(it => isDue(S.cards.get(it.id), today, exT.has(it.tid) ? dEx : null))
     .sort((a, b) => prio(a) - prio(b) || (S.cards.get(a.id).faellig < S.cards.get(b.id).faellig ? -1 : 1));
-  const neu = pool.filter(it => !S.cards.get(it.id) && it.art !== 'fehler' && (exT.has(it.tid) || akt.has(it.tid) || nach.has(it.tid) || opt.tids))
-    .sort((a, b) => prio(a) - prio(b));
+  // Neue Fragen: nach Wichtigkeit, innerhalb gleicher Wichtigkeit erst die leichteren Stufen, sonst gemischt
+  const neu = shuffleArr(pool.filter(it => !S.cards.get(it.id) && it.art !== 'fehler' && (exT.has(it.tid) || akt.has(it.tid) || nach.has(it.tid) || opt.tids)))
+    .sort((a, b) => prio(a) - prio(b) || (a.stufe || 1) - (b.stufe || 1));
   const out = [];
   let sec = 0;
   const add = it => { const s = SEKUNDEN[it.art] || 40; if (sec + s > maxSec && out.length) return false; out.push(it); sec += s; return true; };

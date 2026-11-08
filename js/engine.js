@@ -312,10 +312,19 @@ export function itemTitle(i) {
   if (i.art === 'fehler') return i.err.aufgabe || i.err.fehlerart;
   return i.frage || '';
 }
+// Damit alle Fragen drankommen und nicht immer dieselben: Was noch nie dran war, kommt zuerst,
+// danach was am längsten her ist. Gleich alte Fragen in zufälliger Reihenfolge.
+const zuletztAm = id => { const c = st.card(id); return c ? (c.zeit || Date.parse((c.zuletzt || '2000-01-01') + 'T12:00')) : 0; };
+export function nachAlter(items) {
+  const t = new Map(items.map(i => [i.id, zuletztAm(i.id)]));
+  // Auf den Tag genau vergleichen, sonst gäbe es keine Zufallsreihenfolge mehr
+  const tag = i => Math.floor(t.get(i.id) / 86400000);
+  return shuffle(items).sort((a, b) => tag(a) - tag(b));
+}
 export function sortForPractice(items) {
   const today = dayStr();
   const k = i => { const c = st.card(i.id); return !c ? 1 : c.faellig <= today ? 0 : 2; };
-  return shuffle(items).sort((a, b) => k(a) - k(b));
+  return nachAlter(items).sort((a, b) => k(a) - k(b));
 }
 
 /* ===== Bilder verkleinern, damit der Speicher reicht ===== */

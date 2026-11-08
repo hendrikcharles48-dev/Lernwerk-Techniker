@@ -3,7 +3,7 @@ import { esc, dayStr, dayLong, daysBetween, plural, fmtNum, markdown, plainText,
 import { parseBlocks, summary, TEMPLATE } from './parser.js';
 import * as st from './store.js';
 import { $, $$, icon, row, list, seg, sw, empty, on, push, initTabs, showTab, tab, openSheet, toast, copyText, readClipboard, progress, ring, fachIcon, confirmBox, refreshAll, refreshTop, initEdgeSwipe, initTabSwipe, hinweisTabellenbuch } from './ui.js';
-import { topicPage, runSession, sortForPractice, fachProgress, topicProgress, openTrainer, askClaude, shrinkImage, noteReader, firstLine, itemTitle, lernwegOffen, lernwegStand } from './engine.js';
+import { topicPage, runSession, sortForPractice, fachProgress, topicProgress, openTrainer, askClaude, shrinkImage, noteReader, firstLine, itemTitle, lernwegOffen, lernwegStand, nachAlter } from './engine.js';
 import { mehrPage, unterrichtPage, termineDetail, termEditor, datensicherung, applyTheme, hoerPage } from './extra.js';
 import { prefs } from './db.js';
 import { saeulen, stapel, standVon, balken } from './diagramm.js';
@@ -13,7 +13,7 @@ import * as sicherung from './sicherung.js';
 import { laden as skizzenLaden } from './skizzen.js';
 import { canSpeak, readAloud } from './speech.js';
 
-export const VERSION = '1.25.0';
+export const VERSION = '1.25.1';
 
 /* ===== Heute ===== */
 // Kurze, wechselnde Sätze für den Start. Ohne Druck.
@@ -255,9 +255,13 @@ export function mitRechnen(items, tids, n = 12, halb = n / 2) {
 // Rechenaufgaben verschiedener Themen im Wechsel, zuerst die mit Ansatz-Frage
 function mixAufgaben(tids, n) {
   const pick = (lists, out) => { for (let r = 0; out.length < n && lists.some(l => l.length); r++) for (const l of lists) if (l.length && out.length < n) out.push(l.shift()); };
+  // Je Thema zuerst die Aufgaben, die noch nie oder am längsten nicht dran waren.
+  // Themen, deren Aufgaben am längsten her sind, kommen zuerst an die Reihe.
+  const alter = l => (l.length ? Math.min(...l.map(i => { const c = st.card(i.id); return c ? (c.zeit || 1) : 0; })) : Infinity);
+  const ordnen = lists => lists.filter(l => l.length).sort((a, b) => Math.floor(alter(a) / 864e5) - Math.floor(alter(b) / 864e5));
   const ts = shuffle([...tids]);
-  const mitAnsatz = ts.map(t => shuffle(st.uebItems(t).filter(i => i.art === 'aufgabe' && i.aufgabe.ansatz))).filter(l => l.length);
-  const rest = ts.map(t => shuffle(st.uebItems(t).filter(i => (i.art === 'aufgabe' && !i.aufgabe.ansatz) || i.art === 'umstellen'))).filter(l => l.length);
+  const mitAnsatz = ordnen(ts.map(t => nachAlter(st.uebItems(t).filter(i => i.art === 'aufgabe' && i.aufgabe.ansatz))));
+  const rest = ordnen(ts.map(t => nachAlter(st.uebItems(t).filter(i => (i.art === 'aufgabe' && !i.aufgabe.ansatz) || i.art === 'umstellen'))));
   const out = [];
   pick(mitAnsatz, out);
   pick(rest, out);
