@@ -854,3 +854,8 @@ button.count-more { border: 0; background: none; padding: 4px 0 0; font: inherit
 
 .lweg-ein { display: inline-flex; align-items: center; gap: 6px; margin: 10px 0 2px; border: 0; background: none; padding: 4px 0; color: var(--accent); font: inherit; font-size: 15px; }
 .lweg-ein .ic { width: 17px; height: 17px; }
+
+/* Status-Schild in der Themenliste eines Fachs */
+.zst-pill { display: inline-block; vertical-align: 2px; margin-left: 4px; padding: 1px 7px; border-radius: 99px; font-size: 11.5px; font-weight: 600; line-height: 1.5; white-space: nowrap; --zc: var(--accent); color: var(--zc); background: color-mix(in srgb, var(--zc) 16%, transparent); }
+.zst-pill.z-aktuell { --zc: var(--green); }
+.zst-pill.z-fertig { --zc: var(--red); }

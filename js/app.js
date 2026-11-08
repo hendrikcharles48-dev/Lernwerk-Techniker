@@ -13,7 +13,7 @@ import * as sicherung from './sicherung.js';
 import { laden as skizzenLaden } from './skizzen.js';
 import { canSpeak, readAloud } from './speech.js';
 
-export const VERSION = '1.24.1';
+export const VERSION = '1.24.2';
 
 /* ===== Heute ===== */
 // Kurze, wechselnde Sätze für den Start. Ohne Druck.
@@ -530,7 +530,10 @@ export function fachPage(fid) {
         const p = topicProgress(t.id);
         const nurIntro = st.status(t.id) === 'geplant' && st.isIntroOnly(t.id);
         if (nurIntro) bits.unshift('Einführung lesen');
-        return row({ a: 'topic', d: t.id, title: t.name, sub: bits.join(' · ') || 'noch leer', html: items.length && !nurIntro ? stapel(standVon(items, st.card), { hoch: 7 }) : p != null && !nurIntro ? progress(p, f.farbe) : '' });
+        // Kleines Schild: Kommt noch (blau), Im Unterricht (grün), Abgeschlossen (rot), wie im Thema
+        const z = st.zustand(t.id);
+        const schild = `<span class="zst-pill z-${z}">${{ kommt: 'Kommt noch', aktuell: 'Im Unterricht', fertig: 'Abgeschlossen' }[z]}</span>`;
+        return row({ a: 'topic', d: t.id, titleHTML: `${esc(t.name)} ${schild}`, sub: bits.join(' · ') || 'noch leer', html: items.length && !nurIntro ? stapel(standVon(items, st.card), { hoch: 7 }) : p != null && !nurIntro ? progress(p, f.farbe) : '' });
       };
       // Stand des ganzen Fachs: neu, wackelt, sitzt
       const fachItems = f.themen.filter(t => !(st.status(t.id) === 'geplant' && st.isIntroOnly(t.id))).flatMap(t => st.topicItems(t.id));
