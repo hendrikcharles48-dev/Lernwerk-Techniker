@@ -5,6 +5,7 @@ import { prefs } from './db.js';
 import * as st from './store.js';
 import { zusammenfuehren } from './abgleich.js';
 import { toast } from './ui.js';
+import * as rueckfall from './rueckfall.js';
 
 const API = 'https://api.github.com';
 const DATEI = 'lernwerk-sicherung.json';
@@ -15,7 +16,12 @@ export function repoVorschlag() {
   return (m ? m[1] : 'dein-name') + '/Lernwerk-Sicherung';
 }
 export const konfig = () => ({ token: prefs.get('ghToken', ''), repo: prefs.get('ghRepo', '') });
-export const aktiv = () => { const k = konfig(); return !!(k.token && k.repo && prefs.get('ghVerbunden', false)); };
+const verbunden = () => { const k = konfig(); return !!(k.token && k.repo && prefs.get('ghVerbunden', false)); };
+// Pausiert: Nach dem Laden einer Rückfall-Kopie ruht der Abgleich, bis du entscheidest, wie es weitergeht.
+export const pausiert = () => verbunden() && !!prefs.get('ghPause', false);
+export const aktiv = () => verbunden() && !prefs.get('ghPause', false);
+export function pausieren() { if (verbunden()) { prefs.set('ghPause', true); melden(); } }
+export function fortsetzen() { prefs.set('ghPause', false); melden(); }
 export const zuletzt = () => prefs.get('ghZuletzt', null);
 export const fehler = () => prefs.get('ghFehler', null);
 
@@ -86,6 +92,8 @@ async function holen() {
   if (!txt) { const raw = await gh(pfad, { headers: { Accept: 'application/vnd.github.raw+json' } }); if (!raw.ok) return { fehler: meldung(raw.status) }; txt = await raw.text(); }
   let daten = null;
   try { daten = JSON.parse(txt); } catch (e) { daten = null; }
+  // Eine beschädigte Datei wird nie still überschrieben
+  if (txt.trim() && (!daten || !daten.kv)) return { fehler: 'Die Sicherung auf GitHub kann ich nicht lesen. Ich überschreibe sie nicht von selbst. Unter Datensicherung, Notfall, kannst du den Stand dieses Geräts nach GitHub übernehmen.' };
   return { sha: j.sha, daten };
 }
 
@@ -120,6 +128,8 @@ export async function abgleichen() {
           daten = m.daten; hoch = m.vonLokal;
           if (m.vonFern) {
             if (fensterOffen()) { prefs.set('ghOffen', true); nachDemFenster(); return false; }
+            // Vorher eine Rückfall-Kopie dieses Geräts, höchstens alle zwölf Stunden
+            await rueckfall.sichernWennAlt('Vor dem Abgleich', () => Promise.resolve(lokal));
             await st.uebernehmen(m.daten);
             toast('Stand vom anderen Gerät übernommen.');
           }
@@ -182,9 +192,31 @@ export async function laden() {
   if (r.status === 404) throw new Error('Auf GitHub liegt noch keine Sicherung.');
   if (!r.ok) throw new Error(meldung(r.status));
   const data = JSON.parse(await r.text());
+  await rueckfall.sichern('Vor „Stand von GitHub übernehmen“', await st.exportBackup(false));
   await st.importBackup(data);
   const f = await gh('/repos/' + konfig().repo + '/contents/' + DATEI);
   if (f.ok) prefs.set('ghSha', (await f.json()).sha);
   prefs.set('ghOffen', false);
   return data;
+}
+
+// Notfall in die andere Richtung: Der Stand dieses Geräts ersetzt den Stand auf GitHub, ohne Zusammenführen.
+// Gedacht nach dem Laden einer Rückfall-Kopie. Danach läuft der Abgleich wieder.
+export async function ueberschreiben() {
+  const pfad = '/repos/' + konfig().repo + '/contents/' + DATEI;
+  const r = await gh(pfad);
+  let sha = null;
+  if (r.ok) sha = (await r.json()).sha;
+  else if (r.status !== 404) throw new Error(meldung(r.status));
+  const daten = await st.exportBackup(false);
+  const body = { message: 'Stand eines Geräts übernommen ' + new Date().toISOString().slice(0, 16).replace('T', ' '), content: base64(JSON.stringify(daten)) };
+  if (sha) body.sha = sha;
+  const p = await gh(pfad, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+  if (!p.ok) throw new Error(meldung(p.status));
+  const j = await p.json();
+  prefs.set('ghSha', j.content && j.content.sha);
+  prefs.set('ghZuletzt', new Date().toISOString());
+  prefs.set('ghFehler', null); prefs.set('ghOffen', false); prefs.set('ghPause', false);
+  await st.markBackup();
+  melden();
 }

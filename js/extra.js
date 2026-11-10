@@ -13,6 +13,7 @@ import { folge, dauerSchaetzung, DENKPAUSE } from './podcast.js';
 import { prefs } from './db.js';
 import * as gh from './sicherung.js';
 import { linie, balken } from './diagramm.js';
+import * as rueckfall from './rueckfall.js';
 
 export function applyTheme(t) {
   const r = document.documentElement;
@@ -771,6 +772,7 @@ function fachEditor(f) {
           const ziel = st.fach($('[data-k="ziel"]', b).value);
           if (!ziel) { toast('Wähl zuerst das richtige Fach.'); return; }
           if (!(await confirmBox('„' + f.name + '“ mit „' + ziel.name + '“ zusammenlegen? Danach gibt es „' + f.name + '“ nicht mehr, auch nicht auf deinen anderen Geräten. Alles Gelernte bleibt erhalten.', 'Zusammenlegen'))) return;
+          await rueckfall.sichern('Vor dem Zusammenlegen von Fächern', await st.exportBackup(false), window.__lw ? window.__lw.VERSION : '');
           const n = await st.fachZusammenlegen(f.id, ziel.id);
           api.close(); toast(plural(n, 'Thema', 'Themen') + ' nach ' + ziel.name + ' übernommen.');
           gh.anstossen();
@@ -819,6 +821,9 @@ const GH_SCHRITTE = `<ol class="steps-list small">
   <li>„Permissions“, „Repository permissions“, „Contents“: „Read and write“. Sonst nichts ändern.</li>
   <li>„Generate token“, den Schlüssel kopieren und hier unten einfügen.</li></ol>`;
 function ghBereich() {
+  if (gh.pausiert()) return `<div class="sec-h">Abgleich über GitHub</div><div class="card"><div class="fb info"><b>Der Abgleich ist pausiert.</b> Du hast eine Rückfall-Kopie geladen. Prüf erst, ob der Stand stimmt. Dann entscheide:</div>
+    <div class="btn-col"><button class="btn filled" data-a="ghueber">Diesen Stand behalten und nach GitHub übernehmen</button><button class="btn" data-a="ghweiter">Abgleich wieder einschalten und zusammenführen</button></div>
+    <p class="muted small">„Behalten“ ersetzt den Stand auf GitHub durch den Stand dieses Geräts. Auf deinem anderen Gerät wählst du danach unter Notfall „Stand von GitHub komplett übernehmen“. „Zusammenführen“ mischt den Stand von GitHub wieder dazu, das Neuere gewinnt.</p></div>`;
   if (!gh.aktiv()) {
     const k = gh.konfig();
     return `<div class="sec-h">Automatisch über GitHub</div><div class="card"><p>Lernwerk gleicht deinen Stand über dein privates Repository ab: beim Öffnen, nach jeder Lerneinheit und nach dem Einfügen. Mit demselben Schlüssel auf iPhone und iPad haben beide Geräte denselben Stand. Fotos und die Darstellung bleiben pro Gerät. Der Schlüssel bleibt nur auf diesem Gerät.</p>
@@ -831,7 +836,8 @@ function ghBereich() {
   return `<div class="sec-h">Abgleich über GitHub</div><div class="card"><p>${icon('cloud')} <b>Zuletzt abgeglichen:</b> ${z ? esc(zeitKurz(z)) : 'noch nicht'}</p><p class="muted small">In ${esc(gh.konfig().repo)}. Andere Geräte mit demselben Schlüssel bekommen denselben Stand. Ohne Netz holt Lernwerk den Abgleich später nach.</p>
     ${f ? `<div class="fb bad">${esc(f)}</div>` : ''}
     <div class="btn-col"><button class="btn filled" data-a="ghnow">${icon('cloud')} Jetzt abgleichen</button><button class="btn" data-a="ghoff">Schlüssel entfernen</button></div>
-    <details class="disc notfall"><summary>Notfall</summary><p class="small">Nur wenn etwas schiefgelaufen ist: Der Stand auf GitHub ersetzt alles auf diesem Gerät. Was nur hier gespeichert ist, geht verloren. Fotos bleiben.</p><button class="btn danger" data-a="ghload">Stand von GitHub komplett übernehmen</button></details></div>`;
+    <details class="disc notfall"><summary>Notfall</summary><p class="small">Nur wenn etwas schiefgelaufen ist: Der Stand auf GitHub ersetzt alles auf diesem Gerät. Was nur hier gespeichert ist, geht verloren. Fotos bleiben. Vorher lege ich eine Rückfall-Kopie an.</p><button class="btn danger" data-a="ghload">Stand von GitHub komplett übernehmen</button>
+      <p class="small">Oder umgekehrt: Der Stand dieses Geräts ersetzt den Stand auf GitHub.</p><button class="btn danger" data-a="ghueber">Stand dieses Geräts nach GitHub übernehmen</button></details></div>`;
 }
 export function datensicherung() {
   let fotos = false;
@@ -845,14 +851,20 @@ export function datensicherung() {
         <div class="btn-col"><button class="btn filled" data-a="export">${icon('save')} Sicherung erstellen</button>
         <label class="btn">${icon('open')} Sicherung laden<input type="file" accept=".json,application/json" data-k="file" hidden></label>
         <button class="btn" data-a="blocks">${icon('block')} Eigene Inhalte als Blöcke kopieren</button></div>
-        <div class="sec-f">Auf dem iPhone öffnet sich das Teilen-Menü. Wähl „In Dateien sichern“. Zum Laden die Datei wieder auswählen. Laden ersetzt den Stand auf diesem Gerät.</div>`;
+        <div class="sec-f">Auf dem iPhone öffnet sich das Teilen-Menü. Wähl „In Dateien sichern“. Zum Laden die Datei wieder auswählen. Laden ersetzt den Stand auf diesem Gerät.</div>
+        <div class="sec-h">Rückfall-Kopien auf diesem Gerät</div><div class="rf-liste"><p class="src">Wird geladen …</p></div>
+        <div class="sec-f">Lernwerk legt von selbst eine Kopie an: vor dem Einspielen vom anderen Gerät, vor dem Laden einer Sicherung, vor dem Zusammenlegen von Fächern und nach jedem Update. Es bleiben die neuesten fünf, ohne Fotos.</div>`;
+      rueckfall.liste().then(ks => {
+        const el = $('.rf-liste', b); if (!el) return;
+        el.innerHTML = ks.length ? list(ks.map(k => row({ a: 'rfLaden', d: k.id, icon: 'repeat', color: '#8E8E93', title: zeitKurz(new Date(k.zeit).toISOString()), sub: k.grund + (k.version ? ' · Version ' + k.version : '') + ' · ' + Math.max(1, Math.round(k.groesse / 1024)) + ' kB' }))) + `<button class="btn small" data-a="rfJetzt">Jetzt eine Kopie anlegen</button>` : `<p class="src">Noch keine Kopie.</p><button class="btn small" data-a="rfJetzt">Jetzt eine Kopie anlegen</button>`;
+      });
       $('[data-k="file"]', b).addEventListener('change', async e => {
         const file = e.target.files[0];
         if (!file) return;
         let data;
         try { data = JSON.parse(await file.text()); } catch (err) { toast('Die Datei kann ich nicht lesen.'); return; }
         if (!(await confirmBox('Sicherung vom ' + (data.erstellt ? new Date(data.erstellt).toLocaleDateString('de-DE') : '?') + ' laden? Der jetzige Stand auf diesem Gerät wird ersetzt.', 'Laden', true))) return;
-        try { await st.importBackup(data); toast('Sicherung geladen. Lernwerk startet neu.'); setTimeout(() => location.reload(), 900); }
+        try { await rueckfall.sichern('Vor dem Laden einer Datei', await st.exportBackup(false)); await st.importBackup(data); toast('Sicherung geladen. Lernwerk startet neu.'); setTimeout(() => location.reload(), 900); }
         catch (err) { toast(err.message); }
       });
       on(b, {
@@ -871,6 +883,22 @@ export function datensicherung() {
         ghload: async () => {
           if (!(await confirmBox('Notfall: Stand von GitHub komplett übernehmen? Alles auf diesem Gerät wird ersetzt. Was nur hier gespeichert ist, geht verloren. Fotos bleiben.', 'Komplett übernehmen', true))) return;
           try { await gh.laden(); toast('Stand geladen. Lernwerk startet neu.'); setTimeout(() => location.reload(), 900); } catch (e) { toast(e.message, 5000); }
+        },
+        ghueber: async () => {
+          if (!(await confirmBox('Stand dieses Geräts nach GitHub übernehmen? Der Stand auf GitHub wird ersetzt. Was nur auf dem anderen Gerät gelernt wurde und hier fehlt, geht dort verloren.', 'Übernehmen', true))) return;
+          try { await gh.ueberschreiben(); toast('Übernommen. Der Abgleich läuft wieder.'); } catch (e) { toast(e.message, 5000); }
+          this.render(b);
+        },
+        ghweiter: () => { gh.fortsetzen(); gh.nachholen(true); toast('Abgleich läuft wieder.'); this.render(b); },
+        rfJetzt: async () => { const ok = await rueckfall.sichern('Von Hand angelegt', await st.exportBackup(false), window.__lw ? window.__lw.VERSION : ''); toast(ok ? 'Kopie angelegt.' : 'Das hat nicht geklappt.'); this.render(b); },
+        rfLaden: async id => {
+          const k = (await rueckfall.liste()).find(x => x.id === id);
+          if (!k) return;
+          if (!(await confirmBox('Kopie vom ' + zeitKurz(new Date(k.zeit).toISOString()) + ' laden? Der jetzige Stand auf diesem Gerät wird ersetzt. Vorher lege ich vom jetzigen Stand auch eine Kopie an. Fotos bleiben.', 'Laden', true))) return;
+          const daten = await rueckfall.holen(id);
+          if (!daten) { toast('Diese Kopie kann ich nicht lesen.'); return; }
+          await rueckfall.sichern('Vor dem Laden einer Kopie', await st.exportBackup(false), window.__lw ? window.__lw.VERSION : '');
+          try { await st.importBackup(daten); gh.pausieren(); toast('Kopie geladen. Lernwerk startet neu.'); setTimeout(() => location.reload(), 900); } catch (e) { toast(e.message, 5000); }
         },
         ghoff: async () => { if (await confirmBox('Schlüssel von diesem Gerät entfernen? Die automatische Sicherung stoppt. Die Sicherung auf GitHub bleibt.', 'Entfernen', true)) { gh.trennen(); this.render(b); } },
         'sw:fotos': v => { fotos = v; },

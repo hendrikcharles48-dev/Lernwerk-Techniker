@@ -30,6 +30,13 @@ function open() {
   return dbp;
 }
 
+// Schlägt ein Schreiben fehl (zum Beispiel Speicher voll), erfährt es die App und warnt deutlich.
+const fehlerHoerer = new Set();
+export const beiSchreibfehler = f => fehlerHoerer.add(f);
+function melde(store, mode, err) {
+  console.warn('Speicherfehler', store, err);
+  if (mode === 'readwrite') fehlerHoerer.forEach(f => { try { f(store, err); } catch (e) { /* egal */ } });
+}
 function tx(store, mode, fn) {
   return open().then(db => new Promise(resolve => {
     if (!db) return resolve(fn(null));
@@ -40,8 +47,8 @@ function tx(store, mode, fn) {
       const r = fn(s);
       if (r && 'onsuccess' in r) r.onsuccess = () => { result = r.result; };
       t.oncomplete = () => resolve(result);
-      t.onerror = t.onabort = () => { console.warn('Speicherfehler', store, t.error); resolve(undefined); };
-    } catch (e) { console.warn('Speicherfehler', store, e); resolve(fn(null)); }
+      t.onerror = t.onabort = () => { melde(store, mode, t.error); resolve(undefined); };
+    } catch (e) { melde(store, mode, e); resolve(fn(null)); }
   }));
 }
 

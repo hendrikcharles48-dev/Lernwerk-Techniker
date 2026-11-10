@@ -12,8 +12,10 @@ import { bereinigen } from './svg.js';
 import * as sicherung from './sicherung.js';
 import { laden as skizzenLaden } from './skizzen.js';
 import { canSpeak, readAloud } from './speech.js';
+import * as rueckfall from './rueckfall.js';
+import { beiSchreibfehler } from './db.js';
 
-export const VERSION = '1.29.0';
+export const VERSION = '1.30.0';
 
 /* ===== Heute ===== */
 // Kurze, wechselnde Sätze für den Start. Ohne Druck.
@@ -78,7 +80,10 @@ const heute = {
     // Kopf: Gruß und Datum in einer Zeile
     let h = `<div class="kopf"><b>${esc(gruss())}</b><span>${esc(new Date().toLocaleDateString('de-DE', { weekday: 'short', day: 'numeric', month: 'short' }))}</span></div>`;
     T.spruch = `<p class="spruch">${icon('sparkle')}<span>${esc(MUT[doy % MUT.length])}</span></p>`;
-    if (sicherung.aktiv() && sicherung.fehler()) h += `<button class="banner warn" data-a="backup">${icon('cloud')}<span><b>Sicherung klappt nicht.</b> ${esc(sicherung.fehler())}</span></button>`;
+    // Speichern fehlgeschlagen, zum Beispiel weil der Speicher voll ist: deutlich warnen, bis es angetippt wurde
+    if (prefs.get('speicherFehler', null)) h += `<button class="banner warn" data-a="speicherfehler">${icon('save')}<span><b>Speichern hat nicht geklappt.</b> Wahrscheinlich ist der Speicher des iPhones voll. Mach Platz und tippe hier für eine Sicherung.</span></button>`;
+    if (sicherung.pausiert()) h += `<button class="banner warn" data-a="backup">${icon('cloud')}<span><b>Der Abgleich ist pausiert.</b> Du hast eine Rückfall-Kopie geladen. Tippe hier und entscheide, wie es weitergeht.</span></button>`;
+    else if (sicherung.aktiv() && sicherung.fehler()) h += `<button class="banner warn" data-a="backup">${icon('cloud')}<span><b>Sicherung klappt nicht.</b> ${esc(sicherung.fehler())}</span></button>`;
     else if (st.backupDue()) h += `<button class="banner warn" data-a="backup">${icon('save')}<span><b>Zeit für eine Sicherung.</b> Deine letzte Sicherung ist älter als 14 Tage. Tippe hier.</span></button>`;
     const qu = unterrichtQueue(), qa = allesQueue();
     // Heute: ein schmaler Fortschritt für den ganzen Tag. Was offen ist, steht direkt an den Lernknöpfen.
@@ -155,6 +160,7 @@ const heute = {
       anpassen: () => startAnpassen(),
       waehle: d => { const [k, v] = d.split('|'); wahlOffen = null; if (k === 'zeit') prefs.set('lernzeit', v); else st.setModus(v); this.render(b); },
       backup: () => push(datensicherung()),
+      speicherfehler: () => { prefs.set('speicherFehler', null); push(datensicherung()); },
       plantag: () => planTagLernen(st.nextExam(dayStr()), 'plan'),
       planschwach: () => planTagLernen(st.nextExam(dayStr()), 'schwach'),
       exam: id => push(termineDetail(id)),
@@ -578,6 +584,7 @@ export function fachPage(fid) {
         zusammen: async zid => {
           const z = st.fach(zid);
           if (!(await confirmBox('„' + f.name + '“ mit „' + z.name + '“ zusammenlegen? Danach gibt es „' + f.name + '“ nicht mehr, auch nicht auf deinen anderen Geräten. Alles Gelernte bleibt erhalten.', 'Zusammenlegen'))) return;
+          await rueckfall.sichern('Vor dem Zusammenlegen von Fächern', await st.exportBackup(false), VERSION);
           const n = await st.fachZusammenlegen(f.id, z.id);
           toast(plural(n, 'Thema', 'Themen') + ' nach ' + z.name + ' übernommen.');
           sicherung.anstossen();
@@ -883,6 +890,8 @@ function errorEditor(e0) {
 async function boot() {
   applyTheme(prefs.get('theme', 'auto'));
   document.body.addEventListener('touchstart', () => {}, { passive: true });
+  let gewarnt = 0;
+  beiSchreibfehler(() => { prefs.set('speicherFehler', Date.now()); if (Date.now() - gewarnt > 30000) { gewarnt = Date.now(); toast('Speichern hat nicht geklappt. Ist der Speicher voll?', 5000); } });
   try { await st.init(); } catch (e) { console.error(e); document.getElementById('boot').textContent = 'Lernwerk konnte nicht starten: ' + e.message; return; }
   await skizzenLaden();
   document.getElementById('boot').remove();
@@ -901,6 +910,10 @@ async function boot() {
   document.addEventListener('visibilitychange', recheck);
   window.addEventListener('pageshow', recheck);
   registerSW();
+  // Erster Start mit einer neuen Version: vorher eine Rückfall-Kopie, falls ein Update etwas durcheinanderbringt
+  if (prefs.get('rueckfallVersion', '') !== VERSION && (st.S.events.length || st.S.content.size || st.S.cards.size)) {
+    rueckfall.sichern('Nach dem Update', await st.exportBackup(false), VERSION).then(ok => { if (ok) prefs.set('rueckfallVersion', VERSION); });
+  }
   sicherung.start();
   sicherung.beobachten(() => { if (tab() === 'heute') refreshTop(); });
   const neu = prefs.get('aktualisiert', null);
