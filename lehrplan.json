@@ -1,6 +1,6 @@
 {
- "version": 5,
- "schule": "Technikakademie Northeim (BBS III des Landkreises Northeim), zweijährige Fachschule Technik, Maschinentechnik, Schwerpunkt Automatisierungstechnik",
+ "version": 6,
+ "schule": "Technikakademie Northeim (BBS III des Landkreises Northeim), zweijährige Fachschule Technik, Fachrichtung Automatisierungstechnik",
  "module": [
   {
    "id": "M1",
@@ -651,7 +651,7 @@
    "name": "Werkstofftechnik",
    "kurz": "Werkstoffe",
    "module": [
-    "M2"
+    "M8"
    ],
    "farbe": "#AC8E68",
    "themen": [

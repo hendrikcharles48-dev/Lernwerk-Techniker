@@ -892,3 +892,6 @@ button.count-more { border: 0; background: none; padding: 4px 0 0; font: inherit
 /* Formeln im Fließtext */
 .fml.inl { font-size: 1.06em; vertical-align: middle; max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 1px 0; }
 .fml .wort { font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", system-ui, sans-serif; font-size: .86em; font-style: normal; }
+
+.count-probe { display: flex; align-items: center; gap: 6px; padding: 8px 14px 0; }
+.count-probe .ic { width: 16px; height: 16px; }

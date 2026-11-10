@@ -4,7 +4,7 @@ import { parseBlocks, summary, TEMPLATE } from './parser.js';
 import * as st from './store.js';
 import { $, $$, icon, row, list, seg, sw, empty, on, push, initTabs, showTab, tab, openSheet, toast, copyText, readClipboard, progress, ring, fachIcon, confirmBox, refreshAll, refreshTop, initEdgeSwipe, initTabSwipe, hinweisTabellenbuch } from './ui.js';
 import { topicPage, runSession, sortForPractice, fachProgress, topicProgress, openTrainer, askClaude, shrinkImage, noteReader, firstLine, itemTitle, lernwegOffen, lernwegStand, nachAlter } from './engine.js';
-import { mehrPage, unterrichtPage, termineDetail, termEditor, datensicherung, applyTheme, hoerPage } from './extra.js';
+import { mehrPage, unterrichtPage, termineDetail, termEditor, datensicherung, applyTheme, hoerPage, probePage } from './extra.js';
 import { prefs } from './db.js';
 import { saeulen, stapel, standVon, balken } from './diagramm.js';
 import { lernplan } from './srs.js';
@@ -15,7 +15,7 @@ import { canSpeak, readAloud } from './speech.js';
 import * as rueckfall from './rueckfall.js';
 import { beiSchreibfehler } from './db.js';
 
-export const VERSION = '1.30.0';
+export const VERSION = '1.31.0';
 
 /* ===== Heute ===== */
 // Kurze, wechselnde Sätze für den Start. Ohne Druck.
@@ -35,7 +35,7 @@ function gruss() {
 // Bausteine der Startseite. Reihenfolge und Sichtbarkeit stellst du unten unter „Startseite anpassen“ ein.
 const START_TEILE = [
   ['spruch', 'Spruch des Tages'], ['tag', 'Fortschritt heute'], ['unterricht', 'Lernknopf Unterricht'], ['alles', 'Lernknopf Alles wiederholen'],
-  ['wahl', 'Lernzeit, Fragen und Mini'], ['imunterricht', 'Im Unterricht'], ['arbeit', 'Nächste Klassenarbeit'], ['kacheln', 'Trainer und Hörmodus'], ['woche', 'Diese Woche']
+  ['wahl', 'Lernzeit, Fragen und Mini'], ['imunterricht', 'Im Unterricht'], ['weiter', 'Weiter, wo du warst'], ['arbeit', 'Nächste Klassenarbeit'], ['kacheln', 'Trainer und Hörmodus'], ['woche', 'Diese Woche']
 ];
 export function startLayout() {
   const l = (prefs.get('startLayout', null) || []).filter(x => START_TEILE.some(t => t[0] === x.id));
@@ -116,6 +116,9 @@ const heute = {
     // Neue Themen im Unterricht mit offenem Lernweg: erst verstehen und im Trainer üben
     const wege = aktT.filter(x => lernwegOffen(x.thema.id));
     if (wege.length) T.imunterricht += `<div class="lweg-start">${wege.slice(0, 2).map(({ fach: f, thema: t }) => `<button data-a="topic" data-d="${t.id}" style="--fc:${f.farbe}">${icon('target')}<span><b>Lernweg: ${esc(t.name)}</b><small>Schritt ${lernwegStand(t.id) + 1} von 3 · erst verstehen, dann üben</small></span>${icon('chev', 'chev')}</button>`).join('')}${wege.length > 2 ? `<div class="muted small">und ${wege.length - 2} weitere unter Im Unterricht</div>` : ''}</div>`;
+    // Weiter, wo du warst: das zuletzt geöffnete Thema oder der zuletzt genutzte Trainer
+    const pl = st.place();
+    if (pl && pl.tid && st.thema(pl.tid)) { const w = st.thema(pl.tid); T.weiter = `<button class="unt-zeile" data-a="weiter">${icon('repeat')}<b>Weiter</b><span class="unt-tags"><span class="tag" style="--fc:${w.fach.farbe}">${esc(w.thema.name)}</span><span class="muted">${pl.art === 'trainer' ? 'Trainer' : 'Thema'}</span></span>${icon('chev', 'chev')}</button>`; }
     const ex = st.nextExam(today);
     if (ex) {
       const d = daysBetween(today, ex.datum);
@@ -134,10 +137,15 @@ const heute = {
             <div class="count-weiter">${tag.danach ? `<button data-a="plantag"><b>Nächsten Tag vorziehen</b><small>${esc(tag.danachText)}</small></button>` : ''}<button data-a="planschwach"><b>Schwächen üben</b><small>Fehler, falsche und wackelnde Fragen der Arbeit</small></button></div>${mehr}`
           : `<button class="count-plan" data-a="plantag">${icon('bolt')}<span><b>${tag.aufgabe.art === 'schwach' ? 'Heute: Schwächen üben' : tag.aufgabe.vor ? 'Heute lernen, du bist vorne' : 'Heute lernen'}</b><small>${esc(tag.aufgabe.text)}</small></span>${icon('chev', 'chev')}</button>${mehr}`;
       const fehlen = st.fehlendeThemen(ex);
+      // Kurz vor der Arbeit: eine Probeklausur wie im Ernstfall zeigt am besten, was noch fehlt
+      const lp = st.letzteProbe(ex.id);
+      const probeHTML = d >= 1 && d <= 3 && tops.length && !(lp && daysBetween(lp.datum, today) <= 3)
+        ? `<button class="count-plan" data-a="probeJetzt">${icon('exam')}<span><b>Probeklausur machen</b><small>Wie im Ernstfall, ohne Tipps. Danach weißt du, was noch fehlt.</small></span>${icon('chev', 'chev')}</button>`
+        : lp && d >= 0 ? `<div class="count-probe muted small">${icon('exam')} Letzte Probeklausur: ${lp.proz} %${st.noteAusProzent(lp.proz) ? ', Note ' + st.noteAusProzent(lp.proz) : ''}</div>` : '';
       const fehlenHTML = fehlen.length ? `<button class="count-fehlt" data-a="exam" data-d="${ex.id}">${icon('plus')}<span>${fehlen.length === 1 ? '1 neues Thema ist' : fehlen.length + ' neue Themen sind'} noch nicht in der Arbeit: ${esc(fehlen.map(t => t.name).join(', '))}</span>${icon('chev', 'chev')}</button>` : '';
       T.arbeit = `<div class="sec-h">Nächste Klassenarbeit</div><div class="card count" style="--fc:${f ? f.farbe : 'var(--accent)'}"><button class="count-main" data-a="exam" data-d="${ex.id}">
         <div class="count-head"><span class="count-badge"><b>${d === 0 ? '!' : d}</b><small>${d === 0 ? 'heute' : d === 1 ? 'Tag' : 'Tage'}</small></span><span><div class="count-t">${esc(ex.fach)}</div><div class="muted">${esc(dayLong(ex.datum))}</div></span>${bereit != null ? `<span class="bereit">${ring(bereit / 100, 56, bereit >= 75 ? 'var(--green)' : bereit >= 45 ? 'var(--orange)' : 'var(--red)', `<b>${bereit}</b><small>%</small>`)}<small>vorbereitet</small></span>` : ''}</div>
-        </button>${fehlenHTML}${fuss}</div>`;
+        </button>${fehlenHTML}${probeHTML}${fuss}</div>`;
     }
     // Trainer und Hörmodus: je eine Kachel. Die Trainer liegen dahinter in Ordnern nach Fach.
     const tr = trainerOrdnerListe(today);
@@ -164,6 +172,7 @@ const heute = {
       plantag: () => planTagLernen(st.nextExam(dayStr()), 'plan'),
       planschwach: () => planTagLernen(st.nextExam(dayStr()), 'schwach'),
       exam: id => push(termineDetail(id)),
+      probeJetzt: () => { const e = st.nextExam(dayStr()); if (e) push(probePage(e)); },
       newexam: () => termEditor({}),
       lernU: () => lernenUnterricht(),
       mini: () => (aktTids().length ? lernenUnterricht(MINI) : lernenAlles(MINI)),
@@ -899,6 +908,10 @@ async function boot() {
   initTabs({ heute, faecher: faecherRoot, plus: einfuegen, fehler: fehlerbuch, mehr: mehrPage() });
   $$('.tabbar [data-tab]').forEach(b => b.addEventListener('click', () => showTab(b.dataset.tab)));
   showTab('heute');
+  // Direkter Weg zum Einfügen, zum Beispiel aus einem Kurzbefehl: Adresse der App mit #einfuegen am Ende
+  const zumEinfuegen = () => { if (location.hash === '#einfuegen') { showTab('plus'); try { history.replaceState(null, '', location.pathname + location.search); } catch (e) { /* egal */ } } };
+  zumEinfuegen();
+  window.addEventListener('hashchange', zumEinfuegen);
   initEdgeSwipe();
   initTabSwipe();
   st.onChange(() => refreshAll());

@@ -307,6 +307,8 @@ export function probePage(exam) {
       h += `<div class="sec-h">Zeitvorgabe</div>` + seg('min', [['0', 'Ohne'], ['30', '30 Min'], ['45', '45 Min'], ['60', '60 Min'], ['90', '90 Min']], String(minuten));
       h += `<p class="src">Etwa 6 von 10 Aufgaben sind Rechenaufgaben, der Rest Erklären, Skizzen und Text, soweit das Thema sie hat.</p>`;
       h += `<button class="btn filled wide" data-a="start">Probeklausur starten</button>`;
+      const alt = st.proben().slice().sort((a, c) => c.zeit - a.zeit).slice(0, 6);
+      if (alt.length) h += `<div class="sec-h">Letzte Probeklausuren</div>` + list(alt.map(x => { const e = x.exId ? st.S.exams.find(y => y.id === x.exId) : null; const n = st.noteAusProzent(x.proz); return row({ title: dayLong(x.datum) + (e ? ' · ' + e.fach : ''), sub: x.punkte + ' von ' + x.max + ' Punkten' + (x.n ? ' · ' + plural(x.n, 'Aufgabe', 'Aufgaben') : ''), detail: x.proz + ' %' + (n ? ' · Note ' + n : '') }); }));
       b.innerHTML = h;
       $$('[data-t]', b).forEach(c => c.onchange = () => { c.checked ? sel.add(c.dataset.t) : sel.delete(c.dataset.t); });
       on(b, {
@@ -322,13 +324,15 @@ export function probePage(exam) {
           rund(andere, anzahl, mix);
           rund(rechnen, anzahl, mix);
           if (!mix.length) { toast('Wähl Themen mit Aufgaben aus.'); return; }
-          runExam(shuffle(mix), minuten);
+          runExam(shuffle(mix), minuten, mode === 'arbeit' && next ? next.id : '');
         }
       });
     }
   };
 }
-function runExam(items, minuten) {
+function runExam(items, minuten, exId = '') {
+  // Ergebnis der Auswertung, wird beim Schließen gespeichert
+  let ergebnis = null, gespeichert = false;
   const res = [];
   let i = 0, fertig = false;
   const t0 = Date.now(), limit = minuten * 60000;
@@ -336,7 +340,11 @@ function runExam(items, minuten) {
   openSheet({
     title: 'Probeklausur', full: true,
     confirmClose: () => fertig || confirm('Probeklausur abbrechen?'),
-    onClose: () => { clearInterval(tm); if (res.length) gh.anstossen(); },
+    onClose: async () => {
+      clearInterval(tm);
+      if (ergebnis && !gespeichert) { gespeichert = true; await st.probeSpeichern(Object.assign({ exId, minuten, n: items.length }, ergebnis)); refreshTop(); }
+      if (res.length) gh.anstossen();
+    },
     render(body, api) { sheet = api; body.innerHTML = `<div class="sess-top">${progress(0)}<div class="sess-info"></div></div><div class="sess-item"></div><div class="sess-sk"></div><div class="schmier-zone">${schmierKnopf()}</div>`; zettel = schmierzettel(body); show(); }
   });
   function fmtT(ms) { const s = Math.max(0, Math.floor(ms / 1000)); return Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0'); }
@@ -379,6 +387,7 @@ function runExam(items, minuten) {
       const pKern = haken.reduce((s, x) => s + x.size, 0), maxKern = kern.reduce((s, r) => s + r.it.kern.length, 0);
       const max = maxRech + maxKern, p = pRech + pKern, proz = max ? Math.round(p / max * 100) : 0;
       const note = st.noteAusProzent(proz);
+      ergebnis = { punkte: p, max, proz };
       let h = `<div class="sum"><div class="sum-big">${p} von ${max} Punkten</div><div class="muted">${proz} %${note ? ', Note ' + note : ''}${minuten ? ' · ' + fmtT(Math.min(Date.now() - t0, limit)) + ' von ' + minuten + ':00 Minuten' : ' · ' + fmtT(Date.now() - t0) + ' Minuten'}</div>${offen.length ? `<p class="muted small">${plural(offen.length, 'Aufgabe', 'Aufgaben')} nicht mehr geschafft, zählt mit 0 Punkten.</p>` : ''}</div>`;
       if (kern.length) {
         h += `<div class="sec-h">Selbst korrigieren</div><p class="src">Hak jeden Kernpunkt ab, den deine Antwort oder Skizze wirklich enthält. Daraus rechne ich die Punkte.</p>`;
@@ -941,8 +950,9 @@ function erinnerungPage() {
         <li>Tippe auf <b>Neuer leerer Kurzbefehl</b>, such die Aktion <b>URL öffnen</b> und füge die Adresse unten ein.</li>
         <li>Fertig. Zur eingestellten Zeit öffnet sich Lernwerk.</li></ol>
         <p>Wenn du lieber eine Mitteilung willst: Statt URL öffnen die Aktion <b>Mitteilung anzeigen</b> nehmen, zum Beispiel mit dem Text „5 Minuten Lernwerk“.</p></div>
-        <div class="card"><div class="card-k">Adresse der App</div><p class="url">${esc(url)}</p><button class="btn" data-a="copy">${icon('copy')} Adresse kopieren</button></div>`;
-      on(b, { copy: async () => { const ok = await copyText(url); toast(ok ? 'Adresse kopiert.' : 'Kopieren hat nicht geklappt.'); } });
+        <div class="card"><div class="card-k">Adresse der App</div><p class="url">${esc(url)}</p><button class="btn" data-a="copy">${icon('copy')} Adresse kopieren</button></div>
+        <div class="card"><div class="card-k">Schneller einfügen</div><p>Mit <b>#einfuegen</b> am Ende öffnet die Adresse gleich die Seite Einfügen. Das passt für einen eigenen Kurzbefehl nach dem Kopieren eines Blocks im Chat.</p><p class="url">${esc(url)}#einfuegen</p><button class="btn" data-a="copy2">${icon('copy')} Adresse kopieren</button></div>`;
+      on(b, { copy: async () => { const ok = await copyText(url); toast(ok ? 'Adresse kopiert.' : 'Kopieren hat nicht geklappt.'); }, copy2: async () => { const ok = await copyText(url + '#einfuegen'); toast(ok ? 'Adresse kopiert.' : 'Kopieren hat nicht geklappt.'); } });
     }
   };
 }

@@ -90,6 +90,11 @@ function upgradePlan(plan, base) {
     }
   }
   for (const m of base.module) if (!plan.module.find(x => x.id === m.id)) plan.module.push(m);
+  // Name der Schule und Prüfungshinweis kommen immer aus der aktuellen lehrplan.json
+  if (base.schule) plan.schule = base.schule;
+  if (base.pruefung) plan.pruefung = base.pruefung;
+  // Lehrplan-Version 6: Werkstofftechnik gehört an der Schule zu Modul 8. Nur umstellen, wenn es noch auf der alten Vorgabe M2 steht.
+  if ((plan.baseVersion || 0) < 6) { const ws = plan.faecher.find(x => x.id === 'ws'); if (ws && JSON.stringify(ws.module || []) === '["M2"]') ws.module = ['M8']; }
   return plan;
 }
 
@@ -705,6 +710,18 @@ export async function themenAusArbeit(exId, tids) {
   changed('exams');
 }
 export async function deleteExam(id) { S.exams = S.exams.filter(e => e.id !== id); await db.del('exams', id); await loeschmarke('exams:' + id); changed('exams'); }
+
+/* ===== Probeklausuren: Ergebnisse merken =====
+ * kv „proben“: Liste { id, datum, zeit, exId, punkte, max, proz, minuten, n }, die neuesten 40.
+ */
+export const proben = () => kvGet('proben', []);
+export async function probeSpeichern(x) {
+  const l = kvGet('proben', []).concat(Object.assign({ id: uid(), datum: dayStr(), zeit: Date.now() }, x)).slice(-40);
+  await kvSet('proben', l);
+  changed('proben');
+}
+// Letzte Probeklausur zu einer Klassenarbeit, oder null
+export const letzteProbe = exId => proben().filter(p => p.exId === exId).sort((a, b) => b.zeit - a.zeit)[0] || null;
 
 /* ===== Fehlerbuch ===== */
 export async function addError(x) {
