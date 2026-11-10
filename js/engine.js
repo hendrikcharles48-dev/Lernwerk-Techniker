@@ -502,20 +502,51 @@ async function logError(meta, item, x) {
   await st.addError({ fach: meta.fach, thema: meta.thema, tid: item.tid, aufgabe: x.aufgabe, eingabe: x.eingabe, richtig: x.richtig, fehlerart: x.fehlerart, quelle: 'app', notiz: x.meldung || '' });
 }
 
+// Die Aufgabe steht als reiner Text da. Gegeben und Gesucht sind eingeklappt: erst selbst herauslesen.
+function ggHTML(A, open) {
+  if (!A.gegeben.length && !A.gesucht.length) return '';
+  return `<details class="disc gg-d"${open ? ' open' : ''}><summary>Gegeben und gesucht</summary><div class="gg">${A.gegeben.length ? `<div><div class="gg-k">Gegeben</div>${A.gegeben.map(g => `<div>${rich(g)}</div>`).join('')}</div>` : ''}${A.gesucht.length ? `<div><div class="gg-k">Gesucht</div>${A.gesucht.map(g => `<div>${rich(g)}</div>`).join('')}</div>` : ''}</div></details>`;
+}
 function runAufgabe(el, item, ctx, meta) {
   const A = instantiate(item.aufgabe);
   const topicT = st.topic(item.tid);
   const steps = A.steps.slice();
   if (A.final) steps.push({ was: 'Ergebnis' + (A.gesucht.length ? ': ' + A.gesucht.join(', ') : ''), typ: 'zahl', wert: A.final.wert, einheit: A.final.einheit, rechnung: A.final.rechnung, final: true });
   if (ctx.exam) { runExamAufgabe(el, item, ctx, meta, A, steps); return; }
-  let i = 0, tries = 0, used = false, shown = false, first = 0;
+  // vor: Stand vor dem Beispiel (Ansatz und Weg sind schon beantwortet, das Beispiel zählt als Hilfe)
+  const vor = ctx.vor || null;
+  let i = 0, tries = 0, used = !!(vor && vor.used), shown = false, first = 0;
   const done = [];
   let tipOpen = false, solOpen = false, fb = null;
   // Ansatz zuerst: erkennen, begründen, am Ende das Ergebnis prüfen
   const T0 = { ansatz: A.ansatz, warum: A.warum, kontrolle: A.kontrolle, signal: A.signal };
   const aufbau = aufbauHTML(passendeFormeln(topicT, item.aufgabe));
-  let phase = T0.ansatz && !ctx.twinOf ? 'ansatz' : 'steps';
-  let opts = null, picked = null, ansatzFirst = null, note = '', kontrolleFirst = null;
+  /* Erst der Weg: Bei Aufgaben mit drei oder mehr Schritten legst du zuerst die Reihenfolge fest,
+   * wie beim Arbeitsplan an der Fräse. Die App zeigt nur, wo du abbiegst.
+   * Schritte, die einander nicht brauchen (zum Beispiel F_x und F_y), dürfen in beliebiger Reihenfolge stehen. */
+  const planSchritte = A.steps.map((s, k) => ({ k, was: s.was, expr: s.rechnung ? s.rechnung.replace(/\s+/g, '') : '' })).filter(s => s.was);
+  const planbar = !ctx.twinOf && !vor && planSchritte.length >= 3;
+  const abhaengig = (a, b) => !a.expr || !b.expr || b.expr.includes(a.expr);
+  let planPool = [], planSeq = [], planCheck = null, planDone = false, planFirst = vor ? vor.plan : null, ggOpen = false;
+  const nachAnsatz = () => {
+    if (!planbar || planDone) return 'steps';
+    planPool = shuffle(planSchritte);
+    for (let n = 0; n < 8 && planPool.every((x, k) => x === planSchritte[k]); n++) planPool = shuffle(planSchritte);
+    planSeq = []; planCheck = null;
+    return 'plan';
+  };
+  let ansatzFirst = vor ? vor.ansatz : null;
+  let phase = vor ? 'steps' : T0.ansatz && !ctx.twinOf ? 'ansatz' : nachAnsatz();
+  let opts = null, picked = null, note = '', kontrolleFirst = null;
+  // Ansatz und Weg zusammen: Beides beim ersten Mal richtig zählt als „sofort erkannt“
+  const ansatzInfo = () => { const a = T0.ansatz ? ansatzFirst : null; return planFirst == null ? a : a == null ? planFirst : a && planFirst; };
+  // Rechenweg wie im Buch: Formel, eingesetzte Werte, Ergebnis, jeweils in einer eigenen Zeile
+  const rechenweg = s => {
+    if (s.typ === 'gleichung') return `<div class="rw-z">${fml(s.text)}</div>`;
+    if (s.typ === 'zahl') return (s.rechnung ? `<div class="rw-z">${fml(s.rechnung)}</div><div class="rw-z"><span class="rw-g">=</span>${fmlWith(s.rechnung, A.vals)}</div>` : '') + `<div class="rw-z"><span class="rw-g">=</span><b>${esc(showValue(s.wert, s.einheit))}</b></div>`;
+    return `<div class="rw-z muted">Diesen Schritt machst du auf deinem Blatt.</div>`;
+  };
+  const beispielMoeglich = () => level === 1 && !vor && !ctx.twinOf && A.random && steps.length > 0 && steps.every(x => x.typ === 'zahl');
   const result = () => (shown ? 'falsch' : used ? 'hilfe' : 'richtig');
   // Hilfe wird weniger: geführt mit Schritten und Rechenweg im Tipp, dann nur Schritte, frei nur mit Endergebnis.
   // Der Tipp bleibt immer zu, bis man auf Tipp drückt.
@@ -526,10 +557,25 @@ function runAufgabe(el, item, ctx, meta) {
   function draw() {
     const s = steps[i];
     if (!s && phase === 'steps') phase = T0.kontrolle && !ctx.twinOf ? 'kontrolle' : 'done';
-    const hide = ctx.blind && (phase === 'ansatz' || (!T0.ansatz && phase === 'steps'));
+    const hide = ctx.blind && (phase === 'ansatz' || (!T0.ansatz && (phase === 'steps' || phase === 'plan')));
     let h = (hide ? blindLine : ctxLine(meta)) + `<div class="ex-task">${rich(A.text)}</div>`;
-    if (A.gegeben.length || A.gesucht.length) h += `<div class="gg">${A.gegeben.length ? `<div><div class="gg-k">Gegeben</div>${A.gegeben.map(g => `<div>${rich(g)}</div>`).join('')}</div>` : ''}${A.gesucht.length ? `<div><div class="gg-k">Gesucht</div>${A.gesucht.map(g => `<div>${rich(g)}</div>`).join('')}</div>` : ''}</div>`;
+    h += ggHTML(A, ggOpen);
     if (done.length) h += `<div class="done-steps">${done.map(d => `<div class="ds"><span class="ds-n">${d.n}</span><span class="ds-t">${rich(d.was)}</span><span class="ds-v">${d.html}</span></div>`).join('')}</div>`;
+    if (phase === 'plan') {
+      h += note + `<div class="step-box"><div class="step-n">Erst der Weg</div><div class="step-q">In welcher Reihenfolge gehst du vor? Tippe die Schritte der Reihe nach an.</div>
+        <div class="seq">${planSeq.map((x, k) => `<button class="seq-i ${planCheck ? (planCheck[k] ? 'ok' : 'no') : ''}" data-a="planZurueck" data-d="${k}"><span class="seq-n">${k + 1}</span><span>${rich(x.was)}</span></button>`).join('') || '<div class="muted">Noch nichts gewählt.</div>'}</div>
+        ${planPool.length ? `<div class="pool">${planPool.map((x, k) => `<button class="pool-i" data-a="planWahl" data-d="${k}">${rich(x.was)}</button>`).join('')}</div>` : ''}
+        <div class="act">${!planPool.length && !planCheck ? `<button class="btn filled" data-a="planPruefen">Prüfen</button>` : ''}${planCheck ? `<button class="btn filled" data-a="planNeu">Nochmal ordnen</button><button class="btn" data-a="planWeiter">Weiter zum Rechnen</button>` : `<button class="btn" data-a="planWeiter">Überspringen</button>`}</div>${fb || ''}</div>`;
+      el.innerHTML = h;
+      return;
+    }
+    if (phase === 'beispiel') {
+      h += `<div class="card rweg"><div class="card-k">Beispiel mit diesen Zahlen</div>${steps.map((x, k) => `<div class="rw"><div class="rw-t"><span class="ds-n">${k + 1}</span><span>${rich(x.was)}</span></div>${rechenweg(x)}</div>`).join('')}</div>
+        <p class="muted">Frag dich bei jedem Schritt, warum er kommt. Danach rechnest du dieselbe Aufgabe mit neuen Zahlen selbst.</p>
+        <div class="btn-col"><button class="btn filled" data-a="selbst">Jetzt selbst, mit neuen Zahlen</button></div>`;
+      el.innerHTML = h;
+      return;
+    }
     if (phase === 'ansatz' || phase === 'warum' || phase === 'kontrolle') {
       const q = mcOf();
       if (!opts) opts = shuffle([q.richtig, ...q.falsch]);
@@ -540,7 +586,7 @@ function runAufgabe(el, item, ctx, meta) {
     }
     if (!s) {
       const twin = (used || shown) && A.random;
-      h += note + `<div class="fb good"><b>Geschafft.</b> ${freiOk ? (tries ? 'Frei gelöst, im zweiten Anlauf.' : 'Frei gelöst, ohne Zwischenschritte. Stark.') : first + ' von ' + steps.length + ' Schritten beim ersten Versuch richtig.'}${T0.ansatz && !ctx.twinOf ? (ansatzFirst ? ' Den Ansatz hast du sofort erkannt.' : ' Den Ansatz hast du im zweiten Anlauf gefunden.') : ''}</div>`;
+      h += note + `<div class="fb good"><b>Geschafft.</b> ${freiOk ? (tries ? 'Frei gelöst, im zweiten Anlauf.' : 'Frei gelöst, ohne Zwischenschritte. Stark.') : first + ' von ' + steps.length + ' Schritten beim ersten Versuch richtig.'}${T0.ansatz && !ctx.twinOf && ansatzFirst != null ? (ansatzFirst ? ' Den Ansatz hast du sofort erkannt.' : ' Den Ansatz hast du im zweiten Anlauf gefunden.') : ''}</div>`;
       if (topicT.schnellwege.length) h += `<details class="disc"><summary>${icon('bolt')} Schnellweg für die Prüfung</summary><div class="prose">${topicT.schnellwege.map(markdown).join('')}</div></details>`;
       if (twin) h += `<p class="muted">Jetzt dieselbe Aufgabe mit neuen Zahlen, einmal ganz allein. So setzt sich der Weg fest.</p>`;
       h += `<div class="btn-col">${A.random ? `<button class="btn${twin ? ' filled' : ''}" data-a="again">${twin ? 'Zwillingsaufgabe: neue Zahlen' : 'Neue Zahlen'}</button>` : ''}<button class="btn${twin ? '' : ' filled'}" data-a="fertig">${ctx.nextLabel || 'Fertig'}</button></div>`;
@@ -548,7 +594,7 @@ function runAufgabe(el, item, ctx, meta) {
       return;
     }
     if (mode === 'frei') {
-      h += note + `<div class="step-box"><div class="step-n">Frei rechnen · nur das Ergebnis</div><div class="step-q">${rich(A.gesucht.length ? 'Gesucht: ' + A.gesucht.join(', ') : target.was)}</div>`;
+      h += note + `<div class="step-box"><div class="step-n">Frei rechnen · nur das Ergebnis</div><div class="step-q">Dein Endergebnis</div>`;
       h += (target.typ === 'zahl' ? numInput(target.einheit) : fmlInput([...varNames(parseEqSafe(target.text)).values()], ''));
       h += `<div class="act"><button class="btn filled" data-a="checkFrei">Prüfen</button><button class="btn" data-a="schritte">Schritte zeigen</button></div>${fb || ''}</div>`;
       el.innerHTML = h;
@@ -557,7 +603,7 @@ function runAufgabe(el, item, ctx, meta) {
       if (fi) fi.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); checkFrei(); } });
       return;
     }
-    if (level === 1 && i === 0 && !done.length) h += `<p class="muted small lvl-hint">Geführt: Kommst du nicht weiter, drück auf Tipp. Dort steht, wie du an den Schritt herangehst.</p>`;
+    if (level === 1 && i === 0 && !done.length) h += `<p class="muted small lvl-hint">Geführt: Kommst du nicht weiter, drück auf Tipp. Dort steht, wie du an den Schritt herangehst.</p>` + (beispielMoeglich() ? `<div class="act bsp-act"><button class="btn small" data-a="beispiel">${icon('book')} Erst ein Beispiel ansehen</button></div>` : '');
     h += note + (level < 3 || used ? aufbau : '') + `<div class="step-box"><div class="step-n">${level === 1 ? 'Geführt · ' : ''}Schritt ${i + 1} von ${steps.length}</div><div class="step-q">${rich(s.was || 'Nächster Schritt')}</div>`;
     if (s.typ === 'gleichung') {
       const names = [...varNames(parseEqSafe(s.text)).values()];
@@ -568,7 +614,7 @@ function runAufgabe(el, item, ctx, meta) {
       <button class="btn" data-a="tip">${tipOpen ? 'Tipp zu' : 'Tipp'}</button><button class="btn" data-a="sol">${solOpen ? 'Lösung zu' : 'Lösung'}</button></div>`;
     if (fb) h += fb;
     if (tipOpen) h += `<div class="fb info tipbox"><b>Tipp.</b> ${tipText()}</div>`;
-    if (solOpen) h += `<div class="fb info"><b>Lösung.</b> ${solText(s)}<div class="btn-row"><button class="btn" data-a="take">Übernehmen und weiter</button></div></div>`;
+    if (solOpen) h += `<div class="fb info"><b>Lösung.</b><div class="rweg">${rechenweg(s)}</div><div class="btn-row"><button class="btn" data-a="take">Übernehmen und weiter</button></div></div>`;
     h += '</div>';
     el.innerHTML = h;
     bindFmlInput(el);
@@ -605,7 +651,7 @@ function runAufgabe(el, item, ctx, meta) {
       if (phase === 'kontrolle' && kontrolleFirst == null) kontrolleFirst = true;
       note = phase === 'kontrolle' ? `<div class="fb good"><b>Passt.</b> Das Ergebnis ist plausibel.</div>`
         : phase === 'ansatz' ? `<div class="fb good"><b>Richtig erkannt: ${rich(q.richtig)}.</b> ${T0.signal ? rich(T0.signal) : ''}</div>` : `<div class="fb good"><b>Genau.</b> ${rich(q.richtig)}</div>`;
-      phase = phase === 'ansatz' && T0.warum ? 'warum' : phase === 'kontrolle' ? 'done' : 'steps';
+      phase = phase === 'ansatz' && T0.warum ? 'warum' : phase === 'kontrolle' ? 'done' : nachAnsatz();
       opts = null; picked = null; fb = null;
       draw();
       return;
@@ -692,7 +738,23 @@ function runAufgabe(el, item, ctx, meta) {
     draw();
     const inp2 = $('.inp', el); if (inp2) inp2.value = v;
   }
+  el.addEventListener('toggle', e => { if (e.target.classList && e.target.classList.contains('gg-d')) ggOpen = e.target.open; }, true);
   on(el, {
+    planWahl: k => { planCheck = null; fb = null; planSeq.push(planPool.splice(+k, 1)[0]); draw(); },
+    planZurueck: k => { planCheck = null; fb = null; planPool.push(planSeq.splice(+k, 1)[0]); draw(); },
+    planPruefen: () => {
+      // Ein Schritt steht falsch, wenn er vor einem Schritt steht, den er braucht
+      planCheck = planSeq.map((x, a) => planSeq.every((y, b) => !((x.k < y.k && a > b && abhaengig(x, y)) || (y.k < x.k && b > a && abhaengig(y, x)))));
+      const ok = planCheck.every(Boolean);
+      if (planFirst == null) planFirst = ok;
+      if (ok) { planDone = true; planCheck = null; fb = null; phase = 'steps'; note = `<div class="fb good"><b>Dein Weg stimmt.</b> Jetzt rechnest du ihn.</div>`; }
+      else fb = `<div class="fb bad"><b>Hier biegst du ab.</b> Ein rot markierter Schritt braucht etwas, das bei dir erst später kommt. Überleg bei jedem Schritt, was du dafür schon haben musst.</div>`;
+      draw();
+    },
+    planNeu: () => { planPool = shuffle(planSeq.concat(planPool)); planSeq = []; planCheck = null; fb = null; draw(); },
+    planWeiter: () => { planDone = true; planCheck = null; fb = null; note = ''; phase = 'steps'; draw(); },
+    beispiel: () => { phase = 'beispiel'; ggOpen = true; fb = null; draw(); },
+    selbst: () => { const f = el.cloneNode(false); el.replaceWith(f); runAufgabe(f, item, Object.assign({}, ctx, { vor: { ansatz: ansatzFirst, plan: planFirst, used: true } }), meta); },
     check, pick, checkFrei, plan: () => accept('erledigt', true),
     schritte: () => { mode = 'schritte'; used = true; fb = null; draw(); },
     tip: () => { tipOpen = !tipOpen; if (tipOpen) used = true; draw(); if (tipOpen) { const tb = $('.tipbox', el); if (tb) tb.scrollIntoView({ block: 'nearest', behavior: 'smooth' }); } },
@@ -700,8 +762,8 @@ function runAufgabe(el, item, ctx, meta) {
     take: () => { shown = true; const s = steps[i]; accept(solText(s) + ' <span class="muted">(Lösung angesehen)</span>', false); },
     claude: d => askClaude(d),
     // Zwillingsaufgabe: Für die Wiederholung zählt der erste Durchgang
-    again: () => { const f = el.cloneNode(false); el.replaceWith(f); runAufgabe(f, item, Object.assign({}, ctx, { twinOf: ctx.twinOf || result(), ansatzOf: ctx.twinOf ? ctx.ansatzOf : ansatzFirst }), meta); },
-    fertig: () => ctx.onDone(ctx.twinOf || result(), { first, total: steps.length, ansatz: ctx.twinOf ? ctx.ansatzOf : T0.ansatz ? ansatzFirst : null })
+    again: () => { const f = el.cloneNode(false); el.replaceWith(f); runAufgabe(f, item, Object.assign({}, ctx, { twinOf: ctx.twinOf || result(), ansatzOf: ctx.twinOf ? ctx.ansatzOf : ansatzInfo() }), meta); },
+    fertig: () => ctx.onDone(ctx.twinOf || result(), { first, total: steps.length, ansatz: ctx.twinOf ? ctx.ansatzOf : ansatzInfo() })
   });
   draw();
 }
@@ -710,7 +772,7 @@ const parseEqSafe = s => { try { return parseEq(s); } catch (e) { return { l: nu
 function runExamAufgabe(el, item, ctx, meta, A, steps) {
   const target = [...steps].reverse().find(s => s.typ === 'zahl' || s.typ === 'gleichung');
   let h = (ctx.blind ? blindLine.replace('Das Thema erfährst du nach deiner Wahl', 'Probeklausur ohne Themenhinweis') : ctxLine(meta)) + `<div class="ex-task">${rich(A.text)}</div>`;
-  if (A.gegeben.length || A.gesucht.length) h += `<div class="gg">${A.gegeben.length ? `<div><div class="gg-k">Gegeben</div>${A.gegeben.map(g => `<div>${rich(g)}</div>`).join('')}</div>` : ''}${A.gesucht.length ? `<div><div class="gg-k">Gesucht</div>${A.gesucht.map(g => `<div>${rich(g)}</div>`).join('')}</div>` : ''}</div>`;
+  h += ggHTML(A, false);
   if (!target) { el.innerHTML = h + `<div class="btn-col"><button class="btn filled" data-a="next">Weiter</button></div>`; on(el, { next: () => ctx.onDone('hilfe', { skip: true }) }); return; }
   h += `<div class="step-box"><div class="step-q">Dein Endergebnis</div>${target.typ === 'zahl' ? numInput(target.einheit) : fmlInput([...varNames(parseEqSafe(target.text)).values()], '')}<div class="act"><button class="btn filled" data-a="next">Abgeben und weiter</button></div></div>`;
   el.innerHTML = h;

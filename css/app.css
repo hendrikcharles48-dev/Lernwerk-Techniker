@@ -872,3 +872,19 @@ button.count-more { border: 0; background: none; padding: 4px 0 0; font: inherit
 .sec-h-btn { display: flex; align-items: baseline; justify-content: space-between; }
 .sec-h-btn .link { border: 0; background: none; padding: 0; color: var(--accent); font: inherit; font-size: 14px; text-transform: none; letter-spacing: 0; }
 .fehlt-k { display: flex; gap: 6px; flex: none; }
+
+/* ===== Erst der Weg: Aufgabentext pur, Rechenweg zeilenweise ===== */
+.gg-d { padding: 8px 14px; margin-bottom: 12px; }
+.gg-d summary { font-size: 15px; min-height: 30px; }
+.gg-d .gg { padding: 8px 0 4px; margin: 0; background: none; }
+.rweg { display: flex; flex-direction: column; gap: 10px; }
+.fb .rweg { margin: 6px 0 2px; gap: 2px; }
+.rw { border-top: .5px solid var(--sep); padding-top: 10px; }
+.rw:first-of-type { border-top: 0; padding-top: 2px; }
+.rw-t { display: flex; gap: 8px; align-items: flex-start; font-size: 15px; color: var(--label2); margin-bottom: 4px; }
+.rw-t .ds-n { flex: none; background: var(--accent); }
+.rw-z { display: flex; align-items: center; gap: 6px; min-height: 30px; padding-left: 30px; font-size: 17px; overflow-x: auto; }
+.fb .rw-z { padding-left: 0; }
+.rw-g { color: var(--label2); width: 14px; flex: none; text-align: center; }
+.bsp-act { margin: 0 0 12px; }
+.seq-i > span:last-child { min-width: 0; }
