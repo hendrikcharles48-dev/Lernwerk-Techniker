@@ -1,10 +1,23 @@
 # Lernwerk Techniker
 
-Lern-App für die Fachschule Technik (Maschinentechnik, Schwerpunkt Automatisierungstechnik).
+Lern-App für die Fachschule Technik (Fachrichtung Automatisierungstechnik).
 Statische Web-App für GitHub Pages: kein Server, keine Anmeldung, keine laufenden Kosten.
 Auf dem iPhone in Safari öffnen und zum Home-Bildschirm hinzufügen, dann läuft sie wie eine App, auch offline.
 
 Alle Lerndaten, Fotos und eingefügten Inhalte bleiben auf dem Gerät (IndexedDB). Im Repository liegt nichts Persönliches.
+
+Für die Arbeit am Code: `CLAUDE.md` (Bauplan und Regeln), `docs/ROADMAP.md` (offene Etappen), `docs/BLOCKFORMAT.md` (Blockformat).
+
+## Neu seit November 2026
+
+- **Karten aufdecken statt ankreuzen:** Erst selbst antworten, dann aufdecken und ehrlich bewerten. Das wirkt stärker als eine Auswahl. An der Karte schaltest du mit „Lieber als Auswahl“ um, die Wahl bleibt.
+- **Erklären und Skizze in den Runden:** Aufgaben aus `Erklären:` und `Skizze:` kommen in die täglichen Runden. Du erklärst aus dem Kopf und hakst die Kernpunkte ab.
+- **Erst der Weg:** Aufgaben stehen als reiner Text da, Gegeben und Gesucht sind eingeklappt. Ab drei Schritten wählst du zuerst die Reihenfolge, die App zeigt, wo du abbiegst. Bei neuen Themen gibt es „Erst ein Beispiel ansehen“, danach rechnest du dieselbe Aufgabe mit neuen Zahlen.
+- **Umstellen, schwer:** Unter Trainer. Du schreibst Zeile für Zeile, jede richtige Zeile zählt. Hinweise nennen die Stelle, nicht die Lösung: gesuchte Größe steht noch mehrfach, Summe ohne Klammer. Geführte Aufgaben haben „Lieber frei umstellen“.
+- **Formeln wie im Buch:** Auch im Fließtext mit echtem Bruchstrich, Wurzel und Hochzahl. Lösungen zeilenweise: Formel, eingesetzte Werte, Ergebnis.
+- **Probeklausur im Lernplan:** Ein bis drei Tage vor einer Arbeit steht sie in der Karte der Arbeit. Ergebnisse stehen unter Mehr, Probeklausur.
+- **Rückfall-Kopien:** Unter Mehr, Datensicherung. Die App legt von selbst Kopien an, bevor etwas Größeres passiert, und warnt, wenn Speichern nicht klappt.
+- **Weiter, wo du warst** auf der Startseite. Die Adresse der App mit `#einfuegen` am Ende öffnet gleich die Seite Einfügen.
 
 ## Was die App kann
 
@@ -74,7 +87,7 @@ Wo Bücher oder Normen sich widersprechen, nennt die Einführung beide Angaben u
 | Technische Mechanik (M2) | zentrales Kräftesystem, Momente, Lagerkräfte, Formelsammlung, Wandschwenkkran (alte Trainer) | Festigkeitslehre, allgemeines Kräftesystem und Streckenlast, Reibung, Biegung, Torsion |
 | Toleranzen und technische Zeichnung (M1) | Toleranzen-App, IT ablesen, Lernblatt Passungen (alte Trainer) | Form- und Lagetoleranzen lesen, Oberflächenangaben |
 | CAD und E-CAD (M1) | SolidWorks-Kürzel (alter Trainer) | Skizzenbeziehungen, EPLAN Stromlaufplan |
-| Werkstofftechnik (M2) | Eisen-Kohlenstoff-Diagramm (alter Trainer) | Stahlbezeichnungen, Wärmebehandlung, Werkstoffprüfung |
+| Werkstofftechnik (M8) | Eisen-Kohlenstoff-Diagramm (alter Trainer) | Stahlbezeichnungen, Wärmebehandlung, Werkstoffprüfung |
 | Steuerungstechnik, Pneumatik und SPS (M2) | – | Wegeventile, Ansteuerung, Elektropneumatik, Logik, SPS, GRAFCET |
 | Automatisierung vertieft (M3, M4) | – | Regelungstechnik, Messtechnik, Robotik, Maschinensicherheit, Netzwerktechnik |
 | Projektmanagement und Datenverarbeitung (M1) | – | Lasten- und Pflichtenheft, Projektstrukturplan, Gantt, Risikoanalyse, Zahlensysteme, Tabellenkalkulation |
@@ -83,6 +96,8 @@ Wo Bücher oder Normen sich widersprechen, nennt die Einführung beide Angaben u
 Reihenfolge der nächsten neuen Trainer: Elektrische Leistung, Wegeventile und Schaltzeichen, Logik und Wahrheitstabelle, Pneumatik Ansteuerung, Festigkeitslehre, SPS-Grundlagen, Sensoren, Gleichungssysteme, Potenzen und Einheiten, Lasten- und Pflichtenheft, Stahlbezeichnungen.
 
 ## Das Lernwerk-Block-Format
+
+Die genaue Beschreibung aller Schlüssel steht in `docs/BLOCKFORMAT.md`. Hier die Kurzfassung.
 
 Jede Zeile beginnt mit einem Schlüssel. Schlüssel dürfen mehrfach vorkommen. Groß- und Kleinschreibung ist egal, Markdown-Reste werden ignoriert, Zeilen ohne Schlüssel gehören zum vorherigen Feld. Mehrere Blöcke in einem Text sind erlaubt.
 
@@ -200,6 +215,6 @@ Kommt per E-Mail „pages build and deployment: Some jobs were not successful“
 - `index.html`, `css/app.css`, `js/` (ES-Module, keine externen Bibliotheken), `lehrplan.json`, `inhalte/`, `trainer/`
 - `manifest.webmanifest` und `sw.js` für Home-Bildschirm und Offline
 - IndexedDB für Inhalte, Lernzettel, Fotos und Fortschritt, localStorage nur für kleine Einstellungen; `navigator.storage.persist()` wird angefragt
-- Tests: `node tests/parser.test.mjs` (Parser mit den Beispielblöcken in `tests/beispiel-bloecke.txt`, Formel-Parser, Zahlenprüfung, Wiederholsystem) und `node tests/inhalte.test.mjs` (alle Inhaltsdateien lesbar, jedes Lehrplan-Thema hat eine Einführung, alle Formel-Umstellungen mathematisch geprüft, keine Pfeile und Abkürzungen)
+- Tests: `node tests/parser.test.mjs` (Parser mit den Beispielblöcken in `tests/beispiel-bloecke.txt`, Formel-Parser, Zahlenprüfung, Wiederholsystem), `node tests/inhalte.test.mjs` (alle Inhaltsdateien lesbar, jedes Lehrplan-Thema hat eine Einführung, alle Formel-Umstellungen mathematisch geprüft, keine Pfeile und Abkürzungen), dazu `abgleich`, `zeichnung`, `mathtext` und `speicher`. Im Browser prüft `node tools/pruefen/browser.mjs` Start, Bereiche und eine kurze Runde
 
 Im Zweifel gilt dein Tabellenbuch und der Unterricht.
