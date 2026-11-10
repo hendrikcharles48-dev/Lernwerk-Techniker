@@ -66,6 +66,10 @@ export function parseToModel(text) {
 }
 
 /* ===== Editor ===== */
+// Zuletzt getippte Formeln mit ihrer Struktur. Wird ein Feld nach dem Prüfen neu gezeichnet und der Text
+// wieder eingesetzt, kommt genau diese Struktur zurück, auch wenn der Text noch unfertig ist.
+const GEMERKT = new Map();
+const klon = m => JSON.parse(JSON.stringify(m));
 const KEYS = [
   ['7', '8', '9', '(', ')', '⌫'],
   ['4', '5', '6', 'frac', 'sqrt', 'pow'],
@@ -139,7 +143,9 @@ export function attachEditor(host, pad, opts = {}) {
   function render() {
     reg = [];
     host.innerHTML = root.length || cur.list !== root ? rl(root) : `${CUR}<span class="me-ph">${esc(host.dataset.ph || '')}</span>`;
-    if (opts.onChange) opts.onChange(serialize(root));
+    const t = serialize(root);
+    if (t) { GEMERKT.delete(t); GEMERKT.set(t, klon(root)); if (GEMERKT.size > 30) GEMERKT.delete(GEMERKT.keys().next().value); }
+    if (opts.onChange) opts.onChange(t);
   }
 
   function insert(n, into) {
@@ -165,20 +171,32 @@ export function attachEditor(host, pad, opts = {}) {
     if (k > 0) cur = { list: s[k - 1], i: s[k - 1].length };
     else cur = { list: p.plist, i: p.pi };
   }
+  // Löschen: Jeder Druck löscht genau ein sichtbares Zeichen vor dem Cursor.
+  // Ein Bruch, eine Wurzel oder eine Hochzahl verschwindet erst, wenn sie leer ist.
+  // Am Anfang einer Wurzel oder Funktion wird sie aufgelöst, ihr Inhalt bleibt stehen.
   function del() {
-    const { list, i } = cur;
-    if (i > 0) {
-      const n = list[i - 1], s = slots(n);
-      if (!s.length || s.every(x => !x.length)) { list.splice(i - 1, 1); cur.i--; }
-      else cur = { list: s[s.length - 1], i: s[s.length - 1].length };
+    for (let schutz = 0; schutz < 6; schutz++) {
+      const { list, i } = cur;
+      if (i > 0) {
+        const n = list[i - 1], s = slots(n);
+        if (!s.length || s.every(x => !x.length)) { list.splice(i - 1, 1); cur.i--; return; }
+        // In die Struktur hinein und dort weiterlöschen
+        const last = [...s].reverse().find(x => x.length) || s[s.length - 1];
+        cur = { list: last, i: last.length };
+        continue;
+      }
+      const p = parentOf(list);
+      if (!p) return;
+      const s = slots(p.node), k = s.indexOf(list);
+      if (s.every(x => !x.length)) { p.plist.splice(p.pi, 1); cur = { list: p.plist, i: p.pi }; return; }
+      if (k > 0 && s.slice(0, k).some(x => x.length)) { const prev = s[k - 1]; cur = { list: prev, i: prev.length }; continue; }
+      // Am Anfang: Struktur auflösen, ihr Inhalt bleibt an derselben Stelle
+      if (p.node.k === 'frac' && s[0].length && s[1].length) { cur = { list: p.plist, i: p.pi }; continue; }
+      const inhalt = s.flat();
+      p.plist.splice(p.pi, 1, ...inhalt);
+      cur = { list: p.plist, i: p.pi };
       return;
     }
-    const p = parentOf(list);
-    if (!p) return;
-    const s = slots(p.node);
-    if (s.every(x => !x.length)) { p.plist.splice(p.pi, 1); cur = { list: p.plist, i: p.pi }; }
-    else if (s.indexOf(list) > 0) { const prev = s[s.indexOf(list) - 1]; cur = { list: prev, i: prev.length }; }
-    else cur = { list: p.plist, i: p.pi };
   }
   function frac() {
     // Was direkt vor dem Cursor steht (Zahl oder Größe), wandert in den Zähler
@@ -237,7 +255,7 @@ export function attachEditor(host, pad, opts = {}) {
   Object.defineProperty(host, 'value', {
     configurable: true,
     get: () => serialize(root),
-    set: v => { root = parseToModel(v); cur = { list: root, i: root.length }; render(); }
+    set: v => { root = GEMERKT.has(v) ? klon(GEMERKT.get(v)) : parseToModel(v); cur = { list: root, i: root.length }; render(); }
   });
   render();
   return host;
