@@ -50,7 +50,7 @@ export function serie(tage, today) {
 }
 
 // Grobe Zeit pro Karte in Sekunden, um "Heute dran" auf etwa 15 Minuten zu deckeln.
-export const SEKUNDEN = { karte: 25, begriff: 25, verwechslung: 30, zuordnen: 60, fehler: 40, aufgabe: 150, umstellen: 70, auswahl: 30, reihenfolge: 60, trainer: 300 };
+export const SEKUNDEN = { karte: 25, begriff: 25, verwechslung: 30, zuordnen: 60, fehler: 40, aufgabe: 150, umstellen: 70, auswahl: 30, reihenfolge: 60, trainer: 300, erklaeren: 90, skizze: 120 };
 
 /*
  * Lernplan rückwärts bis zur Klassenarbeit.

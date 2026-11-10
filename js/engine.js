@@ -183,7 +183,7 @@ function stufenHTML(tid, items) {
 const modusHTML = () => `<div class="modus">${seg('modus', st.MODI, st.modus())}</div>`;
 const gesperrtHinweis = (alle, sicht) => { const n = alle.length - sicht.length; return n > 0 ? `<p class="src">${n} weitere ${n === 1 ? 'Frage ist' : 'Fragen sind'} noch gesperrt. „Hatten wir“ oben schaltet die nächste Stufe frei.</p>` : ''; };
 function countFor(v, T, items, tid) {
-  const n = { prinzip: 0, bausteine: 0, ueben: items.filter(i => ['aufgabe', 'umstellen', 'auswahl', 'reihenfolge', 'verwechslung', 'zuordnen'].includes(i.art)).length, karten: items.filter(i => i.art === 'karte' || i.art === 'begriff').length, schnellweg: T.schnellwege.length, zettel: st.notesFor(tid).length, fotos: st.photosFor(tid).length }[v];
+  const n = { prinzip: 0, bausteine: 0, ueben: items.filter(i => ['aufgabe', 'umstellen', 'auswahl', 'reihenfolge', 'verwechslung', 'zuordnen', 'erklaeren', 'skizze'].includes(i.art)).length, karten: items.filter(i => i.art === 'karte' || i.art === 'begriff').length, schnellweg: T.schnellwege.length, zettel: st.notesFor(tid).length, fotos: st.photosFor(tid).length }[v];
   return n ? ' ' + n : '';
 }
 
@@ -209,7 +209,7 @@ function renderTab(el, tab, tid, T, items, f) {
     if (T.formeln.length) h += `<div class="sec-h">Formeln</div>` + T.formeln.map(formelCard).join('');
     if (!h) h = empty('Noch keine Bausteine.', 'Bausteine zerlegen eine Aufgabe in gegeben, gesucht, Regel und nächsten Schritt. Hol sie dir über Einfügen aus dem Chat.');
   }
-  const UEB = ['aufgabe', 'umstellen', 'auswahl', 'reihenfolge', 'verwechslung', 'zuordnen'];
+  const UEB = ['aufgabe', 'umstellen', 'auswahl', 'reihenfolge', 'verwechslung', 'zuordnen', 'erklaeren', 'skizze'];
   if (tab === 'ueben') {
     const alle = items.filter(i => UEB.includes(i.art));
     const ex = alle.filter(i => st.sichtbar(i));
@@ -219,7 +219,7 @@ function renderTab(el, tab, tid, T, items, f) {
     else {
       h += `<div class="btn-row"><button class="btn filled" data-a="mix">${icon('bolt')} Gemischt üben</button></div>`;
       const grp = (art, title) => { const g = ex.filter(i => i.art === art); if (!g.length) return ''; return `<div class="sec-h">${title}</div>` + list(g.map(i => row({ a: 'item', d: i.id, titleHTML: itemHTML(i), subHTML: esc(stufeText(st.card(i.id))) }))); };
-      h += grp('aufgabe', 'Aufgaben') + grp('umstellen', 'Formeln umstellen') + grp('auswahl', 'Auswahlfragen') + grp('reihenfolge', 'Reihenfolge') + grp('verwechslung', 'Nicht verwechseln') + grp('zuordnen', 'Zuordnen');
+      h += grp('aufgabe', 'Aufgaben') + grp('umstellen', 'Formeln umstellen') + grp('auswahl', 'Auswahlfragen') + grp('reihenfolge', 'Reihenfolge') + grp('verwechslung', 'Nicht verwechseln') + grp('zuordnen', 'Zuordnen') + grp('erklaeren', 'Erklären') + grp('skizze', 'Skizzen');
     }
     h += gesperrtHinweis(alle, ex);
   }
@@ -478,7 +478,7 @@ export function runItem(el, item, ctx) {
   el.style.setProperty('--fc', meta.farbe);
   // Gemischtes Üben: Das Thema wird nicht verraten, sonst ist der Ansatz schon klar
   if (ctx.blind && item.art !== 'aufgabe') Object.assign(meta, { fach: 'Gemischt', thema: 'ohne Themenhinweis' });
-  const runner = { auffrischen: runAuffrischen, aufgabe: runAufgabe, umstellen: runUmstellen, auswahl: runAuswahl, reihenfolge: runReihenfolge, karte: runKarte, begriff: runBegriff, fehler: runFehler, verwechslung: runVerwechslung, zuordnen: runZuordnen }[item.art];
+  const runner = { erklaeren: runErklaeren, skizze: runErklaeren, auffrischen: runAuffrischen, aufgabe: runAufgabe, umstellen: runUmstellen, auswahl: runAuswahl, reihenfolge: runReihenfolge, karte: runKarte, begriff: runBegriff, fehler: runFehler, verwechslung: runVerwechslung, zuordnen: runZuordnen }[item.art];
   if (!runner) { el.innerHTML = empty('Diese Übung kenne ich nicht.'); ctx.onDone('hilfe'); return; }
   runner(el, item, ctx, meta);
 }
@@ -933,7 +933,8 @@ function falscheAntworten(item, n = 3) {
 }
 function runKarte(el, item, ctx, meta, pool) {
   const andere = pool || falscheAntworten(item);
-  if (andere.length < 3 || ctx.exam) return runKarteFlip(el, item, ctx, meta);
+  const kannAuswahl = andere.length >= 3 && !ctx.exam;
+  if (!kannAuswahl || st.kartenArt() !== 'auswahl') return runKarteFlip(el, item, ctx, meta, kannAuswahl ? () => runKarte(el, item, ctx, meta, pool) : null);
   const L = item.antwort.length;
   const falsch = pool ? shuffle(andere.sort((a, b) => Math.abs(a.length - L) - Math.abs(b.length - L)).slice(0, 6)).slice(0, 3) : andere;
   const opts = shuffle([item.antwort, ...falsch]);
@@ -952,7 +953,8 @@ function runKarte(el, item, ctx, meta, pool) {
       else { tries++; if (tries === 1 && item.art !== 'begriff') logError(meta, item, { aufgabe: item.frage, eingabe: opts[+k], richtig: item.antwort, fehlerart: 'Fachbegriff verwechselt' }); }
       draw();
     },
-    flip: () => runKarteFlip(el, item, ctx, meta),
+    // Die Wahl gilt ab jetzt für alle Karten
+    flip: async () => { await st.setKartenArt('aufdecken'); toast('Ab jetzt deckst du Karten auf. Erst selbst antworten, dann bewerten.'); runKarteFlip(el, item, ctx, meta, () => runKarte(el, item, ctx, meta, pool)); },
     fertig: () => ctx.onDone(tries === 0 ? 'richtig' : tries === 1 ? 'hilfe' : 'falsch')
   });
   draw();
@@ -1021,12 +1023,39 @@ function runZuordnen(el, item, ctx, meta) {
   });
   draw();
 }
-function runKarteFlip(el, item, ctx, meta) {
+// Karte zum Aufdecken: erst selbst antworten (im Kopf, laut oder auf dem Zettel), dann aufdecken und ehrlich bewerten.
+// Das ist freies Abrufen und wirkt stärker als das Wiedererkennen bei einer Auswahl.
+// alsAuswahl: Funktion, die dieselbe Karte als Auswahl zeigt, oder null, wenn es zu wenige andere Antworten gibt.
+function runKarteFlip(el, item, ctx, meta, alsAuswahl) {
   let open = false;
   function draw() {
-    el.innerHTML = ctxLine(meta) + `<button class="flash ${open ? 'open' : ''}" data-a="flip"><div class="flash-q">${esc(item.frage)}</div>${open ? `<div class="flash-a">${looksLikeFormula(item.antwort) ? fml(item.antwort) : esc(item.antwort)}</div>` : '<div class="flash-hint">Antippen zum Aufdecken</div>'}</button>${open ? rateButtons() : ''}`;
+    el.innerHTML = ctxLine(meta) + `<button class="flash ${open ? 'open' : ''}" data-a="flip"><div class="flash-q">${rich(item.frage)}</div>${open ? `<div class="flash-a">${looksLikeFormula(item.antwort) ? fml(item.antwort) : rich(item.antwort)}</div>` : '<div class="flash-hint">Erst selbst antworten, dann antippen</div>'}</button>${open ? rateButtons() : alsAuswahl && !ctx.exam ? `<div class="act"><button class="btn small" data-a="auswahl">Lieber als Auswahl</button></div>` : ''}`;
   }
-  on(el, { flip: () => { open = true; draw(); }, rate: d => ctx.onDone(d) });
+  on(el, {
+    flip: () => { open = true; draw(); }, rate: d => ctx.onDone(d),
+    auswahl: async () => { await st.setKartenArt('auswahl'); toast('Ab jetzt kommen Karten als Auswahl.'); alsAuswahl(); }
+  });
+  draw();
+}
+// Erklären oder Skizzieren: aus dem Kopf, dann die Kernpunkte abhaken. Alle Punkte: gewusst, ab der Hälfte: mit Mühe.
+function runErklaeren(el, item, ctx, meta) {
+  const skizze = item.art === 'skizze';
+  const haken = new Set();
+  let open = false, text = '';
+  function draw() {
+    let h = ctxLine(meta) + `<div class="card-k">${skizze ? 'Skizze aus dem Kopf' : 'Erklären, ohne nachzusehen'}</div><div class="ex-task">${rich(item.frage)}</div>`;
+    if (!open) h += (skizze ? `<p class="muted">Zeichne auf Papier oder unten im Zettel. Beschrifte alles, was dazugehört.</p>` : `<textarea class="big-ta" rows="4" data-k="antw" placeholder="Laut erklären oder Stichworte tippen">${esc(text)}</textarea>`)
+      + `<div class="btn-col"><button class="btn filled" data-a="zeigen">Kernpunkte zeigen</button></div>`;
+    else h += `<div class="card korr">${text ? `<div class="korr-a"><span class="muted small">Deine Stichworte</span><p>${esc(text)}</p></div>` : ''}<div class="muted small">Hak ab, was du ${skizze ? 'gezeichnet' : 'wirklich gesagt oder geschrieben'} hast.</div>
+      ${item.kern.map((x, j) => `<label class="korr-k"><input type="checkbox" data-j="${j}" ${haken.has(j) ? 'checked' : ''}><span>${rich(x)}</span></label>`).join('')}</div>
+      <div class="btn-col"><button class="btn filled" data-a="fertig">${ctx.nextLabel || 'Weiter'}</button></div>`;
+    el.innerHTML = h;
+  }
+  el.addEventListener('change', e => { const c = e.target.closest('[data-j]'); if (c) { c.checked ? haken.add(+c.dataset.j) : haken.delete(+c.dataset.j); } });
+  on(el, {
+    zeigen: () => { const ta = $('[data-k="antw"]', el); text = ta ? ta.value.trim() : ''; open = true; draw(); },
+    fertig: () => { const q = haken.size / item.kern.length; ctx.onDone(q >= 1 ? 'richtig' : q >= 0.5 ? 'hilfe' : 'falsch'); }
+  });
   draw();
 }
 const looksLikeFormula = s => /^[^.!?]{1,60}=[^.!?]{1,80}$/.test(String(s)) && !/\s(ist|sind|und|der|die|das)\s/.test(s);

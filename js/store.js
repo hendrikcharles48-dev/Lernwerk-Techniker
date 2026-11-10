@@ -408,6 +408,9 @@ function itemsOf(t, tid) {
   t.reihenfolgen.forEach(r => items.push({ id: 'r:' + tid + ':' + hash(norm(r.titel)), art: 'reihenfolge', tid, r, s: st(r) }));
   (t.verwechslungen || []).forEach(v => items.push({ id: 'v:' + tid + ':' + hash(norm(v.a + '|' + v.b)), art: 'verwechslung', tid, v, s: st(v) }));
   (t.zuordnen || []).forEach(z => z.paare.length >= 2 && items.push({ id: 'z:' + tid + ':' + hash(norm(z.titel)), art: 'zuordnen', tid, z, s: st(z) }));
+  // Freies Abrufen: erklären oder skizzieren, danach Kernpunkte abhaken. Gleiche Kennung wie in der Probeklausur.
+  (t.erklaeren || []).forEach(e => e.kern && e.kern.length && items.push({ id: 'e:' + tid + ':' + hash(norm(e.aufgabe)), art: 'erklaeren', tid, frage: e.aufgabe, kern: e.kern, s: st(e) }));
+  (t.skizzen || []).forEach(e => e.kern && e.kern.length && items.push({ id: 's:' + tid + ':' + hash(norm(e.aufgabe)), art: 'skizze', tid, frage: e.aufgabe, kern: e.kern, s: st(e) }));
   return items;
 }
 /* ===== Stufen pro Thema =====
@@ -420,7 +423,7 @@ export function autoStufe(it) {
   if (it.s) return it.s;
   if (it.art === 'begriff') return 1;
   if (it.art === 'karte') return SCHWER.test(it.frage.trim()) || it.antwort.length > 140 ? 2 : 1;
-  if (it.art === 'aufgabe' || it.art === 'auswahl') return 3;
+  if (it.art === 'aufgabe' || it.art === 'auswahl' || it.art === 'erklaeren' || it.art === 'skizze') return 3;
   return 2; // umstellen, reihenfolge, verwechslung, zuordnen
 }
 export function topicItems(tid) {
@@ -467,6 +470,10 @@ export function sichtbar(it, m = modus()) {
   // Rechenaufgaben aus Themen mit Trainer sind immer frei: Die hast du im Trainer schon gerechnet.
   return it.eigen || it.stufe <= freigabe(it.tid) || (hatTrainer(it.tid) && (it.art === 'aufgabe' || it.art === 'umstellen'));
 }
+// Karten: 'aufdecken' (erst selbst antworten, dann aufdecken und bewerten) oder 'auswahl' (Antwort unter vier wählen).
+// Aufdecken ist die Vorgabe, weil freies Abrufen stärker wirkt als Wiedererkennen.
+export const kartenArt = () => (kvGet('kartenArt', 'aufdecken') === 'auswahl' ? 'auswahl' : 'aufdecken');
+export async function setKartenArt(v) { await kvSet('kartenArt', v === 'auswahl' ? 'auswahl' : 'aufdecken'); }
 export const hatTrainer = tid => { const th = thema(tid); return !!(th && th.thema.trainer && th.thema.trainer.length); };
 // Nur die Übungen, die im gewählten Modus dran sind
 export const uebItems = (tid, m) => topicItems(tid).filter(it => sichtbar(it, m));
