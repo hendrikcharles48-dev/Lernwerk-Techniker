@@ -245,7 +245,7 @@ export function toHTML(n) {
   switch (n.t) {
     case 'num': return '<span class="n">' + fmtNum(n.v, 6) + '</span>';
     case 'const': return n.v === 'e' ? '<var>e</var>' : '<var>π</var>';
-    case 'var': return nameHTML(n.n);
+    case 'var': return n.w ? '<span class="wort">' + esc(n.n) + '</span>' : nameHTML(n.n);
     case 'par': return '<span class="paren">(</span>' + toHTML(n.a) + '<span class="paren">)</span>';
     case 'neg': return '<span class="sg">−</span>' + wrap(n.a, 3);
     case 'add': return toHTML(n.a) + OP('+') + wrap(n.b, 1);
@@ -456,4 +456,52 @@ export function fmlWith(src, vals) {
     };
     return '<span class="fml">' + toHTML(sub(e.r)) + '</span>';
   } catch (err) { return esc(src); }
+}
+
+/* ===== Formeln im Fließtext: echter Bruchstrich, Wurzel und Hochzahl wie im Buch =====
+ * Der Text bleibt in einer Zeile geschrieben (R = U / I), damit Einfügen und Vorlesen weiter gehen.
+ * Angezeigt wird ein Formelstück als Formel, wenn es einen Bruch (Schrägstrich mit Leerzeichen),
+ * eine Wurzel oder ein Hochzeichen enthält. Einheiten wie N/mm² oder km/h (ohne Leerzeichen) bleiben Text.
+ */
+const M_ID = 'A-Za-zÄÖÜäöüßΑ-Ωα-ωµϑ';
+const M_OPD = '(?:[−-]\\s?)?(?:√\\s?)?(?:(?:arcsin|arccos|arctan|asin|acos|atan|sin|cos|tan|ln|lg)\\s?)?(?:\\d+(?:[.,]\\d+)?|[' + M_ID + '][' + M_ID + '0-9_]*|\\((?:[^()]|\\((?:[^()]|\\([^()]*\\))*\\))*\\))[²³]?';
+const M_OPR = '(?:\\s+[+−\\-/]\\s+|\\s*[·=^]\\s*)';
+const M_RUN = new RegExp(M_OPD + '(?:' + M_OPR + M_OPD + ')+', 'g');
+const KLEINWORT = new Set(['den', 'der', 'die', 'das', 'dem', 'des', 'ein', 'und', 'ist', 'im', 'in', 'pro', 'mit', 'aus', 'je', 'zu', 'bei', 'von', 'am', 'an', 'um', 'als', 'so', 'es', 'er', 'du', 'wir']);
+const istWort = n => /^[A-Za-zÄÖÜäöüß]{4,}$/.test(n) && !/^[A-ZÄÖÜ]+$/.test(n);
+function woerter(n) {
+  if (!n) return n;
+  const c = Object.assign({}, n);
+  if (c.t === 'var' && istWort(c.n)) c.w = true;
+  for (const k of ['a', 'b']) if (c[k]) c[k] = woerter(c[k]);
+  return c;
+}
+// Text mit tiefgestellten Indizes: F_G wird zu F mit tiefgestelltem G
+const schlicht = s => esc(s).replace(/(^|[^A-Za-z0-9])([A-Za-zΑ-Ωα-ωΔ])_([A-Za-z0-9]+)/g, '$1$2<sub>$3</sub>');
+function stueckHTML(t) {
+  // Wörter ohne Gleichheitszeichen und ohne Zahl sind normaler Text, zum Beispiel „Ja / Nein“ oder „Oben / unten“
+  const namen = t.match(new RegExp('[' + M_ID + '][' + M_ID + '0-9_]*', 'g')) || [];
+  if (!t.includes('=') && !/\d/.test(t) && namen.some(istWort)) return null;
+  // Kleine Wörter gehören zum Satz, nicht zur Formel, zum Beispiel „70 / den Prozentsatz“
+  if (namen.some(n => KLEINWORT.has(n))) return null;
+  try {
+    const teile = t.split('=').map(x => toHTML(woerter(parseExpr(x))));
+    return '<span class="fml inl">' + teile.join(OP('=')) + '</span>';
+  } catch (e) { return null; }
+}
+export function mathText(src) {
+  const s = String(src == null ? '' : src);
+  let out = '', pos = 0;
+  M_RUN.lastIndex = 0;
+  for (let m; (m = M_RUN.exec(s));) {
+    const t = m[0];
+    if (!/\s\/\s|√|\^/.test(t)) continue;
+    // Direkt hinter einer Zahl steht meist eine Einheit, zum Beispiel 24 V / 0,5 A: nicht anfassen
+    if (/\d\s*$/.test(s.slice(Math.max(0, m.index - 3), m.index))) continue;
+    const html = stueckHTML(t);
+    if (!html) continue;
+    out += schlicht(s.slice(pos, m.index)) + html;
+    pos = m.index + t.length;
+  }
+  return out + schlicht(s.slice(pos));
 }

@@ -888,3 +888,7 @@ button.count-more { border: 0; background: none; padding: 4px 0 0; font: inherit
 .rw-g { color: var(--label2); width: 14px; flex: none; text-align: center; }
 .bsp-act { margin: 0 0 12px; }
 .seq-i > span:last-child { min-width: 0; }
+
+/* Formeln im Fließtext */
+.fml.inl { font-size: 1.06em; vertical-align: middle; max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 1px 0; }
+.fml .wort { font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", system-ui, sans-serif; font-size: .86em; font-style: normal; }

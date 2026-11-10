@@ -1,6 +1,6 @@
 // Trainer-Engine: Themenseite und alle Übungsarten. Eingebaute und eingefügte Inhalte laufen hier gleich.
 import { esc, fmtNum, markdown, plainText, shuffle, dayStr, dayShort, norm } from './util.js';
-import { fml, fmlWith, nameHTML, parseEq, keyOf, calc, checkSolved, checkStep, varNames, speakFml } from './formula.js';
+import { fml, fmlWith, nameHTML, parseEq, keyOf, calc, checkSolved, checkStep, varNames, speakFml, mathText } from './formula.js';
 import { checkNumber, showValue } from './check.js';
 import * as st from './store.js';
 import { $, $$, icon, row, list, seg, sw, empty, on, push, openSheet, toast, copyText, confirmBox, progress, fachIcon, hinweisTabellenbuch } from './ui.js';
@@ -194,18 +194,18 @@ function renderTab(el, tab, tid, T, items, f) {
   if (tab === 'prinzip') {
     const nichts = !T.anker.length && !T.begriffe.length && !T.merksaetze.length && !T.prinzip.length && !T.notizen.length;
     if (nichts) h += emptyContent(tid);
-    T.anker.forEach(a => { h += `<div class="card anchor"><div class="card-k">Bild aus deiner Welt</div><p>${esc(a)}</p></div>`; });
+    T.anker.forEach(a => { h += `<div class="card anchor"><div class="card-k">Bild aus deiner Welt</div><p>${rich(a)}</p></div>`; });
     if (sk.fuer(tid).length) h += `<div class="sec-h">${sk.fuer(tid).length > 1 ? 'Skizzen' : 'Skizze'}</div>` + sk.html(tid, false, false, true);
-    if (T.begriffe.length) h += `<div class="sec-h">Fachbegriffe</div>` + list(T.begriffe.map(b => row({ titleHTML: `<b>${esc(b.begriff)}</b>`, sub: b.erklaerung })));
-    T.merksaetze.forEach(m => { h += `<div class="card merk" style="--fc:${color}"><div class="card-k">Merksatz</div><p>${esc(m)}</p></div>`; });
-    if (T.prinzip.length) h += `<div class="sec-h">So funktioniert es</div><div class="card prose">${T.prinzip.map(p => markdown(p)).join('')}</div>`;
+    if (T.begriffe.length) h += `<div class="sec-h">Fachbegriffe</div>` + list(T.begriffe.map(b => row({ titleHTML: `<b>${esc(b.begriff)}</b>`, subHTML: rich(b.erklaerung) })));
+    T.merksaetze.forEach(m => { h += `<div class="card merk" style="--fc:${color}"><div class="card-k">Merksatz</div><p>${rich(m)}</p></div>`; });
+    if (T.prinzip.length) h += `<div class="sec-h">So funktioniert es</div><div class="card prose">${T.prinzip.map(p => markdown(p, mathText)).join('')}</div>`;
     if (T.notizen.length) h += `<div class="sec-h">Notizen</div>` + list(T.notizen.map(n => row({ title: n.schluessel, sub: n.text })));
     if (!nichts) h += `<div class="btn-row"><button class="btn" data-a="folge">${icon('ear')} Als Folge hören</button><button class="btn" data-a="bild">${icon('claude')} Mit Bild erklären lassen</button></div>`;
     if (T.quellen.length) h += `<p class="src">Quelle: ${T.quellen.map(esc).join(' ')}</p>`;
   }
   if (tab === 'bausteine') {
-    if (T.bausteine.length) h += `<div class="sec-h">So gehst du vor</div><ol class="steps-list">${T.bausteine.map(b => `<li>${esc(b)}</li>`).join('')}</ol>`;
-    if (T.fehler.length) h += `<div class="sec-h">Typische Fehler</div>` + list(T.fehler.map(x => row({ title: x.fehler, sub: x.achtung })));
+    if (T.bausteine.length) h += `<div class="sec-h">So gehst du vor</div><ol class="steps-list">${T.bausteine.map(b => `<li>${rich(b)}</li>`).join('')}</ol>`;
+    if (T.fehler.length) h += `<div class="sec-h">Typische Fehler</div>` + list(T.fehler.map(x => row({ titleHTML: rich(x.fehler), subHTML: rich(x.achtung) })));
     if (T.formeln.length) h += `<div class="sec-h">Formeln</div>` + T.formeln.map(formelCard).join('');
     if (!h) h = empty('Noch keine Bausteine.', 'Bausteine zerlegen eine Aufgabe in gegeben, gesucht, Regel und nächsten Schritt. Hol sie dir über Einfügen aus dem Chat.');
   }
@@ -230,13 +230,13 @@ function renderTab(el, tab, tid, T, items, f) {
     if (!ks.length) h += empty(kAlle.length ? 'In dieser Stufe gibt es keine Karten.' : 'Noch keine Karten.', 'Karten kommen über Karte-Zeilen und Begriff-Zeilen im Lernwerk-Block.') + gesperrtHinweis(kAlle, ks);
     else {
       h += `<div class="btn-row"><button class="btn filled" data-a="karten">${icon('cards')} Karten üben</button></div>`;
-      h += list(ks.map(k => row({ a: 'flip', d: k.id, title: k.frage, subHTML: `<span class="hidden-ans" data-ans="${esc(k.id)}">Antippen zum Aufdecken</span>`, detail: stufeText(st.card(k.id)), chev: false })));
+      h += list(ks.map(k => row({ a: 'flip', d: k.id, titleHTML: rich(k.frage), subHTML: `<span class="hidden-ans" data-ans="${esc(k.id)}">Antippen zum Aufdecken</span>`, detail: stufeText(st.card(k.id)), chev: false })));
       h += gesperrtHinweis(kAlle, ks);
     }
   }
   if (tab === 'schnellweg') {
     if (!T.schnellwege.length) h = empty('Noch kein Schnellweg.', 'Ein Schnellweg ist ein kürzerer Prüfungsweg mit Erklärung, warum er funktioniert.');
-    T.schnellwege.forEach(s => { h += `<div class="card fast" style="--fc:${color}"><div class="card-k">${icon('bolt')} Schnellweg</div><div class="prose">${markdown(s)}</div></div>`; });
+    T.schnellwege.forEach(s => { h += `<div class="card fast" style="--fc:${color}"><div class="card-k">${icon('bolt')} Schnellweg</div><div class="prose">${markdown(s, mathText)}</div></div>`; });
   }
   if (tab === 'zettel') {
     const ns = st.notesFor(tid);
@@ -258,7 +258,7 @@ function renderTab(el, tab, tid, T, items, f) {
       mix: () => { const its = st.uebItems(tid).filter(i => UEB.includes(i.art)); runSession(sortForPractice(its).slice(0, 8), 'Gemischt üben'); },
       karten: () => { const its = st.uebItems(tid).filter(i => i.art === 'karte' || i.art === 'begriff'); runSession(sortForPractice(its), 'Karten'); },
       'seg:modus': v => { st.setModus(v); toast({ frei: 'Nur freigeschaltete Stufen.', alles: 'Alle Stufen gemischt.', schwer: 'Nur schwere Fragen.' }[v]); },
-      flip: (id, b) => { const it = st.topicItems(tid).find(i => i.id === id); const s = $('.hidden-ans', b); if (it && s) { s.textContent = it.antwort; s.classList.add('shown'); } },
+      flip: (id, b) => { const it = st.topicItems(tid).find(i => i.id === id); const s = $('.hidden-ans', b); if (it && s) { s.innerHTML = rich(it.antwort); s.classList.add('shown'); } },
       newnote: () => noteEditor({ tid }),
       note: id => noteReader(id),
       photo: id => photoViewer(id),
@@ -483,7 +483,8 @@ export function runItem(el, item, ctx) {
   runner(el, item, ctx, meta);
 }
 // Text mit Indizes: F_G wird zu F mit tiefgestelltem G
-export const rich = s => esc(s).replace(/(^|[^A-Za-z0-9])([A-Za-zΑ-Ωα-ωΔ])_([A-Za-z0-9]+)/g, '$1$2<sub>$3</sub>');
+// Text mit Indizes (F_G) und Formeln wie im Buch: Brüche mit echtem Bruchstrich, Wurzeln, Hochzahlen
+export const rich = s => mathText(s);
 const blindLine = `<div class="ex-ctx"><span class="dot"></span>Gemischt · Das Thema erfährst du nach deiner Wahl</div>`;
 const ctxLine = meta => `<div class="ex-ctx"><span class="dot" style="background:${meta.farbe}"></span>${esc(meta.fach)} · ${esc(meta.thema)}</div>`;
 
@@ -587,7 +588,7 @@ function runAufgabe(el, item, ctx, meta) {
     if (!s) {
       const twin = (used || shown) && A.random;
       h += note + `<div class="fb good"><b>Geschafft.</b> ${freiOk ? (tries ? 'Frei gelöst, im zweiten Anlauf.' : 'Frei gelöst, ohne Zwischenschritte. Stark.') : first + ' von ' + steps.length + ' Schritten beim ersten Versuch richtig.'}${T0.ansatz && !ctx.twinOf && ansatzFirst != null ? (ansatzFirst ? ' Den Ansatz hast du sofort erkannt.' : ' Den Ansatz hast du im zweiten Anlauf gefunden.') : ''}</div>`;
-      if (topicT.schnellwege.length) h += `<details class="disc"><summary>${icon('bolt')} Schnellweg für die Prüfung</summary><div class="prose">${topicT.schnellwege.map(markdown).join('')}</div></details>`;
+      if (topicT.schnellwege.length) h += `<details class="disc"><summary>${icon('bolt')} Schnellweg für die Prüfung</summary><div class="prose">${topicT.schnellwege.map(x => markdown(x, mathText)).join('')}</div></details>`;
       if (twin) h += `<p class="muted">Jetzt dieselbe Aufgabe mit neuen Zahlen, einmal ganz allein. So setzt sich der Weg fest.</p>`;
       h += `<div class="btn-col">${A.random ? `<button class="btn${twin ? ' filled' : ''}" data-a="again">${twin ? 'Zwillingsaufgabe: neue Zahlen' : 'Neue Zahlen'}</button>` : ''}<button class="btn${twin ? '' : ' filled'}" data-a="fertig">${ctx.nextLabel || 'Fertig'}</button></div>`;
       el.innerHTML = h;
@@ -669,8 +670,8 @@ function runAufgabe(el, item, ctx, meta) {
     const parts = [];
     // So gehst du heran: erst der Tipp zum Schritt, sonst der Arbeitsplan des Themas
     if (cur && cur.tipp) parts.push('<b>So gehst du heran:</b> ' + rich(cur.tipp));
-    else if (topicT.bausteine.length && !A.tipps.length) parts.push('<b>So gehst du heran:</b> ' + esc(topicT.bausteine[Math.min(i, topicT.bausteine.length - 1)]));
-    if (A.tipps.length) parts.push(A.tipps.map(esc).join(' '));
+    else if (topicT.bausteine.length && !A.tipps.length) parts.push('<b>So gehst du heran:</b> ' + rich(topicT.bausteine[Math.min(i, topicT.bausteine.length - 1)]));
+    if (A.tipps.length) parts.push(A.tipps.map(rich).join(' '));
     // Die Rechnung mit eingesetzten Zahlen, ausrechnen musst du selbst
     if (cur && cur.rechnung && level < 3) parts.push('<b>Setz ein:</b> ' + fmlWith(cur.rechnung, A.vals));
     if (!parts.length) {
@@ -833,7 +834,7 @@ function runUmstellen(el, item, ctx, meta) {
       h += (ctx.exam ? `<div class="step-q">Deine Umstellung</div>` : `<div class="step-n">Frei umstellen</div><div class="step-q">Schreib deine nächste Zeile. Jede Zeile wird geprüft. Fertig bist du, wenn ${nameHTML(U.nach)} allein steht.</div>`) + fmlInput(names, ctx.exam ? U.nach + ' = …' : 'Ganze Gleichung mit =') + `<div class="act"><button class="btn filled" data-a="check">${ctx.exam ? 'Abgeben und weiter' : 'Prüfen'}</button>${ctx.exam ? '' : '<button class="btn" data-a="tip">Tipp</button><button class="btn" data-a="sol">Lösung</button>'}${!ctx.exam && steps.length && !done.length ? '<button class="btn" data-a="gefuehrt">Mit Schritten führen</button>' : ''}</div>`;
     }
     if (fb) h += fb;
-    if (tipOpen) h += `<div class="fb info"><b>Tipp.</b> ${U.tipps.length ? U.tipps.map(esc).join(' ') : 'Schau, was an ' + esc(U.nach) + ' dranhängt. Was am weitesten außen steht, kommt zuerst weg. Jede Rechenart wird durch ihr Gegenstück aufgehoben.'}</div>`;
+    if (tipOpen) h += `<div class="fb info"><b>Tipp.</b> ${U.tipps.length ? U.tipps.map(rich).join(' ') : 'Schau, was an ' + esc(U.nach) + ' dranhängt. Was am weitesten außen steht, kommt zuerst weg. Jede Rechenart wird durch ihr Gegenstück aufgehoben.'}</div>`;
     if (solOpen) h += `<div class="fb info"><b>Lösung.</b> ${phase === 'eq' ? fml(steps[i].gl) : fml(U.loesung)}<div class="btn-row"><button class="btn" data-a="take">Übernehmen und weiter</button></div></div>`;
     h += '</div>';
     el.innerHTML = h;
@@ -937,8 +938,8 @@ function runAuswahl(el, item, ctx, meta) {
   const opts = shuffle([A.richtig, ...A.falsch]);
   let tries = 0, solved = false, shown = false, picked = new Set();
   function draw() {
-    el.innerHTML = ctxLine(meta) + `<div class="ex-task">${esc(A.frage)}</div><div class="mc">${opts.map(o => `<button class="mc-o ${picked.has(o) ? (o === A.richtig ? 'ok' : 'no') : solved && o === A.richtig ? 'ok' : ''}" data-a="pick" data-d="${esc(o)}">${esc(o)}</button>`).join('')}</div>
-      ${solved && A.erklaerung ? `<div class="fb info"><b>Darum.</b> ${esc(A.erklaerung)}</div>` : ''}
+    el.innerHTML = ctxLine(meta) + `<div class="ex-task">${rich(A.frage)}</div><div class="mc">${opts.map(o => `<button class="mc-o ${picked.has(o) ? (o === A.richtig ? 'ok' : 'no') : solved && o === A.richtig ? 'ok' : ''}" data-a="pick" data-d="${esc(o)}">${rich(o)}</button>`).join('')}</div>
+      ${solved && A.erklaerung ? `<div class="fb info"><b>Darum.</b> ${rich(A.erklaerung)}</div>` : ''}
       ${solved ? `<div class="btn-col"><button class="btn filled" data-a="fertig">${ctx.nextLabel || 'Weiter'}</button></div>` : ctx.exam ? '' : `<div class="act"><button class="btn" data-a="sol">Lösung zeigen</button></div>`}`;
   }
   on(el, {
@@ -1022,11 +1023,11 @@ function runKarte(el, item, ctx, meta, pool) {
   const L = item.antwort.length;
   const falsch = pool ? shuffle(andere.sort((a, b) => Math.abs(a.length - L) - Math.abs(b.length - L)).slice(0, 6)).slice(0, 3) : andere;
   const opts = shuffle([item.antwort, ...falsch]);
-  const show = o => (looksLikeFormula(o) ? fml(o) : esc(o));
+  const show = o => (looksLikeFormula(o) ? fml(o) : rich(o));
   let tries = 0, solved = false;
   const picked = new Set();
   function draw() {
-    el.innerHTML = ctxLine(meta) + `<div class="ex-task">${esc(item.frage)}</div><div class="mc">${opts.map((o, k) => `<button class="mc-o ${picked.has(k) ? (o === item.antwort ? 'ok' : 'no') : solved && o === item.antwort ? 'ok' : ''}" data-a="pick" data-d="${k}">${show(o)}</button>`).join('')}</div>
+    el.innerHTML = ctxLine(meta) + `<div class="ex-task">${rich(item.frage)}</div><div class="mc">${opts.map((o, k) => `<button class="mc-o ${picked.has(k) ? (o === item.antwort ? 'ok' : 'no') : solved && o === item.antwort ? 'ok' : ''}" data-a="pick" data-d="${k}">${show(o)}</button>`).join('')}</div>
       ${solved ? `<div class="btn-col"><button class="btn filled" data-a="fertig">${ctx.nextLabel || 'Weiter'}</button></div>` : `<div class="act"><button class="btn" data-a="flip">Lieber aufdecken</button></div>`}`;
   }
   on(el, {

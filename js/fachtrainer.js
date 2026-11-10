@@ -3,14 +3,14 @@
 // { id, titel, fach, text, farbe, themen: [{ datei, thema, kurz }] }
 // Modi: Zufall, nur ein Thema, Kann-Liste der Reihe nach, Lernblatt, Prüfung.
 import { parseBlocks } from './parser.js';
-import { calc, keyOf, fml, fmlWith, parseEq, checkSolved, varNames } from './formula.js';
+import { calc, keyOf, fml, fmlWith, parseEq, checkSolved, varNames, mathText } from './formula.js';
 import { checkNumber, showValue } from './check.js';
 import { esc, fmtNum, norm, shuffle } from './util.js';
 import { editorHTML, attachEditor } from './mathedit.js';
 
 const C = window.FACHTRAINER;
 const $ = (s, r = document) => r.querySelector(s);
-const rich = s => esc(s).replace(/(^|[^A-Za-z0-9])([A-Za-zΑ-Ωα-ωΔ])_([A-Za-z0-9]+)/g, '$1$2<sub>$3</sub>');
+const rich = s => mathText(s);
 const emit = x => { try { if (window.Lernwerk) window.Lernwerk.emit(x); } catch (e) { /* egal */ } };
 const roundStep = (v, s) => Number((Math.round(v / s) * s).toFixed(6));
 const parseEqSafe = s => { try { return parseEq(s); } catch (e) { return { l: null, r: null }; } };

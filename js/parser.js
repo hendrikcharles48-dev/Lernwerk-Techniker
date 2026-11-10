@@ -557,5 +557,6 @@ Inhalt: 6 Karten; 2 Aufgaben; 3 Begriffe
 Zu jeder Aufgabe gehören Ansatz, Signal, Warum und Kontrolle. Die falschen Ansätze sollen plausibel sein, am besten Verfahren aus verwandten Themen, die man leicht verwechselt. Alle Antworten einer Auswahl gleich lang und gleich aufgebaut, damit die richtige nicht auffällt.
 Stufen: Stufe 1 sind Grundlagen (Anker, Begriffe, Merksatz, einfache Karten), Stufe 2 Zusammenhänge (Prinzip, Formeln, Bausteine, Verwechslungen, Zuordnen), Stufe 3 Anwenden (Aufgaben, Fehler, Schnellweg, schwere Karten, Erklären, Skizze). Eine Stufe-Zeile gilt für alle Zeilen danach bis zur nächsten Stufe-Zeile.
 Die Zeile Inhalt zählt am Ende, was im Block steht, damit ich sehe, ob alles angekommen ist.
+Formeln schreibst du in einer Zeile mit Leerzeichen um die Rechenzeichen und mit Klammern, zum Beispiel R = U / I oder F_B = F · a / (l1 + l2). Die App zeigt daraus echte Brüche wie im Buch. Einheiten ohne Leerzeichen, zum Beispiel N/mm².
 Material:
 `;

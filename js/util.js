@@ -63,17 +63,18 @@ export function fmtNum(v, maxDec) {
 export function plural(n, eins, viele) { return n + ' ' + (n === 1 ? eins : viele); }
 
 /* ===== Mini-Markdown: sicher, weil zuerst escaped wird ===== */
-function inline(s) {
-  return esc(s)
+function inline(s, roh) {
+  return (roh || esc)(s)
     .replace(/`([^`]+)`/g, '<code>$1</code>')
     .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
     .replace(/__([^_]+)__/g, '<strong>$1</strong>')
     .replace(/(^|[\s(])\*([^*\s][^*]*)\*/g, '$1<em>$2</em>');
 }
-export function markdown(src) {
+// roh: Funktion, die eine Textzeile sicher in HTML wandelt (Vorgabe: esc). Die App übergibt mathText für Formeln im Text.
+export function markdown(src, roh) {
   const lines = String(src || '').replace(/\r/g, '').split('\n');
   let out = '', list = null, para = [];
-  const flushPara = () => { if (para.length) { out += '<p>' + para.map(inline).join('<br>') + '</p>'; para = []; } };
+  const flushPara = () => { if (para.length) { out += '<p>' + para.map(x => inline(x, roh)).join('<br>') + '</p>'; para = []; } };
   const closeList = () => { if (list) { out += '</' + list + '>'; list = null; } };
   for (let i = 0; i < lines.length; i++) {
     const raw = lines[i], l = raw.trim();
@@ -86,11 +87,11 @@ export function markdown(src) {
     }
     if (!l) { flushPara(); closeList(); continue; }
     let m;
-    if ((m = /^(#{1,4})\s+(.*)$/.exec(l))) { flushPara(); closeList(); const n = Math.min(4, m[1].length + 1); out += `<h${n}>${inline(m[2])}</h${n}>`; continue; }
+    if ((m = /^(#{1,4})\s+(.*)$/.exec(l))) { flushPara(); closeList(); const n = Math.min(4, m[1].length + 1); out += `<h${n}>${inline(m[2], roh)}</h${n}>`; continue; }
     if (/^(-{3,}|\*{3,})$/.test(l)) { flushPara(); closeList(); out += '<hr>'; continue; }
-    if ((m = /^[-*•+]\s+(.*)$/.exec(l))) { flushPara(); if (list !== 'ul') { closeList(); out += '<ul>'; list = 'ul'; } out += '<li>' + inline(m[1]) + '</li>'; continue; }
-    if ((m = /^\d+[.)]\s+(.*)$/.exec(l))) { flushPara(); if (list !== 'ol') { closeList(); out += '<ol>'; list = 'ol'; } out += '<li>' + inline(m[1]) + '</li>'; continue; }
-    if ((m = /^>\s?(.*)$/.exec(l))) { flushPara(); closeList(); out += '<blockquote>' + inline(m[1]) + '</blockquote>'; continue; }
+    if ((m = /^[-*•+]\s+(.*)$/.exec(l))) { flushPara(); if (list !== 'ul') { closeList(); out += '<ul>'; list = 'ul'; } out += '<li>' + inline(m[1], roh) + '</li>'; continue; }
+    if ((m = /^\d+[.)]\s+(.*)$/.exec(l))) { flushPara(); if (list !== 'ol') { closeList(); out += '<ol>'; list = 'ol'; } out += '<li>' + inline(m[1], roh) + '</li>'; continue; }
+    if ((m = /^>\s?(.*)$/.exec(l))) { flushPara(); closeList(); out += '<blockquote>' + inline(m[1], roh) + '</blockquote>'; continue; }
     if (/^\|.*\|$/.test(l)) {
       flushPara(); closeList();
       const rows = [];
@@ -98,7 +99,7 @@ export function markdown(src) {
       i--;
       const cells = r => r.slice(1, -1).split('|').map(c => c.trim());
       const body = rows.filter(r => !/^\|[\s:|-]+\|$/.test(r));
-      out += '<div class="tw"><table>' + body.map((r, k) => '<tr>' + cells(r).map(c => k === 0 && rows.length > 1 && /^\|[\s:|-]+\|$/.test(rows[1]) ? `<th>${inline(c)}</th>` : `<td>${inline(c)}</td>`).join('') + '</tr>').join('') + '</table></div>';
+      out += '<div class="tw"><table>' + body.map((r, k) => '<tr>' + cells(r).map(c => k === 0 && rows.length > 1 && /^\|[\s:|-]+\|$/.test(rows[1]) ? `<th>${inline(c, roh)}</th>` : `<td>${inline(c, roh)}</td>`).join('') + '</tr>').join('') + '</table></div>';
       continue;
     }
     closeList();
