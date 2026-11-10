@@ -7,6 +7,7 @@ import { calc, keyOf, fml, fmlWith, parseEq, checkSolved, varNames, mathText } f
 import { checkNumber, showValue } from './check.js';
 import { esc, fmtNum, norm, shuffle } from './util.js';
 import { editorHTML, attachEditor } from './mathedit.js';
+import { wegSchritte, wegMoeglich, wegPruefen } from './aufgabe.js';
 
 const C = window.FACHTRAINER;
 const $ = (s, r = document) => r.querySelector(s);
@@ -204,14 +205,43 @@ function runAufgabe(it, o) {
   const steps = A.steps.filter(s => s.typ !== 'plan' || A.steps.length === 1);
   let i = 0, tries = 0, first = 0, used = false, loggedStep = -1;
   const done = [];
-  area().innerHTML = head(it) + `<div class="given" id="task"><div class="tt">${rich(A.text)}</div>${A.gegeben.length ? `<div class="gg"><b>Gegeben:</b> ${A.gegeben.map(rich).join(', ')}</div>` : ''}${A.gesucht.length ? `<div class="gg"><b>Gesucht:</b> ${A.gesucht.map(rich).join(', ')}</div>` : ''}</div><div id="pre"></div><div id="stepbox"></div><div id="valsw" hidden><h3>Deine Werte</h3><div class="tw"><table id="vals"></table></div></div>`;
+  area().innerHTML = head(it) + `<div class="given" id="task"><div class="tt">${rich(A.text)}</div>${A.gegeben.length || A.gesucht.length ? `<details class="ggd"><summary>Gegeben und gesucht</summary>${A.gegeben.length ? `<div class="gg"><b>Gegeben:</b> ${A.gegeben.map(rich).join(', ')}</div>` : ''}${A.gesucht.length ? `<div class="gg"><b>Gesucht:</b> ${A.gesucht.map(rich).join(', ')}</div>` : ''}</details>` : ''}</div><div id="pre"></div><div id="stepbox"></div><div id="valsw" hidden><h3>Deine Werte</h3><div class="tw"><table id="vals"></table></div></div>`;
   const vals = () => {
     $('#valsw').hidden = !done.length;
     $('#vals').innerHTML = done.map(d => `<tr><td>${rich(d.was)}</td><td>${d.html}</td></tr>`).join('');
   };
   const ids = new Set(([A.ansatz ? A.ansatz.richtig : '', it.a.rechnung || '', ...it.a.schritte.map(x => (x.ergebnis && x.ergebnis.text) || '')].join(' ').match(/[A-Za-zΑ-Ωα-ωµûϑΔ][A-Za-z0-9_Α-Ωα-ωµûϑ]*/g) || []).map(keyOf));
   const passend = T.formeln.filter(f => f.aufbau).map(f => { let v; try { v = [...varNames(parseEq(f.formel)).keys()]; } catch (e) { return null; } return v.length ? { f, s: v.filter(x => ids.has(x)).length / v.length } : null; }).filter(x => x && x.s >= 0.6).sort((x, y) => y.s - x.s).slice(0, 2).map(x => x.f);
-  const goSteps = () => { if (passend.length) $('#pre').insertAdjacentHTML('beforeend', `<div class="fb info aufbau-box"><b>So ist die Formel aufgebaut.</b>${passend.map(f => `<div class="ab-z">${fml(f.formel)}<span>${rich(f.aufbau)}</span></div>`).join('')}</div>`); drawStep(); };
+  // Erst der Weg: ab drei Schritten zuerst die Reihenfolge wählen, wie in der App
+  const goSteps = () => (wegMoeglich(steps) ? weg() : rechnen());
+  function weg() {
+    const alle = wegSchritte(steps);
+    let pool = shuffle(alle), seq = [], check = null;
+    for (let n = 0; n < 8 && pool.every((x, k) => x === alle[k]); n++) pool = shuffle(alle);
+    const box = document.createElement('div');
+    box.className = 'step';
+    $('#pre').appendChild(box);
+    const draw = fb => {
+      box.innerHTML = `<div class="n">Erst der Weg</div><div class="q">In welcher Reihenfolge gehst du vor? Tippe die Schritte der Reihe nach an.</div>
+        <div class="wseq">${seq.map((x, k) => `<button type="button" class="${check ? (check[k] ? 'ok' : 'no') : ''}" data-w="z${k}"><b>${k + 1}</b> ${rich(x.was)}</button>`).join('') || '<p class="mut">Noch nichts gewählt.</p>'}</div>
+        <div class="wpool">${pool.map((x, k) => `<button type="button" data-w="p${k}">${rich(x.was)}</button>`).join('')}</div>
+        <div class="act">${!pool.length && !check ? '<button type="button" class="main" data-w="pruefen">Prüfen</button>' : ''}${check ? '<button type="button" class="main" data-w="neu">Nochmal ordnen</button>' : ''}<button type="button" data-w="weiter">${check ? 'Weiter zum Rechnen' : 'Überspringen'}</button></div>${fb || ''}`;
+    };
+    box.addEventListener('click', e => {
+      const b = e.target.closest('[data-w]'); if (!b) return;
+      const w = b.dataset.w;
+      if (/^p\d/.test(w)) { check = null; seq.push(pool.splice(+w.slice(1), 1)[0]); return draw(); }
+      if (/^z\d/.test(w)) { check = null; pool.push(seq.splice(+w.slice(1), 1)[0]); return draw(); }
+      if (w === 'neu') { pool = shuffle(seq.concat(pool)); seq = []; check = null; return draw(); }
+      if (w === 'weiter') { box.remove(); return rechnen(); }
+      check = wegPruefen(seq);
+      if (check.every(Boolean)) { box.innerHTML = `<div class="fb good"><b>Dein Weg stimmt.</b> Jetzt rechnest du ihn.</div>`; return rechnen(); }
+      used = true;
+      draw(`<div class="fb badf"><b>Hier biegst du ab.</b> Ein rot markierter Schritt braucht etwas, das bei dir erst später kommt.</div>`);
+    });
+    draw();
+  }
+  const rechnen = () => { if (passend.length) $('#pre').insertAdjacentHTML('beforeend', `<div class="fb info aufbau-box"><b>So ist die Formel aufgebaut.</b>${passend.map(f => `<div class="ab-z">${fml(f.formel)}<span>${rich(f.aufbau)}</span></div>`).join('')}</div>`); drawStep(); };
   // Erst den Ansatz wählen, wie im Statik-Trainer: Was brauchst du?
   if (ansatzOn && A.ansatz) {
     const box = mcBox({ frage: 'Welcher Ansatz passt?', richtig: A.ansatz.richtig, falsch: A.ansatz.falsch }, 'Erst erkennen', (firstTry, bx) => {
@@ -366,7 +396,7 @@ function startPruefung() {
     if (k >= tasks.length) return auswertung();
     const { it, A, f } = tasks[k];
     area().innerHTML = `<div class="prog">Aufgabe ${k + 1} von ${tasks.length}<div class="bar"><i style="width:${k / tasks.length * 100}%"></i></div></div>
-      <div class="given"><div class="tt">${rich(A.text)}</div>${A.gegeben.length ? `<div class="gg"><b>Gegeben:</b> ${A.gegeben.map(rich).join(', ')}</div>` : ''}${A.gesucht.length ? `<div class="gg"><b>Gesucht:</b> ${A.gesucht.map(rich).join(', ')}</div>` : ''}</div>
+      <div class="given"><div class="tt">${rich(A.text)}</div>${A.gegeben.length || A.gesucht.length ? `<details class="ggd"><summary>Gegeben und gesucht</summary>${A.gegeben.length ? `<div class="gg"><b>Gegeben:</b> ${A.gegeben.map(rich).join(', ')}</div>` : ''}${A.gesucht.length ? `<div class="gg"><b>Gesucht:</b> ${A.gesucht.map(rich).join(', ')}</div>` : ''}</details>` : ''}</div>
       <div class="step"><div class="n">Dein Endergebnis</div><div class="q">${rich(f.was)}</div>${numInput(f.einheit)}<div class="act"><button type="button" class="main" data-a="ab">Abgeben und weiter</button><button type="button" data-a="skip">Weiß ich nicht</button></div></div>`;
     const host = bindInput(area(), () => abgeben(false));
     const abgeben = skip => {

@@ -254,3 +254,8 @@ h2{margin-top:18px}
 /* Formeln im Fließtext */
 .fml.inl { font-size: 1.06em; vertical-align: middle; max-width: 100%; overflow-x: auto; overflow-y: hidden; padding: 1px 0; }
 .fml .wort { font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", system-ui, sans-serif; font-size: .86em; font-style: normal; }
+
+.given details.ggd{margin:8px 0 0;border:0}.given details.ggd summary{font-size:15px;padding:4px 0}
+.wseq,.wpool{display:flex;flex-direction:column;gap:6px;margin:8px 0}
+.wseq button,.wpool button{text-align:left;border:0;border-radius:10px;padding:10px 12px;font:inherit;font-size:16px;min-height:44px;background:var(--fill);color:inherit}
+.wseq button{background:var(--accent-soft)}.wseq button.ok{background:var(--okbg)}.wseq button.no{background:var(--badbg)}

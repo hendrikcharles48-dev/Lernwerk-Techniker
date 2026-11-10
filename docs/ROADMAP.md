@@ -16,27 +16,11 @@ Großer Optimierungsdurchgang im November 2026. Stand davor: Version 1.25.2, Zwe
 - [x] **Etappe 6, Version 1.30.0: Sicherheitsnetz.** Rückfall-Kopien (`js/rueckfall.js`), Warnung bei Schreibfehlern, Abgleich pausieren und Stand nach GitHub übernehmen, Test `tests/speicher.test.mjs`.
 - [x] **Etappe 7, Version 1.31.0: Korrekturen.** Fachrichtung Automatisierungstechnik, Werkstofftechnik bei Modul 8 (Lehrplan Version 6).
 - [x] **Etappe 8, Version 1.31.0: Komfort.** „Weiter, wo du warst“ auf der Startseite, Adresse mit `#einfuegen`.
+- [x] **Formel-Eingabe, Version 1.31.1:** Löschen entfernt je Druck genau ein Zeichen, unfertige Brüche bleiben nach dem Prüfen erhalten (`js/mathedit.js`).
+- [x] **Etappe 9, Version 1.32.0: Fach-Trainer mit „Erst der Weg“.** Gegeben und Gesucht eingeklappt, Reihenfolge der Schritte wählen. Gemeinsame Helfer in `js/aufgabe.js`. `instantiate` steht noch doppelt (App mit Hochzahlen, Trainer ohne), siehe Etappe 13.
 - [x] **Bauplan.** `CLAUDE.md`, diese Roadmap, `docs/BLOCKFORMAT.md`, Skill `lernwerk-etappe`, Browser-Prüfung `tools/pruefen/browser.mjs`.
 
 ## Offen
-
-### Etappe 9: Fach-Trainer auf den neuen Stand bringen (Lerngewinn)
-
-**Lage.** Die fünf Fach-Trainer (`trainer/festigkeit-trainer.html`, `maschinenelemente-`, `elektro-`, `steuerung-`, `leiterwiderstand-trainer.html`) laufen über `js/fachtrainer.js`. Dort steht die Aufgaben-Logik ein zweites Mal (`instantiate`, `runAufgabe`, `runMC`). Sie kennt die Neuerungen aus Etappe 2 nicht.
-
-**Bauen.**
-1. In `js/fachtrainer.js` bei Aufgaben Gegeben und Gesucht einklappen, wie `ggHTML` in `js/engine.js`.
-2. „Erst der Weg“ einbauen: gleiche Regeln wie in `runAufgabe` in `js/engine.js` (ab drei Schritten mit Text, Abhängigkeit über die enthaltene Rechnung, Überspringen erlaubt).
-3. Lösung zeilenweise zeigen (Formel, eingesetzte Werte, Ergebnis), Klassen `rweg`, `rw-z`, `rw-g`. Die Stile aus `css/app.css` nach `trainer/fachtrainer.css` übernehmen.
-4. Gemeinsame reine Funktionen in eine neue Datei `js/aufgabe.js` ziehen und von beiden Stellen nutzen: `instantiate` und die Abhängigkeitsprüfung der Schritte. `js/aufgabe.js` in `FILES` in `sw.js` eintragen. Keine Funktion in `fachtrainer.js` entfernen, die die Seite braucht (Kann-Liste, Lernblatt, Prüfung).
-
-**Daten.** Kein Risiko. Der Stand der Fach-Trainer liegt in localStorage unter `lernwerk:lw-ft:<id>` und bleibt unberührt.
-
-**Prüfkriterien.**
-- Alle fünf Trainer-Seiten laden ohne Fehler in der Konsole, in allen Modi (Zufall, Thema, Kann-Liste, Lernblatt, Prüfung).
-- Eine Aufgabe mit drei Schritten fragt zuerst nach der Reihenfolge. Eine falsche Reihenfolge wird rot markiert, „Überspringen“ geht.
-- Ergebnisse kommen weiter in der App an: nach einer gelösten Aufgabe und Rückkehr hat die Karte `t:<Themen-ID>` einen neuen Stand.
-- `instantiate` liefert in App und Trainer dieselben Werte für dieselbe Aufgabe (kleiner Test in `tests/parser.test.mjs`).
 
 ### Etappe 10: Abruffragen in den eingebauten Lernfächern (Lerngewinn)
 

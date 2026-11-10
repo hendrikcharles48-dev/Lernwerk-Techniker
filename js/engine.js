@@ -9,6 +9,7 @@ import { INTERVALS } from './srs.js';
 import { prefs } from './db.js';
 import * as sk from './skizzen.js';
 import { editorHTML, attachEditor } from './mathedit.js';
+import { wegSchritte, wegPruefen } from './aufgabe.js';
 
 /* ===== Frag Claude ===== */
 export async function askClaude(text) {
@@ -525,9 +526,8 @@ function runAufgabe(el, item, ctx, meta) {
   /* Erst der Weg: Bei Aufgaben mit drei oder mehr Schritten legst du zuerst die Reihenfolge fest,
    * wie beim Arbeitsplan an der Fräse. Die App zeigt nur, wo du abbiegst.
    * Schritte, die einander nicht brauchen (zum Beispiel F_x und F_y), dürfen in beliebiger Reihenfolge stehen. */
-  const planSchritte = A.steps.map((s, k) => ({ k, was: s.was, expr: s.rechnung ? s.rechnung.replace(/\s+/g, '') : '' })).filter(s => s.was);
+  const planSchritte = wegSchritte(A.steps);
   const planbar = !ctx.twinOf && !vor && planSchritte.length >= 3;
-  const abhaengig = (a, b) => !a.expr || !b.expr || b.expr.includes(a.expr);
   let planPool = [], planSeq = [], planCheck = null, planDone = false, planFirst = vor ? vor.plan : null, ggOpen = false;
   const nachAnsatz = () => {
     if (!planbar || planDone) return 'steps';
@@ -745,7 +745,7 @@ function runAufgabe(el, item, ctx, meta) {
     planZurueck: k => { planCheck = null; fb = null; planPool.push(planSeq.splice(+k, 1)[0]); draw(); },
     planPruefen: () => {
       // Ein Schritt steht falsch, wenn er vor einem Schritt steht, den er braucht
-      planCheck = planSeq.map((x, a) => planSeq.every((y, b) => !((x.k < y.k && a > b && abhaengig(x, y)) || (y.k < x.k && b > a && abhaengig(y, x)))));
+      planCheck = wegPruefen(planSeq);
       const ok = planCheck.every(Boolean);
       if (planFirst == null) planFirst = ok;
       if (ok) { planDone = true; planCheck = null; fb = null; phase = 'steps'; note = `<div class="fb good"><b>Dein Weg stimmt.</b> Jetzt rechnest du ihn.</div>`; }
