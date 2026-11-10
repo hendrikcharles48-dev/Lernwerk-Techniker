@@ -75,6 +75,19 @@ Schritt: Widerstand | 0.0178 * l / A | Ω
 Variable: l | 10 | 200 | 10
 Variable: A | 1 | 6 | 0,5
 Rechnung: 0.0178 * l / A
+Aufgabe: Ein Kupferdraht ist l = {l} m lang und hat den Querschnitt A = {A} mm². Wie groß ist sein Widerstand? Rechne wie im Unterricht mit der Leitfähigkeit κ = 56 m/(Ω·mm²).
+Gegeben: Länge l = {l} m
+Gegeben: A = {A} mm²
+Gegeben: κ = 56 m/(Ω·mm²)
+Gesucht: Widerstand R in Ω
+Ansatz: R = l / (κ · A) | R = κ · l / A; R = l · A / κ; R = κ · A / l
+Signal: Länge, Querschnitt und die Leitfähigkeit κ sind gegeben, nicht der spezifische Widerstand ρ.
+Warum: Weil κ der Kehrwert von ρ ist und deshalb unter dem Bruchstrich steht | Weil κ immer über dem Bruchstrich steht, genau wie ρ; Weil die Länge bei κ unter dem Bruchstrich stehen muss
+Kontrolle: Was passiert mit R, wenn der Querschnitt doppelt so groß ist? | Er halbiert sich | Er verdoppelt sich; Er bleibt gleich
+Schritt: Widerstand R = l / (κ · A) | l / (56 * A) | Ω
+Variable: l | 10 | 200 | 10
+Variable: A | 1 | 6 | 0,5
+Rechnung: l / (56 * A)
 Aufgabe: Eine Maschine hängt an einer Zuleitung aus Kupfer. Die Leitung ist {l} m lang, der Querschnitt A = {A} mm². Es fließt ein Strom von {I} A. Wie groß ist der Spannungsfall auf der Leitung? Nimm ρ = 0,0178 Ω·mm²/m.
 Gegeben: Länge l = {l} m, einfach
 Gegeben: A = {A} mm²

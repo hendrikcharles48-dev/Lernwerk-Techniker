@@ -795,7 +795,22 @@ function runUmstellen(el, item, ctx, meta) {
   const names = [...varNames(parseEq(U.formel)).values()];
   const pool = shuffle(['Beide Seiten durch ' + names[1] + ' teilen', 'Beide Seiten mal ' + names[0] + ' nehmen', 'Auf beiden Seiten ' + names[names.length - 1] + ' abziehen', 'Die Wurzel ziehen', 'Beide Seiten quadrieren']);
   const steps = ctx.exam ? [] : U.umformungen.map(f => ({ op: f.operation, gl: f.gleichung, opts: shuffle([f.operation, ...(f.falsch.length ? f.falsch : pool.filter(p => p !== f.operation).slice(0, 3))]) }));
-  let i = 0, phase = steps.length ? 'op' : 'final', tries = 0, used = false, shown = false, fb = null, tipOpen = false, solOpen = false, picked = null;
+  // Frei umstellen: Zeile für Zeile selbst schreiben, die App prüft jede Zeile. Die Wahl bleibt (kv umstellFrei).
+  let i = 0, phase = steps.length && !st.kvGet('umstellFrei', false) ? 'op' : 'final', tries = 0, used = false, shown = false, fb = null, tipOpen = false, solOpen = false, picked = null;
+  let letzte = U.formel;
+  const zaehl = (n, T) => (!n ? 0 : (n.t === 'var' && keyOf(n.n) === T ? 1 : 0) + zaehl(n.a, T) + zaehl(n.b, T));
+  const summe = n => { n = n && n.t === 'par' ? n.a : n; return !!n && (n.t === 'add' || n.t === 'sub'); };
+  // Hinweis zu einer falschen Zeile: nur sagen, wo es abbiegt, nicht vorrechnen
+  function freiHinweis(v, r, z) {
+    if (z.fehlerart === 'Schreibweise') return z;
+    const T = keyOf(U.nach), a = parseEqSafe(letzte), b = parseEqSafe(v);
+    const nVor = zaehl(a.l, T) + zaehl(a.r, T), nNach = zaehl(b.l, T) + zaehl(b.r, T);
+    if (nVor >= 2 && nNach === 1) return { msg: U.nach + ' stand in deiner letzten Zeile ' + nVor + ' mal. Teilen hilft erst, wenn ' + U.nach + ' nur noch einmal vorkommt. Erst alle Teile mit ' + U.nach + ' auf eine Seite sammeln, dann ausklammern, dann teilen.', fehlerart: 'Gesuchte Größe steht mehrfach' };
+    if (r.fehlerart && !['Nicht freigestellt', 'Umstellen', 'Schreibweise'].includes(r.fehlerart)) return r;
+    // Stand auf einer Seite eine Summe und steht sie dort immer noch ohne Klammer? Dann wurde oft nur ein Teil geteilt.
+    const klammer = ['l', 'r'].some(k => summe(a[k]) && summe(b[k]));
+    return { msg: (z.msg || r.msg) + (klammer ? ' Falls du geteilt oder malgenommen hast: Gemeint ist die ganze Seite, die Summe braucht dann eine Klammer.' : ''), fehlerart: z.fehlerart || r.fehlerart || 'Umstellen' };
+  }
   const done = [];
   const prompt = `Stell ${fml(U.formel)} nach ${nameHTML(U.nach)} um.`;
   function draw() {
@@ -811,11 +826,11 @@ function runUmstellen(el, item, ctx, meta) {
     h += '<div class="step-box">';
     if (phase === 'op') {
       const s = steps[i];
-      h += `<div class="step-n">Schritt ${i + 1} von ${steps.length}</div><div class="step-q">Was machst du als Nächstes?</div><div class="mc">${s.opts.map(o => `<button class="mc-o ${picked && picked.o === o ? (picked.ok ? 'ok' : 'no') : ''}" data-a="op" data-d="${esc(o)}">${esc(o)}</button>`).join('')}</div>`;
+      h += `<div class="step-n">Schritt ${i + 1} von ${steps.length}</div><div class="step-q">Was machst du als Nächstes?</div><div class="mc">${s.opts.map(o => `<button class="mc-o ${picked && picked.o === o ? (picked.ok ? 'ok' : 'no') : ''}" data-a="op" data-d="${esc(o)}">${esc(o)}</button>`).join('')}</div>${i === 0 && !done.length ? `<div class="act"><button class="btn small" data-a="frei">Lieber frei umstellen</button></div>` : ''}`;
     } else if (phase === 'eq') {
       h += `<div class="step-n">Schritt ${i + 1} von ${steps.length}</div><div class="step-q">${esc(steps[i].op)}. Schreib die neue Zeile auf.</div>` + fmlInput(names, 'Ganze Gleichung mit =') + `<div class="act"><button class="btn filled" data-a="check">Prüfen</button><button class="btn" data-a="tip">Tipp</button><button class="btn" data-a="sol">Lösung</button></div>`;
     } else {
-      h += `<div class="step-q">${ctx.exam ? 'Deine Umstellung' : 'Jetzt freistellen: ' + nameHTML(U.nach) + ' = …'}</div>` + fmlInput(names, U.nach + ' = …') + `<div class="act"><button class="btn filled" data-a="check">${ctx.exam ? 'Abgeben und weiter' : 'Prüfen'}</button>${ctx.exam ? '' : '<button class="btn" data-a="tip">Tipp</button><button class="btn" data-a="sol">Lösung</button>'}</div>`;
+      h += (ctx.exam ? `<div class="step-q">Deine Umstellung</div>` : `<div class="step-n">Frei umstellen</div><div class="step-q">Schreib deine nächste Zeile. Jede Zeile wird geprüft. Fertig bist du, wenn ${nameHTML(U.nach)} allein steht.</div>`) + fmlInput(names, ctx.exam ? U.nach + ' = …' : 'Ganze Gleichung mit =') + `<div class="act"><button class="btn filled" data-a="check">${ctx.exam ? 'Abgeben und weiter' : 'Prüfen'}</button>${ctx.exam ? '' : '<button class="btn" data-a="tip">Tipp</button><button class="btn" data-a="sol">Lösung</button>'}${!ctx.exam && steps.length && !done.length ? '<button class="btn" data-a="gefuehrt">Mit Schritten führen</button>' : ''}</div>`;
     }
     if (fb) h += fb;
     if (tipOpen) h += `<div class="fb info"><b>Tipp.</b> ${U.tipps.length ? U.tipps.map(esc).join(' ') : 'Schau, was an ' + esc(U.nach) + ' dranhängt. Was am weitesten außen steht, kommt zuerst weg. Jede Rechenart wird durch ihr Gegenstück aufgehoben.'}</div>`;
@@ -854,13 +869,18 @@ function runUmstellen(el, item, ctx, meta) {
     if (phase === 'eq') {
       const r = checkStep(U.formel, U.nach, U.loesung, v);
       if (!r.ok) return fail(r, v);
-      done.push({ op: steps[i].op, html: fml(v) });
+      done.push({ op: steps[i].op, html: fml(v) }); letzte = v;
       // Steht die gesuchte Größe schon allein? Dann ist die Umstellung fertig.
       if (i === steps.length - 1 && checkSolved(U.formel, U.nach, U.loesung, v).ok) { i++; phase = 'final'; return next(); }
       return next();
     }
     const r = checkSolved(U.formel, U.nach, U.loesung, v);
-    if (!r.ok) return fail(r, v);
+    if (!r.ok) {
+      // Noch nicht freigestellt, aber eine richtige Zeile: Sie zählt als dein nächster Schritt
+      const z = checkStep(U.formel, U.nach, U.loesung, v);
+      if (z.ok) { done.push({ op: 'Deine Zeile', html: fml(v) }); letzte = v; tries = 0; fb = null; tipOpen = false; solOpen = false; return draw(); }
+      return fail(freiHinweis(v, r, z), v);
+    }
     done.push({ op: 'Freigestellt', html: fml(v) });
     next();
   }
@@ -870,6 +890,8 @@ function runUmstellen(el, item, ctx, meta) {
       if (o === s.op) { if (tries === 0 && !picked) { /* erster Versuch */ } picked = { o, ok: true }; draw(); setTimeout(next, 350); }
       else { tries++; used = true; picked = { o, ok: false }; fb = `<div class="fb bad"><b>Das bringt dich nicht weiter.</b> Schau, was an ${esc(U.nach)} dranhängt und was davon am weitesten außen steht.</div>`; if (tries === 1) logError(meta, item, { aufgabe: 'Stell ' + U.formel + ' nach ' + U.nach + ' um. Welche Umformung?', eingabe: o, richtig: s.op, fehlerart: 'Falsche Umformung gewählt' }); draw(); }
     },
+    frei: async () => { await st.kvSet('umstellFrei', true); phase = 'final'; picked = null; fb = null; tries = 0; draw(); },
+    gefuehrt: async () => { await st.kvSet('umstellFrei', false); phase = 'op'; i = 0; fb = null; tries = 0; draw(); },
     check, tip: () => { tipOpen = !tipOpen; used = true; draw(); }, sol: () => { solOpen = !solOpen; draw(); },
     take: () => { shown = true; if (phase === 'eq') { done.push({ op: steps[i].op, html: fml(steps[i].gl) + ' <span class="muted">(angesehen)</span>' }); } else done.push({ op: 'Freigestellt', html: fml(U.loesung) + ' <span class="muted">(angesehen)</span>' }); next(); },
     claude: d => askClaude(d),

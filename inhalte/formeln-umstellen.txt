@@ -236,4 +236,24 @@ Schritt: Masse ausrechnen | FG / 9.81 | kg
 Variable: FG | 50 | 600 | 10
 Rechnung: FG / 9.81
 Quelle: Allgemein gültige Grundformeln aus Mathematik, Elektrotechnik und Mechanik, wie sie auch im Tabellenbuch stehen.
+Stufe: 3
+Umstellen: a · x + b = c · x + d | x | x = (d − b) / (a − c)
+Tipp: x steht auf beiden Seiten. Erst alle Teile mit x auf eine Seite sammeln, dann x ausklammern, dann durch die Klammer teilen.
+Umstellen: R_ges = R1 · R2 / (R1 + R2) | R1 | R1 = R_ges · R2 / (R2 − R_ges)
+Tipp: R1 steht zweimal da. Erst den Bruch auflösen, dann sammeln, ausklammern, teilen.
+Umstellen: U2 = U · R2 / (R1 + R2) | R2 | R2 = U2 · R1 / (U − U2)
+Tipp: R2 steht über und unter dem Bruchstrich. Erst mit dem Nenner malnehmen, dann sammeln, ausklammern, teilen.
+Umstellen: U2 = U · R2 / (R1 + R2) | R1 | R1 = R2 · (U − U2) / U2
+Umstellen: 1 / R_ges = 1 / R1 + 1 / R2 | R2 | R2 = 1 / (1 / R_ges − 1 / R1)
+Tipp: Erst 1 / R2 allein auf eine Seite bringen, dann auf beiden Seiten den Kehrwert bilden.
+Umstellen: F_A · l = F · (l − a) | l | l = F · a / (F − F_A)
+Tipp: Erst die Klammer auflösen. Danach steht l auf beiden Seiten: sammeln, ausklammern, teilen.
+Umstellen: F_A · l = F · (l − a) | a | a = l · (F − F_A) / F
+Umstellen: F · cos(α) = μ · (F_G − F · sin(α)) | F | F = μ · F_G / (cos(α) + μ · sin(α))
+Tipp: Erst die Klammer auflösen, dann alle Teile mit F auf eine Seite sammeln und F ausklammern.
+Umstellen: η = P_ab / (P_ab + P_v) | P_ab | P_ab = η · P_v / (1 − η)
+Umstellen: (a + x) / (b − x) = c | x | x = (b · c − a) / (1 + c)
+Umstellen: A = (a + c) / 2 · h | c | c = 2 · A / h − a
+Umstellen: U = U_q − R_i · I | R_i | R_i = (U_q − U) / I
+Umstellen: R = l / (κ · A) | A | A = l / (κ · R)
 === ENDE ===

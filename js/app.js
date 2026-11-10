@@ -13,7 +13,7 @@ import * as sicherung from './sicherung.js';
 import { laden as skizzenLaden } from './skizzen.js';
 import { canSpeak, readAloud } from './speech.js';
 
-export const VERSION = '1.27.0';
+export const VERSION = '1.28.0';
 
 /* ===== Heute ===== */
 // Kurze, wechselnde Sätze für den Start. Ohne Druck.
@@ -196,11 +196,24 @@ function trainerSeite() {
       const today = dayStr();
       const tr = trainerOrdnerListe(today);
       let h = `<div class="tr-grid"><button class="tr-tile tr-all" data-a="trmix"><span class="tr-ic">${icon('mix')}</span><b>Alle Trainer gemischt</b><small>Aufgaben aus allen Trainern durcheinander, ohne Themenhinweis</small></button>`;
+      h += `<button class="tr-tile" data-a="umst" style="--fc:#FF9F0A"><span class="tr-ic">${icon('formula')}</span><b>Umstellen, schwer</b><small>Zeile für Zeile selbst, die gesuchte Größe steht mehrfach oder im Nenner</small></button>`;
       h += tr.map(({ f, n, due }) => `<button class="tr-tile" data-a="ordner" data-d="${esc(f.id)}" style="--fc:${f.farbe}"><span class="tr-ic">${icon(fachIcon(f))}</span><b>${esc(f.kurz && f.kurz.length > 3 ? f.kurz : f.name)}</b><small>${plural(n, 'Trainer', 'Trainer')}${due ? ' · ' + due + ' fällig' : ''}</small></button>`).join('') + '</div>';
       b.innerHTML = h;
-      on(b, { trmix: () => trainerGemischt(), ordner: fid => push(trainerOrdner(fid)) });
+      on(b, { trmix: () => trainerGemischt(), umst: () => umstellenSchwer(), ordner: fid => push(trainerOrdner(fid)) });
     }
   };
+}
+// Formeln umstellen auf schwerem Niveau: die schweren Aufgaben aus „Gleichungen und Formeln umstellen“,
+// dazu Umstellungen aus Formeln der Themen, die schon dran waren. Unabhängig von den freigeschalteten Stufen.
+function umstellenSchwer() {
+  const tid = 'ma-umstellen';
+  const alle = st.thema(tid) ? st.topicItems(tid).filter(i => i.art === 'umstellen') : [];
+  const schwer = nachAlter(alle.filter(i => i.stufe === 3));
+  const rest = nachAlter(gelernteTids().filter(t => t !== tid).flatMap(t => st.topicItems(t).filter(i => i.art === 'umstellen')));
+  let items = [...schwer.slice(0, 4), ...rest.slice(0, 2)];
+  if (items.length < 6) items = items.concat(schwer.slice(4), nachAlter(alle.filter(i => i.stufe !== 3))).slice(0, 6);
+  if (!items.length) { toast('Für das Umstellen gibt es noch keine Aufgaben.'); return; }
+  runSession(shuffle(items), 'Umstellen, schwer', { onClose: () => refreshTop() });
 }
 const kurzListe = n => n.length > 3 ? n.slice(0, 3).join(', ') + ' und ' + (n.length - 3) + ' weitere' : n.join(', ');
 // Ordner eines Fachs: alle Trainer dieses Fachs, fällige zuerst
