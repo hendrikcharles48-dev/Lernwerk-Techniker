@@ -114,5 +114,13 @@ const karte = (id, stufe, zeit, extra = {}) => Object.assign({ id, stufe, richti
   ok(d2.content[0].topic.karten[0].frage === 'Richtig?' && d2.content[0].topic.karten.length === 1, 'auch in der anderen Richtung');
 }
 
+
+// Probeklausuren beider Geräte werden vereinigt
+{
+  const L = { kv: { proben: [{ id: 'p1', zeit: 1, proz: 50 }], kvZeit: { proben: 5 } } };
+  const F = { kv: { proben: [{ id: 'p2', zeit: 2, proz: 80 }], kvZeit: { proben: 9 } } };
+  const m = zusammenfuehren(L, F);
+  ok(m.daten.kv.proben.length === 2 && m.daten.kv.proben[1].id === 'p2', 'Probeklausuren vereinigt', m.daten.kv.proben);
+}
 console.log(`\n${pass} bestanden, ${fail} fehlgeschlagen`);
 process.exit(fail ? 1 : 0);

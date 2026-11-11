@@ -10,7 +10,7 @@ import { mergeTopic } from './parser.js';
 
 // Bleiben auf jedem Gerät für sich
 export const NUR_GERAET = new Set(['zuletzt', 'letzteSicherung', 'ersterStart', 'unterrichtVorgabe', 'freigabeStart']);
-const SONDER = new Set(['kvZeit', 'geloescht', 'lehrplan', 'aktuell', 'abgeschlossen', 'aktuellSeit', 'zustandZeit', 'freigabe']);
+const SONDER = new Set(['kvZeit', 'geloescht', 'lehrplan', 'aktuell', 'abgeschlossen', 'aktuellSeit', 'zustandZeit', 'freigabe', 'proben']);
 export const SPEICHER = ['content', 'notes', 'cards', 'errors', 'events', 'exams'];
 const MAX_EVENTS = 5000;
 
@@ -111,6 +111,11 @@ export function zusammenfuehren(L, F) {
   // Freigeschaltete Stufen: der neuere Stand, Themen nur auf der anderen Seite kommen dazu
   const frNeu = (zF.freigabe || 0) > (zL.freigabe || 0);
   kv.freigabe = Object.assign({}, frNeu ? kvL.freigabe : kvF.freigabe, frNeu ? kvF.freigabe : kvL.freigabe);
+
+  // Probeklausuren: beide Listen über die Kennung vereinigen, die neuesten 40 bleiben
+  const pm = new Map();
+  for (const x of [...(kvL.proben || []), ...(kvF.proben || [])]) if (x && x.id) pm.set(x.id, x);
+  if (pm.size) kv.proben = [...pm.values()].sort((a, b) => (a.zeit || 0) - (b.zeit || 0)).slice(-40).map(clone);
 
   kv.lehrplan = planZusammen(kvL.lehrplan, kvF.lehrplan, zL.lehrplan || 0, zF.lehrplan || 0, gel);
   kv.geloescht = gel;

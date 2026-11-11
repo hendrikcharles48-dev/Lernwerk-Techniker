@@ -161,8 +161,6 @@ export async function abgleichen() {
   })();
   try { return await laeuft; } finally { laeuft = null; letzter = Date.now(); }
 }
-// Älterer Name, gleiche Wirkung
-export const hochladen = abgleichen;
 
 // Nach einer Lerneinheit oder nach dem Einfügen. Kurz warten, damit alles gespeichert ist.
 let tmr = null, letzter = 0;

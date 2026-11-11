@@ -19,7 +19,8 @@ Großer Optimierungsdurchgang im November 2026. Stand davor: Version 1.25.2, Zwe
 - [x] **Formel-Eingabe, Version 1.31.1:** Löschen entfernt je Druck genau ein Zeichen, unfertige Brüche bleiben nach dem Prüfen erhalten (`js/mathedit.js`).
 - [x] **Etappe 9, Version 1.32.0: Fach-Trainer mit „Erst der Weg“.** Gegeben und Gesucht eingeklappt, Reihenfolge der Schritte wählen. Gemeinsame Helfer in `js/aufgabe.js`. `instantiate` steht noch doppelt (App mit Hochzahlen, Trainer ohne), siehe Etappe 13.
 - [x] **Etappe 10 (erster Teil), Version 1.33.0: Zuordnen aus Fachbegriffen.** Themen ohne eigene Zuordnen-Zeile bekommen von selbst Zuordnen-Übungen aus ihren Begriffen (`itemsOf` in `js/store.js`, Stufe 2). Offen bleibt der Rest von Etappe 10: Erklären-, Verwechslung- und Skizze-Zeilen in den Inhaltsdateien.
-- [x] **Etappe 11 (Kern), Version 1.34.0: Probeklausur wirkt auf den Lernplan.** Themen unter 60 Prozent kommen zum Nachholen, das Ergebnis je Thema wird mitgespeichert (`themen`). Offen aus Etappe 11: Knopf „Schwächen jetzt üben“ und `proben` beim Abgleich vereinigen.
+- [x] **Etappe 11 (Kern), Version 1.34.0: Probeklausur wirkt auf den Lernplan.** Themen unter 60 Prozent kommen zum Nachholen, das Ergebnis je Thema wird mitgespeichert (`themen`). Version 1.35.0: Knopf „Schwächen jetzt üben“ in der Auswertung, `proben` werden beim Abgleich vereinigt.
+- [x] **Etappe 14 (Code), Version 1.35.0:** doppelte Mischfunktion in `js/store.js` entfernt, alter Alias `hochladen` entfernt. Die README ist seit dem Bauplan aktuell.
 - [x] **Bauplan.** `CLAUDE.md`, diese Roadmap, `docs/BLOCKFORMAT.md`, Skill `lernwerk-etappe`, Browser-Prüfung `tools/pruefen/browser.mjs`.
 
 ## Offen
@@ -42,23 +43,6 @@ Nichts Neues erfinden. Keine neuen Fakten, nur Umformungen des Vorhandenen. Vor 
 - Jedes ergänzte Thema hat in `st.topicItems(tid)` mindestens eine Übung der Art `erklaeren`.
 - Stichprobe von zehn neuen Zeilen: Jeder Kernpunkt lässt sich im selben Thema wörtlich oder sinngleich wiederfinden.
 - In der App läuft eine Runde aus einem ergänzten Thema durch (Stufe 3 freischalten oder Fragen „Alles gemischt“).
-
-### Etappe 11: Probeklausur wirkt auf den Lernplan (Lerngewinn)
-
-**Lage.** Das Ergebnis einer Probeklausur wird gespeichert (`kv proben`), ändert aber nichts.
-
-**Bauen.**
-1. In `runExam` in `js/extra.js` beim Schließen je Thema die Quote der Rechenaufgaben und der abgehakten Kernpunkte bilden. Themen unter 60 Prozent mit `st.planNachholenSetzen(ex, …)` zum Nachholen eintragen, wenn die Probeklausur zu einer Arbeit gehört (`exId`). Vorhandene Einträge behalten.
-2. Im Ergebnis-Eintrag `themen: { [tid]: quote }` mitspeichern (neues Feld, darf fehlen).
-3. In der Auswertung einen Knopf „Schwächen jetzt üben“ zeigen, der `planTagLernen(ex, 'schwach')` startet. Dafür `planTagLernen` aus `js/app.js` exportieren.
-4. `proben` beim Abgleich zusammenführen statt „der neuere Stand gewinnt“: in `js/abgleich.js` den Schlüssel in `SONDER` aufnehmen und die Listen beider Seiten über `id` vereinigen, nach `zeit` sortieren, die neuesten 40 behalten. Test in `tests/abgleich.test.mjs`.
-
-**Daten.** Geringes Risiko. Nur neue Felder. Alte Einträge ohne `themen` müssen weiter angezeigt werden.
-
-**Prüfkriterien.**
-- Probeklausur mit einem schwachen Thema: Danach steht das Thema in der Karte der Arbeit unter „nochmal“.
-- Zwei Geräte-Stände mit je einer anderen Probeklausur ergeben nach `zusammenfuehren` beide Einträge.
-- Ein alter Eintrag ohne `themen` wird in der Liste „Letzte Probeklausuren“ gezeigt.
 
 ### Etappe 12: Sicherung schlank halten (Stabilität)
 
@@ -94,12 +78,6 @@ Nichts Neues erfinden. Keine neuen Fakten, nur Umformungen des Vorhandenen. Vor 
 - Alle Tests und `node tools/pruefen/browser.mjs` laufen durch.
 - Jede Übungsart einmal im Browser durchgespielt: Karte, Begriff, Aufgabe (mit Weg und Beispiel), Umstellen (geführt und frei), Auswahl, Reihenfolge, Verwechslung, Zuordnen, Erklären, Skizze, Fehlerkarte, Probeklausur.
 - Der Inhalte-Test findet alle Dateien aus `FILES`.
-
-### Etappe 14: Tote Reste und README (Komfort)
-
-**Bauen.** `README.md` auf den Stand der App bringen (Tabelle „Themen und Status“ aus `lehrplan.json` und `inhalte/index.json` neu erzeugen). In `js/store.js` die doppelte Mischfunktion `shuffleArr` durch `shuffle` aus `util.js` ersetzen. Den Alias `hochladen` in `js/sicherung.js` entfernen, wenn ihn nichts mehr nutzt (vorher suchen).
-
-**Prüfkriterien.** Alle Tests laufen. `grep` findet keine Nutzung der entfernten Namen.
 
 ### Wartet auf den Besitzer
 

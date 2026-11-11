@@ -2,7 +2,7 @@
 import * as db from './db.js';
 import { parseBlocks, mergeTopic, emptyTopic, exportBlock, hasContent } from './parser.js';
 import { parseEq, keyOf } from './formula.js';
-import { norm, slug, uid, dayStr, addDays, daysBetween, hash, toDay } from './util.js';
+import { norm, slug, uid, dayStr, addDays, daysBetween, hash, toDay, shuffle } from './util.js';
 import { nextState, isDue, SEKUNDEN, verteilen, serie } from './srs.js';
 
 export const S = {
@@ -541,7 +541,6 @@ export function nextExam(today = dayStr()) {
 }
 export function allTids() { return S.plan.faecher.flatMap(f => f.themen.map(t => t.id)); }
 
-const shuffleArr = a => { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
 export function buildQueue(maxSec = 900, opt = {}) {
   const today = dayStr();
   const ex = opt.exam !== undefined ? opt.exam : nextExam(today);
@@ -560,7 +559,7 @@ export function buildQueue(maxSec = 900, opt = {}) {
   const due = pool.filter(it => isDue(S.cards.get(it.id), today, exT.has(it.tid) ? dEx : null))
     .sort((a, b) => prio(a) - prio(b) || (S.cards.get(a.id).faellig < S.cards.get(b.id).faellig ? -1 : 1));
   // Neue Fragen: nach Wichtigkeit, innerhalb gleicher Wichtigkeit erst die leichteren Stufen, sonst gemischt
-  const neu = shuffleArr(pool.filter(it => !S.cards.get(it.id) && it.art !== 'fehler' && (exT.has(it.tid) || akt.has(it.tid) || nach.has(it.tid) || opt.tids)))
+  const neu = shuffle(pool.filter(it => !S.cards.get(it.id) && it.art !== 'fehler' && (exT.has(it.tid) || akt.has(it.tid) || nach.has(it.tid) || opt.tids)))
     .sort((a, b) => prio(a) - prio(b) || (a.stufe || 1) - (b.stufe || 1));
   const out = [];
   let sec = 0;

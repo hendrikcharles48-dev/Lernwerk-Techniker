@@ -419,6 +419,7 @@ function runExam(items, minuten, exId = '') {
       for (const r of wrong) { const k = r.inf.fehlerart || (r.inf.eingabe ? 'Rechenweg' : 'Nicht bearbeitet'); arten.set(k, (arten.get(k) || 0) + 1); }
       if (arten.size) h += `<div class="sec-h">Nach Fehlerart</div>` + list([...arten].sort((a, c) => c[1] - a[1]).map(([k, n]) => row({ title: k, detail: String(n) })));
       if (wrong.length) h += `<div class="sec-h">Das schaust du dir nochmal an</div>` + list(wrong.map(r => row({ titleHTML: rich(r.inf.aufgabe || itemTitle(r.it)), sub: r.inf.offen ? 'Nicht mehr geschafft' : 'Deine Eingabe: ' + (r.inf.eingabe || '–') + (r.inf.richtig ? ' · richtig: ' + r.inf.richtig : '') })));
+      if (exId && Object.values((ergebnis && ergebnis.themen) || {}).some(q => q < 60)) h += `<div class="btn-col"><button class="btn filled" data-a="schwach">${icon('bolt')} Schwächen jetzt üben</button></div>`;
       h += `<div class="btn-col">${kern.some(r => r.inf.antwort) ? `<button class="btn" data-a="claudeAlle">${icon('claude')} Alle Antworten an Claude zur Korrektur</button>` : ''}<button class="btn filled" data-a="close">Fertig</button></div>`;
       box.innerHTML = h;
       $$('[data-j]', box).forEach(c => c.onchange = () => { const s = haken[+c.dataset.k]; c.checked ? s.add(+c.dataset.j) : s.delete(+c.dataset.j); const sc = $('.sheet-body', sheet.el).scrollTop; draw(); $('.sheet-body', sheet.el).scrollTop = sc; });
@@ -426,6 +427,7 @@ function runExam(items, minuten, exId = '') {
     const frage = r => { const th = st.thema(r.it.tid); return `Aufgabe${th ? ' (' + th.fach.name + ', ' + th.thema.name + ')' : ''}: ${r.it.frage}\nMeine Antwort: ${r.inf.antwort}\nMusterlösung laut Lernwerk, Kernpunkte: ${r.it.kern.join('; ')}`; };
     on(box, {
       close: () => sheet.close(),
+      schwach: async () => { sheet.close(); const ex = st.S.exams.find(e => e.id === exId); const app = await import('./app.js'); setTimeout(() => app.planTagLernen(ex, 'schwach'), 400); },
       claude: k => askClaude('Korrigier bitte meine Antwort aus einer Probeklausur wie ein Lehrer an der Fachschule Technik. Sag, welche Kernpunkte fehlen oder falsch sind, wie viele Punkte du geben würdest und wie eine gute Antwort klingt.\n\n' + frage(kern[+k])),
       claudeAlle: () => askClaude('Korrigier bitte meine Antworten aus einer Probeklausur wie ein Lehrer an der Fachschule Technik. Sag je Aufgabe, welche Kernpunkte fehlen oder falsch sind und wie viele Punkte du geben würdest.\n\n' + kern.filter(r => r.inf.antwort).map((r, k) => (k + 1) + '. ' + frage(r)).join('\n\n'))
     });

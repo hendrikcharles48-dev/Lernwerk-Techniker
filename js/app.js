@@ -15,7 +15,7 @@ import { canSpeak, readAloud } from './speech.js';
 import * as rueckfall from './rueckfall.js';
 import { beiSchreibfehler } from './db.js';
 
-export const VERSION = '1.34.0';
+export const VERSION = '1.35.0';
 
 /* ===== Heute ===== */
 // Kurze, wechselnde Sätze für den Start. Ohne Druck.
@@ -366,7 +366,7 @@ async function planAuswerten(ex, res) {
 }
 
 // art: 'plan' lernt den nächsten offenen Plantag (auch vorgezogen), 'schwach' übt die Schwächen
-function planTagLernen(ex, art) {
+export function planTagLernen(ex, art) {
   if (!ex) return;
   const today = dayStr();
   const tag = planHeute(ex, today);
