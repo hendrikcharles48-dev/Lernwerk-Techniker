@@ -393,6 +393,8 @@ export function exportTopic(tid) {
 }
 
 /* ===== Übungs-Elemente und Karten ===== */
+// Fächer, in denen vor allem gelernt und erklärt wird, nicht gerechnet
+const LERNFAECHER = new Set(['ws', 'st', 'auto', 'pm', 'cad', 'm5', 'm6', 'm7', 'm8', 'de', 'en', 'po', 'tol']);
 function itemsOf(t, tid) {
   const items = [];
   const st = o => (o && o.stufe) || 0;
@@ -423,6 +425,10 @@ function itemsOf(t, tid) {
       items.push({ id: 'z:' + tid + ':' + hash('auto' + paare.map(x => norm(x.begriff)).join('|')), art: 'zuordnen', tid, z: { titel: 'Fachbegriffe ' + (g / 5 + 1), paare }, s: 2, auto: true });
     }
   }
+  // Lernfächer: Themen ohne eigene Erklären-Zeile bekommen eine Erklär-Aufgabe. Die Kernpunkte sind die Merksätze des Themas.
+  const fid = (tid.match(/^[a-z0-9]+/) || [''])[0];
+  if (LERNFAECHER.has(fid) && !(t.erklaeren || []).length && t.merksaetze.length >= 3)
+    items.push({ id: 'e:' + tid + ':' + hash('auto' + norm(t.thema)), art: 'erklaeren', tid, frage: 'Erkläre ' + (t.thema || 'das Thema') + ' in eigenen Worten, wie im Fachgespräch.', kern: t.merksaetze.slice(0, 4), s: 2, auto: true });
   // Freies Abrufen: erklären oder skizzieren, danach Kernpunkte abhaken. Gleiche Kennung wie in der Probeklausur.
   (t.erklaeren || []).forEach(e => e.kern && e.kern.length && items.push({ id: 'e:' + tid + ':' + hash(norm(e.aufgabe)), art: 'erklaeren', tid, frage: e.aufgabe, kern: e.kern, s: st(e) }));
   (t.skizzen || []).forEach(e => e.kern && e.kern.length && items.push({ id: 's:' + tid + ':' + hash(norm(e.aufgabe)), art: 'skizze', tid, frage: e.aufgabe, kern: e.kern, s: st(e) }));

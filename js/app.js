@@ -15,7 +15,7 @@ import { canSpeak, readAloud } from './speech.js';
 import * as rueckfall from './rueckfall.js';
 import { beiSchreibfehler } from './db.js';
 
-export const VERSION = '1.35.0';
+export const VERSION = '1.36.0';
 
 /* ===== Heute ===== */
 // Kurze, wechselnde Sätze für den Start. Ohne Druck.
