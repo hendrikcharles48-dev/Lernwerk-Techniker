@@ -103,5 +103,35 @@ ok(m.daten.cards.some(c => c.id === 't:' + altTid) && m.daten.cards.some(c => c.
 ok(m.daten.kv.aktuell.includes(altTid) && m.daten.kv.aktuell.includes(tid), 'Abgleich: Status beider Seiten');
 ok(m.daten.kv.kartenArt === undefined || m.daten.kv.kartenArt === 'aufdecken', 'Abgleich: neue Einstellungen stören alte Stände nicht');
 
+
+// Ereignisse verdichten: alte Ereignisse werden zu Tageswerten, Stärke, Serie und Karten bleiben gleich
+{
+  const db = await import('../js/db.js');
+  const { verdichten } = await import('../js/abgleich.js');
+  const tids = ['et-ohmsches-gesetz', 'tm-momente', 'ma-terme'];
+  const tag = 86400000, jetzt = Date.now();
+  const ev = [];
+  for (let d = 120; d >= 0; d--) for (let k = 0; k < 25; k++) {
+    const tid = tids[k % 3], art = ['karte', 'aufgabe', 'ansatz', 'trainer-schritt'][k % 4];
+    ev.push({ id: 'v' + d + '-' + k, zeit: jetzt - d * tag - k * 60000, tid, art, ok: (d + k) % 3 !== 0, ergebnis: art === 'aufgabe' ? ((d + k) % 3 ? 'richtig' : 'falsch') : undefined });
+  }
+  ev.sort((a, b) => a.zeit - b.zeit);
+  st.S.events = ev.slice(); await db.ersetzen('events', ev);
+  const vorher = { st: tids.map(t => JSON.stringify(st.staerke(t))), auf: tids.map(t => st.aufgabenStufe(t)), serie: st.lernSerie(), karten: st.S.cards.size };
+  const weg = await st.ereignisseVerdichten(jetzt);
+  ok(weg > 1000 && st.S.events.length < ev.length, 'alte Ereignisse verdichtet', [weg, st.S.events.length]);
+  ok(tids.every((t, i) => JSON.stringify(st.staerke(t)) === vorher.st[i]), 'Stärke je Thema unverändert');
+  ok(tids.every((t, i) => st.aufgabenStufe(t) === vorher.auf[i]), 'Hilfestufe unverändert');
+  ok(st.lernSerie() === vorher.serie && st.S.cards.size === vorher.karten, 'Serie und Karten unverändert', [st.lernSerie(), vorher.serie]);
+  ok(Object.keys(st.kvGet('tage', {})).length >= 55 && st.kvGet('ereignisseAb', 0) > 0, 'Tageswerte und Stichtag gespeichert');
+  ok((await st.ereignisseVerdichten(jetzt)) === 0, 'zweites Verdichten ändert nichts');
+  // Abgleich: anderes Gerät ohne Verdichten bringt die alten Ereignisse nicht zurück
+  const hier = JSON.parse(JSON.stringify(await st.exportBackup(false)));
+  const anderes = JSON.parse(JSON.stringify(hier)); anderes.events = ev.slice(); delete anderes.kv.ereignisseAb; delete anderes.kv.tage;
+  const m = zusammenfuehren(hier, anderes);
+  ok(m.daten.events.length === hier.events.length, 'Abgleich: alte Ereignisse kommen nicht zurück', [m.daten.events.length, hier.events.length]);
+  ok(m.daten.kv.ereignisseAb === hier.kv.ereignisseAb && Object.keys(m.daten.kv.tage).length === Object.keys(hier.kv.tage).length, 'Abgleich: Stichtag und Tageswerte bleiben');
+  ok(verdichten(ev, 0).behalten.length === ev.length, 'ohne Stichtag bleibt alles');
+}
 console.log('\n' + pass + ' bestanden, ' + fail + ' fehlgeschlagen');
 process.exit(fail ? 1 : 0);

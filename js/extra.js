@@ -856,7 +856,7 @@ function ghBereich() {
       <button class="btn filled wide" data-a="ghcon">${icon('cloud')} Verbinden</button></div>`;
   }
   const z = gh.zuletzt(), f = gh.fehler();
-  return `<div class="sec-h">Abgleich über GitHub</div><div class="card"><p>${icon('cloud')} <b>Zuletzt abgeglichen:</b> ${z ? esc(zeitKurz(z)) : 'noch nicht'}</p><p class="muted small">In ${esc(gh.konfig().repo)}. Andere Geräte mit demselben Schlüssel bekommen denselben Stand. Ohne Netz holt Lernwerk den Abgleich später nach.</p>
+  return `<div class="sec-h">Abgleich über GitHub</div><div class="card"><p>${icon('cloud')} <b>Zuletzt abgeglichen:</b> ${z ? esc(zeitKurz(z)) : 'noch nicht'}</p><p class="muted small">In ${esc(gh.konfig().repo)}${prefs.get('ghGroesse', 0) ? ', Größe etwa ' + Math.max(1, Math.round(prefs.get('ghGroesse', 0) / 1024)) + ' kB' : ''}. Andere Geräte mit demselben Schlüssel bekommen denselben Stand. Ohne Netz holt Lernwerk den Abgleich später nach.</p>
     ${f ? `<div class="fb bad">${esc(f)}</div>` : ''}
     <div class="btn-col"><button class="btn filled" data-a="ghnow">${icon('cloud')} Jetzt abgleichen</button><button class="btn" data-a="ghoff">Schlüssel entfernen</button></div>
     <details class="disc notfall"><summary>Notfall</summary><p class="small">Nur wenn etwas schiefgelaufen ist: Der Stand auf GitHub ersetzt alles auf diesem Gerät. Was nur hier gespeichert ist, geht verloren. Fotos bleiben. Vorher lege ich eine Rückfall-Kopie an.</p><button class="btn danger" data-a="ghload">Stand von GitHub komplett übernehmen</button>

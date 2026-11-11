@@ -10,7 +10,7 @@ import { mergeTopic } from './parser.js';
 
 // Bleiben auf jedem Gerät für sich
 export const NUR_GERAET = new Set(['zuletzt', 'letzteSicherung', 'ersterStart', 'unterrichtVorgabe', 'freigabeStart']);
-const SONDER = new Set(['kvZeit', 'geloescht', 'lehrplan', 'aktuell', 'abgeschlossen', 'aktuellSeit', 'zustandZeit', 'freigabe', 'proben']);
+const SONDER = new Set(['ereignisseAb', 'tage', 'kvZeit', 'geloescht', 'lehrplan', 'aktuell', 'abgeschlossen', 'aktuellSeit', 'zustandZeit', 'freigabe', 'proben']);
 export const SPEICHER = ['content', 'notes', 'cards', 'errors', 'events', 'exams'];
 const MAX_EVENTS = 5000;
 
@@ -74,6 +74,33 @@ export function planZusammen(pL, pF, tL, tF, gel) {
  *   vonFern: Das andere Gerät hat etwas beigetragen, dieses Gerät muss übernehmen.
  *   vonLokal: Dieses Gerät hat etwas, das auf GitHub noch fehlt, also hochladen.
  */
+/* ===== Ereignisse verdichten =====
+ * Ereignisse, die älter sind als ab (Zeitstempel), werden zu Tageswerten zusammengefasst: { 'JJJJ-MM-TT': { n, ok } }.
+ * Geschützt bleiben je Thema die neuesten zwölf Ereignisse jeder Art. Daraus rechnet die App Stärke, Hilfestufe
+ * und Ansatz-Quote, deshalb ändern die sich durch das Verdichten nicht. Rein und gleich auf jedem Gerät.
+ */
+const tagVon = z => { const d = new Date(z); return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0'); };
+export function verdichten(events, ab, tage = {}) {
+  const out = Object.assign({}, tage);
+  if (!ab) return { behalten: events.slice(), tage: out, weg: 0 };
+  const schutz = new Set(), zaehler = new Map();
+  for (let i = events.length - 1; i >= 0; i--) {
+    const e = events[i], k = (e.tid || '') + '|' + (e.art || '');
+    const n = zaehler.get(k) || 0;
+    if (n < 12) { schutz.add(e); zaehler.set(k, n + 1); }
+  }
+  const behalten = [], neu = {};
+  for (const e of events) {
+    if ((e.zeit || 0) >= ab || schutz.has(e)) { behalten.push(e); continue; }
+    if (e.ok == null) continue;
+    const t = tagVon(e.zeit), x = neu[t] || (neu[t] = { n: 0, ok: 0 });
+    x.n++; if (e.ok) x.ok++;
+  }
+  for (const [t, x] of Object.entries(neu)) if (!out[t] || out[t].n < x.n) out[t] = x;
+  return { behalten, tage: out, weg: events.length - behalten.length };
+}
+const tageZusammen = (a = {}, b = {}) => { const o = Object.assign({}, a); for (const [t, x] of Object.entries(b)) if (!o[t] || o[t].n < x.n) o[t] = x; return o; };
+
 export function zusammenfuehren(L, F) {
   if (!F || !F.kv) return { daten: L, vonFern: false, vonLokal: true };
   const kvL = L.kv || {}, kvF = F.kv || {};
@@ -117,9 +144,15 @@ export function zusammenfuehren(L, F) {
   for (const x of [...(kvL.proben || []), ...(kvF.proben || [])]) if (x && x.id) pm.set(x.id, x);
   if (pm.size) kv.proben = [...pm.values()].sort((a, b) => (a.zeit || 0) - (b.zeit || 0)).slice(-40).map(clone);
 
+  // Verdichtete Ereignisse: der spätere Stichtag gilt, Tageswerte je Tag der größere
+  const ab = Math.max(kvL.ereignisseAb || 0, kvF.ereignisseAb || 0);
+  if (ab) kv.ereignisseAb = ab;
+  kv.tage = tageZusammen(kvL.tage, kvF.tage);
+
   kv.lehrplan = planZusammen(kvL.lehrplan, kvF.lehrplan, zL.lehrplan || 0, zF.lehrplan || 0, gel);
   kv.geloescht = gel;
   kv.kvZeit = kvZeit;
+  if (!Object.keys(kv.tage).length) delete kv.tage;
   for (const k of Object.keys(kv)) if (kv[k] === undefined) delete kv[k];
 
   // Speicher mit Kennung
@@ -148,6 +181,7 @@ export function zusammenfuehren(L, F) {
     (L[s] || []).forEach(rein);
     (F[s] || []).forEach(rein);
     let liste = [...m.values()].filter(x => !((gel[s + ':' + x.id] || 0) >= (zeitVon(s, x) || 1)));
+    if (s === 'events' && ab) { liste.sort((a, b) => a.zeit - b.zeit); const v = verdichten(liste, ab, kv.tage); liste = v.behalten; kv.tage = v.tage; }
     if (s === 'events' && liste.length > MAX_EVENTS) liste = liste.sort((a, b) => a.zeit - b.zeit).slice(-MAX_EVENTS);
     out[s] = liste.map(clone);
   }

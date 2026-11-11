@@ -87,12 +87,12 @@ Eingebaute Inhalte und eingefügte Blöcke laufen durch denselben Parser und die
 | `photos` | Fotos mit Blob, nur auf dem Gerät |
 | `cards` | Lernstand je Übung `{ id, tid, art, stufe 0–6, richtig, hilfe, falsch, zuletzt, faellig, zeit }` |
 | `errors` | Fehlerbuch `{ id, zeit, tid, fach, thema, aufgabe, eingabe, richtig, fehlerart, quelle, notiz, erledigt? }` |
-| `events` | Ereignisse für Statistik und Stärke, höchstens 5000 |
+| `events` | Ereignisse für Statistik und Stärke, höchstens 5000. Ältere als 60 Tage werden beim Start zu `kv tage` verdichtet (`verdichten` in `js/abgleich.js`), je Thema und Art bleiben die neuesten zwölf |
 | `exams` | Klassenarbeiten und Noten `{ id, fachId, fach, datum, themen, themaIds, ausgeschlossen?, note?, prozent?, ergebnis?, notiz? }` |
 
 **Kennung einer Übung** (`cards.id`): Buchstabe, Themen-ID, Hash des Inhalts. `k:` Karte, `b:` Begriff, `a:` Aufgabe, `u:` Umstellen, `w:` Auswahl, `r:` Reihenfolge, `v:` Verwechslung, `z:` Zuordnen, `e:` Erklären, `s:` Skizze, `t:Themen-ID` Trainer, `f:Fehler-ID` Fehlerkarte. Der Hash kommt aus dem Fragetext. Ändert sich der Text, beginnt die Übung neu. Diese Regel nicht ändern.
 
-**`kv`-Schlüssel.** Abgeglichen: `lehrplan`, `aktuell`, `abgeschlossen`, `aktuellSeit`, `zustandZeit`, `freigabe`, `lernweg`, `planStart`, `planErledigt`, `planNachholen`, `notenschluessel`, `uebModus`, `kartenArt`, `umstellFrei`, `proben`, dazu `kvZeit` (Zeitstempel je Schlüssel) und `geloescht` (Löschmarken). Nur auf dem Gerät (`NUR_GERAET` in `abgleich.js`): `zuletzt`, `letzteSicherung`, `ersterStart`, `unterrichtVorgabe`, `freigabeStart`.
+**`kv`-Schlüssel.** Abgeglichen: `lehrplan`, `aktuell`, `abgeschlossen`, `aktuellSeit`, `zustandZeit`, `freigabe`, `lernweg`, `planStart`, `planErledigt`, `planNachholen`, `notenschluessel`, `uebModus`, `kartenArt`, `umstellFrei`, `proben` (vereinigt), `tage` (Tageswerte verdichteter Ereignisse, je Tag der größere) und `ereignisseAb` (Stichtag, der spätere gilt), dazu `kvZeit` (Zeitstempel je Schlüssel) und `geloescht` (Löschmarken). Nur auf dem Gerät (`NUR_GERAET` in `abgleich.js`): `zuletzt`, `letzteSicherung`, `ersterStart`, `unterrichtVorgabe`, `freigabeStart`.
 
 **localStorage**, immer mit Präfix `lernwerk:` (über `prefs`), weil Satzwerk unter derselben Adresse liegt. Alte Einträge ohne Präfix nie löschen. Wichtige Namen: `theme`, `lernzeit`, `startLayout`, `inbox` (Eingang der Trainer), `ghToken`, `ghRepo`, `ghVerbunden`, `ghSha`, `ghZuletzt`, `ghFehler`, `ghOffen`, `ghPause`, `speicherFehler`, `rueckfallVersion`, `hoer…`, `stimme…`. Der Zugangsschlüssel steht nur hier, nie in einer Sicherung.
 

@@ -4,6 +4,7 @@ import { parseBlocks, mergeTopic, emptyTopic, exportBlock, hasContent } from './
 import { parseEq, keyOf } from './formula.js';
 import { norm, slug, uid, dayStr, addDays, daysBetween, hash, toDay, shuffle } from './util.js';
 import { nextState, isDue, SEKUNDEN, verteilen, serie } from './srs.js';
+import { verdichten } from './abgleich.js';
 
 export const S = {
   base: null, plan: null,
@@ -62,6 +63,7 @@ export async function init() {
   await freigabeStart();
   if (!kvGet('ersterStart')) await kvSet('ersterStart', dayStr());
   await ingestInbox();
+  await ereignisseVerdichten();
   db.requestPersist();
   S.ready = true;
 }
@@ -126,6 +128,27 @@ async function loadBuiltin() {
 export const fachIntro = fid => S.fachIntro[fid] || '';
 // Hat das Thema nur die eingebaute Einführung, aber noch nichts aus dem Unterricht?
 export const isIntroOnly = tid => S.introOnly.has(tid) && !(S.content.get(tid) && hasContent(S.content.get(tid)));
+
+/* ===== Ereignisse verdichten =====
+ * Ereignisse, die älter als 60 Tage sind, werden zu Tageswerten (kv „tage“). So bleibt die Sicherung klein.
+ * Höchstens einmal am Tag. Vor dem ersten Mal legt die App eine Rückfall-Kopie an.
+ */
+export async function ereignisseVerdichten(heute = Date.now()) {
+  const ab = heute - 60 * 86400000;
+  if (!S.events.some(e => e.zeit < ab)) return 0;
+  const v = verdichten(S.events.slice().sort((a, b) => a.zeit - b.zeit), ab, kvGet('tage', {}));
+  // Nur geschützte alte Ereignisse übrig: nichts zu tun, nichts ändern (sonst gäbe es bei jedem Start einen Abgleich)
+  if (!v.weg) return 0;
+  if (!kvGet('ereignisseAb', 0)) {
+    try { const rf = await import('./rueckfall.js'); await rf.sichern('Vor dem Verdichten alter Ereignisse', await exportBackup(false)); } catch (e) { /* ohne Kopie weiter */ }
+  }
+  const bleibt = new Set(v.behalten);
+  for (const e of S.events) if (!bleibt.has(e)) await db.del('events', e.id);
+  S.events = v.behalten;
+  await kvSet('tage', v.tage);
+  await kvSet('ereignisseAb', ab);
+  return v.weg;
+}
 
 /* ===== Lehrplan ===== */
 export const faecher = () => S.plan.faecher;
@@ -596,7 +619,7 @@ export function bereitschaft(ex) {
   return Math.max(0, Math.round(s / its.length * 100 - Math.min(15, 3 * offen)));
 }
 // Serie: Tage am Stück gelernt, ein freier Tag pro Woche ist erlaubt
-export function lernSerie() { return serie(S.events.filter(e => e.ok != null).map(e => dayStr(new Date(e.zeit))), dayStr()); }
+export function lernSerie() { return serie([...S.events.filter(e => e.ok != null).map(e => dayStr(new Date(e.zeit))), ...Object.keys(kvGet('tage', {}))], dayStr()); }
 export function dueTrainers(today = dayStr()) {
   const out = [];
   for (const f of S.plan.faecher) for (const t of f.themen) {

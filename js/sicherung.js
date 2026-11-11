@@ -136,7 +136,9 @@ export async function abgleichen() {
         }
         prefs.set('ghSha', fern.sha);
         if (hoch) {
-          const body = { message: 'Abgleich ' + new Date().toISOString().slice(0, 16).replace('T', ' '), content: base64(JSON.stringify(daten)) };
+          const text = JSON.stringify(daten);
+          prefs.set('ghGroesse', text.length);
+          const body = { message: 'Abgleich ' + new Date().toISOString().slice(0, 16).replace('T', ' '), content: base64(text) };
           if (fern.sha) body.sha = fern.sha;
           const r = await gh('/repos/' + konfig().repo + '/contents/' + DATEI, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
           // Ein anderes Gerät war schneller: neu holen und noch einmal zusammenführen
