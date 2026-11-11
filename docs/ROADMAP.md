@@ -23,30 +23,14 @@ Großer Optimierungsdurchgang im November 2026. Stand davor: Version 1.25.2, Zwe
 - [x] **Etappe 14 (Code), Version 1.35.0:** doppelte Mischfunktion in `js/store.js` entfernt, alter Alias `hochladen` entfernt. Die README ist seit dem Bauplan aktuell.
 - [x] **Etappe 12, Version 1.37.0: Sicherung schlank.** Ereignisse älter als 60 Tage werden zu Tageswerten verdichtet, geschützt bleiben je Thema und Art die neuesten zwölf. Abgleich übernimmt Stichtag und Tageswerte. Größe der Sicherung unter Datensicherung. Tests in `tests/speicher.test.mjs`.
 - [x] **Etappe 13, Version 1.38.0: Große Dateien geordnet.** `js/engine.js` aufgeteilt in `uebungen.js` und `schmierzettel.js`, `js/extra.js` in `probeklausur.js`, `hoerseite.js` und `noten.js`. Verhalten unverändert. Dabei behoben: Beim geführten Umstellen bleiben alle falsch gewählten Umformungen rot markiert.
+- [x] **Etappe 10 fertig, Version 1.39.0: Verwechslung aus ähnlichen Begriffen.** Themen ohne eigene Verwechslung-Zeile bekommen bis zu drei Paare ähnlicher Fachbegriffe (`aehnlich` in `js/store.js`), der Unterschied sind die beiden Erklärungen. Skizze-Zeilen mit Kernpunkten brauchen Unterrichtsmaterial, siehe „Wartet auf den Besitzer“.
 - [x] **Bauplan.** `CLAUDE.md`, diese Roadmap, `docs/BLOCKFORMAT.md`, Skill `lernwerk-etappe`, Browser-Prüfung `tools/pruefen/browser.mjs`.
 
 ## Offen
 
-### Etappe 10: Abruffragen in den eingebauten Lernfächern (Lerngewinn)
-
-**Lage.** Die eingebauten Inhalte haben keine einzige Zeile `Verwechslung`, `Zuordnen`, `Erklären` oder `Skizze`. Diese Arten kommen nur aus eigenen Blöcken.
-
-**Bauen.** In den Dateien unter `inhalte/` (nicht unter `inhalte/einfuehrung/`) für die Fächer Werkstofftechnik, Führung und Personal, Qualitätsmanagement, Ökonomie und Nachhaltigkeit, Instandhaltung, Steuerungstechnik je Thema ergänzen:
-- zwei bis drei `Erklären`-Zeilen (Stufe 3). Aufgabe und Kernpunkte nur aus dem, was im selben Thema schon unter Prinzip, Begriff oder Merksatz steht.
-- ein bis zwei `Verwechslung`-Zeilen (Stufe 2) für Begriffspaare, die im Thema beide als `Begriff` vorkommen.
-- eine `Zuordnen`-Zeile (Stufe 2) aus vier bis fünf vorhandenen Begriffen.
-- eine `Skizze`-Zeile, wo das Thema eine eingebaute Skizze hat (`inhalte/bilder/index.json`). Kernpunkte sind die beschrifteten Teile der Skizze.
-Nichts Neues erfinden. Keine neuen Fakten, nur Umformungen des Vorhandenen. Vor jede Gruppe die passende `Stufe:`-Zeile setzen und ans Ende des Themas stellen, damit die Stufen der vorhandenen Zeilen gleich bleiben.
-
-**Daten.** Kein Risiko. Neue Übungen bekommen neue Kennungen. Diese Schlüssel ändern die Podcast-Folgen nicht, Audio muss nicht neu erzeugt werden (der Inhalte-Test darf keinen Hinweis „Hörmodus“ melden).
-
-**Prüfkriterien.**
-- `node tests/inhalte.test.mjs` meldet 0 Probleme und keinen Hörmodus-Hinweis.
-- Jedes ergänzte Thema hat in `st.topicItems(tid)` mindestens eine Übung der Art `erklaeren`.
-- Stichprobe von zehn neuen Zeilen: Jeder Kernpunkt lässt sich im selben Thema wörtlich oder sinngleich wiederfinden.
-- In der App läuft eine Runde aus einem ergänzten Thema durch (Stufe 3 freischalten oder Fragen „Alles gemischt“).
-
 ### Wartet auf den Besitzer
+
+- **Skizze-Aufgaben mit Kernpunkten** zu den eingebauten Skizzen. Die Kernpunkte müssen aus dem Unterricht kommen, damit nichts erfunden wird.
 
 Diese Punkte nicht von selbst beginnen.
 

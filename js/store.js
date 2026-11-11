@@ -416,6 +416,16 @@ export function exportTopic(tid) {
 }
 
 /* ===== Übungs-Elemente und Karten ===== */
+// Zwei Begriffe sehen sich ähnlich, wenn sie ein gemeinsames Wortstück aus mindestens sechs Buchstaben haben
+// oder gleich enden (mindestens fünf Buchstaben), aber nicht gleich sind und keiner im anderen steckt.
+function aehnlich(a, b) {
+  const x = norm(a), y = norm(b);
+  if (!x || !y || x === y || x.includes(y) || y.includes(x)) return false;
+  let i = 0; while (i < x.length && i < y.length && x[x.length - 1 - i] === y[y.length - 1 - i]) i++;
+  if (i >= 5 && i < Math.min(x.length, y.length)) return true;
+  for (let k = 0; k + 6 <= x.length; k++) if (y.includes(x.slice(k, k + 6))) return true;
+  return false;
+}
 // Fächer, in denen vor allem gelernt und erklärt wird, nicht gerechnet
 const LERNFAECHER = new Set(['ws', 'st', 'auto', 'pm', 'cad', 'm5', 'm6', 'm7', 'm8', 'de', 'en', 'po', 'tol']);
 function itemsOf(t, tid) {
@@ -447,6 +457,16 @@ function itemsOf(t, tid) {
       if (paare.length < 4) break;
       items.push({ id: 'z:' + tid + ':' + hash('auto' + paare.map(x => norm(x.begriff)).join('|')), art: 'zuordnen', tid, z: { titel: 'Fachbegriffe ' + (g / 5 + 1), paare }, s: 2, auto: true });
     }
+  }
+  // Verwechslung aus ähnlichen Fachbegriffen des Themas, wenn es keine eigene Verwechslung-Zeile gibt.
+  // Ähnlich: gleiches längeres Wortstück, zum Beispiel Unterdeckung und Überdeckung. Der Unterschied sind die beiden Erklärungen.
+  if (!(t.verwechslungen || []).length) {
+    const bs = t.begriffe.filter(b => b.erklaerung && b.begriff.length <= 40), paare = [];
+    for (let a = 0; a < bs.length && paare.length < 3; a++) for (let b = a + 1; b < bs.length && paare.length < 3; b++) {
+      const x = bs[a], y = bs[b];
+      if (aehnlich(x.begriff, y.begriff) && !paare.some(p => [p[0], p[1]].some(q => q === x || q === y))) paare.push([x, y]);
+    }
+    for (const [x, y] of paare) items.push({ id: 'v:' + tid + ':' + hash('auto' + norm(x.begriff + '|' + y.begriff)), art: 'verwechslung', tid, v: { a: x.begriff, b: y.begriff, unterschied: x.begriff + ': ' + x.erklaerung + ' ' + y.begriff + ': ' + y.erklaerung }, s: 2, auto: true });
   }
   // Lernfächer: Themen ohne eigene Erklären-Zeile bekommen eine Erklär-Aufgabe. Die Kernpunkte sind die Merksätze des Themas.
   const fid = (tid.match(/^[a-z0-9]+/) || [''])[0];
