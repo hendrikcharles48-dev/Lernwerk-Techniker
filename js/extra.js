@@ -342,7 +342,14 @@ function runExam(items, minuten, exId = '') {
     confirmClose: () => fertig || confirm('Probeklausur abbrechen?'),
     onClose: async () => {
       clearInterval(tm);
-      if (ergebnis && !gespeichert) { gespeichert = true; await st.probeSpeichern(Object.assign({ exId, minuten, n: items.length }, ergebnis)); refreshTop(); }
+      if (ergebnis && !gespeichert) {
+        gespeichert = true;
+        await st.probeSpeichern(Object.assign({ exId, minuten, n: items.length }, ergebnis));
+        const ex = exId ? st.S.exams.find(e => e.id === exId) : null;
+        const schwach = Object.entries(ergebnis.themen || {}).filter(([t, q]) => q < 60 && st.thema(t)).map(([t]) => t);
+        if (ex && schwach.length) { await st.planNachholenSetzen(ex, [...st.planNachholen(ex), ...schwach]); toast(schwach.map(t => st.thema(t).thema.name).join(', ') + ' kommt im Lernplan nochmal dran.', 4000); }
+        refreshTop();
+      }
       if (res.length) gh.anstossen();
     },
     render(body, api) { sheet = api; body.innerHTML = `<div class="sess-top">${progress(0)}<div class="sess-info"></div></div><div class="sess-item"></div><div class="sess-sk"></div><div class="schmier-zone">${schmierKnopf()}</div>`; zettel = schmierzettel(body); show(); }
@@ -387,7 +394,12 @@ function runExam(items, minuten, exId = '') {
       const pKern = haken.reduce((s, x) => s + x.size, 0), maxKern = kern.reduce((s, r) => s + r.it.kern.length, 0);
       const max = maxRech + maxKern, p = pRech + pKern, proz = max ? Math.round(p / max * 100) : 0;
       const note = st.noteAusProzent(proz);
-      ergebnis = { punkte: p, max, proz };
+      // Je Thema: erreichte und mögliche Punkte. Schwache Themen kommen beim Schließen in den Lernplan zum Nachholen.
+      const proT = {};
+      const zaehl = (tid, a, m) => { if (!tid) return; const x = proT[tid] || (proT[tid] = [0, 0]); x[0] += a; x[1] += m; };
+      rech.forEach(r => zaehl(r.it.tid, r.erg === 'richtig' ? PUNKTE_RECHNEN : 0, PUNKTE_RECHNEN));
+      kern.forEach((r, k) => zaehl(r.it.tid, haken[k].size, r.it.kern.length));
+      ergebnis = { punkte: p, max, proz, themen: Object.fromEntries(Object.entries(proT).map(([t, x]) => [t, Math.round(x[0] / x[1] * 100)])) };
       let h = `<div class="sum"><div class="sum-big">${p} von ${max} Punkten</div><div class="muted">${proz} %${note ? ', Note ' + note : ''}${minuten ? ' · ' + fmtT(Math.min(Date.now() - t0, limit)) + ' von ' + minuten + ':00 Minuten' : ' · ' + fmtT(Date.now() - t0) + ' Minuten'}</div>${offen.length ? `<p class="muted small">${plural(offen.length, 'Aufgabe', 'Aufgaben')} nicht mehr geschafft, zählt mit 0 Punkten.</p>` : ''}</div>`;
       if (kern.length) {
         h += `<div class="sec-h">Selbst korrigieren</div><p class="src">Hak jeden Kernpunkt ab, den deine Antwort oder Skizze wirklich enthält. Daraus rechne ich die Punkte.</p>`;

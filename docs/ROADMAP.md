@@ -19,6 +19,7 @@ Großer Optimierungsdurchgang im November 2026. Stand davor: Version 1.25.2, Zwe
 - [x] **Formel-Eingabe, Version 1.31.1:** Löschen entfernt je Druck genau ein Zeichen, unfertige Brüche bleiben nach dem Prüfen erhalten (`js/mathedit.js`).
 - [x] **Etappe 9, Version 1.32.0: Fach-Trainer mit „Erst der Weg“.** Gegeben und Gesucht eingeklappt, Reihenfolge der Schritte wählen. Gemeinsame Helfer in `js/aufgabe.js`. `instantiate` steht noch doppelt (App mit Hochzahlen, Trainer ohne), siehe Etappe 13.
 - [x] **Etappe 10 (erster Teil), Version 1.33.0: Zuordnen aus Fachbegriffen.** Themen ohne eigene Zuordnen-Zeile bekommen von selbst Zuordnen-Übungen aus ihren Begriffen (`itemsOf` in `js/store.js`, Stufe 2). Offen bleibt der Rest von Etappe 10: Erklären-, Verwechslung- und Skizze-Zeilen in den Inhaltsdateien.
+- [x] **Etappe 11 (Kern), Version 1.34.0: Probeklausur wirkt auf den Lernplan.** Themen unter 60 Prozent kommen zum Nachholen, das Ergebnis je Thema wird mitgespeichert (`themen`). Offen aus Etappe 11: Knopf „Schwächen jetzt üben“ und `proben` beim Abgleich vereinigen.
 - [x] **Bauplan.** `CLAUDE.md`, diese Roadmap, `docs/BLOCKFORMAT.md`, Skill `lernwerk-etappe`, Browser-Prüfung `tools/pruefen/browser.mjs`.
 
 ## Offen
