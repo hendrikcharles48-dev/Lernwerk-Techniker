@@ -54,8 +54,12 @@ Die Oberfläche hat keinen eigenen Test im Repository. Vor dem Push im Browser p
 |---|---|
 | `index.html` | Hülle: fünf Bereiche (Heute, Fächer, Einfügen, Fehlerbuch, Mehr), Tab-Leiste |
 | `js/app.js` | Start, Heute, Fächer, Einfügen, Fehlerbuch, Lernrunden zusammenstellen, Service Worker, `VERSION` |
-| `js/extra.js` | Mehr: Termine, Noten, Probeklausur, Hörmodus, Erklär-Training, Lexikon, Formelsammlung, Suche, Lehrplan, Datensicherung |
-| `js/engine.js` | Themenseite und alle Übungsarten (`runItem`, `runSession`), Schmierzettel, Lernweg |
+| `js/extra.js` | Mehr: Termine, Erklär-Training, Lexikon, Formelsammlung, Suche, Lehrplan, Datensicherung, Im Unterricht |
+| `js/probeklausur.js`, `js/hoerseite.js`, `js/noten.js` | Probeklausur, Seite Hörmodus, Noten (über `extra.js` weiter erreichbar) |
+| `js/engine.js` | Themenseite, Lernweg, `runItem`, `runSession`, Sortierung, Lernzettel, Fotos |
+| `js/uebungen.js` | alle Übungsarten (`runAufgabe`, `runUmstellen`, Karten, Erklären …) und `instantiate` |
+| `js/schmierzettel.js` | Schmierzettel mit Taschenrechner |
+| `js/aufgabe.js` | reine Helfer für „Erst der Weg“, genutzt von App und Fach-Trainern |
 | `js/store.js` | Zentraler Zustand `S`, Lehrplan, Inhalte, Karten, Runden (`buildQueue`), Termine, Fehler, Sicherung als Datei |
 | `js/db.js` | IndexedDB mit Rückfall auf Arbeitsspeicher, `prefs` für localStorage |
 | `js/parser.js` | Lernwerk-Block lesen und schreiben, Themen zusammenführen, Vorlage für Claude |

@@ -22,6 +22,7 @@ Großer Optimierungsdurchgang im November 2026. Stand davor: Version 1.25.2, Zwe
 - [x] **Etappe 11 (Kern), Version 1.34.0: Probeklausur wirkt auf den Lernplan.** Themen unter 60 Prozent kommen zum Nachholen, das Ergebnis je Thema wird mitgespeichert (`themen`). Version 1.35.0: Knopf „Schwächen jetzt üben“ in der Auswertung, `proben` werden beim Abgleich vereinigt.
 - [x] **Etappe 14 (Code), Version 1.35.0:** doppelte Mischfunktion in `js/store.js` entfernt, alter Alias `hochladen` entfernt. Die README ist seit dem Bauplan aktuell.
 - [x] **Etappe 12, Version 1.37.0: Sicherung schlank.** Ereignisse älter als 60 Tage werden zu Tageswerten verdichtet, geschützt bleiben je Thema und Art die neuesten zwölf. Abgleich übernimmt Stichtag und Tageswerte. Größe der Sicherung unter Datensicherung. Tests in `tests/speicher.test.mjs`.
+- [x] **Etappe 13, Version 1.38.0: Große Dateien geordnet.** `js/engine.js` aufgeteilt in `uebungen.js` und `schmierzettel.js`, `js/extra.js` in `probeklausur.js`, `hoerseite.js` und `noten.js`. Verhalten unverändert. Dabei behoben: Beim geführten Umstellen bleiben alle falsch gewählten Umformungen rot markiert.
 - [x] **Bauplan.** `CLAUDE.md`, diese Roadmap, `docs/BLOCKFORMAT.md`, Skill `lernwerk-etappe`, Browser-Prüfung `tools/pruefen/browser.mjs`.
 
 ## Offen
@@ -44,22 +45,6 @@ Nichts Neues erfinden. Keine neuen Fakten, nur Umformungen des Vorhandenen. Vor 
 - Jedes ergänzte Thema hat in `st.topicItems(tid)` mindestens eine Übung der Art `erklaeren`.
 - Stichprobe von zehn neuen Zeilen: Jeder Kernpunkt lässt sich im selben Thema wörtlich oder sinngleich wiederfinden.
 - In der App läuft eine Runde aus einem ergänzten Thema durch (Stufe 3 freischalten oder Fragen „Alles gemischt“).
-
-### Etappe 13: Große Dateien ordnen (Stabilität, für spätere Arbeit)
-
-**Lage.** `js/engine.js`, `js/app.js` und `js/extra.js` haben über 900 Zeilen mit sehr langen Zeilen. Das macht Änderungen fehleranfällig.
-
-**Bauen.** Nur verschieben, kein Verhalten ändern:
-- aus `js/engine.js`: `js/uebung-aufgabe.js` (`runAufgabe`, `runExamAufgabe`, `ggHTML`), `js/uebung-umstellen.js` (`runUmstellen`, `probe`), `js/uebung-karten.js` (Karten, Begriffe, Verwechslung, Zuordnen, Erklären, Fehlerkarte), `js/schmierzettel.js`.
-- aus `js/extra.js`: `js/probeklausur.js`, `js/hoerseite.js`, `js/noten.js`.
-- Jede neue Datei in `FILES` in `sw.js`. Importe anpassen. Keine zyklischen Importe über `app.js`.
-
-**Daten.** Kein Risiko.
-
-**Prüfkriterien.**
-- Alle Tests und `node tools/pruefen/browser.mjs` laufen durch.
-- Jede Übungsart einmal im Browser durchgespielt: Karte, Begriff, Aufgabe (mit Weg und Beispiel), Umstellen (geführt und frei), Auswahl, Reihenfolge, Verwechslung, Zuordnen, Erklären, Skizze, Fehlerkarte, Probeklausur.
-- Der Inhalte-Test findet alle Dateien aus `FILES`.
 
 ### Wartet auf den Besitzer
 
