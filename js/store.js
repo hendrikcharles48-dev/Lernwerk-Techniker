@@ -413,6 +413,16 @@ function itemsOf(t, tid) {
   t.reihenfolgen.forEach(r => items.push({ id: 'r:' + tid + ':' + hash(norm(r.titel)), art: 'reihenfolge', tid, r, s: st(r) }));
   (t.verwechslungen || []).forEach(v => items.push({ id: 'v:' + tid + ':' + hash(norm(v.a + '|' + v.b)), art: 'verwechslung', tid, v, s: st(v) }));
   (t.zuordnen || []).forEach(z => z.paare.length >= 2 && items.push({ id: 'z:' + tid + ':' + hash(norm(z.titel)), art: 'zuordnen', tid, z, s: st(z) }));
+  // Zuordnen aus den Fachbegriffen des Themas, wenn es noch keine Zuordnen-Zeile gibt: je vier bis fünf Begriffe
+  // mit ihrer Erklärung. Nichts Neues, nur das, was schon im Thema steht. Kennung hängt an den Begriffen.
+  if (!(t.zuordnen || []).length) {
+    const bs = t.begriffe.filter(b => b.erklaerung && b.erklaerung.length <= 160);
+    for (let g = 0; g + 4 <= bs.length && g < 15; g += 5) {
+      const paare = bs.slice(g, g + 5).map(b => ({ begriff: b.begriff, bedeutung: b.erklaerung }));
+      if (paare.length < 4) break;
+      items.push({ id: 'z:' + tid + ':' + hash('auto' + paare.map(x => norm(x.begriff)).join('|')), art: 'zuordnen', tid, z: { titel: 'Fachbegriffe ' + (g / 5 + 1), paare }, s: 2, auto: true });
+    }
+  }
   // Freies Abrufen: erklären oder skizzieren, danach Kernpunkte abhaken. Gleiche Kennung wie in der Probeklausur.
   (t.erklaeren || []).forEach(e => e.kern && e.kern.length && items.push({ id: 'e:' + tid + ':' + hash(norm(e.aufgabe)), art: 'erklaeren', tid, frage: e.aufgabe, kern: e.kern, s: st(e) }));
   (t.skizzen || []).forEach(e => e.kern && e.kern.length && items.push({ id: 's:' + tid + ':' + hash(norm(e.aufgabe)), art: 'skizze', tid, frage: e.aufgabe, kern: e.kern, s: st(e) }));
