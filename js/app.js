@@ -18,7 +18,7 @@ import * as eingang from './eingang.js';
 import { arbeitsZettel, zettelStand as arbeitsZettelStand } from './arbeitszettel.js';
 import { beiSchreibfehler } from './db.js';
 
-export const VERSION = '1.40.0';
+export const VERSION = '1.40.1';
 
 /* ===== Heute ===== */
 // Kurze, wechselnde Sätze für den Start. Ohne Druck.
@@ -791,7 +791,11 @@ function drawSeite(el) {
   if (o.html && !o.fid) { const z = lernseiten.zuordnungAus(o.html); const f = z.fach ? st.findFach(z.fach) : null; if (f) { o.fid = f.id; const t = z.thema ? st.suggestThema(f, z.thema) : null; if (t) o.tid = t.id; } }
   const f = st.fach(o.fid);
   const arbeiten = f ? st.S.exams.filter(e => e.fachId === f.id && e.datum >= dayStr()).sort((a, c) => (a.datum < c.datum ? -1 : 1)) : [];
-  if (f && !o.exId && arbeiten.length && o._exAuto !== false) o.exId = arbeiten[0].id;
+  // Arbeit aus der Angabe in der Seite (Datum), sonst die nächste im Fach
+  const zA = o.html ? lernseiten.zuordnungAus(o.html).arbeit : '';
+  const exA = zA ? st.S.exams.find(e => e.datum === zA) : null;
+  if (exA && !arbeiten.includes(exA)) arbeiten.unshift(exA);
+  if (f && !o.exId && arbeiten.length && o._exAuto !== false) o.exId = (exA || arbeiten[0]).id;
   el.innerHTML = `<div class="card how"><p><b>Lernseiten</b> sind fertige Lernzettel und Trainer aus dem Claude-Chat, zum Beispiel ein Lernzettel zur Klausur. In Lernwerk laufen sie offline, und deine Häkchen und Ergebnisse bleiben gespeichert, auch auf dem iPad.</p>
       <p class="small muted">So kommst du an die Seite: Im Chat beim Artefakt auf Teilen oder Herunterladen tippen und die Datei sichern, dann hier „Datei wählen“. Oder Claude bitten, die Seite in deinen Lernwerk-Eingang zu legen.</p></div>
     <div class="btn-row"><label class="btn filled">${icon('open')} Datei wählen<input type="file" accept=".html,.htm,text/html" data-k="datei" hidden></label><button class="btn" data-a="paste">${icon('paste')} Aus Zwischenablage</button></div>

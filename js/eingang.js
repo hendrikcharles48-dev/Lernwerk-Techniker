@@ -30,7 +30,7 @@ export async function holen(gh, repo) {
       const fa = z.fach ? st.findFach(z.fach) : null;
       const th = fa && z.thema ? st.suggestThema(fa, z.thema) : null;
       const arbeiten = fa ? st.S.exams.filter(e => e.fachId === fa.id) : [];
-      const ex = arbeiten.find(e => e.datum === z.arbeit) || arbeiten.filter(e => e.datum >= dayStr()).sort((a, b) => (a.datum < b.datum ? -1 : 1))[0];
+      const ex = arbeiten.find(e => e.datum === z.arbeit) || (z.arbeit && st.S.exams.find(e => e.datum === z.arbeit)) || arbeiten.filter(e => e.datum >= dayStr()).sort((a, b) => (a.datum < b.datum ? -1 : 1))[0];
       try {
         const n = await lernseiten.speichern({ html: text, titel: z.titel, fid: fa ? fa.id : '', tid: th ? th.id : '', exId: ex ? ex.id : '', quelle: 'eingang' });
         neu.push(n.titel);
