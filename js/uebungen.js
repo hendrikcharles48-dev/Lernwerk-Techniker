@@ -252,6 +252,8 @@ export function runAufgabe(el, item, ctx, meta) {
     used = true;
     if (phase === 'ansatz' && ansatzFirst == null) { ansatzFirst = false; logError(meta, item, { aufgabe: A.text, eingabe: 'Ansatz: ' + o, richtig: q.richtig, fehlerart: 'Falscher Ansatz', meldung: T0.signal || '' }); }
     if (phase === 'kontrolle' && kontrolleFirst == null) { kontrolleFirst = false; logError(meta, item, { aufgabe: A.text, eingabe: 'Kontrolle: ' + o, richtig: q.richtig, fehlerart: 'Ergebnis nicht geprüft', meldung: q.frage }); }
+    const wfx = warumFalsch(q, o);
+    if (wfx) { fb = `<div class="fb bad"><b>Passt hier nicht.</b> ${rich(wfx)}</div>`; draw(); return; }
     fb = phase === 'ansatz' ? `<div class="fb bad"><b>Passt hier nicht.</b> ${T0.signal ? 'Achte auf das Signal in der Aufgabe: ' + rich(T0.signal) : 'Lies noch einmal, was gegeben ist und was gesucht wird.'}</div>`
       : phase === 'warum' ? `<div class="fb bad"><b>Nicht ganz.</b> Schau, welche Größen gegeben sind und wie sie mit der gesuchten zusammenhängen.</div>`
       : `<div class="fb bad"><b>Noch nicht.</b> Vergleich mit deinem Ergebnis: Stimmen Größenordnung, Einheit und Vorzeichen?</div>`;
@@ -527,12 +529,63 @@ function probe(el, U, meta, item, finish, nextLabel) {
   });
 }
 
+// Rückmeldung zu einer bestimmten falschen Antwort, wenn der Block eine hat (Zeile „Falsch:“)
+function warumFalsch(q, antwort) {
+  const x = (q && q.wf || []).find(w => norm(w.a) === norm(antwort));
+  return x ? x.w : '';
+}
+
+/* ===== Fall: Weg planen in Schrittfragen =====
+ * Wie im Statik-Trainer: Ausgangslage und Gleichungen stehen oben, dann eine Frage nach der anderen.
+ * Zu jeder falschen Antwort sagt die App, warum sie nicht passt. Gewertet wird, wie viele Schritte beim ersten Versuch saßen.
+ */
+export function runFall(el, item, ctx, meta) {
+  const F = item.fall;
+  let k = 0, first = 0, fehler = 0, versucht = new Set(), richtigGewaehlt = false, opts = null, fb = '';
+  const kopf = () => ctxLine(meta) + `<div class="card-k">Fall · Weg planen</div><div class="ex-task">${rich(F.titel)}</div>${F.text ? `<p>${rich(F.text)}</p>` : ''}`
+    + (F.gleichungen.length ? `<div class="fall-gl">${F.gleichungen.map(g => `<div class="fall-g">${g.name ? `<span>${esc(g.name)}</span>` : ''}${fml(g.gl)}</div>`).join('')}</div>` : '');
+  function draw() {
+    if (k >= F.schritte.length) {
+      const n = F.schritte.length;
+      el.innerHTML = kopf() + `<div class="fb ${first === n ? 'good' : 'info'}"><b>${first === n ? 'Weg sauber geplant.' : first + ' von ' + n + ' Schritten beim ersten Versuch.'}</b> ${first === n ? 'Jetzt weißt du, in welcher Reihenfolge du rechnest.' : 'Geh den Weg in Gedanken noch einmal durch: Ziel, Gleichung, Zwischenziel.'}</div>
+        <div class="btn-col"><button class="btn filled" data-a="fertig">${ctx.nextLabel || 'Weiter'}</button></div>`;
+      return;
+    }
+    const q = F.schritte[k];
+    if (!opts) opts = shuffle([q.richtig, ...q.falsch]);
+    el.innerHTML = kopf() + `<div class="step-box"><div class="step-n">Schritt ${k + 1} von ${F.schritte.length}</div><div class="step-q">${rich(q.frage)}</div>
+      <div class="mc">${opts.map((o, j) => `<button class="mc-o ${versucht.has(o) ? (o === q.richtig ? 'ok' : 'no') : ''}" data-a="pick" data-d="${j}" ${richtigGewaehlt ? 'disabled' : ''}>${rich(o)}</button>`).join('')}</div>${fb}
+      ${richtigGewaehlt ? `<div class="btn-col"><button class="btn filled" data-a="weiter">${k === F.schritte.length - 1 ? 'Auswertung' : 'Nächster Schritt'}</button></div>` : ''}</div>`;
+  }
+  on(el, {
+    pick: j => {
+      if (richtigGewaehlt) return;
+      const q = F.schritte[k], o = opts[+j];
+      versucht.add(o);
+      if (o === q.richtig) {
+        richtigGewaehlt = true;
+        if (versucht.size === 1) first++;
+        fb = `<div class="fb good"><b>Richtig.</b> ${q.erklaerung ? rich(q.erklaerung) : ''}</div>`;
+      } else {
+        if (versucht.size === 1) { fehler++; logError(meta, item, { aufgabe: F.titel + ': ' + q.frage, eingabe: o, richtig: q.richtig, fehlerart: 'Falsche Regel gewählt', meldung: warumFalsch(q, o) }); }
+        fb = `<div class="fb bad"><b>Nicht ganz.</b> ${rich(warumFalsch(q, o) || 'Überleg, was du für das Ziel als Nächstes brauchst.')}</div>`;
+      }
+      draw();
+    },
+    weiter: () => { k++; versucht = new Set(); richtigGewaehlt = false; opts = null; fb = ''; draw(); },
+    fertig: () => { const n = F.schritte.length; ctx.onDone(first === n ? 'richtig' : first >= n / 2 ? 'hilfe' : 'falsch'); }
+  });
+  draw();
+}
+
 export function runAuswahl(el, item, ctx, meta) {
   const A = item.a;
   const opts = shuffle([A.richtig, ...A.falsch]);
-  let tries = 0, solved = false, shown = false, picked = new Set();
+  let tries = 0, solved = false, shown = false, picked = new Set(), letzte = null;
   function draw() {
+    const wf = !solved && letzte ? warumFalsch(A, letzte) : '';
     el.innerHTML = ctxLine(meta) + `<div class="ex-task">${rich(A.frage)}</div><div class="mc">${opts.map(o => `<button class="mc-o ${picked.has(o) ? (o === A.richtig ? 'ok' : 'no') : solved && o === A.richtig ? 'ok' : ''}" data-a="pick" data-d="${esc(o)}">${rich(o)}</button>`).join('')}</div>
+      ${wf ? `<div class="fb bad"><b>Nicht das.</b> ${rich(wf)}</div>` : ''}
       ${solved && A.erklaerung ? `<div class="fb info"><b>Darum.</b> ${rich(A.erklaerung)}</div>` : ''}
       ${solved ? `<div class="btn-col"><button class="btn filled" data-a="fertig">${ctx.nextLabel || 'Weiter'}</button></div>` : ctx.exam ? '' : `<div class="act"><button class="btn" data-a="sol">Lösung zeigen</button></div>`}`;
   }
@@ -541,6 +594,7 @@ export function runAuswahl(el, item, ctx, meta) {
       if (solved) return;
       picked.add(o);
       if (ctx.exam) { if (o !== A.richtig) logError(meta, item, { aufgabe: A.frage, eingabe: o, richtig: A.richtig, fehlerart: 'Falsche Auswahl' }); ctx.onDone(o === A.richtig ? 'richtig' : 'falsch', { eingabe: o, richtig: A.richtig, aufgabe: A.frage }); return; }
+      letzte = o;
       if (o === A.richtig) solved = true;
       else { tries++; if (tries === 1) logError(meta, item, { aufgabe: A.frage, eingabe: o, richtig: A.richtig, fehlerart: 'Falsche Auswahl' }); }
       draw();

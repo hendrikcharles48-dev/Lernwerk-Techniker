@@ -447,6 +447,7 @@ function itemsOf(t, tid) {
   t.auswahl.forEach(a => items.push({ id: 'w:' + tid + ':' + hash(norm(a.frage)), art: 'auswahl', tid, a, s: st(a) }));
   t.reihenfolgen.forEach(r => items.push({ id: 'r:' + tid + ':' + hash(norm(r.titel)), art: 'reihenfolge', tid, r, s: st(r) }));
   (t.verwechslungen || []).forEach(v => items.push({ id: 'v:' + tid + ':' + hash(norm(v.a + '|' + v.b)), art: 'verwechslung', tid, v, s: st(v) }));
+  (t.faelle || []).forEach(f => f.schritte && f.schritte.length && items.push({ id: 'c:' + tid + ':' + hash(norm(f.titel)), art: 'fall', tid, fall: f, s: st(f) }));
   (t.zuordnen || []).forEach(z => z.paare.length >= 2 && items.push({ id: 'z:' + tid + ':' + hash(norm(z.titel)), art: 'zuordnen', tid, z, s: st(z) }));
   // Zuordnen aus den Fachbegriffen des Themas, wenn es noch keine Zuordnen-Zeile gibt: je vier bis fünf Begriffe
   // mit ihrer Erklärung. Nichts Neues, nur das, was schon im Thema steht. Kennung hängt an den Begriffen.
@@ -487,7 +488,7 @@ export function autoStufe(it) {
   if (it.s) return it.s;
   if (it.art === 'begriff') return 1;
   if (it.art === 'karte') return SCHWER.test(it.frage.trim()) || it.antwort.length > 140 ? 2 : 1;
-  if (it.art === 'aufgabe' || it.art === 'auswahl' || it.art === 'erklaeren' || it.art === 'skizze') return 3;
+  if (it.art === 'aufgabe' || it.art === 'auswahl' || it.art === 'erklaeren' || it.art === 'skizze' || it.art === 'fall') return 3;
   return 2; // umstellen, reihenfolge, verwechslung, zuordnen
 }
 export function topicItems(tid) {
@@ -532,7 +533,7 @@ export function sichtbar(it, m = modus()) {
   if (m === 'alles') return true;
   if (m === 'schwer') { const c = S.cards.get(it.id); return it.stufe === 3 || !!(c && c.falsch >= 2); }
   // Rechenaufgaben aus Themen mit Trainer sind immer frei: Die hast du im Trainer schon gerechnet.
-  return it.eigen || it.stufe <= freigabe(it.tid) || (hatTrainer(it.tid) && (it.art === 'aufgabe' || it.art === 'umstellen'));
+  return it.eigen || it.stufe <= freigabe(it.tid) || (hatTrainer(it.tid) && (it.art === 'aufgabe' || it.art === 'umstellen' || it.art === 'fall'));
 }
 // Karten: 'aufdecken' (erst selbst antworten, dann aufdecken und bewerten) oder 'auswahl' (Antwort unter vier wählen).
 // Aufdecken ist die Vorgabe, weil freies Abrufen stärker wirkt als Wiedererkennen.

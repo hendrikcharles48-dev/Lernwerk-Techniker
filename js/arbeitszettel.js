@@ -18,6 +18,14 @@ async function setGelernt(exId, tid, an) {
   alle[exId] = g;
   await st.kvSet('zettelGelernt', alle);
 }
+// Fehler-Training: offene Fehler und Fragen der Arbeit, die schon einmal falsch beantwortet wurden
+function fehlerItems(ex) {
+  const tids = new Set(ex.themaIds || []);
+  const its = [...tids].flatMap(t => st.topicItems(t)).filter(i => (st.card(i.id) || {}).falsch > 0);
+  const errs = st.S.errors.filter(e => !e.erledigt && tids.has(e.tid)).map(st.errorItem);
+  return [...errs, ...its];
+}
+export const istGelernt = (exId, tid) => !!gelernt(exId)[tid];
 export const zettelStand = ex => { const tids = (ex.themaIds || []).filter(t => st.thema(t)); const g = gelernt(ex.id); return { n: tids.length, ok: tids.filter(t => g[t]).length }; };
 
 function themaHTML(tid, k, exId, g) {
@@ -34,11 +42,13 @@ function themaHTML(tid, k, exId, g) {
   T.fehler.slice(0, 4).forEach(x => { h += `<div class="az-falle"><b>Prüfungsfalle:</b> ${r(x.fehler)}${x.achtung ? '. ' + r(x.achtung) : ''}</div>`; });
   if (T.schnellwege.length) h += `<details class="disc"><summary>${icon('bolt')} Schnellweg für die Prüfung</summary><div class="prose">${T.schnellwege.map(x => markdown(x, mathText)).join('')}</div></details>`;
   if (!T.anker.length && !T.merksaetze.length && !bs.length && !T.formeln.length) h += `<p class="muted">Zu diesem Thema gibt es noch keine Inhalte. Füge sie über Einfügen hinzu.</p>`;
-  h += `<div class="az-fuss"><button class="az-ok ${g[tid] ? 'on' : ''}" data-a="gelernt" data-d="${esc(tid)}">${g[tid] ? icon('check') + ' Gelernt' : 'Als gelernt abhaken'}</button><button class="btn small" data-a="thema" data-d="${esc(tid)}">Thema öffnen</button></div></section>`;
+  h += `<div class="az-fuss"><button class="az-ok ${g[tid] ? 'on' : ''}" data-a="gelernt" data-d="${esc(tid)}">${g[tid] ? icon('check') + ' Gelernt' : 'Als gelernt abhaken'}</button>${g[tid] ? `<button class="btn small filled" data-a="fragen" data-d="${esc(tid)}">${icon('bolt')} Fragen dazu</button>` : ''}<button class="btn small" data-a="thema" data-d="${esc(tid)}">Thema öffnen</button></div></section>`;
   return h;
 }
 
-export function arbeitsZettel(exId) {
+// startTid: zu diesem Thema springen, zum Beispiel vom Lernplan aus
+export function arbeitsZettel(exId, startTid) {
+  let gesprungen = false;
   return {
     title: 'Lernzettel',
     render(b) {
@@ -55,16 +65,30 @@ export function arbeitsZettel(exId) {
       h += `<nav class="az-nav chips noswipe">${tids.map((t, k) => `<button class="chip ${g[t] ? 'az-done' : ''}" data-a="spring" data-d="${esc(t)}">${k + 1} ${esc(st.thema(t).thema.name)}</button>`).join('')}</nav>`;
       h += tids.map((t, k) => themaHTML(t, k, exId, g)).join('');
       const alle = s.n && s.ok === s.n;
-      h += `<div class="az-ende card"><b>${alle ? 'Alles gelernt. Jetzt prüfen, ob es sitzt.' : 'Erst alle Themen abhaken, dann prüfen.'}</b><p class="muted small">Die Probeklausur fragt wie im Ernstfall, ohne Tipps. Was unter 60 Prozent liegt, kommt im Lernplan nochmal dran.</p>
-        <div class="btn-col"><button class="btn ${alle ? 'filled' : ''}" data-a="probe">${icon('exam')} Probeklausur</button><button class="btn" data-a="ueben">${icon('bolt')} Themen der Arbeit üben</button></div></div>`;
+      // Mini-Prüfungen: je Thema, sobald es abgehakt ist, und gemischt, wenn alles gelernt ist. Bestes Ergebnis steht dabei.
+      const best = k => { const l = st.proben().filter(p => p.exId === exId && p.schluessel === k); return l.length ? Math.max(...l.map(p => p.proz)) : null; };
+      const fehlerN = fehlerItems(ex).length;
+      h += `<section class="az-pr" id="az-pruefung"><h2>Mini-Prüfungen</h2><p class="muted small">Wie im Ernstfall: ohne Tipps, Rechnen auf Papier, Erklären mit Kernpunkten zum Abhaken. Was unter 60 Prozent liegt, kommt im Lernplan nochmal dran.</p>
+        <div class="az-pk ${alle ? '' : 'zu'}"><button class="btn-big" data-a="pruefAlle" style="--fc:var(--accent)">${icon(alle ? 'exam' : 'lock')}<span><b>Alle Themen gemischt</b><small>${alle ? '10 Aufgaben, 30 Minuten' : 'Erst alle Themen abhaken'}${best('alle') != null ? ' · bestes Ergebnis ' + best('alle') + ' %' : ''}</small></span></button></div>
+        <div class="az-pt">${tids.map((t, k) => { const b2 = best(t); return `<button class="az-pti ${g[t] ? '' : 'zu'}" data-a="pruefThema" data-d="${esc(t)}"><b>${k + 1}</b><span>${esc(st.thema(t).thema.name)}</span><small>${g[t] ? (b2 != null ? 'bestes ' + b2 + ' %' : '5 Aufgaben') : 'erst abhaken'}</small></button>`; }).join('')}</div>
+        ${fehlerN ? `<button class="btn-big" data-a="fehlerTraining" style="--fc:var(--red)">${icon('fehler')}<span><b>Fehler-Training</b><small>${fehlerN} Fragen, die bei dir schon einmal falsch waren</small></span></button>` : ''}
+        ${alle ? '' : `<button class="btn small" data-a="trotzdem">Trotzdem alles prüfen</button>`}
+        <div class="btn-col"><button class="btn" data-a="ueben">${icon('bolt')} Themen der Arbeit üben</button></div></section>`;
       b.innerHTML = h;
       sk.fuellen(b);
+      if (startTid && !gesprungen) { gesprungen = true; setTimeout(() => { const el = $('#az-' + CSS.escape(startTid), b); if (el) el.scrollIntoView({ block: 'start' }); }, 60); }
+      const pruef = async (its, min, key, titel) => { if (!its.length) { toast('Zu diesem Thema gibt es noch keine Prüfungsfragen.'); return; } const p = await import('./probeklausur.js'); p.runExam(its, min, exId, key); };
       on(b, {
         gelernt: async tid => { const an = !gelernt(exId)[tid]; await setGelernt(exId, tid, an); const y = b.closest('.page-scroll'), top = y ? y.scrollTop : 0; this.render(b); if (y) y.scrollTop = top; if (an) { const z = zettelStand(ex); toast(z.ok === z.n ? 'Alle Themen gelernt. Jetzt die Probeklausur.' : 'Abgehakt. ' + z.ok + ' von ' + z.n + '.'); } },
         spring: tid => { const el = $('#az-' + CSS.escape(tid), b); if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' }); },
         thema: tid => push(topicPage(tid)),
         seite: id => lernseiten.oeffnen(id),
         probe: async () => { const x = await import('./extra.js'); push(x.probePage(ex)); },
+        pruefAlle: async () => { if (!alle) { toast('Hak erst alle Themen als gelernt ab. Oder tippe unten auf „Trotzdem alles prüfen“.'); return; } const p = await import('./probeklausur.js'); pruef(p.probeAufgaben(tids, 10), 30, 'alle'); },
+        trotzdem: async () => { const p = await import('./probeklausur.js'); pruef(p.probeAufgaben(tids, 10), 30, 'alle'); },
+        pruefThema: async tid => { if (!gelernt(exId)[tid]) { toast('Lies das Thema erst und hak es ab. Dann prüfst du, ob es sitzt.'); const el = $('#az-' + CSS.escape(tid), b); if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' }); return; } const p = await import('./probeklausur.js'); pruef(p.probeAufgaben([tid], 5), 0, tid); },
+        fehlerTraining: async () => { const x = await import('./engine.js'); x.runSession(fehlerItems(ex).slice(0, 15), 'Fehler-Training'); },
+        fragen: async tid => { const x = await import('./engine.js'); const its = x.sortForPractice(st.topicItems(tid).filter(i => i.art !== 'fehler')).slice(0, 8); if (!its.length) { toast('Zu diesem Thema gibt es noch keine Fragen.'); return; } x.runSession(its, st.thema(tid).thema.name); },
         ueben: async () => { const x = await import('./engine.js'); const q = st.buildQueue(1200, { tids, exam: ex, mitFehlern: true, maxNeu: 12 }); x.runSession(q.items.length ? q.items : x.sortForPractice(tids.flatMap(t => st.uebItems(t))).slice(0, 12), 'Arbeit: ' + ex.fach); }
       });
     }

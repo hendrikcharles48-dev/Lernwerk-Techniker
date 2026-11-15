@@ -15,10 +15,10 @@ import { canSpeak, readAloud } from './speech.js';
 import * as rueckfall from './rueckfall.js';
 import * as lernseiten from './lernseiten.js';
 import * as eingang from './eingang.js';
-import { arbeitsZettel, zettelStand as arbeitsZettelStand } from './arbeitszettel.js';
+import { arbeitsZettel, zettelStand as arbeitsZettelStand, istGelernt } from './arbeitszettel.js';
 import { beiSchreibfehler } from './db.js';
 
-export const VERSION = '1.40.1';
+export const VERSION = '1.41.0';
 
 /* ===== Heute ===== */
 // Kurze, wechselnde Sätze für den Start. Ohne Druck.
@@ -142,7 +142,8 @@ const heute = {
         : tag.fertig
           ? `<div class="count-plan fertig">${icon('check')}<span><b>Tagesziel erreicht.</b><small>Du kannst gern weiterlernen.</small></span></div>
             <div class="count-weiter">${tag.danach ? `<button data-a="plantag"><b>Nächsten Tag vorziehen</b><small>${esc(tag.danachText)}</small></button>` : ''}<button data-a="planschwach"><b>Schwächen üben</b><small>Fehler, falsche und wackelnde Fragen der Arbeit</small></button></div>${mehr}`
-          : `<button class="count-plan" data-a="plantag">${icon('bolt')}<span><b>${tag.aufgabe.art === 'schwach' ? 'Heute: Schwächen üben' : tag.aufgabe.vor ? 'Heute lernen, du bist vorne' : 'Heute lernen'}</b><small>${esc(tag.aufgabe.text)}</small></span>${icon('chev', 'chev')}</button>${mehr}`;
+          : (zuLesen(ex, tag.aufgabe) ? `<button class="count-plan" data-a="planlesen">${icon('book')}<span><b>Heute: erst lesen, dann üben</b><small>${esc(st.thema(zuLesen(ex, tag.aufgabe)).thema.name)} im Lernzettel lesen und abhaken, dann kommen die Fragen dazu.</small></span>${icon('chev', 'chev')}</button>` : '')
+            + `<button class="count-plan" data-a="plantag">${icon('bolt')}<span><b>${tag.aufgabe.art === 'schwach' ? 'Heute: Schwächen üben' : tag.aufgabe.vor ? 'Heute lernen, du bist vorne' : 'Heute lernen'}</b><small>${esc(tag.aufgabe.text)}</small></span>${icon('chev', 'chev')}</button>${mehr}`;
       const fehlen = st.fehlendeThemen(ex);
       // Kurz vor der Arbeit: eine Probeklausur wie im Ernstfall zeigt am besten, was noch fehlt
       const lp = st.letzteProbe(ex.id);
@@ -182,6 +183,7 @@ const heute = {
       eingang: () => { const o = eingang.offen()[0]; if (!o) return; insText = o.text; insMode = 'block'; insEingang = o.id; insResult = null; showTab('plus'); },
       speicherfehler: () => { prefs.set('speicherFehler', null); push(datensicherung()); },
       plantag: () => planTagLernen(st.nextExam(dayStr()), 'plan'),
+      planlesen: () => { const e = st.nextExam(dayStr()); const t = planHeute(e, dayStr()); const tid = t && zuLesen(e, t.aufgabe); if (tid) push(arbeitsZettel(e.id, tid)); },
       planschwach: () => planTagLernen(st.nextExam(dayStr()), 'schwach'),
       exam: id => push(termineDetail(id)),
       zettel: id => push(arbeitsZettel(id)),
@@ -322,6 +324,12 @@ const planText = (p, leicht = p.leicht) => (p.art === 'wiederholen' ? 'Alles wie
 function planTage(ex, today) {
   const tops = (ex.themaIds || []).map(t => st.thema(t)).filter(Boolean).map(t => t.thema);
   return tops.length ? lernplan(ex.datum, tops, st.planStart(ex, today)) : [];
+}
+// Erst lesen, dann üben: das erste neue Thema des Plantags, das im Lernzettel noch nicht abgehakt ist
+function zuLesen(ex, auf) {
+  if (!auf || auf.art !== 'plan' || !auf.p || auf.p.art !== 'lernen') return null;
+  const x = auf.p.themen.find(y => y.neu && st.thema(y.thema.id) && !istGelernt(ex.id, y.thema.id));
+  return x ? x.thema.id : null;
 }
 function planHeute(ex, today) {
   const tage = planTage(ex, today);

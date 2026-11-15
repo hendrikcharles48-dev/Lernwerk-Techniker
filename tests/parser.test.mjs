@@ -198,5 +198,30 @@ ok(checkNumber('12 N/mm²', 12, 'N/mm²').status === 'ok', 'Einheit mit Bruchstr
   ok(/Verwechslung/.test(summary(t)), 'Zusammenfassung zählt Verwechslungen');
 }
 
+
+// Trainer-Fragen: Rückmeldung je falscher Antwort und Fälle mit Schrittfragen
+{
+  const r = parseBlocks(`=== LERNWERK ===
+Fach: Technische Mechanik
+Thema: Lagerkräfte
+Fall: Balken | Gesucht: F_Ay
+Gleichung: II | 0 = F_Ay + F_B − F
+Schrittfrage: In welcher Gleichung steht F_Ay? | Gleichung II | Gleichung I; Gleichung III | Nur in II.
+Falsch: Gleichung I | In I steht nur F_Ax.
+Auswahl: Drehpunkt? | In A | In B; In der Mitte | Dann fallen F_Ax und F_Ay raus.
+Falsch: In B | Dann fällt F_B raus.
+Aufgabe: Test
+Ansatz: Momentensumme | Kräftesumme; Pythagoras
+Falsch: Pythagoras | Es gibt kein rechtwinkliges Dreieck.
+Falsch: Kreisfläche | gibt es nicht
+=== ENDE ===`);
+  const t = r.themen[0];
+  ok(t.faelle.length === 1 && t.faelle[0].gleichungen.length === 1 && t.faelle[0].schritte[0].wf[0].w === 'In I steht nur F_Ax.', 'Fall mit Schrittfrage und Falsch-Zeile', t.faelle);
+  ok(t.auswahl[0].wf.length === 1 && t.aufgaben[0].ansatz.wf.length === 2, 'Falsch-Zeilen bei Auswahl und Ansatz');
+  ok(r.hinweise.some(h => h.meldung.includes('Kreisfläche')), 'Hinweis bei unbekannter falscher Antwort');
+  ok(JSON.stringify(parseBlocks(exportBlock(t)).themen[0]) === JSON.stringify(t), 'Rundreise mit Fall und Falsch-Zeilen');
+  ok(summary(t).includes('1 Fall'), 'Zusammenfassung zählt Fälle', summary(t));
+  ok(parseBlocks('Fach: X\nThema: Y\nFalsch: a | b').hinweise.length === 1, 'Falsch ohne Frage gibt einen Hinweis');
+}
 console.log(`\n${pass} bestanden, ${fail} fehlgeschlagen`);
 process.exit(fail ? 1 : 0);

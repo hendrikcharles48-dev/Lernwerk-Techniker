@@ -56,6 +56,8 @@ Aus jeder Umstellung einer Formel macht die App von selbst eine Umstell-Übung.
 | `Reihenfolge` | `Titel \| Schritt 1; Schritt 2; Schritt 3` | in die richtige Reihenfolge bringen |
 | `Erklären` | `Aufgabe \| Kernpunkt; Kernpunkt` | aus dem Kopf erklären, Kernpunkte abhaken. In Runden und in der Probeklausur |
 | `Skizze` | `Aufgabe \| Kernpunkt; Kernpunkt` | auf Papier zeichnen, Kernpunkte abhaken |
+| `Falsch` | `falsche Antwort \| warum sie falsch ist` | direkt unter `Auswahl`, `Schrittfrage`, `Ansatz`, `Warum` oder `Kontrolle`. Wer diese Antwort wählt, liest genau diese Erklärung |
+| `Fall` | `Titel \| Ausgangslage` | Weg planen wie im Statik-Trainer. Darunter `Gleichung: Name \| Gleichung` (nur Anzeige) und `Schrittfrage: Frage \| richtig \| falsch; falsch \| Erklärung`, jede mit `Falsch`-Zeilen. Kennung `c:` |
 
 Wird eine Karte als Auswahl gezeigt, kommen die falschen Antworten aus anderen Karten desselben Themas.
 Deshalb sollen die Antworten eines Themas von derselben Art und ähnlich lang sein, mindestens vier verschiedene.
@@ -111,3 +113,15 @@ Neue Schlüssel in `KEYS`, `emptyTopic`, `LISTS`, `KEYFN`, `summary`, `exportBlo
 Eine ganze HTML-Seite, wie ein Artefakt aus dem Chat, ist kein Lernwerk-Block. Die App speichert sie als Lernseite und zeigt sie unverändert an.
 Am Anfang darf ein Kommentar die Zuordnung angeben: `<!-- lernwerk fach="Werkstofftechnik" thema="Gusseisen" arbeit="JJJJ-MM-TT" titel="…" -->`.
 Die Seite läuft abgeschottet: kein Zugriff auf die App, `localStorage` wird nachgebildet und gespeichert, `window.claude` gibt es nicht. Externe Schriften und Links brauchen Netz.
+
+## Beispiel: Fall mit Schrittfragen
+
+```
+Fall: Balken mit Fest- und Loslager | Gegeben: F, α, l, a. Gesucht: F_Ay
+Gleichung: I | 0 = F_Ax − F · cos(α)
+Gleichung: II | 0 = F_Ay + F_B − F · sin(α)
+Gleichung: III, Moment um A | 0 = F_B · l − F · sin(α) · a
+Schrittfrage: In welcher Gleichung steht F_Ay? | Gleichung II | Gleichung I; Gleichung III | Nur in II kommt F_Ay vor.
+Falsch: Gleichung I | In I steht nur F_Ax, nicht F_Ay.
+Falsch: Gleichung III | Der Drehpunkt liegt in A, deshalb ist F_Ay dort rausgefallen.
+```

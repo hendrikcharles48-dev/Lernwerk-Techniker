@@ -11,7 +11,7 @@ import * as sk from './skizzen.js';
 import { editorHTML, attachEditor } from './mathedit.js';
 import { wegSchritte, wegPruefen } from './aufgabe.js';
 
-import { runAuffrischen, runAufgabe, runAuswahl, runBegriff, runErklaeren, runFehler, runKarte, runReihenfolge, runUmstellen, runVerwechslung, runZuordnen } from './uebungen.js';
+import { runFall, runAuffrischen, runAufgabe, runAuswahl, runBegriff, runErklaeren, runFehler, runKarte, runReihenfolge, runUmstellen, runVerwechslung, runZuordnen } from './uebungen.js';
 import { schmierKnopf, schmierzettel } from './schmierzettel.js';
 /* ===== Frag Claude ===== */
 export async function askClaude(text) {
@@ -186,7 +186,7 @@ function stufenHTML(tid, items) {
 const modusHTML = () => `<div class="modus">${seg('modus', st.MODI, st.modus())}</div>`;
 const gesperrtHinweis = (alle, sicht) => { const n = alle.length - sicht.length; return n > 0 ? `<p class="src">${n} weitere ${n === 1 ? 'Frage ist' : 'Fragen sind'} noch gesperrt. „Hatten wir“ oben schaltet die nächste Stufe frei.</p>` : ''; };
 function countFor(v, T, items, tid) {
-  const n = { prinzip: 0, bausteine: 0, ueben: items.filter(i => ['aufgabe', 'umstellen', 'auswahl', 'reihenfolge', 'verwechslung', 'zuordnen', 'erklaeren', 'skizze'].includes(i.art)).length, karten: items.filter(i => i.art === 'karte' || i.art === 'begriff').length, schnellweg: T.schnellwege.length, zettel: st.notesFor(tid).length, fotos: st.photosFor(tid).length }[v];
+  const n = { prinzip: 0, bausteine: 0, ueben: items.filter(i => ['aufgabe', 'fall', 'umstellen', 'auswahl', 'reihenfolge', 'verwechslung', 'zuordnen', 'erklaeren', 'skizze'].includes(i.art)).length, karten: items.filter(i => i.art === 'karte' || i.art === 'begriff').length, schnellweg: T.schnellwege.length, zettel: st.notesFor(tid).length, fotos: st.photosFor(tid).length }[v];
   return n ? ' ' + n : '';
 }
 
@@ -212,7 +212,7 @@ function renderTab(el, tab, tid, T, items, f) {
     if (T.formeln.length) h += `<div class="sec-h">Formeln</div>` + T.formeln.map(formelCard).join('');
     if (!h) h = empty('Noch keine Bausteine.', 'Bausteine zerlegen eine Aufgabe in gegeben, gesucht, Regel und nächsten Schritt. Hol sie dir über Einfügen aus dem Chat.');
   }
-  const UEB = ['aufgabe', 'umstellen', 'auswahl', 'reihenfolge', 'verwechslung', 'zuordnen', 'erklaeren', 'skizze'];
+  const UEB = ['aufgabe', 'fall', 'umstellen', 'auswahl', 'reihenfolge', 'verwechslung', 'zuordnen', 'erklaeren', 'skizze'];
   if (tab === 'ueben') {
     const alle = items.filter(i => UEB.includes(i.art));
     const ex = alle.filter(i => st.sichtbar(i));
@@ -222,7 +222,7 @@ function renderTab(el, tab, tid, T, items, f) {
     else {
       h += `<div class="btn-row"><button class="btn filled" data-a="mix">${icon('bolt')} Gemischt üben</button></div>`;
       const grp = (art, title) => { const g = ex.filter(i => i.art === art); if (!g.length) return ''; return `<div class="sec-h">${title}</div>` + list(g.map(i => row({ a: 'item', d: i.id, titleHTML: itemHTML(i), subHTML: esc(stufeText(st.card(i.id))) }))); };
-      h += grp('aufgabe', 'Aufgaben') + grp('umstellen', 'Formeln umstellen') + grp('auswahl', 'Auswahlfragen') + grp('reihenfolge', 'Reihenfolge') + grp('verwechslung', 'Nicht verwechseln') + grp('zuordnen', 'Zuordnen') + grp('erklaeren', 'Erklären') + grp('skizze', 'Skizzen');
+      h += grp('aufgabe', 'Aufgaben') + grp('fall', 'Fälle: Weg planen') + grp('umstellen', 'Formeln umstellen') + grp('auswahl', 'Auswahlfragen') + grp('reihenfolge', 'Reihenfolge') + grp('verwechslung', 'Nicht verwechseln') + grp('zuordnen', 'Zuordnen') + grp('erklaeren', 'Erklären') + grp('skizze', 'Skizzen');
     }
     h += gesperrtHinweis(alle, ex);
   }
@@ -309,6 +309,7 @@ export function itemTitle(i) {
   if (i.art === 'aufgabe') { const t = i.aufgabe.text.replace(/\{[^}]+\}/g, '…'); return (t.length > 90 ? t.slice(0, 88).replace(/\s\S*$/, '') + ' …' : t) || 'Aufgabe'; }
   if (i.art === 'umstellen') return i.u.formel + ' nach ' + i.u.nach;
   if (i.art === 'auswahl') return i.a.frage;
+  if (i.art === 'fall') return 'Fall: ' + i.fall.titel;
   if (i.art === 'reihenfolge') return i.r.titel;
   if (i.art === 'verwechslung') return i.v.a + ' oder ' + i.v.b;
   if (i.art === 'zuordnen') return 'Zuordnen: ' + i.z.titel;
@@ -418,7 +419,7 @@ export function runItem(el, item, ctx) {
   el.style.setProperty('--fc', meta.farbe);
   // Gemischtes Üben: Das Thema wird nicht verraten, sonst ist der Ansatz schon klar
   if (ctx.blind && item.art !== 'aufgabe') Object.assign(meta, { fach: 'Gemischt', thema: 'ohne Themenhinweis' });
-  const runner = { erklaeren: runErklaeren, skizze: runErklaeren, auffrischen: runAuffrischen, aufgabe: runAufgabe, umstellen: runUmstellen, auswahl: runAuswahl, reihenfolge: runReihenfolge, karte: runKarte, begriff: runBegriff, fehler: runFehler, verwechslung: runVerwechslung, zuordnen: runZuordnen }[item.art];
+  const runner = { fall: runFall, erklaeren: runErklaeren, skizze: runErklaeren, auffrischen: runAuffrischen, aufgabe: runAufgabe, umstellen: runUmstellen, auswahl: runAuswahl, reihenfolge: runReihenfolge, karte: runKarte, begriff: runBegriff, fehler: runFehler, verwechslung: runVerwechslung, zuordnen: runZuordnen }[item.art];
   if (!runner) { el.innerHTML = empty('Diese Übung kenne ich nicht.'); ctx.onDone('hilfe'); return; }
   runner(el, item, ctx, meta);
 }

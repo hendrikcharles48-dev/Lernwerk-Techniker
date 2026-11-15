@@ -35,6 +35,8 @@ const KEYS = {
   erklaeren: 'erklaeren', erklaere: 'erklaeren', skizze: 'skizze', skizzen: 'skizze',
   // Fertige Zeichnung als SVG: Zeichnung: Titel | <svg …>…</svg>
   zeichnung: 'zeichnung', zeichnungen: 'zeichnung', svg: 'zeichnung',
+  // Rückmeldung zu einer falschen Antwort und Fälle mit Schrittfragen (wie in den Trainern aus dem Chat)
+  falsch: 'falsch', warumfalsch: 'falsch', fall: 'fall', faelle: 'fall', gleichung: 'gleichung', schrittfrage: 'schrittfrage', frage: 'schrittfrage',
   ansatz: 'ansatz', signal: 'signal', erkennen: 'signal', warum: 'warum', begruendung: 'warum', kontrolle: 'kontrolle', probe: 'kontrolle'
 };
 const keyNorm = s => String(s).toLowerCase().replace(/ä/g, 'ae').replace(/ö/g, 'oe').replace(/ü/g, 'ue').replace(/ß/g, 'ss').replace(/[^a-z]/g, '');
@@ -47,17 +49,17 @@ export function emptyTopic(fach = '', thema = '') {
     fach, thema, modul: '',
     anker: [], begriffe: [], merksaetze: [], prinzip: [], bausteine: [], schnellwege: [], fehler: [],
     formeln: [], karten: [], aufgaben: [], umstellen: [], auswahl: [], reihenfolgen: [], podcast: [], quellen: [], notizen: [],
-    verwechslungen: [], zuordnen: [], erklaeren: [], skizzen: [], zeichnungen: []
+    verwechslungen: [], zuordnen: [], erklaeren: [], skizzen: [], zeichnungen: [], faelle: []
   };
 }
-const LISTS = ['anker', 'begriffe', 'merksaetze', 'prinzip', 'bausteine', 'schnellwege', 'fehler', 'formeln', 'karten', 'aufgaben', 'umstellen', 'auswahl', 'reihenfolgen', 'podcast', 'quellen', 'notizen', 'verwechslungen', 'zuordnen', 'erklaeren', 'skizzen', 'zeichnungen'];
+const LISTS = ['anker', 'begriffe', 'merksaetze', 'prinzip', 'bausteine', 'schnellwege', 'fehler', 'formeln', 'karten', 'aufgaben', 'umstellen', 'auswahl', 'reihenfolgen', 'podcast', 'quellen', 'notizen', 'verwechslungen', 'zuordnen', 'erklaeren', 'skizzen', 'zeichnungen', 'faelle'];
 
 // Prüfzeile „Inhalt: 6 Karten; 2 Aufgaben“: welches Wort zu welcher Liste gehört
 const INHALT = [
   [/^karte/, 'karten', 'Karten'], [/^aufgabe/, 'aufgaben', 'Aufgaben'], [/^(fach)?begriff/, 'begriffe', 'Begriffe'], [/^formel/, 'formeln', 'Formeln'],
   [/^merks/, 'merksaetze', 'Merksätze'], [/^baustein/, 'bausteine', 'Bausteine'], [/^(typische)?fehler/, 'fehler', 'Fehler'], [/^schnellweg/, 'schnellwege', 'Schnellwege'],
   [/^auswahl/, 'auswahl', 'Auswahlfragen'], [/^reihenfolge/, 'reihenfolgen', 'Reihenfolgen'], [/^umstell/, 'umstellen', 'Umstellaufgaben'], [/^verwechslung/, 'verwechslungen', 'Verwechslungen'],
-  [/^zuordn/, 'zuordnen', 'Zuordnungen'], [/^erklaer/, 'erklaeren', 'Erklär-Aufgaben'], [/^skizze/, 'skizzen', 'Skizzen'], [/^(zeichnung|svg)/, 'zeichnungen', 'Zeichnungen'], [/^(anker|bild)/, 'anker', 'Bilder'], [/^podcast/, 'podcast', 'Podcast-Zeilen']
+  [/^zuordn/, 'zuordnen', 'Zuordnungen'], [/^erklaer/, 'erklaeren', 'Erklär-Aufgaben'], [/^skizze/, 'skizzen', 'Skizzen'], [/^(zeichnung|svg)/, 'zeichnungen', 'Zeichnungen'], [/^(anker|bild)/, 'anker', 'Bilder'], [/^podcast/, 'podcast', 'Podcast-Zeilen'], [/^(fall|faelle)/, 'faelle', 'Fälle']
 ];
 export function readInhalt(val) {
   const out = [];
@@ -105,7 +107,7 @@ export function parseBlocks(text) {
   const res = { themen: [], termine: [], fehler: [], hinweise: [], luecken: [], abgeschnitten: false };
   const hasMarkers = lines.some(l => START.test(cleanLine(l)));
   let inBlock = !hasMarkers;
-  let cur = null, field = null, task = null, umst = null, ctx = null, blockLine = 0, stufe = 0, inhalt = null;
+  let cur = null, field = null, task = null, umst = null, ctx = null, blockLine = 0, stufe = 0, inhalt = null, lastMc = null, fall = null;
   // Stufe-Zeile: alle folgenden Einträge gehören zu dieser Stufe
   const mark = o => { if (stufe) o.stufe = stufe; return o; };
 
@@ -115,11 +117,12 @@ export function parseBlocks(text) {
   function finish() {
     if (!cur) return;
     const t = cur, soll = inhalt;
-    cur = null; field = null; task = null; umst = null; ctx = null; stufe = 0; inhalt = null;
+    cur = null; field = null; task = null; umst = null; ctx = null; stufe = 0; inhalt = null; lastMc = null; fall = null;
     // leere Einträge entfernen
     for (const k of ['anker', 'merksaetze', 'prinzip', 'bausteine', 'schnellwege', 'quellen']) t[k] = t[k].map(s => s.trim()).filter(Boolean);
     t.karten = t.karten.filter(k => k.frage && k.antwort);
     t.begriffe = t.begriffe.filter(b => b.begriff);
+    t.faelle = t.faelle.filter(f => f.schritte.length);
     for (const a of t.aufgaben) {
       a.text = a.text.trim();
       if (a.variablen.length && !a.rechnung) res.hinweise.push({ zeile: a._z, text: a.text.slice(0, 60), meldung: 'Aufgabe hat Variablen, aber keine Rechnung. Ich nutze die festen Zahlen.' });
@@ -289,14 +292,14 @@ export function parseBlocks(text) {
         const [richtig, falsch] = pipes(val);
         const f = splitList(falsch || '');
         if (!richtig || !f.length) { err(i, (key === 'ansatz' ? 'Ansatz' : 'Warum') + ' bitte so schreiben: richtige Antwort | falsch; falsch; falsch.'); break; }
-        t[key] = { richtig, falsch: f }; field = null; break;
+        t[key] = { richtig, falsch: f }; lastMc = t[key]; field = null; break;
       }
       case 'signal': { const t = ensureTask(i); t.signal = val; setField(t, 'signal'); break; }
       case 'kontrolle': {
         const t = ensureTask(i);
         const [frage, richtig, falsch] = pipes(val);
         if (!frage || !richtig || !falsch) { err(i, 'Kontrolle bitte so schreiben: Frage | richtige Antwort | falsch; falsch.'); break; }
-        t.kontrolle = { frage, richtig, falsch: splitList(falsch) }; field = null; break;
+        t.kontrolle = { frage, richtig, falsch: splitList(falsch) }; lastMc = t.kontrolle; field = null; break;
       }
       case 'termin': {
         const p = pipes(val);
@@ -326,7 +329,8 @@ export function parseBlocks(text) {
       case 'auswahl': {
         const [frage, richtig, falsch, erklaerung] = pipes(val);
         if (!frage || !richtig || !falsch) { err(i, 'Auswahl bitte so schreiben: Frage | richtige Antwort | falsche Antwort; falsche Antwort.'); break; }
-        cur.auswahl.push(mark({ frage, richtig, falsch: splitList(falsch), erklaerung: erklaerung || '' })); field = null; break;
+        lastMc = mark({ frage, richtig, falsch: splitList(falsch), erklaerung: erklaerung || '' });
+        cur.auswahl.push(lastMc); field = null; break;
       }
       case 'reihenfolge': {
         const [titel, schritte] = pipes(val);
@@ -370,6 +374,35 @@ export function parseBlocks(text) {
         const sauber = bereinigen(svg);
         if (!sauber) { err(i, 'Die Zeichnung „' + titel + '“ kann ich nicht lesen. Das SVG ist fehlerhaft.'); field = null; break; }
         cur.zeichnungen.push({ titel, svg: sauber }); field = null; break;
+      }
+      // Falsch: Antwort | warum sie falsch ist. Gehört zur letzten Auswahl, Schrittfrage, zum Ansatz oder zur Kontrolle.
+      case 'falsch': {
+        const [antw, ...w] = pipes(val);
+        if (!lastMc || !antw || !w.length) { warn(i, 'Falsch bitte direkt unter eine Auswahl, Schrittfrage oder einen Ansatz schreiben: falsche Antwort | warum sie falsch ist.'); field = null; break; }
+        if (!lastMc.falsch.some(x => norm(x) === norm(antw))) warn(i, 'Die Antwort „' + antw + '“ steht nicht bei den falschen Antworten darüber.');
+        const o = { a: antw, w: w.join(' | ') };
+        (lastMc.wf = lastMc.wf || []).push(o); setField(o, 'w'); break;
+      }
+      // Fall: Titel | Ausgangslage. Darunter Gleichung- und Schrittfrage-Zeilen, wie im Trainer „Weg planen“.
+      case 'fall': {
+        const [titel, ...rest] = pipes(val);
+        if (!titel) { err(i, 'Fall bitte so schreiben: Titel | Ausgangslage.'); break; }
+        fall = mark({ titel, text: rest.join(' | '), gleichungen: [], schritte: [] });
+        cur.faelle.push(fall); task = null; umst = null; ctx = 'fall'; setField(fall, 'text'); break;
+      }
+      case 'gleichung': {
+        if (!fall) { warn(i, 'Gleichung gehört unter eine Zeile „Fall:“.'); break; }
+        const p = pipes(val);
+        const gl = p.length > 1 ? p.slice(1).join(' | ') : p[0], name = p.length > 1 ? p[0] : '';
+        try { parseEq(gl); } catch (e) { warn(i, 'Die Gleichung kann ich nicht als Rechnung lesen (' + e.message + '). Ich zeige sie als Text.'); }
+        fall.gleichungen.push({ name, gl }); field = null; break;
+      }
+      case 'schrittfrage': {
+        if (!fall) { err(i, 'Schrittfrage gehört unter eine Zeile „Fall:“.'); break; }
+        const [frage, richtig, falsch, erklaerung] = pipes(val);
+        if (!frage || !richtig || !falsch) { err(i, 'Schrittfrage bitte so schreiben: Frage | richtige Antwort | falsch; falsch | Erklärung (optional).'); break; }
+        lastMc = { frage, richtig, falsch: splitList(falsch), erklaerung: erklaerung || '' };
+        fall.schritte.push(lastMc); field = null; break;
       }
       case 'podcast': {
         // Podcast: Lena | Text  oder  Podcast: Tom | Text. Tom erklärt, Lena fragt.
@@ -415,6 +448,7 @@ export function summary(t) {
     [(t.erklaeren || []).length, 'Erklär-Aufgabe', 'Erklär-Aufgaben'],
     [(t.skizzen || []).length, 'Skizze', 'Skizzen'],
     [(t.zeichnungen || []).length, 'Zeichnung', 'Zeichnungen'],
+    [(t.faelle || []).length, 'Fall', 'Fälle'],
     [t.schnellwege.length, 'Schnellweg', 'Schnellwege'],
     [t.fehler.length, 'typischer Fehler', 'typische Fehler'],
     [t.prinzip.length ? 1 : 0, 'Prinzip-Text', 'Prinzip-Texte'],
@@ -430,7 +464,7 @@ const KEYFN = {
   begriffe: b => norm(b.begriff), fehler: f => norm(f.fehler), formeln: f => norm(f.formel), karten: k => norm(k.frage),
   aufgaben: a => norm(a.text + a.gegeben.join('')), umstellen: u => norm(u.formel + '|' + u.nach), auswahl: a => norm(a.frage),
   reihenfolgen: r => norm(r.titel), podcast: p => norm(p.wer + p.text), notizen: n => norm(n.schluessel + n.text),
-  verwechslungen: v => norm(v.a + '|' + v.b), zuordnen: z => norm(z.titel), erklaeren: e => norm(e.aufgabe), skizzen: e => norm(e.aufgabe), zeichnungen: z => norm(z.titel)
+  verwechslungen: v => norm(v.a + '|' + v.b), zuordnen: z => norm(z.titel), erklaeren: e => norm(e.aufgabe), skizzen: e => norm(e.aufgabe), zeichnungen: z => norm(z.titel), faelle: f => norm(f.titel)
 };
 // opt.zeichnungBleibt: bei gleichem Titel behält base seine Zeichnung (Abgleich: base ist die neuere Fassung).
 // Sonst ersetzt eine gleichnamige Zeichnung aus add die alte.
@@ -480,6 +514,7 @@ export function exportBlock(t, termine = []) {
   t.fehler.forEach(f => { st(f); L.push(lineOut('Fehler', f.fehler + ' | ' + f.achtung)); });
   t.formeln.forEach(f => { st(f); L.push('Formel: ' + (f.name || '') + ' | ' + f.formel + (f.umgestellt.length ? ' | ' + f.umgestellt.join('; ') : '')); if (f.aufbau) L.push('Aufbau: ' + f.aufbau); });
   t.karten.forEach(k => { st(k); L.push(lineOut('Karte', k.frage + ' | ' + k.antwort)); });
+  const wfOut = q => (q && q.wf ? q.wf.forEach(x => L.push(lineOut('Falsch', x.a + ' | ' + x.w))) : null);
   t.aufgaben.forEach(a => {
     st(a);
     L.push(lineOut('Aufgabe', a.text));
@@ -490,10 +525,10 @@ export function exportBlock(t, termine = []) {
     if (a.ergebnis) L.push('Ergebnis: ' + fmtVal(a.ergebnis.wert) + (a.ergebnis.einheit ? ' | ' + a.ergebnis.einheit : ''));
     a.variablen.forEach(v => L.push('Variable: ' + v.name + ' | ' + v.von + ' | ' + v.bis + ' | ' + v.schritt));
     if (a.rechnung) L.push('Rechnung: ' + a.rechnung);
-    if (a.ansatz) L.push('Ansatz: ' + a.ansatz.richtig + ' | ' + a.ansatz.falsch.join('; '));
+    if (a.ansatz) { L.push('Ansatz: ' + a.ansatz.richtig + ' | ' + a.ansatz.falsch.join('; ')); wfOut(a.ansatz); }
     if (a.signal) L.push(lineOut('Signal', a.signal));
-    if (a.warum) L.push('Warum: ' + a.warum.richtig + ' | ' + a.warum.falsch.join('; '));
-    if (a.kontrolle) L.push('Kontrolle: ' + a.kontrolle.frage + ' | ' + a.kontrolle.richtig + ' | ' + a.kontrolle.falsch.join('; '));
+    if (a.warum) { L.push('Warum: ' + a.warum.richtig + ' | ' + a.warum.falsch.join('; ')); wfOut(a.warum); }
+    if (a.kontrolle) { L.push('Kontrolle: ' + a.kontrolle.frage + ' | ' + a.kontrolle.richtig + ' | ' + a.kontrolle.falsch.join('; ')); wfOut(a.kontrolle); }
   });
   t.umstellen.forEach(u => {
     st(u);
@@ -501,7 +536,8 @@ export function exportBlock(t, termine = []) {
     u.umformungen.forEach(f => L.push('Umformung: ' + f.operation + ' | ' + f.gleichung + (f.falsch.length ? ' | ' + f.falsch.join('; ') : '')));
     u.tipps.forEach(g => L.push(lineOut('Tipp', g)));
   });
-  t.auswahl.forEach(a => st(a) || L.push('Auswahl: ' + a.frage + ' | ' + a.richtig + ' | ' + a.falsch.join('; ') + (a.erklaerung ? ' | ' + a.erklaerung : '')));
+  t.auswahl.forEach(a => { st(a); L.push('Auswahl: ' + a.frage + ' | ' + a.richtig + ' | ' + a.falsch.join('; ') + (a.erklaerung ? ' | ' + a.erklaerung : '')); wfOut(a); });
+  (t.faelle || []).forEach(f => { st(f); L.push(lineOut('Fall', f.titel + (f.text ? ' | ' + f.text : ''))); f.gleichungen.forEach(g => L.push('Gleichung: ' + (g.name ? g.name + ' | ' : '') + g.gl)); f.schritte.forEach(q => { L.push('Schrittfrage: ' + q.frage + ' | ' + q.richtig + ' | ' + q.falsch.join('; ') + (q.erklaerung ? ' | ' + q.erklaerung : '')); wfOut(q); }); });
   t.reihenfolgen.forEach(r => st(r) || L.push('Reihenfolge: ' + r.titel + ' | ' + r.schritte.join('; ')));
   (t.verwechslungen || []).forEach(v => st(v) || L.push(lineOut('Verwechslung', v.a + ' | ' + v.b + ' | ' + v.unterschied)));
   (t.zuordnen || []).forEach(z => st(z) || L.push('Zuordnen: ' + z.titel + ' | ' + z.paare.map(p => p.begriff + ' = ' + p.bedeutung).join('; ')));
@@ -544,6 +580,11 @@ Signal: woran ich in der Aufgabe erkenne, dass dieser Ansatz passt
 Warum: richtige Begründung | falsche Begründung; falsche Begründung
 Kontrolle: Frage zur Plausibilität des Ergebnisses | richtige Antwort | falsch; falsch
 Auswahl: kurzer Fall aus der Praxis | richtige Antwort | falsch; falsch; falsch | Erklärung, warum
+Falsch: eine der falschen Antworten | warum genau sie falsch ist (für jede falsche Antwort eine Zeile, auch unter Ansatz)
+Fall: Titel | Ausgangslage, gegeben und gesucht
+Gleichung: I | 0 = F_Ax − F · cos(α)
+Schrittfrage: In welcher Gleichung steht F_Ay? | Gleichung II | Gleichung I; Gleichung III | warum das der richtige Schritt ist
+Falsch: Gleichung I | In I steht nur F_Ax.
 Stufe: 2
 Verwechslung: Begriff A | Begriff B | Unterschied in einem Satz
 Zuordnen: Titel | Begriff = Bedeutung; Begriff = Bedeutung; Begriff = Bedeutung
@@ -554,6 +595,7 @@ Zeichnung: Titel | <svg viewBox="0 0 300 200">…</svg> (optional, fertige Skizz
 Termin: Fach | JJJJ-MM-TT | Themen
 Inhalt: 6 Karten; 2 Aufgaben; 3 Begriffe
 === ENDE ===
+Fragen wie in einem guten Trainer: Jede falsche Antwort ist ein typischer Denkfehler, und zu jeder steht in einer Falsch-Zeile, warum sie nicht passt. Bei Rechenthemen zusätzlich Fälle: Erst den Weg planen (welche Gleichung, welches Zwischenziel, wohin der Drehpunkt) in Schrittfragen, dann rechnen. Erklären-Zeilen im Stil der Klausur: Aussage und Begründung als getrennte Kernpunkte.
 Zu jeder Aufgabe gehören Ansatz, Signal, Warum und Kontrolle. Die falschen Ansätze sollen plausibel sein, am besten Verfahren aus verwandten Themen, die man leicht verwechselt. Alle Antworten einer Auswahl gleich lang und gleich aufgebaut, damit die richtige nicht auffällt.
 Stufen: Stufe 1 sind Grundlagen (Anker, Begriffe, Merksatz, einfache Karten), Stufe 2 Zusammenhänge (Prinzip, Formeln, Bausteine, Verwechslungen, Zuordnen), Stufe 3 Anwenden (Aufgaben, Fehler, Schnellweg, schwere Karten, Erklären, Skizze). Eine Stufe-Zeile gilt für alle Zeilen danach bis zur nächsten Stufe-Zeile.
 Die Zeile Inhalt zählt am Ende, was im Block steht, damit ich sehe, ob alles angekommen ist.

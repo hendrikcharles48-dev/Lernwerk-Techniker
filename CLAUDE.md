@@ -19,6 +19,12 @@ Weitere Unterlagen:
 6. Antworten an den Besitzer: Deutsch, einfache Sätze, klare Ansagen, was er selbst tun muss. Er schreibt meist vom iPhone.
 7. Nur Vorschläge, die mit iPhone und ohne Server gehen. Sonst direkt sagen, dass es nicht geht.
 
+## Material des Besitzers sofort speichern (vom Besitzer ausdrücklich gewünscht)
+
+- Schickt er Unterrichtsmaterial (Fotos, Arbeitsblätter, PDFs, Übungsklausuren), wird es ohne Rückfrage zu einer Lernseite und einem Lernwerk-Block und landet in `eingang/` im privaten Repository `Lernwerk-Sicherung`. Ablauf im Skill `.claude/skills/lernwerk-eingang/SKILL.md`.
+- Ist das private Repository nicht in der Sitzung: die Dateien trotzdem bauen, ihm als Datei schicken und einmal sagen, dass er neue Sitzungen mit beiden Repositorys starten soll.
+- Unterrichtsmaterial nie ins öffentliche Repository.
+
 ## Veröffentlichen (vom Besitzer dauerhaft erlaubt)
 
 - Direkt auf `main` pushen, kein Pull Request, nicht nachfragen.
@@ -97,7 +103,7 @@ Eingebaute Inhalte und eingefügte Blöcke laufen durch denselben Parser und die
 | `events` | Ereignisse für Statistik und Stärke, höchstens 5000. Ältere als 60 Tage werden beim Start zu `kv tage` verdichtet (`verdichten` in `js/abgleich.js`), je Thema und Art bleiben die neuesten zwölf |
 | `exams` | Klassenarbeiten und Noten `{ id, fachId, fach, datum, themen, themaIds, ausgeschlossen?, note?, prozent?, ergebnis?, notiz? }` |
 
-**Kennung einer Übung** (`cards.id`): Buchstabe, Themen-ID, Hash des Inhalts. `k:` Karte, `b:` Begriff, `a:` Aufgabe, `u:` Umstellen, `w:` Auswahl, `r:` Reihenfolge, `v:` Verwechslung, `z:` Zuordnen, `e:` Erklären, `s:` Skizze, `t:Themen-ID` Trainer, `f:Fehler-ID` Fehlerkarte. Der Hash kommt aus dem Fragetext. Ändert sich der Text, beginnt die Übung neu. Diese Regel nicht ändern.
+**Kennung einer Übung** (`cards.id`): Buchstabe, Themen-ID, Hash des Inhalts. `k:` Karte, `b:` Begriff, `a:` Aufgabe, `u:` Umstellen, `w:` Auswahl, `r:` Reihenfolge, `v:` Verwechslung, `z:` Zuordnen, `c:` Fall (Schrittfragen), `e:` Erklären, `s:` Skizze, `t:Themen-ID` Trainer, `f:Fehler-ID` Fehlerkarte. Der Hash kommt aus dem Fragetext. Ändert sich der Text, beginnt die Übung neu. Diese Regel nicht ändern.
 
 **`kv`-Schlüssel.** Abgeglichen: `lehrplan`, `aktuell`, `abgeschlossen`, `aktuellSeit`, `zustandZeit`, `freigabe`, `lernweg`, `planStart`, `planErledigt`, `planNachholen`, `notenschluessel`, `uebModus`, `kartenArt`, `umstellFrei`, `proben` (vereinigt), `zettelGelernt` (Häkchen im Lernzettel zur Arbeit), `eingang` (geholte Dateien mit Stand), `eingangOffen` (Blöcke aus dem Eingang, die auf die Vorschau warten), `tage` (Tageswerte verdichteter Ereignisse, je Tag der größere) und `ereignisseAb` (Stichtag, der spätere gilt), dazu `kvZeit` (Zeitstempel je Schlüssel) und `geloescht` (Löschmarken). Nur auf dem Gerät (`NUR_GERAET` in `abgleich.js`): `zuletzt`, `letzteSicherung`, `ersterStart`, `unterrichtVorgabe`, `freigabeStart`.
 
@@ -130,11 +136,12 @@ Eingebaute Inhalte und eingefügte Blöcke laufen durch denselben Parser und die
 2. **Der Weg zählt, nicht das Rechnen.** Wie beim Arbeitsplan an der Fräse: erst die Reihenfolge der Schritte, dann rechnen. Der Nutzer wählt den nächsten Schritt selbst, die App zeigt nur, wo er abbiegt.
 3. **Er rechnet, die App prüft.** Nicht vorrechnen, keine Ansagen wie „rechne jetzt X aus“. Tipp und Lösung bleiben zu, bis er sie öffnet. Hinweise nennen die Fehlerstelle, nicht das Ergebnis.
 4. Aufgaben als reiner Aufgabentext. Gegeben und Gesucht sind eingeklappt.
-5. **Freies Abrufen vor Wiedererkennen.** Karten werden aufgedeckt und selbst bewertet. Auswahlfragen nur mit glaubwürdigen falschen Antworten.
+5. **Freies Abrufen vor Wiedererkennen.** Karten werden aufgedeckt und selbst bewertet. Auswahlfragen nur mit glaubwürdigen falschen Antworten, und zu jeder falschen Antwort steht, warum sie falsch ist (wie in den Trainern aus dem Chat).
 6. Rechenfächer (Mathematik, Elektrotechnik, Mechanik): Ansatz erkennen, Weg planen, durchgerechnetes Beispiel bei neuen Themen, dann frei rechnen, Zwillingsaufgabe. Lernfächer (Werkstofftechnik, Führung, Qualität, Ökonomie): aufdecken, erklären mit Kernpunkten, Skizze aus dem Kopf.
 7. Verteilt wiederholen (1, 2, 4, 7, 14, 30 Tage), gemischt üben, vor Arbeiten vorziehen. Was nicht saß, kommt in derselben Runde noch einmal.
 8. So nah am Unterricht wie möglich, nicht tiefer. Nichts erfinden, vor allem keine Rechenaufgaben. Werte des Lehrers und des Tabellenbuchs haben Vorrang, Abweichungen mit „Achtung“ markieren.
 9. Kurz und einfach. Ein Konzept nach dem anderen. Wenig Lernzeit unterwegs: Alles muss in zwei bis zehn Minuten am Handy gehen.
+10. **Erst lernen, dann prüfen.** Wie im Lernzettel zur Klausur: Thema lesen und abhaken, dann Fragen dazu, am Ende Mini-Prüfungen je Thema und gemischt, dazu Fehler-Training.
 
 ## Designregeln
 

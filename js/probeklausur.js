@@ -52,23 +52,27 @@ export function probePage(exam) {
       on(b, {
         'seg:mode': v => { mode = v; this.render(b); }, 'seg:n': v => { anzahl = +v; }, 'seg:min': v => { minuten = +v; prefs.set('probeMin', minuten); },
         start: () => {
-          const tids = [...sel];
-          // gleichmäßig über die Themen verteilen, erst Rechnen, dann die anderen Arten
-          const rund = (lists, n, out) => { while (out.length < n && lists.some(x => x.length)) for (const x of lists) if (x.length && out.length < n) out.push(x.shift()); return out; };
-          const rechnen = tids.map(t => shuffle(st.topicItems(t).filter(i => GRADABLE.includes(i.art))));
-          const andere = tids.map(t => shuffle(st.pruefItems(t)).sort((a, c) => (a.art === 'text') - (c.art === 'text')));
-          const nR = andere.some(x => x.length) ? Math.round(anzahl * 0.6) : anzahl;
-          const mix = rund(rechnen, nR, []);
-          rund(andere, anzahl, mix);
-          rund(rechnen, anzahl, mix);
+          const mix = probeAufgaben([...sel], anzahl);
           if (!mix.length) { toast('Wähl Themen mit Aufgaben aus.'); return; }
-          runExam(shuffle(mix), minuten, mode === 'arbeit' && next ? next.id : '');
+          runExam(mix, minuten, mode === 'arbeit' && next ? next.id : '');
         }
       });
     }
   };
 }
-function runExam(items, minuten, exId = '') {
+// Aufgaben für eine Probeklausur: gleichmäßig über die Themen, erst Rechnen, dann Erklären, Skizzen und Text
+export function probeAufgaben(tids, anzahl) {
+  const rund = (lists, n, out) => { while (out.length < n && lists.some(x => x.length)) for (const x of lists) if (x.length && out.length < n) out.push(x.shift()); return out; };
+  const rechnen = tids.map(t => shuffle(st.topicItems(t).filter(i => GRADABLE.includes(i.art))));
+  const andere = tids.map(t => shuffle(st.pruefItems(t)).sort((a, c) => (a.art === 'text') - (c.art === 'text')));
+  const nR = andere.some(x => x.length) ? Math.round(anzahl * 0.6) : anzahl;
+  const mix = rund(rechnen, nR, []);
+  rund(andere, anzahl, mix);
+  rund(rechnen, anzahl, mix);
+  return shuffle(mix);
+}
+// schluessel: welche Mini-Prüfung es war (alle oder eine Themen-ID), für das beste Ergebnis im Lernzettel
+export function runExam(items, minuten, exId = '', schluessel = '') {
   // Ergebnis der Auswertung, wird beim Schließen gespeichert
   let ergebnis = null, gespeichert = false;
   const res = [];
@@ -82,7 +86,7 @@ function runExam(items, minuten, exId = '') {
       clearInterval(tm);
       if (ergebnis && !gespeichert) {
         gespeichert = true;
-        await st.probeSpeichern(Object.assign({ exId, minuten, n: items.length }, ergebnis));
+        await st.probeSpeichern(Object.assign({ exId, minuten, n: items.length }, schluessel ? { schluessel } : {}, ergebnis));
         const ex = exId ? st.S.exams.find(e => e.id === exId) : null;
         const schwach = Object.entries(ergebnis.themen || {}).filter(([t, q]) => q < 60 && st.thema(t)).map(([t]) => t);
         if (ex && schwach.length) { await st.planNachholenSetzen(ex, [...st.planNachholen(ex), ...schwach]); toast(schwach.map(t => st.thema(t).thema.name).join(', ') + ' kommt im Lernplan nochmal dran.', 4000); }

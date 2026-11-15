@@ -37,6 +37,9 @@ Stufe: 3
 Erklären: Erkläre den Feinguss. | Wachsmodell; Keramikschale; ausschmelzen; gießen
 Skizze: Skizziere eine Sandform. | Einguss; Speiser
 Zeichnung: Form | <svg viewBox="0 0 10 10"><rect width="10" height="10"/></svg>
+Fall: Gießverfahren wählen | Kurbelwelle aus Gusseisen
+Schrittfrage: Welcher Werkstoff? | GJS | GJL; Stahlguss
+Falsch: GJL | Lamellen wirken wie Kerben.
 === ENDE ===`;
 const r = parseBlocks(block);
 ok(!r.fehler.length && r.themen.length === 1, 'Block gelesen', r.fehler);
@@ -46,6 +49,7 @@ ok(out[0].fach.id === 'ws', 'Werkstoffkunde landet bei Werkstofftechnik', out[0]
 const items = st.topicItems(tid);
 ok(items.filter(i => i.art === 'karte').length === 2 && items.some(i => i.art === 'begriff'), 'Karten und Begriff als Übungen');
 ok(items.some(i => i.art === 'erklaeren') && items.some(i => i.art === 'skizze'), 'Erklären und Skizze sind Übungen', items.map(i => i.art));
+ok(items.some(i => i.art === 'fall' && i.id.startsWith('c:') && i.fall.schritte[0].wf.length === 1), 'Fall ist eine Übung mit Kennung c:');
 ok(items.every(i => i.eigen && st.sichtbar(i)), 'eigene Inhalte sind immer frei');
 ok(st.pruefItems(tid).find(i => i.art === 'erklaeren').id === items.find(i => i.art === 'erklaeren').id, 'Erklären: gleiche Kennung in Runde und Probeklausur');
 
