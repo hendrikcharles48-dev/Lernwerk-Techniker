@@ -945,3 +945,8 @@ body.seite-offen .tabbar, body.seite-offen #update { display: none; }
 .az-pti small { color: var(--label2); font-size: 13px; }
 .az-pti.zu { opacity: .55; }
 .az-pti.zu b { background: var(--label3); }
+
+.banner.ausw { background: var(--info-bg); }
+.ausw-k { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+.seiten-wdh { display: flex; flex-direction: column; gap: 6px; margin: 0 0 12px; }
+.seiten-wdh .count-plan { background: var(--bg2); border-radius: var(--r); box-shadow: var(--shadow); }

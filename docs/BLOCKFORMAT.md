@@ -114,6 +114,8 @@ Eine ganze HTML-Seite, wie ein Artefakt aus dem Chat, ist kein Lernwerk-Block. D
 Am Anfang darf ein Kommentar die Zuordnung angeben: `<!-- lernwerk fach="Werkstofftechnik" thema="Gusseisen" arbeit="JJJJ-MM-TT" titel="…" -->`.
 Die Seite läuft abgeschottet: kein Zugriff auf die App, `localStorage` wird nachgebildet und gespeichert, `window.claude` gibt es nicht. Externe Schriften und Links brauchen Netz.
 
+Antworten an die App melden: `window.lernwerk.antwort({ frage, gewaehlt, richtig, ok, thema, erklaerung })`. Dann zählt die Antwort für Stärke und Serie, und eine falsche kommt ins Fehlerbuch. Ohne diesen Aufruf erkennt die App richtig und falsch an den Klassen `ok` (oder `good`, `right`, `correct`, `richtig`) und `bad` (oder `no`, `wrong`, `falsch`) an Antwortknöpfen, die Frage am nächsten Element mit `.qq`, `.q`, `.frage`, `.step-q` oder `.question`.
+
 ## Beispiel: Fall mit Schrittfragen
 
 ```

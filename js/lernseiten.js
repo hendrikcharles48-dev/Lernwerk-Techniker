@@ -11,10 +11,10 @@ export const istHtml = t => /^\s*(<!--[\s\S]*?-->\s*)*(<!doctype html|<html[\s>]
 export const istSeite = n => !!(n && n.html);
 export const titelAus = html => { const m = /<title[^>]*>([\s\S]*?)<\/title>/i.exec(html || ''); return m ? plainText(m[1].replace(/<[^>]+>/g, '')).trim().slice(0, 80) : ''; };
 // Kurzbeschreibung für Listen, Suche und Vorlesen: die ersten Sätze sichtbaren Textes
-export function textAus(html) {
+export function textAus(html, max = 600) {
   const t = String(html || '').replace(/<(script|style|svg|head)[\s\S]*?<\/\1>/gi, ' ').replace(/<[^>]+>/g, ' ')
     .replace(/&nbsp;/g, ' ').replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/\s+/g, ' ').trim();
-  return t.slice(0, 600);
+  return t.slice(0, max);
 }
 // Zuordnung aus einem Kommentar am Anfang: <!-- lernwerk fach="Werkstofftechnik" thema="Gießen" arbeit="2026-11-16" -->
 export function zuordnungAus(html) {
@@ -49,6 +49,14 @@ function send(){clearTimeout(t);t=setTimeout(function(){try{parent.postMessage({
 function mk(d,persist){return{getItem:function(k){k=String(k);return Object.prototype.hasOwnProperty.call(d,k)?d[k]:null;},setItem:function(k,v){d[String(k)]=String(v);if(persist)send();},removeItem:function(k){delete d[String(k)];if(persist)send();},clear:function(){for(var k in d)delete d[k];if(persist)send();},key:function(i){return Object.keys(d)[i]||null;},get length(){return Object.keys(d).length;}};}
 try{Object.defineProperty(window,'localStorage',{value:mk(data,true),configurable:true});}catch(e){}
 try{Object.defineProperty(window,'sessionStorage',{value:mk({},false),configurable:true});}catch(e){}
+var ausdr=false,gesehen={};
+function melde(o){try{parent.postMessage({lwSeite:ID,lwAntwort:o},'*');}catch(e){}}
+window.lernwerk={antwort:function(o){ausdr=true;if(o&&o.frage)melde({frage:String(o.frage),gewaehlt:String(o.gewaehlt||''),richtig:String(o.richtig||''),ok:!!o.ok,thema:String(o.thema||''),erklaerung:String(o.erklaerung||'')});}};
+function txt(el){return (el.textContent||'').replace(/\\s+/g,' ').trim();}
+function frageZu(el){for(var n=el;n&&n!==document.body;n=n.parentElement){var q=n.querySelector&&n.querySelector('.qq,.q,.frage,.step-q,.question,.ex-task');if(q&&txt(q))return txt(q).slice(0,300);}return '';}
+var KL=/(^|\\s)(ok|good|right|correct|richtig)(\\s|$)/,KF=/(^|\\s)(bad|no|wrong|falsch|err)(\\s|$)/;
+try{new MutationObserver(function(ms){if(ausdr)return;var je={};ms.forEach(function(m){var el=m.target;if(m.attributeName!=='class'||!el.closest||!el.closest('button,[role=button],.qopt,.opt,.option'))return;var c=el.className||'',a=m.oldValue||'';if(typeof c!=='string')return;var ok=KL.test(c)&&!KL.test(a),bad=KF.test(c)&&!KF.test(a);if(!ok&&!bad)return;var q=frageZu(el);if(!q||gesehen[q])return;var x=je[q]||(je[q]={ok:[],bad:[]});(bad?x.bad:x.ok).push(txt(el).slice(0,200));});
+Object.keys(je).forEach(function(q){var x=je[q];gesehen[q]=1;melde({frage:q,ok:!x.bad.length,gewaehlt:x.bad.length===1?x.bad[0]:'',richtig:x.bad.length&&x.ok.length===1?x.ok[0]:'',auto:true});});}).observe(document.documentElement,{subtree:true,attributes:true,attributeFilter:['class'],attributeOldValue:true});}catch(e){}
 document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('a[href]');if(!a)return;var h=a.getAttribute('href')||'';if(h.charAt(0)==='#'||/^javascript:/i.test(h))return;a.setAttribute('target','_blank');a.setAttribute('rel','noopener');},true);
 })();<\/script>`;
 }
@@ -60,8 +68,43 @@ function mitShim(html, id, zustand) {
 }
 
 let offen = null;
+
+/* ===== Antworten aus der Seite verbuchen =====
+ * Jede Antwort zählt wie eine Übung der App: für Stärke, Serie und Wochenstatistik. Falsche Antworten kommen ins Fehlerbuch
+ * und als Fehlerkarte in die Wiederholung. Die Seite meldet über window.lernwerk.antwort({...}) oder die App erkennt
+ * richtig und falsch an den Markierungen der Antwortknöpfe (ok, bad).
+ */
+export async function verbuchen(noteId, o) {
+  const n = st.S.notes.find(x => x.id === noteId);
+  const frage = String((o && o.frage) || '').trim().slice(0, 300);
+  if (!n || !frage) return null;
+  let tid = n.tid && st.thema(n.tid) ? n.tid : '';
+  const f = st.fach(n.fid) || (tid ? st.thema(tid).fach : null);
+  if (o.thema && f) { const t = st.suggestThema(f, String(o.thema)); if (t) tid = t.id; }
+  await st.addEvent({ art: 'seite', tid, ok: !!o.ok, ergebnis: o.ok ? 'richtig' : 'falsch', seite: n.id });
+  if (o.ok) return null;
+  const th = tid ? st.thema(tid) : null;
+  return st.addError({ fach: th ? th.fach.name : f ? f.name : '', thema: th ? th.thema.name : n.titel || '', tid, aufgabe: frage, eingabe: String(o.gewaehlt || '').slice(0, 200), richtig: String(o.richtig || '').slice(0, 200), fehlerart: 'Falsche Auswahl', quelle: 'seite', notiz: [String(o.erklaerung || ''), 'Aus der Lernseite „' + (n.titel || '') + '“.'].filter(Boolean).join(' ') });
+}
+
+/* ===== Lernseiten wiederholen =====
+ * Nach jeder Runde (ab drei Antworten) kommt die Seite in wachsenden Abständen wieder: 1, 3, 7, 14, 30 Tage.
+ * Seiten zu einer Arbeit in den nächsten 14 Tagen, die noch nie geübt wurden, stehen gleich da.
+ */
+const ABSTAND = [1, 3, 7, 14, 30];
+export function faellig(jetzt = Date.now()) {
+  const heute = new Date(jetzt).toISOString().slice(0, 10);
+  const bald = new Set(st.S.exams.filter(e => e.datum >= heute && (Date.parse(e.datum) - jetzt) / 864e5 <= 14).map(e => e.id));
+  return seiten().map(n => {
+    if (!n.letzteRunde) return bald.has(n.exId) ? { n, tage: null } : null;
+    const ab = ABSTAND[Math.min((n.runden || 1) - 1, ABSTAND.length - 1)];
+    const tage = Math.floor((jetzt - n.letzteRunde) / 864e5);
+    return tage >= ab ? { n, tage } : null;
+  }).filter(Boolean).sort((a, b) => (a.tage == null ? -1 : b.tage == null ? 1 : b.tage - a.tage));
+}
 if (typeof window !== 'undefined') window.addEventListener('message', async e => {
   if (!offen || !e.data || e.data.lwSeite !== offen.id || e.source !== offen.frame.contentWindow) return;
+  if (e.data.lwAntwort) { offen.antworten++; if (e.data.lwAntwort.ok) offen.richtig++; await verbuchen(offen.id, e.data.lwAntwort); return; }
   const store = e.data.store;
   if (!store || typeof store !== 'object') return;
   const text = JSON.stringify(store);
@@ -85,7 +128,7 @@ export function oeffnen(id) {
   document.body.classList.add('sheet-open', 'seite-offen');
   const frame = $('.seite-f', el);
   frame.srcdoc = mitShim(n.html, n.id, n.zustand);
-  offen = { id, el, frame };
+  offen = { id, el, frame, antworten: 0, richtig: 0 };
   st.setPlace({ art: 'seite', noteId: id, tid: n.tid || '', titel: n.titel });
   el.addEventListener('click', async ev => {
     const b = ev.target.closest('[data-s]');
@@ -94,10 +137,13 @@ export function oeffnen(id) {
     if (b.dataset.s === 'menu') menu(n.id);
   });
 }
-export function schliessen() {
+export async function schliessen() {
   if (!offen) return;
-  offen.el.remove();
+  const o = offen;
+  o.el.remove();
   offen = null;
+  // Eine Runde zählt ab drei Antworten. Daraus plant die Startseite die nächste Wiederholung der Seite.
+  if (o.antworten >= 3) { const n = st.S.notes.find(x => x.id === o.id); if (n) await st.saveNote(Object.assign({}, n, { runden: (n.runden || 0) + 1, letzteRunde: Date.now(), quote: Math.round(o.richtig / o.antworten * 100) })); }
   document.body.classList.remove('seite-offen');
   // Nur zurücksetzen, wenn kein anderes Fenster offen ist
   if (!document.querySelector('.sheet')) document.body.classList.remove('sheet-open');
@@ -112,12 +158,14 @@ async function menu(id) {
     render(b, api) {
       b.innerHTML = `<div class="btn-col"><button class="btn" data-a="zuordnen">${icon('list')} Fach, Thema und Klassenarbeit</button>
         <button class="btn" data-a="neu">${icon('repeat')} Fortschritt auf dieser Seite zurücksetzen</button>
+        <button class="btn" data-a="nlm">${icon('copy')} Text für NotebookLM kopieren</button>
         <button class="btn" data-a="datei">${icon('save')} Als Datei sichern</button>
         <button class="btn danger" data-a="del">${icon('trash')} Lernseite löschen</button></div>
         <p class="src">Die Seite läuft abgeschottet. Sie kommt nicht an deine anderen Daten. Häkchen und Ergebnisse auf der Seite speichert Lernwerk und gleicht sie mit deinen anderen Geräten ab.</p>`;
       on(b, {
         zuordnen: () => { api.close(); zuordnenDialog(id); },
         neu: async () => { if (!(await confirmBox('Fortschritt auf dieser Seite zurücksetzen? Häkchen und Ergebnisse der Seite sind dann weg.', 'Zurücksetzen', true))) return; await st.saveNote(Object.assign({}, n, { zustand: {} })); api.close(); schliessen(); oeffnen(id); },
+        nlm: async () => { const { copyText } = await import('./ui.js'); const ok = await copyText((n.titel || '') + '\n\n' + textAus(n.html, 200000)); toast(ok ? 'Text kopiert. In NotebookLM als Quelle „Kopierter Text“ einfügen.' : 'Kopieren hat nicht geklappt.'); },
         datei: () => saveFile((n.titel || 'lernseite').replace(/[^\wäöüÄÖÜß-]+/g, '-') + '.html', n.html, 'text/html'),
         del: async () => { if (!(await confirmBox('Lernseite „' + (n.titel || '') + '“ löschen?', 'Löschen', true))) return; api.close(); schliessen(); await st.deleteNote(id); toast('Lernseite gelöscht.'); }
       });

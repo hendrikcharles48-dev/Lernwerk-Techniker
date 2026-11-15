@@ -60,6 +60,7 @@ export function lernstandText() {
   L.push('- Neue Lernseiten (eine HTML-Datei, wie ein Artefakt) und Lernwerk-Blöcke (.txt) in den Ordner `eingang/` dieses Repositorys legen.');
   L.push('- Am Anfang einer Lernseite optional: `<!-- lernwerk fach="Werkstofftechnik" thema="Gusseisen" arbeit="JJJJ-MM-TT" -->`. Ohne Angabe kommt sie zur nächsten Arbeit im Fach.');
   L.push('- Lernseiten laufen in der App abgeschottet und offline. Ihr localStorage wird gespeichert und zwischen den Geräten abgeglichen. Externe Schriften gehen nur mit Netz.');
+  L.push('- Jede beantwortete Frage melden: `window.lernwerk && window.lernwerk.antwort({ frage, gewaehlt, richtig, ok, thema, erklaerung })`. Falsche Antworten kommen dann ins Fehlerbuch und in die Wiederholung.');
   L.push('- Eine Datei mit gleichem Namen und neuem Inhalt wird neu geholt. Eine Lernseite mit gleichem Titel im selben Fach ersetzt die alte, der Fortschritt bleibt.', '');
   const kommende = st.S.exams.filter(e => e.datum >= heute).sort((a, b) => (a.datum < b.datum ? -1 : 1));
   if (kommende.length) {

@@ -180,5 +180,25 @@ ok(m.daten.kv.kartenArt === undefined || m.daten.kv.kartenArt === 'aufdecken', '
   const sich = JSON.parse(JSON.stringify(await st.exportBackup(false)));
   ok(sich.notes.some(x => x.html && x.zustand && x.zustand.lz === '1'), 'Lernseite mit Fortschritt in der Sicherung');
 }
+
+// Antworten aus Lernseiten: zählen als Übung, falsche kommen ins Fehlerbuch, Seite kommt zur Wiederholung
+{
+  const ls = await import('../js/lernseiten.js');
+  const n = await ls.speichern({ html: '<!DOCTYPE html><html><head><title>Trainer Momente</title></head><body>x</body></html>', fid: 'tm', tid: 'tm-momente' });
+  const ev0 = st.S.events.length, er0 = st.S.errors.length;
+  await ls.verbuchen(n.id, { frage: 'Wohin legst du den Drehpunkt?', gewaehlt: 'In B', richtig: 'In A', ok: false });
+  await ls.verbuchen(n.id, { frage: 'Welche Gleichung?', ok: true });
+  const e = st.S.errors[st.S.errors.length - 1];
+  ok(st.S.events.length === ev0 + 2 && st.S.events.slice(-2).every(x => x.art === 'seite' && x.tid === 'tm-momente'), 'Antworten zählen als Übung im Thema');
+  ok(st.S.errors.length === er0 + 1 && e.quelle === 'seite' && e.eingabe === 'In B' && e.richtig === 'In A' && st.card('f:' + e.id), 'Falsche Antwort im Fehlerbuch und als Fehlerkarte');
+  await ls.verbuchen(n.id, { frage: 'Reibung?', ok: false, thema: 'Reibung' });
+  ok(st.S.errors[st.S.errors.length - 1].tid === 'tm-reibung', 'Thema aus der Angabe der Seite');
+  const u = await import('../js/util.js');
+  const ex = await st.addExam({ fachId: 'tm', datum: u.addDays(u.dayStr(), 4), themaIds: ['tm-momente'] });
+  await st.saveNote(Object.assign({}, st.S.notes.find(x => x.id === n.id), { exId: ex.id }));
+  ok(ls.faellig().some(x => x.n.id === n.id && x.tage == null), 'Neue Seite zur Arbeit steht zum Üben da');
+  await st.saveNote(Object.assign({}, st.S.notes.find(x => x.id === n.id), { runden: 2, letzteRunde: Date.now() - 4 * 864e5 }));
+  ok(ls.faellig().some(x => x.n.id === n.id && x.tage === 4) && !ls.faellig(Date.now() - 2 * 864e5).some(x => x.n.id === n.id), 'Wiederholung nach drei Tagen in Runde 2');
+}
 console.log('\n' + pass + ' bestanden, ' + fail + ' fehlgeschlagen');
 process.exit(fail ? 1 : 0);

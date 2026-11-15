@@ -73,7 +73,7 @@ export function arbeitsZettel(exId, startTid) {
         <div class="az-pt">${tids.map((t, k) => { const b2 = best(t); return `<button class="az-pti ${g[t] ? '' : 'zu'}" data-a="pruefThema" data-d="${esc(t)}"><b>${k + 1}</b><span>${esc(st.thema(t).thema.name)}</span><small>${g[t] ? (b2 != null ? 'bestes ' + b2 + ' %' : '5 Aufgaben') : 'erst abhaken'}</small></button>`; }).join('')}</div>
         ${fehlerN ? `<button class="btn-big" data-a="fehlerTraining" style="--fc:var(--red)">${icon('fehler')}<span><b>Fehler-Training</b><small>${fehlerN} Fragen, die bei dir schon einmal falsch waren</small></span></button>` : ''}
         ${alle ? '' : `<button class="btn small" data-a="trotzdem">Trotzdem alles prüfen</button>`}
-        <div class="btn-col"><button class="btn" data-a="ueben">${icon('bolt')} Themen der Arbeit üben</button></div></section>`;
+        <div class="btn-col"><button class="btn" data-a="ueben">${icon('bolt')} Themen der Arbeit üben</button><button class="btn" data-a="nlm">${icon('copy')} Text für NotebookLM kopieren</button></div></section>`;
       b.innerHTML = h;
       sk.fuellen(b);
       if (startTid && !gesprungen) { gesprungen = true; setTimeout(() => { const el = $('#az-' + CSS.escape(startTid), b); if (el) el.scrollIntoView({ block: 'start' }); }, 60); }
@@ -88,6 +88,24 @@ export function arbeitsZettel(exId, startTid) {
         trotzdem: async () => { const p = await import('./probeklausur.js'); pruef(p.probeAufgaben(tids, 10), 30, 'alle'); },
         pruefThema: async tid => { if (!gelernt(exId)[tid]) { toast('Lies das Thema erst und hak es ab. Dann prüfst du, ob es sitzt.'); const el = $('#az-' + CSS.escape(tid), b); if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' }); return; } const p = await import('./probeklausur.js'); pruef(p.probeAufgaben([tid], 5), 0, tid); },
         fehlerTraining: async () => { const x = await import('./engine.js'); x.runSession(fehlerItems(ex).slice(0, 15), 'Fehler-Training'); },
+        // Für Erklärvideos in NotebookLM: der ganze Lernzettel als Text
+        nlm: async () => {
+          const { copyText } = await import('./ui.js');
+          const L = ['Lernzettel ' + ex.fach + ', Klassenarbeit am ' + dayLong(ex.datum), ''];
+          tids.forEach((t, k) => {
+            const T = st.topic(t);
+            L.push((k + 1) + '. ' + st.thema(t).thema.name, '');
+            T.anker.slice(0, 1).forEach(a => L.push('Bild aus der Werkstatt: ' + a));
+            T.merksaetze.slice(0, 4).forEach(m => L.push('Merksatz: ' + m));
+            T.begriffe.filter(x => x.erklaerung).forEach(x => L.push(x.begriff + ': ' + x.erklaerung));
+            T.formeln.forEach(fo => L.push('Formel ' + (fo.name ? fo.name + ': ' : '') + fo.formel + (fo.aufbau ? '. ' + fo.aufbau : '')));
+            T.prinzip.forEach(p => L.push(p));
+            T.fehler.slice(0, 4).forEach(x => L.push('Prüfungsfalle: ' + x.fehler + (x.achtung ? '. ' + x.achtung : '')));
+            L.push('');
+          });
+          const ok = await copyText(L.join('\n'));
+          toast(ok ? 'Text kopiert. In NotebookLM als Quelle „Kopierter Text“ einfügen.' : 'Kopieren hat nicht geklappt.');
+        },
         fragen: async tid => { const x = await import('./engine.js'); const its = x.sortForPractice(st.topicItems(tid).filter(i => i.art !== 'fehler')).slice(0, 8); if (!its.length) { toast('Zu diesem Thema gibt es noch keine Fragen.'); return; } x.runSession(its, st.thema(tid).thema.name); },
         ueben: async () => { const x = await import('./engine.js'); const q = st.buildQueue(1200, { tids, exam: ex, mitFehlern: true, maxNeu: 12 }); x.runSession(q.items.length ? q.items : x.sortForPractice(tids.flatMap(t => st.uebItems(t))).slice(0, 12), 'Arbeit: ' + ex.fach); }
       });

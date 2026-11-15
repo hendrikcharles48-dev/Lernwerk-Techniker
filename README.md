@@ -17,6 +17,10 @@ Für die Arbeit am Code: `CLAUDE.md` (Bauplan und Regeln), `docs/ROADMAP.md` (of
 - **Formeln wie im Buch:** Auch im Fließtext mit echtem Bruchstrich, Wurzel und Hochzahl. Lösungen zeilenweise: Formel, eingesetzte Werte, Ergebnis.
 - **Probeklausur im Lernplan:** Ein bis drei Tage vor einer Arbeit steht sie in der Karte der Arbeit. Ergebnisse stehen unter Mehr, Probeklausur.
 - **Rückfall-Kopien:** Unter Mehr, Datensicherung. Die App legt von selbst Kopien an, bevor etwas Größeres passiert, und warnt, wenn Speichern nicht klappt.
+- **Lernseiten:** Lernzettel und Trainer aus dem Chat laufen in Lernwerk. Antworten darin zählen für Fehlerbuch, Wiederholung und Stärke. Die Startseite erinnert ans Wiederholen.
+- **Lernzettel zur Arbeit:** alle Themen einer Klassenarbeit auf einer Seite, abhaken, dann Mini-Prüfungen je Thema und gemischt, Fehler-Training.
+- **Fälle und Rückmeldung je falscher Antwort** wie in den Trainern: `Fall:`, `Schrittfrage:`, `Falsch:` im Block.
+- **Nach der Arbeit:** Die Startseite fragt nach Note und schwachen Themen.
 - **Weiter, wo du warst** auf der Startseite. Die Adresse der App mit `#einfuegen` am Ende öffnet gleich die Seite Einfügen.
 
 ## Was die App kann

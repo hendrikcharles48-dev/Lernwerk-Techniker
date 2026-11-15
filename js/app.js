@@ -1,10 +1,10 @@
 // Lernwerk Techniker: App-Hülle mit Heute, Fächer, Einfügen, Fehlerbuch und Mehr.
-import { esc, dayStr, dayLong, daysBetween, plural, fmtNum, markdown, plainText, uid, shuffle } from './util.js';
+import { esc, dayStr, dayLong, daysBetween, plural, fmtNum, markdown, plainText, uid, shuffle, addDays } from './util.js';
 import { parseBlocks, summary, TEMPLATE } from './parser.js';
 import * as st from './store.js';
 import { $, $$, icon, row, list, seg, sw, empty, on, push, initTabs, showTab, tab, openSheet, toast, copyText, readClipboard, progress, ring, fachIcon, confirmBox, refreshAll, refreshTop, initEdgeSwipe, initTabSwipe, hinweisTabellenbuch } from './ui.js';
 import { topicPage, runSession, sortForPractice, fachProgress, topicProgress, openTrainer, askClaude, shrinkImage, noteReader, firstLine, itemTitle, lernwegOffen, lernwegStand, nachAlter } from './engine.js';
-import { mehrPage, unterrichtPage, termineDetail, termEditor, datensicherung, applyTheme, hoerPage, probePage } from './extra.js';
+import { mehrPage, unterrichtPage, termineDetail, termEditor, datensicherung, applyTheme, hoerPage, probePage, notenEditor } from './extra.js';
 import { prefs } from './db.js';
 import { saeulen, stapel, standVon, balken } from './diagramm.js';
 import { lernplan } from './srs.js';
@@ -18,7 +18,7 @@ import * as eingang from './eingang.js';
 import { arbeitsZettel, zettelStand as arbeitsZettelStand, istGelernt } from './arbeitszettel.js';
 import { beiSchreibfehler } from './db.js';
 
-export const VERSION = '1.41.0';
+export const VERSION = '1.42.0';
 
 /* ===== Heute ===== */
 // Kurze, wechselnde Sätze für den Start. Ohne Druck.
@@ -38,7 +38,7 @@ function gruss() {
 // Bausteine der Startseite. Reihenfolge und Sichtbarkeit stellst du unten unter „Startseite anpassen“ ein.
 const START_TEILE = [
   ['spruch', 'Spruch des Tages'], ['tag', 'Fortschritt heute'], ['unterricht', 'Lernknopf Unterricht'], ['alles', 'Lernknopf Alles wiederholen'],
-  ['wahl', 'Lernzeit, Fragen und Mini'], ['imunterricht', 'Im Unterricht'], ['weiter', 'Weiter, wo du warst'], ['arbeit', 'Nächste Klassenarbeit'], ['kacheln', 'Trainer und Hörmodus'], ['woche', 'Diese Woche']
+  ['wahl', 'Lernzeit, Fragen und Mini'], ['imunterricht', 'Im Unterricht'], ['weiter', 'Weiter, wo du warst'], ['seiten', 'Lernseiten wiederholen'], ['arbeit', 'Nächste Klassenarbeit'], ['kacheln', 'Trainer und Hörmodus'], ['woche', 'Diese Woche']
 ];
 export function startLayout() {
   const l = (prefs.get('startLayout', null) || []).filter(x => START_TEILE.some(t => t[0] === x.id));
@@ -83,6 +83,10 @@ const heute = {
     // Kopf: Gruß und Datum in einer Zeile
     let h = `<div class="kopf"><b>${esc(gruss())}</b><span>${esc(new Date().toLocaleDateString('de-DE', { weekday: 'short', day: 'numeric', month: 'short' }))}</span></div>`;
     T.spruch = `<p class="spruch">${icon('sparkle')}<span>${esc(MUT[doy % MUT.length])}</span></p>`;
+    // Nach der Arbeit: Note und schwache Themen eintragen, die kommen dann öfter dran
+    const spaeter = prefs.get('auswertungSpaeter', {}) || {};
+    const ausw = st.S.exams.filter(e => e.datum < today && daysBetween(e.datum, today) <= 30 && e.note == null && e.prozent == null && (e.themaIds || []).length && !(st.kvGet('auswertungAus', []) || []).includes(e.id) && !((spaeter[e.id] || '') > today)).sort((a, c) => (a.datum < c.datum ? 1 : -1))[0];
+    if (ausw) h += `<div class="banner ausw"><span>${icon('exam')}</span><span><b>Wie lief ${esc(ausw.fach)} am ${esc(dayLong(ausw.datum))}?</b> Trag die Note ein und tipp an, welche Themen schlecht liefen. Die kommen dann öfter dran.<span class="ausw-k"><button class="btn small filled" data-a="auswerten" data-d="${ausw.id}">Auswerten</button><button class="btn small" data-a="auswSpaeter" data-d="${ausw.id}">Später</button><button class="btn small" data-a="auswNein" data-d="${ausw.id}">Keine Note</button></span></span></div>`;
     // Neu im Eingang: Blöcke, die Claude in dein privates Repository gelegt hat, warten auf deine Vorschau
     const eo = eingang.offen();
     if (eo.length) h += `<button class="banner" data-a="eingang">${icon('paste')}<span><b>Neu in deinem Eingang:</b> ${esc(eo.map(o => o.titel).join(', '))}. Tippe hier für die Vorschau.</span></button>`;
@@ -126,6 +130,9 @@ const heute = {
     const pl = st.place();
     if (pl && pl.art === 'seite' && st.S.notes.some(n => n.id === pl.noteId)) T.weiter = `<button class="unt-zeile" data-a="weiter">${icon('repeat')}<b>Weiter</b><span class="unt-tags"><span class="tag" style="--fc:#FF9F0A">${esc(pl.titel || 'Lernseite')}</span><span class="muted">Lernseite</span></span>${icon('chev', 'chev')}</button>`;
     else if (pl && pl.tid && st.thema(pl.tid)) { const w = st.thema(pl.tid); T.weiter = `<button class="unt-zeile" data-a="weiter">${icon('repeat')}<b>Weiter</b><span class="unt-tags"><span class="tag" style="--fc:${w.fach.farbe}">${esc(w.thema.name)}</span><span class="muted">${pl.art === 'trainer' ? 'Trainer' : 'Thema'}</span></span>${icon('chev', 'chev')}</button>`; }
+    // Lernseiten wiederholen: in wachsenden Abständen, Seiten zur nächsten Arbeit zuerst
+    const fs = lernseiten.faellig();
+    if (fs.length) T.seiten = `<div class="seiten-wdh">${fs.slice(0, 3).map(({ n, tage }) => `<button class="count-plan" data-a="seite" data-d="${n.id}">${icon('repeat')}<span><b>${esc(n.titel || 'Lernseite')}</b><small>${tage == null ? 'Noch nicht geübt. Durchgehen und die Mini-Prüfungen machen.' : 'Wiederholen: zuletzt vor ' + plural(tage, 'Tag', 'Tagen') + (n.quote != null ? ', ' + n.quote + ' % richtig' : '')}</small></span>${icon('chev', 'chev')}</button>`).join('')}</div>`;
     const ex = st.nextExam(today);
     if (ex) {
       const d = daysBetween(today, ex.datum);
@@ -187,6 +194,9 @@ const heute = {
       planschwach: () => planTagLernen(st.nextExam(dayStr()), 'schwach'),
       exam: id => push(termineDetail(id)),
       zettel: id => push(arbeitsZettel(id)),
+      auswerten: id => { const e = st.S.exams.find(x => x.id === id); if (e) notenEditor(e); },
+      auswSpaeter: id => { const sp = Object.assign({}, prefs.get('auswertungSpaeter', {}) || {}); sp[id] = addDays(dayStr(), 3); prefs.set('auswertungSpaeter', sp); toast('Ich frage in drei Tagen wieder.'); this.render(b); },
+      auswNein: async id => { await st.kvSet('auswertungAus', [...(st.kvGet('auswertungAus', []) || []), id]); toast('Alles klar, ich frage nicht mehr.'); this.render(b); },
       seite: id => lernseiten.oeffnen(id),
       probeJetzt: () => { const e = st.nextExam(dayStr()); if (e) push(probePage(e)); },
       newexam: () => termEditor({}),
