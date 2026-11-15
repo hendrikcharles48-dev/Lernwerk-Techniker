@@ -24,6 +24,7 @@ Weitere Unterlagen:
 - Schickt er Unterrichtsmaterial (Fotos, Arbeitsblätter, PDFs, Übungsklausuren), wird es ohne Rückfrage zu einer Lernseite und einem Lernwerk-Block und landet in `eingang/` im privaten Repository `Lernwerk-Sicherung`. Ablauf im Skill `.claude/skills/lernwerk-eingang/SKILL.md`.
 - Ist das private Repository nicht in der Sitzung: die Dateien trotzdem bauen, ihm als Datei schicken und einmal sagen, dass er neue Sitzungen mit beiden Repositorys starten soll.
 - Unterrichtsmaterial nie ins öffentliche Repository.
+- Schickt er Termine (Klausuren, Arbeiten, Fotos von Terminlisten), trägt Claude sie ohne Rückfrage ein: Block mit `Termin: Fach | JJJJ-MM-TT | Themen` als `eingang/JJJJ-MM-TT-termine.txt` im privaten Repository. Fachname wie in `lehrplan.json`, nur bei echtem Zweifel nach dem Fach fragen. Zuordnung: M8 ist Werkstofftechnik oder „Ökologisch und nachhaltig handeln“ (in der App Ökonomie und Nachhaltigkeit), M6 ist Führung und Personal. Ohne privates Repository: Block fertig in die Antwort zum Einfügen. Termine nie ins öffentliche Repository.
 
 ## Veröffentlichen (vom Besitzer dauerhaft erlaubt)
 

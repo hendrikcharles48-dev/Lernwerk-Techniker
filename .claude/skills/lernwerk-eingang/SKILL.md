@@ -1,6 +1,6 @@
 ---
 name: lernwerk-eingang
-description: Material des Besitzers (Fotos von Mitschriften, Arbeitsblätter, PDFs, Übungsklausuren, Texte) sofort zu einer Lernseite und einem Lernwerk-Block machen und in den Eingang der App legen. Nutzen, sobald er in einer Sitzung Unterrichtsmaterial schickt, „Lernwerk“ schreibt, „speichern“, „in die App“ oder „einfügen“ sagt.
+description: Material des Besitzers (Fotos von Mitschriften, Arbeitsblätter, PDFs, Übungsklausuren, Texte) sofort zu einer Lernseite und einem Lernwerk-Block machen und in den Eingang der App legen. Nutzen, sobald er in einer Sitzung Unterrichtsmaterial schickt, „Lernwerk“ schreibt, „speichern“, „in die App“ oder „einfügen“ sagt, und sobald er Termine oder Klausurdaten schickt.
 ---
 
 # Lernwerk: Material automatisch in die App
@@ -27,6 +27,10 @@ Fehlt es: einmal kurz sagen, dass er eine neue Sitzung mit beiden Repositorys st
 3. **Lernwerk-Block** bauen (Format in `docs/BLOCKFORMAT.md`), damit die Fragen auch in die Wiederholung kommen: Karten, Begriffe, Erklären mit Kernpunkten, Auswahl mit `Falsch:`-Zeilen, bei Rechenthemen `Fall:` mit `Schrittfrage:`. Mit `node -e` und `js/parser.js` prüfen: keine Fehler.
 4. Beide Dateien in `Lernwerk-Sicherung/eingang/` legen: `JJJJ-MM-TT-thema.html` und `JJJJ-MM-TT-thema.txt`. Committen und pushen. Nichts anderes in diesem Repository ändern, nie `lernwerk-sicherung.json` anfassen.
 5. Kurz melden: was gespeichert ist, und dass es beim nächsten Öffnen von Lernwerk da ist. Den Block wartet auf der Startseite auf seine Vorschau, die Lernseite ist sofort da.
+
+## Termine
+
+Klausurtermine sofort eintragen, ohne zu fragen: ein Block nur aus `Termin: Fach | JJJJ-MM-TT | Themen`-Zeilen zwischen `=== LERNWERK ===` und `=== ENDE ===`, als `eingang/JJJJ-MM-TT-termine.txt`. Er wartet auf der Startseite und wird mit einem Tipp gespeichert. Fehlt das private Repository, den Block zum Einfügen in die Antwort schreiben (Einfügen, Block). Nur fragen, wenn das Fach wirklich unklar ist. Lehrernamen nicht in den Block.
 
 ## Regeln
 
