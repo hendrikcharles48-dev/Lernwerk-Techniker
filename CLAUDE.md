@@ -139,6 +139,7 @@ Eingebaute Inhalte und eingefügte Blöcke laufen durch denselben Parser und die
 5. **Freies Abrufen vor Wiedererkennen.** Karten werden aufgedeckt und selbst bewertet. Auswahlfragen nur mit glaubwürdigen falschen Antworten, und zu jeder falschen Antwort steht, warum sie falsch ist (wie in den Trainern aus dem Chat).
 6. Rechenfächer (Mathematik, Elektrotechnik, Mechanik): Ansatz erkennen, Weg planen, durchgerechnetes Beispiel bei neuen Themen, dann frei rechnen, Zwillingsaufgabe. Lernfächer (Werkstofftechnik, Führung, Qualität, Ökonomie): aufdecken, erklären mit Kernpunkten, Skizze aus dem Kopf.
 7. Verteilt wiederholen (1, 2, 4, 7, 14, 30 Tage), gemischt üben, vor Arbeiten vorziehen. Was nicht saß, kommt in derselben Runde noch einmal.
+   **Am Tag der Arbeit muss alles sitzen, nicht nur ein Teil.** Vor einer Arbeit baut `arbeitsRunde` in `js/store.js` jede Runde aus allen Themen der Arbeit (alle Stufen), Rechnen nur im Anteil der offenen Rechenaufgaben, und sorgt dafür, dass jede Frage einmal drankommt. Nicht wieder auf feste Rechenquoten umstellen.
 8. So nah am Unterricht wie möglich, nicht tiefer. Nichts erfinden, vor allem keine Rechenaufgaben. Werte des Lehrers und des Tabellenbuchs haben Vorrang, Abweichungen mit „Achtung“ markieren.
 9. Kurz und einfach. Ein Konzept nach dem anderen. Wenig Lernzeit unterwegs: Alles muss in zwei bis zehn Minuten am Handy gehen.
 10. **Erst lernen, dann prüfen.** Wie im Lernzettel zur Klausur: Thema lesen und abhaken, dann Fragen dazu, am Ende Mini-Prüfungen je Thema und gemischt, dazu Fehler-Training.
@@ -163,6 +164,7 @@ Eingebaute Inhalte und eingefügte Blöcke laufen durch denselben Parser und die
 - Jede Formel bekommt eine Zeile „Aufbau:“. Jeder Rechenschritt wendet eine Formel an oder rechnet eine Einheit um.
 - Jede Aufgabe in eingebauten Inhalten braucht Ansatz, Signal und Kontrolle. Die richtige Antwort darf nicht durch ihre Länge auffallen.
 - Fakten sorgfältig prüfen. Bei Widersprüchen beide Angaben nennen und mit „Achtung“ markieren.
+- **Keine Bezüge auf Material** (Wunsch des Besitzers): nicht „auf dem Arbeitsblatt“, „Blatt 20“, „AB20“, „aus der Übungsklausur“, „laut Mitschrift“ schreiben. Aufgaben, Werte und Beispiele vollständig übernehmen, aber für sich stehend formulieren. Abweichende Werte des Lehrers als „Achtung, im Unterricht …“ nennen.
 
 ## Hörmodus-Audio
 

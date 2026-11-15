@@ -200,5 +200,31 @@ ok(m.daten.kv.kartenArt === undefined || m.daten.kv.kartenArt === 'aufdecken', '
   await st.saveNote(Object.assign({}, st.S.notes.find(x => x.id === n.id), { runden: 2, letzteRunde: Date.now() - 4 * 864e5 }));
   ok(ls.faellig().some(x => x.n.id === n.id && x.tage === 4) && !ls.faellig(Date.now() - 2 * 864e5).some(x => x.n.id === n.id), 'Wiederholung nach drei Tagen in Runde 2');
 }
+
+// Vor der Arbeit: alle Themen gleichmäßig, Rechnen nicht übermäßig, nach einigen Runden ist jede Frage einmal dran gewesen
+{
+  const u = await import('../js/util.js');
+  const tids = ['ws-eisen-kohlenstoff-diagramm', 'ws-waermebehandlung', 'ws-werkstoffpruefung', 'ws-stahlbezeichnungen-nach-din-en-10027', 'et-leiterwiderstand'];
+  const ex = await st.addExam({ fachId: 'ws', datum: u.addDays(u.dayStr(), 6), themaIds: tids });
+  const r = st.arbeitsRunde(ex, [], 12);
+  const proThema = new Set(r.filter(i => i.tid).map(i => i.tid));
+  const rechnen = r.filter(i => i.art === 'aufgabe' || i.art === 'umstellen').length;
+  ok(tids.every(t => proThema.has(t)), 'Runde vor der Arbeit enthält jedes Thema', [...proThema]);
+  ok(rechnen <= Math.ceil(12 * 0.5), 'Rechenaufgaben höchstens die Hälfte', rechnen);
+  const arten = new Set(r.map(i => i.art));
+  ok(arten.size >= 3, 'Verschiedene Fragearten in der Runde', [...arten]);
+  const a0 = st.abdeckung(ex);
+  ok(a0.gesamt > 50, 'Abdeckung zählt alle Stufen', a0);
+  // Runden durchspielen, bis jede Frage einmal dran war
+  let runden = 0;
+  while (st.abdeckung(ex).gesehen < st.abdeckung(ex).gesamt && runden < 80) {
+    for (const it of st.arbeitsRunde(ex, [], 12)) if (it.art !== 'fehler') await st.recordCard(it, 'richtig');
+    runden++;
+  }
+  const a1 = st.abdeckung(ex);
+  ok(a1.gesehen === a1.gesamt, 'Nach ' + runden + ' Runden war jede Frage einmal dran', a1);
+  ok(runden <= Math.ceil(a0.gesamt / 12) + 3, 'Kaum doppelte Fragen, bevor alles einmal dran war', [runden, a0.gesamt]);
+  await st.deleteExam(ex.id);
+}
 console.log('\n' + pass + ' bestanden, ' + fail + ' fehlgeschlagen');
 process.exit(fail ? 1 : 0);

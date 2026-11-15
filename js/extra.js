@@ -195,7 +195,7 @@ export function termineDetail(id) {
         note: () => push(klausurPage(e.id)),
         zettel: async () => { const z = await import('./arbeitszettel.js'); push(z.arbeitsZettel(e.id)); },
         seite: id => oeffnen(id),
-        ueben: () => { const q = st.buildQueue(1200, { tids: tops.map(t => t.thema.id), exam: e, mitFehlern: true, maxNeu: 12 }); runSession(q.items.length ? q.items : sortForPractice(tops.flatMap(t => st.topicItems(t.thema.id))).slice(0, 12), 'Arbeit: ' + e.fach, { onClose: () => refreshTop() }); },
+        ueben: () => { const its = st.arbeitsRunde(e, [], 12); if (!its.length) { toast('Für diese Themen gibt es noch keine Übungen.'); return; } runSession(its, 'Arbeit: ' + e.fach, { onClose: () => refreshTop() }); },
         probe: () => push(probePage(e)),
         hoer: () => push(hoerPage({ exam: e }))
       });

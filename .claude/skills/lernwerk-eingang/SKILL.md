@@ -32,4 +32,5 @@ Fehlt es: einmal kurz sagen, dass er eine neue Sitzung mit beiden Repositorys st
 
 - Nichts erfinden, vor allem keine Rechenaufgaben, die nicht im Material stehen. Werte des Lehrers und des Tabellenbuchs haben Vorrang, Abweichungen mit „Achtung“.
 - Fragen bewusst anders als im Material formulieren, damit er versteht und nicht nur wiedererkennt.
+- Keine Bezüge auf das Material: nicht „auf Blatt 20“, „AB20“, „aus der Übungsklausur“, „laut Mitschrift“, keine Markierungen wie „neu aus der Übungsklausur“. Alles vollständig übernehmen, aber für sich stehend.
 - Fotos und Namen nie in ein Repository. Nur der fertige Lernstoff.

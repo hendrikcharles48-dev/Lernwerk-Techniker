@@ -18,7 +18,7 @@ import * as eingang from './eingang.js';
 import { arbeitsZettel, zettelStand as arbeitsZettelStand, istGelernt } from './arbeitszettel.js';
 import { beiSchreibfehler } from './db.js';
 
-export const VERSION = '1.42.0';
+export const VERSION = '1.43.0';
 
 /* ===== Heute ===== */
 // Kurze, wechselnde Sätze für den Start. Ohne Druck.
@@ -151,6 +151,8 @@ const heute = {
             <div class="count-weiter">${tag.danach ? `<button data-a="plantag"><b>Nächsten Tag vorziehen</b><small>${esc(tag.danachText)}</small></button>` : ''}<button data-a="planschwach"><b>Schwächen üben</b><small>Fehler, falsche und wackelnde Fragen der Arbeit</small></button></div>${mehr}`
           : (zuLesen(ex, tag.aufgabe) ? `<button class="count-plan" data-a="planlesen">${icon('book')}<span><b>Heute: erst lesen, dann üben</b><small>${esc(st.thema(zuLesen(ex, tag.aufgabe)).thema.name)} im Lernzettel lesen und abhaken, dann kommen die Fragen dazu.</small></span>${icon('chev', 'chev')}</button>` : '')
             + `<button class="count-plan" data-a="plantag">${icon('bolt')}<span><b>${tag.aufgabe.art === 'schwach' ? 'Heute: Schwächen üben' : tag.aufgabe.vor ? 'Heute lernen, du bist vorne' : 'Heute lernen'}</b><small>${esc(tag.aufgabe.text)}</small></span>${icon('chev', 'chev')}</button>${mehr}`;
+      const abd = st.abdeckung(ex);
+      const abdHTML = abd.gesamt ? `<div class="count-abd">${progress(abd.gesehen / abd.gesamt, 'var(--accent)')}<small>${abd.gesehen} von ${abd.gesamt} Fragen schon geübt, ${abd.sitzt} sitzen.${abd.gesehen < abd.gesamt ? ' Bis zur Arbeit soll jede einmal drankommen.' : ''}</small></div>` : '';
       const fehlen = st.fehlendeThemen(ex);
       // Kurz vor der Arbeit: eine Probeklausur wie im Ernstfall zeigt am besten, was noch fehlt
       const lp = st.letzteProbe(ex.id);
@@ -164,7 +166,7 @@ const heute = {
       const fehlenHTML = fehlen.length ? `<button class="count-fehlt" data-a="exam" data-d="${ex.id}">${icon('plus')}<span>${fehlen.length === 1 ? '1 neues Thema ist' : fehlen.length + ' neue Themen sind'} noch nicht in der Arbeit: ${esc(fehlen.map(t => t.name).join(', '))}</span>${icon('chev', 'chev')}</button>` : '';
       T.arbeit = `<div class="sec-h">Nächste Klassenarbeit</div><div class="card count" style="--fc:${f ? f.farbe : 'var(--accent)'}"><button class="count-main" data-a="exam" data-d="${ex.id}">
         <div class="count-head"><span class="count-badge"><b>${d === 0 ? '!' : d}</b><small>${d === 0 ? 'heute' : d === 1 ? 'Tag' : 'Tage'}</small></span><span><div class="count-t">${esc(ex.fach)}</div><div class="muted">${esc(dayLong(ex.datum))}</div></span>${bereit != null ? `<span class="bereit">${ring(bereit / 100, 56, bereit >= 75 ? 'var(--green)' : bereit >= 45 ? 'var(--orange)' : 'var(--red)', `<b>${bereit}</b><small>%</small>`)}<small>vorbereitet</small></span>` : ''}</div>
-        </button>${zettelHTML}${fehlenHTML}${probeHTML}${fuss}</div>`;
+        </button>${abdHTML}${zettelHTML}${fehlenHTML}${probeHTML}${fuss}</div>`;
     }
     // Trainer und Hörmodus: je eine Kachel. Die Trainer liegen dahinter in Ordnern nach Fach.
     const tr = trainerOrdnerListe(today);
@@ -409,7 +411,7 @@ export function planTagLernen(ex, art) {
   if (!auf) return;
   if (auf.art === 'schwach') {
     const w = schwachItems(ex, z.n);
-    items = mitRechnen(w.items.slice(0, z.n), ex.themaIds || [], z.n, Math.min(z.rechnen, Math.ceil(z.n / 3)));
+    items = shuffle(w.items.slice(0, z.n));
     if (!w.echt && items.length) toast('Keine echten Schwächen gefunden. Ich nehme die unsichersten Fragen.');
     titel = 'Schwächen üben';
     // Freier Tag nach dem Vorarbeiten: die Schwächen-Runde zählt als Tagesziel
@@ -419,8 +421,8 @@ export function planTagLernen(ex, art) {
     planTag = p.datum;
     const nach = st.planNachholen(ex);
     const tids = p.art === 'wiederholen' || !p.themen.length ? (ex.themaIds || []) : [...new Set([...p.themen.map(x => x.thema.id), ...nach])];
-    const q = st.buildQueue((z.min || 15) * 60, { tids, exam: ex, mitFehlern: true, maxNeu: p.leicht ? 4 : 10 });
-    items = mitRechnen(q.items, tids, p.leicht ? Math.ceil(z.n / 2) : z.n, p.leicht ? Math.ceil(z.rechnen / 2) : z.rechnen);
+    // Alle Themen des Tages gleichmäßig, dazu etwas aus den anderen Themen der Arbeit, Rechnen nur in passendem Anteil
+    items = st.arbeitsRunde(ex, p.art === 'wiederholen' ? [] : tids, p.leicht ? Math.ceil(z.n / 2) : z.n);
     if (!items.length) items = sortForPractice(tids.flatMap(t => st.uebItems(t))).slice(0, z.n);
     titel = auf.vor ? 'Lernplan vorgezogen' : 'Lernplan heute';
     if (p.leicht) minuten = Math.ceil((z.min || 10) / 2);
@@ -472,11 +474,16 @@ function mitTrainer(items, z, vorne) {
 export function unterrichtQueue() { const t = aktTids(); return t.length ? st.buildQueue(900, { tids: t, mitFehlern: true }) : { items: [], sekunden: 0 }; }
 // Neue Karten nur aus Themen, die in einer Arbeit nicht gut liefen
 export function allesQueue() { return st.buildQueue(900, { maxNeu: st.nacharbeitThemen().size ? 6 : 0 }); }
+// Nächste Arbeit mit Themen in den nächsten 14 Tagen, oder null
+function baldArbeit() { const e = st.nextExam(dayStr()); return e && (e.themaIds || []).some(t => st.thema(t)) && daysBetween(dayStr(), e.datum) <= 14 ? e : null; }
 export function lernenUnterricht(z = lernzeit()) {
   const tids = aktTids();
   if (!tids.length) { toast('Wähl zuerst aus, was gerade im Unterricht dran ist.'); push(unterrichtPage()); return; }
   let items = unterrichtQueue().items;
-  items = mitTrainer(mitRechnen(items, tids, z.n, z.rechnen), z, tids);
+  // Arbeit in den nächsten 14 Tagen: Themen der Arbeit gleichmäßig, ohne zusätzliche Trainer-Rechnungen aus anderen Fächern
+  const exB = baldArbeit();
+  if (exB) items = st.arbeitsRunde(exB, tids.filter(t => (exB.themaIds || []).includes(t)), z.n);
+  else items = mitTrainer(mitRechnen(items, tids, z.n, z.rechnen), z, tids);
   if (!items.length) {
     items = sortForPractice(tids.flatMap(t => st.uebItems(t))).slice(0, z.n);
     if (items.length) toast('Gerade ist nichts fällig. Ich nehme Übungen aus deinen Unterrichtsthemen.');
@@ -539,6 +546,14 @@ export function lernenAlles(z = lernzeit()) {
   // Auffrischungen bleiben direkt hinter der ersten Übung ihres Themas
   const fertig = [];
   for (const it of runde) { fertig.push(it); const a = auff.find(x => x.tid === it.tid); if (a) { fertig.push(a); auff.splice(auff.indexOf(a), 1); } }
+  // Arbeit in den nächsten 14 Tagen: gut die Hälfte der Runde aus allen Themen der Arbeit, gleichmäßig verteilt
+  const exB = baldArbeit();
+  if (exB) {
+    const exT = new Set(exB.themaIds || []);
+    const sonst = fertig.filter(i => !exT.has(i.tid) && i.art !== 'auffrischen').slice(0, z.n - Math.ceil(z.n * 0.6));
+    const arbeit = st.arbeitsRunde(exB, [], z.n - sonst.length);
+    fertig.length = 0; fertig.push(...shuffle([...arbeit, ...sonst]));
+  }
   runSession(fertig, 'Alles wiederholen', { blind: true, minutes: z.min, onClose: () => refreshTop() });
 }
 

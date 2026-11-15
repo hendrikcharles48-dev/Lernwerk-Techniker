@@ -107,7 +107,7 @@ export function arbeitsZettel(exId, startTid) {
           toast(ok ? 'Text kopiert. In NotebookLM als Quelle „Kopierter Text“ einfügen.' : 'Kopieren hat nicht geklappt.');
         },
         fragen: async tid => { const x = await import('./engine.js'); const its = x.sortForPractice(st.topicItems(tid).filter(i => i.art !== 'fehler')).slice(0, 8); if (!its.length) { toast('Zu diesem Thema gibt es noch keine Fragen.'); return; } x.runSession(its, st.thema(tid).thema.name); },
-        ueben: async () => { const x = await import('./engine.js'); const q = st.buildQueue(1200, { tids, exam: ex, mitFehlern: true, maxNeu: 12 }); x.runSession(q.items.length ? q.items : x.sortForPractice(tids.flatMap(t => st.uebItems(t))).slice(0, 12), 'Arbeit: ' + ex.fach); }
+        ueben: async () => { const x = await import('./engine.js'); const its = st.arbeitsRunde(ex, [], 12); if (!its.length) { toast('Für diese Themen gibt es noch keine Übungen.'); return; } x.runSession(its, 'Arbeit: ' + ex.fach); },
       });
     }
   };

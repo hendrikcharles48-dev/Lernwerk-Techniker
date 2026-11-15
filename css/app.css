@@ -950,3 +950,6 @@ body.seite-offen .tabbar, body.seite-offen #update { display: none; }
 .ausw-k { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
 .seiten-wdh { display: flex; flex-direction: column; gap: 6px; margin: 0 0 12px; }
 .seiten-wdh .count-plan { background: var(--bg2); border-radius: var(--r); box-shadow: var(--shadow); }
+
+.count-abd { padding: 6px 14px 2px; display: flex; flex-direction: column; gap: 4px; }
+.count-abd small { color: var(--label2); font-size: 13px; }

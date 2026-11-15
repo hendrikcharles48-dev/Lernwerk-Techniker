@@ -59,6 +59,7 @@ export async function init() {
   S.planIds = planIds(plan);
 
   await loadBuiltin();
+  await kartenUmbenennen();
   await unterrichtVorgabe();
   await freigabeStart();
   if (!kvGet('ersterStart')) await kvSet('ersterStart', dayStr());
@@ -100,6 +101,20 @@ function upgradePlan(plan, base) {
   return plan;
 }
 
+// Eingebaute Karten mit neuem Fragetext: Der Lernstand wandert auf die neue Kennung. Die alte bleibt stehen.
+const UMBENANNT = [
+  ['m6-entgelt-arbeitsbewertung', 'Welche fünf Merkmale bewertet das ERA auf dem Arbeitsblatt?', 'Welche fünf Merkmale bewertet das ERA?'],
+  ['m6-entgelt-arbeitsbewertung', 'Welche Punktspanne hat Entgeltgruppe 12 auf dem Arbeitsblatt?', 'Welche Punktspanne hat Entgeltgruppe 12 im ERA?'],
+  ['m6-entgelt-arbeitsbewertung', 'Welche Punktspanne hat Entgeltgruppe 9 auf dem Arbeitsblatt?', 'Welche Punktspanne hat Entgeltgruppe 9 im ERA?']
+];
+async function kartenUmbenennen() {
+  for (const [tid, alt, neu] of UMBENANNT) {
+    const a = S.cards.get('k:' + tid + ':' + hash(norm(alt))), nid = 'k:' + tid + ':' + hash(norm(neu));
+    if (!a || S.cards.has(nid)) continue;
+    const c = Object.assign({}, a, { id: nid });
+    S.cards.set(nid, c); await db.put('cards', c);
+  }
+}
 async function loadBuiltin() {
   const idx = await fetchText('inhalte/index.json');
   if (!idx) return;
@@ -632,12 +647,74 @@ export async function verteileRest() {
 // Eine Frage zählt voll ab Wiederhol-Stufe 4, neue zählen 0. Jeder offene Fehler zieht 3 Punkte ab, höchstens 15.
 export function bereitschaft(ex) {
   const tids = (ex && ex.themaIds) || [];
-  const its = tids.flatMap(t => uebItems(t, 'frei'));
+  // Vor der Arbeit zählt alles, nicht nur die freigeschalteten Stufen
+  const its = tids.flatMap(t => uebItems(t, 'alles'));
   if (!its.length) return null;
   let s = 0;
   for (const it of its) { const c = S.cards.get(it.id); if (c) s += Math.min(c.stufe, 4) / 4; }
   const offen = S.errors.filter(e => !e.erledigt && tids.includes(e.tid)).length;
   return Math.max(0, Math.round(s / its.length * 100 - Math.min(15, 3 * offen)));
+}
+/* ===== Vor einer Arbeit: alle Themen gleichmäßig =====
+ * Reihum aus jedem Thema eine Frage, die Fragearten wechseln. Rechenaufgaben höchstens so oft, wie es dem Anteil der Themen
+ * mit Rechenaufgaben entspricht, damit sich eine Runde nicht an einer Rechnung festbeißt. Alle Stufen zählen.
+ * Reihenfolge je Thema: fällig, noch nie geübt, dann was am wenigsten sitzt.
+ */
+const zumRechnenArt = i => i.art === 'aufgabe' || i.art === 'umstellen';
+export function verteilt(tids, n, opt = {}) {
+  const today = dayStr(), ohne = opt.ohne || new Set();
+  const rang = it => { const c = S.cards.get(it.id); if (!c) return 1; if (c.faellig <= today) return 0; return 2 + Math.min(c.stufe || 0, 6); };
+  const alter = it => { const c = S.cards.get(it.id); return c ? (c.zeit || Date.parse((c.zuletzt || '2000-01-01') + 'T12:00')) : 0; };
+  const listen = shuffle(tids.filter(t => thema(t))).map(t => shuffle(uebItems(t, 'alles').filter(i => !ohne.has(i.id) && i.art !== 'fehler'))
+    .sort((a, b) => rang(a) - rang(b) || Math.floor(alter(a) / 864e5) - Math.floor(alter(b) / 864e5))).filter(l => l.length);
+  // Anteil der Rechnungen: so groß wie ihr Anteil an allem, was fällig oder noch nie dran war. Ist nichts mehr offen,
+  // höchstens halb so viel wie der Anteil der Themen mit Rechenaufgaben.
+  const offen = listen.flat().filter(i => rang(i) <= 1);
+  const mitR = listen.filter(l => l.some(zumRechnenArt)).length;
+  const maxR = offen.length ? Math.ceil(n * offen.filter(zumRechnenArt).length / offen.length) : listen.length ? Math.ceil(n * 0.5 * mitR / listen.length) : 0;
+  const out = [], letzte = new Map(), zahl = new Map();
+  let r = 0;
+  const nimm = l => {
+    const tid = l[0].tid, vor = letzte.get(tid), geht = i => !(zumRechnenArt(i) && r >= maxR);
+    let k = l.findIndex(i => geht(i) && i.art !== vor);
+    if (k < 0) k = l.findIndex(geht);
+    if (k < 0) { l.length = 0; return false; }
+    const it = l.splice(k, 1)[0];
+    out.push(it); letzte.set(tid, it.art); zahl.set(tid, (zahl.get(tid) || 0) + 1); if (zumRechnenArt(it)) r++;
+    return true;
+  };
+  // Erst aus jedem Thema eine Frage, damit nichts einschläft
+  for (const l of listen) if (out.length < n && l.length) nimm(l);
+  // Dann die übrigen Plätze dorthin, wo am meisten offen ist (fällig oder noch nie dran)
+  while (out.length < n && listen.some(l => l.length)) {
+    const kand = listen.filter(l => l.length);
+    const offenIn = l => l.filter(i => rang(i) <= 1).length;
+    kand.sort((x, y) => offenIn(y) / ((zahl.get(y[0].tid) || 0) + 1) - offenIn(x) / ((zahl.get(x[0].tid) || 0) + 1));
+    if (!nimm(kand[0]) && !kand.slice(1).some(l => l.length && nimm(l))) break;
+  }
+  return out;
+}
+// Runde für eine Arbeit: haupt sind die Themen des Tages (etwa 70 %), der Rest kommt aus den anderen Themen der Arbeit,
+// damit nichts einschläft. Dazu fällige Fehlerkarten der Arbeit.
+export function arbeitsRunde(ex, haupt, n) {
+  const alle = (ex.themaIds || []).filter(t => thema(t));
+  const h = (haupt && haupt.length ? haupt : alle).filter(t => thema(t));
+  const rest = alle.filter(t => !h.includes(t));
+  const today = dayStr();
+  const fehler = shuffle(S.errors.filter(e => !e.erledigt && alle.concat(h).includes(e.tid) && ((S.cards.get('f:' + e.id) || {}).faellig || today) <= today)).slice(0, Math.ceil(n / 6)).map(errorItem);
+  const m = n - fehler.length;
+  const a = verteilt(h, rest.length ? Math.ceil(m * 0.7) : m);
+  const b = rest.length ? verteilt(rest, m - a.length, { ohne: new Set(a.map(i => i.id)) }) : [];
+  const out = shuffle([...a, ...b]);
+  fehler.forEach((f, k) => out.splice(Math.min(out.length, 2 + k * 4), 0, f));
+  return out;
+}
+// Wie viel der Arbeit ist schon einmal geübt, wie viel sitzt (ab Wiederhol-Stufe 3)?
+export function abdeckung(ex) {
+  const its = (ex.themaIds || []).filter(t => thema(t)).flatMap(t => uebItems(t, 'alles'));
+  let gesehen = 0, sitzt = 0;
+  for (const it of its) { const c = S.cards.get(it.id); if (c) { gesehen++; if ((c.stufe || 0) >= 3) sitzt++; } }
+  return { gesamt: its.length, gesehen, sitzt };
 }
 // Serie: Tage am Stück gelernt, ein freier Tag pro Woche ist erlaubt
 export function lernSerie() { return serie([...S.events.filter(e => e.ok != null).map(e => dayStr(new Date(e.zeit))), ...Object.keys(kvGet('tage', {}))], dayStr()); }

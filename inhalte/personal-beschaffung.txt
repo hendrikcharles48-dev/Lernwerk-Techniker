@@ -39,9 +39,9 @@ Baustein: Stunden / Jahresleistung pro Kopf ergibt den Mitarbeiterbedarf.
 Baustein: Soll − Ist, dann + Neubedarf − Minderbedarf, dann − Zugänge + Abgänge.
 Baustein: Für jede Stelle Aufgaben, Anforderungen und Stellenbeschreibung festhalten.
 Schnellweg: Steigerung in % sofort als Faktor nehmen: 15 % mehr heißt · 1,15.
-Schnellweg: Ein Ergebnis wie 78,2 Mitarbeiter heißt 79 Stellen, oder du fängst den Rest mit Mehrarbeit oder Teilzeit ab. Auf dem Arbeitsblatt steht 78,2 als Rechenergebnis.
-Schnellweg: Achtung, das Arbeitsblatt zeigt zwei Reihenfolgen. Im Pfeilbild steht die quantitative Planung zuerst. Auf den nummerierten Karten ist die qualitative Planung Nummer 1 und die quantitative Nummer 2. Frag im Unterricht nach, welche Reihenfolge in der Klausur gilt.
-Schnellweg: Achtung, im Bedarfsschema auf dem Arbeitsblatt steht für die Fertigung handschriftlich „11 oder 12“. Rechne das Schema selbst noch einmal nach.
+Schnellweg: Ein Ergebnis wie 78,2 Mitarbeiter heißt 79 Stellen, oder du fängst den Rest mit Mehrarbeit oder Teilzeit ab. Als Rechenergebnis bleibt 78,2 stehen.
+Schnellweg: Achtung, es gibt zwei Reihenfolgen. Mal steht die quantitative Planung zuerst, mal die qualitative. Frag im Unterricht nach, welche Reihenfolge in der Klausur gilt.
+Schnellweg: Achtung, rechne das Bedarfsschema immer selbst nach, bevor du ein Ergebnis übernimmst. Beim Runden kann eine Stelle mehr oder weniger herauskommen.
 Fehler: Die alten Stunden durch die neue Wochenarbeitszeit geteilt | Erst die Stunden mit der Produktionssteigerung hochrechnen, dann teilen.
 Fehler: Zugänge addiert | Wer dazukommt, schließt die Lücke. Zugänge werden abgezogen.
 Fehler: Abgänge abgezogen | Wer geht, hinterlässt eine Lücke. Abgänge werden addiert.
@@ -156,8 +156,8 @@ Baustein: Bei ERA für jedes Merkmal die passende Stufe und ihre Punkte suchen.
 Baustein: Punkte addieren und die Entgeltgruppe in der Tabelle ablesen.
 Baustein: Bei Zeiten: Rüstzeit einmal, Zeit je Einheit · Menge, dann addieren.
 Baustein: Minuten am Ende in Stunden umrechnen, falls gefragt.
-Schnellweg: Gruppenleiter auf dem Arbeitsblatt: 58 + 12 + 30 + 10 + 5 = 115 Punkte, das ist Entgeltgruppe 12.
-Schnellweg: Mechaniker auf dem Arbeitsblatt: 58 + 6 + 18 + 4 + 0 = 86 Punkte, das ist Entgeltgruppe 9.
+Schnellweg: Beispiel Gruppenleiter: 58 + 12 + 30 + 10 + 5 = 115 Punkte, das ist Entgeltgruppe 12.
+Schnellweg: Beispiel Mechaniker: 58 + 6 + 18 + 4 + 0 = 86 Punkte, das ist Entgeltgruppe 9.
 Schnellweg: Achtung, die Punktwerte und Gruppengrenzen im ERA sind je nach Tarifgebiet verschieden. Nimm in der Klausur immer die Tabelle aus der Aufgabe.
 Fehler: Die Leistung der Person bewertet | Die Arbeitsbewertung bewertet die Anforderungen der Stelle.
 Fehler: Rüstzeit für jedes Teil gerechnet | Gerüstet wird einmal pro Auftrag.
@@ -175,13 +175,13 @@ Karte: Was ist die summarische Arbeitsbewertung? | Die Stelle wird als Ganzes be
 Karte: Was ist die analytische Arbeitsbewertung? | Die Stelle wird in Anforderungen zerlegt, jede bekommt Punkte.
 Karte: Nenne die vier Anforderungsarten des Genfer Schemas. | Fachkönnen, Anstrengung, Verantwortung, Umwelteinflüsse.
 Karte: Wofür steht ERA? | Für das Entgeltrahmenabkommen der Metall- und Elektroindustrie.
-Karte: Welche fünf Merkmale bewertet das ERA auf dem Arbeitsblatt? | Fachkenntnisse, Berufserfahrung, Handlungsspielraum, Kooperation, Mitarbeiterführung.
+Karte: Welche fünf Merkmale bewertet das ERA? | Fachkenntnisse, Berufserfahrung, Handlungsspielraum, Kooperation, Mitarbeiterführung.
 Karte: Welche drei Studien kennt REFA? | Arbeitsablaufstudien, Arbeitszeitstudien, Arbeitswertstudien.
 Karte: Woraus besteht die Rüstzeit? | Aus Rüstgrundzeit, Rüsterholungszeit und Rüstverteilzeit.
 Karte: Wie berechnest du die Auftragszeit? | Rüstzeit + Menge · Zeit je Einheit.
 Karte: Ein Mechaniker hat 58 + 6 + 18 + 4 + 0 Punkte. Welche Entgeltgruppe? | 86 Punkte, Entgeltgruppe 9.
-Karte: Welche Punktspanne hat Entgeltgruppe 12 auf dem Arbeitsblatt? | 113 bis 128 Punkte.
-Karte: Welche Punktspanne hat Entgeltgruppe 9 auf dem Arbeitsblatt? | 78 bis 88 Punkte.
+Karte: Welche Punktspanne hat Entgeltgruppe 12 im ERA? | 113 bis 128 Punkte.
+Karte: Welche Punktspanne hat Entgeltgruppe 9 im ERA? | 78 bis 88 Punkte.
 Auswahl: Eine Firma ordnet alle Stellen nur nach dem Gesamteindruck in eine Rangfolge. Welches Verfahren ist das? | Summarisch | Analytisch; Stufenwertzahlverfahren; Arbeitszeitstudie | Die Stelle wird im Ganzen beurteilt.
 Auswahl: Wie oft fällt die Rüstzeit bei einem Auftrag mit 200 Teilen an? | Einmal | 200 Mal; Zweimal; Gar nicht | Gerüstet wird einmal pro Auftrag.
 Reihenfolge: Eingruppierung im ERA | Stelle beschreiben; Für jedes Merkmal die Stufe wählen; Punkte addieren; Entgeltgruppe in der Tabelle ablesen
@@ -210,7 +210,7 @@ Kontrolle: Liegt die Summe in einer Spanne der Tabelle? | Ja, sonst ist die Summ
 Schritt: Punktsumme | 58 + 12 + 30 + 10 + 5 | Punkte
 Schritt: Entgeltgruppe aus der Tabelle | 12 | Entgeltgruppe
 Rechnung: 12
-Quelle: Arbeitsblätter Modul 6, Entgeltfestlegung, Technikakademie. Achtung: Die ERA-Punktwerte gelten für das Arbeitsblatt. Andere Tarifgebiete haben andere Tabellen.
+Quelle: Modul 6, Entgeltfestlegung. Achtung: Die ERA-Punktwerte gelten für ein Tarifgebiet. Andere Tarifgebiete haben andere Tabellen.
 === ENDE ===
 
 === LERNWERK ===
@@ -370,7 +370,7 @@ Baustein: Reservierungen und Sicherheitsbestand addieren.
 Schnellweg: Zusatzbedarf 2 % heißt Sekundärbedarf · 1,02.
 Schnellweg: Lösung zum Zylinder: Schrauben 40000 + 800 − 1000 + 500 = 40300 Stück. Gehäuse 5000 − 500 − 2000 = 2500 Stück. Kolbeneinheiten 5000 − 1500 = 3500 Stück.
 Schnellweg: Achtung beim Grill: Als Primärbedarf zählt das Produktionsprogramm mit 1500 Grills und 750 Gestellen, nicht die Absatzmenge von 1600.
-Schnellweg: Achtung bei Schrauben und Dichtungen: Auf dem Arbeitsblatt stehen sie bei den Hilfsstoffen. Viele Bücher nennen fertig gekaufte Teile Kaufteile oder Fremdbauteile. Nimm die Einteilung aus deinem Unterricht.
+Schnellweg: Achtung bei Schrauben und Dichtungen: Im Unterricht stehen sie bei den Hilfsstoffen. Viele Bücher nennen fertig gekaufte Teile Kaufteile oder Fremdbauteile. Nimm die Einteilung aus deinem Unterricht.
 Fehler: Nur eine Ebene der Stückliste genommen | 2 Deckel mit je 4 Schrauben sind 8 Schrauben pro Zylinder, nicht 4.
 Fehler: Reservierungen abgezogen | Reservierte Teile gehören einem anderen Auftrag. Sie werden addiert.
 Fehler: Offene Bestellungen vergessen | Was schon bestellt ist, kommt noch. Es wird abgezogen.
@@ -467,8 +467,8 @@ Baustein: Gesamtwert bilden und jeden Wertanteil in % ausrechnen.
 Baustein: Nach Wert sortieren und kumulieren.
 Baustein: Grenzen ziehen, meist bei 80 % und 95 %.
 Baustein: Für jede Gruppe Maßnahmen nennen.
-Schnellweg: Lösung zum Arbeitsblatt: M2 mit 32,21 %, M8 mit 30,06 % und M6 mit 20,13 % sind zusammen 82,40 %, also A.
-Schnellweg: Achtung, die Grenzen sind nicht fest. Das Arbeitsblatt nennt 80 %, 15 % und 5 %, die Übungsaufgabe 70 %, 20 % und 10 %. Nimm die Werte aus der Aufgabe.
+Schnellweg: Beispiel: M2 mit 32,21 %, M8 mit 30,06 % und M6 mit 20,13 % sind zusammen 82,40 %, also A.
+Schnellweg: Achtung, die Grenzen sind nicht fest. Oft gelten 80 %, 15 % und 5 %, manchmal 70 %, 20 % und 10 %. Nimm die Werte aus der Aufgabe.
 Schnellweg: Achtung bei der Kundenaufgabe: 90000 / 235000 · 100 = 38,30 %. Auf dem Blatt steht 39,3 %. Deshalb kommt dort am Ende 101 % heraus. Richtig sind kumuliert 38,30 %, 63,83 % und 80,85 % für die Kunden 5, 2 und 1.
 Fehler: Nach Menge statt nach Wert sortiert | Die ABC-Analyse sortiert nach dem Verbrauchswert.
 Fehler: Ohne Sortieren kumuliert | Erst sortieren, dann zusammenzählen, sonst stimmen die Gruppen nicht.
@@ -558,7 +558,7 @@ Baustein: In die Andlersche Formel einsetzen.
 Baustein: Anzahl der Bestellungen, Bestellkosten und Lagerkosten zur Kontrolle ausrechnen.
 Schnellweg: Kontrolle im Optimum: Bestellkosten pro Jahr und Lagerkosten pro Jahr müssen gleich sein.
 Schnellweg: Achtung, es gibt zwei Schreibweisen. Mit dem Satz in % steht 200 in der Formel: √(200 · M · K_B / (P · p)). Mit den Lagerkosten je Stück h = P · p / 100 steht 2 in der Formel: √(2 · M · K_B / h). Beide ergeben dasselbe.
-Schnellweg: Lösung zum Arbeitsblatt Zylindergehäuse: √(200 · 100000 · 30 / (2 · 5)) = 7745,97, also rund 7746 Stück.
+Schnellweg: Beispiel Zylindergehäuse: √(200 · 100000 · 30 / (2 · 5)) = 7745,97, also rund 7746 Stück.
 Fehler: Den Lagerkostensatz als 0,05 in die 200er-Formel gesetzt | In der Formel mit 200 steht der Satz als Zahl in %, also 5.
 Fehler: Den ganzen Bestand statt der Hälfte für die Lagerkosten genommen | Im Mittel liegt nur die halbe Bestellmenge im Lager.
 Fehler: Bei Mengenrabatt nur die Andlersche Formel gerechnet | Die Formel kennt keinen Rabatt. Man muss die Gesamtkosten mit Materialkosten vergleichen.
