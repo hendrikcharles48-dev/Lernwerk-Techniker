@@ -8,6 +8,11 @@ globalThis.fetch = async url => {
   try { const t = fs.readFileSync(new URL('../' + String(url), import.meta.url), 'utf8'); return { ok: true, text: async () => t, json: async () => JSON.parse(t) }; }
   catch (e) { return { ok: false, status: 404, text: async () => '' }; }
 };
+// Kleine Einstellungen liegen im Browser in localStorage. Hier ein Ersatz im Arbeitsspeicher.
+if (typeof globalThis.localStorage === 'undefined' || !globalThis.localStorage) {
+  const m = new Map();
+  globalThis.localStorage = { getItem: k => (m.has(k) ? m.get(k) : null), setItem: (k, v) => m.set(k, String(v)), removeItem: k => m.delete(k), clear: () => m.clear(), key: i => [...m.keys()][i] ?? null, get length() { return m.size; } };
+}
 const st = await import('../js/store.js');
 const { parseBlocks } = await import('../js/parser.js');
 const { zusammenfuehren } = await import('../js/abgleich.js');
@@ -132,6 +137,44 @@ ok(m.daten.kv.kartenArt === undefined || m.daten.kv.kartenArt === 'aufdecken', '
   ok(m.daten.events.length === hier.events.length, 'Abgleich: alte Ereignisse kommen nicht zurück', [m.daten.events.length, hier.events.length]);
   ok(m.daten.kv.ereignisseAb === hier.kv.ereignisseAb && Object.keys(m.daten.kv.tage).length === Object.keys(hier.kv.tage).length, 'Abgleich: Stichtag und Tageswerte bleiben');
   ok(verdichten(ev, 0).behalten.length === ev.length, 'ohne Stichtag bleibt alles');
+}
+
+// Lernseiten und Eingang: Claude legt Dateien ins private Repository, die App holt sie beim Abgleich
+{
+  const ls = await import('../js/lernseiten.js');
+  const eg = await import('../js/eingang.js');
+  const seite = '<!-- lernwerk fach="Werkstoffkunde" thema="Wärmebehandlung" -->\n<!DOCTYPE html><html><head><title>Lernzettel Härten</title></head><body><p>Härten heißt erwärmen und abschrecken.</p><script>1</script></body></html>';
+  ok(ls.istHtml(seite) && !ls.istHtml('=== LERNWERK ===\nFach: X'), 'HTML-Seite erkannt, Block nicht');
+  ok(ls.titelAus(seite) === 'Lernzettel Härten' && ls.zuordnungAus(seite).thema === 'Wärmebehandlung', 'Titel und Zuordnung gelesen');
+  const block = '=== LERNWERK ===\nFach: Werkstofftechnik\nThema: Wärmebehandlung\nKarte: Was ist Anlassen? | Erneutes Erwärmen nach dem Härten.\n=== ENDE ===';
+  const dateien = { 'eingang/haerten.html': seite, 'eingang/anlassen.txt': block, 'eingang/bild.png': 'x' };
+  const shas = { 'eingang/haerten.html': 'a1', 'eingang/anlassen.txt': 'b1', 'eingang/bild.png': 'c1' };
+  let puts = 0;
+  const gh = async (pfad, opt = {}) => {
+    const p = decodeURIComponent(pfad.split('/contents/')[1] || '');
+    if (opt.method === 'PUT') { puts++; return { ok: true, status: 200, json: async () => ({ content: { sha: 'neu' } }) }; }
+    if (p === 'eingang') return { ok: true, status: 200, json: async () => Object.keys(dateien).map(k => ({ type: 'file', path: k, name: k.split('/')[1], sha: shas[k], size: dateien[k].length })) };
+    if (dateien[p] != null) return { ok: true, status: 200, text: async () => dateien[p] };
+    return { ok: false, status: 404, json: async () => ({}), text: async () => '' };
+  };
+  const vorher = st.S.notes.length;
+  const neu = await eg.holen(gh, 'ich/Lernwerk-Sicherung');
+  const n = st.S.notes.find(x => x.html && x.titel === 'Lernzettel Härten');
+  ok(neu.length === 2 && n && n.fid === 'ws' && n.tid === 'ws-waermebehandlung', 'Eingang: Lernseite gespeichert und zugeordnet', [neu, n && n.fid, n && n.tid]);
+  ok(eg.offen().length === 1 && eg.offen()[0].text.includes('Anlassen'), 'Eingang: Block wartet auf die Vorschau');
+  ok((await eg.holen(gh, 'ich/Lernwerk-Sicherung')).length === 0 && st.S.notes.length === vorher + 1, 'Eingang: nichts doppelt');
+  shas['eingang/haerten.html'] = 'a2'; dateien['eingang/haerten.html'] = seite.replace('erwärmen', 'auf Härtetemperatur erwärmen');
+  await st.saveNote(Object.assign({}, n, { zustand: { lz: '1' } }));
+  await eg.holen(gh, 'ich/Lernwerk-Sicherung');
+  const n2 = st.S.notes.find(x => x.html && x.titel === 'Lernzettel Härten');
+  ok(st.S.notes.length === vorher + 1 && n2.html.includes('Härtetemperatur') && n2.zustand.lz === '1', 'Eingang: neue Fassung ersetzt die alte, Fortschritt bleibt');
+  await eg.erledigen(eg.offen()[0].id);
+  ok(eg.offen().length === 0, 'Eingang: Block nach dem Speichern erledigt');
+  const lt = eg.lernstandText();
+  ok(lt.includes('eingang/') && lt.includes('Lernzettel Härten') && lt.includes('Fehlerbuch'), 'Lernstand für Claude geschrieben');
+  ok(await eg.lernstandSchreiben(gh, 'ich/Lernwerk-Sicherung', t => t) && puts === 1 && !(await eg.lernstandSchreiben(gh, 'ich/Lernwerk-Sicherung', t => t)), 'Lernstand nur einmal hochgeladen');
+  const sich = JSON.parse(JSON.stringify(await st.exportBackup(false)));
+  ok(sich.notes.some(x => x.html && x.zustand && x.zustand.lz === '1'), 'Lernseite mit Fortschritt in der Sicherung');
 }
 console.log('\n' + pass + ' bestanden, ' + fail + ' fehlgeschlagen');
 process.exit(fail ? 1 : 0);

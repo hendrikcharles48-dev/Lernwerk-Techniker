@@ -105,3 +105,9 @@ Was die App aus einer Aufgabe macht:
 ## Änderungen am Format
 
 Neue Schlüssel in `KEYS`, `emptyTopic`, `LISTS`, `KEYFN`, `summary`, `exportBlock` und `TEMPLATE` in `js/parser.js` eintragen, in `itemsOf` in `js/store.js`, wenn daraus Übungen werden, und hier beschreiben. Alte Blöcke müssen weiter gelesen werden: Neue Listen dürfen in gespeicherten Themen fehlen. Dazu einen Fall in `tests/parser.test.mjs` und in `tests/speicher.test.mjs`.
+
+## Lernseiten (kein Block)
+
+Eine ganze HTML-Seite, wie ein Artefakt aus dem Chat, ist kein Lernwerk-Block. Die App speichert sie als Lernseite und zeigt sie unverändert an.
+Am Anfang darf ein Kommentar die Zuordnung angeben: `<!-- lernwerk fach="Werkstofftechnik" thema="Gusseisen" arbeit="JJJJ-MM-TT" titel="…" -->`.
+Die Seite läuft abgeschottet: kein Zugriff auf die App, `localStorage` wird nachgebildet und gespeichert, `window.claude` gibt es nicht. Externe Schriften und Links brauchen Netz.

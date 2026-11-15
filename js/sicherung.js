@@ -152,6 +152,8 @@ export async function abgleichen() {
         prefs.set('ghOffen', false);
         await st.markBackup();
         melden();
+        // Danach, ohne den Abgleich aufzuhalten: Eingang holen und Lernstand schreiben
+        nachDemAbgleich();
         return true;
       }
       return false;
@@ -162,6 +164,16 @@ export async function abgleichen() {
     }
   })();
   try { return await laeuft; } finally { laeuft = null; letzter = Date.now(); }
+}
+
+// Eingang und Lernstand im privaten Repository. Fehler hier stören den Abgleich nicht.
+async function nachDemAbgleich() {
+  try {
+    const e = await import('./eingang.js');
+    const neu = await e.holen(gh, konfig().repo);
+    if (neu.length) toast('Neu aus deinem Eingang: ' + neu.slice(0, 3).join(', ') + (neu.length > 3 ? ' und ' + (neu.length - 3) + ' weitere' : '') + '.', 4500);
+    await e.lernstandSchreiben(gh, konfig().repo, base64);
+  } catch (err) { /* nächstes Mal */ }
 }
 
 // Nach einer Lerneinheit oder nach dem Einfügen. Kurz warten, damit alles gespeichert ist.

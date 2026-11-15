@@ -198,7 +198,7 @@ export function hoerPage(opt = {}) {
     return h;
   }
   function zettelHTML() {
-    const notes = st.S.notes.slice().sort((a, c) => c.zeit - a.zeit);
+    const notes = st.S.notes.filter(n => !n.html).sort((a, c) => c.zeit - a.zeit);
     if (!notes.length) return empty('Noch keine Lernzettel.');
     return `<label class="fld"><span>Lernzettel</span><select data-k="n"><option value="">Lernzettel wählen</option>${notes.map(n => `<option value="${n.id}" ${n.id === noteId ? 'selected' : ''}>${esc(n.titel || 'Lernzettel')}</option>`).join('')}</select></label>
       <div class="btn-row"><button class="btn filled" data-a="zettel">${icon('play')} Vorlesen</button></div>

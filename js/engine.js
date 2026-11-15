@@ -244,7 +244,7 @@ function renderTab(el, tab, tid, T, items, f) {
   if (tab === 'zettel') {
     const ns = st.notesFor(tid);
     h += `<div class="btn-row"><button class="btn filled" data-a="newnote">${icon('note')} Neuer Lernzettel</button></div>`;
-    h += ns.length ? list(ns.map(n => row({ a: 'note', d: n.id, title: n.titel || 'Lernzettel', sub: plainText(n.text).slice(0, 90) }))) : empty('Noch keine Lernzettel.', 'Füge eine Erklärung aus dem Chat über Einfügen ein oder schreib hier selbst.');
+    h += ns.length ? list(ns.map(n => row({ a: 'note', d: n.id, icon: n.html ? 'book' : 'note', color: n.html ? '#FF9F0A' : '#8E8E93', title: n.titel || 'Lernzettel', sub: (n.html ? 'Lernseite · ' : '') + plainText(n.text).slice(0, 90) }))) : empty('Noch keine Lernzettel.', 'Füge eine Erklärung aus dem Chat über Einfügen ein oder schreib hier selbst.');
   }
   if (tab === 'fotos') {
     const ps = st.photosFor(tid);
@@ -388,6 +388,8 @@ export function noteEditor(n) {
 }
 export const firstLine = t => plainText(String(t).split('\n').find(l => l.trim()) || 'Lernzettel').slice(0, 60);
 export function noteReader(id) {
+  const n0 = st.S.notes.find(x => x.id === id);
+  if (n0 && n0.html) { import('./lernseiten.js').then(m => m.oeffnen(id)); return; }
   openSheet({
     title: 'Lernzettel', full: true,
     render(b, api) {

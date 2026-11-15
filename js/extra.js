@@ -14,6 +14,7 @@ import { prefs } from './db.js';
 import * as gh from './sicherung.js';
 import { linie, balken } from './diagramm.js';
 import * as rueckfall from './rueckfall.js';
+import { seiten, seitenFuerArbeit, oeffnen, zuordnenDialog } from './lernseiten.js';
 
 import { probePage } from './probeklausur.js';
 import { hoerPage } from './hoerseite.js';
@@ -48,6 +49,7 @@ export function mehrPage() {
         row({ a: 'hoer', icon: 'ear', color: '#30D158', title: 'Hörmodus', sub: 'Karten und Lernzettel vorlesen, zum Beispiel im Auto' }),
         row({ a: 'erklaer', icon: 'mic', color: '#BF5AF2', title: 'Erklär-Training', sub: 'Für Fachgespräche und mündliche Prüfungen' })
       ]) + list([
+        row({ a: 'seiten', icon: 'book', color: '#FF9F0A', title: 'Lernseiten', sub: seiten().length ? seiten().length + ' Lernzettel und Trainer aus dem Chat' : 'Lernzettel und Trainer aus dem Chat' }),
         row({ a: 'lexikon', icon: 'book', color: '#0A84FF', title: 'Lexikon der Fachbegriffe' }),
         row({ a: 'formeln', icon: 'formula', color: '#5E5CE6', title: 'Formelsammlung' }),
         row({ a: 'suche', icon: 'search', color: '#8E8E93', title: 'Suche' })
@@ -60,6 +62,7 @@ export function mehrPage() {
       ]) + hinweisTabellenbuch();
       on(b, {
         unterricht: () => push(unterrichtPage()), sogehts: () => push(soGehtsPage()), noten: () => push(notenPage()), termine: () => push(terminePage()), probe: () => push(probePage()), hoer: () => push(hoerPage()), erklaer: () => push(erklaerPage()),
+        seiten: () => push(seitenPage()),
         lexikon: () => push(lexikonPage()), formeln: () => push(formelPage()), suche: () => push(suchePage()),
         lehrplan: () => push(lehrplanPage()), backup: () => push(datensicherung()), theme: () => push(themePage()),
         remind: () => push(erinnerungPage()), info: () => push(infoPage())
@@ -166,6 +169,7 @@ export function termineDetail(id) {
       // Themen der Arbeit: antippen öffnet das Thema. „Themen abwählen“ zeigt bei jedem Thema einen Knopf zum Rausnehmen.
       if (tops.length) h += `<div class="sec-h sec-h-btn"><span>Dein Stand</span>${d >= 0 ? `<button class="link" data-a="abwahl">${abwahl ? 'Fertig' : 'Themen abwählen'}</button>` : ''}</div>` + list(tops.map(t => { const p = topicProgress(t.thema.id); return abwahl ? row({ title: t.thema.name, right: `<button class="btn small danger" data-a="raus" data-d="${t.thema.id}">Rausnehmen</button>` }) : row({ a: 'topic', d: t.thema.id, title: t.thema.name, html: progress(p || 0, f ? f.farbe : null), detail: Math.round((p || 0) * 100) + ' %' }); }));
       else h += `<div class="fb info">Wähl die Themen der Arbeit aus (oben rechts bearbeiten). Dann zieht Lernwerk sie in Heute vor und plant rückwärts.</div>`;
+      h += `<div class="btn-row"><button class="btn filled" data-a="zettel">${icon('book')} Lernzettel zur Arbeit</button>${seitenFuerArbeit(e).map(n => `<button class="btn" data-a="seite" data-d="${esc(n.id)}">${icon('book')} ${esc(n.titel)}</button>`).join('')}</div>`;
       h += `<div class="btn-row"><button class="btn filled" data-a="ueben">${icon('bolt')} Themen der Arbeit üben</button><button class="btn" data-a="probe">${icon('exam')} Probeklausur</button><button class="btn" data-a="hoer">${icon('ear')} Hörmodus</button></div>`;
       if (d > 0) {
         const plan = lernplan(e.datum, tops.map(t => t.thema), st.planStart(e, today)).filter(p => p.datum >= today);
@@ -189,10 +193,29 @@ export function termineDetail(id) {
         dazu: async tid => { await st.themenZurArbeit(e.id, [tid]); toast('Dazugenommen. Der Lernplan rechnet neu.'); this.render(b); refreshTop(); },
         alleDazu: async () => { await st.themenZurArbeit(e.id, fehlen.map(t => t.id)); toast('Alle dazugenommen. Der Lernplan rechnet neu.'); this.render(b); refreshTop(); },
         note: () => push(klausurPage(e.id)),
+        zettel: async () => { const z = await import('./arbeitszettel.js'); push(z.arbeitsZettel(e.id)); },
+        seite: id => oeffnen(id),
         ueben: () => { const q = st.buildQueue(1200, { tids: tops.map(t => t.thema.id), exam: e, mitFehlern: true, maxNeu: 12 }); runSession(q.items.length ? q.items : sortForPractice(tops.flatMap(t => st.topicItems(t.thema.id))).slice(0, 12), 'Arbeit: ' + e.fach, { onClose: () => refreshTop() }); },
         probe: () => push(probePage(e)),
         hoer: () => push(hoerPage({ exam: e }))
       });
+    }
+  };
+}
+
+/* ===== Lernseiten: alle Lernzettel und Trainer aus dem Chat ===== */
+export function seitenPage() {
+  return {
+    title: 'Lernseiten',
+    render(b) {
+      const alle = seiten().sort((a, c) => (c.geaendert || c.zeit) - (a.geaendert || a.zeit));
+      let h = `<p class="src">Fertige Lernzettel und Trainer aus dem Claude-Chat. Sie laufen offline, Häkchen und Ergebnisse bleiben gespeichert. Neue Seiten fügst du unter Einfügen, Lernseite hinzu, oder Claude legt sie in deinen Lernwerk-Eingang.</p>`;
+      if (!alle.length) { b.innerHTML = h + empty('Noch keine Lernseiten.', 'Tippe unten auf Einfügen und wähle Lernseite.'); return; }
+      const by = new Map();
+      for (const n of alle) { const f = st.fach(n.fid) || (n.tid && st.thema(n.tid) ? st.thema(n.tid).fach : null); const k = f ? f.name : 'Ohne Fach'; if (!by.has(k)) by.set(k, { f, l: [] }); by.get(k).l.push(n); }
+      for (const [k, x] of by) h += `<div class="sec-h">${esc(k)}</div>` + list(x.l.map(n => { const e = n.exId ? st.S.exams.find(y => y.id === n.exId) : null; return row({ a: 'seite', d: n.id, icon: 'book', color: x.f ? x.f.farbe : '#8E8E93', title: n.titel || 'Lernseite', sub: [n.tid && st.thema(n.tid) ? st.thema(n.tid).thema.name : '', e ? 'Arbeit am ' + dayShort(e.datum) : '', n.zustand && Object.keys(n.zustand).length ? 'mit Fortschritt' : ''].filter(Boolean).join(' · ') || 'ganzes Fach' }); }));
+      b.innerHTML = h;
+      on(b, { seite: id => oeffnen(id) });
     }
   };
 }

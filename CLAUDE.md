@@ -68,6 +68,9 @@ Die Oberfläche hat keinen eigenen Test im Repository. Vor dem Push im Browser p
 | `js/srs.js` | Wiederholsystem, Lernplan, Serie. Reine Funktionen |
 | `js/sicherung.js`, `js/abgleich.js` | Abgleich über das private GitHub-Repository. `abgleich.js` ist rein und getestet |
 | `js/rueckfall.js` | Rückfall-Kopien in eigener Datenbank |
+| `js/lernseiten.js` | Lernseiten: HTML-Artefakte aus dem Chat, abgeschottet im iframe (sandbox ohne allow-same-origin), localStorage nachgebildet und im Lernzettel gespeichert |
+| `js/arbeitszettel.js` | Lernzettel zur Klassenarbeit aus den Inhalten der Themen, mit Häkchen „gelernt“ |
+| `js/eingang.js` | Eingang (`eingang/` im privaten Repository) und `lernstand.md` für Claude |
 | `js/mathedit.js` | Formel-Eingabe mit eigener Tastatur |
 | `js/hoer.js`, `js/podcast.js`, `js/speech.js` | Hörmodus: Audiodateien, Folgen bauen, Systemstimme |
 | `js/skizzen.js`, `js/svg.js`, `js/diagramm.js` | Skizzen, SVG-Bereinigung, Diagramme |
@@ -87,7 +90,7 @@ Eingebaute Inhalte und eingefügte Blöcke laufen durch denselben Parser und die
 |---|---|
 | `kv` | Schlüssel und Wert, siehe unten |
 | `content` | eingefügte Inhalte je Thema: `{ id: Themen-ID, topic, zeit, ersetzt? }` |
-| `notes` | Lernzettel `{ id, tid, titel, text, zeit, geaendert }` |
+| `notes` | Lernzettel `{ id, tid, titel, text, zeit, geaendert }`. Lernseiten zusätzlich `{ html, fid, exId, zustand, quelle }`, `text` ist dann eine Kurzfassung |
 | `photos` | Fotos mit Blob, nur auf dem Gerät |
 | `cards` | Lernstand je Übung `{ id, tid, art, stufe 0–6, richtig, hilfe, falsch, zuletzt, faellig, zeit }` |
 | `errors` | Fehlerbuch `{ id, zeit, tid, fach, thema, aufgabe, eingabe, richtig, fehlerart, quelle, notiz, erledigt? }` |
@@ -96,7 +99,7 @@ Eingebaute Inhalte und eingefügte Blöcke laufen durch denselben Parser und die
 
 **Kennung einer Übung** (`cards.id`): Buchstabe, Themen-ID, Hash des Inhalts. `k:` Karte, `b:` Begriff, `a:` Aufgabe, `u:` Umstellen, `w:` Auswahl, `r:` Reihenfolge, `v:` Verwechslung, `z:` Zuordnen, `e:` Erklären, `s:` Skizze, `t:Themen-ID` Trainer, `f:Fehler-ID` Fehlerkarte. Der Hash kommt aus dem Fragetext. Ändert sich der Text, beginnt die Übung neu. Diese Regel nicht ändern.
 
-**`kv`-Schlüssel.** Abgeglichen: `lehrplan`, `aktuell`, `abgeschlossen`, `aktuellSeit`, `zustandZeit`, `freigabe`, `lernweg`, `planStart`, `planErledigt`, `planNachholen`, `notenschluessel`, `uebModus`, `kartenArt`, `umstellFrei`, `proben` (vereinigt), `tage` (Tageswerte verdichteter Ereignisse, je Tag der größere) und `ereignisseAb` (Stichtag, der spätere gilt), dazu `kvZeit` (Zeitstempel je Schlüssel) und `geloescht` (Löschmarken). Nur auf dem Gerät (`NUR_GERAET` in `abgleich.js`): `zuletzt`, `letzteSicherung`, `ersterStart`, `unterrichtVorgabe`, `freigabeStart`.
+**`kv`-Schlüssel.** Abgeglichen: `lehrplan`, `aktuell`, `abgeschlossen`, `aktuellSeit`, `zustandZeit`, `freigabe`, `lernweg`, `planStart`, `planErledigt`, `planNachholen`, `notenschluessel`, `uebModus`, `kartenArt`, `umstellFrei`, `proben` (vereinigt), `zettelGelernt` (Häkchen im Lernzettel zur Arbeit), `eingang` (geholte Dateien mit Stand), `eingangOffen` (Blöcke aus dem Eingang, die auf die Vorschau warten), `tage` (Tageswerte verdichteter Ereignisse, je Tag der größere) und `ereignisseAb` (Stichtag, der spätere gilt), dazu `kvZeit` (Zeitstempel je Schlüssel) und `geloescht` (Löschmarken). Nur auf dem Gerät (`NUR_GERAET` in `abgleich.js`): `zuletzt`, `letzteSicherung`, `ersterStart`, `unterrichtVorgabe`, `freigabeStart`.
 
 **localStorage**, immer mit Präfix `lernwerk:` (über `prefs`), weil Satzwerk unter derselben Adresse liegt. Alte Einträge ohne Präfix nie löschen. Wichtige Namen: `theme`, `lernzeit`, `startLayout`, `inbox` (Eingang der Trainer), `ghToken`, `ghRepo`, `ghVerbunden`, `ghSha`, `ghZuletzt`, `ghFehler`, `ghOffen`, `ghPause`, `speicherFehler`, `rueckfallVersion`, `hoer…`, `stimme…`. Der Zugangsschlüssel steht nur hier, nie in einer Sicherung.
 
@@ -119,6 +122,7 @@ Eingebaute Inhalte und eingefügte Blöcke laufen durch denselben Parser und die
 - Fotos, Schlüssel, Darstellung und Startseite bleiben pro Gerät.
 - Notfall: Stand von GitHub übernehmen (`laden`) oder Stand des Geräts nach GitHub (`ueberschreiben`). Nach dem Laden einer Rückfall-Kopie ruht der Abgleich (`ghPause`), bis der Besitzer entscheidet.
 - Eine unlesbare Datei auf GitHub wird nie von selbst überschrieben.
+- Nach jedem Abgleich: Ordner `eingang/` lesen (Lernseiten `.html` gleich speichern, Blöcke `.txt` und `.md` warten auf der Startseite), nichts im Repository löschen. `lernstand.md` höchstens alle sechs Stunden und nur bei Änderung schreiben.
 
 ## Lernprinzip (gilt für Inhalte und für jede neue Funktion)
 

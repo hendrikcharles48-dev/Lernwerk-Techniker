@@ -54,7 +54,8 @@ try {
   if (process.argv[2]) await (await import(pathToFileURL(path.resolve(process.argv[2])).href)).default(page, { shot });
   else await grundpruefung();
 } catch (e) { console.log('FEHLER IM ABLAUF:', e.message.split('\n')[0]); code = 1; try { await shot('fehler'); } catch (x) { /* egal */ } }
-const echte = fehler.filter(e => !/favicon|net::ERR/.test(e));
+// Playwright meldet in abgeschotteten Rahmen (Lernseiten) einen Fehler zum Service Worker, wenn er blockiert ist. Das kommt vom Testwerkzeug.
+const echte = fehler.filter(e => !/favicon|net::ERR|read the 'serviceWorker' property/.test(e));
 console.log(echte.length ? 'FEHLER IM BROWSER:\n' + echte.join('\n') : 'Browser: keine Fehler');
 await browser.close();
 srv.kill();

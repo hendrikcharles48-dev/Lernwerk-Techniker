@@ -13,9 +13,12 @@ import * as sicherung from './sicherung.js';
 import { laden as skizzenLaden } from './skizzen.js';
 import { canSpeak, readAloud } from './speech.js';
 import * as rueckfall from './rueckfall.js';
+import * as lernseiten from './lernseiten.js';
+import * as eingang from './eingang.js';
+import { arbeitsZettel, zettelStand as arbeitsZettelStand } from './arbeitszettel.js';
 import { beiSchreibfehler } from './db.js';
 
-export const VERSION = '1.39.0';
+export const VERSION = '1.40.0';
 
 /* ===== Heute ===== */
 // Kurze, wechselnde Sätze für den Start. Ohne Druck.
@@ -80,6 +83,9 @@ const heute = {
     // Kopf: Gruß und Datum in einer Zeile
     let h = `<div class="kopf"><b>${esc(gruss())}</b><span>${esc(new Date().toLocaleDateString('de-DE', { weekday: 'short', day: 'numeric', month: 'short' }))}</span></div>`;
     T.spruch = `<p class="spruch">${icon('sparkle')}<span>${esc(MUT[doy % MUT.length])}</span></p>`;
+    // Neu im Eingang: Blöcke, die Claude in dein privates Repository gelegt hat, warten auf deine Vorschau
+    const eo = eingang.offen();
+    if (eo.length) h += `<button class="banner" data-a="eingang">${icon('paste')}<span><b>Neu in deinem Eingang:</b> ${esc(eo.map(o => o.titel).join(', '))}. Tippe hier für die Vorschau.</span></button>`;
     // Speichern fehlgeschlagen, zum Beispiel weil der Speicher voll ist: deutlich warnen, bis es angetippt wurde
     if (prefs.get('speicherFehler', null)) h += `<button class="banner warn" data-a="speicherfehler">${icon('save')}<span><b>Speichern hat nicht geklappt.</b> Wahrscheinlich ist der Speicher des iPhones voll. Mach Platz und tippe hier für eine Sicherung.</span></button>`;
     if (sicherung.pausiert()) h += `<button class="banner warn" data-a="backup">${icon('cloud')}<span><b>Der Abgleich ist pausiert.</b> Du hast eine Rückfall-Kopie geladen. Tippe hier und entscheide, wie es weitergeht.</span></button>`;
@@ -118,7 +124,8 @@ const heute = {
     if (wege.length) T.imunterricht += `<div class="lweg-start">${wege.slice(0, 2).map(({ fach: f, thema: t }) => `<button data-a="topic" data-d="${t.id}" style="--fc:${f.farbe}">${icon('target')}<span><b>Lernweg: ${esc(t.name)}</b><small>Schritt ${lernwegStand(t.id) + 1} von 3 · erst verstehen, dann üben</small></span>${icon('chev', 'chev')}</button>`).join('')}${wege.length > 2 ? `<div class="muted small">und ${wege.length - 2} weitere unter Im Unterricht</div>` : ''}</div>`;
     // Weiter, wo du warst: das zuletzt geöffnete Thema oder der zuletzt genutzte Trainer
     const pl = st.place();
-    if (pl && pl.tid && st.thema(pl.tid)) { const w = st.thema(pl.tid); T.weiter = `<button class="unt-zeile" data-a="weiter">${icon('repeat')}<b>Weiter</b><span class="unt-tags"><span class="tag" style="--fc:${w.fach.farbe}">${esc(w.thema.name)}</span><span class="muted">${pl.art === 'trainer' ? 'Trainer' : 'Thema'}</span></span>${icon('chev', 'chev')}</button>`; }
+    if (pl && pl.art === 'seite' && st.S.notes.some(n => n.id === pl.noteId)) T.weiter = `<button class="unt-zeile" data-a="weiter">${icon('repeat')}<b>Weiter</b><span class="unt-tags"><span class="tag" style="--fc:#FF9F0A">${esc(pl.titel || 'Lernseite')}</span><span class="muted">Lernseite</span></span>${icon('chev', 'chev')}</button>`;
+    else if (pl && pl.tid && st.thema(pl.tid)) { const w = st.thema(pl.tid); T.weiter = `<button class="unt-zeile" data-a="weiter">${icon('repeat')}<b>Weiter</b><span class="unt-tags"><span class="tag" style="--fc:${w.fach.farbe}">${esc(w.thema.name)}</span><span class="muted">${pl.art === 'trainer' ? 'Trainer' : 'Thema'}</span></span>${icon('chev', 'chev')}</button>`; }
     const ex = st.nextExam(today);
     if (ex) {
       const d = daysBetween(today, ex.datum);
@@ -142,10 +149,14 @@ const heute = {
       const probeHTML = d >= 1 && d <= 3 && tops.length && !(lp && daysBetween(lp.datum, today) <= 3)
         ? `<button class="count-plan" data-a="probeJetzt">${icon('exam')}<span><b>Probeklausur machen</b><small>Wie im Ernstfall, ohne Tipps. Danach weißt du, was noch fehlt.</small></span>${icon('chev', 'chev')}</button>`
         : lp && d >= 0 ? `<div class="count-probe muted small">${icon('exam')} Letzte Probeklausur: ${lp.proz} %${st.noteAusProzent(lp.proz) ? ', Note ' + st.noteAusProzent(lp.proz) : ''}</div>` : '';
+      // Lernzettel zur Arbeit und Lernseiten aus dem Chat: erst verstehen, dann üben
+      const zs = tops.length ? arbeitsZettelStand(ex) : null;
+      const zettelHTML = (zs ? `<button class="count-plan" data-a="zettel" data-d="${ex.id}">${icon('book')}<span><b>Lernzettel zur Arbeit</b><small>${zs.ok === zs.n ? 'Alle ' + zs.n + ' Themen gelernt' : zs.ok + ' von ' + zs.n + ' Themen gelernt'}</small></span>${icon('chev', 'chev')}</button>` : '')
+        + lernseiten.seitenFuerArbeit(ex).slice(0, 3).map(n => `<button class="count-plan" data-a="seite" data-d="${n.id}">${icon('book')}<span><b>${esc(n.titel)}</b><small>Lernseite aus dem Chat</small></span>${icon('chev', 'chev')}</button>`).join('');
       const fehlenHTML = fehlen.length ? `<button class="count-fehlt" data-a="exam" data-d="${ex.id}">${icon('plus')}<span>${fehlen.length === 1 ? '1 neues Thema ist' : fehlen.length + ' neue Themen sind'} noch nicht in der Arbeit: ${esc(fehlen.map(t => t.name).join(', '))}</span>${icon('chev', 'chev')}</button>` : '';
       T.arbeit = `<div class="sec-h">Nächste Klassenarbeit</div><div class="card count" style="--fc:${f ? f.farbe : 'var(--accent)'}"><button class="count-main" data-a="exam" data-d="${ex.id}">
         <div class="count-head"><span class="count-badge"><b>${d === 0 ? '!' : d}</b><small>${d === 0 ? 'heute' : d === 1 ? 'Tag' : 'Tage'}</small></span><span><div class="count-t">${esc(ex.fach)}</div><div class="muted">${esc(dayLong(ex.datum))}</div></span>${bereit != null ? `<span class="bereit">${ring(bereit / 100, 56, bereit >= 75 ? 'var(--green)' : bereit >= 45 ? 'var(--orange)' : 'var(--red)', `<b>${bereit}</b><small>%</small>`)}<small>vorbereitet</small></span>` : ''}</div>
-        </button>${fehlenHTML}${probeHTML}${fuss}</div>`;
+        </button>${zettelHTML}${fehlenHTML}${probeHTML}${fuss}</div>`;
     }
     // Trainer und Hörmodus: je eine Kachel. Die Trainer liegen dahinter in Ordnern nach Fach.
     const tr = trainerOrdnerListe(today);
@@ -168,10 +179,13 @@ const heute = {
       anpassen: () => startAnpassen(),
       waehle: d => { const [k, v] = d.split('|'); wahlOffen = null; if (k === 'zeit') prefs.set('lernzeit', v); else st.setModus(v); this.render(b); },
       backup: () => push(datensicherung()),
+      eingang: () => { const o = eingang.offen()[0]; if (!o) return; insText = o.text; insMode = 'block'; insEingang = o.id; insResult = null; showTab('plus'); },
       speicherfehler: () => { prefs.set('speicherFehler', null); push(datensicherung()); },
       plantag: () => planTagLernen(st.nextExam(dayStr()), 'plan'),
       planschwach: () => planTagLernen(st.nextExam(dayStr()), 'schwach'),
       exam: id => push(termineDetail(id)),
+      zettel: id => push(arbeitsZettel(id)),
+      seite: id => lernseiten.oeffnen(id),
       probeJetzt: () => { const e = st.nextExam(dayStr()); if (e) push(probePage(e)); },
       newexam: () => termEditor({}),
       lernU: () => lernenUnterricht(),
@@ -187,7 +201,7 @@ const heute = {
       lernA: () => lernenAlles(),
       unterricht: () => push(unterrichtPage()),
       topic: tid => push(topicPage(tid)),
-      weiter: () => { const pl = st.place(); if (pl.art === 'trainer' && pl.datei) openTrainer(pl.tid, 'trainer/' + pl.datei); else push(topicPage(pl.tid, pl.tab)); }
+      weiter: () => { const pl = st.place(); if (pl.art === 'seite' && pl.noteId) return lernseiten.oeffnen(pl.noteId); if (pl.art === 'trainer' && pl.datei) openTrainer(pl.tid, 'trainer/' + pl.datei); else push(topicPage(pl.tid, pl.tab)); }
     });
   }
 };
@@ -581,6 +595,8 @@ export function fachPage(fid) {
       const gleich = st.aehnlichesFach(f);
       if (gleich) h += `<div class="fb info"><b>Ist das dasselbe wie ${esc(gleich.name)}?</b> Dann leg die beiden zusammen. Alle Themen, Karten und Fortschritte wandern mit.<div class="btn-row"><button class="btn small filled" data-a="zusammen" data-d="${esc(gleich.id)}">Mit ${esc(gleich.name)} zusammenlegen</button></div></div>`;
       if (fachItems.some(i => st.card(i.id))) h += `<div class="sec-h">Stand im Fach</div><div class="card">${stapel(standVon(fachItems, st.card), { hoch: 12, legende: true })}<p class="muted small">Sitzt heißt: kommt erst in 4 oder mehr Tagen wieder.</p></div>`;
+      const sf = lernseiten.seitenFuerFach(f.id);
+      if (sf.length) h += `<div class="sec-h">Lernseiten</div>` + list(sf.map(n => row({ a: 'seite', d: n.id, icon: 'book', color: '#FF9F0A', title: n.titel || 'Lernseite', sub: n.tid && st.thema(n.tid) ? st.thema(n.tid).thema.name : 'ganzes Fach' })));
       if (g.aktuell.length) h += `<div class="sec-h">Aktuell im Unterricht</div>` + list(g.aktuell.map(tRow));
       if (g.abgeschlossen.length) h += `<div class="sec-h">Abgeschlossen</div>` + list(g.abgeschlossen.map(tRow));
       if (g.vorhanden.length) h += `<div class="sec-h">Vorhanden</div>` + list(g.vorhanden.map(tRow));
@@ -589,6 +605,7 @@ export function fachPage(fid) {
       h += `<div class="sec-f">Unter Im Unterricht legst du fest, was gerade dran ist und was abgeschlossen ist.</div>`;
       b.innerHTML = h;
       on(b, {
+        seite: id => lernseiten.oeffnen(id),
         topic: tid => push(topicPage(tid)), introvor: () => readAloud(plainText(st.fachIntro(f.id)), f.name),
         zusammen: async zid => {
           const z = st.fach(zid);
@@ -608,16 +625,17 @@ export function fachPage(fid) {
 let insMode = 'block';
 let insText = '';
 let insResult = null;
-let insErsetzen = false, insArbeit = true;
+let insErsetzen = false, insArbeit = true, insEingang = null;
 let insNote = { text: '', titel: '', fid: '', tid: '', neu: '' };
 const einfuegen = {
   title: 'Einfügen',
   render(b) {
-    let h = seg('mode', [['block', 'Lernwerk-Block'], ['zettel', 'Lernzettel'], ['foto', 'Foto']], insMode) + '<div class="ins-body"></div>';
+    let h = seg('mode', [['block', 'Block'], ['seite', 'Lernseite'], ['zettel', 'Zettel'], ['foto', 'Foto']], insMode) + '<div class="ins-body"></div>';
     b.innerHTML = h;
     const body = $('.ins-body', b);
-    const draw = () => (insMode === 'block' ? drawBlock(body) : insMode === 'zettel' ? drawZettel(body) : drawFoto(body));
+    const draw = () => (insMode === 'block' ? drawBlock(body) : insMode === 'seite' ? drawSeite(body) : insMode === 'zettel' ? drawZettel(body) : drawFoto(body));
     on(b, { 'seg:mode': v => { insMode = v; draw(); } });
+    einfuegen._seite = html => { insMode = 'seite'; insSeite.html = html; this.render(b); };
     draw();
   }
 };
@@ -636,6 +654,8 @@ function drawBlock(el) {
   const update = () => {
     insText = ta.value;
     if (!ta.value.trim()) { pv.innerHTML = ''; parsed = null; return; }
+    // Eine ganze HTML-Seite aus dem Chat ist kein Block, sondern eine Lernseite
+    if (lernseiten.istHtml(ta.value)) { parsed = null; pv.innerHTML = `<div class="fb info"><b>Das ist eine Lernseite.</b> Ein fertiger Lernzettel oder Trainer aus dem Chat. Lernwerk zeigt ihn so, wie er im Chat aussieht, und merkt sich deine Häkchen.<div class="btn-row"><button class="btn small filled" data-a="alsSeite">Als Lernseite speichern</button></div></div>`; return; }
     parsed = parseBlocks(ta.value);
     zu = parsed.themen.map(t => {
       const f = st.findFach(t.fach);
@@ -689,6 +709,7 @@ function drawBlock(el) {
       ta.value = t; update();
     },
     clear: () => { ta.value = ''; update(); },
+    alsSeite: () => { const t = ta.value; ta.value = ''; insText = ''; einfuegen._seite(t); },
     'sw:ersetzen': v => { insErsetzen = v; },
     'sw:arbeit': v => { insArbeit = v; },
     save: async () => {
@@ -700,6 +721,7 @@ function drawBlock(el) {
       // Neue Themen zur kommenden Arbeit im Fach
       if (insArbeit) for (const x of res) { const ex = st.naechsteArbeitIn(x.fach.id); if (ex && ![...(ex.themaIds || []), ...(ex.ausgeschlossen || [])].includes(x.thema.id)) await st.themenZurArbeit(ex.id, [x.thema.id]); }
       insArbeit = true;
+      if (insEingang) { await eingang.erledigen(insEingang); insEingang = null; }
       const n = res.reduce((s, x) => s + x.added, 0);
       toast(res.length ? 'Gespeichert: ' + res.map(x => x.thema.name).join(', ') + (n ? ' (' + plural(n, 'neuer Eintrag', 'neue Einträge') + ')' : ' (nichts Neues)') : 'Termine gespeichert.');
       insResult = res.map(x => ({ tid: x.thema.id, name: x.thema.name, fach: x.fach.name, farbe: x.fach.farbe }));
@@ -758,6 +780,45 @@ function drawZettel(el) {
       toast('Lernzettel gespeichert.');
       drawZettel(el);
       noteReader(n.id);
+    }
+  });
+}
+/* Lernseite: fertiger Lernzettel oder Trainer aus dem Chat (HTML), einfügen oder als Datei wählen */
+const insSeite = { html: '', titel: '', fid: '', tid: '', exId: '' };
+function drawSeite(el) {
+  const o = insSeite;
+  if (o.html && !o.titel) o.titel = lernseiten.titelAus(o.html);
+  if (o.html && !o.fid) { const z = lernseiten.zuordnungAus(o.html); const f = z.fach ? st.findFach(z.fach) : null; if (f) { o.fid = f.id; const t = z.thema ? st.suggestThema(f, z.thema) : null; if (t) o.tid = t.id; } }
+  const f = st.fach(o.fid);
+  const arbeiten = f ? st.S.exams.filter(e => e.fachId === f.id && e.datum >= dayStr()).sort((a, c) => (a.datum < c.datum ? -1 : 1)) : [];
+  if (f && !o.exId && arbeiten.length && o._exAuto !== false) o.exId = arbeiten[0].id;
+  el.innerHTML = `<div class="card how"><p><b>Lernseiten</b> sind fertige Lernzettel und Trainer aus dem Claude-Chat, zum Beispiel ein Lernzettel zur Klausur. In Lernwerk laufen sie offline, und deine Häkchen und Ergebnisse bleiben gespeichert, auch auf dem iPad.</p>
+      <p class="small muted">So kommst du an die Seite: Im Chat beim Artefakt auf Teilen oder Herunterladen tippen und die Datei sichern, dann hier „Datei wählen“. Oder Claude bitten, die Seite in deinen Lernwerk-Eingang zu legen.</p></div>
+    <div class="btn-row"><label class="btn filled">${icon('open')} Datei wählen<input type="file" accept=".html,.htm,text/html" data-k="datei" hidden></label><button class="btn" data-a="paste">${icon('paste')} Aus Zwischenablage</button></div>
+    ${o.html ? `<div class="fb good"><b>Seite erkannt:</b> ${esc(o.titel || 'ohne Titel')}, ${Math.max(1, Math.round(o.html.length / 1024))} kB</div>
+      <label class="fld"><span>Titel</span><input type="text" data-k="titel" value="${esc(o.titel)}"></label>
+      <label class="fld"><span>Fach</span><select data-k="fid"><option value="">Fach wählen</option>${st.faecher().map(x => `<option value="${x.id}" ${x.id === o.fid ? 'selected' : ''}>${esc(x.name)}</option>`).join('')}</select></label>
+      ${f ? `<label class="fld"><span>Thema (optional)</span><select data-k="tid"><option value="">Ganzes Fach</option>${f.themen.map(t => `<option value="${t.id}" ${t.id === o.tid ? 'selected' : ''}>${esc(t.name)}</option>`).join('')}</select></label>` : ''}
+      ${arbeiten.length ? `<label class="fld"><span>Zur Klassenarbeit</span><select data-k="exId"><option value="">Keine</option>${arbeiten.map(e => `<option value="${e.id}" ${e.id === o.exId ? 'selected' : ''}>${esc(e.fach)}, ${esc(dayLong(e.datum))}</option>`).join('')}</select></label>` : ''}
+      <button class="btn filled wide" data-a="speichern">Lernseite speichern</button><button class="btn wide" data-a="verwerfen">Verwerfen</button>` : ''}`;
+  const grab = () => { for (const k of ['titel', 'tid', 'exId']) { const x = $(`[data-k="${k}"]`, el); if (x) o[k] = x.value; } if ($('[data-k="exId"]', el)) o._exAuto = false; };
+  const fs = $('[data-k="fid"]', el); if (fs) fs.onchange = () => { grab(); o.fid = fs.value; o.tid = ''; o.exId = ''; o._exAuto = true; drawSeite(el); };
+  const setze = html => { if (!lernseiten.istHtml(html)) { toast('Das ist keine HTML-Seite. Für Lernwerk-Blöcke nimm den Reiter Block.'); return; } Object.assign(o, { html, titel: '', fid: '', tid: '', exId: '', _exAuto: true }); drawSeite(el); };
+  $('[data-k="datei"]', el).addEventListener('change', async e => { const file = e.target.files[0]; if (file) setze(await file.text()); });
+  on(el, {
+    paste: async () => { const t = await readClipboard(); if (t == null) { toast('Einfügen ist hier gesperrt. Nimm „Datei wählen“.'); return; } setze(t); },
+    verwerfen: () => { Object.assign(insSeite, { html: '', titel: '', fid: '', tid: '', exId: '' }); drawSeite(el); },
+    speichern: async () => {
+      grab();
+      if (!o.fid) { toast('Bitte ein Fach wählen.'); return; }
+      try {
+        const n = await lernseiten.speichern({ html: o.html, titel: o.titel, fid: o.fid, tid: o.tid, exId: o.exId });
+        Object.assign(insSeite, { html: '', titel: '', fid: o.fid, tid: '', exId: '' });
+        toast('Lernseite gespeichert.');
+        import('./sicherung.js').then(m => m.anstossen()).catch(() => {});
+        drawSeite(el);
+        lernseiten.oeffnen(n.id);
+      } catch (err) { toast(err.message, 4000); }
     }
   });
 }

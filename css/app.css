@@ -895,3 +895,36 @@ button.count-more { border: 0; background: none; padding: 4px 0 0; font: inherit
 
 .count-probe { display: flex; align-items: center; gap: 6px; padding: 8px 14px 0; }
 .count-probe .ic { width: 16px; height: 16px; }
+
+/* ===== Lernseiten: Artefakte aus dem Chat in der App ===== */
+.seite { position: fixed; inset: 0; z-index: 60; background: var(--bg); display: flex; flex-direction: column; }
+.seite-h { flex: none; display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 6px; padding: calc(var(--sat) + 4px) calc(8px + var(--sar)) 4px calc(8px + var(--sal)); background: var(--bar); -webkit-backdrop-filter: saturate(180%) blur(20px); backdrop-filter: saturate(180%) blur(20px); box-shadow: 0 .5px 0 var(--sep); }
+.seite-h button { border: 0; background: none; color: var(--accent); min-height: 44px; min-width: 44px; display: inline-flex; align-items: center; gap: 2px; font-weight: 600; padding: 0 6px; }
+.seite-t { font-weight: 600; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.seite-f { flex: 1; width: 100%; border: 0; background: #fff; }
+body.seite-offen .tabbar, body.seite-offen #update { display: none; }
+.seiten-btns { display: flex; flex-direction: column; gap: 8px; padding: 0 14px 4px; }
+.seiten-btns:empty { display: none; }
+
+/* ===== Lernzettel zur Klassenarbeit ===== */
+.az-h { margin: 0 0 10px; }
+.az-stand { display: flex; align-items: center; gap: 12px; margin-top: 6px; }
+.az-stand .bar { flex: 1; }
+.az-nav { position: sticky; top: 0; z-index: 3; background: var(--bg); padding: 8px 0; margin: 0 0 6px; overflow-x: auto; flex-wrap: nowrap; }
+.az-nav .chip { flex: none; border: 0; min-height: 34px; background: var(--bg2); color: var(--label); }
+.az-nav .chip.az-done { background: var(--good-bg); }
+.az-t { padding: 18px 0 8px; border-top: .5px solid var(--sep); scroll-margin-top: 56px; }
+.az-kopf { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+.az-kopf h2 { margin: 0; font-size: 22px; line-height: 1.2; }
+.az-nr { flex: none; width: 34px; height: 34px; border-radius: 50%; background: var(--fc, var(--accent)); color: #fff; display: grid; place-items: center; font-weight: 700; }
+.az-tab table { width: 100%; border-collapse: collapse; background: var(--bg2); border-radius: 12px; overflow: hidden; font-size: 15px; }
+.az-tab td { padding: 8px 10px; border-bottom: .5px solid var(--sep); vertical-align: top; }
+.az-tab td:first-child { width: 36%; }
+.az-falle { border: 2px solid var(--red); border-radius: 12px; padding: 8px 12px; margin: 10px 0; font-size: 16px; }
+.az-falle b { color: var(--red); }
+.az-vw { margin: 10px 0; }
+.az-fuss { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 14px 0 6px; }
+.az-ok { border: 2px solid var(--label); background: var(--bg2); color: var(--label); border-radius: 999px; min-height: 44px; padding: 0 18px; font-weight: 600; display: inline-flex; align-items: center; gap: 6px; }
+.az-ok.on { border-color: var(--green); background: var(--good-bg); }
+.az-ok .ic { width: 20px; height: 20px; }
+.az-ende { margin-top: 18px; }
