@@ -1,7 +1,7 @@
 // Service Worker: Offline-Nutzung und automatische Updates.
 // Bei jeder Änderung VERSION erhöhen (gleicher Wert wie in js/app.js).
 // Die neue Version installiert sich beim nächsten Öffnen von selbst.
-const VERSION = '1.43.0';
+const VERSION = '1.43.1';
 const CACHE = 'lernwerk-' + VERSION;
 const FILES = [
   './', 'index.html', 'manifest.webmanifest', 'css/app.css', 'lehrplan.json', 'lernwerk-bridge.js', 'lernwerk-speicher.js', 'js/sicherung.js', 'js/diagramm.js', 'js/abgleich.js', 'js/rueckfall.js', 'js/aufgabe.js', 'js/uebungen.js', 'js/schmierzettel.js', 'js/probeklausur.js', 'js/hoerseite.js', 'js/noten.js', 'js/lernseiten.js', 'js/eingang.js', 'js/arbeitszettel.js',
@@ -34,6 +34,19 @@ self.addEventListener('message', e => { if (e.data === 'skipWaiting') self.skipW
 // Podcast-Folgen: eigener Cache, der Updates überlebt. Offline gespeichert wird nur, was man im Hörmodus lädt.
 // Safari spielt Audio nur mit Teilantworten (206), deshalb wird die Range aus dem Cache geschnitten.
 const AUDIO = 'hoer-audio';
+// Geänderte Folgen: alte, offline gespeicherte Audiodatei löschen, damit Ton und Text zusammenpassen
+async function veralteteFolgen(c, url, neu) {
+  try {
+    const alt = await c.match(url); if (!alt) return;
+    const a = (await alt.json()).folgen || {}, n = (await neu.json()).folgen || {};
+    const basis = new URL('./', url).href;
+    for (const tid of Object.keys(a)) {
+      const x = a[tid] || {}, y = n[tid] || {};
+      if (x.datei && x.hash !== y.hash) await c.delete(basis + x.datei);
+      if (x.karten && x.karten.datei && x.khash !== y.khash) await c.delete(basis + x.karten.datei);
+    }
+  } catch (e) { /* Liste unlesbar: nichts löschen */ }
+}
 async function audioAntwort(req) {
   const c = await caches.open(AUDIO);
   const hit = await c.match(req.url);
@@ -56,7 +69,7 @@ self.addEventListener('fetch', e => {
   if (/\/audio\/[^/]+\.m4a$/.test(path)) { e.respondWith(audioAntwort(req)); return; }
   // Liste der Folgen: erst Netz, damit neue Folgen ankommen, sonst Cache
   if (/\/audio\/folgen\.json$/.test(path)) {
-    e.respondWith(caches.open(AUDIO).then(async c => { try { const r = await fetch(req, { cache: 'no-cache' }); if (r.ok) c.put(req.url, r.clone()); return r; } catch (err) { return (await c.match(req.url)) || Response.error(); } }));
+    e.respondWith(caches.open(AUDIO).then(async c => { try { const r = await fetch(req, { cache: 'no-cache' }); if (r.ok) { await veralteteFolgen(c, req.url, r.clone()); c.put(req.url, r.clone()); } return r; } catch (err) { return (await c.match(req.url)) || Response.error(); } }));
     return;
   }
   e.respondWith(caches.open(CACHE).then(async c => {
