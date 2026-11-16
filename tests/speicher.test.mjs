@@ -226,5 +226,19 @@ ok(m.daten.kv.kartenArt === undefined || m.daten.kv.kartenArt === 'aufdecken', '
   ok(runden <= Math.ceil(a0.gesamt / 12) + 3, 'Kaum doppelte Fragen, bevor alles einmal dran war', [runden, a0.gesamt]);
   await st.deleteExam(ex.id);
 }
+// Erledigte Arbeiten fallen raus: Tag vorbei, Note eingetragen oder heute geschrieben
+{
+  const heute = dayStr();
+  const alt = await st.addExam({ fachId: 'tm', datum: addDays(heute, -1) });
+  const benotet = await st.addExam({ fachId: 'ma', datum: addDays(heute, 2), note: 2 });
+  const jetzt = await st.addExam({ fachId: 'et', datum: heute });
+  const spaeter = await st.addExam({ fachId: 'tm', datum: addDays(heute, 9) });
+  const ids = () => st.offeneArbeiten().map(e => e.id);
+  ok(!ids().includes(alt.id) && !ids().includes(benotet.id), 'Vergangene und benotete Arbeiten sind nicht mehr offen');
+  ok(ids().includes(jetzt.id) && st.naechsteArbeitIn('tm').id !== alt.id, 'Arbeit heute ist offen, im Fach zählt die nächste offene');
+  await st.arbeitGeschrieben(jetzt.id);
+  ok(!ids().includes(jetzt.id) && st.arbeitErledigt(jetzt), 'Heute geschrieben: fällt raus');
+  for (const e of [alt, benotet, jetzt, spaeter]) await st.deleteExam(e.id);
+}
 console.log('\n' + pass + ' bestanden, ' + fail + ' fehlgeschlagen');
 process.exit(fail ? 1 : 0);

@@ -18,7 +18,7 @@ import * as eingang from './eingang.js';
 import { arbeitsZettel, zettelStand as arbeitsZettelStand, istGelernt } from './arbeitszettel.js';
 import { beiSchreibfehler } from './db.js';
 
-export const VERSION = '1.44.0';
+export const VERSION = '1.45.0';
 
 /* ===== Heute ===== */
 // Kurze, wechselnde Sätze für den Start. Ohne Druck.
@@ -91,8 +91,8 @@ const heute = {
     T.spruch = `<p class="spruch">${icon('sparkle')}<span>${esc(MUT[doy % MUT.length])}</span></p>`;
     // Nach der Arbeit: Note und schwache Themen eintragen, die kommen dann öfter dran
     const spaeter = prefs.get('auswertungSpaeter', {}) || {};
-    const ausw = st.S.exams.filter(e => e.datum < today && daysBetween(e.datum, today) <= 30 && e.note == null && e.prozent == null && (e.themaIds || []).length && !(st.kvGet('auswertungAus', []) || []).includes(e.id) && !((spaeter[e.id] || '') > today)).sort((a, c) => (a.datum < c.datum ? 1 : -1))[0];
-    if (ausw) h += `<div class="banner ausw"><span>${icon('exam')}</span><span><b>Wie lief ${esc(ausw.fach)} am ${esc(dayLong(ausw.datum))}?</b> Trag die Note ein und tipp an, welche Themen schlecht liefen. Die kommen dann öfter dran.<span class="ausw-k"><button class="btn small filled" data-a="auswerten" data-d="${ausw.id}">Auswerten</button><button class="btn small" data-a="auswSpaeter" data-d="${ausw.id}">Später</button><button class="btn small" data-a="auswNein" data-d="${ausw.id}">Keine Note</button></span></span></div>`;
+    const ausw = st.S.exams.filter(e => e.datum < today && daysBetween(e.datum, today) <= 30 && e.note == null && e.prozent == null && !(st.kvGet('auswertungAus', []) || []).includes(e.id) && !((spaeter[e.id] || '') > today)).sort((a, c) => (a.datum < c.datum ? 1 : -1))[0];
+    if (ausw) h += `<div class="banner ausw"><span>${icon('exam')}</span><span><b>Wie lief ${esc(ausw.fach)} am ${esc(dayLong(ausw.datum))}?</b> Trag die Note ein${(ausw.themaIds || []).length ? ' und tipp an, welche Themen schlecht liefen. Die kommen dann öfter dran' : ''}.<span class="ausw-k"><button class="btn small filled" data-a="auswerten" data-d="${ausw.id}">Auswerten</button><button class="btn small" data-a="auswSpaeter" data-d="${ausw.id}">Später</button><button class="btn small" data-a="auswNein" data-d="${ausw.id}">Keine Note</button></span></span></div>`;
     // Neu im Eingang: Blöcke, die Claude in dein privates Repository gelegt hat, warten auf deine Vorschau
     const eo = eingang.offen();
     if (eo.length) h += `<button class="banner" data-a="eingang">${icon('paste')}<span><b>Neu in deinem Eingang:</b> ${esc(eo.map(o => o.titel).join(', '))}. Tippe hier für die Vorschau.</span></button>`;
@@ -185,9 +185,10 @@ const heute = {
       lernseiten.seitenFuerArbeit(ex).slice(0, 3).forEach(n => kl.push(`<button data-a="seite" data-d="${n.id}">${icon('book')}<span><b>${esc(n.titel)}</b><small>Lernseite</small></span></button>`));
       const zettelHTML = kl.length ? `<div class="count-klein">${kl.join('')}</div>` : '';
       const fehlenHTML = fehlen.length ? `<button class="count-fehlt" data-a="exam" data-d="${ex.id}">${icon('plus')}<span>${fehlen.length === 1 ? '1 neues Thema fehlt' : fehlen.length + ' neue Themen fehlen'} noch in der Arbeit: ${esc(fehlen.map(t => t.name).join(', '))}</span>${icon('chev', 'chev')}</button>` : '';
-      return `<div class="card count ka auf" style="--fc:${f ? f.farbe : 'var(--accent)'}">${kopfHTML}${abdHTML}${zettelHTML}${fehlenHTML}${probeHTML}${fuss}</div>`;
+      const geschrHTML = d === 0 ? `<div class="count-geschr"><small>Geschrieben?</small><div class="count-weiter"><button data-a="auswerten" data-d="${ex.id}"><b>Note eintragen</b></button><button data-a="geschrieben" data-d="${ex.id}"><b>Note kommt später</b></button></div></div>` : '';
+      return `<div class="card count ka auf" style="--fc:${f ? f.farbe : 'var(--accent)'}">${kopfHTML}${abdHTML}${geschrHTML}${zettelHTML}${fehlenHTML}${probeHTML}${fuss}</div>`;
     };
-    const arbeiten = st.S.exams.filter(e => e.datum >= today && e.note == null && e.prozent == null).sort((a, c) => (a.datum < c.datum ? -1 : 1));
+    const arbeiten = st.offeneArbeiten(today);
     if (arbeiten.length) T.arbeit = `<div class="sec-h sec-h-btn"><span>Klassenarbeiten</span><button class="link" data-a="newexam">Neu</button></div>${arbeiten.map((e, i) => arbeitKarte(e, i === 0)).join('')}`;
     // Trainer und Hörmodus: je eine Kachel. Die Trainer liegen dahinter in Ordnern nach Fach.
     const tr = trainerOrdnerListe(today);
@@ -229,6 +230,7 @@ const heute = {
       exam: id => push(termineDetail(id)),
       zettel: id => push(arbeitsZettel(id)),
       auswerten: id => { const e = st.S.exams.find(x => x.id === id); if (e) notenEditor(e); },
+      geschrieben: async id => { await st.arbeitGeschrieben(id); toast('Gut gemacht! Nach der Note frage ich dich später.'); this.render(b); },
       auswSpaeter: id => { const sp = Object.assign({}, prefs.get('auswertungSpaeter', {}) || {}); sp[id] = addDays(dayStr(), 3); prefs.set('auswertungSpaeter', sp); toast('Ich frage in drei Tagen wieder.'); this.render(b); },
       auswNein: async id => { await st.kvSet('auswertungAus', [...(st.kvGet('auswertungAus', []) || []), id]); toast('Alles klar, ich frage nicht mehr.'); this.render(b); },
       seite: id => lernseiten.oeffnen(id),
@@ -856,7 +858,7 @@ function drawSeite(el) {
   if (o.html && !o.titel) o.titel = lernseiten.titelAus(o.html);
   if (o.html && !o.fid) { const z = lernseiten.zuordnungAus(o.html); const f = z.fach ? st.findFach(z.fach) : null; if (f) { o.fid = f.id; const t = z.thema ? st.suggestThema(f, z.thema) : null; if (t) o.tid = t.id; } }
   const f = st.fach(o.fid);
-  const arbeiten = f ? st.S.exams.filter(e => e.fachId === f.id && e.datum >= dayStr()).sort((a, c) => (a.datum < c.datum ? -1 : 1)) : [];
+  const arbeiten = f ? st.offeneArbeiten().filter(e => e.fachId === f.id) : [];
   // Arbeit aus der Angabe in der Seite (Datum), sonst die nächste im Fach
   const zA = o.html ? lernseiten.zuordnungAus(o.html).arbeit : '';
   const exA = zA ? st.S.exams.find(e => e.datum === zA) : null;

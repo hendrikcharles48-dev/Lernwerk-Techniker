@@ -1022,3 +1022,7 @@ body.seite-offen .tabbar, body.seite-offen #update { display: none; }
 .sec-auf span { font-size: 13px; text-transform: uppercase; letter-spacing: .02em; flex: none; }
 .sec-auf small { flex: 1; min-width: 0; font-size: 13px; color: var(--label3); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .lweg-start .lweg-alle { justify-content: center; background: none; color: var(--accent); min-height: 44px; font-size: 14px; }
+.count-geschr { margin-top: 8px; padding: 8px 10px; border-radius: 12px; background: color-mix(in srgb, var(--green) 10%, var(--bg2)); }
+.count-geschr > small { font-size: 13px; color: var(--label2); font-weight: 600; }
+.count-geschr .count-weiter { margin-top: 4px; }
+.count-geschr .count-weiter button { background: var(--bg2); }

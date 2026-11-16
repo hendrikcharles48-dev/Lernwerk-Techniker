@@ -30,7 +30,7 @@ export async function holen(gh, repo) {
       const fa = z.fach ? st.findFach(z.fach) : null;
       const th = fa && z.thema ? st.suggestThema(fa, z.thema) : null;
       const arbeiten = fa ? st.S.exams.filter(e => e.fachId === fa.id) : [];
-      const ex = arbeiten.find(e => e.datum === z.arbeit) || (z.arbeit && st.S.exams.find(e => e.datum === z.arbeit)) || arbeiten.filter(e => e.datum >= dayStr()).sort((a, b) => (a.datum < b.datum ? -1 : 1))[0];
+      const ex = arbeiten.find(e => e.datum === z.arbeit) || (z.arbeit && st.S.exams.find(e => e.datum === z.arbeit)) || arbeiten.filter(e => !st.arbeitErledigt(e)).sort((a, b) => (a.datum < b.datum ? -1 : 1))[0];
       try {
         const n = await lernseiten.speichern({ html: text, titel: z.titel, fid: fa ? fa.id : '', tid: th ? th.id : '', exId: ex ? ex.id : '', quelle: 'eingang' });
         neu.push(n.titel);
@@ -62,7 +62,7 @@ export function lernstandText() {
   L.push('- Lernseiten laufen in der App abgeschottet und offline. Ihr localStorage wird gespeichert und zwischen den Geräten abgeglichen. Externe Schriften gehen nur mit Netz.');
   L.push('- Jede beantwortete Frage melden: `window.lernwerk && window.lernwerk.antwort({ frage, gewaehlt, richtig, ok, thema, erklaerung })`. Falsche Antworten kommen dann ins Fehlerbuch und in die Wiederholung.');
   L.push('- Eine Datei mit gleichem Namen und neuem Inhalt wird neu geholt. Eine Lernseite mit gleichem Titel im selben Fach ersetzt die alte, der Fortschritt bleibt.', '');
-  const kommende = st.S.exams.filter(e => e.datum >= heute).sort((a, b) => (a.datum < b.datum ? -1 : 1));
+  const kommende = st.offeneArbeiten(heute);
   if (kommende.length) {
     L.push('## Kommende Klassenarbeiten', '');
     for (const e of kommende.slice(0, 4)) {

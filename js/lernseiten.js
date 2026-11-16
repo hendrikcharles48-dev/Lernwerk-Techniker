@@ -102,7 +102,7 @@ export async function verbuchen(noteId, o) {
 const ABSTAND = [1, 3, 7, 14, 30];
 export function faellig(jetzt = Date.now()) {
   const heute = new Date(jetzt).toISOString().slice(0, 10);
-  const bald = new Set(st.S.exams.filter(e => e.datum >= heute && (Date.parse(e.datum) - jetzt) / 864e5 <= 14).map(e => e.id));
+  const bald = new Set(st.offeneArbeiten(heute).filter(e => (Date.parse(e.datum) - jetzt) / 864e5 <= 14).map(e => e.id));
   return seiten().map(n => {
     if (!n.letzteRunde) return bald.has(n.exId) ? { n, tage: null } : null;
     const ab = ABSTAND[Math.min((n.runden || 1) - 1, ABSTAND.length - 1)];

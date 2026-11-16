@@ -601,8 +601,21 @@ export async function recordCard(item, ergebnis) {
 }
 
 /* ===== Heute dran ===== */
+// Eine Arbeit ist erledigt, sobald ihr Tag vorbei ist, eine Note oder Prozent drinstehen oder sie als geschrieben markiert ist.
+// Erledigte Arbeiten fallen überall raus: Startseite, Lernplan, Zuordnung neuer Themen und Lernseiten.
+export function arbeitErledigt(e, today = dayStr()) {
+  return e.datum < today || e.note != null || e.prozent != null || (kvGet('geschrieben', []) || []).includes(e.id);
+}
+export function offeneArbeiten(today = dayStr()) {
+  return S.exams.filter(e => !arbeitErledigt(e, today)).sort((a, b) => (a.datum < b.datum ? -1 : 1));
+}
 export function nextExam(today = dayStr()) {
-  return S.exams.filter(e => e.datum >= today && e.note == null && e.prozent == null).sort((a, b) => (a.datum < b.datum ? -1 : 1))[0] || null;
+  return offeneArbeiten(today)[0] || null;
+}
+// Arbeit heute geschrieben, Note kommt später: sie verschwindet von der Startseite, die Frage nach der Note kommt ab morgen
+export async function arbeitGeschrieben(id) {
+  const l = kvGet('geschrieben', []) || [];
+  if (!l.includes(id)) await kvSet('geschrieben', [...l, id]);
 }
 export function allTids() { return S.plan.faecher.flatMap(f => f.themen.map(t => t.id)); }
 
@@ -819,7 +832,7 @@ export async function planNachholenSetzen(ex, tids) {
 }
 // Nächste Arbeit in einem Fach (heute oder später)
 export function naechsteArbeitIn(fid, today = dayStr()) {
-  return S.exams.filter(e => e.fachId === fid && e.datum >= today).sort((a, b) => (a.datum < b.datum ? -1 : 1))[0] || null;
+  return offeneArbeiten(today).find(e => e.fachId === fid) || null;
 }
 // Themen des Fachs, die vermutlich in die Arbeit gehören, aber fehlen: im Unterricht oder selbst eingefügt
 export function fehlendeThemen(ex) {

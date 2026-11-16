@@ -104,8 +104,8 @@ export function terminePage() {
     actions: [{ label: 'Neu', icon: 'plus', onClick: () => termEditor({}) }],
     render(b) {
       const today = dayStr();
-      const up = st.S.exams.filter(e => e.datum >= today).sort((a, b) => (a.datum < b.datum ? -1 : 1));
-      const past = st.S.exams.filter(e => e.datum < today).sort((a, b) => (a.datum > b.datum ? -1 : 1));
+      const up = st.offeneArbeiten(today);
+      const past = st.S.exams.filter(e => st.arbeitErledigt(e, today)).sort((a, b) => (a.datum > b.datum ? -1 : 1));
       const r = e => { const f = st.fach(e.fachId); const d = daysBetween(today, e.datum); return row({ a: 'ex', d: e.id, dot: f ? f.farbe : '#888', title: e.fach, sub: dayLong(e.datum) + (e.themen ? ' · ' + e.themen : ''), detail: d >= 0 ? (d === 0 ? 'heute' : 'in ' + d + ' T.') : '' }); };
       let h = `<div class="btn-row"><button class="btn filled" data-a="neu">${icon('calendar')} Klassenarbeit eintragen</button></div>`;
       h += up.length ? `<div class="sec-h">Kommende Arbeiten</div>` + list(up.map(r)) : empty('Keine Klassenarbeit eingetragen.', 'Trag Fach, Datum und Themen ein. Lernwerk plant dann rückwärts bis zur Arbeit. Termine kommen auch über Termin-Zeilen im Lernwerk-Block.');
