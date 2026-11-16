@@ -46,10 +46,16 @@ export async function speichern(o) {
 // Handybreite: nichts darf die Seite breiter als den Bildschirm machen. Breite Tabellen wischt man in sich.
 const PASST = `<meta name="viewport" content="width=device-width, initial-scale=1"><style id="lw-breite">html,body{max-width:100%!important;min-width:0!important;overflow-x:hidden!important;-webkit-text-size-adjust:100%;text-size-adjust:100%}
 body{overflow-wrap:break-word}img,video,canvas,svg,iframe{max-width:100%!important}img,video{height:auto}pre{white-space:pre-wrap!important;overflow-wrap:anywhere}
-.lw-tab{max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}</style>`;
-const PASST_JS = `function passt(){var W=document.documentElement.clientWidth;[].forEach.call(document.querySelectorAll('table'),function(t){var p=t.parentElement;if(!p||p.classList.contains('lw-tab'))return;if(t.getBoundingClientRect().width>W-4||t.scrollWidth>p.clientWidth+2){var d=document.createElement('div');d.className='lw-tab';p.insertBefore(d,t);d.appendChild(t);}});}
+.lw-tab{max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}.lw-breit{max-width:100%!important;min-width:0!important;overflow-x:auto!important;-webkit-overflow-scrolling:touch}</style>`;
+// Was trotzdem breiter ist, bekommt einen eigenen Wischbereich, statt abgeschnitten zu werden.
+// Skizzen ohne viewBox bekommen eine, damit sie kleiner werden statt rauszuragen.
+const PASST_JS = `function passt(){var W=document.documentElement.clientWidth,B=document.body;if(!B||!W)return;
+[].forEach.call(document.querySelectorAll('svg[width]:not([viewBox])'),function(g){var w=parseFloat(g.getAttribute('width')),h=parseFloat(g.getAttribute('height'));if(w>W&&h>0&&!/%/.test(g.getAttribute('width'))){g.setAttribute('viewBox','0 0 '+w+' '+h);g.style.height='auto';}});
+[].forEach.call(document.querySelectorAll('table'),function(t){var p=t.parentElement;if(!p||p.classList.contains('lw-tab'))return;if(t.getBoundingClientRect().width>W-4||t.scrollWidth>p.clientWidth+2){var d=document.createElement('div');d.className='lw-tab';p.insertBefore(d,t);d.appendChild(t);}});
+if(B.scrollWidth<=W+1)return;
+[].forEach.call(B.querySelectorAll('*'),function(el){if(/^(SCRIPT|STYLE|svg|IMG|VIDEO|CANVAS|IFRAME|TABLE)$/i.test(el.tagName)||el.closest('.lw-tab,.lw-breit')||(el.ownerSVGElement))return;var cs=getComputedStyle(el);if(cs.position==='fixed'||cs.position==='absolute'||cs.display==='inline')return;var r=el.getBoundingClientRect();if(r.width>W+2||(r.right>W+2&&el.scrollWidth>el.clientWidth+2))el.classList.add('lw-breit');});}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',passt);else passt();addEventListener('load',passt);addEventListener('resize',passt);
-try{new MutationObserver(function(){clearTimeout(window.__lwP);window.__lwP=setTimeout(passt,120);}).observe(document.documentElement,{childList:true,subtree:true});}catch(e){}`;
+try{new MutationObserver(function(){clearTimeout(window.__lwP);window.__lwP=setTimeout(passt,150);}).observe(document.documentElement,{childList:true,subtree:true});}catch(e){}`;
 function shim(id, zustand) {
   return PASST + `<script>(function(){var ID=${JSON.stringify(id)},data=${JSON.stringify(zustand || {}).replace(/</g, '\\u003c')},t=null;
 function send(){clearTimeout(t);t=setTimeout(function(){try{parent.postMessage({lwSeite:ID,store:data},'*');}catch(e){}},250);}

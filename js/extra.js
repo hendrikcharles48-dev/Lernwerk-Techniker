@@ -162,6 +162,7 @@ export function termineDetail(id) {
       const d = daysBetween(today, e.datum);
       const tops = (e.themaIds || []).map(t => st.thema(t)).filter(Boolean);
       let h = `<div class="card count" style="--fc:${f ? f.farbe : 'var(--accent)'}"><div class="count-n">${d < 0 ? 'Vorbei' : d === 0 ? 'Heute' : d === 1 ? 'Morgen' : 'In ' + d + ' Tagen'}</div><div class="count-t">${esc(e.fach)}</div><div class="muted">${esc(dayLong(e.datum))}</div>${e.themen ? `<div class="muted">${esc(e.themen)}</div>` : ''}</div>`;
+      if (d >= 0 && st.istGeschrieben(e.id) && e.note == null && e.prozent == null) h += `<div class="fb info">Du hast diese Arbeit als geschrieben markiert. Darum steht sie nicht mehr auf der Startseite.<div class="btn-row"><button class="btn filled" data-a="nichtGeschrieben">Doch noch nicht geschrieben</button><button class="btn" data-a="note">${icon('exam')} Note eintragen</button></div></div>`;
       if (d < 0) h += `<div class="btn-row"><button class="btn filled" data-a="note">${icon('exam')} ${e.note != null || e.prozent != null ? 'Note ansehen: ' + [e.note != null ? fmtNote(e.note) : '', e.prozent != null ? fmtNum(e.prozent, 1) + ' %' : ''].filter(Boolean).join(', ') : 'Note eintragen'}</button></div>`;
       // Themen im Fach, die fehlen: im Unterricht oder selbst eingefügt, aber nicht in der Arbeit
       const fehlen = d >= 0 ? st.fehlendeThemen(e) : [];
@@ -193,6 +194,7 @@ export function termineDetail(id) {
         dazu: async tid => { await st.themenZurArbeit(e.id, [tid]); toast('Dazugenommen. Der Lernplan rechnet neu.'); this.render(b); refreshTop(); },
         alleDazu: async () => { await st.themenZurArbeit(e.id, fehlen.map(t => t.id)); toast('Alle dazugenommen. Der Lernplan rechnet neu.'); this.render(b); refreshTop(); },
         note: () => push(klausurPage(e.id)),
+        nichtGeschrieben: async () => { await st.arbeitNichtGeschrieben(e.id); toast('Die Arbeit ist wieder offen.'); this.render(b); refreshTop(); },
         zettel: async () => { const z = await import('./arbeitszettel.js'); push(z.arbeitsZettel(e.id)); },
         seite: id => oeffnen(id),
         ueben: () => { const its = st.arbeitsRunde(e, [], 12); if (!its.length) { toast('Für diese Themen gibt es noch keine Übungen.'); return; } runSession(its, 'Arbeit: ' + e.fach, { onClose: () => refreshTop() }); },

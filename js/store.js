@@ -405,7 +405,13 @@ export async function saveBlocks(zuordnung, termine = [], opt = {}) {
     await db.put('content', Object.assign({ id: t.id, topic: merged, zeit: Date.now() }, S.contentErsetzt.get(t.id) ? { ersetzt: S.contentErsetzt.get(t.id) } : {}));
     out.push({ fach: f, thema: t, added: neu.added });
   }
-  for (const x of termine) await addExam({ fach: x.fach, datum: x.datum, themen: x.themen });
+  // Termin, der eine vorhandene Arbeit verschiebt (in der Vorschau bestätigt): Datum ändern statt eine zweite Arbeit anlegen
+  const versch = opt.verschieben || {};
+  for (let i = 0; i < termine.length; i++) {
+    const x = termine[i];
+    if (versch[i] && S.exams.some(e => e.id === versch[i])) await arbeitVerschieben(versch[i], toDay(x.datum) || x.datum, x.themen);
+    else await addExam({ fach: x.fach, datum: x.datum, themen: x.themen });
+  }
   changed('content');
   return out;
 }
@@ -616,6 +622,31 @@ export function nextExam(today = dayStr()) {
 export async function arbeitGeschrieben(id) {
   const l = kvGet('geschrieben', []) || [];
   if (!l.includes(id)) await kvSet('geschrieben', [...l, id]);
+}
+// Aus Versehen als geschrieben markiert: wieder offen
+export async function arbeitNichtGeschrieben(id) {
+  const l = kvGet('geschrieben', []) || [];
+  if (l.includes(id)) await kvSet('geschrieben', l.filter(x => x !== id));
+}
+export const istGeschrieben = id => (kvGet('geschrieben', []) || []).includes(id);
+// Neuer Termin im selben Fach, die alte Arbeit ist noch offen und liegt höchstens sechs Wochen daneben: wahrscheinlich verschoben.
+// Gibt die alte Arbeit zurück oder null. Gibt es den Termin schon genau so, ist nichts verschoben.
+export function verschobenVon(x, today = dayStr()) {
+  const f = findFach(x.fach);
+  const datum = toDay(x.datum) || x.datum;
+  if (!f || S.exams.some(e => e.fachId === f.id && e.datum === datum)) return null;
+  const tag = d => Date.parse(d) / 864e5;
+  const l = offeneArbeiten(today).filter(e => e.fachId === f.id && Math.abs(tag(e.datum) - tag(datum)) <= 42);
+  return l.sort((a, b) => Math.abs(tag(a.datum) - tag(datum)) - Math.abs(tag(b.datum) - tag(datum)))[0] || null;
+}
+// Arbeit auf ein neues Datum legen. Kennung, Themen und Lernplan bleiben.
+export async function arbeitVerschieben(id, datum, themen = '') {
+  const alt = S.exams.find(e => e.id === id);
+  if (!alt) return null;
+  const f = fach(alt.fachId);
+  const themaIds = [...new Set([...(alt.themaIds || []), ...matchThemen(f, themen)])];
+  await arbeitNichtGeschrieben(id);
+  return addExam(Object.assign({}, alt, { datum, themaIds, themen: [alt.themen, themen].filter(Boolean).join(', ') }));
 }
 export function allTids() { return S.plan.faecher.flatMap(f => f.themen.map(t => t.id)); }
 

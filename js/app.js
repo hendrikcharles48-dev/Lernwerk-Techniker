@@ -18,7 +18,7 @@ import * as eingang from './eingang.js';
 import { arbeitsZettel, zettelStand as arbeitsZettelStand, istGelernt } from './arbeitszettel.js';
 import { beiSchreibfehler } from './db.js';
 
-export const VERSION = '1.45.0';
+export const VERSION = '1.46.0';
 
 /* ===== Heute ===== */
 // Kurze, wechselnde Sätze für den Start. Ohne Druck.
@@ -230,7 +230,7 @@ const heute = {
       exam: id => push(termineDetail(id)),
       zettel: id => push(arbeitsZettel(id)),
       auswerten: id => { const e = st.S.exams.find(x => x.id === id); if (e) notenEditor(e); },
-      geschrieben: async id => { await st.arbeitGeschrieben(id); toast('Gut gemacht! Nach der Note frage ich dich später.'); this.render(b); },
+      geschrieben: async id => { await st.arbeitGeschrieben(id); toast('Gut gemacht! Nach der Note frage ich später.', 6000, { label: 'Rückgängig', onClick: async () => { await st.arbeitNichtGeschrieben(id); refreshTop(); } }); this.render(b); },
       auswSpaeter: id => { const sp = Object.assign({}, prefs.get('auswertungSpaeter', {}) || {}); sp[id] = addDays(dayStr(), 3); prefs.set('auswertungSpaeter', sp); toast('Ich frage in drei Tagen wieder.'); this.render(b); },
       auswNein: async id => { await st.kvSet('auswertungAus', [...(st.kvGet('auswertungAus', []) || []), id]); toast('Alles klar, ich frage nicht mehr.'); this.render(b); },
       seite: id => lernseiten.oeffnen(id),
@@ -693,7 +693,7 @@ export function fachPage(fid) {
 let insMode = 'block';
 let insText = '';
 let insResult = null;
-let insErsetzen = false, insArbeit = true, insEingang = null;
+let insErsetzen = false, insArbeit = true, insEingang = null, insVersch = {};
 let insNote = { text: '', titel: '', fid: '', tid: '', neu: '' };
 const einfuegen = {
   title: 'Einfügen',
@@ -750,6 +750,9 @@ function drawBlock(el) {
         <label class="fld"><span>Thema</span><select data-i="${i}" data-k="thema">${themaOpts(z.fachId, z.themaId, t.thema)}</select></label></div>`;
     });
     if (r.termine.length) h += `<div class="card pv"><div class="pv-t">${plural(r.termine.length, 'Termin', 'Termine')}</div>${r.termine.map(x => `<div>${esc(x.fach)}: ${esc(dayLong(x.datum))}${x.themen ? ', ' + esc(x.themen) : ''}</div>`).join('')}</div>`;
+    // Neuer Termin im selben Fach nah an einer offenen Arbeit: verschoben? Dann nur das Datum ändern.
+    const vs = r.termine.map(x => st.verschobenVon(x));
+    if (vs.some(Boolean)) h += list(vs.map((alt, i) => alt ? row({ title: 'Ist ' + r.termine[i].fach + ' verschoben?', sub: 'Ja: Die Arbeit vom ' + dayLong(alt.datum) + ' bekommt den ' + dayLong(r.termine[i].datum) + '. Themen und Lernplan bleiben. Nein: Es ist eine zweite Arbeit.', right: `<label class="switch"><input type="checkbox" data-sw="versch" data-i="${i}" ${insVersch[i] !== false ? 'checked' : ''}><span></span></label>` }) : null).filter(Boolean));
     if (r.fehler.length) h += `<div class="fb bad"><b>${plural(r.fehler.length, 'Problem', 'Probleme')} beim Lesen:</b>${r.fehler.map(e => `<div class="pv-err">Zeile ${e.zeile}: ${esc(e.meldung)}${e.text ? `<code>${esc(e.text.slice(0, 80))}</code>` : ''}</div>`).join('')}</div>`;
     if (r.hinweise.length) h += `<details class="disc"><summary>${plural(r.hinweise.length, 'Hinweis', 'Hinweise')}</summary>${r.hinweise.map(e => `<div class="pv-err">Zeile ${e.zeile}: ${esc(e.meldung)}</div>`).join('')}</details>`;
     // Ersetzen: wenn vorher etwas Falsches eingefügt wurde und der neue Text es ablösen soll
@@ -767,7 +770,7 @@ function drawBlock(el) {
     }));
   }
   let tmr = null;
-  ta.addEventListener('input', () => { clearTimeout(tmr); tmr = setTimeout(update, 250); });
+  ta.addEventListener('input', () => { insVersch = {}; clearTimeout(tmr); tmr = setTimeout(update, 250); });
   on(el, {
     tpl: async () => { const ok = await copyText(TEMPLATE); toast(ok ? 'Vorlage kopiert. Im Chat einfügen und dein Material darunter.' : 'Kopieren hat nicht geklappt.'); },
     paste: async () => {
@@ -780,18 +783,22 @@ function drawBlock(el) {
     alsSeite: () => { const t = ta.value; ta.value = ''; insText = ''; einfuegen._seite(t); },
     'sw:ersetzen': v => { insErsetzen = v; },
     'sw:arbeit': v => { insArbeit = v; },
+    'sw:versch': (v, el) => { insVersch[+el.dataset.i] = v; },
     save: async () => {
       if (!parsed) return;
       const p = parsed;
       ta.value = ''; insText = ''; parsed = null;
-      const res = await st.saveBlocks(zu, p.termine, { ersetzen: insErsetzen });
+      const verschieben = {};
+      p.termine.forEach((x, i) => { const alt = st.verschobenVon(x); if (alt && insVersch[i] !== false) verschieben[i] = alt.id; });
+      insVersch = {};
+      const res = await st.saveBlocks(zu, p.termine, { ersetzen: insErsetzen, verschieben });
       insErsetzen = false;
       // Neue Themen zur kommenden Arbeit im Fach
       if (insArbeit) for (const x of res) { const ex = st.naechsteArbeitIn(x.fach.id); if (ex && ![...(ex.themaIds || []), ...(ex.ausgeschlossen || [])].includes(x.thema.id)) await st.themenZurArbeit(ex.id, [x.thema.id]); }
       insArbeit = true;
       if (insEingang) { await eingang.erledigen(insEingang); insEingang = null; }
       const n = res.reduce((s, x) => s + x.added, 0);
-      toast(res.length ? 'Gespeichert: ' + res.map(x => x.thema.name).join(', ') + (n ? ' (' + plural(n, 'neuer Eintrag', 'neue Einträge') + ')' : ' (nichts Neues)') : 'Termine gespeichert.');
+      toast(res.length ? 'Gespeichert: ' + res.map(x => x.thema.name).join(', ') + (n ? ' (' + plural(n, 'neuer Eintrag', 'neue Einträge') + ')' : ' (nichts Neues)') : Object.keys(verschieben).length ? 'Termine gespeichert, ' + plural(Object.keys(verschieben).length, 'Arbeit', 'Arbeiten') + ' verschoben.' : 'Termine gespeichert.');
       insResult = res.map(x => ({ tid: x.thema.id, name: x.thema.name, fach: x.fach.name, farbe: x.fach.farbe }));
       import('./sicherung.js').then(m => m.anstossen()).catch(() => {});
       refreshTop();

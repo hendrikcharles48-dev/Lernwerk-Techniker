@@ -376,9 +376,17 @@ export const topSheet = () => sheets[sheets.length - 1];
 
 /* ===== Meldungen ===== */
 let toastT = null;
-export function toast(msg, ms = 2600) {
+// aktion: { label, onClick } zeigt einen Knopf im Hinweis, zum Beispiel „Rückgängig“
+export function toast(msg, ms = 2600, aktion = null) {
   const t = document.getElementById('toast');
   t.textContent = msg;
+  t.classList.toggle('mit-knopf', !!aktion);
+  if (aktion) {
+    const b = document.createElement('button');
+    b.type = 'button'; b.textContent = aktion.label;
+    b.addEventListener('click', () => { t.classList.remove('on'); aktion.onClick(); }, { once: true });
+    t.appendChild(b);
+  }
   t.classList.add('on');
   clearTimeout(toastT);
   toastT = setTimeout(() => t.classList.remove('on'), ms);

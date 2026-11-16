@@ -238,6 +238,17 @@ ok(m.daten.kv.kartenArt === undefined || m.daten.kv.kartenArt === 'aufdecken', '
   ok(ids().includes(jetzt.id) && st.naechsteArbeitIn('tm').id !== alt.id, 'Arbeit heute ist offen, im Fach zählt die nächste offene');
   await st.arbeitGeschrieben(jetzt.id);
   ok(!ids().includes(jetzt.id) && st.arbeitErledigt(jetzt), 'Heute geschrieben: fällt raus');
+  await st.arbeitNichtGeschrieben(jetzt.id);
+  ok(ids().includes(jetzt.id), 'Rückgängig: wieder offen');
+  // Verschoben: neuer Termin im selben Fach nah an der offenen Arbeit ändert nur das Datum
+  const fm = st.fach('et');
+  const neuDatum = addDays(heute, 20);
+  ok(st.verschobenVon({ fach: fm.name, datum: neuDatum }).id === jetzt.id, 'Neuer Termin erkennt die verschobene Arbeit');
+  ok(st.verschobenVon({ fach: fm.name, datum: heute }) === null, 'Gleicher Termin ist nicht verschoben');
+  ok(st.verschobenVon({ fach: fm.name, datum: addDays(heute, 90) }) === null, 'Weit weg ist eine zweite Arbeit');
+  const vorher = st.S.exams.length;
+  await st.saveBlocks([], [{ fach: fm.name, datum: neuDatum, themen: '' }], { verschieben: { 0: jetzt.id } });
+  ok(st.S.exams.length === vorher && st.S.exams.find(e => e.id === jetzt.id).datum === neuDatum, 'Verschieben ändert das Datum, keine zweite Arbeit');
   for (const e of [alt, benotet, jetzt, spaeter]) await st.deleteExam(e.id);
 }
 console.log('\n' + pass + ' bestanden, ' + fail + ' fehlgeschlagen');

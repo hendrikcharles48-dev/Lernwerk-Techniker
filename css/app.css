@@ -1026,3 +1026,7 @@ body.seite-offen .tabbar, body.seite-offen #update { display: none; }
 .count-geschr > small { font-size: 13px; color: var(--label2); font-weight: 600; }
 .count-geschr .count-weiter { margin-top: 4px; }
 .count-geschr .count-weiter button { background: var(--bg2); }
+#toast.mit-knopf { display: flex; align-items: center; gap: 12px; padding: 4px 6px 4px 18px; pointer-events: auto; }
+#toast.mit-knopf:not(.on) { pointer-events: none; }
+#toast button { border: 0; background: none; color: #64D2FF; font: inherit; font-weight: 600; min-height: 44px; padding: 0 12px; flex: none; }
+#toast.mit-knopf { width: min(360px, calc(100vw - 32px)); justify-content: space-between; }
