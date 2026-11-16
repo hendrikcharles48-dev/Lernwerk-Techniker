@@ -901,7 +901,8 @@ button.count-more { border: 0; background: none; padding: 4px 0 0; font: inherit
 .seite-h { flex: none; display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 6px; padding: calc(var(--sat) + 4px) calc(8px + var(--sar)) 4px calc(8px + var(--sal)); background: var(--bar); -webkit-backdrop-filter: saturate(180%) blur(20px); backdrop-filter: saturate(180%) blur(20px); box-shadow: 0 .5px 0 var(--sep); }
 .seite-h button { border: 0; background: none; color: var(--accent); min-height: 44px; min-width: 44px; display: inline-flex; align-items: center; gap: 2px; font-weight: 600; padding: 0 6px; }
 .seite-t { font-weight: 600; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.seite-f { flex: 1; width: 100%; border: 0; background: #fff; }
+.seite-f { flex: 1; width: 1px; min-width: 100%; max-width: 100%; border: 0; background: #fff; }
+.seite { overflow: hidden; }
 body.seite-offen .tabbar, body.seite-offen #update { display: none; }
 .seiten-btns { display: flex; flex-direction: column; gap: 8px; padding: 0 14px 4px; }
 .seiten-btns:empty { display: none; }
@@ -953,3 +954,71 @@ body.seite-offen .tabbar, body.seite-offen #update { display: none; }
 
 .count-abd { padding: 6px 14px 2px; display: flex; flex-direction: column; gap: 4px; }
 .count-abd small { color: var(--label2); font-size: 13px; }
+
+/* ===== Startseite kompakt (1.44): kleinere Knöpfe, Gruppen, alles Weitere aufklappbar ===== */
+.lern-paar { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 10px; margin: 0 0 10px; }
+.lern-paar .five, .lern-paar .mixbtn { margin: 0; padding: 12px; gap: 10px; border-radius: 16px; min-height: 76px; align-items: center; }
+.lern-paar .five::after { width: 90px; height: 90px; right: -30px; top: -35px; }
+.lern-paar .five .ic, .lern-paar .mixbtn .ic { width: 24px; height: 24px; flex: none; }
+.lern-paar .five span, .lern-paar .mixbtn span { min-width: 0; }
+.lern-paar .five b, .lern-paar .mixbtn b { font-size: 16px; line-height: 1.2; }
+.lern-paar .five small, .lern-paar .mixbtn small { font-size: 12.5px; margin-top: 2px; }
+.lernwahl { padding: 8px; margin: 0 0 14px; }
+.lernwahl .lw-knoepfe { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto; gap: 6px; margin: 0; }
+.lernwahl .lw-k { min-height: 46px; padding: 6px 26px 6px 10px; }
+.lernwahl .lw-k b { font-size: 15px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
+.lernwahl .lw-k .lw-chev { right: 8px; }
+.lernwahl .mini { flex-direction: column; justify-content: center; gap: 0; width: auto; min-width: 56px; min-height: 46px; padding: 4px 10px; text-align: center; }
+.lernwahl .mini span { display: flex; flex-direction: column; align-items: center; }
+.lernwahl .mini b { font-size: 14px; } .lernwahl .mini small { font-size: 11px; color: var(--label2); }
+.lernwahl .mini .ic { width: 16px; height: 16px; }
+.auf-zeile { display: flex; align-items: center; gap: 4px; width: 100%; min-height: 44px; border: 0; background: none; padding: 4px 6px 0; color: var(--label2); font: inherit; font-size: 14px; }
+.lw-chev { transform: rotate(90deg); transition: transform .2s; }
+.on > .lw-chev, .auf > .count-main .lw-chev { transform: rotate(-90deg); }
+.auf-zeile .lw-chev, .sec-auf .lw-chev, .auf-z .lw-chev, .ka .count-head .lw-chev { width: 14px; height: 14px; color: var(--label3); flex: none; }
+.dran { display: flex; flex-direction: column; gap: 6px; padding: 2px 6px 4px; }
+.dran small { font-size: 12px; color: var(--label2); }
+.dran .lern-tags { margin-top: 2px; }
+.dran .lern-tags span { background: var(--fill); color: var(--label); font-weight: 500; }
+/* Gruppe: Im Unterricht, Lernwege, Weiter, Lernseiten als eine Liste */
+.sgrp { background: var(--bg2); border-radius: var(--r); box-shadow: var(--shadow); overflow: hidden; margin: 0 0 14px; }
+.sgrp > .unt-zeile { margin: 0; border-radius: 0; box-shadow: none; background: none; position: relative; min-height: 46px; }
+.sgrp > .unt-zeile + .unt-zeile::before, .sgrp > div + .unt-zeile::before { content: ""; position: absolute; top: 0; right: 0; left: 38px; height: .5px; background: var(--sep); }
+.sgrp .lweg-start, .sgrp .seiten-wdh { margin: 0; padding: 0 10px 10px; gap: 6px; }
+.sgrp .seiten-wdh .count-plan { box-shadow: none; background: var(--bg); min-height: 44px; padding: 8px 10px; margin: 0; }
+.sgrp .lweg-start button { padding: 8px 10px; }
+/* Klassenarbeiten: eine Karte je Arbeit, zu ist sie eine Zeile */
+.card.ka { padding: 10px 12px 10px 16px; margin: 0 0 8px; }
+.ka .count-head { gap: 10px; }
+.ka .count-badge { width: 44px; height: 44px; border-radius: 12px; }
+.ka .count-badge b { font-size: 18px; } .ka .count-badge small { font-size: 10px; margin-top: 0; }
+.ka .count-name { flex: 1; min-width: 0; }
+.ka .count-t { font-size: 16.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.ka .count-name .muted { font-size: 13.5px; }
+.ka .bereit { margin-left: 0; }
+.ka .bereit .ring-in b { font-size: 12px; }
+.ka .count-abd { padding: 8px 0 0; }
+.ka .count-plan { min-height: 44px; padding: 8px 10px; margin: 8px 0 0; }
+.ka .count-plan b { font-size: 15px; }
+.ka .count-plan small { font-size: 13px; }
+.ka .count-plan.fertig { padding: 6px 10px; }
+.ka .count-weiter { display: grid; grid-template-columns: repeat(auto-fit, minmax(0, 1fr)); gap: 6px; }
+.ka .count-weiter button { min-height: 44px; padding: 8px 10px; text-align: center; }
+.ka .count-weiter b { font-size: 14px; }
+.ka .count-fehlt { font-size: 14px; }
+.ka .count-probe { padding: 8px 0 0; }
+.count-klein { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; margin-top: 8px; }
+.count-klein button { display: flex; align-items: center; gap: 8px; min-height: 44px; border: 0; border-radius: 12px; background: color-mix(in srgb, var(--fc) 10%, var(--bg2)); padding: 8px 10px; text-align: left; color: var(--label); font: inherit; min-width: 0; }
+.count-klein .ic { width: 18px; height: 18px; color: var(--fc); flex: none; }
+.count-klein span { min-width: 0; }
+.count-klein b { display: block; font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.count-klein small { display: block; font-size: 12px; color: var(--label2); }
+/* Trainer und Hörmodus flacher */
+.tr-grid .tr-tile { min-height: 0; flex-direction: row; align-items: center; flex-wrap: wrap; column-gap: 8px; row-gap: 0; padding: 10px 12px; }
+.tr-grid .tr-tile .tr-ic .ic { width: 20px; height: 20px; }
+.tr-grid .tr-tile small { flex-basis: 100%; font-size: 12px; }
+/* Aufklappbare Überschrift, zum Beispiel Diese Woche */
+.sec-auf { display: flex; align-items: center; gap: 8px; width: 100%; min-height: 44px; border: 0; background: none; padding: 6px 14px; margin: 8px 0 4px; font: inherit; color: var(--label2); text-align: left; }
+.sec-auf span { font-size: 13px; text-transform: uppercase; letter-spacing: .02em; flex: none; }
+.sec-auf small { flex: 1; min-width: 0; font-size: 13px; color: var(--label3); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.lweg-start .lweg-alle { justify-content: center; background: none; color: var(--accent); min-height: 44px; font-size: 14px; }

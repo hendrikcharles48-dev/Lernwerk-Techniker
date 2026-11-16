@@ -43,8 +43,15 @@ export async function speichern(o) {
 
 /* ===== Anzeigen ===== */
 // Wird vor den Inhalt der Seite gesetzt: Speicher nachbilden, Änderungen an die App melden, Links nach außen in neuem Fenster
+// Handybreite: nichts darf die Seite breiter als den Bildschirm machen. Breite Tabellen wischt man in sich.
+const PASST = `<meta name="viewport" content="width=device-width, initial-scale=1"><style id="lw-breite">html,body{max-width:100%!important;min-width:0!important;overflow-x:hidden!important;-webkit-text-size-adjust:100%;text-size-adjust:100%}
+body{overflow-wrap:break-word}img,video,canvas,svg,iframe{max-width:100%!important}img,video{height:auto}pre{white-space:pre-wrap!important;overflow-wrap:anywhere}
+.lw-tab{max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}</style>`;
+const PASST_JS = `function passt(){var W=document.documentElement.clientWidth;[].forEach.call(document.querySelectorAll('table'),function(t){var p=t.parentElement;if(!p||p.classList.contains('lw-tab'))return;if(t.getBoundingClientRect().width>W-4||t.scrollWidth>p.clientWidth+2){var d=document.createElement('div');d.className='lw-tab';p.insertBefore(d,t);d.appendChild(t);}});}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',passt);else passt();addEventListener('load',passt);addEventListener('resize',passt);
+try{new MutationObserver(function(){clearTimeout(window.__lwP);window.__lwP=setTimeout(passt,120);}).observe(document.documentElement,{childList:true,subtree:true});}catch(e){}`;
 function shim(id, zustand) {
-  return `<script>(function(){var ID=${JSON.stringify(id)},data=${JSON.stringify(zustand || {}).replace(/</g, '\\u003c')},t=null;
+  return PASST + `<script>(function(){var ID=${JSON.stringify(id)},data=${JSON.stringify(zustand || {}).replace(/</g, '\\u003c')},t=null;
 function send(){clearTimeout(t);t=setTimeout(function(){try{parent.postMessage({lwSeite:ID,store:data},'*');}catch(e){}},250);}
 function mk(d,persist){return{getItem:function(k){k=String(k);return Object.prototype.hasOwnProperty.call(d,k)?d[k]:null;},setItem:function(k,v){d[String(k)]=String(v);if(persist)send();},removeItem:function(k){delete d[String(k)];if(persist)send();},clear:function(){for(var k in d)delete d[k];if(persist)send();},key:function(i){return Object.keys(d)[i]||null;},get length(){return Object.keys(d).length;}};}
 try{Object.defineProperty(window,'localStorage',{value:mk(data,true),configurable:true});}catch(e){}
@@ -57,6 +64,7 @@ function frageZu(el){for(var n=el;n&&n!==document.body;n=n.parentElement){var q=
 var KL=/(^|\\s)(ok|good|right|correct|richtig)(\\s|$)/,KF=/(^|\\s)(bad|no|wrong|falsch|err)(\\s|$)/;
 try{new MutationObserver(function(ms){if(ausdr)return;var je={};ms.forEach(function(m){var el=m.target;if(m.attributeName!=='class'||!el.closest||!el.closest('button,[role=button],.qopt,.opt,.option'))return;var c=el.className||'',a=m.oldValue||'';if(typeof c!=='string')return;var ok=KL.test(c)&&!KL.test(a),bad=KF.test(c)&&!KF.test(a);if(!ok&&!bad)return;var q=frageZu(el);if(!q||gesehen[q])return;var x=je[q]||(je[q]={ok:[],bad:[]});(bad?x.bad:x.ok).push(txt(el).slice(0,200));});
 Object.keys(je).forEach(function(q){var x=je[q];gesehen[q]=1;melde({frage:q,ok:!x.bad.length,gewaehlt:x.bad.length===1?x.bad[0]:'',richtig:x.bad.length&&x.ok.length===1?x.ok[0]:'',auto:true});});}).observe(document.documentElement,{subtree:true,attributes:true,attributeFilter:['class'],attributeOldValue:true});}catch(e){}
+${PASST_JS}
 document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('a[href]');if(!a)return;var h=a.getAttribute('href')||'';if(h.charAt(0)==='#'||/^javascript:/i.test(h))return;a.setAttribute('target','_blank');a.setAttribute('rel','noopener');},true);
 })();<\/script>`;
 }
