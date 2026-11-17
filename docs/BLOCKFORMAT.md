@@ -23,6 +23,8 @@ Gelesen wird er von `parseBlocks()` in `js/parser.js`, zurückgeschrieben von `e
 | `Thema` | Name | Vorhandenes Thema wird ergänzt, sonst entsteht ein neues. |
 | `Modul` | `M2` | optional |
 | `Termin` | `Fach \| JJJJ-MM-TT \| Themen` | Klassenarbeit. Auch `TT.MM.JJJJ`. Ergänzt die Themen einer vorhandenen Arbeit. |
+| `Unterricht` | `Fach \| Thema; Thema` | Themen im Unterricht anwählen. Themen mit Semikolon trennen. Neue Themen aus demselben Block gehen auch. Die Vorschau zeigt jedes Thema mit Schalter. |
+| `Abgeschlossen` | `Fach \| Thema; Thema` | Themen als abgeschlossen abhaken. Gleiche Schreibweise. |
 | `Stufe` | `1`, `2` oder `3` | Gilt für alle folgenden Zeilen bis zur nächsten Stufe-Zeile. 1 Grundlagen, 2 Zusammenhänge, 3 Anwenden. |
 | `Inhalt` | `6 Karten; 2 Aufgaben` | Prüfzeile. Die Vorschau meldet, wenn weniger angekommen ist. |
 | `Quelle` | Text | Herkunft |

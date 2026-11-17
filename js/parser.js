@@ -23,6 +23,8 @@ const KEYS = {
   variable: 'variable', variablen: 'variable',
   rechnung: 'rechnung',
   termin: 'termin', termine: 'termin',
+  // Stand im Unterricht setzen: Unterricht: Fach | Thema; Thema  und  Abgeschlossen: Fach | Thema; Thema
+  unterricht: 'unterricht', imunterricht: 'unterricht', aktuell: 'unterricht', abgeschlossen: 'abgeschlossen', fertig: 'abgeschlossen',
   tipp: 'tipp',
   // Erweiterungen für eingebaute Trainer
   umstellen: 'umstellen', umformung: 'umformung', auswahl: 'auswahl', reihenfolge: 'reihenfolge', quelle: 'quelle',
@@ -104,7 +106,7 @@ export function readValue(raw) {
  */
 export function parseBlocks(text) {
   const lines = String(text || '').replace(/\r\n?/g, '\n').split('\n');
-  const res = { themen: [], termine: [], fehler: [], hinweise: [], luecken: [], abgeschnitten: false };
+  const res = { themen: [], termine: [], stand: [], fehler: [], hinweise: [], luecken: [], abgeschnitten: false };
   const hasMarkers = lines.some(l => START.test(cleanLine(l)));
   let inBlock = !hasMarkers;
   let cur = null, field = null, task = null, umst = null, ctx = null, blockLine = 0, stufe = 0, inhalt = null, lastMc = null, fall = null;
@@ -177,7 +179,7 @@ export function parseBlocks(text) {
 
     // Ohne Markierungen: erst ab der ersten Fach- oder Thema-Zeile lesen
     if (!cur) {
-      if (key === 'fach' || key === 'thema' || key === 'termin') start(i);
+      if (key === 'fach' || key === 'thema' || key === 'termin' || key === 'unterricht' || key === 'abgeschlossen') start(i);
       else continue;
     }
 
@@ -311,6 +313,15 @@ export function parseBlocks(text) {
         themen = p.slice(di + 1).join(', ');
         if (!fach) { err(i, 'Im Termin fehlt das Fach.'); break; }
         res.termine.push({ fach, datum, themen });
+        field = null; break;
+      }
+      case 'unterricht': case 'abgeschlossen': {
+        // Themen mit Semikolon trennen, weil Themennamen Kommas enthalten können
+        const p = pipes(val);
+        const fach = p.length > 1 ? p[0] : cur.fach;
+        const themen = (p.length > 1 ? p.slice(1).join('|') : p[0] || '').split(';').map(s => s.trim()).filter(Boolean);
+        if (!fach || !themen.length) { err(i, 'Bitte so schreiben: ' + (key === 'unterricht' ? 'Unterricht' : 'Abgeschlossen') + ': Fach | Thema; Thema'); break; }
+        for (const thema of themen) res.stand.push({ zustand: key === 'unterricht' ? 'aktuell' : 'fertig', fach, thema });
         field = null; break;
       }
       case 'umstellen': {

@@ -223,5 +223,13 @@ Falsch: Kreisfläche | gibt es nicht
   ok(summary(t).includes('1 Fall'), 'Zusammenfassung zählt Fälle', summary(t));
   ok(parseBlocks('Fach: X\nThema: Y\nFalsch: a | b').hinweise.length === 1, 'Falsch ohne Frage gibt einen Hinweis');
 }
+// Stand im Unterricht aus dem Block
+{
+  const r = parseBlocks('=== LERNWERK ===\nUnterricht: Elektrotechnik | Leiterwiderstand; Temperaturabhängige Widerstände\nAbgeschlossen: Elektrotechnik | Ohmsches Gesetz; Leistung, Arbeit, Wirkungsgrad\n=== ENDE ===');
+  ok(r.fehler.length === 0 && r.themen.length === 0 && r.stand.length === 4, 'Unterricht- und Abgeschlossen-Zeilen werden gelesen', r);
+  ok(r.stand[0].zustand === 'aktuell' && r.stand[3].zustand === 'fertig' && r.stand[3].thema === 'Leistung, Arbeit, Wirkungsgrad', 'Komma im Themennamen bleibt, Semikolon trennt');
+  const r2 = parseBlocks('Fach: Elektrotechnik\nThema: Neu\nKarte: a | b\nIm Unterricht: Neu');
+  ok(r2.stand.length === 1 && r2.stand[0].fach === 'Elektrotechnik' && r2.themen.length === 1, 'Ohne Fach gilt das Fach des Blocks');
+}
 console.log(`\n${pass} bestanden, ${fail} fehlgeschlagen`);
 process.exit(fail ? 1 : 0);

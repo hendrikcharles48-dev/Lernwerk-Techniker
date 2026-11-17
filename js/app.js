@@ -1,5 +1,5 @@
 // Lernwerk Techniker: App-Hülle mit Heute, Fächer, Einfügen, Fehlerbuch und Mehr.
-import { esc, dayStr, dayLong, daysBetween, plural, fmtNum, markdown, plainText, uid, shuffle, addDays } from './util.js';
+import { esc, dayStr, dayLong, daysBetween, plural, fmtNum, markdown, plainText, uid, shuffle, addDays, norm } from './util.js';
 import { parseBlocks, summary, TEMPLATE } from './parser.js';
 import * as st from './store.js';
 import { $, $$, icon, row, list, seg, sw, empty, on, push, initTabs, showTab, tab, openSheet, toast, copyText, readClipboard, progress, ring, fachIcon, confirmBox, refreshAll, refreshTop, initEdgeSwipe, initTabSwipe, hinweisTabellenbuch } from './ui.js';
@@ -18,7 +18,7 @@ import * as eingang from './eingang.js';
 import { arbeitsZettel, zettelStand as arbeitsZettelStand, istGelernt } from './arbeitszettel.js';
 import { beiSchreibfehler } from './db.js';
 
-export const VERSION = '1.46.0';
+export const VERSION = '1.47.0';
 
 /* ===== Heute ===== */
 // Kurze, wechselnde Sätze für den Start. Ohne Druck.
@@ -693,7 +693,7 @@ export function fachPage(fid) {
 let insMode = 'block';
 let insText = '';
 let insResult = null;
-let insErsetzen = false, insArbeit = true, insEingang = null, insVersch = {};
+let insErsetzen = false, insArbeit = true, insEingang = null, insVersch = {}, insStand = {};
 let insNote = { text: '', titel: '', fid: '', tid: '', neu: '' };
 const einfuegen = {
   title: 'Einfügen',
@@ -737,7 +737,7 @@ function drawBlock(el) {
   function drawPreview() {
     const r = parsed;
     let h = '';
-    if (!r.themen.length && !r.termine.length) h += `<div class="fb bad">Ich finde keinen Lernwerk-Block. Er beginnt mit „=== LERNWERK ===“ oder mit den Zeilen „Fach:“ und „Thema:“.</div>`;
+    if (!r.themen.length && !r.termine.length && !r.stand.length) h += `<div class="fb bad">Ich finde keinen Lernwerk-Block. Er beginnt mit „=== LERNWERK ===“ oder mit den Zeilen „Fach:“ und „Thema:“.</div>`;
     // Prüfzeile und Ende: Ist alles angekommen?
     if (r.abgeschnitten || r.luecken.length) h += `<div class="fb bad pv-check"><b>Da fehlt etwas.</b>${r.abgeschnitten ? '<div>Die Zeile „=== ENDE ===“ fehlt. Der Block wirkt abgeschnitten. Kopier ihn im Chat noch einmal ganz.</div>' : ''}${r.luecken.map(x => `<div>${esc(x.thema)}: ${x.ist} von ${x.soll} ${esc(x.name)} angekommen.</div>`).join('')}<div class="muted small">Du kannst trotzdem speichern. Den Rest fügst du später einfach dazu, doppelte Einträge lasse ich weg.</div></div>`;
     else if (r.themen.length && /^\s*inhalt\s*:/im.test(ta.value)) h += `<div class="fb good">Alles angekommen, wie in der Zeile „Inhalt“ angegeben.</div>`;
@@ -750,6 +750,12 @@ function drawBlock(el) {
         <label class="fld"><span>Thema</span><select data-i="${i}" data-k="thema">${themaOpts(z.fachId, z.themaId, t.thema)}</select></label></div>`;
     });
     if (r.termine.length) h += `<div class="card pv"><div class="pv-t">${plural(r.termine.length, 'Termin', 'Termine')}</div>${r.termine.map(x => `<div>${esc(x.fach)}: ${esc(dayLong(x.datum))}${x.themen ? ', ' + esc(x.themen) : ''}</div>`).join('')}</div>`;
+    // Stand im Unterricht: jedes Thema mit Schalter. Neue Themen aus diesem Block gibt es erst nach dem Speichern.
+    if (r.stand.length) {
+      const ziel = x => { const f = st.findFach(x.fach); const t = f ? st.suggestThema(f, x.thema) : null; return t ? t.name : r.themen.some(y => norm(y.thema) === norm(x.thema)) ? x.thema + ' (neu)' : null; };
+      const gruppe = (z, titel) => { const l = r.stand.map((x, i) => [x, i]).filter(([x]) => x.zustand === z); return l.length ? `<div class="sec-h">${titel}</div>` + list(l.map(([x, i]) => { const n = ziel(x); return row({ title: n || x.thema, sub: n ? x.fach : 'Dieses Thema finde ich nicht in ' + x.fach + '.', right: n ? `<label class="switch"><input type="checkbox" data-sw="stand" data-i="${i}" ${insStand[i] !== false ? 'checked' : ''}><span></span></label>` : '' }); })) : ''; };
+      h += gruppe('aktuell', 'Im Unterricht anwählen') + gruppe('fertig', 'Als abgeschlossen abhaken');
+    }
     // Neuer Termin im selben Fach nah an einer offenen Arbeit: verschoben? Dann nur das Datum ändern.
     const vs = r.termine.map(x => st.verschobenVon(x));
     if (vs.some(Boolean)) h += list(vs.map((alt, i) => alt ? row({ title: 'Ist ' + r.termine[i].fach + ' verschoben?', sub: 'Ja: Die Arbeit vom ' + dayLong(alt.datum) + ' bekommt den ' + dayLong(r.termine[i].datum) + '. Themen und Lernplan bleiben. Nein: Es ist eine zweite Arbeit.', right: `<label class="switch"><input type="checkbox" data-sw="versch" data-i="${i}" ${insVersch[i] !== false ? 'checked' : ''}><span></span></label>` }) : null).filter(Boolean));
@@ -760,7 +766,7 @@ function drawBlock(el) {
     const arbeiten = [...new Map(r.themen.map((t, i) => { const ex = zu[i].fachId ? st.naechsteArbeitIn(zu[i].fachId) : null; return ex && !(zu[i].themaId && [...(ex.themaIds || []), ...(ex.ausgeschlossen || [])].includes(zu[i].themaId)) ? [ex.id, ex] : null; }).filter(Boolean)).values()];
     if (arbeiten.length) h += list([row({ title: 'Zur Klassenarbeit dazunehmen', sub: arbeiten.map(ex => ex.fach + ' am ' + dayLong(ex.datum)).join(', ') + '. Die Themen kommen dann mit in den Lernplan.', right: sw('arbeit', insArbeit) })]);
     if (r.themen.some((t, i) => zu[i].themaId && st.S.content.get(zu[i].themaId))) h += list([row({ title: 'Bisherige Inhalte ersetzen', sub: 'Was du früher in diese Themen eingefügt hast, wird durch diesen Text ersetzt, auch auf deinen anderen Geräten. Lernzettel, Fotos und Fortschritt bleiben. Zeichnungen bleiben auch, wenn dieser Text keine eigenen enthält.', right: sw('ersetzen', insErsetzen) })]);
-    if (r.themen.length || r.termine.length) h += `<button class="btn filled wide" data-a="save">Speichern?</button>`;
+    if (r.themen.length || r.termine.length || r.stand.length) h += `<button class="btn filled wide" data-a="save">Speichern?</button>`;
     pv.innerHTML = h;
     $$('select', pv).forEach(s => s.addEventListener('change', () => {
       const z = zu[+s.dataset.i];
@@ -770,7 +776,7 @@ function drawBlock(el) {
     }));
   }
   let tmr = null;
-  ta.addEventListener('input', () => { insVersch = {}; clearTimeout(tmr); tmr = setTimeout(update, 250); });
+  ta.addEventListener('input', () => { insVersch = {}; insStand = {}; clearTimeout(tmr); tmr = setTimeout(update, 250); });
   on(el, {
     tpl: async () => { const ok = await copyText(TEMPLATE); toast(ok ? 'Vorlage kopiert. Im Chat einfügen und dein Material darunter.' : 'Kopieren hat nicht geklappt.'); },
     paste: async () => {
@@ -784,6 +790,7 @@ function drawBlock(el) {
     'sw:ersetzen': v => { insErsetzen = v; },
     'sw:arbeit': v => { insArbeit = v; },
     'sw:versch': (v, el) => { insVersch[+el.dataset.i] = v; },
+    'sw:stand': (v, el) => { insStand[+el.dataset.i] = v; },
     save: async () => {
       if (!parsed) return;
       const p = parsed;
@@ -792,13 +799,17 @@ function drawBlock(el) {
       p.termine.forEach((x, i) => { const alt = st.verschobenVon(x); if (alt && insVersch[i] !== false) verschieben[i] = alt.id; });
       insVersch = {};
       const res = await st.saveBlocks(zu, p.termine, { ersetzen: insErsetzen, verschieben });
+      // Stand im Unterricht setzen, nach dem Speichern, damit neue Themen schon da sind
+      let standN = 0;
+      for (const [i, x] of p.stand.entries()) { if (insStand[i] === false) continue; const f = st.findFach(x.fach); const t = f ? st.suggestThema(f, x.thema) : null; if (t) { await st.setZustand(t.id, x.zustand); standN++; } }
+      insStand = {};
       insErsetzen = false;
       // Neue Themen zur kommenden Arbeit im Fach
       if (insArbeit) for (const x of res) { const ex = st.naechsteArbeitIn(x.fach.id); if (ex && ![...(ex.themaIds || []), ...(ex.ausgeschlossen || [])].includes(x.thema.id)) await st.themenZurArbeit(ex.id, [x.thema.id]); }
       insArbeit = true;
       if (insEingang) { await eingang.erledigen(insEingang); insEingang = null; }
       const n = res.reduce((s, x) => s + x.added, 0);
-      toast(res.length ? 'Gespeichert: ' + res.map(x => x.thema.name).join(', ') + (n ? ' (' + plural(n, 'neuer Eintrag', 'neue Einträge') + ')' : ' (nichts Neues)') : Object.keys(verschieben).length ? 'Termine gespeichert, ' + plural(Object.keys(verschieben).length, 'Arbeit', 'Arbeiten') + ' verschoben.' : 'Termine gespeichert.');
+      toast(res.length ? 'Gespeichert: ' + res.map(x => x.thema.name).join(', ') + (n ? ' (' + plural(n, 'neuer Eintrag', 'neue Einträge') + ')' : ' (nichts Neues)') : standN && !p.termine.length ? 'Gespeichert: ' + plural(standN, 'Thema', 'Themen') + ' im Unterricht oder abgeschlossen.' : Object.keys(verschieben).length ? 'Termine gespeichert, ' + plural(Object.keys(verschieben).length, 'Arbeit', 'Arbeiten') + ' verschoben.' : 'Termine gespeichert.');
       insResult = res.map(x => ({ tid: x.thema.id, name: x.thema.name, fach: x.fach.name, farbe: x.fach.farbe }));
       import('./sicherung.js').then(m => m.anstossen()).catch(() => {});
       refreshTop();

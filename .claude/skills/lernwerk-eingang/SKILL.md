@@ -32,6 +32,10 @@ Fehlt es: einmal kurz sagen, dass er eine neue Sitzung mit beiden Repositorys st
 
 Klausurtermine sofort eintragen, ohne zu fragen: ein Block nur aus `Termin: Fach | JJJJ-MM-TT | Themen`-Zeilen zwischen `=== LERNWERK ===` und `=== ENDE ===`, als `eingang/JJJJ-MM-TT-termine.txt`. Er wartet auf der Startseite und wird mit einem Tipp gespeichert. Fehlt das private Repository, den Block zum Einfügen in die Antwort schreiben (Einfügen, Block). Nur fragen, wenn das Fach wirklich unklar ist. Lehrernamen nicht in den Block.
 
+## Stand im Unterricht
+
+Will er Themen im Unterricht anwählen oder abhaken, kommen Zeilen in den Block: `Unterricht: Fach | Thema; Thema` und `Abgeschlossen: Fach | Thema; Thema`. Themen mit Semikolon trennen, Namen wie in der App. Neue Themen aus demselben Block gehen auch. Die Vorschau zeigt jedes Thema mit Schalter, er kann einzelne abwählen. Nie `lernwerk-sicherung.json` dafür ändern.
+
 ## Regeln
 
 - Nichts erfinden, vor allem keine Rechenaufgaben, die nicht im Material stehen. Werte des Lehrers und des Tabellenbuchs haben Vorrang, Abweichungen mit „Achtung“.
