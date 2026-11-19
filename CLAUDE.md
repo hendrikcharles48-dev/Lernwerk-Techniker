@@ -172,3 +172,12 @@ Eingebaute Inhalte und eingefügte Blöcke laufen durch denselben Parser und die
 - Ändern sich Anker, Prinzip, Begriffe, Formeln, Merksätze, Karten, Fehler oder Schnellwege eines eingebauten Themas, die Folgen neu erzeugen: `node tools/hoer/skript.mjs` und `python3 tools/hoer/erzeugen.py` (braucht `pip install piper-tts` und ffmpeg, baut nur geänderte Folgen). Der Inhalte-Test meldet veraltete Folgen als Hinweis. Aufgaben- und Umstellen-Zeilen ändern die Folgen nicht.
 - Audio nur für eingebaute, öffentliche Inhalte. Lernzettel und eigene Inhalte nie als Audio ins Repository.
 - Die Systemstimme des iPhones stoppt bei gesperrtem Bildschirm. Nur Audiodateien laufen weiter.
+
+## Sparregeln (gelten immer)
+- Große Dateien nie komplett lesen: erst `grep -n`, dann gezielt Zeilenbereiche. Dieselbe Datei nicht mehrfach lesen.
+- Suche über viele Dateien an den Explore-Subagenten geben (läuft auf Haiku), nur das Ergebnis übernehmen.
+- Test- und Build-Ausgaben gekürzt holen (`| tail -30`, nur Fehlerzeilen), nie komplette Logs.
+- Plan höchstens 15 Zeilen, ohne fertigen Code; dann auf OK warten.
+- Nach Abschluss nur das Wichtigste melden, keinen Diff wiederholen.
+- Wenn eine Aufgabe Routine ist (Texte, Inhalte, kleine UI-Änderung), vorschlagen, sie mit Sonnet statt Opus zu machen.
+- Neues Thema = neue Sitzung empfehlen statt im vollen Kontext weiterzuarbeiten.
