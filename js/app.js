@@ -1,4 +1,5 @@
 // Lernwerk Techniker: App-Hülle mit Heute, Fächer, Einfügen, Fehlerbuch und Mehr.
+import { tabelleHTML } from './aufgabenarten.js';
 import { esc, dayStr, dayLong, daysBetween, plural, fmtNum, markdown, plainText, uid, shuffle, addDays, norm } from './util.js';
 import { parseBlocks, summary, TEMPLATE } from './parser.js';
 import * as st from './store.js';
@@ -18,7 +19,7 @@ import * as eingang from './eingang.js';
 import { arbeitsZettel, zettelStand as arbeitsZettelStand, istGelernt } from './arbeitszettel.js';
 import { beiSchreibfehler } from './db.js';
 
-export const VERSION = '1.47.0';
+export const VERSION = '1.48.0';
 
 /* ===== Heute ===== */
 // Kurze, wechselnde Sätze für den Start. Ohne Druck.
@@ -334,7 +335,7 @@ export function lernzeit() {
   return z || { n: 8, min: 10, rechnen: 4 };
 }
 // Mindestens die Hälfte zum Mitrechnen: Rechen- und Umstellaufgaben, die du Schritt für Schritt löst
-const zumRechnen = it => it.art === 'aufgabe' || it.art === 'umstellen';
+const zumRechnen = it => it.art === 'aufgabe' || it.art === 'umstellen' || it.art === 'rechenweg';
 // Eine Runde hat etwa 12 Übungen: 6 zum Mitrechnen, 6 andere. Fällige Übungen gehen vor.
 export function mitRechnen(items, tids, n = 12, halb = n / 2) {
   const rechnen = items.filter(zumRechnen).slice(0, halb);
@@ -746,6 +747,7 @@ function drawBlock(el) {
       const ziel = z.themaId ? 'ergänzt ein vorhandenes Thema' : 'legt ein neues Thema an';
       h += `<div class="card pv"><div class="pv-t">${esc(t.fach)}, ${esc(t.thema)}: ${esc(summary(t))}.</div><div class="muted small">Das ${ziel}. Doppelte Einträge lasse ich weg.</div>
         ${(t.zeichnungen || []).length ? `<div class="pv-zg">${t.zeichnungen.map(zg => `<figure class="sk-fig sk"><div class="sk-box">${bereinigen(zg.svg)}</div><figcaption>${esc(zg.titel)}</figcaption></figure>`).join('')}</div>` : ''}
+        ${(t.tabellen || []).map(tabelleHTML).join('')}
         <label class="fld"><span>Fach</span><select data-i="${i}" data-k="fach">${fachOpts(z.fachId, t.fach)}</select></label>
         <label class="fld"><span>Thema</span><select data-i="${i}" data-k="thema">${themaOpts(z.fachId, z.themaId, t.thema)}</select></label></div>`;
     });

@@ -231,5 +231,51 @@ Falsch: Kreisfläche | gibt es nicht
   const r2 = parseBlocks('Fach: Elektrotechnik\nThema: Neu\nKarte: a | b\nIm Unterricht: Neu');
   ok(r2.stand.length === 1 && r2.stand[0].fach === 'Elektrotechnik' && r2.themen.length === 1, 'Ohne Fach gilt das Fach des Blocks');
 }
+// Aufgabenarten nach Lernart: Anker-Karte, Lücke, Warum-Frage, Fallbeispiel, Rechenweg, Tabelle, Grundprinzip
+{
+  const { rechenweg, reihenfolgePruefen, abhaengigkeiten } = await import('../js/rechenweg.js');
+  const r = parseBlocks(readFileSync(new URL('./aufgabenarten-block.txt', import.meta.url), 'utf8'));
+  ok(!r.fehler.length && !r.hinweise.length && !r.luecken.length, 'Beispielblock Aufgabenarten ohne Fehler', [r.fehler, r.hinweise, r.luecken]);
+  const t = r.themen[0];
+  ok(t.ankerkarten.length === 1 && t.ankerkarten[0].begriff === 'Loslager' && t.anker.length === 1 && t.ankerkarten[0].stufe === 1, 'Anker mit Fachbegriff wird Anker-Karte');
+  ok(t.luecken[0].woerter.join() === 'zwei,eine' && t.luecken[0].falsch.length === 2 && t.luecken[0].wf.length === 2, 'Lücke mit zwei Wörtern und Falsch-Zeilen', t.luecken);
+  ok(t.warumfragen[0].stufe === 2 && t.warumfragen[0].falsch.length === 2 && t.warumfragen[0].wf.length === 2, 'Warum-Frage in Stufe 2');
+  ok(t.fallbeispiele[0].lage.includes('Schraubstock') && t.fallbeispiele[0].antwort === 'Feste Einspannung', 'Fallbeispiel mit Lage');
+  const a = t.rechnen[0];
+  ok(a.weg && a.stufe === 3 && a.schritte.length === 3 && a.variablen[0].einheit === 'N' && a.bereich.min === 100, 'Rechenweg mit Variablen, Einheiten und Bereich');
+  ok(a.bilder[0] === 'Balken auf zwei Lagern' && a.grund.begriff === 'Momentengleichgewicht um A' && t.grundprinzipien.length === 1, 'Zeichnung und Grundprinzip gehören zur Aufgabe');
+  ok(t.tabellen[0].zeilen.length === 3 && t.tabellen[0].kopf.length === 3, 'Tabelle mit Kopf und drei Zeilen');
+  ok(JSON.stringify(parseBlocks(exportBlock(t)).themen[0]) === JSON.stringify(t), 'Rundreise mit allen neuen Arten');
+  // Neue Zahlen bei jedem Durchgang, Lösung selbst gerechnet
+  const gesehen = new Set();
+  let richtig = true, imBereich = true;
+  for (let n = 0; n < 40; n++) {
+    const R = rechenweg(a);
+    const { F, a: x, l } = R.vals;
+    gesehen.add(F + '|' + x + '|' + l);
+    if (!near(R.final.wert, F - F * x / l) || !near(R.steps[1].wert, F * x / l)) richtig = false;
+    if (R.final.wert < 100 || R.final.wert > 8000 || R.final.einheit !== 'N') imBereich = false;
+  }
+  ok(gesehen.size > 10, 'Rechenweg würfelt neue Zahlen', gesehen.size);
+  ok(richtig && imBereich, 'Rechenweg rechnet richtig und bleibt im Bereich');
+  const R0 = rechenweg(a, () => 0);
+  ok(R0.text.includes('Länge 3 m') && R0.text.includes('Kraft 2000 N') && R0.werte[1].einheit === 'm', 'Platzhalter mit Einheit', R0.text);
+  // Reihenfolge: Freikörperbild zuerst, F_B vor F_A
+  ok(reihenfolgePruefen(a.schritte, [0, 1, 2]).every(Boolean), 'Reihenfolge richtig');
+  ok(reihenfolgePruefen(a.schritte, [0, 2, 1]).join() === 'true,false,true', 'F_A vor F_B ist an Platz 2 falsch');
+  ok(reihenfolgePruefen(a.schritte, [1, 0, 2])[0] === false, 'Freikörperbild bleibt vorn');
+  ok(!abhaengigkeiten(a.schritte).streng, 'Abhängigkeit über Namen erkannt');
+  const unabh = [{ was: 'x', ergebnis: { typ: 'ausdruck', text: 'a * 2' } }, { was: 'y', ergebnis: { typ: 'ausdruck', text: 'a * 3' } }];
+  ok(reihenfolgePruefen(unabh, [1, 0]).join() === 'false,false', 'Ohne Abhängigkeiten zählt die Reihenfolge des Blocks');
+  // Fehler und alte Blöcke
+  ok(parseBlocks('Fach: X\nThema: Y\nLuecke: Satz ohne Klammer').fehler.length === 1, 'Lücke ohne [Wort] ist ein Fehler');
+  ok(parseBlocks('Fach: X\nThema: Y\nRechnen: a\nSchritt: s | x = b * c').fehler.length === 1, 'Rechenweg mit einem Schritt ist ein Fehler');
+  ok(parseBlocks('Fach: X\nThema: Y\nRechnen: a\nVariable: b | 1 | 2\nSchritt: s | x = b * c\nSchritt: t | y = x * 2').fehler.length === 1, 'Rechenweg mit unbekannter Größe ist ein Fehler');
+  const alt = parseBlocks('Fach: X\nThema: Y\nAnker: Nur ein Bild\nKarte: a | b').themen[0];
+  ok(alt.anker[0] === 'Nur ein Bild' && !alt.ankerkarten.length && alt.karten.length === 1, 'Alter Anker ohne Strich bleibt ein Bild');
+  const ohneListen = { fach: 'X', thema: 'Y', karten: [{ frage: 'a', antwort: 'b' }] };
+  ok(mergeTopic(ohneListen, t).topic.rechnen.length === 1 && mergeTopic(t, ohneListen).topic.luecken.length === 1, 'Zusammenführen mit alten Themen ohne neue Listen');
+  ok(mergeTopic(Object.assign({ zukunft: [{ x: 1 }] }, ohneListen), ohneListen).topic.zukunft.length === 1, 'Unbekannte Listen bleiben beim Zusammenführen erhalten');
+}
 console.log(`\n${pass} bestanden, ${fail} fehlgeschlagen`);
 process.exit(fail ? 1 : 0);

@@ -9,7 +9,7 @@
 import { mergeTopic } from './parser.js';
 
 // Bleiben auf jedem Gerät für sich
-export const NUR_GERAET = new Set(['zuletzt', 'letzteSicherung', 'ersterStart', 'unterrichtVorgabe', 'freigabeStart']);
+export const NUR_GERAET = new Set(['zuletzt', 'letzteSicherung', 'ersterStart', 'unterrichtVorgabe', 'freigabeStart', 'freigabeEigen']);
 const SONDER = new Set(['ereignisseAb', 'tage', 'kvZeit', 'geloescht', 'lehrplan', 'aktuell', 'abgeschlossen', 'aktuellSeit', 'zustandZeit', 'freigabe', 'proben']);
 export const SPEICHER = ['content', 'notes', 'cards', 'errors', 'events', 'exams'];
 const MAX_EVENTS = 5000;

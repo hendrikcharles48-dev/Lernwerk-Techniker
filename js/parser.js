@@ -4,6 +4,7 @@ import { norm, toDay } from './util.js';
 import { parseEq, parseExpr, evaluate, varsOf } from './formula.js';
 import { readNumber } from './check.js';
 import { bereinigen, istSvg } from './svg.js';
+import { rechenweg } from './rechenweg.js';
 
 const KEYS = {
   fach: 'fach', thema: 'thema', modul: 'modul',
@@ -39,7 +40,11 @@ const KEYS = {
   zeichnung: 'zeichnung', zeichnungen: 'zeichnung', svg: 'zeichnung',
   // Rückmeldung zu einer falschen Antwort und Fälle mit Schrittfragen (wie in den Trainern aus dem Chat)
   falsch: 'falsch', warumfalsch: 'falsch', fall: 'fall', faelle: 'fall', gleichung: 'gleichung', schrittfrage: 'schrittfrage', frage: 'schrittfrage',
-  ansatz: 'ansatz', signal: 'signal', erkennen: 'signal', warum: 'warum', begruendung: 'warum', kontrolle: 'kontrolle', probe: 'kontrolle'
+  ansatz: 'ansatz', signal: 'signal', erkennen: 'signal', warum: 'warum', begruendung: 'warum', kontrolle: 'kontrolle', probe: 'kontrolle',
+  // Aufgabenarten nach Lernart (Stufe 1 Verstehen, 2 Abläufe, 3 Rechnen)
+  luecke: 'luecke', lueckentext: 'luecke', warumfrage: 'warumfrage', fallbeispiel: 'fallbeispiel', beispielfall: 'fallbeispiel',
+  rechnen: 'rechnen', rechenweg: 'rechnen', bereich: 'bereich', ergebnisbereich: 'bereich',
+  tabelle: 'tabelle', zeile: 'zeile', grundprinzip: 'grundprinzip'
 };
 const keyNorm = s => String(s).toLowerCase().replace(/ä/g, 'ae').replace(/ö/g, 'oe').replace(/ü/g, 'ue').replace(/ß/g, 'ss').replace(/[^a-z]/g, '');
 
@@ -51,17 +56,22 @@ export function emptyTopic(fach = '', thema = '') {
     fach, thema, modul: '',
     anker: [], begriffe: [], merksaetze: [], prinzip: [], bausteine: [], schnellwege: [], fehler: [],
     formeln: [], karten: [], aufgaben: [], umstellen: [], auswahl: [], reihenfolgen: [], podcast: [], quellen: [], notizen: [],
-    verwechslungen: [], zuordnen: [], erklaeren: [], skizzen: [], zeichnungen: [], faelle: []
+    verwechslungen: [], zuordnen: [], erklaeren: [], skizzen: [], zeichnungen: [], faelle: [],
+    luecken: [], warumfragen: [], fallbeispiele: [], rechnen: [], tabellen: [], ankerkarten: [], grundprinzipien: []
   };
 }
-const LISTS = ['anker', 'begriffe', 'merksaetze', 'prinzip', 'bausteine', 'schnellwege', 'fehler', 'formeln', 'karten', 'aufgaben', 'umstellen', 'auswahl', 'reihenfolgen', 'podcast', 'quellen', 'notizen', 'verwechslungen', 'zuordnen', 'erklaeren', 'skizzen', 'zeichnungen', 'faelle'];
+const LISTS = ['anker', 'begriffe', 'merksaetze', 'prinzip', 'bausteine', 'schnellwege', 'fehler', 'formeln', 'karten', 'aufgaben', 'umstellen', 'auswahl', 'reihenfolgen', 'podcast', 'quellen', 'notizen', 'verwechslungen', 'zuordnen', 'erklaeren', 'skizzen', 'zeichnungen', 'faelle',
+  'luecken', 'warumfragen', 'fallbeispiele', 'rechnen', 'tabellen', 'ankerkarten', 'grundprinzipien'];
+// Neue Aufgabenarten: Der Block legt die Stufe fest. Ohne Stufe-Zeile gilt diese Vorgabe.
+export const NEUE_STUFE = { luecken: 1, ankerkarten: 1, warumfragen: 2, fallbeispiele: 2, rechnen: 3 };
 
 // Prüfzeile „Inhalt: 6 Karten; 2 Aufgaben“: welches Wort zu welcher Liste gehört
 const INHALT = [
   [/^karte/, 'karten', 'Karten'], [/^aufgabe/, 'aufgaben', 'Aufgaben'], [/^(fach)?begriff/, 'begriffe', 'Begriffe'], [/^formel/, 'formeln', 'Formeln'],
   [/^merks/, 'merksaetze', 'Merksätze'], [/^baustein/, 'bausteine', 'Bausteine'], [/^(typische)?fehler/, 'fehler', 'Fehler'], [/^schnellweg/, 'schnellwege', 'Schnellwege'],
   [/^auswahl/, 'auswahl', 'Auswahlfragen'], [/^reihenfolge/, 'reihenfolgen', 'Reihenfolgen'], [/^umstell/, 'umstellen', 'Umstellaufgaben'], [/^verwechslung/, 'verwechslungen', 'Verwechslungen'],
-  [/^zuordn/, 'zuordnen', 'Zuordnungen'], [/^erklaer/, 'erklaeren', 'Erklär-Aufgaben'], [/^skizze/, 'skizzen', 'Skizzen'], [/^(zeichnung|svg)/, 'zeichnungen', 'Zeichnungen'], [/^(anker|bild)/, 'anker', 'Bilder'], [/^podcast/, 'podcast', 'Podcast-Zeilen'], [/^(fall|faelle)/, 'faelle', 'Fälle']
+  [/^zuordn/, 'zuordnen', 'Zuordnungen'], [/^erklaer/, 'erklaeren', 'Erklär-Aufgaben'], [/^skizze/, 'skizzen', 'Skizzen'], [/^(zeichnung|svg)/, 'zeichnungen', 'Zeichnungen'], [/^(anker|bild)/, 'anker', 'Bilder'], [/^podcast/, 'podcast', 'Podcast-Zeilen'], [/^(fallbeispiel|beispielfall)/, 'fallbeispiele', 'Fallbeispiele'], [/^(fall|faelle)/, 'faelle', 'Fälle'],
+  [/^luecke/, 'luecken', 'Lückentexte'], [/^warum/, 'warumfragen', 'Warum-Fragen'], [/^(rechnen|rechenweg|rechenaufgabe)/, 'rechnen', 'Rechenwege'], [/^tabelle/, 'tabellen', 'Tabellen']
 ];
 export function readInhalt(val) {
   const out = [];
@@ -109,9 +119,11 @@ export function parseBlocks(text) {
   const res = { themen: [], termine: [], stand: [], fehler: [], hinweise: [], luecken: [], abgeschnitten: false };
   const hasMarkers = lines.some(l => START.test(cleanLine(l)));
   let inBlock = !hasMarkers;
-  let cur = null, field = null, task = null, umst = null, ctx = null, blockLine = 0, stufe = 0, inhalt = null, lastMc = null, fall = null;
+  let cur = null, field = null, task = null, umst = null, ctx = null, blockLine = 0, stufe = 0, inhalt = null, lastMc = null, fall = null, ziel = null, tab = null;
   // Stufe-Zeile: alle folgenden Einträge gehören zu dieser Stufe
   const mark = o => { if (stufe) o.stufe = stufe; return o; };
+  // Zeichnung, Tabelle und Grundprinzip direkt unter einer neuen Aufgabe gehören zu dieser Aufgabe
+  const zielSetzen = o => { ziel = o; return o; };
 
   const err = (i, meldung) => res.fehler.push({ zeile: i + 1, text: lines[i].trim(), meldung });
   const warn = (i, meldung) => res.hinweise.push({ zeile: i + 1, text: lines[i].trim(), meldung });
@@ -119,14 +131,28 @@ export function parseBlocks(text) {
   function finish() {
     if (!cur) return;
     const t = cur, soll = inhalt;
-    cur = null; field = null; task = null; umst = null; ctx = null; stufe = 0; inhalt = null; lastMc = null; fall = null;
+    cur = null; field = null; task = null; umst = null; ctx = null; stufe = 0; inhalt = null; lastMc = null; fall = null; ziel = null; tab = null;
     // leere Einträge entfernen
     for (const k of ['anker', 'merksaetze', 'prinzip', 'bausteine', 'schnellwege', 'quellen']) t[k] = t[k].map(s => s.trim()).filter(Boolean);
     t.karten = t.karten.filter(k => k.frage && k.antwort);
     t.begriffe = t.begriffe.filter(b => b.begriff);
     t.faelle = t.faelle.filter(f => f.schritte.length);
-    for (const a of t.aufgaben) {
+    t.tabellen = t.tabellen.filter(x => x.zeilen.length);
+    for (const a of t.rechnen) {
+      // Probe: Lässt sich der Weg mit gewürfelten Zahlen ausrechnen? Ohne Rechnung-Zeile zählt der letzte Schritt.
+      if (a.schritte.length >= 2) {
+        const probe = rechenweg(a);
+        if (probe.final.wert == null || !isFinite(probe.final.wert)) res.fehler.push({ zeile: a._z, text: a.text.slice(0, 60), meldung: 'Den Rechenweg kann ich nicht ausrechnen. Prüfe, ob jeder Schritt nur Variablen und Ergebnisse früherer Schritte benutzt.' });
+        else if (a.bereich && !probe.imBereich) res.hinweise.push({ zeile: a._z, text: a.text.slice(0, 60), meldung: 'Mit diesen Wertebereichen liegt das Ergebnis selten im Bereich. Prüfe Variable- und Bereich-Zeilen.' });
+      }
+      if (a.schritte.length < 2) res.fehler.push({ zeile: a._z, text: a.text.slice(0, 60), meldung: 'Ein Rechenweg braucht mindestens zwei Schritt-Zeilen: was | Rechnung | Einheit | Sinn.' });
+      else if (a.schritte.length > 7) res.hinweise.push({ zeile: a._z, text: a.text.slice(0, 60), meldung: 'Mehr als sieben Bausteine sind am Handy schwer zu sortieren. Fasse Schritte zusammen.' });
+      if (!a.variablen.length) res.hinweise.push({ zeile: a._z, text: a.text.slice(0, 60), meldung: 'Rechenweg ohne Variable-Zeilen: Die Zahlen bleiben jedes Mal gleich.' });
+    }
+    t.rechnen = t.rechnen.filter(a => a.schritte.length >= 2);
+    for (const a of [...t.aufgaben, ...t.rechnen]) {
       a.text = a.text.trim();
+      if (a.weg) { if (a.rechnung && rechenweg(a).final.wert == null) { res.fehler.push({ zeile: a._r || a._z, text: a.rechnung, meldung: 'Die Rechnung kann ich nicht ausrechnen.' }); a.rechnung = ''; } delete a._z; delete a._r; continue; }
       if (a.variablen.length && !a.rechnung) res.hinweise.push({ zeile: a._z, text: a.text.slice(0, 60), meldung: 'Aufgabe hat Variablen, aber keine Rechnung. Ich nutze die festen Zahlen.' });
       if (a.rechnung) {
         const vals = Object.fromEntries(a.variablen.map(v => [v.name.replace(/_/g, ''), v.von]));
@@ -193,6 +219,8 @@ export function parseBlocks(text) {
       continue;
     }
 
+    if (!['zeichnung', 'tabelle', 'zeile', 'grundprinzip', 'falsch', 'gegeben', 'gesucht', 'tipp', 'schritt', 'ergebnis', 'variable', 'rechnung', 'bereich', 'luecke', 'warumfrage', 'fallbeispiel', 'rechnen'].includes(key)) ziel = null;
+    if (key !== 'zeile') tab = key === 'tabelle' ? tab : null;
     switch (key) {
       case 'fach':
         if (cur.fach && (cur.thema || hasContent(cur))) start(i);
@@ -201,7 +229,14 @@ export function parseBlocks(text) {
         if (cur.thema && hasContent(cur)) { const f = cur.fach, mo = cur.modul; start(i); cur.fach = f; cur.modul = mo; }
         cur.thema = val; field = null; break;
       case 'modul': cur.modul = val.replace(/^\(?optional.*$/i, ''); field = null; break;
-      case 'anker': case 'merksatz': case 'baustein': case 'schnellweg': case 'quelle': case 'prinzip': {
+      case 'anker': if (val.includes('|')) {
+        // Anker: Bild | Fachbegriff. Das Bild bleibt ein Anker, dazu kommt eine Karte, die den Anker abfragt.
+        const [bild, ...b] = pipes(val);
+        const begriff = b.join(' | ');
+        if (bild && begriff) { cur.anker.push(bild); cur.ankerkarten.push(mark({ bild, begriff })); field = null; break; }
+      }
+      // fällt durch
+      case 'merksatz': case 'baustein': case 'schnellweg': case 'quelle': case 'prinzip': {
         const prop = { anker: 'anker', merksatz: 'merksaetze', baustein: 'bausteine', schnellweg: 'schnellwege', quelle: 'quellen', prinzip: 'prinzip' }[key];
         cur[prop].push(val);
         field = { obj: cur[prop], idx: cur[prop].length - 1, prop: key === 'prinzip' ? 'prinzipText' : prop };
@@ -262,7 +297,7 @@ export function parseBlocks(text) {
         const t = ensureTask(i);
         const [was, erg, einheit, tipp] = pipes(val);
         const s = { was: was || '', ergebnis: readValue(erg), einheit: einheit || '', tipp: tipp || '' };
-        if (!erg) warn(i, 'Schritt ohne Ergebnis. Ich zeige ihn als Planungsschritt ohne Prüfung.');
+        if (!erg && !t.weg) warn(i, 'Schritt ohne Ergebnis. Ich zeige ihn als Planungsschritt ohne Prüfung.');
         if (s.ergebnis && s.ergebnis.einheit && !s.einheit) s.einheit = s.ergebnis.einheit;
         t.schritte.push(s); field = null; break;
       }
@@ -276,12 +311,14 @@ export function parseBlocks(text) {
       }
       case 'variable': {
         const t = ensureTask(i);
-        const [name, von, bis, step] = pipes(val);
+        const [name, von, bis, step, einheit] = pipes(val);
         const a = readNumber(von), b = readNumber(bis), s = step ? readNumber(step) : null;
         if (!name || a.error || a.empty || b.error || b.empty) { err(i, 'Variable bitte so schreiben: Name | von | bis | Schrittweite, zum Beispiel R | 100 | 1000 | 10.'); break; }
         let sw = s && !s.error && !s.empty ? s.value : 0;
         if (!(sw > 0)) sw = (b.value - a.value) / 10 || 1;
-        t.variablen.push({ name: name.replace(/\s/g, ''), von: Math.min(a.value, b.value), bis: Math.max(a.value, b.value), schritt: sw });
+        const v = { name: name.replace(/\s/g, ''), von: Math.min(a.value, b.value), bis: Math.max(a.value, b.value), schritt: sw };
+        if (einheit) v.einheit = einheit;
+        t.variablen.push(v);
         field = null; break;
       }
       case 'rechnung': {
@@ -384,13 +421,15 @@ export function parseBlocks(text) {
         if (!titel || !istSvg(svg)) { err(i, 'Zeichnung bitte so schreiben: Titel | <svg …>…</svg>. Nach dem Trennstrich fehlt ein vollständiges SVG.'); field = null; break; }
         const sauber = bereinigen(svg);
         if (!sauber) { err(i, 'Die Zeichnung „' + titel + '“ kann ich nicht lesen. Das SVG ist fehlerhaft.'); field = null; break; }
-        cur.zeichnungen.push({ titel, svg: sauber }); field = null; break;
+        cur.zeichnungen.push({ titel, svg: sauber });
+        if (ziel) (ziel.bilder = ziel.bilder || []).push(titel);
+        field = null; break;
       }
       // Falsch: Antwort | warum sie falsch ist. Gehört zur letzten Auswahl, Schrittfrage, zum Ansatz oder zur Kontrolle.
       case 'falsch': {
         const [antw, ...w] = pipes(val);
         if (!lastMc || !antw || !w.length) { warn(i, 'Falsch bitte direkt unter eine Auswahl, Schrittfrage oder einen Ansatz schreiben: falsche Antwort | warum sie falsch ist.'); field = null; break; }
-        if (!lastMc.falsch.some(x => norm(x) === norm(antw))) warn(i, 'Die Antwort „' + antw + '“ steht nicht bei den falschen Antworten darüber.');
+        if (!lastMc.falsch.some(x => norm(x) === norm(antw)) && !(lastMc.woerter && lastMc.woerter.some(x => norm(x) === norm(antw)))) warn(i, 'Die Antwort „' + antw + '“ steht nicht bei den falschen Antworten darüber.');
         const o = { a: antw, w: w.join(' | ') };
         (lastMc.wf = lastMc.wf || []).push(o); setField(o, 'w'); break;
       }
@@ -414,6 +453,57 @@ export function parseBlocks(text) {
         if (!frage || !richtig || !falsch) { err(i, 'Schrittfrage bitte so schreiben: Frage | richtige Antwort | falsch; falsch | Erklärung (optional).'); break; }
         lastMc = { frage, richtig, falsch: splitList(falsch), erklaerung: erklaerung || '' };
         fall.schritte.push(lastMc); field = null; break;
+      }
+      // Luecke: Satz mit [Wort] | falsch; falsch | Erklärung
+      case 'luecke': {
+        const [satz, falsch, erklaerung] = pipes(val);
+        const woerter = [...String(satz || '').matchAll(/\[([^\]]+)\]/g)].map(m => m[1].trim()).filter(Boolean);
+        if (!woerter.length) { err(i, 'Lücke bitte so schreiben: Satz mit [fehlendem Wort] | falsch; falsch | Erklärung. Das fehlende Wort steht in eckigen Klammern.'); break; }
+        if (woerter.length > 3) warn(i, 'Mehr als drei Lücken in einem Satz sind schwer. Teile den Satz.');
+        lastMc = zielSetzen(mark({ satz, woerter, falsch: splitList(falsch || ''), erklaerung: erklaerung || '' }));
+        cur.luecken.push(lastMc); field = null; break;
+      }
+      // Warumfrage: Frage | Antwort | falsch; falsch | Erklärung. Fallbeispiel: Lage | Frage | Antwort | falsch; falsch | Erklärung
+      case 'warumfrage': case 'fallbeispiel': {
+        const p = pipes(val);
+        const lage = key === 'fallbeispiel' ? p.shift() : '';
+        const [frage, antwort, falsch, erklaerung] = p;
+        if (!frage || !antwort || (key === 'fallbeispiel' && !lage)) { err(i, key === 'warumfrage' ? 'Warumfrage bitte so schreiben: Frage | Antwort | falsch; falsch | Erklärung. Falsche Antworten und Erklärung sind optional.' : 'Fallbeispiel bitte so schreiben: Lage | Frage | Antwort | falsch; falsch | Erklärung.'); break; }
+        const o = { frage, antwort, falsch: splitList(falsch || ''), erklaerung: erklaerung || '' };
+        if (lage) o.lage = lage;
+        lastMc = zielSetzen(mark(o));
+        cur[key === 'warumfrage' ? 'warumfragen' : 'fallbeispiele'].push(lastMc); field = null; break;
+      }
+      // Rechnen: Aufgabentext mit {Platzhaltern}. Darunter Variable, Schritt, Rechnung, Ergebnis, Bereich wie bei Aufgabe.
+      case 'rechnen':
+        task = zielSetzen(mark(newTask(i, val))); task.weg = true; cur.rechnen.push(task); umst = null; fall = null; ctx = 'aufgabe'; setField(task, 'text'); break;
+      case 'bereich': {
+        const t = ensureTask(i);
+        const [a, b] = pipes(val).map(x => readNumber(x));
+        if (!a || !b || a.error || a.empty || b.error || b.empty) { err(i, 'Bereich bitte so schreiben: kleinstes Ergebnis | größtes Ergebnis, zum Beispiel 50 | 400.'); break; }
+        t.bereich = { min: Math.min(a.value, b.value), max: Math.max(a.value, b.value) }; field = null; break;
+      }
+      // Tabelle: Titel | Spalte; Spalte. Darunter Zeile: Zelle; Zelle. [Text] in einer Zelle wird ein kleines Label.
+      case 'tabelle': {
+        const [titel, kopf] = pipes(val);
+        if (!titel) { err(i, 'Tabelle bitte so schreiben: Titel | Spalte; Spalte; Spalte.'); break; }
+        const vorher = ziel;
+        tab = { titel, kopf: splitList(kopf || ''), zeilen: [] };
+        cur.tabellen.push(tab);
+        if (vorher) (vorher.tabellen = vorher.tabellen || []).push(titel);
+        ziel = vorher; field = null; break;
+      }
+      case 'zeile': {
+        if (!tab) { warn(i, 'Zeile gehört unter eine Zeile „Tabelle:“.'); break; }
+        tab.zeilen.push(String(val).split(';').map(x => x.trim())); field = null; break;
+      }
+      // Grundprinzip: Anker | Fachbegriff | Merksatz. Unter einer Aufgabe gilt es für diese, sonst für das Thema.
+      case 'grundprinzip': {
+        const [anker, begriff, merksatz] = pipes(val);
+        if (!anker && !begriff && !merksatz) { warn(i, 'Grundprinzip bitte so schreiben: Anker | Fachbegriff | Merksatz.'); break; }
+        const o = { anker: anker || '', begriff: begriff || '', merksatz: merksatz || '' };
+        if (ziel) ziel.grund = o; else cur.grundprinzipien.push(o);
+        field = null; break;
       }
       case 'podcast': {
         // Podcast: Lena | Text  oder  Podcast: Tom | Text. Tom erklärt, Lena fragt.
@@ -460,6 +550,12 @@ export function summary(t) {
     [(t.skizzen || []).length, 'Skizze', 'Skizzen'],
     [(t.zeichnungen || []).length, 'Zeichnung', 'Zeichnungen'],
     [(t.faelle || []).length, 'Fall', 'Fälle'],
+    [(t.luecken || []).length, 'Lückentext', 'Lückentexte'],
+    [(t.warumfragen || []).length, 'Warum-Frage', 'Warum-Fragen'],
+    [(t.fallbeispiele || []).length, 'Fallbeispiel', 'Fallbeispiele'],
+    [(t.rechnen || []).length, 'Rechenweg', 'Rechenwege'],
+    [(t.tabellen || []).length, 'Tabelle', 'Tabellen'],
+    [(t.ankerkarten || []).length, 'Anker-Karte', 'Anker-Karten'],
     [t.schnellwege.length, 'Schnellweg', 'Schnellwege'],
     [t.fehler.length, 'typischer Fehler', 'typische Fehler'],
     [t.prinzip.length ? 1 : 0, 'Prinzip-Text', 'Prinzip-Texte'],
@@ -475,7 +571,9 @@ const KEYFN = {
   begriffe: b => norm(b.begriff), fehler: f => norm(f.fehler), formeln: f => norm(f.formel), karten: k => norm(k.frage),
   aufgaben: a => norm(a.text + a.gegeben.join('')), umstellen: u => norm(u.formel + '|' + u.nach), auswahl: a => norm(a.frage),
   reihenfolgen: r => norm(r.titel), podcast: p => norm(p.wer + p.text), notizen: n => norm(n.schluessel + n.text),
-  verwechslungen: v => norm(v.a + '|' + v.b), zuordnen: z => norm(z.titel), erklaeren: e => norm(e.aufgabe), skizzen: e => norm(e.aufgabe), zeichnungen: z => norm(z.titel), faelle: f => norm(f.titel)
+  verwechslungen: v => norm(v.a + '|' + v.b), zuordnen: z => norm(z.titel), erklaeren: e => norm(e.aufgabe), skizzen: e => norm(e.aufgabe), zeichnungen: z => norm(z.titel), faelle: f => norm(f.titel),
+  luecken: l => norm(l.satz), warumfragen: w => norm(w.frage), fallbeispiele: f => norm(f.lage + '|' + f.frage), rechnen: a => norm(a.text),
+  tabellen: x => norm(x.titel), ankerkarten: a => norm(a.bild + '|' + a.begriff), grundprinzipien: g => norm(g.anker + g.begriff + g.merksatz)
 };
 // opt.zeichnungBleibt: bei gleichem Titel behält base seine Zeichnung (Abgleich: base ist die neuere Fassung).
 // Sonst ersetzt eine gleichnamige Zeichnung aus add die alte.
@@ -491,7 +589,7 @@ export function mergeTopic(base, add, opt = {}) {
       if (!key) continue;
       if (seen.has(key)) {
         const old = seen.get(key);
-        if (k === 'zeichnungen') { if (!opt.zeichnungBleibt && old.svg !== x.svg) { out[k][out[k].indexOf(old)] = x; seen.set(key, x); added++; } continue; }
+        if (k === 'zeichnungen' || k === 'tabellen') { if (!opt.zeichnungBleibt && JSON.stringify(old) !== JSON.stringify(x)) { out[k][out[k].indexOf(old)] = x; seen.set(key, x); added++; } continue; }
         if (k === 'begriffe' && !old.erklaerung && x.erklaerung) old.erklaerung = x.erklaerung;
         if (k === 'formeln') for (const u of x.umgestellt) if (!old.umgestellt.some(o => norm(o) === norm(u))) old.umgestellt.push(u);
         if (k === 'formeln' && x.aufbau && !old.aufbau) old.aufbau = x.aufbau;
@@ -500,6 +598,8 @@ export function mergeTopic(base, add, opt = {}) {
       seen.set(key, x); out[k].push(x); added++;
     }
   }
+  // Listen, die eine spätere Version kennt, diese aber nicht: unverändert behalten, damit beim Abgleich nichts verloren geht
+  for (const src of [add, base]) for (const k of Object.keys(src || {})) if (!(k in out) && Array.isArray(src[k])) out[k] = src[k];
   return { topic: out, added };
 }
 
@@ -514,9 +614,10 @@ export function exportBlock(t, termine = []) {
   // Stufe-Zeilen nur, wenn Einträge eine Stufe haben. Sie gelten bis zur nächsten Stufe-Zeile.
   let aktStufe = 0;
   const L = { push(...x) { L0.push(...x); }, join: s => L0.join(s) };
-  const st = o => { const n = (o && o.stufe) || 1; if (n !== aktStufe && (aktStufe || n !== 1)) L0.push('Stufe: ' + n); aktStufe = n; };
+  const st = (o, d = 1) => { const n = (o && o.stufe) || d; if (n !== aktStufe && (aktStufe || n !== 1 || (o && o.stufe))) L0.push('Stufe: ' + n); aktStufe = n; };
   if (t.modul) L.push('Modul: ' + t.modul);
-  t.anker.forEach(a => L.push(lineOut('Anker', a)));
+  const ankerKarte = new Set((t.ankerkarten || []).map(a => norm(a.bild)));
+  t.anker.filter(a => !ankerKarte.has(norm(a))).forEach(a => L.push(lineOut('Anker', a)));
   t.begriffe.forEach(b => { st(b); L.push(lineOut('Begriff', b.begriff + ' | ' + b.erklaerung)); });
   t.merksaetze.forEach(m => L.push(lineOut('Merksatz', m)));
   t.prinzip.forEach(p => L.push(lineOut('Prinzip', p)));
@@ -554,7 +655,34 @@ export function exportBlock(t, termine = []) {
   (t.zuordnen || []).forEach(z => st(z) || L.push('Zuordnen: ' + z.titel + ' | ' + z.paare.map(p => p.begriff + ' = ' + p.bedeutung).join('; ')));
   (t.erklaeren || []).forEach(e => st(e) || L.push('Erklären: ' + e.aufgabe + ' | ' + e.kern.join('; ')));
   (t.skizzen || []).forEach(e => st(e) || L.push('Skizze: ' + e.aufgabe + ' | ' + e.kern.join('; ')));
-  (t.zeichnungen || []).forEach(z => L.push('Zeichnung: ' + z.titel + ' | ' + String(z.svg).replace(/\s*\n\s*/g, ' ')));
+  const zusatz = o => {
+    (o.bilder || []).forEach(n => { const z = (t.zeichnungen || []).find(x => norm(x.titel) === norm(n)); if (z) L.push('Zeichnung: ' + z.titel + ' | ' + String(z.svg).replace(/\s*\n\s*/g, ' ')); });
+    (o.tabellen || []).forEach(n => { const x = (t.tabellen || []).find(y => norm(y.titel) === norm(n)); if (x) tabOut(x); });
+    if (o.grund) L.push('Grundprinzip: ' + o.grund.anker + ' | ' + o.grund.begriff + ' | ' + o.grund.merksatz);
+  };
+  const benutzt = new Set(), tabBenutzt = new Set();
+  const tabOut = x => { L.push('Tabelle: ' + x.titel + (x.kopf.length ? ' | ' + x.kopf.join('; ') : '')); x.zeilen.forEach(z => L.push('Zeile: ' + z.join('; '))); };
+  for (const o of [...(t.luecken || []), ...(t.warumfragen || []), ...(t.fallbeispiele || []), ...(t.rechnen || [])]) { (o.bilder || []).forEach(n => benutzt.add(norm(n))); (o.tabellen || []).forEach(n => tabBenutzt.add(norm(n))); }
+  (t.tabellen || []).filter(x => !tabBenutzt.has(norm(x.titel))).forEach(tabOut);
+  (t.grundprinzipien || []).forEach(g => L.push('Grundprinzip: ' + g.anker + ' | ' + g.begriff + ' | ' + g.merksatz));
+  (t.zeichnungen || []).filter(z => !benutzt.has(norm(z.titel))).forEach(z => L.push('Zeichnung: ' + z.titel + ' | ' + String(z.svg).replace(/\s*\n\s*/g, ' ')));
+  (t.ankerkarten || []).forEach(a => { st(a, 1); L.push('Anker: ' + a.bild + ' | ' + a.begriff); });
+  (t.luecken || []).forEach(l => { st(l, 1); L.push('Luecke: ' + l.satz + (l.falsch.length || l.erklaerung ? ' | ' + l.falsch.join('; ') : '') + (l.erklaerung ? ' | ' + l.erklaerung : '')); wfOut(l); zusatz(l); });
+  (t.warumfragen || []).forEach(w => { st(w, 2); L.push('Warumfrage: ' + w.frage + ' | ' + w.antwort + (w.falsch.length || w.erklaerung ? ' | ' + w.falsch.join('; ') : '') + (w.erklaerung ? ' | ' + w.erklaerung : '')); wfOut(w); zusatz(w); });
+  (t.fallbeispiele || []).forEach(w => { st(w, 2); L.push('Fallbeispiel: ' + w.lage + ' | ' + w.frage + ' | ' + w.antwort + (w.falsch.length || w.erklaerung ? ' | ' + w.falsch.join('; ') : '') + (w.erklaerung ? ' | ' + w.erklaerung : '')); wfOut(w); zusatz(w); });
+  (t.rechnen || []).forEach(a => {
+    st(a, 3);
+    L.push(lineOut('Rechnen', a.text));
+    a.gegeben.forEach(g => L.push(lineOut('Gegeben', g)));
+    a.gesucht.forEach(g => L.push(lineOut('Gesucht', g)));
+    a.variablen.forEach(v => L.push('Variable: ' + v.name + ' | ' + v.von + ' | ' + v.bis + ' | ' + v.schritt + (v.einheit ? ' | ' + v.einheit : '')));
+    a.schritte.forEach(s => L.push('Schritt: ' + s.was + ' | ' + fmtVal(s.ergebnis) + (s.einheit || s.tipp ? ' | ' + s.einheit : '') + (s.tipp ? ' | ' + s.tipp : '')));
+    if (a.rechnung) L.push('Rechnung: ' + a.rechnung);
+    if (a.ergebnis) L.push('Ergebnis: ' + fmtVal(a.ergebnis.wert) + (a.ergebnis.einheit ? ' | ' + a.ergebnis.einheit : ''));
+    if (a.bereich) L.push('Bereich: ' + a.bereich.min + ' | ' + a.bereich.max);
+    a.tipps.forEach(g => L.push(lineOut('Tipp', g)));
+    zusatz(a);
+  });
   (t.podcast || []).forEach(p => L.push('Podcast: ' + (p.wer === 'B' ? 'Tom' : 'Lena') + ' | ' + p.text));
   t.quellen.forEach(q => L.push(lineOut('Quelle', q)));
   t.notizen.forEach(n => L.push(lineOut(n.schluessel, n.text)));
@@ -596,10 +724,21 @@ Fall: Titel | Ausgangslage, gegeben und gesucht
 Gleichung: I | 0 = F_Ax − F · cos(α)
 Schrittfrage: In welcher Gleichung steht F_Ay? | Gleichung II | Gleichung I; Gleichung III | warum das der richtige Schritt ist
 Falsch: Gleichung I | In I steht nur F_Ax.
+Luecke: Merksatz mit [fehlendem Wort] | falsches Wort; falsches Wort | Erklärung
+Tabelle: Titel | Spalte; Spalte; Spalte
+Zeile: [Label] Zelle; Zelle; Zelle
+Grundprinzip: Bild aus meiner Welt | Fachbegriff | Merksatz
 Stufe: 2
+Warumfrage: Warum kommt dieser Schritt hier? | richtige Begründung | falsch; falsch | Erklärung
+Fallbeispiel: kurze Lage aus Werkstatt, Training oder Alltag | Frage | richtige Antwort | falsch; falsch | Erklärung
 Verwechslung: Begriff A | Begriff B | Unterschied in einem Satz
 Zuordnen: Titel | Begriff = Bedeutung; Begriff = Bedeutung; Begriff = Bedeutung
 Stufe: 3
+Rechnen: Aufgabentext mit Platzhaltern wie {F} und {l}
+Variable: F | 1000 | 5000 | 500 | N
+Schritt: was ich mache | Name = Formel mit Variablen und früheren Namen | Einheit | warum dieser Schritt, ein Satz
+Ergebnis: Name | Einheit
+Bereich: kleinstes | größtes sinnvolles Ergebnis
 Erklären: Prüfungsaufgabe zum Erklären | Kernpunkt; Kernpunkt; Kernpunkt
 Skizze: Prüfungsaufgabe zum Zeichnen | Kernpunkt; Kernpunkt
 Zeichnung: Titel | <svg viewBox="0 0 300 200">…</svg> (optional, fertige Skizze als SVG, Farben über die Klassen l, d, r, b, g, o, t2)

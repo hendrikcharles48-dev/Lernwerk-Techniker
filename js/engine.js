@@ -11,6 +11,7 @@ import * as sk from './skizzen.js';
 import { editorHTML, attachEditor } from './mathedit.js';
 import { wegSchritte, wegPruefen } from './aufgabe.js';
 
+import { runAnker, runLuecke, runWarum, runRechenweg, hatZusatz, tabelleHTML } from './aufgabenarten.js';
 import { runFall, runAuffrischen, runAufgabe, runAuswahl, runBegriff, runErklaeren, runFehler, runKarte, runReihenfolge, runUmstellen, runVerwechslung, runZuordnen } from './uebungen.js';
 import { schmierKnopf, schmierzettel } from './schmierzettel.js';
 /* ===== Frag Claude ===== */
@@ -172,7 +173,7 @@ export function topicPage(tid, startTab) {
 }
 // Stufen des Themas: 1 Grundlagen, 2 Zusammenhänge, 3 Anwenden. Nur eingebaute Inhalte, eigene sind immer frei.
 function stufenHTML(tid, items) {
-  const its = items.filter(i => !i.eigen);
+  const its = items.filter(i => !i.eigen || i.gestuft);
   if (!its.length) return '';
   const n = st.freigabe(tid);
   const anz = k => its.filter(i => i.stufe === k).length;
@@ -186,7 +187,7 @@ function stufenHTML(tid, items) {
 const modusHTML = () => `<div class="modus">${seg('modus', st.MODI, st.modus())}</div>`;
 const gesperrtHinweis = (alle, sicht) => { const n = alle.length - sicht.length; return n > 0 ? `<p class="src">${n} weitere ${n === 1 ? 'Frage ist' : 'Fragen sind'} noch gesperrt. „Hatten wir“ oben schaltet die nächste Stufe frei.</p>` : ''; };
 function countFor(v, T, items, tid) {
-  const n = { prinzip: 0, bausteine: 0, ueben: items.filter(i => ['aufgabe', 'fall', 'umstellen', 'auswahl', 'reihenfolge', 'verwechslung', 'zuordnen', 'erklaeren', 'skizze'].includes(i.art)).length, karten: items.filter(i => i.art === 'karte' || i.art === 'begriff').length, schnellweg: T.schnellwege.length, zettel: st.notesFor(tid).length, fotos: st.photosFor(tid).length }[v];
+  const n = { prinzip: 0, bausteine: 0, ueben: items.filter(i => ['rechenweg', 'luecke', 'warum', 'fallbeispiel', 'anker', 'aufgabe', 'fall', 'umstellen', 'auswahl', 'reihenfolge', 'verwechslung', 'zuordnen', 'erklaeren', 'skizze'].includes(i.art)).length, karten: items.filter(i => i.art === 'karte' || i.art === 'begriff').length, schnellweg: T.schnellwege.length, zettel: st.notesFor(tid).length, fotos: st.photosFor(tid).length }[v];
   return n ? ' ' + n : '';
 }
 
@@ -195,10 +196,12 @@ function renderTab(el, tab, tid, T, items, f) {
   let h = '';
   if (tab === 'prinzip' && st.isIntroOnly(tid) && st.status(tid) === 'geplant') h += `<div class="fb info intro-hint"><b>Einführung.</b> Das Thema ist noch nicht dran. Hier stehen schon die Grundlagen. Wenn es im Unterricht kommt, ergänzt du es über Einfügen.</div>`;
   if (tab === 'prinzip') {
-    const nichts = !T.anker.length && !T.begriffe.length && !T.merksaetze.length && !T.prinzip.length && !T.notizen.length;
+    const nichts = !T.anker.length && !(T.tabellen || []).length && !T.begriffe.length && !T.merksaetze.length && !T.prinzip.length && !T.notizen.length;
     if (nichts) h += emptyContent(tid);
     T.anker.forEach(a => { h += `<div class="card anchor"><div class="card-k">Bild aus deiner Welt</div><p>${rich(a)}</p></div>`; });
     if (sk.fuer(tid).length) h += `<div class="sec-h">${sk.fuer(tid).length > 1 ? 'Skizzen' : 'Skizze'}</div>` + sk.html(tid, false, false, true);
+    if ((T.tabellen || []).length) h += `<div class="sec-h">${T.tabellen.length > 1 ? 'Tabellen' : 'Tabelle'}</div>` + T.tabellen.map(tabelleHTML).join('');
+    (T.grundprinzipien || []).forEach(g => { h += `<div class="card anchor"><div class="card-k">Grundprinzip</div>${g.anker ? `<p>${rich(g.anker)}</p>` : ''}${g.begriff ? `<p><b>${rich(g.begriff)}</b></p>` : ''}${g.merksatz ? `<p>${rich(g.merksatz)}</p>` : ''}</div>`; });
     if (T.begriffe.length) h += `<div class="sec-h">Fachbegriffe</div>` + list(T.begriffe.map(b => row({ titleHTML: `<b>${esc(b.begriff)}</b>`, subHTML: rich(b.erklaerung) })));
     T.merksaetze.forEach(m => { h += `<div class="card merk" style="--fc:${color}"><div class="card-k">Merksatz</div><p>${rich(m)}</p></div>`; });
     if (T.prinzip.length) h += `<div class="sec-h">So funktioniert es</div><div class="card prose">${T.prinzip.map(p => markdown(p, mathText)).join('')}</div>`;
@@ -212,7 +215,7 @@ function renderTab(el, tab, tid, T, items, f) {
     if (T.formeln.length) h += `<div class="sec-h">Formeln</div>` + T.formeln.map(formelCard).join('');
     if (!h) h = empty('Noch keine Bausteine.', 'Bausteine zerlegen eine Aufgabe in gegeben, gesucht, Regel und nächsten Schritt. Hol sie dir über Einfügen aus dem Chat.');
   }
-  const UEB = ['aufgabe', 'fall', 'umstellen', 'auswahl', 'reihenfolge', 'verwechslung', 'zuordnen', 'erklaeren', 'skizze'];
+  const UEB = ['rechenweg', 'luecke', 'warum', 'fallbeispiel', 'anker', 'aufgabe', 'fall', 'umstellen', 'auswahl', 'reihenfolge', 'verwechslung', 'zuordnen', 'erklaeren', 'skizze'];
   if (tab === 'ueben') {
     const alle = items.filter(i => UEB.includes(i.art));
     const ex = alle.filter(i => st.sichtbar(i));
@@ -222,7 +225,7 @@ function renderTab(el, tab, tid, T, items, f) {
     else {
       h += `<div class="btn-row"><button class="btn filled" data-a="mix">${icon('bolt')} Gemischt üben</button></div>`;
       const grp = (art, title) => { const g = ex.filter(i => i.art === art); if (!g.length) return ''; return `<div class="sec-h">${title}</div>` + list(g.map(i => row({ a: 'item', d: i.id, titleHTML: itemHTML(i), subHTML: esc(stufeText(st.card(i.id))) }))); };
-      h += grp('aufgabe', 'Aufgaben') + grp('fall', 'Fälle: Weg planen') + grp('umstellen', 'Formeln umstellen') + grp('auswahl', 'Auswahlfragen') + grp('reihenfolge', 'Reihenfolge') + grp('verwechslung', 'Nicht verwechseln') + grp('zuordnen', 'Zuordnen') + grp('erklaeren', 'Erklären') + grp('skizze', 'Skizzen');
+      h += grp('anker', 'Anker') + grp('luecke', 'Lückentext') + grp('warum', 'Warum-Fragen') + grp('fallbeispiel', 'Fallbeispiele') + grp('rechenweg', 'Rechenwege') + grp('aufgabe', 'Aufgaben') + grp('fall', 'Fälle: Weg planen') + grp('umstellen', 'Formeln umstellen') + grp('auswahl', 'Auswahlfragen') + grp('reihenfolge', 'Reihenfolge') + grp('verwechslung', 'Nicht verwechseln') + grp('zuordnen', 'Zuordnen') + grp('erklaeren', 'Erklären') + grp('skizze', 'Skizzen');
     }
     h += gesperrtHinweis(alle, ex);
   }
@@ -310,6 +313,11 @@ export function itemTitle(i) {
   if (i.art === 'umstellen') return i.u.formel + ' nach ' + i.u.nach;
   if (i.art === 'auswahl') return i.a.frage;
   if (i.art === 'fall') return 'Fall: ' + i.fall.titel;
+  if (i.art === 'rechenweg') { const t = i.aufgabe.text.replace(/\{[^}]+\}/g, '…'); return (t.length > 90 ? t.slice(0, 88).replace(/\s\S*$/, '') + ' …' : t) || 'Rechenweg'; }
+  if (i.art === 'luecke') return i.l.satz.replace(/\[[^\]]+\]/g, '…');
+  if (i.art === 'warum') return i.w.frage;
+  if (i.art === 'fallbeispiel') return i.w.frage;
+  if (i.art === 'anker') return i.anker.bild;
   if (i.art === 'reihenfolge') return i.r.titel;
   if (i.art === 'verwechslung') return i.v.a + ' oder ' + i.v.b;
   if (i.art === 'zuordnen') return 'Zuordnen: ' + i.z.titel;
@@ -419,7 +427,7 @@ export function runItem(el, item, ctx) {
   el.style.setProperty('--fc', meta.farbe);
   // Gemischtes Üben: Das Thema wird nicht verraten, sonst ist der Ansatz schon klar
   if (ctx.blind && item.art !== 'aufgabe') Object.assign(meta, { fach: 'Gemischt', thema: 'ohne Themenhinweis' });
-  const runner = { fall: runFall, erklaeren: runErklaeren, skizze: runErklaeren, auffrischen: runAuffrischen, aufgabe: runAufgabe, umstellen: runUmstellen, auswahl: runAuswahl, reihenfolge: runReihenfolge, karte: runKarte, begriff: runBegriff, fehler: runFehler, verwechslung: runVerwechslung, zuordnen: runZuordnen }[item.art];
+  const runner = { fall: runFall, erklaeren: runErklaeren, skizze: runErklaeren, auffrischen: runAuffrischen, aufgabe: runAufgabe, umstellen: runUmstellen, auswahl: runAuswahl, reihenfolge: runReihenfolge, karte: runKarte, begriff: runBegriff, fehler: runFehler, verwechslung: runVerwechslung, zuordnen: runZuordnen, anker: runAnker, luecke: runLuecke, warum: runWarum, fallbeispiel: runWarum, rechenweg: runRechenweg }[item.art];
   if (!runner) { el.innerHTML = empty('Diese Übung kenne ich nicht.'); ctx.onDone('hilfe'); return; }
   runner(el, item, ctx, meta);
 }
@@ -432,9 +440,10 @@ export const rich = s => mathText(s);
  */
 export function frageSkizze(box, item, ctx = {}) {
   if (!box) return;
-  const h = item && item.tid ? sk.html(item.tid, true, true) : '';
+  // Neue Aufgabenarten mit eigener Zeichnung oder Tabelle zeigen diese selbst in der Aufgabe
+  const h = item && item.tid && !hatZusatz(item) ? sk.html(item.tid, true, true) : '';
   if (!h) { box.innerHTML = ''; return; }
-  const offen = item.art === 'aufgabe' || (item.art === 'umstellen' && !ctx.blind);
+  const offen = item.art === 'aufgabe' || item.art === 'rechenweg' || (item.art === 'umstellen' && !ctx.blind);
   box.innerHTML = offen ? h : `<details class="disc frage-sk"><summary>${icon('photo')} Bild dazu</summary>${h}</details>`;
   // Bei Rechenaufgaben steht die Skizze wie im Fachbuch über der Aufgabe, sonst darunter
   const item0 = box.parentElement && box.parentElement.querySelector('.sess-item');

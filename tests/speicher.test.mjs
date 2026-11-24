@@ -50,7 +50,10 @@ const items = st.topicItems(tid);
 ok(items.filter(i => i.art === 'karte').length === 2 && items.some(i => i.art === 'begriff'), 'Karten und Begriff als Übungen');
 ok(items.some(i => i.art === 'erklaeren') && items.some(i => i.art === 'skizze'), 'Erklären und Skizze sind Übungen', items.map(i => i.art));
 ok(items.some(i => i.art === 'fall' && i.id.startsWith('c:') && i.fall.schritte[0].wf.length === 1), 'Fall ist eine Übung mit Kennung c:');
-ok(items.every(i => i.eigen && st.sichtbar(i)), 'eigene Inhalte sind immer frei');
+ok(items.filter(i => !i.gestuft).every(i => i.eigen && st.sichtbar(i)), 'eigene Inhalte ohne Stufe-Zeile sind immer frei');
+ok(st.freigabe(tid) === 1 && !items.filter(i => i.gestuft && i.stufe === 3).some(i => st.sichtbar(i)), 'neuer Block mit Stufen: Stufe 3 wartet auf Freischalten');
+await st.setFreigabe(tid, 3);
+ok(st.topicItems(tid).every(i => st.sichtbar(i)), 'nach dem Freischalten ist alles dran');
 ok(st.pruefItems(tid).find(i => i.art === 'erklaeren').id === items.find(i => i.art === 'erklaeren').id, 'Erklären: gleiche Kennung in Runde und Probeklausur');
 
 // Karten und Wiederholung
@@ -94,6 +97,8 @@ const alt = {
   events: [{ id: 'e1', zeit: 3, art: 'karte', tid: altTid, ok: true, ergebnis: 'richtig' }],
   exams: [{ id: 'e1', fachId: 'et', fach: 'Elektrotechnik', datum: '2026-09-29', themen: 'Ohm', themaIds: [altTid] }], photos: []
 };
+// Eigenes Thema mit Stufe-Zeilen aus der Zeit, als eigene Inhalte immer frei waren
+alt.content.push({ id: 'tm-reibung', topic: { ...alt.content[0].topic, fach: 'Technische Mechanik', thema: 'Reibung', merksaetze: [], karten: [{ frage: 'Alte gestufte Frage?', antwort: 'Bleibt frei.', stufe: 3 }] } });
 await st.importBackup(alt);
 await st.init();
 ok(st.zustand(altTid) === 'aktuell', 'alte Sicherung: Status');
@@ -103,6 +108,31 @@ ok(st.card('t:' + altTid).stufe === 3, 'alte Sicherung: Kartenstand ohne Zeitste
 ok(st.S.notes.length === 1 && st.S.errors.length === 1 && st.S.exams.length === 1 && st.S.events.length === 1, 'alte Sicherung: Lernzettel, Fehler, Termin, Ereignis');
 ok(st.planErledigt({ id: 'e1' })['2026-10-24'] === '2026-10-24', 'alte Sicherung: erledigte Plantage im alten Format');
 ok(st.freigabe(altTid) === 3, 'alte Sicherung: Thema mit Trainer-Fortschritt behält alle Stufen', st.freigabe(altTid));
+ok(st.freigabe('tm-reibung') === 3 && st.topicItems('tm-reibung').filter(i => i.eigen).every(i => i.gestuft && st.sichtbar(i)), 'alte Sicherung: eigenes Thema mit Stufen bleibt ganz frei', st.freigabe('tm-reibung'));
+
+// Neue Aufgabenarten: einfügen, Stufen freischalten, üben
+{
+  const fs2 = await import('node:fs');
+  const r = parseBlocks(fs2.readFileSync(new URL('./aufgabenarten-block.txt', import.meta.url), 'utf8'));
+  ok(!r.fehler.length, 'Aufgabenarten-Block gelesen', r.fehler);
+  const o = await st.saveBlocks(r.themen.map(t => ({ topic: t, fachId: 'tm', themaId: 'tm-lagerkraefte' })));
+  const tid2 = o[0].thema.id;
+  const its = st.topicItems(tid2).filter(i => i.eigen);
+  const art = a => its.find(i => i.art === a);
+  ok(['anker', 'luecke', 'warum', 'fallbeispiel', 'rechenweg'].every(art), 'alle neuen Arten sind Übungen', its.map(i => i.art));
+  ok(art('anker').id.startsWith('n:') && art('luecke').id.startsWith('l:') && art('warum').id.startsWith('y:') && art('fallbeispiel').id.startsWith('x:') && art('rechenweg').id.startsWith('g:'), 'Kennungen n: l: y: x: g:');
+  ok(art('luecke').stufe === 1 && art('warum').stufe === 2 && art('rechenweg').stufe === 3 && its.filter(i => i.art !== 'begriff').every(i => i.gestuft), 'Stufen aus dem Block', its.filter(i => !i.gestuft).map(i => i.id));
+  ok(st.freigabe(tid2) === 1 && st.sichtbar(art('luecke')) && !st.sichtbar(art('warum')) && !st.sichtbar(art('rechenweg')), 'Eingebautes Thema mit neuem Block: Stufe 1 frei, Rest gesperrt');
+  await st.setFreigabe(tid2, 2);
+  ok(st.sichtbar(art('warum')) && !st.sichtbar(art('rechenweg')), 'Stufe 2 freigeschaltet');
+  await st.setFreigabe(tid2, 3);
+  ok(st.sichtbar(art('rechenweg')), 'Stufe 3 freigeschaltet');
+  await st.recordCard(art('rechenweg'), 'hilfe');
+  ok(st.card(art('rechenweg').id).hilfe === 1, 'Rechenweg hat einen Lernstand');
+  const back = await st.exportBackup(false);
+  ok(back.content.some(c => c.id === tid2 && c.topic.rechnen.length === 1 && c.topic.tabellen.length === 1), 'Sicherung enthält die neuen Listen');
+  ok(back.kv.freigabe[tid2] === 3, 'Sicherung enthält die Freigabe');
+}
 
 // Abgleich: alter Stand (Gerät) und neuer Stand (GitHub) zusammen, nichts geht verloren
 const neuerStand = JSON.parse(JSON.stringify(sich));

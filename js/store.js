@@ -1,6 +1,6 @@
 // Zentraler Zustand der App: Lehrplan, Inhalte, Wiederholungen, Fehlerbuch, Termine.
 import * as db from './db.js';
-import { parseBlocks, mergeTopic, emptyTopic, exportBlock, hasContent } from './parser.js';
+import { parseBlocks, mergeTopic, emptyTopic, exportBlock, hasContent, NEUE_STUFE } from './parser.js';
 import { parseEq, keyOf } from './formula.js';
 import { norm, slug, uid, dayStr, addDays, daysBetween, hash, toDay, shuffle } from './util.js';
 import { nextState, isDue, SEKUNDEN, verteilen, serie } from './srs.js';
@@ -62,6 +62,7 @@ export async function init() {
   await kartenUmbenennen();
   await unterrichtVorgabe();
   await freigabeStart();
+  await freigabeEigen();
   if (!kvGet('ersterStart')) await kvSet('ersterStart', dayStr());
   await ingestInbox();
   await ereignisseVerdichten();
@@ -497,13 +498,20 @@ function itemsOf(t, tid) {
   // Freies Abrufen: erklären oder skizzieren, danach Kernpunkte abhaken. Gleiche Kennung wie in der Probeklausur.
   (t.erklaeren || []).forEach(e => e.kern && e.kern.length && items.push({ id: 'e:' + tid + ':' + hash(norm(e.aufgabe)), art: 'erklaeren', tid, frage: e.aufgabe, kern: e.kern, s: st(e) }));
   (t.skizzen || []).forEach(e => e.kern && e.kern.length && items.push({ id: 's:' + tid + ':' + hash(norm(e.aufgabe)), art: 'skizze', tid, frage: e.aufgabe, kern: e.kern, s: st(e) }));
+  // Aufgabenarten nach Lernart. Der Block legt Art und Stufe fest, ohne Stufe-Zeile gilt NEUE_STUFE.
+  const ns = (o, liste) => st(o) || NEUE_STUFE[liste];
+  (t.ankerkarten || []).forEach(a => items.push({ id: 'n:' + tid + ':' + hash(norm(a.bild + '|' + a.begriff)), art: 'anker', tid, anker: a, frage: a.bild, antwort: a.begriff, s: ns(a, 'ankerkarten'), neu: true }));
+  (t.luecken || []).forEach(l => items.push({ id: 'l:' + tid + ':' + hash(norm(l.satz)), art: 'luecke', tid, l, s: ns(l, 'luecken'), neu: true }));
+  (t.warumfragen || []).forEach(w => items.push({ id: 'y:' + tid + ':' + hash(norm(w.frage)), art: 'warum', tid, w, s: ns(w, 'warumfragen'), neu: true }));
+  (t.fallbeispiele || []).forEach(w => items.push({ id: 'x:' + tid + ':' + hash(norm(w.lage + '|' + w.frage)), art: 'fallbeispiel', tid, w, s: ns(w, 'fallbeispiele'), neu: true }));
+  (t.rechnen || []).forEach(a => a.schritte.length >= 2 && items.push({ id: 'g:' + tid + ':' + hash(norm(a.text)), art: 'rechenweg', tid, aufgabe: a, s: ns(a, 'rechnen'), neu: true }));
   return items;
 }
 /* ===== Stufen pro Thema =====
  * 1 Grundlagen, 2 Zusammenhänge, 3 Anwenden. Ohne Stufe-Zeile ordnet die App selbst zu.
  * Abgefragt wird nur, was freigeschaltet ist. Eigene eingefügte Inhalte sind immer frei.
  */
-export const STUFEN_NAMEN = { 1: 'Grundlagen', 2: 'Zusammenhänge', 3: 'Anwenden' };
+export const STUFEN_NAMEN = { 1: 'Verstehen', 2: 'Abläufe', 3: 'Rechnen' };
 const SCHWER = /^(warum|wieso|weshalb|wie hängt|wie hangen|was passiert|was ändert|was bewirkt|wann |wodurch|welche folge|vergleiche|worin unterscheid)/i;
 export function autoStufe(it) {
   if (it.s) return it.s;
@@ -514,16 +522,27 @@ export function autoStufe(it) {
 }
 export function topicItems(tid) {
   const b = S.builtin.get(tid), u = S.content.get(tid);
-  const eigen = new Set(u ? itemsOf(u, tid).map(i => i.id) : []);
+  const eigen = new Set(u ? itemsOf(mergeTopic(emptyTopic(), u).topic, tid).map(i => i.id) : []);
   const items = itemsOf(topic(tid), tid);
-  for (const it of items) { it.stufe = autoStufe(it); it.eigen = !b || eigen.has(it.id); delete it.s; }
+  // gestuft: Der Block hat die Stufe festgelegt. Dann gilt das Freischalten auch für eigene Inhalte.
+  for (const it of items) { it.gestuft = !!it.s && (!!it.neu || explizit(it)); it.stufe = autoStufe(it); it.eigen = !b || eigen.has(it.id); delete it.s; }
   return items;
+}
+// Hat der Eintrag eine Stufe-Zeile im Block? (it.s kommt dann aus dem Block, nicht aus der Vorgabe der App)
+const explizit = it => !it.auto;
+// Eigene Inhalte mit Stufen: Gibt es eine gestufte Übung, gilt die Freigabe auch für sie.
+const gestuftEigen = tid => { const u = S.content.get(tid); return !!u && hatStufen(u); };
+function hatStufen(u) {
+  for (const k of Object.keys(NEUE_STUFE)) if ((u[k] || []).length) return true;
+  for (const k of ['karten', 'begriffe', 'aufgaben', 'umstellen', 'formeln', 'auswahl', 'reihenfolgen', 'verwechslungen', 'faelle', 'zuordnen', 'erklaeren', 'skizzen'])
+    if ((u[k] || []).some(o => o && o.stufe)) return true;
+  return false;
 }
 // Freigeschaltete Stufe eines Themas (1 bis 3)
 export function freigabe(tid) {
   const v = kvGet('freigabe', {})[tid];
   if (v) return v;
-  return S.builtin.get(tid) ? 1 : 3;
+  return S.builtin.get(tid) || gestuftEigen(tid) ? 1 : 3;
 }
 export async function setFreigabe(tid, n) {
   const f = Object.assign({}, kvGet('freigabe', {}));
@@ -545,6 +564,16 @@ async function freigabeStart() {
   await kvSet('freigabe', Object.assign(f, kvGet('freigabe', {})));
   await kvSet('freigabeStart', dayStr());
 }
+// Einmalig beim Update auf die neuen Aufgabenarten: Eigene Themen mit Stufe-Zeilen waren bisher ganz frei.
+// Sie bleiben ganz frei. Nur Themen, die ab jetzt eingefügt werden, beginnen bei Stufe 1.
+async function freigabeEigen() {
+  if (kvGet('freigabeEigen')) return;
+  const f = Object.assign({}, kvGet('freigabe', {}));
+  let neu = false;
+  for (const [tid, u] of S.content) if (!f[tid] && hatStufen(u)) { f[tid] = 3; neu = true; }
+  if (neu) await kvSet('freigabe', f);
+  await kvSet('freigabeEigen', dayStr());
+}
 // Übungsmodus: frei (nur freigeschaltet), alles (auch gesperrte Stufen), schwer (Stufe 3 und Karten mit vielen Fehlern)
 export const MODI = [['frei', 'Freigeschaltet'], ['alles', 'Alles gemischt'], ['schwer', 'Nur schwere']];
 export const modus = () => kvGet('uebModus', 'frei');
@@ -554,7 +583,7 @@ export function sichtbar(it, m = modus()) {
   if (m === 'alles') return true;
   if (m === 'schwer') { const c = S.cards.get(it.id); return it.stufe === 3 || !!(c && c.falsch >= 2); }
   // Rechenaufgaben aus Themen mit Trainer sind immer frei: Die hast du im Trainer schon gerechnet.
-  return it.eigen || it.stufe <= freigabe(it.tid) || (hatTrainer(it.tid) && (it.art === 'aufgabe' || it.art === 'umstellen' || it.art === 'fall'));
+  return (it.eigen && !it.gestuft) || it.stufe <= freigabe(it.tid) || (hatTrainer(it.tid) && (it.art === 'aufgabe' || it.art === 'umstellen' || it.art === 'fall'));
 }
 // Karten: 'aufdecken' (erst selbst antworten, dann aufdecken und bewerten) oder 'auswahl' (Antwort unter vier wählen).
 // Aufdecken ist die Vorgabe, weil freies Abrufen stärker wirkt als Wiedererkennen.
@@ -567,7 +596,7 @@ export const uebItems = (tid, m) => topicItems(tid).filter(it => sichtbar(it, m)
 export function stufeSitzt(tid) {
   const n = freigabe(tid);
   if (n >= 3) return false;
-  const its = topicItems(tid).filter(it => !it.eigen && it.stufe === n);
+  const its = topicItems(tid).filter(it => (!it.eigen || it.gestuft) && it.stufe === n);
   if (its.length < 2) return its.length > 0 && its.every(it => (S.cards.get(it.id) || {}).stufe >= 3);
   return its.filter(it => (S.cards.get(it.id) || {}).stufe >= 3).length / its.length >= 0.7;
 }
@@ -704,7 +733,7 @@ export function bereitschaft(ex) {
  * mit Rechenaufgaben entspricht, damit sich eine Runde nicht an einer Rechnung festbeißt. Alle Stufen zählen.
  * Reihenfolge je Thema: fällig, noch nie geübt, dann was am wenigsten sitzt.
  */
-const zumRechnenArt = i => i.art === 'aufgabe' || i.art === 'umstellen';
+const zumRechnenArt = i => i.art === 'aufgabe' || i.art === 'umstellen' || i.art === 'rechenweg';
 export function verteilt(tids, n, opt = {}) {
   const today = dayStr(), ohne = opt.ohne || new Set();
   const rang = it => { const c = S.cards.get(it.id); if (!c) return 1; if (c.faellig <= today) return 0; return 2 + Math.min(c.stufe || 0, 6); };
